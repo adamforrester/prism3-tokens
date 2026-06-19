@@ -23,6 +23,29 @@ Three structural moves carry over the best of what exists and discard the rest:
 | Typography composites | display/title/body/button/detail ✓ | viewport-split (desktop/mobile) ✓ | **both ideas merged** |
 | AI metadata | none | none | **`.ai.json` generated per brand** |
 
+### 0.1 Why this isn't just "what we already do" — the generic-primitive trap
+
+The most reasonable objection from anyone who knows Prism2: *we already theme by adjusting primitives and pointing semantics at brand colours — how is this different?* It's the right question, because Prism2's semantics already alias two kinds of primitive at once:
+
+- `{pds.color.brand.primary.650}` / `brand.secondary.650` — **generic role slots**, the instinct to make brand colour swappable without renaming.
+- `{pds.color.strawberry.600}`, `{pds.color.blueberry.600}`, `{pds.color.pumpkin.600}` — **literal-named palettes**, used for status/accent and hard-wired to a hue.
+
+The generic-slot instinct is correct, and it solved exactly one thing — the **rename**. But renaming was never the real cost, and the slot left two costs untouched:
+
+1. **Values stay hand-authored.** `brand.primary.650` still has to be a specific hex that passes contrast against `neutral-cool.850/200` across light *and* dark *and* wireframe. The slot is generic; the value behind it is bespoke and tuned by hand per brand. The label moved; the labour didn't.
+2. **There is no boundary.** Every value lives in one mutable `shared/primitives.json`. "Multi-brand" therefore means *overwriting* that file (only one brand live at a time) or *branching* it (brand-in-disguise). A generic **name** can't create a parallel axis — only a separate generated **artifact** can. This is precisely why the generic-slot approach "doesn't work great for multi-brand": names went generic, storage stayed singular and mutable.
+
+So theming today is a **destructive edit to a shared file, spot-checked by eye.** The three-tier layering is sound; the economics and the safety are not.
+
+Prism3 keeps the shape and changes exactly those two things:
+
+- **Generation replaces hand-authoring.** A ~5-input schema → engine derives the OKLCH ramp, the semantic aliases, and the on-colours, and pins WCAG across the whole light/dark/HC/wireframe × comfortable/compact matrix (§5, §10). This is the *missing half* of the generic-slot idea: role slots only pay off when something fills them with correct, contrast-valid values per brand. Without a generator, slots merely relocate the tuning.
+- **Brand becomes an artifact boundary.** Each brand is a separately generated package/library that coexists and versions independently (§3, §11). The swap is *loading a different artifact*, never mutating `shared/primitives.json`.
+
+A consequence: the literal `strawberry/blueberry/pumpkin` status palettes stop being hard-wired hues — status *meaning* stays invariant while the colour is brand-derived or explicitly overridden (§5.2), instead of every brand inheriting fruit names.
+
+**New Balance is the natural regression test.** NB already carries the `brand.primary` slots *and* the fruit palettes; re-generating NB from a 5-input schema and diffing against today's hand-authored values is the cleanest proof that the engine reproduces an existing brand before it invents new ones.
+
 ---
 
 ## 1. Principles (the laws Prism3 is built on)
