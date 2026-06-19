@@ -16,7 +16,7 @@ Three structural moves carry over the best of what exists and discard the rest:
 | Decision | Prism2 | New Balance | Prism3 |
 |---|---|---|---|
 | Primitive tier | implicit in `shared/` | **explicit `core-*`** ✓ | explicit `core.*` (adopt NB) |
-| Brand identity in token path | `nbds.pds.*` baked in | `nbds.*` baked in | **removed** — paths are pure intent |
+| Brand identity in token path | `nbds.pds.*` baked in | `nbds.*` baked in | **brand removed**; stable `prism.*` product root kept |
 | Color ramps | hand-picked | Univers L*-aligned, not tuned | **generated, OKLCH, contrast-anchored** |
 | Brand as an axis | a mode | n/a (single brand) | **a collection / output package** |
 | Focus / breakpoint / layout / reduced-motion | missing | **present** ✓ | present (adopt NB) |
@@ -77,17 +77,20 @@ Only where a component genuinely diverges from the semantic layer and no semanti
 
 ---
 
-## 3. Axes & composition (brand × theme × density)
+## 3. Axes & composition (brand × theme × density × viewport)
 
-Three orthogonal axes, each resolved at a different layer so cost stays **additive, not multiplicative**.
+Four orthogonal axes, each resolved at a different layer so cost stays **additive, not multiplicative**. Crucially, each axis is a **separate Figma collection** (one mode-dimension per collection — see §11), so a frame composes them independently.
 
-| Axis | Values (default) | Mechanism | Resolved by |
+| Axis | Values | Mechanism (code) | Mechanism (Figma) |
 |---|---|---|---|
-| **Brand** | acme, globex, … (open set) | generated output package / Figma collection | engine + library swap |
-| **Theme** | light, dark, high-contrast | mode within the brand layer | `data-theme` attribute |
-| **Density** | comfortable, compact | mode within the spacing layer | `data-density` attribute |
+| **Brand** | acme, globex, … (open set) | generated output package | one generated **library per brand**, swapped |
+| **Theme** | light, dark, high-contrast, wireframe | `data-theme` attribute | modes in the **colour/semantic** collection |
+| **Density** | comfortable, compact | `data-density` attribute | modes in the **spacing/sizing** collection |
+| **Viewport** | narrow ↔ wide (type endpoints) | `clamp()` (fluid) | modes in the **typography** collection |
 
-Runtime composition is attribute switching on the root:
+The viewport axis exists because **Figma cannot render fluid type.** The same `{min, preferred, max}` source triplet (§4.2) feeds both: code gets a real `clamp()`; Figma gets the `min` and `max` *endpoints as discrete modes* designers swap on a frame. Code and Figma stay reconcilable because they share one source.
+
+Runtime composition (code) is attribute switching on the root; the brand package is loaded as a unit:
 
 ```html
 <html data-brand="acme" data-theme="dark" data-density="compact">
@@ -123,7 +126,7 @@ Every category lists its **core** (primitive) shape and its **semantic** contrac
 Merges Prism2's role/weight composites with NB's viewport handling. Three-tier (atomic + composite + component), per the typography POV.
 - **Core (atomic):** `core.font.family.{display,text,mono}`, `core.font.size.<step>` (modular scale with a **display pivot** — separate ratio for text vs display), `core.font.weight.<named-instance>` (variable-font ladder frozen to names: `regular`=400, `medium`=500, `semibold`=600, `bold`=700), `core.font.lineheight.<step>` (unitless), `core.font.tracking.<step>` (em-relative).
 - **Semantic (composite):** `typography.{display,heading,body,label,code}.{xs…xl}` — DTCG `typography` composites referencing atomics by family *role* (never literal family). 15–25 composites is the target volume.
-- **Responsive:** fluid sizes encoded as a **`{min, preferred, max}` triplet** primitive; build emits `clamp()` for web (preferred **must** carry a `rem` term — WCAG 1.4.4) and a static fallback for native. Ship parallel viewport (`vw`) and container (`cqi`) sets where the brand needs component-context type.
+- **Responsive:** fluid sizes encoded as a **`{min, preferred, max}` triplet** primitive; build emits `clamp()` for web (preferred **must** carry a `rem` term — WCAG 1.4.4) and a static fallback for native. The triplet's **`min`/`max` endpoints become the two Figma viewport modes** (`narrow`/`wide`) so designers can see and swap both ends of each style — Figma can't render the fluid middle. (Open: whether code also ships parallel `vw` *and* container `cqi` sets — see §12.)
 - **Family-role indirection is the white-label lever:** a font swap is a single `core.font.family.*` change; no composite is rewritten.
 - **Decouple DOM level from visual size:** composites are named `heading.lg`, never `h2`.
 
@@ -176,7 +179,13 @@ Every `on-X` token is **computed to flip black/white (or near-) based on the swa
 ### 5.4 Status colors are infrastructure
 `success/warning/danger/info` are **system-stable** across brands (perceptually consistent meaning). They are *optional* schema overrides, defaulted, never collapsed into the brand palette. When a brand's primary sits in red territory, the engine **carves a separate destructive red** distinct from the brand token. Same pattern for the "brand-against-its-own-system" trap: if the brand color can't pass contrast as the primary *action*, the engine carves a separate **system-interaction** token distinct from the **brand** token.
 
-### 5.5 Non-color generation
+### 5.5 Appearance modes (light · dark · high-contrast · wireframe)
+Standard appearance set, generated per brand, expressed as modes in the colour collection.
+- **Light / dark:** semantic aliases re-point across the contrast-role steps (text↔surface invert); the contrast-role ramp makes this mechanical rather than hand-tuned.
+- **High-contrast:** generated for free from the contrast engine — semantics snap to the highest-contrast role steps; validated against an elevated WCAG floor.
+- **Wireframe:** generated by **desaturating** the brand + status hues toward the neutral ramp (chroma → ~0) and flattening elevation, for low-fidelity/blueprint work. It is a *generated* mode, not a hand-built one (unlike Prism2's wireframe).
+
+### 5.6 Non-color generation
 - **Spacing/size:** density step parameterizes the modular scale → resolved literals per density mode.
 - **Radius:** brand radius scales the corner set.
 - **Type:** family roles fill from the typeface stack; modular scale with display pivot; weight ladder frozen to named instances; fluid triplets emitted to `clamp()`/static.
@@ -187,22 +196,24 @@ Every `on-X` token is **computed to flip black/white (or near-) based on the swa
 
 ## 6. Naming taxonomy
 
-The grammar, read as a compressed sentence:
+The grammar, read as a compressed sentence. Every path carries the stable **`prism` product root** (shown below; omitted from examples elsewhere for brevity), and the tier is explicit in the path — `prism.core.*` for primitives, `prism.<category>.*` for semantics:
 
 ```
-<category> . <concept> . <variant> . <state>
-color      . action    . primary   . hover
-color      . text      . on-action . default
-space      . inline    . md
-typography . heading   . lg
+prism . <category> . <concept> . <variant> . <state>
+prism . color      . action    . primary   . hover
+prism . color      . text      . on-action . default
+prism . space      . inline    . md
+prism . typography . heading    . lg
+prism . core       . color      . blue      . 500       ← primitive tier
 ```
 
 Rules:
-- **Intent only.** No brand, no raw color name, no DOM level in semantic paths.
+- **Keep the `prism` root prefix** (decided). It is a *product* prefix, not a brand — it disambiguates Prism tokens from host-app and third-party tokens in both the Figma Variables panel and in code, where similarly-named tokens otherwise collide. Brand is still never in the path; it is the library/package axis.
+- **Intent only below the root.** No brand, no raw colour name, no DOM level in semantic paths.
 - **Three vocabularies, composited:** mathematical at primitives (`step-0`), numeric internal (`scale-100`), semantic/T-shirt at the public surface (`space.inline.md`).
-- **kebab-case words, dot-separated levels.** Numeric scale steps as keys (`100`, `150`).
-- **Units never in the value.** Unitless primitives; units applied at the transform layer (`16` → `16px`/`16dp`/`16pt`). Units may appear in the *code-syntax* field per platform, never in the JSON value.
-- **Output prefix is configurable** (`--ds-color-…` default), set once per output package; not part of the token path.
+- **kebab-case words, dot-separated levels.** Numeric scale steps as keys (`100`, `150`). Figma variables use slash paths (`prism/color/action/primary/hover`); DTCG uses dots — the export bridges the two.
+- **Units never in the value.** Unitless primitives; units applied at the transform layer (`16` → `16px`/`16dp`/`16pt`). Units may appear in the per-platform **Code Syntax** field (Figma) / code-syntax mapping, never in the JSON value.
+- **CSS prefix follows the root:** `--prism-color-action-primary-hover`.
 
 ---
 
@@ -278,16 +289,50 @@ Theme Schema input (validated)
 
 ---
 
-## 11. Open decisions (for our next pass)
+## 11. Figma representation
 
-These are deliberately unresolved — they're the highest-leverage things to decide together before building the reference brand:
+Figma is a first-class target, not a downstream export. The architecture is designed to live as Figma Variables + Styles and round-trip back to DTCG. The governing constraint is Figma's: **one mode-dimension per collection** — so each axis is its own collection, and a frame sets each axis independently.
 
-1. **Root namespace / prefix.** Drop a product prefix from token *paths* entirely (pure `color.text.primary`) and only set a CSS prefix per output? Or keep a short stable `prism.*`/`ds.*` root? (Leaning: clean paths, configurable CSS prefix.)
-2. **Theme axis scope.** Ship light + dark + high-contrast as standard modes, or light + dark only with HC generated on demand?
-3. **Density steps.** Two (comfortable/compact) by default, or three? (POV: two unless analytics justify three.)
-4. **Typography responsive model.** Viewport-mode (NB desktop/mobile) vs fluid `clamp()` triplets vs both. (Leaning: fluid triplets as source, viewport modes as a generated convenience.)
-5. **Reference brand.** Which brand do we generate first to prove the engine — a fictional one, a re-generation of New Balance from a 5-input schema (great regression test), or Prism's own "house" brand?
-6. **Engine implementation language/stack** — deferred with the tool-surface decision, but it constrains §9.
+### 11.1 Libraries & collections
+
+A **brand = one generated Figma library.** Components live in a separate **Blueprint** library that references the semantic contract; at render, the brand library is swapped in. Within a brand library:
+
+| Collection | Tier | Modes | Published? |
+|---|---|---|---|
+| `Prism Primitives` | `prism.core.*` | single (`Value`) | no (hidden via `_` / `.` prefix) |
+| `Prism Color` | semantic colour, border, icon, focus | **light · dark · high-contrast · wireframe** | yes (semantic only) |
+| `Prism Spacing` | space, size, radius, layout | **comfortable · compact** | yes |
+| `Prism Typography` | type size/lineheight/tracking primitives | **narrow · wide** (clamp endpoints) | yes |
+| `Prism Motion` | duration, easing | single | yes |
+
+A shared, read-only **`Prism Foundations`** library carries the brand-*invariants* (timing functions, target-size floor, breakpoint anchors, status-colour *meaning*) referenced by every brand library.
+
+### 11.2 Variables vs Styles
+- **Colour, dimension, number, duration** → **Variables** (`variableId`), mode-bound, alias across collections.
+- **Typography** → **Text Styles** (`styleId`), with size/lineheight/tracking **bound to the Typography collection's variables** so the narrow/wide modes drive them. (Figma's text-style→variable binding is partial; where a property can't bind, the generated style carries the resolved per-mode value and the plugin reconciles on export. *Flag to verify against current Figma capabilities — candidate for a Figma MCP check.*)
+- **Shadow/elevation** → **Effect Styles** (`styleId`); Figma variables can't hold shadow objects.
+
+### 11.3 Round-trip
+The export bridges Figma slash-paths (`prism/color/action/primary/hover`) ↔ DTCG dot-paths, preserving `variableId`/`styleId` linkage (the Prism2/NB dual-format discipline, generalized). Figma scoping (`TEXT_FILL`, `STROKE_COLOR`) is captured into `$extensions.figma.scopes` and doubles as an AI "where is this valid" signal. Pipeline direction is one-way **Figma-or-engine → DTCG → platforms**; the engine and Figma are *both* generated from the same Theme Schema, so they don't fight over source-of-truth.
+
+> Several Figma binding details above (text-style variable binding, mode inheritance across swapped libraries) should be verified against the live product via the Figma MCP before we build the reference brand.
+
+---
+
+## 12. Decisions made & still open
+
+**Decided (this pass):**
+1. **Root prefix:** keep `prism.*` — disambiguates in Figma panel and code; brand stays out of the path (§6).
+2. **Appearance modes:** light · dark · high-contrast · **wireframe** (generated by desaturation) (§5.5, §11.1).
+3. **Density:** two modes — comfortable · compact (§3, §4.3).
+4. **Typography responsive:** fluid `{min,preferred,max}` is the source; **endpoints become Figma `narrow`/`wide` modes** (§3, §4.2).
+5. **Figma is first-class:** axis-per-collection mapping defined (§11).
+
+**Still open (next pass):**
+1. **Reference brand:** New Balance (real regression target) is the working first pick; we'll pressure-test multiple brands after.
+2. **Typography code detail:** do we also ship parallel `vw` *and* container-`cqi` fluid sets, or viewport-only for now? How many endpoints beyond min/max?
+3. **Engine implementation stack** — deferred with the tool-surface decision; constrains §9.
+4. **Hue count & per-hue chroma ceilings** — the engine's default palette breadth (how many generated hues beyond brand/neutral/status).
 
 ---
 
