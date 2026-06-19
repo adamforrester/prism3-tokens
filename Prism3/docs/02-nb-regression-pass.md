@@ -71,6 +71,7 @@ That is ~7 meaningful inputs reproducing **140 semantic colour aliases + 20-step
 - Red hue (23°) and the chroma-arc shape — generator-native.
 - Brand anchor `red.550` itself (it *is* the input).
 - Type, space, radius, motion scales — these are arithmetic NB already follows.
+- **The 5 tonal bands** (spec §5.2): NB's ramp is Univers-derived, so its steps should map cleanly onto Highlights (025–050) / ¼-Tones (100–350) / Mid-Tones (400–600, with `red.550` as the brand Mid-Tone) / ¾-Tones (650–900) / Shadows (950). If the engine's band boundaries don't reproduce NB's, that's a band-calibration finding, not an NB problem.
 
 **Will diverge, expectedly and for the better:**
 - The `red.300–350` L*/hue kink smooths out.

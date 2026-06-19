@@ -17,7 +17,7 @@ Three structural moves carry over the best of what exists and discard the rest:
 |---|---|---|---|
 | Primitive tier | implicit in `shared/` | **explicit `core-*`** ✓ | explicit `core.*` (adopt NB) |
 | Brand identity in token path | `nbds.pds.*` baked in | `nbds.*` baked in | **brand removed**; stable `prism.*` product root kept |
-| Color ramps | hand-picked | Univers L*-aligned, not tuned | **generated, OKLCH, contrast-anchored, ~20 steps, brand value pinned exactly, multi-anchor fit-or-split** |
+| Color ramps | hand-picked | Univers L*-aligned, not tuned | **generated, OKLCH, contrast-anchored, ~20 steps in 5 tonal bands, brand value pinned exactly, multi-anchor fit-or-split** |
 | Brand as an axis | a mode | n/a (single brand) | **a collection / output package** |
 | Focus / breakpoint / layout / reduced-motion | missing | **present** ✓ | present (adopt NB) |
 | Typography composites | display/title/body/button/detail ✓ | viewport-split (desktop/mobile) ✓ | **both ideas merged** |
@@ -202,10 +202,29 @@ Brands rarely have exactly one brand color. A client may run **two brand blues**
 
 The decision is automatic by default; `scale` on a brand color forces grouping or separation when the designer knows better. Either way, **every supplied brand value is preserved exactly** (per §5.1) — fit-or-split only changes *how many ramps* carry them, never the values.
 
-### 5.2 Ramp = contrast roles
+### 5.2 Ramp = contrast roles, grouped into 5 tonal bands
 Steps are generated so that **each step is a guaranteed contrast role**, not an arbitrary lightness. Semantic tokens reference *role names* ("the step where Lc 60 on light is guaranteed"), so every brand aligns contrast at the same role even with different hues. This is what lets a brand swap without re-checking every pair by hand.
 
-**Reconciling exact anchors with contrast roles:** the two are not in tension. The ~20 role-steps are generated, and the brand anchor(s) define the lightness of the step(s) they land on — the anchor's measured L *is* that step's target, and neighbors interpolate to keep the role guarantees intact across the rest of the ramp. NB demonstrates this already: `red.550` is simultaneously the exact NB Red **and** a functioning contrast-role step. Where an anchor falls between two role steps, the engine nudges that step's target L to the anchor (value exact, role preserved) rather than shifting the anchor.
+**The ~20 steps are grouped into 5 named tonal bands** — adopted from the Universal Color Palette methodology (UX Collective), which is the legible front-end of "a step is a contrast role." Bands contextualize a deliberately large palette: each band carries a default use-case *and* a contrast contract, so the right step is a lookup, not a calculation.
+
+| Band | Steps | Default use | Contrast contract |
+|---|---|---|---|
+| **Highlights** | 000·025·050 | page/surface backgrounds in light mode (→ **Shadows** in dark) | the light substrate everything else is tested against |
+| **¼-Tones** | 100–350 | **borders & dividers only** — never background, text, or icon | low-contrast separators; explicitly *not* text-safe |
+| **Mid-Tones** | 400–600 | the **floor** for icons & text; button fills | **500 passes 4.5:1 on white *and* black**; **550 passes 4.5:1 on all Highlights** |
+| **¾-Tones** | 650–900 | text — headlines, body copy | comfortably AA/AAA on light surfaces |
+| **Shadows** | 950·999 | darkest text / high-emphasis; light-mode text floor (→ Highlights in dark) | maximum contrast end of the ramp |
+
+Two consequences worth stating:
+
+- **The band *is* the AI/usage guidance.** "¼-Tones are borders, not text" is exactly the affirmative + exclusionary pairing the `.ai.json` layer wants (§8) — so `when_to_use` / `avoid_when` and the `contrast_with` floor fall out of the band a step belongs to, generated, not hand-written.
+- **The band boundaries are CI assertions.** "The Mid-Tone floor passes 4.5:1 on white and black" and "¼-Tones never resolve under a text semantic" become executable validation (§10), per hue, across light/dark/HC.
+
+In Prism3 the bands are defined by **measured contrast**, not by fixed weight numbers (Univers ties them to an even L* ramp; we don't assume evenness — see below). The engine still *targets* an even L* distribution so the numeric weights and bands line up the way they do in NB, but the label always tells the truth about the step's actual contrast.
+
+**Reconciling exact anchors with contrast roles/bands:** the two are not in tension. The ~20 role-steps are generated, and the brand anchor(s) define the lightness of the step(s) they land on — the anchor's measured L *is* that step's target, and neighbors interpolate to keep the role guarantees intact. NB demonstrates this: `red.550` is simultaneously the exact NB Red, a Mid-Tone, **and** a functioning contrast-role step (white-on-`red.550` ≈ 5.63:1, AA). Where an anchor falls between two role steps the engine nudges that step's target L to the anchor (value exact, role preserved) rather than shifting the anchor — and **validation flags if pinning an anchor pushes a step across a band boundary**, since that's the one case where the exact-value rule and the tidy weight↔band alignment can collide.
+
+> Note: we adopt Univers's *tonal banding of the primitive ramp*, not its semantic vocabulary. Univers carries its own 10-name Variant model (primary/info/neutral/…); Prism3 keeps the intent grammar of §6 and §4.1. The band is a property of the `core.*` step (surfaced in `$extensions` + `.ai.json`), feeding our semantics from underneath.
 
 ### 5.3 Forced-foreground (`on-X`) luminance flip
 Every `on-X` token is **computed to flip black/white (or near-) based on the swapped primitive's luminance.** This is the load-bearing multi-brand technique: `color.action.primary` and `color.action.primary.on` stay compliant as the underlying primitive changes. Adopt as default.
@@ -280,9 +299,10 @@ Generated per brand alongside the token JSON — the **apex deliverable** for "t
 | Field | Purpose |
 |---|---|
 | `meaning` | what it signifies ("destructive action", "elevated surface in dark mode") |
+| `tonal_band` | which of the 5 bands the underlying step sits in (§5.2) — the source from which `when_to_use`/`avoid_when` are generated |
 | `paired_with` | which tokens compose with it (the validated foreground for a surface) |
 | `contrast_with` | explicit guaranteed-accessible pairings + min ratio — turns a computed check into a lookup |
-| `when_to_use` / `avoid_when` | affirmative + **exclusionary** guidance ("do not use for X") — exclusionary language is what produces system-compliant generation |
+| `when_to_use` / `avoid_when` | affirmative + **exclusionary** guidance ("do not use for X") — exclusionary language is what produces system-compliant generation; for color, derived from the tonal band ("¼-Tone: borders only, never text") |
 | `mode_overrides` | how it resolves across light/dark/HC/forced-colors |
 
 There is **no per-brand authoring overhead** — docs, code, `.ai.json`, and design-tool bindings all flow from one schema input through one engine.
@@ -314,7 +334,7 @@ Theme Schema input (validated)
 ## 10. Validation & governance
 
 - **Validation is executable architecture** — bad tokens fail the build.
-- **Block** only on: DTCG schema violations, broken aliases, type mismatches, and **WCAG contrast failures across the full brand × theme × density matrix.** Every brand re-validates on every schema release (brand-validation drift is a named failure mode).
+- **Block** only on: DTCG schema violations, broken aliases, type mismatches, and **WCAG contrast failures across the full brand × theme × density matrix.** **Tonal-band invariants are part of this** (§5.2): the Mid-Tone floor must pass 4.5:1 on white *and* black, a ¼-Tone must never resolve under a text/icon semantic, and an anchor pin must not silently push a step across a band boundary. Every brand re-validates on every schema release (brand-validation drift is a named failure mode).
 - **Warn** (dashboard, non-blocking): APCA quality, naming drift, dead tokens, relationship violations. Over-blocking becomes a discoverable workaround.
 - **Cascade report:** before a schema change lands, simulate it against every existing brand and surface which generated assets shift.
 - **Semver, honestly:** a `$value` change that breaks a contrast pair in *any* combination is a **major** bump, even if the token shape is unchanged.
