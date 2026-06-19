@@ -1,0 +1,46 @@
+{
+  "$comment": "Worked example: 'New Balance' re-expressed as a Prism3 five-input brand. Generating this and diffing against the existing hand-built NB token set is the proposed regression test for the engine (see architecture spec §11.5). Values are illustrative OKLCH approximations of the current NB tokens, not yet engine-verified.",
+
+  "schemaVersion": "0.1",
+
+  "primaryColor": {
+    "name": "NB Red",
+    "oklch": { "l": 0.55, "c": 0.22, "h": 25 }
+  },
+
+  "neutralHue": {
+    "hue": 25,
+    "chroma": 0.004
+  },
+
+  "typography": {
+    "display": { "family": "ITC Garamond Std", "fallbacks": ["Georgia", "serif"] },
+    "text":    { "family": "Proxima Nova", "fallbacks": ["Helvetica Neue", "Arial", "sans-serif"], "variable": true, "axes": { "wght": [300, 700] } },
+    "mono":    { "family": "ui-monospace", "fallbacks": ["SFMono-Regular", "Menlo", "monospace"] },
+    "scaleRatioText": 1.2,
+    "scaleRatioDisplay": 1.414
+  },
+
+  "radius": {
+    "scale": 0.5,
+    "baseMd": 4
+  },
+
+  "density": {
+    "default": "comfortable",
+    "steps": ["comfortable", "compact"]
+  },
+
+  "accentColor": {
+    "name": "NB Amber",
+    "oklch": { "l": 0.75, "c": 0.15, "h": 75 }
+  },
+
+  "displayP3": true,
+
+  "brand": {
+    "id": "new-balance",
+    "name": "New Balance",
+    "voice": "Athletic, confident, heritage-modern. Bold display, restrained UI."
+  }
+}
