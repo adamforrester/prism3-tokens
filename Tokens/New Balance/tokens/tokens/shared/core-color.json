@@ -1,0 +1,1076 @@
+{
+  "nbds": {
+    "color": {
+      "black": {
+        "$type": "color",
+        "$value": "rgb(0, 0, 0)",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:647:1316",
+            "collection": "VariableCollectionId:647:1315",
+            "scopes": [],
+            "codeSyntax": {}
+          }
+        }
+      },
+      "neutral": {
+        "100": {
+          "$type": "color",
+          "$value": "rgb(229, 231, 232)",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:647:1327",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "150": {
+          "$type": "color",
+          "$value": "rgb(210, 213, 215)",
+          "$description": "Univers L*-aligned neutral ramp step 150.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:56",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "200": {
+          "$type": "color",
+          "$value": "rgb(196, 199, 202)",
+          "$description": "Univers L*-aligned neutral ramp step 200.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:57",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "250": {
+          "$type": "color",
+          "$value": "rgb(181, 185, 189)",
+          "$description": "Univers L*-aligned neutral ramp step 250.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:58",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "300": {
+          "$type": "color",
+          "$value": "rgb(171, 177, 181)",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:647:1326",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "350": {
+          "$type": "color",
+          "$value": "rgb(153, 159, 164)",
+          "$description": "Univers L*-aligned neutral ramp step 350.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:59",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "400": {
+          "$type": "color",
+          "$value": "rgb(139, 145, 151)",
+          "$description": "Univers L*-aligned neutral ramp step 400.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:60",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "450": {
+          "$type": "color",
+          "$value": "rgb(125, 133, 139)",
+          "$description": "Univers L*-aligned neutral ramp step 450.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:61",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "500": {
+          "$type": "color",
+          "$value": "rgb(115, 123, 130)",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7359:4580",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "550": {
+          "$type": "color",
+          "$value": "rgb(100, 107, 113)",
+          "$description": "Univers L*-aligned neutral ramp step 550.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:62",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "600": {
+          "$type": "color",
+          "$value": "rgb(88, 95, 100)",
+          "$description": "Univers L*-aligned neutral ramp step 600.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:63",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "650": {
+          "$type": "color",
+          "$value": "rgb(83, 88, 94)",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:647:1325",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "700": {
+          "$type": "color",
+          "$value": "rgb(66, 71, 75)",
+          "$description": "Univers L*-aligned neutral ramp step 700.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:64",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "750": {
+          "$type": "color",
+          "$value": "rgb(56, 60, 64)",
+          "$description": "Univers L*-aligned neutral ramp step 750.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:65",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "800": {
+          "$type": "color",
+          "$value": "rgb(52, 53, 56)",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7359:4566",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "850": {
+          "$type": "color",
+          "$value": "rgb(35, 36, 38)",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7359:4565",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "900": {
+          "$type": "color",
+          "$value": "rgb(26, 28, 30)",
+          "$description": "Univers L*-aligned neutral ramp step 900.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:66",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "950": {
+          "$type": "color",
+          "$value": "rgb(21, 20, 21)",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:647:1317",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "050": {
+          "$type": "color",
+          "$value": "rgb(245, 246, 246)",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:647:1328",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "025": {
+          "$type": "color",
+          "$value": "rgb(247, 248, 248)",
+          "$description": "Univers L*-aligned neutral ramp step 025.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:67",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        }
+      },
+      "white": {
+        "$type": "color",
+        "$value": "rgb(255, 255, 255)",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:647:1329",
+            "collection": "VariableCollectionId:647:1315",
+            "scopes": [],
+            "codeSyntax": {}
+          }
+        }
+      },
+      "red": {
+        "100": {
+          "$type": "color",
+          "$value": "rgb(250, 230, 233)",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:649:430",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "150": {
+          "$type": "color",
+          "$value": "rgb(251, 200, 197)",
+          "$description": "Univers L*-aligned red ramp step 150.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:4",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "200": {
+          "$type": "color",
+          "$value": "rgb(249, 182, 178)",
+          "$description": "Univers L*-aligned red ramp step 200.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:5",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "250": {
+          "$type": "color",
+          "$value": "rgb(244, 164, 159)",
+          "$description": "Univers L*-aligned red ramp step 250.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:6",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "300": {
+          "$type": "color",
+          "$value": "rgb(231, 132, 149)",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:649:429",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "350": {
+          "$type": "color",
+          "$value": "rgb(235, 126, 122)",
+          "$description": "Univers L*-aligned red ramp step 350.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:7",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "400": {
+          "$type": "color",
+          "$value": "rgb(229, 107, 105)",
+          "$description": "Univers L*-aligned red ramp step 400.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:8",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "450": {
+          "$type": "color",
+          "$value": "rgb(222, 86, 87)",
+          "$description": "Univers L*-aligned red ramp step 450.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:9",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "500": {
+          "$type": "color",
+          "$value": "rgb(216, 60, 67)",
+          "$description": "Univers L*-aligned red ramp step 500.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:10",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "550": {
+          "$type": "color",
+          "$value": "rgb(207, 10, 44)",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:649:428",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "600": {
+          "$type": "color",
+          "$value": "rgb(189, 11, 40)",
+          "$description": "Univers L*-aligned red ramp step 600.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:11",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "650": {
+          "$type": "color",
+          "$value": "rgb(168, 2, 33)",
+          "$description": "Univers L*-aligned red ramp step 650.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:12",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "700": {
+          "$type": "color",
+          "$value": "rgb(146, 7, 31)",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:9001:80743",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "750": {
+          "$type": "color",
+          "$value": "rgb(124, 2, 22)",
+          "$description": "Univers L*-aligned red ramp step 750.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:13",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "800": {
+          "$type": "color",
+          "$value": "rgb(102, 6, 18)",
+          "$description": "Univers L*-aligned red ramp step 800.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:14",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "850": {
+          "$type": "color",
+          "$value": "rgb(83, 1, 11)",
+          "$description": "Univers L*-aligned red ramp step 850.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:15",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "900": {
+          "$type": "color",
+          "$value": "rgb(65, 0, 4)",
+          "$description": "Univers L*-aligned red ramp step 900.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:16",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "950": {
+          "$type": "color",
+          "$value": "rgb(44, 0, 3)",
+          "$description": "Univers L*-aligned red ramp step 950.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:17",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "050": {
+          "$type": "color",
+          "$value": "rgb(253, 243, 244)",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:649:431",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "025": {
+          "$type": "color",
+          "$value": "rgb(255, 246, 245)",
+          "$description": "Univers L*-aligned red ramp step 025.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:18",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        }
+      },
+      "green": {
+        "100": {
+          "$type": "color",
+          "$value": "rgb(213, 231, 216)",
+          "$description": "Univers L*-aligned green ramp step 100.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:19",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "150": {
+          "$type": "color",
+          "$value": "rgb(193, 219, 199)",
+          "$description": "Univers L*-aligned green ramp step 150.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:20",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "200": {
+          "$type": "color",
+          "$value": "rgb(174, 207, 181)",
+          "$description": "Univers L*-aligned green ramp step 200.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:21",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "250": {
+          "$type": "color",
+          "$value": "rgb(152, 195, 162)",
+          "$description": "Univers L*-aligned green ramp step 250.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:22",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "300": {
+          "$type": "color",
+          "$value": "rgb(132, 183, 144)",
+          "$description": "Univers L*-aligned green ramp step 300.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:23",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "350": {
+          "$type": "color",
+          "$value": "rgb(112, 171, 127)",
+          "$description": "Univers L*-aligned green ramp step 350.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:24",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "400": {
+          "$type": "color",
+          "$value": "rgb(89, 159, 109)",
+          "$description": "Univers L*-aligned green ramp step 400.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:25",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "450": {
+          "$type": "color",
+          "$value": "rgb(66, 147, 91)",
+          "$description": "Univers L*-aligned green ramp step 450.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:26",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "500": {
+          "$type": "color",
+          "$value": "rgb(18, 130, 66)",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:9001:81291",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "550": {
+          "$type": "color",
+          "$value": "rgb(13, 123, 62)",
+          "$description": "Univers L*-aligned green ramp step 550.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:27",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "600": {
+          "$type": "color",
+          "$value": "rgb(14, 109, 55)",
+          "$description": "Univers L*-aligned green ramp step 600.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:28",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "650": {
+          "$type": "color",
+          "$value": "rgb(10, 95, 47)",
+          "$description": "Univers L*-aligned green ramp step 650.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:29",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "700": {
+          "$type": "color",
+          "$value": "rgb(9, 82, 40)",
+          "$description": "Univers L*-aligned green ramp step 700.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:30",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "750": {
+          "$type": "color",
+          "$value": "rgb(4, 69, 31)",
+          "$description": "Univers L*-aligned green ramp step 750.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:31",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "800": {
+          "$type": "color",
+          "$value": "rgb(5, 57, 26)",
+          "$description": "Univers L*-aligned green ramp step 800.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:32",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "850": {
+          "$type": "color",
+          "$value": "rgb(0, 45, 18)",
+          "$description": "Univers L*-aligned green ramp step 850.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:33",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "900": {
+          "$type": "color",
+          "$value": "rgb(1, 33, 12)",
+          "$description": "Univers L*-aligned green ramp step 900.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:34",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "950": {
+          "$type": "color",
+          "$value": "rgb(2, 21, 6)",
+          "$description": "Univers L*-aligned green ramp step 950.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:35",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "025": {
+          "$type": "color",
+          "$value": "rgb(244, 249, 245)",
+          "$description": "Univers L*-aligned green ramp step 025.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:36",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "050": {
+          "$type": "color",
+          "$value": "rgb(235, 243, 237)",
+          "$description": "Univers L*-aligned green ramp step 050.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:37",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        }
+      },
+      "amber": {
+        "100": {
+          "$type": "color",
+          "$value": "rgb(242, 223, 210)",
+          "$description": "Univers L*-aligned amber ramp step 100.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:38",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "150": {
+          "$type": "color",
+          "$value": "rgb(236, 207, 186)",
+          "$description": "Univers L*-aligned amber ramp step 150.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:39",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "200": {
+          "$type": "color",
+          "$value": "rgb(227, 192, 165)",
+          "$description": "Univers L*-aligned amber ramp step 200.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:40",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "250": {
+          "$type": "color",
+          "$value": "rgb(221, 176, 142)",
+          "$description": "Univers L*-aligned amber ramp step 250.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:41",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "300": {
+          "$type": "color",
+          "$value": "rgb(212, 161, 121)",
+          "$description": "Univers L*-aligned amber ramp step 300.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:42",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "350": {
+          "$type": "color",
+          "$value": "rgb(203, 145, 101)",
+          "$description": "Univers L*-aligned amber ramp step 350.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:43",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "400": {
+          "$type": "color",
+          "$value": "rgb(196, 130, 75)",
+          "$description": "Univers L*-aligned amber ramp step 400.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:44",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "450": {
+          "$type": "color",
+          "$value": "rgb(187, 114, 51)",
+          "$description": "Univers L*-aligned amber ramp step 450.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:45",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "500": {
+          "$type": "color",
+          "$value": "rgb(179, 98, 5)",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:9001:81348",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "550": {
+          "$type": "color",
+          "$value": "rgb(162, 87, 2)",
+          "$description": "Univers L*-aligned amber ramp step 550.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:46",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "600": {
+          "$type": "color",
+          "$value": "rgb(154, 57, 2)",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:9001:81347",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "650": {
+          "$type": "color",
+          "$value": "rgb(127, 67, 1)",
+          "$description": "Univers L*-aligned amber ramp step 650.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:47",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "700": {
+          "$type": "color",
+          "$value": "rgb(109, 58, 4)",
+          "$description": "Univers L*-aligned amber ramp step 700.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:48",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "750": {
+          "$type": "color",
+          "$value": "rgb(93, 48, 1)",
+          "$description": "Univers L*-aligned amber ramp step 750.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:49",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "800": {
+          "$type": "color",
+          "$value": "rgb(76, 39, 4)",
+          "$description": "Univers L*-aligned amber ramp step 800.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:50",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "850": {
+          "$type": "color",
+          "$value": "rgb(61, 29, 5)",
+          "$description": "Univers L*-aligned amber ramp step 850.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:51",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "900": {
+          "$type": "color",
+          "$value": "rgb(47, 20, 2)",
+          "$description": "Univers L*-aligned amber ramp step 900.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:52",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "950": {
+          "$type": "color",
+          "$value": "rgb(31, 12, 0)",
+          "$description": "Univers L*-aligned amber ramp step 950.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:53",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "025": {
+          "$type": "color",
+          "$value": "rgb(252, 247, 243)",
+          "$description": "Univers L*-aligned amber ramp step 025.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:54",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "050": {
+          "$type": "color",
+          "$value": "rgb(247, 239, 234)",
+          "$description": "Univers L*-aligned amber ramp step 050.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:55",
+              "collection": "VariableCollectionId:647:1315",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        }
+      }
+    }
+  },
+  "$extensions": {
+    "generator": {
+      "name": "Token Press",
+      "version": "2.3.1"
+    },
+    "figma": {
+      "collection": {
+        "id": "VariableCollectionId:647:1315",
+        "name": "core-color",
+        "defaultModeId": "647:0"
+      },
+      "mode": "Mode 1"
+    }
+  }
+}

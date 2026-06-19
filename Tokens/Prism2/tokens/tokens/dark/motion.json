@@ -1,0 +1,187 @@
+{
+  "nbds": {
+    "pds": {
+      "motion": {
+        "duration": {
+          "instant": {
+            "$type": "duration",
+            "$value": "{pds.motion.duration.050}",
+            "$description": "Micro / instant feel",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:8331:38096",
+                "collection": "VariableCollectionId:8331:38078",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "fast": {
+            "$type": "duration",
+            "$value": "{pds.motion.duration.100}",
+            "$description": "Fast animations.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:8331:38097",
+                "collection": "VariableCollectionId:8331:38078",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "normal": {
+            "$type": "duration",
+            "$value": "{pds.motion.duration.200}",
+            "$description": "Default timing for most animations.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:8331:38098",
+                "collection": "VariableCollectionId:8331:38078",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "slow": {
+            "$type": "duration",
+            "$value": "{pds.motion.duration.500}",
+            "$description": "Slow animations.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:8331:38099",
+                "collection": "VariableCollectionId:8331:38078",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "slower": {
+            "$type": "duration",
+            "$value": "{pds.motion.duration.800}",
+            "$description": "Very slow animations.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:8331:38100",
+                "collection": "VariableCollectionId:8331:38078",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "quick": {
+            "$type": "duration",
+            "$value": "{pds.motion.duration.150}",
+            "$description": "Quick transitions.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:8375:44785",
+                "collection": "VariableCollectionId:8331:38078",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "moderate": {
+            "$type": "duration",
+            "$value": "{pds.motion.duration.300}",
+            "$description": "Moderate pacing for transitions.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:8375:44786",
+                "collection": "VariableCollectionId:8331:38078",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          }
+        },
+        "transition": {
+          "enter": {
+            "$type": "transition",
+            "$value": {
+              "duration": "{pds.motion.duration.normal}",
+              "delay": "{pds.motion.duration.000}",
+              "timingFunction": [
+                0,
+                0,
+                0.58,
+                1
+              ]
+            },
+            "$description": "Enter/appear animation duration."
+          },
+          "exit": {
+            "$type": "transition",
+            "$value": {
+              "duration": "{pds.motion.duration.quick}",
+              "delay": "{pds.motion.duration.000}",
+              "timingFunction": [
+                0.42,
+                0,
+                1,
+                1
+              ]
+            },
+            "$description": "Exit/disappear animation duration."
+          },
+          "expand": {
+            "$type": "transition",
+            "$value": {
+              "duration": "{pds.motion.duration.moderate}",
+              "delay": "{pds.motion.duration.000}",
+              "timingFunction": [
+                0.2,
+                0,
+                0,
+                1
+              ]
+            },
+            "$description": "Expand animation duration."
+          },
+          "collapse": {
+            "$type": "transition",
+            "$value": {
+              "duration": "{pds.motion.duration.quick}",
+              "delay": "{pds.motion.duration.000}",
+              "timingFunction": [
+                0.42,
+                0,
+                1,
+                1
+              ]
+            },
+            "$description": "Collapse animation duration."
+          },
+          "fade": {
+            "$type": "transition",
+            "$value": {
+              "duration": "{pds.motion.duration.quick}",
+              "delay": "{pds.motion.duration.000}",
+              "timingFunction": [
+                0,
+                0,
+                1,
+                1
+              ]
+            },
+            "$description": "Fade animation duration."
+          }
+        }
+      }
+    }
+  },
+  "$extensions": {
+    "generator": {
+      "name": "Token Press",
+      "version": "2.3.1"
+    },
+    "figma": {
+      "collection": {
+        "id": "VariableCollectionId:8331:38078",
+        "name": "motion",
+        "defaultModeId": "8331:0"
+      },
+      "mode": "dark"
+    }
+  }
+}

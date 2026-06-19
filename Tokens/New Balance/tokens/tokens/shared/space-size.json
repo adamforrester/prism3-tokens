@@ -1,0 +1,467 @@
+{
+  "nbds": {
+    "space": {
+      "3xl": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.128}",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:747:10444",
+            "collection": "VariableCollectionId:747:10441",
+            "scopes": [
+              "WIDTH_HEIGHT",
+              "GAP"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      },
+      "2xl": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.96}",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:747:10462",
+            "collection": "VariableCollectionId:747:10441",
+            "scopes": [
+              "WIDTH_HEIGHT",
+              "GAP"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      },
+      "xl": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.64}",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:747:10463",
+            "collection": "VariableCollectionId:747:10441",
+            "scopes": [
+              "WIDTH_HEIGHT",
+              "GAP"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      },
+      "lg": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.48}",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:747:10465",
+            "collection": "VariableCollectionId:747:10441",
+            "scopes": [
+              "WIDTH_HEIGHT",
+              "GAP"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      },
+      "sm": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.24}",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:747:10466",
+            "collection": "VariableCollectionId:747:10441",
+            "scopes": [
+              "WIDTH_HEIGHT",
+              "GAP"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      },
+      "md": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.32}",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:747:10467",
+            "collection": "VariableCollectionId:747:10441",
+            "scopes": [
+              "WIDTH_HEIGHT",
+              "GAP"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      },
+      "xs": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.16}",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:747:10468",
+            "collection": "VariableCollectionId:747:10441",
+            "scopes": [
+              "WIDTH_HEIGHT",
+              "GAP"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      },
+      "3xs": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.8}",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:747:10469",
+            "collection": "VariableCollectionId:747:10441",
+            "scopes": [
+              "WIDTH_HEIGHT",
+              "GAP"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      },
+      "4xs": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.4}",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:747:10473",
+            "collection": "VariableCollectionId:747:10441",
+            "scopes": [
+              "WIDTH_HEIGHT",
+              "GAP"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      },
+      "2xs": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.12}",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:9001:82091",
+            "collection": "VariableCollectionId:747:10441",
+            "scopes": [
+              "WIDTH_HEIGHT",
+              "GAP"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      }
+    },
+    "size": {
+      "component": {
+        "height-xs": {
+          "$type": "dimension",
+          "$value": "{nbds.dimension.24}",
+          "$description": "XS component height.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17030:30",
+              "collection": "VariableCollectionId:747:10441",
+              "scopes": [
+                "WIDTH_HEIGHT"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "height-sm": {
+          "$type": "dimension",
+          "$value": "{nbds.dimension.32}",
+          "$description": "SM component height.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17030:31",
+              "collection": "VariableCollectionId:747:10441",
+              "scopes": [
+                "WIDTH_HEIGHT"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "height-md": {
+          "$type": "dimension",
+          "$value": "{nbds.dimension.40}",
+          "$description": "MD component height (standard buttons, inputs).",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17030:32",
+              "collection": "VariableCollectionId:747:10441",
+              "scopes": [
+                "WIDTH_HEIGHT"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "height-lg": {
+          "$type": "dimension",
+          "$value": "{nbds.dimension.48}",
+          "$description": "LG component height.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17030:33",
+              "collection": "VariableCollectionId:747:10441",
+              "scopes": [
+                "WIDTH_HEIGHT"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "height-xl": {
+          "$type": "dimension",
+          "$value": "{nbds.dimension.56}",
+          "$description": "XL component height.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17030:34",
+              "collection": "VariableCollectionId:747:10441",
+              "scopes": [
+                "WIDTH_HEIGHT"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        }
+      },
+      "icon": {
+        "xs": {
+          "$type": "dimension",
+          "$value": "{nbds.dimension.12}",
+          "$description": "XS icon size.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17030:35",
+              "collection": "VariableCollectionId:747:10441",
+              "scopes": [
+                "WIDTH_HEIGHT"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "sm": {
+          "$type": "dimension",
+          "$value": "{nbds.dimension.16}",
+          "$description": "SM icon size.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17030:36",
+              "collection": "VariableCollectionId:747:10441",
+              "scopes": [
+                "WIDTH_HEIGHT"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "md": {
+          "$type": "dimension",
+          "$value": "{nbds.dimension.20}",
+          "$description": "MD icon size (standard inline icons).",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17030:37",
+              "collection": "VariableCollectionId:747:10441",
+              "scopes": [
+                "WIDTH_HEIGHT"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "lg": {
+          "$type": "dimension",
+          "$value": "{nbds.dimension.24}",
+          "$description": "LG icon size.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17030:38",
+              "collection": "VariableCollectionId:747:10441",
+              "scopes": [
+                "WIDTH_HEIGHT"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "xl": {
+          "$type": "dimension",
+          "$value": "{nbds.dimension.32}",
+          "$description": "XL icon size (prominent icons).",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17030:39",
+              "collection": "VariableCollectionId:747:10441",
+              "scopes": [
+                "WIDTH_HEIGHT"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        }
+      }
+    },
+    "border-width": {
+      "none": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.0}",
+        "$description": "No border.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:17030:40",
+            "collection": "VariableCollectionId:747:10441",
+            "scopes": [
+              "STROKE_FLOAT"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      },
+      "hairline": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.1}",
+        "$description": "Hairline border (1px).",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:17030:41",
+            "collection": "VariableCollectionId:747:10441",
+            "scopes": [
+              "STROKE_FLOAT"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      },
+      "thin": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.2}",
+        "$description": "Thin border (2px).",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:17030:42",
+            "collection": "VariableCollectionId:747:10441",
+            "scopes": [
+              "STROKE_FLOAT"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      },
+      "thick": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.4}",
+        "$description": "Thick border (4px).",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:17030:43",
+            "collection": "VariableCollectionId:747:10441",
+            "scopes": [
+              "STROKE_FLOAT"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      }
+    },
+    "opacity": {
+      "0": {
+        "$type": "number",
+        "$value": 0,
+        "$description": "Fully transparent.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:17030:44",
+            "collection": "VariableCollectionId:747:10441",
+            "scopes": [
+              "OPACITY"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      },
+      "100": {
+        "$type": "number",
+        "$value": 1,
+        "$description": "Fully opaque.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:17030:48",
+            "collection": "VariableCollectionId:747:10441",
+            "scopes": [
+              "OPACITY"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      },
+      "disabled": {
+        "$type": "number",
+        "$value": 0.4,
+        "$description": "Disabled element opacity.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:17030:45",
+            "collection": "VariableCollectionId:747:10441",
+            "scopes": [
+              "OPACITY"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      },
+      "scrim": {
+        "light": {
+          "$type": "number",
+          "$value": 0.6,
+          "$description": "Light scrim overlay.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17030:46",
+              "collection": "VariableCollectionId:747:10441",
+              "scopes": [
+                "OPACITY"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "heavy": {
+          "$type": "number",
+          "$value": 0.8,
+          "$description": "Heavy scrim overlay.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17030:47",
+              "collection": "VariableCollectionId:747:10441",
+              "scopes": [
+                "OPACITY"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        }
+      }
+    }
+  },
+  "$extensions": {
+    "generator": {
+      "name": "Token Press",
+      "version": "2.3.1"
+    },
+    "figma": {
+      "collection": {
+        "id": "VariableCollectionId:747:10441",
+        "name": "space-size",
+        "defaultModeId": "747:0"
+      },
+      "mode": "Mode 1"
+    }
+  }
+}

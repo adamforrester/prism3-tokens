@@ -1,0 +1,3010 @@
+{
+  "$collection": "color",
+  "$mode": "Default",
+  "variables": [
+    {
+      "id": "VariableID:10:348",
+      "name": "nbds/color/text/primary/default",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "ALL_FILLS"
+      ],
+      "description": "Main text; high-emphasis content on light foregrounds. Primary text colour.",
+      "value": {
+        "r": 0.08235294371843338,
+        "g": 0.0784313753247261,
+        "b": 0.08235294371843338,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1317",
+        "name": "nbds/color/neutral/950"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:10:352",
+      "name": "nbds/color/text/secondary/default",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "ALL_FILLS",
+        "STROKE_COLOR"
+      ],
+      "description": "Supporting text; body copy and less-emphasis content.",
+      "value": {
+        "r": 0.32549020648002625,
+        "g": 0.3450980484485626,
+        "b": 0.3686274588108063,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1325",
+        "name": "nbds/color/neutral/650"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:10:368",
+      "name": "nbds/color/background/primary/default",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Primary page canvas. Z = 0 (per strategy §6.2.0). Strictly non-interactive.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1329",
+        "name": "nbds/color/white"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:10:380",
+      "name": "nbds/color/feedback/text/negative/default",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "ALL_FILLS"
+      ],
+      "description": "Error / destructive message text on light foregrounds.",
+      "value": {
+        "r": 0.572549045085907,
+        "g": 0.027450980618596077,
+        "b": 0.12156862765550613,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:9001:80743",
+        "name": "nbds/color/red/700"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:10:386",
+      "name": "nbds/color/border/default/default",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "STROKE_COLOR"
+      ],
+      "description": "Default border on standard foregrounds.",
+      "value": {
+        "r": 0.08235294371843338,
+        "g": 0.0784313753247261,
+        "b": 0.08235294371843338,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1317",
+        "name": "nbds/color/neutral/950"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:10:390",
+      "name": "nbds/color/border/divider/default",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "STROKE_COLOR"
+      ],
+      "description": "Subtle divider for separating content blocks.",
+      "value": {
+        "r": 0.8980392217636108,
+        "g": 0.9058823585510254,
+        "b": 0.9098039269447327,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1327",
+        "name": "nbds/color/neutral/100"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:10:412",
+      "name": "nbds/color/foreground/secondary/default",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Secondary foreground; layered content above primary foreground. Z = 2.",
+      "value": {
+        "r": 0.9607843160629272,
+        "g": 0.9647058844566345,
+        "b": 0.9647058844566345,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1328",
+        "name": "nbds/color/neutral/050"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:664:2031",
+      "name": "nbds/color/text/accent/default",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "ALL_FILLS"
+      ],
+      "description": "Accent text colour. Used for eyebrow / lead-in copy and other emphasised text moments where attention is needed without communicating a status. Resolves to amber/600 by default.",
+      "value": {
+        "r": 0.6039215922355652,
+        "g": 0.2235294133424759,
+        "b": 0.007843137718737125,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:9001:81347",
+        "name": "nbds/color/amber/600"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:668:1718",
+      "name": "nbds/color/icon/primary/default",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "ALL_FILLS",
+        "STROKE_COLOR"
+      ],
+      "description": "Default icon colour on light foregrounds.",
+      "value": {
+        "r": 0.08235294371843338,
+        "g": 0.0784313753247261,
+        "b": 0.08235294371843338,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1317",
+        "name": "nbds/color/neutral/950"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:668:1719",
+      "name": "nbds/color/text/link/default",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "ALL_FILLS"
+      ],
+      "description": "Link text colour (legacy). New work should use nbds/color/link/default. Will be reviewed for deprecation in Phase 5.",
+      "value": {
+        "r": 0.08235294371843338,
+        "g": 0.0784313753247261,
+        "b": 0.08235294371843338,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1317",
+        "name": "nbds/color/neutral/950"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:668:2104",
+      "name": "nbds/color/feedback/border/negative/default",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "STROKE_COLOR"
+      ],
+      "description": "Error border (form fields, alerts).",
+      "value": {
+        "r": 0.8117647171020508,
+        "g": 0.03921568766236305,
+        "b": 0.1725490242242813,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:649:428",
+        "name": "nbds/color/red/550"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:668:2105",
+      "name": "nbds/color/button/foreground/primary/default",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Primary button fill, default state. NB Black.",
+      "value": {
+        "r": 0.08235294371843338,
+        "g": 0.0784313753247261,
+        "b": 0.08235294371843338,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1317",
+        "name": "nbds/color/neutral/950"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:668:2106",
+      "name": "nbds/color/button/text/primary/default",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Primary button text/icon colour, default state.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1329",
+        "name": "nbds/color/white"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:668:2107",
+      "name": "nbds/color/button/border/secondary/default",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "STROKE_COLOR"
+      ],
+      "description": "Secondary button border, default state.",
+      "value": {
+        "r": 0.8980392217636108,
+        "g": 0.9058823585510254,
+        "b": 0.9098039269447327,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1327",
+        "name": "nbds/color/neutral/100"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7359:4567",
+      "name": "nbds/color/button/foreground/primary/hovered",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Primary button fill, hovered state.",
+      "value": {
+        "r": 0.20392157137393951,
+        "g": 0.2078431397676468,
+        "b": 0.21960784494876862,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7359:4566",
+        "name": "nbds/color/neutral/800"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7359:4568",
+      "name": "nbds/color/button/foreground/primary/pressed",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Primary button fill, pressed/active state.",
+      "value": {
+        "r": 0.13725490868091583,
+        "g": 0.1411764770746231,
+        "b": 0.14901961386203766,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7359:4565",
+        "name": "nbds/color/neutral/850"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7359:4581",
+      "name": "nbds/color/button/text/primary/disabled",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Primary button text, disabled state.",
+      "value": {
+        "r": 0.45098039507865906,
+        "g": 0.48235294222831726,
+        "b": 0.5098039507865906,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7359:4580",
+        "name": "nbds/color/neutral/500"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7359:4582",
+      "name": "nbds/color/button/foreground/primary/disabled",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Primary button fill, disabled state.",
+      "value": {
+        "r": 0.8980392217636108,
+        "g": 0.9058823585510254,
+        "b": 0.9098039269447327,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1327",
+        "name": "nbds/color/neutral/100"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7447:16940",
+      "name": "nbds/color/button/border/secondary/hovered",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "STROKE_COLOR"
+      ],
+      "description": "Secondary button border, hovered state.",
+      "value": {
+        "r": 0.6705882549285889,
+        "g": 0.6941176652908325,
+        "b": 0.7098039388656616,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1326",
+        "name": "nbds/color/neutral/300"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7447:16941",
+      "name": "nbds/color/button/border/secondary/pressed",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "STROKE_COLOR"
+      ],
+      "description": "Secondary button border, pressed state.",
+      "value": {
+        "r": 0.45098039507865906,
+        "g": 0.48235294222831726,
+        "b": 0.5098039507865906,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7359:4580",
+        "name": "nbds/color/neutral/500"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7520:1575",
+      "name": "nbds/color/link/default",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Link colour, default state.",
+      "value": {
+        "r": 0.08235294371843338,
+        "g": 0.0784313753247261,
+        "b": 0.08235294371843338,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1317",
+        "name": "nbds/color/neutral/950"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7520:1577",
+      "name": "nbds/color/link/hovered",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Link colour, hovered state.",
+      "value": {
+        "r": 0.20392157137393951,
+        "g": 0.2078431397676468,
+        "b": 0.21960784494876862,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7359:4566",
+        "name": "nbds/color/neutral/800"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7520:1578",
+      "name": "nbds/color/link/pressed",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Link colour, pressed state.",
+      "value": {
+        "r": 0.13725490868091583,
+        "g": 0.1411764770746231,
+        "b": 0.14901961386203766,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7359:4565",
+        "name": "nbds/color/neutral/850"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:9001:81214",
+      "name": "nbds/color/text/promo/default",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "ALL_SCOPES"
+      ],
+      "description": "Promotional text (sale, limited edition messaging). NB Red for brand prominence.",
+      "value": {
+        "r": 0.8117647171020508,
+        "g": 0.03921568766236305,
+        "b": 0.1725490242242813,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:649:428",
+        "name": "nbds/color/red/550"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:9001:81290",
+      "name": "nbds/color/feedback/text/positive/default",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "ALL_SCOPES"
+      ],
+      "description": "Success message text.",
+      "value": {
+        "r": 0.054901961237192154,
+        "g": 0.4274509847164154,
+        "b": 0.21568627655506134,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:28",
+        "name": "nbds/color/green/600"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:9001:81349",
+      "name": "nbds/color/feedback/text/warning/default",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "ALL_SCOPES"
+      ],
+      "description": "Warning / caution message text.",
+      "value": {
+        "r": 0.6039215922355652,
+        "g": 0.2235294133424759,
+        "b": 0.007843137718737125,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:9001:81347",
+        "name": "nbds/color/amber/600"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:4",
+      "name": "nbds/color/text/primary/inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Primary text on dark foregrounds (footer, hero overlays, dark CTAs).",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1329",
+        "name": "nbds/color/white"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:5",
+      "name": "nbds/color/text/secondary/inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Supporting text on dark foregrounds.",
+      "value": {
+        "r": 0.8980392217636108,
+        "g": 0.9058823585510254,
+        "b": 0.9098039269447327,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1327",
+        "name": "nbds/color/neutral/100"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:6",
+      "name": "nbds/color/icon/primary/inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Default icon on dark foregrounds.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1329",
+        "name": "nbds/color/white"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:7",
+      "name": "nbds/color/icon/secondary/default",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Subdued icon for low-emphasis use.",
+      "value": {
+        "r": 0.32549020648002625,
+        "g": 0.3450980484485626,
+        "b": 0.3686274588108063,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1325",
+        "name": "nbds/color/neutral/650"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:8",
+      "name": "nbds/color/icon/secondary/inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Subdued icon on dark foregrounds.",
+      "value": {
+        "r": 0.8980392217636108,
+        "g": 0.9058823585510254,
+        "b": 0.9098039269447327,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1327",
+        "name": "nbds/color/neutral/100"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:9",
+      "name": "nbds/color/foreground/primary/default",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Primary foreground; base layer for components on the page background. Z=1.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1329",
+        "name": "nbds/color/white"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:10",
+      "name": "nbds/color/foreground/primary/inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Primary foreground for dark CTA/footer panels.",
+      "value": {
+        "r": 0.10196078568696976,
+        "g": 0.10980392247438431,
+        "b": 0.11764705926179886,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:66",
+        "name": "nbds/color/neutral/900"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:11",
+      "name": "nbds/color/foreground/secondary/inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Secondary foreground on dark contexts.",
+      "value": {
+        "r": 0.08235294371843338,
+        "g": 0.0784313753247261,
+        "b": 0.08235294371843338,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1317",
+        "name": "nbds/color/neutral/950"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:12",
+      "name": "nbds/color/foreground/tertiary/default",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Tertiary foreground; deepest nesting tier. Z=3.",
+      "value": {
+        "r": 0.8980392217636108,
+        "g": 0.9058823585510254,
+        "b": 0.9098039269447327,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1327",
+        "name": "nbds/color/neutral/100"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:13",
+      "name": "nbds/color/background/primary/inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Primary page canvas when the page is dark.",
+      "value": {
+        "r": 0.08235294371843338,
+        "g": 0.0784313753247261,
+        "b": 0.08235294371843338,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1317",
+        "name": "nbds/color/neutral/950"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:14",
+      "name": "nbds/color/border/default/inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "STROKE_COLOR"
+      ],
+      "description": "Default border on dark foregrounds.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1329",
+        "name": "nbds/color/white"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:15",
+      "name": "nbds/color/border/divider/inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "STROKE_COLOR"
+      ],
+      "description": "Subtle divider on dark foregrounds.",
+      "value": {
+        "r": 0.25882354378700256,
+        "g": 0.27843138575553894,
+        "b": 0.29411765933036804,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:64",
+        "name": "nbds/color/neutral/700"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:16",
+      "name": "nbds/color/feedback/text/negative/inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Error text on dark foregrounds.",
+      "value": {
+        "r": 0.9058823585510254,
+        "g": 0.5176470875740051,
+        "b": 0.5843137502670288,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:649:429",
+        "name": "nbds/color/red/300"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:17",
+      "name": "nbds/color/feedback/text/positive/inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Success text on dark foregrounds.",
+      "value": {
+        "r": 0.5176470875740051,
+        "g": 0.7176470756530762,
+        "b": 0.5647059082984924,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:23",
+        "name": "nbds/color/green/300"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:18",
+      "name": "nbds/color/feedback/text/warning/inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Warning text on dark foregrounds.",
+      "value": {
+        "r": 0.8313725590705872,
+        "g": 0.6313725709915161,
+        "b": 0.4745098054409027,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:42",
+        "name": "nbds/color/amber/300"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:19",
+      "name": "nbds/color/feedback/foreground/negative/bold",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Prominent error fill (banners, toasts, critical alerts). NB Red.",
+      "value": {
+        "r": 0.8117647171020508,
+        "g": 0.03921568766236305,
+        "b": 0.1725490242242813,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:649:428",
+        "name": "nbds/color/red/550"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:20",
+      "name": "nbds/color/feedback/foreground/negative/subtle",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Subtle error fill (inline alerts).",
+      "value": {
+        "r": 0.9921568632125854,
+        "g": 0.9529411792755127,
+        "b": 0.95686274766922,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:649:431",
+        "name": "nbds/color/red/050"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:21",
+      "name": "nbds/color/feedback/foreground/positive/bold",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Prominent success fill.",
+      "value": {
+        "r": 0.07058823853731155,
+        "g": 0.5098039507865906,
+        "b": 0.2590431272983551,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:9001:81291",
+        "name": "nbds/color/green/500"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:22",
+      "name": "nbds/color/feedback/foreground/positive/subtle",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Subtle success fill.",
+      "value": {
+        "r": 0.9215686321258545,
+        "g": 0.9529411792755127,
+        "b": 0.929411768913269,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:37",
+        "name": "nbds/color/green/050"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:23",
+      "name": "nbds/color/feedback/foreground/warning/bold",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Prominent warning fill.",
+      "value": {
+        "r": 0.7019608020782471,
+        "g": 0.3843137323856354,
+        "b": 0.019607843831181526,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:9001:81348",
+        "name": "nbds/color/amber/500"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:24",
+      "name": "nbds/color/feedback/foreground/warning/subtle",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Subtle warning fill.",
+      "value": {
+        "r": 0.9686274528503418,
+        "g": 0.9372549057006836,
+        "b": 0.9176470637321472,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:55",
+        "name": "nbds/color/amber/050"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:25",
+      "name": "nbds/color/feedback/border/negative/inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "STROKE_COLOR"
+      ],
+      "description": "Error border on dark foregrounds.",
+      "value": {
+        "r": 0.9058823585510254,
+        "g": 0.5176470875740051,
+        "b": 0.5843137502670288,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:649:429",
+        "name": "nbds/color/red/300"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:26",
+      "name": "nbds/color/feedback/border/positive/default",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "STROKE_COLOR"
+      ],
+      "description": "Success border.",
+      "value": {
+        "r": 0.07058823853731155,
+        "g": 0.5098039507865906,
+        "b": 0.2590431272983551,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:9001:81291",
+        "name": "nbds/color/green/500"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:27",
+      "name": "nbds/color/feedback/border/warning/default",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "STROKE_COLOR"
+      ],
+      "description": "Warning border.",
+      "value": {
+        "r": 0.7019608020782471,
+        "g": 0.3843137323856354,
+        "b": 0.019607843831181526,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:9001:81348",
+        "name": "nbds/color/amber/500"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:28",
+      "name": "nbds/color/feedback/icon/negative/default",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Error icon.",
+      "value": {
+        "r": 0.572549045085907,
+        "g": 0.027450980618596077,
+        "b": 0.12156862765550613,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:9001:80743",
+        "name": "nbds/color/red/700"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:29",
+      "name": "nbds/color/feedback/icon/positive/default",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Success icon.",
+      "value": {
+        "r": 0.054901961237192154,
+        "g": 0.4274509847164154,
+        "b": 0.21568627655506134,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:28",
+        "name": "nbds/color/green/600"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:30",
+      "name": "nbds/color/feedback/icon/warning/default",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Warning icon.",
+      "value": {
+        "r": 0.6039215922355652,
+        "g": 0.2235294133424759,
+        "b": 0.007843137718737125,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:9001:81347",
+        "name": "nbds/color/amber/600"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:31",
+      "name": "nbds/color/interactive/text/default",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Default text on interactive elements.",
+      "value": {
+        "r": 0.08235294371843338,
+        "g": 0.0784313753247261,
+        "b": 0.08235294371843338,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1317",
+        "name": "nbds/color/neutral/950"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:32",
+      "name": "nbds/color/interactive/text/hovered",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Text on hovered interactive elements.",
+      "value": {
+        "r": 0.20392157137393951,
+        "g": 0.2078431397676468,
+        "b": 0.21960784494876862,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7359:4566",
+        "name": "nbds/color/neutral/800"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:33",
+      "name": "nbds/color/interactive/text/pressed",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Text on pressed interactive elements.",
+      "value": {
+        "r": 0.10196078568696976,
+        "g": 0.10980392247438431,
+        "b": 0.11764705926179886,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:66",
+        "name": "nbds/color/neutral/900"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:34",
+      "name": "nbds/color/interactive/text/disabled",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Text on disabled interactive elements.",
+      "value": {
+        "r": 0.45098039507865906,
+        "g": 0.48235294222831726,
+        "b": 0.5098039507865906,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7359:4580",
+        "name": "nbds/color/neutral/500"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:35",
+      "name": "nbds/color/interactive/text/visited",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Text on visited interactive elements (links).",
+      "value": {
+        "r": 0.25882354378700256,
+        "g": 0.27843138575553894,
+        "b": 0.29411765933036804,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:64",
+        "name": "nbds/color/neutral/700"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:36",
+      "name": "nbds/color/interactive/text/default-inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Default interactive text on dark foregrounds.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1329",
+        "name": "nbds/color/white"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:37",
+      "name": "nbds/color/interactive/text/hovered-inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Hovered interactive text on dark.",
+      "value": {
+        "r": 0.9607843160629272,
+        "g": 0.9647058844566345,
+        "b": 0.9647058844566345,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1328",
+        "name": "nbds/color/neutral/050"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:38",
+      "name": "nbds/color/interactive/text/pressed-inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Pressed interactive text on dark.",
+      "value": {
+        "r": 0.8980392217636108,
+        "g": 0.9058823585510254,
+        "b": 0.9098039269447327,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1327",
+        "name": "nbds/color/neutral/100"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:39",
+      "name": "nbds/color/interactive/text/disabled-inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Disabled interactive text on dark.",
+      "value": {
+        "r": 0.3450980484485626,
+        "g": 0.37254902720451355,
+        "b": 0.3921568691730499,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:63",
+        "name": "nbds/color/neutral/600"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:40",
+      "name": "nbds/color/interactive/icon/default",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Default icon on interactive elements.",
+      "value": {
+        "r": 0.08235294371843338,
+        "g": 0.0784313753247261,
+        "b": 0.08235294371843338,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1317",
+        "name": "nbds/color/neutral/950"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:41",
+      "name": "nbds/color/interactive/icon/hovered",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Hovered interactive icon.",
+      "value": {
+        "r": 0.20392157137393951,
+        "g": 0.2078431397676468,
+        "b": 0.21960784494876862,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7359:4566",
+        "name": "nbds/color/neutral/800"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:42",
+      "name": "nbds/color/interactive/icon/pressed",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Pressed interactive icon.",
+      "value": {
+        "r": 0.10196078568696976,
+        "g": 0.10980392247438431,
+        "b": 0.11764705926179886,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:66",
+        "name": "nbds/color/neutral/900"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:43",
+      "name": "nbds/color/interactive/icon/disabled",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Disabled interactive icon.",
+      "value": {
+        "r": 0.45098039507865906,
+        "g": 0.48235294222831726,
+        "b": 0.5098039507865906,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7359:4580",
+        "name": "nbds/color/neutral/500"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:44",
+      "name": "nbds/color/interactive/icon/default-inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Default interactive icon on dark.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1329",
+        "name": "nbds/color/white"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:45",
+      "name": "nbds/color/interactive/icon/hovered-inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Hovered interactive icon on dark.",
+      "value": {
+        "r": 0.9607843160629272,
+        "g": 0.9647058844566345,
+        "b": 0.9647058844566345,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1328",
+        "name": "nbds/color/neutral/050"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:46",
+      "name": "nbds/color/interactive/icon/pressed-inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Pressed interactive icon on dark.",
+      "value": {
+        "r": 0.8980392217636108,
+        "g": 0.9058823585510254,
+        "b": 0.9098039269447327,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1327",
+        "name": "nbds/color/neutral/100"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:47",
+      "name": "nbds/color/interactive/icon/disabled-inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Disabled interactive icon on dark.",
+      "value": {
+        "r": 0.3450980484485626,
+        "g": 0.37254902720451355,
+        "b": 0.3921568691730499,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:63",
+        "name": "nbds/color/neutral/600"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:48",
+      "name": "nbds/color/interactive/foreground/default",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Default fill of interactive container (chip, list row).",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1329",
+        "name": "nbds/color/white"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:49",
+      "name": "nbds/color/interactive/foreground/hovered",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Fill of hovered interactive container.",
+      "value": {
+        "r": 0.9607843160629272,
+        "g": 0.9647058844566345,
+        "b": 0.9647058844566345,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1328",
+        "name": "nbds/color/neutral/050"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:50",
+      "name": "nbds/color/interactive/foreground/pressed",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Fill of pressed interactive container.",
+      "value": {
+        "r": 0.8980392217636108,
+        "g": 0.9058823585510254,
+        "b": 0.9098039269447327,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1327",
+        "name": "nbds/color/neutral/100"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:51",
+      "name": "nbds/color/interactive/foreground/selected",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Fill of selected interactive container.",
+      "value": {
+        "r": 0.9607843160629272,
+        "g": 0.9647058844566345,
+        "b": 0.9647058844566345,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1328",
+        "name": "nbds/color/neutral/050"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:52",
+      "name": "nbds/color/interactive/foreground/disabled",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Fill of disabled interactive container.",
+      "value": {
+        "r": 0.9607843160629272,
+        "g": 0.9647058844566345,
+        "b": 0.9647058844566345,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1328",
+        "name": "nbds/color/neutral/050"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:53",
+      "name": "nbds/color/interactive/foreground/hovered-inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Hovered interactive fill on dark.",
+      "value": {
+        "r": 0.20392157137393951,
+        "g": 0.2078431397676468,
+        "b": 0.21960784494876862,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7359:4566",
+        "name": "nbds/color/neutral/800"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:54",
+      "name": "nbds/color/interactive/foreground/pressed-inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Pressed interactive fill on dark.",
+      "value": {
+        "r": 0.25882354378700256,
+        "g": 0.27843138575553894,
+        "b": 0.29411765933036804,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:64",
+        "name": "nbds/color/neutral/700"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:55",
+      "name": "nbds/color/interactive/foreground/selected-inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Selected interactive fill on dark.",
+      "value": {
+        "r": 0.20392157137393951,
+        "g": 0.2078431397676468,
+        "b": 0.21960784494876862,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7359:4566",
+        "name": "nbds/color/neutral/800"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:56",
+      "name": "nbds/color/interactive/border/default",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "STROKE_COLOR"
+      ],
+      "description": "Default border for interactive form elements.",
+      "value": {
+        "r": 0.45098039507865906,
+        "g": 0.48235294222831726,
+        "b": 0.5098039507865906,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7359:4580",
+        "name": "nbds/color/neutral/500"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:57",
+      "name": "nbds/color/interactive/border/hovered",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "STROKE_COLOR"
+      ],
+      "description": "Hovered interactive border.",
+      "value": {
+        "r": 0.25882354378700256,
+        "g": 0.27843138575553894,
+        "b": 0.29411765933036804,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:64",
+        "name": "nbds/color/neutral/700"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:58",
+      "name": "nbds/color/interactive/border/focused",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "STROKE_COLOR"
+      ],
+      "description": "Focused interactive border. Aliased to NB Red until focus ring tokens are created in Phase 3.4 — should re-alias to nbds/color/focus/ring/color/default then.",
+      "value": {
+        "r": 0.8117647171020508,
+        "g": 0.03921568766236305,
+        "b": 0.1725490242242813,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17032:4",
+        "name": "nbds/focus/ring/color/default"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:59",
+      "name": "nbds/color/interactive/border/disabled",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "STROKE_COLOR"
+      ],
+      "description": "Disabled interactive border.",
+      "value": {
+        "r": 0.6705882549285889,
+        "g": 0.6941176652908325,
+        "b": 0.7098039388656616,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1326",
+        "name": "nbds/color/neutral/300"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:60",
+      "name": "nbds/color/interactive/border/default-inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "STROKE_COLOR"
+      ],
+      "description": "Default interactive border on dark.",
+      "value": {
+        "r": 0.45098039507865906,
+        "g": 0.48235294222831726,
+        "b": 0.5098039507865906,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7359:4580",
+        "name": "nbds/color/neutral/500"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:61",
+      "name": "nbds/color/interactive/border/hovered-inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "STROKE_COLOR"
+      ],
+      "description": "Hovered border on dark.",
+      "value": {
+        "r": 0.6705882549285889,
+        "g": 0.6941176652908325,
+        "b": 0.7098039388656616,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1326",
+        "name": "nbds/color/neutral/300"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:62",
+      "name": "nbds/color/interactive/border/focused-inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "STROKE_COLOR"
+      ],
+      "description": "Focused border on dark. Will re-alias to focus ring inverse after 3.4.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17032:5",
+        "name": "nbds/focus/ring/color/inverse"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:63",
+      "name": "nbds/color/interactive/border/disabled-inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "STROKE_COLOR"
+      ],
+      "description": "Disabled border on dark.",
+      "value": {
+        "r": 0.25882354378700256,
+        "g": 0.27843138575553894,
+        "b": 0.29411765933036804,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:64",
+        "name": "nbds/color/neutral/700"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:64",
+      "name": "nbds/color/link/focused",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Link focused. Aliased to NB Red — will re-alias to focus ring after Phase 3.4.",
+      "value": {
+        "r": 0.8117647171020508,
+        "g": 0.03921568766236305,
+        "b": 0.1725490242242813,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17032:4",
+        "name": "nbds/focus/ring/color/default"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:65",
+      "name": "nbds/color/link/visited",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Visited link colour.",
+      "value": {
+        "r": 0.25882354378700256,
+        "g": 0.27843138575553894,
+        "b": 0.29411765933036804,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:64",
+        "name": "nbds/color/neutral/700"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:66",
+      "name": "nbds/color/link/disabled",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Disabled link.",
+      "value": {
+        "r": 0.45098039507865906,
+        "g": 0.48235294222831726,
+        "b": 0.5098039507865906,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7359:4580",
+        "name": "nbds/color/neutral/500"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:67",
+      "name": "nbds/color/link/default-inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Link on dark foregrounds.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1329",
+        "name": "nbds/color/white"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:68",
+      "name": "nbds/color/link/hovered-inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Hovered link on dark.",
+      "value": {
+        "r": 0.9607843160629272,
+        "g": 0.9647058844566345,
+        "b": 0.9647058844566345,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1328",
+        "name": "nbds/color/neutral/050"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:69",
+      "name": "nbds/color/link/pressed-inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Pressed link on dark.",
+      "value": {
+        "r": 0.8980392217636108,
+        "g": 0.9058823585510254,
+        "b": 0.9098039269447327,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1327",
+        "name": "nbds/color/neutral/100"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:70",
+      "name": "nbds/color/link/focused-inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Focused link on dark. Will re-alias to focus ring inverse after Phase 3.4.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17032:5",
+        "name": "nbds/focus/ring/color/inverse"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:71",
+      "name": "nbds/color/button/foreground/primary/focused",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Primary button fill, focused (colour unchanged; focus ring handles indication).",
+      "value": {
+        "r": 0.08235294371843338,
+        "g": 0.0784313753247261,
+        "b": 0.08235294371843338,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1317",
+        "name": "nbds/color/neutral/950"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:72",
+      "name": "nbds/color/button/text/primary/hovered",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Primary button text, hovered.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1329",
+        "name": "nbds/color/white"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:73",
+      "name": "nbds/color/button/text/primary/pressed",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Primary button text, pressed.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1329",
+        "name": "nbds/color/white"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:74",
+      "name": "nbds/color/button/text/primary/focused",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Primary button text, focused.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1329",
+        "name": "nbds/color/white"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:75",
+      "name": "nbds/color/button/icon/primary/default",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Primary button icon, default.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1329",
+        "name": "nbds/color/white"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:76",
+      "name": "nbds/color/button/icon/primary/hovered",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Primary button icon, hovered.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1329",
+        "name": "nbds/color/white"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:77",
+      "name": "nbds/color/button/icon/primary/pressed",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Primary button icon, pressed.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1329",
+        "name": "nbds/color/white"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:78",
+      "name": "nbds/color/button/icon/primary/focused",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Primary button icon, focused.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1329",
+        "name": "nbds/color/white"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:79",
+      "name": "nbds/color/button/icon/primary/disabled",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Primary button icon, disabled.",
+      "value": {
+        "r": 0.45098039507865906,
+        "g": 0.48235294222831726,
+        "b": 0.5098039507865906,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7359:4580",
+        "name": "nbds/color/neutral/500"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:80",
+      "name": "nbds/color/button/border/primary/default",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "STROKE_COLOR"
+      ],
+      "description": "Primary button border (same as fill — no visible border by default).",
+      "value": {
+        "r": 0.08235294371843338,
+        "g": 0.0784313753247261,
+        "b": 0.08235294371843338,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1317",
+        "name": "nbds/color/neutral/950"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:81",
+      "name": "nbds/color/button/border/primary/focused",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "STROKE_COLOR"
+      ],
+      "description": "Primary button border, focused. Aliased to NB Red — re-alias to focus ring after 3.4.",
+      "value": {
+        "r": 0.8117647171020508,
+        "g": 0.03921568766236305,
+        "b": 0.1725490242242813,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17032:4",
+        "name": "nbds/focus/ring/color/default"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:82",
+      "name": "nbds/color/button/foreground/secondary/default",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Secondary button fill, default (transparent or matches surface).",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1329",
+        "name": "nbds/color/white"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:83",
+      "name": "nbds/color/button/foreground/secondary/hovered",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Secondary button fill, hovered.",
+      "value": {
+        "r": 0.9607843160629272,
+        "g": 0.9647058844566345,
+        "b": 0.9647058844566345,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1328",
+        "name": "nbds/color/neutral/050"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:84",
+      "name": "nbds/color/button/foreground/secondary/pressed",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Secondary button fill, pressed.",
+      "value": {
+        "r": 0.8980392217636108,
+        "g": 0.9058823585510254,
+        "b": 0.9098039269447327,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1327",
+        "name": "nbds/color/neutral/100"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:85",
+      "name": "nbds/color/button/foreground/secondary/focused",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Secondary button fill, focused.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1329",
+        "name": "nbds/color/white"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:86",
+      "name": "nbds/color/button/foreground/secondary/disabled",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Secondary button fill, disabled.",
+      "value": {
+        "r": 0.9607843160629272,
+        "g": 0.9647058844566345,
+        "b": 0.9647058844566345,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1328",
+        "name": "nbds/color/neutral/050"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:87",
+      "name": "nbds/color/button/text/secondary/default",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Secondary button text, default.",
+      "value": {
+        "r": 0.08235294371843338,
+        "g": 0.0784313753247261,
+        "b": 0.08235294371843338,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1317",
+        "name": "nbds/color/neutral/950"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:88",
+      "name": "nbds/color/button/text/secondary/hovered",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Secondary button text, hovered.",
+      "value": {
+        "r": 0.08235294371843338,
+        "g": 0.0784313753247261,
+        "b": 0.08235294371843338,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1317",
+        "name": "nbds/color/neutral/950"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:89",
+      "name": "nbds/color/button/text/secondary/pressed",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Secondary button text, pressed.",
+      "value": {
+        "r": 0.10196078568696976,
+        "g": 0.10980392247438431,
+        "b": 0.11764705926179886,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:66",
+        "name": "nbds/color/neutral/900"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:90",
+      "name": "nbds/color/button/text/secondary/focused",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Secondary button text, focused.",
+      "value": {
+        "r": 0.08235294371843338,
+        "g": 0.0784313753247261,
+        "b": 0.08235294371843338,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1317",
+        "name": "nbds/color/neutral/950"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:91",
+      "name": "nbds/color/button/text/secondary/disabled",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Secondary button text, disabled.",
+      "value": {
+        "r": 0.45098039507865906,
+        "g": 0.48235294222831726,
+        "b": 0.5098039507865906,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7359:4580",
+        "name": "nbds/color/neutral/500"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:92",
+      "name": "nbds/color/button/icon/secondary/default",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Secondary button icon, default.",
+      "value": {
+        "r": 0.08235294371843338,
+        "g": 0.0784313753247261,
+        "b": 0.08235294371843338,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1317",
+        "name": "nbds/color/neutral/950"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:93",
+      "name": "nbds/color/button/icon/secondary/disabled",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Secondary button icon, disabled.",
+      "value": {
+        "r": 0.45098039507865906,
+        "g": 0.48235294222831726,
+        "b": 0.5098039507865906,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7359:4580",
+        "name": "nbds/color/neutral/500"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:94",
+      "name": "nbds/color/button/border/secondary/focused",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "STROKE_COLOR"
+      ],
+      "description": "Secondary button border, focused. Re-alias to focus ring after 3.4.",
+      "value": {
+        "r": 0.8117647171020508,
+        "g": 0.03921568766236305,
+        "b": 0.1725490242242813,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17032:4",
+        "name": "nbds/focus/ring/color/default"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:95",
+      "name": "nbds/color/button/border/secondary/disabled",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "STROKE_COLOR"
+      ],
+      "description": "Secondary button border, disabled.",
+      "value": {
+        "r": 0.6705882549285889,
+        "g": 0.6941176652908325,
+        "b": 0.7098039388656616,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1326",
+        "name": "nbds/color/neutral/300"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:96",
+      "name": "nbds/color/text/on-feedback/negative/bold",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Text on bold negative (red) feedback foregrounds. Guaranteed AA against feedback/foreground/negative/bold.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1329",
+        "name": "nbds/color/white"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:97",
+      "name": "nbds/color/text/on-feedback/negative/subtle",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Text on subtle negative foregrounds.",
+      "value": {
+        "r": 0.572549045085907,
+        "g": 0.027450980618596077,
+        "b": 0.12156862765550613,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:9001:80743",
+        "name": "nbds/color/red/700"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:98",
+      "name": "nbds/color/text/on-feedback/positive/bold",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Text on bold positive (green) feedback foregrounds.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1329",
+        "name": "nbds/color/white"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:99",
+      "name": "nbds/color/text/on-feedback/positive/subtle",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Text on subtle positive foregrounds.",
+      "value": {
+        "r": 0.03529411926865578,
+        "g": 0.32156863808631897,
+        "b": 0.1568627506494522,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:30",
+        "name": "nbds/color/green/700"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:100",
+      "name": "nbds/color/text/on-feedback/warning/bold",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Text on bold warning (amber) feedback foregrounds.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1329",
+        "name": "nbds/color/white"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:101",
+      "name": "nbds/color/text/on-feedback/warning/subtle",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Text on subtle warning foregrounds.",
+      "value": {
+        "r": 0.4274509847164154,
+        "g": 0.22745098173618317,
+        "b": 0.01568627543747425,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:48",
+        "name": "nbds/color/amber/700"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:102",
+      "name": "nbds/color/icon/on-feedback/negative/bold",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Icon on bold negative foregrounds.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1329",
+        "name": "nbds/color/white"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:103",
+      "name": "nbds/color/icon/on-feedback/negative/subtle",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Icon on subtle negative foregrounds.",
+      "value": {
+        "r": 0.572549045085907,
+        "g": 0.027450980618596077,
+        "b": 0.12156862765550613,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:9001:80743",
+        "name": "nbds/color/red/700"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:104",
+      "name": "nbds/color/icon/on-feedback/positive/bold",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Icon on bold positive foregrounds.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1329",
+        "name": "nbds/color/white"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:105",
+      "name": "nbds/color/icon/on-feedback/positive/subtle",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Icon on subtle positive foregrounds.",
+      "value": {
+        "r": 0.03529411926865578,
+        "g": 0.32156863808631897,
+        "b": 0.1568627506494522,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:30",
+        "name": "nbds/color/green/700"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:106",
+      "name": "nbds/color/icon/on-feedback/warning/bold",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Icon on bold warning foregrounds.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1329",
+        "name": "nbds/color/white"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17029:107",
+      "name": "nbds/color/icon/on-feedback/warning/subtle",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Icon on subtle warning foregrounds.",
+      "value": {
+        "r": 0.4274509847164154,
+        "g": 0.22745098173618317,
+        "b": 0.01568627543747425,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:48",
+        "name": "nbds/color/amber/700"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17045:4",
+      "name": "nbds/color/button/text/primary/default-inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Inverse-context sibling of nbds/color/button/text/primary/default. Use on dark surfaces.",
+      "value": {
+        "r": 0.08235294371843338,
+        "g": 0.0784313753247261,
+        "b": 0.08235294371843338,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1317",
+        "name": "nbds/color/neutral/950"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17045:5",
+      "name": "nbds/color/button/foreground/primary/default-inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Inverse-context sibling of nbds/color/button/foreground/primary/default. Use on dark surfaces.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1329",
+        "name": "nbds/color/white"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17045:6",
+      "name": "nbds/color/button/border/secondary/default-inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "STROKE_COLOR"
+      ],
+      "description": "Inverse-context sibling of nbds/color/button/border/secondary/default. Use on dark surfaces.",
+      "value": {
+        "r": 0.9607843160629272,
+        "g": 0.9647058844566345,
+        "b": 0.9647058844566345,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1328",
+        "name": "nbds/color/neutral/050"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17045:7",
+      "name": "nbds/color/button/foreground/primary/disabled-inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Inverse-context sibling of nbds/color/button/foreground/primary/disabled. Use on dark surfaces.",
+      "value": {
+        "r": 0.6705882549285889,
+        "g": 0.6941176652908325,
+        "b": 0.7098039388656616,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1326",
+        "name": "nbds/color/neutral/300"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17045:8",
+      "name": "nbds/color/button/text/primary/disabled-inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Inverse-context sibling of nbds/color/button/text/primary/disabled. Use on dark surfaces.",
+      "value": {
+        "r": 0.8980392217636108,
+        "g": 0.9058823585510254,
+        "b": 0.9098039269447327,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1327",
+        "name": "nbds/color/neutral/100"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17045:9",
+      "name": "nbds/color/button/foreground/primary/hovered-inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Inverse-context sibling of nbds/color/button/foreground/primary/hovered. Use on dark surfaces.",
+      "value": {
+        "r": 0.9607843160629272,
+        "g": 0.9647058844566345,
+        "b": 0.9647058844566345,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1328",
+        "name": "nbds/color/neutral/050"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17045:10",
+      "name": "nbds/color/button/foreground/primary/pressed-inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Inverse-context sibling of nbds/color/button/foreground/primary/pressed. Use on dark surfaces.",
+      "value": {
+        "r": 0.8980392217636108,
+        "g": 0.9058823585510254,
+        "b": 0.9098039269447327,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1327",
+        "name": "nbds/color/neutral/100"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17045:11",
+      "name": "nbds/color/button/border/secondary/hovered-inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "STROKE_COLOR"
+      ],
+      "description": "Inverse-context sibling of nbds/color/button/border/secondary/hovered. Use on dark surfaces.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1329",
+        "name": "nbds/color/white"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17045:12",
+      "name": "nbds/color/button/border/secondary/pressed-inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "STROKE_COLOR"
+      ],
+      "description": "Inverse-context sibling of nbds/color/button/border/secondary/pressed. Use on dark surfaces.",
+      "value": {
+        "r": 0.8980392217636108,
+        "g": 0.9058823585510254,
+        "b": 0.9098039269447327,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1327",
+        "name": "nbds/color/neutral/100"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17142:253782",
+      "name": "nbds/color/text/accent/inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "ALL_FILLS"
+      ],
+      "description": "Accent text colour on dark/inverted surfaces. Resolves to amber/300.",
+      "value": {
+        "r": 0.8313725590705872,
+        "g": 0.6313725709915161,
+        "b": 0.4745098054409027,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:42",
+        "name": "nbds/color/amber/300"
+      },
+      "codeSyntax": {}
+    }
+  ]
+}

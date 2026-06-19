@@ -1,0 +1,1078 @@
+{
+  "$collection": "typography",
+  "$mode": "desktop",
+  "variables": [
+    {
+      "id": "VariableID:11:69",
+      "name": "nbds/font/size/body/xs",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 12,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:68",
+        "name": "nbds/font/size/12"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:11:73",
+      "name": "nbds/font/size/body/md",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 16,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:70",
+        "name": "nbds/font/size/16"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:11:76",
+      "name": "nbds/font/size/body/lg",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 20,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:72",
+        "name": "nbds/font/size/20"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:11:81",
+      "name": "nbds/font/size/heading/xs",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 24,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:73",
+        "name": "nbds/font/size/24"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:11:84",
+      "name": "nbds/font/size/heading/sm",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 32,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:75",
+        "name": "nbds/font/size/32"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:11:87",
+      "name": "nbds/font/size/heading/md",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 40,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:76",
+        "name": "nbds/font/size/40"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:11:91",
+      "name": "nbds/font/size/heading/lg",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 48,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:77",
+        "name": "nbds/font/size/48"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:11:94",
+      "name": "nbds/font/size/heading/xl",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 60,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:78",
+        "name": "nbds/font/size/60"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:11:95",
+      "name": "nbds/font/lineheight/body/xs",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LINE_HEIGHT"
+      ],
+      "description": "",
+      "value": 1.5,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17193:8",
+        "name": "nbds/font/lineheight/1p5"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:11:99",
+      "name": "nbds/font/lineheight/body/md",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LINE_HEIGHT"
+      ],
+      "description": "",
+      "value": 1.5,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17193:8",
+        "name": "nbds/font/lineheight/1p5"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:11:102",
+      "name": "nbds/font/lineheight/body/lg",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LINE_HEIGHT"
+      ],
+      "description": "",
+      "value": 1.399999976158142,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17193:7",
+        "name": "nbds/font/lineheight/1p4"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:11:107",
+      "name": "nbds/font/lineheight/heading/xs",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LINE_HEIGHT"
+      ],
+      "description": "",
+      "value": 1.2000000476837158,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17193:5",
+        "name": "nbds/font/lineheight/1p2"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:11:110",
+      "name": "nbds/font/lineheight/heading/sm",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LINE_HEIGHT"
+      ],
+      "description": "",
+      "value": 1.2999999523162842,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17193:6",
+        "name": "nbds/font/lineheight/1p3"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:11:113",
+      "name": "nbds/font/lineheight/heading/md",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LINE_HEIGHT"
+      ],
+      "description": "",
+      "value": 1.2000000476837158,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17193:5",
+        "name": "nbds/font/lineheight/1p2"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:11:116",
+      "name": "nbds/font/lineheight/heading/lg",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LINE_HEIGHT"
+      ],
+      "description": "",
+      "value": 1.2000000476837158,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17193:5",
+        "name": "nbds/font/lineheight/1p2"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:11:119",
+      "name": "nbds/font/lineheight/heading/xl",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LINE_HEIGHT"
+      ],
+      "description": "",
+      "value": 1.100000023841858,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17193:4",
+        "name": "nbds/font/lineheight/1p1"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:11:120",
+      "name": "nbds/font/paragraph-spacing/body/lg",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "PARAGRAPH_SPACING"
+      ],
+      "description": "",
+      "value": 20,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17067:102663",
+        "name": "nbds/font/paragraph-spacing/20"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:11:124",
+      "name": "nbds/font/paragraph-spacing/body/md",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "PARAGRAPH_SPACING"
+      ],
+      "description": "",
+      "value": 16,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17067:102661",
+        "name": "nbds/font/paragraph-spacing/16"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:11:127",
+      "name": "nbds/font/paragraph-spacing/body/xs",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "PARAGRAPH_SPACING"
+      ],
+      "description": "",
+      "value": 16,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17067:102661",
+        "name": "nbds/font/paragraph-spacing/16"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:11:131",
+      "name": "nbds/font/paragraph-spacing/heading/xl",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "PARAGRAPH_SPACING"
+      ],
+      "description": "",
+      "value": 48,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17067:102669",
+        "name": "nbds/font/paragraph-spacing/48"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:11:135",
+      "name": "nbds/font/paragraph-spacing/heading/lg",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "PARAGRAPH_SPACING"
+      ],
+      "description": "",
+      "value": 40,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17067:102668",
+        "name": "nbds/font/paragraph-spacing/40"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:11:138",
+      "name": "nbds/font/paragraph-spacing/heading/md",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "PARAGRAPH_SPACING"
+      ],
+      "description": "",
+      "value": 36,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17067:102667",
+        "name": "nbds/font/paragraph-spacing/36"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:11:141",
+      "name": "nbds/font/paragraph-spacing/heading/sm",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "PARAGRAPH_SPACING"
+      ],
+      "description": "",
+      "value": 32,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17067:102666",
+        "name": "nbds/font/paragraph-spacing/32"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:11:144",
+      "name": "nbds/font/paragraph-spacing/heading/xs",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "PARAGRAPH_SPACING"
+      ],
+      "description": "",
+      "value": 28,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17067:102665",
+        "name": "nbds/font/paragraph-spacing/28"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:459:265",
+      "name": "nbds/font/lineheight/display/sm",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LINE_HEIGHT"
+      ],
+      "description": "",
+      "value": 1.100000023841858,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17193:4",
+        "name": "nbds/font/lineheight/1p1"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:459:269",
+      "name": "nbds/font/lineheight/display/md",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LINE_HEIGHT"
+      ],
+      "description": "",
+      "value": 1.100000023841858,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17193:4",
+        "name": "nbds/font/lineheight/1p1"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:459:273",
+      "name": "nbds/font/lineheight/display/lg",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LINE_HEIGHT"
+      ],
+      "description": "",
+      "value": 1.100000023841858,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17193:4",
+        "name": "nbds/font/lineheight/1p1"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:459:274",
+      "name": "nbds/font/size/display/sm",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 76,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:79",
+        "name": "nbds/font/size/76"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:459:278",
+      "name": "nbds/font/size/display/md",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 96,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:80",
+        "name": "nbds/font/size/96"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:459:282",
+      "name": "nbds/font/size/display/lg",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 120,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:81",
+        "name": "nbds/font/size/120"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:459:283",
+      "name": "nbds/font/paragraph-spacing/display/sm",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "PARAGRAPH_SPACING"
+      ],
+      "description": "",
+      "value": 56,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17067:102670",
+        "name": "nbds/font/paragraph-spacing/56"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:463:295",
+      "name": "nbds/font/paragraph-spacing/display/md",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "PARAGRAPH_SPACING"
+      ],
+      "description": "",
+      "value": 68,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17067:102671",
+        "name": "nbds/font/paragraph-spacing/68"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:463:299",
+      "name": "nbds/font/paragraph-spacing/display/lg",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "PARAGRAPH_SPACING"
+      ],
+      "description": "",
+      "value": 120,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17067:102672",
+        "name": "nbds/font/paragraph-spacing/120"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:463:393",
+      "name": "nbds/font/size/body/sm",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 14,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:69",
+        "name": "nbds/font/size/14"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:463:397",
+      "name": "nbds/font/lineheight/body/sm",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LINE_HEIGHT"
+      ],
+      "description": "",
+      "value": 1.399999976158142,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17193:7",
+        "name": "nbds/font/lineheight/1p4"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:463:401",
+      "name": "nbds/font/paragraph-spacing/body/sm",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "PARAGRAPH_SPACING"
+      ],
+      "description": "",
+      "value": 16,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17067:102661",
+        "name": "nbds/font/paragraph-spacing/16"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10633",
+      "name": "nbds/font/size/label/xs",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 12,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:68",
+        "name": "nbds/font/size/12"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10634",
+      "name": "nbds/font/size/label/sm",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 14,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:69",
+        "name": "nbds/font/size/14"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10635",
+      "name": "nbds/font/size/label/md",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 16,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:70",
+        "name": "nbds/font/size/16"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10636",
+      "name": "nbds/font/size/label/lg",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 20,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:72",
+        "name": "nbds/font/size/20"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:4",
+      "name": "nbds/font/family/display",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_FAMILY"
+      ],
+      "description": "Display headlines (oversized brand moments).",
+      "value": "ITC Garamond Std",
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:11:157",
+        "name": "nbds/font/family/itc-garamond-std"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:5",
+      "name": "nbds/font/family/heading",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_FAMILY"
+      ],
+      "description": "Page and section headings.",
+      "value": "ITC Garamond Std",
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:11:157",
+        "name": "nbds/font/family/itc-garamond-std"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:6",
+      "name": "nbds/font/family/body",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_FAMILY"
+      ],
+      "description": "Body copy, paragraphs.",
+      "value": "Proxima Nova",
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:11:161",
+        "name": "nbds/font/family/proxima-nova"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:7",
+      "name": "nbds/font/family/label",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_FAMILY"
+      ],
+      "description": "Form labels, captions, metadata.",
+      "value": "Proxima Nova",
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:11:161",
+        "name": "nbds/font/family/proxima-nova"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:8",
+      "name": "nbds/font/weight/display/default",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_STYLE"
+      ],
+      "description": "Display weight.",
+      "value": "Light Condensed",
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:103:507",
+        "name": "nbds/font/weight/light-condensed"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:9",
+      "name": "nbds/font/weight/heading/default",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_STYLE"
+      ],
+      "description": "Heading weight.",
+      "value": "Book Condensed",
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:6318:409",
+        "name": "nbds/font/weight/book-condensed"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:10",
+      "name": "nbds/font/weight/heading/strong",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_STYLE"
+      ],
+      "description": "Emphasised heading weight.",
+      "value": "medium",
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:11:153",
+        "name": "nbds/font/weight/medium"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:11",
+      "name": "nbds/font/weight/body/default",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_STYLE"
+      ],
+      "description": "Body weight.",
+      "value": "regular",
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:11:149",
+        "name": "nbds/font/weight/regular"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:12",
+      "name": "nbds/font/weight/body/strong",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_STYLE"
+      ],
+      "description": "Emphasised body weight.",
+      "value": "medium",
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:11:153",
+        "name": "nbds/font/weight/medium"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:13",
+      "name": "nbds/font/weight/label/default",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_STYLE"
+      ],
+      "description": "Label weight.",
+      "value": "regular",
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:11:149",
+        "name": "nbds/font/weight/regular"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:14",
+      "name": "nbds/font/weight/label/strong",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_STYLE"
+      ],
+      "description": "Emphasised label weight.",
+      "value": "medium",
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:11:153",
+        "name": "nbds/font/weight/medium"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:15",
+      "name": "nbds/font/size/display/xs",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "Display xs (60/48).",
+      "value": 60,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:78",
+        "name": "nbds/font/size/60"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:16",
+      "name": "nbds/font/lineheight/display/xs",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LINE_HEIGHT"
+      ],
+      "description": "Display xs line-height.",
+      "value": 1.100000023841858,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17193:4",
+        "name": "nbds/font/lineheight/1p1"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:17",
+      "name": "nbds/font/paragraph-spacing/display/xs",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "PARAGRAPH_SPACING"
+      ],
+      "description": "Display xs paragraph spacing.",
+      "value": 48,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17067:102669",
+        "name": "nbds/font/paragraph-spacing/48"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:18",
+      "name": "nbds/font/lineheight/label/xs",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LINE_HEIGHT"
+      ],
+      "description": "Label xs line-height.",
+      "value": 1.2999999523162842,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17193:6",
+        "name": "nbds/font/lineheight/1p3"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:19",
+      "name": "nbds/font/lineheight/label/sm",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LINE_HEIGHT"
+      ],
+      "description": "Label sm line-height.",
+      "value": 1.2999999523162842,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17193:6",
+        "name": "nbds/font/lineheight/1p3"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:20",
+      "name": "nbds/font/lineheight/label/md",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LINE_HEIGHT"
+      ],
+      "description": "Label md line-height.",
+      "value": 1.2999999523162842,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17193:6",
+        "name": "nbds/font/lineheight/1p3"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:21",
+      "name": "nbds/font/lineheight/label/lg",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LINE_HEIGHT"
+      ],
+      "description": "Label lg line-height.",
+      "value": 1.2000000476837158,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17193:5",
+        "name": "nbds/font/lineheight/1p2"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:22",
+      "name": "nbds/font/paragraph-spacing/label/xs",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "PARAGRAPH_SPACING"
+      ],
+      "description": "Label xs paragraph spacing.",
+      "value": 16,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17067:102661",
+        "name": "nbds/font/paragraph-spacing/16"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:23",
+      "name": "nbds/font/paragraph-spacing/label/sm",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "PARAGRAPH_SPACING"
+      ],
+      "description": "Label sm paragraph spacing.",
+      "value": 18,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17067:102662",
+        "name": "nbds/font/paragraph-spacing/18"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:24",
+      "name": "nbds/font/paragraph-spacing/label/md",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "PARAGRAPH_SPACING"
+      ],
+      "description": "Label md paragraph spacing.",
+      "value": 20,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17067:102663",
+        "name": "nbds/font/paragraph-spacing/20"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:25",
+      "name": "nbds/font/paragraph-spacing/label/lg",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "PARAGRAPH_SPACING"
+      ],
+      "description": "Label lg paragraph spacing.",
+      "value": 24,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17067:102664",
+        "name": "nbds/font/paragraph-spacing/24"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:26",
+      "name": "nbds/font/letterspacing/display/default",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LETTER_SPACING"
+      ],
+      "description": "Display letterspacing.",
+      "value": -0.019999999552965164,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:95",
+        "name": "nbds/font/letterspacing/tight"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:27",
+      "name": "nbds/font/letterspacing/heading/default",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LETTER_SPACING"
+      ],
+      "description": "Heading letterspacing.",
+      "value": 0,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:96",
+        "name": "nbds/font/letterspacing/normal"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:28",
+      "name": "nbds/font/letterspacing/body/default",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LETTER_SPACING"
+      ],
+      "description": "Body letterspacing.",
+      "value": 0,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:96",
+        "name": "nbds/font/letterspacing/normal"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:29",
+      "name": "nbds/font/letterspacing/label/default",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LETTER_SPACING"
+      ],
+      "description": "Label letterspacing (slightly wide for legibility).",
+      "value": 0.03999999910593033,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:97",
+        "name": "nbds/font/letterspacing/wide"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17318:804470",
+      "name": "nbds/font/weight/heading/light",
+      "resolvedType": "STRING",
+      "scopes": [
+        "ALL_SCOPES"
+      ],
+      "description": "",
+      "value": "Light Condensed",
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:103:507",
+        "name": "nbds/font/weight/light-condensed"
+      },
+      "codeSyntax": {}
+    }
+  ]
+}

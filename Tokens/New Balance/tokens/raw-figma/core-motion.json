@@ -1,0 +1,136 @@
+{
+  "$collection": "core-motion",
+  "$mode": "Mode 1",
+  "variables": [
+    {
+      "id": "VariableID:17027:99",
+      "name": "nbds/motion/duration/0",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "0ms duration primitive.",
+      "value": 0,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:100",
+      "name": "nbds/motion/duration/50",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "50ms duration primitive.",
+      "value": 50,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:101",
+      "name": "nbds/motion/duration/100",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "100ms duration primitive.",
+      "value": 100,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:102",
+      "name": "nbds/motion/duration/150",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "150ms duration primitive.",
+      "value": 150,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:103",
+      "name": "nbds/motion/duration/200",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "200ms duration primitive.",
+      "value": 200,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:104",
+      "name": "nbds/motion/duration/300",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "300ms duration primitive.",
+      "value": 300,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:105",
+      "name": "nbds/motion/duration/500",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "500ms duration primitive.",
+      "value": 500,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:106",
+      "name": "nbds/motion/duration/800",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "800ms duration primitive.",
+      "value": 800,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:107",
+      "name": "nbds/motion/easing/linear",
+      "resolvedType": "STRING",
+      "scopes": [],
+      "description": "Easing primitive: linear.",
+      "value": "linear",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:108",
+      "name": "nbds/motion/easing/ease-in",
+      "resolvedType": "STRING",
+      "scopes": [],
+      "description": "Easing primitive: ease-in.",
+      "value": "cubic-bezier(0.42, 0, 1, 1)",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:109",
+      "name": "nbds/motion/easing/ease-out",
+      "resolvedType": "STRING",
+      "scopes": [],
+      "description": "Easing primitive: ease-out.",
+      "value": "cubic-bezier(0, 0, 0.58, 1)",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:110",
+      "name": "nbds/motion/easing/ease-in-out",
+      "resolvedType": "STRING",
+      "scopes": [],
+      "description": "Easing primitive: ease-in-out.",
+      "value": "cubic-bezier(0.42, 0, 0.58, 1)",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:111",
+      "name": "nbds/motion/easing/fast-out-slow-in",
+      "resolvedType": "STRING",
+      "scopes": [],
+      "description": "Easing primitive: emphasized.",
+      "value": "cubic-bezier(0.2, 0, 0, 1)",
+      "alias": null,
+      "codeSyntax": {}
+    }
+  ]
+}

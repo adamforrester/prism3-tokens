@@ -1,0 +1,762 @@
+{
+  "nbds": {
+    "pds": {
+      "grid": {
+        "sm": {
+          "fluid": {
+            "columns": {
+              "$type": "number",
+              "$value": "{pds.grid.columns.2}",
+              "$description": "SM fluid grid columns; mobile layouts.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7728:35489",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "gutter": {
+              "$type": "dimension",
+              "$value": "{pds.grid.gutter.16}",
+              "$description": "SM fluid grid gutter; mobile spacing.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7728:35510",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "margin": {
+              "$type": "dimension",
+              "$value": "{pds.grid.margin.16}",
+              "$description": "SM fluid grid margin; mobile edge spacing.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7728:35511",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "containermax": {
+              "$type": "dimension",
+              "$value": "{pds.grid.containermax.full}",
+              "$description": "SM fluid grid max width; full viewport.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7728:35512",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          },
+          "fixed": {
+            "columns": {
+              "$type": "number",
+              "$value": "{pds.grid.columns.2}",
+              "$description": "SM fixed grid columns; mobile fixed layouts.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7743:10398",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "gutter": {
+              "$type": "dimension",
+              "$value": "{pds.grid.gutter.16}",
+              "$description": "SM fixed grid gutter; mobile fixed spacing.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7743:10399",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "margin": {
+              "$type": "dimension",
+              "$value": "{pds.grid.margin.16}",
+              "$description": "SM fixed grid margin; mobile fixed edge spacing.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7743:10400",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "columnwidth": {
+              "$type": "dimension",
+              "$value": "{pds.grid.columnwidth.163}",
+              "$description": "SM fixed column width; mobile fixed columns.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7743:10401",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          }
+        },
+        "md": {
+          "fluid": {
+            "columns": {
+              "$type": "number",
+              "$value": "{pds.grid.columns.4}",
+              "$description": "MD fluid grid columns; tablet layouts.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7743:10402",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "gutter": {
+              "$type": "dimension",
+              "$value": "{pds.grid.gutter.16}",
+              "$description": "MD fluid grid gutter; tablet spacing.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7743:10403",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "margin": {
+              "$type": "dimension",
+              "$value": "{pds.grid.margin.16}",
+              "$description": "MD fluid grid margin; tablet edge spacing.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7743:10404",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "containermax": {
+              "$type": "dimension",
+              "$value": "{pds.grid.containermax.full}",
+              "$description": "MD fluid grid max width; full viewport.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7743:10405",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          },
+          "fixed": {
+            "columns": {
+              "$type": "number",
+              "$value": "{pds.grid.columns.4}",
+              "$description": "MD fixed grid columns; tablet fixed layouts.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7743:10406",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "gutter": {
+              "$type": "dimension",
+              "$value": "{pds.grid.gutter.16}",
+              "$description": "MD fixed grid gutter; tablet fixed spacing.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7743:10407",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "margin": {
+              "$type": "dimension",
+              "$value": "{pds.grid.margin.16}",
+              "$description": "MD fixed grid margin; tablet fixed edge spacing.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7743:10408",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "columnwidth": {
+              "$type": "dimension",
+              "$value": "{pds.grid.columnwidth.130}",
+              "$description": "MD fixed column width; tablet fixed columns.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7743:10409",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          }
+        },
+        "lg": {
+          "fluid": {
+            "columns": {
+              "$type": "number",
+              "$value": "{pds.grid.columns.8}",
+              "$description": "LG fluid grid columns; desktop layouts.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7743:10410",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "gutter": {
+              "$type": "dimension",
+              "$value": "{pds.grid.gutter.24}",
+              "$description": "LG fluid grid gutter; desktop spacing.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7743:10411",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "margin": {
+              "$type": "dimension",
+              "$value": "{pds.grid.margin.24}",
+              "$description": "LG fluid grid margin; desktop edge spacing.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7743:10412",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "containermax": {
+              "$type": "dimension",
+              "$value": "{pds.grid.containermax.full}",
+              "$description": "LG fluid grid max width; full viewport.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7743:10413",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          },
+          "fixed": {
+            "columns": {
+              "$type": "number",
+              "$value": "{pds.grid.columns.8}",
+              "$description": "LG fixed grid columns; desktop fixed layouts.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7743:10414",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "gutter": {
+              "$type": "dimension",
+              "$value": "{pds.grid.gutter.24}",
+              "$description": "LG fixed grid gutter; desktop fixed spacing.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7743:10415",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "margin": {
+              "$type": "dimension",
+              "$value": "{pds.grid.margin.24}",
+              "$description": "LG fixed grid margin; desktop fixed edge spacing.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7743:10416",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "columnwidth": {
+              "$type": "dimension",
+              "$value": "{pds.grid.columnwidth.85}",
+              "$description": "LG fixed column width; desktop fixed columns.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7743:10417",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          }
+        },
+        "xl": {
+          "fluid": {
+            "columns": {
+              "$type": "number",
+              "$value": "{pds.grid.columns.12}",
+              "$description": "XL fluid grid columns; wide desktop layouts.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7743:10418",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "gutter": {
+              "$type": "dimension",
+              "$value": "{pds.grid.gutter.24}",
+              "$description": "XL fluid grid gutter; wide desktop spacing.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7743:10419",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "margin": {
+              "$type": "dimension",
+              "$value": "{pds.grid.margin.24}",
+              "$description": "XL fluid grid margin; wide desktop edge spacing.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7743:10420",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "containermax": {
+              "$type": "dimension",
+              "$value": "{pds.grid.containermax.full}",
+              "$description": "XL fluid grid max width; full viewport.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7743:10421",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          },
+          "fixed": {
+            "columns": {
+              "$type": "number",
+              "$value": "{pds.grid.columns.12}",
+              "$description": "XL fixed grid columns; wide desktop fixed layouts.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7743:10422",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "gutter": {
+              "$type": "dimension",
+              "$value": "{pds.grid.gutter.24}",
+              "$description": "XL fixed grid gutter; wide desktop fixed spacing.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7743:10423",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "margin": {
+              "$type": "dimension",
+              "$value": "{pds.grid.margin.24}",
+              "$description": "XL fixed grid margin; wide desktop fixed edge spacing.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7743:10424",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "columnwidth": {
+              "$type": "dimension",
+              "$value": "{pds.grid.columnwidth.74}",
+              "$description": "XL fixed column width; wide desktop fixed columns.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7743:10425",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          }
+        },
+        "xs": {
+          "fluid": {
+            "columns": {
+              "$type": "number",
+              "$value": "{pds.grid.columns.2}",
+              "$description": "XS fluid grid columns; mobile layouts.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:8395:50812",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "gutter": {
+              "$type": "dimension",
+              "$value": "{pds.grid.gutter.16}",
+              "$description": "XS fluid grid gutter; mobile spacing.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:8395:50813",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "margin": {
+              "$type": "dimension",
+              "$value": "{pds.grid.margin.16}",
+              "$description": "XS fluid grid margin; mobile edge spacing.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:8395:50814",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "containermax": {
+              "$type": "dimension",
+              "$value": "{pds.grid.containermax.full}",
+              "$description": "XS fluid grid max width; full viewport.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:8395:50815",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          },
+          "fixed": {
+            "columns": {
+              "$type": "number",
+              "$value": "{pds.grid.columns.2}",
+              "$description": "XS fixed grid columns; mobile fixed layouts.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:8395:50816",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "gutter": {
+              "$type": "dimension",
+              "$value": "{pds.grid.gutter.16}",
+              "$description": "XS fixed grid gutter; mobile fixed spacing.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:8395:50817",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "margin": {
+              "$type": "dimension",
+              "$value": "{pds.grid.margin.16}",
+              "$description": "XS fixed grid margin; mobile fixed edge spacing.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:8395:50818",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "columnwidth": {
+              "$type": "dimension",
+              "$value": "{pds.grid.columnwidth.163}",
+              "$description": "XS fixed column width; mobile fixed columns.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:8395:50819",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          }
+        },
+        "2xl": {
+          "fluid": {
+            "columns": {
+              "$type": "number",
+              "$value": "{pds.grid.columns.12}",
+              "$description": "XL fluid grid columns; wide desktop layouts.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:8395:50820",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "gutter": {
+              "$type": "dimension",
+              "$value": "{pds.grid.gutter.32}",
+              "$description": "XL fluid grid gutter; wide desktop spacing.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:8395:50821",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "margin": {
+              "$type": "dimension",
+              "$value": "{pds.grid.margin.48}",
+              "$description": "XL fluid grid margin; wide desktop edge spacing.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:8395:50822",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "containermax": {
+              "$type": "dimension",
+              "$value": "{pds.grid.containermax.full}",
+              "$description": "XL fluid grid max width; full viewport.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:8395:50823",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          },
+          "fixed": {
+            "columns": {
+              "$type": "number",
+              "$value": "{pds.grid.columns.12}",
+              "$description": "XL fixed grid columns; wide desktop fixed layouts.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:8395:50824",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "gutter": {
+              "$type": "dimension",
+              "$value": "{pds.grid.gutter.32}",
+              "$description": "XL fixed grid gutter; wide desktop fixed spacing.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:8395:50825",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "margin": {
+              "$type": "dimension",
+              "$value": "{pds.grid.margin.48}",
+              "$description": "XL fixed grid margin; wide desktop fixed edge spacing.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:8395:50826",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "columnwidth": {
+              "$type": "dimension",
+              "$value": "{pds.grid.columnwidth.74}",
+              "$description": "XL fixed column width; wide desktop fixed columns.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:8395:50827",
+                  "collection": "VariableCollectionId:7728:35488",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          }
+        }
+      },
+      "breakpoint": {
+        "sm": {
+          "$type": "dimension",
+          "$value": "{pds.breakpoint.390}",
+          "$description": "SM breakpoint; small mobile screens.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7728:35505",
+              "collection": "VariableCollectionId:7728:35488",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "md": {
+          "$type": "dimension",
+          "$value": "{pds.breakpoint.768}",
+          "$description": "MD breakpoint; tablets and large phones.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7728:35506",
+              "collection": "VariableCollectionId:7728:35488",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "lg": {
+          "$type": "dimension",
+          "$value": "{pds.breakpoint.1024}",
+          "$description": "LG breakpoint; small desktops.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7728:35507",
+              "collection": "VariableCollectionId:7728:35488",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "xl": {
+          "$type": "dimension",
+          "$value": "{pds.breakpoint.1440}",
+          "$description": "XL breakpoint; standard desktops.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7728:35508",
+              "collection": "VariableCollectionId:7728:35488",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "2xl": {
+          "$type": "dimension",
+          "$value": "{pds.breakpoint.1920}",
+          "$description": "2XL breakpoint; large desktops.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7728:35509",
+              "collection": "VariableCollectionId:7728:35488",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "xs": {
+          "$type": "dimension",
+          "$value": "{pds.breakpoint.0}",
+          "$description": "XS breakpoint; Extra small screens.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8395:50830",
+              "collection": "VariableCollectionId:7728:35488",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        }
+      }
+    }
+  },
+  "$extensions": {
+    "generator": {
+      "name": "Token Press",
+      "version": "2.3.1"
+    },
+    "figma": {
+      "collection": {
+        "id": "VariableCollectionId:7728:35488",
+        "name": "grids-layouts",
+        "defaultModeId": "7728:0"
+      },
+      "mode": "Mode 1"
+    }
+  }
+}

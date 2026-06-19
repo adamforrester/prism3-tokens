@@ -1,0 +1,372 @@
+{
+  "nbds": {
+    "shadow": {
+      "xs": {
+        "default": {
+          "$type": "shadow",
+          "$value": [
+            {
+              "color": "rgba(0, 0, 0, 0.2)",
+              "offsetX": "0px",
+              "offsetY": "1px",
+              "blur": "4px",
+              "spread": "1px"
+            },
+            {
+              "color": "rgba(0, 0, 0, 0.3)",
+              "offsetX": "0px",
+              "offsetY": "1px",
+              "blur": "2px",
+              "spread": "0px"
+            }
+          ],
+          "$description": "XS elevation shadow; subtle depth for extra small elements.",
+          "$extensions": {
+            "figma": {
+              "styleId": "S:06aa5e9ae5dd31e1f250fe92460e8df7653d5cac,",
+              "effectTypes": [
+                "DROP_SHADOW",
+                "DROP_SHADOW"
+              ]
+            }
+          }
+        },
+        "inverse": {
+          "$type": "shadow",
+          "$value": [
+            {
+              "color": "rgba(0, 0, 0, 0.3)",
+              "offsetX": "0px",
+              "offsetY": "1px",
+              "blur": "2px",
+              "spread": "0px"
+            },
+            {
+              "color": "rgba(0, 0, 0, 0.2)",
+              "offsetX": "0px",
+              "offsetY": "1px",
+              "blur": "4px",
+              "spread": "1px"
+            }
+          ],
+          "$description": "Subtle depth for inverted surfaces.",
+          "$extensions": {
+            "figma": {
+              "styleId": "S:4e95ff3c2b0986c1a4b49b5161e96b7a6a81413a,",
+              "effectTypes": [
+                "DROP_SHADOW",
+                "DROP_SHADOW"
+              ]
+            }
+          }
+        }
+      },
+      "sm": {
+        "default": {
+          "$type": "shadow",
+          "$value": [
+            {
+              "color": "rgba(0, 0, 0, 0.2)",
+              "offsetX": "0px",
+              "offsetY": "2px",
+              "blur": "8px",
+              "spread": "0px"
+            },
+            {
+              "color": "rgba(0, 0, 0, 0.2)",
+              "offsetX": "0px",
+              "offsetY": "1px",
+              "blur": "2px",
+              "spread": "-2px"
+            }
+          ],
+          "$description": "SM elevation shadow; moderate depth for small elements.",
+          "$extensions": {
+            "figma": {
+              "styleId": "S:32832d3f640082ed579cfa9d89bb6103e659f97d,",
+              "effectTypes": [
+                "DROP_SHADOW",
+                "DROP_SHADOW"
+              ]
+            }
+          }
+        },
+        "inverse": {
+          "$type": "shadow",
+          "$value": [
+            {
+              "color": "rgba(0, 0, 0, 0.4)",
+              "offsetX": "0px",
+              "offsetY": "1px",
+              "blur": "2px",
+              "spread": "2px"
+            },
+            {
+              "color": "rgba(0, 0, 0, 0.3)",
+              "offsetX": "0px",
+              "offsetY": "2px",
+              "blur": "6px",
+              "spread": "2px"
+            }
+          ],
+          "$description": "SM inverse shadow; moderate depth for small elements for inverted surfaces.",
+          "$extensions": {
+            "figma": {
+              "styleId": "S:301b05d6871c61a1625d20411ab2d4ffde55d16e,",
+              "effectTypes": [
+                "DROP_SHADOW",
+                "DROP_SHADOW"
+              ]
+            }
+          }
+        }
+      },
+      "md": {
+        "default": {
+          "$type": "shadow",
+          "$value": [
+            {
+              "color": "rgba(0, 0, 0, 0.3)",
+              "offsetX": "0px",
+              "offsetY": "6px",
+              "blur": "16px",
+              "spread": "-4px"
+            },
+            {
+              "color": "rgba(0, 0, 0, 0.1)",
+              "offsetX": "0px",
+              "offsetY": "4px",
+              "blur": "12px",
+              "spread": "-2px"
+            }
+          ],
+          "$description": "MD elevation shadow; prominent depth for medium elements.",
+          "$extensions": {
+            "figma": {
+              "styleId": "S:31586af9f0c28a64869dff7cb19033e6061117fd,",
+              "effectTypes": [
+                "DROP_SHADOW",
+                "DROP_SHADOW"
+              ]
+            }
+          }
+        },
+        "inverse": {
+          "$type": "shadow",
+          "$value": [
+            {
+              "color": "rgba(0, 0, 0, 0.4)",
+              "offsetX": "0px",
+              "offsetY": "6px",
+              "blur": "16px",
+              "spread": "4px"
+            },
+            {
+              "color": "rgba(0, 0, 0, 0.3)",
+              "offsetX": "0px",
+              "offsetY": "4px",
+              "blur": "8px",
+              "spread": "2px"
+            }
+          ],
+          "$description": "MD inverse shadow; prominent depth for medium elements for inverted surfaces.",
+          "$extensions": {
+            "figma": {
+              "styleId": "S:c41c7c9d717cbbe65b315c0d8235a8ab2118845d,",
+              "effectTypes": [
+                "DROP_SHADOW",
+                "DROP_SHADOW"
+              ]
+            }
+          }
+        }
+      },
+      "lg": {
+        "default": {
+          "$type": "shadow",
+          "$value": [
+            {
+              "color": "rgba(0, 0, 0, 0.2)",
+              "offsetX": "0px",
+              "offsetY": "8px",
+              "blur": "24px",
+              "spread": "2px"
+            },
+            {
+              "color": "rgba(0, 0, 0, 0.1)",
+              "offsetX": "0px",
+              "offsetY": "8px",
+              "blur": "12px",
+              "spread": "-2px"
+            }
+          ],
+          "$description": "LG elevation shadow; strong depth for large elements.",
+          "$extensions": {
+            "figma": {
+              "styleId": "S:af9c92dad66653008c48393c5777fab9ca00f51e,",
+              "effectTypes": [
+                "DROP_SHADOW",
+                "DROP_SHADOW"
+              ]
+            }
+          }
+        },
+        "inverse": {
+          "$type": "shadow",
+          "$value": [
+            {
+              "color": "rgba(0, 0, 0, 0.5)",
+              "offsetX": "0px",
+              "offsetY": "8px",
+              "blur": "32px",
+              "spread": "12px"
+            },
+            {
+              "color": "rgba(0, 0, 0, 0.3)",
+              "offsetX": "0px",
+              "offsetY": "8px",
+              "blur": "12px",
+              "spread": "2px"
+            }
+          ],
+          "$description": "LG inverse shadow; strong depth for large elements for inverted surfaces.",
+          "$extensions": {
+            "figma": {
+              "styleId": "S:6f6d91ebb1d12e2dd34806044fa718b4773838a6,",
+              "effectTypes": [
+                "DROP_SHADOW",
+                "DROP_SHADOW"
+              ]
+            }
+          }
+        }
+      },
+      "xl": {
+        "default": {
+          "$type": "shadow",
+          "$value": [
+            {
+              "color": "rgba(0, 0, 0, 0.3)",
+              "offsetX": "0px",
+              "offsetY": "12px",
+              "blur": "36px",
+              "spread": "2px"
+            },
+            {
+              "color": "rgba(0, 0, 0, 0.1)",
+              "offsetX": "0px",
+              "offsetY": "6px",
+              "blur": "8px",
+              "spread": "-4px"
+            }
+          ],
+          "$description": "XL elevation shadow; dramatic depth for extra large elements.",
+          "$extensions": {
+            "figma": {
+              "styleId": "S:6dce4475dd595b4b14482ce13e53bbc3124b9bea,",
+              "effectTypes": [
+                "DROP_SHADOW",
+                "DROP_SHADOW"
+              ]
+            }
+          }
+        },
+        "inverse": {
+          "$type": "shadow",
+          "$value": [
+            {
+              "color": "rgb(0, 0, 0)",
+              "offsetX": "0px",
+              "offsetY": "12px",
+              "blur": "36px",
+              "spread": "2px"
+            },
+            {
+              "color": "rgba(0, 0, 0, 0.3)",
+              "offsetX": "0px",
+              "offsetY": "8px",
+              "blur": "12px",
+              "spread": "2px"
+            }
+          ],
+          "$description": "XL inverse shadow; dramatic depth for extra large elements for inverted surfaces.",
+          "$extensions": {
+            "figma": {
+              "styleId": "S:96aa1ff516300f116f47d82752d6a20b6a2187f8,",
+              "effectTypes": [
+                "DROP_SHADOW",
+                "DROP_SHADOW"
+              ]
+            }
+          }
+        }
+      },
+      "2xl": {
+        "default": {
+          "$type": "shadow",
+          "$value": [
+            {
+              "color": "rgba(0, 0, 0, 0.1)",
+              "offsetX": "0px",
+              "offsetY": "20px",
+              "blur": "88px",
+              "spread": "-4px"
+            },
+            {
+              "color": "rgba(0, 0, 0, 0.1)",
+              "offsetX": "0px",
+              "offsetY": "8px",
+              "blur": "32px",
+              "spread": "-6px"
+            }
+          ],
+          "$description": "2XL elevation shadow; maximum depth for largest elements.",
+          "$extensions": {
+            "figma": {
+              "styleId": "S:941d0409ef9a5c85f7337602f9f8f390c3aa2db9,",
+              "effectTypes": [
+                "DROP_SHADOW",
+                "DROP_SHADOW"
+              ]
+            }
+          }
+        },
+        "inverse": {
+          "$type": "shadow",
+          "$value": [
+            {
+              "color": "rgb(0, 0, 0)",
+              "offsetX": "0px",
+              "offsetY": "20px",
+              "blur": "88px",
+              "spread": "-4px"
+            },
+            {
+              "color": "rgb(0, 0, 0)",
+              "offsetX": "0px",
+              "offsetY": "8px",
+              "blur": "32px",
+              "spread": "-6px"
+            }
+          ],
+          "$description": "2XL inverse shadow; maximum depth for largest elements for inverted surfaces.",
+          "$extensions": {
+            "figma": {
+              "styleId": "S:1e2e8ad46f28daeb9a347f04701ded17f147603f,",
+              "effectTypes": [
+                "DROP_SHADOW",
+                "DROP_SHADOW"
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "$extensions": {
+    "generator": {
+      "name": "Token Press",
+      "version": "2.3.1"
+    }
+  }
+}

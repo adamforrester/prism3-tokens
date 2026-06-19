@@ -1,0 +1,86 @@
+{
+  "$collection": "radius",
+  "$mode": "Mode 1",
+  "variables": [
+    {
+      "id": "VariableID:14:326",
+      "name": "nbds/radius/none",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "CORNER_RADIUS"
+      ],
+      "description": "",
+      "value": 0,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:747:10573",
+        "name": "nbds/dimension/0"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:14:330",
+      "name": "nbds/radius/sm",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "CORNER_RADIUS"
+      ],
+      "description": "",
+      "value": 2,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:747:10563",
+        "name": "nbds/dimension/2"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:14:333",
+      "name": "nbds/radius/md",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "CORNER_RADIUS"
+      ],
+      "description": "",
+      "value": 4,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:747:10553",
+        "name": "nbds/dimension/4"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:266:2190",
+      "name": "nbds/radius/round",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "CORNER_RADIUS"
+      ],
+      "description": "",
+      "value": 128,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:747:10557",
+        "name": "nbds/dimension/128"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17363:696379",
+      "name": "nbds/radius/lg",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "CORNER_RADIUS"
+      ],
+      "description": "",
+      "value": 6,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:747:10562",
+        "name": "nbds/dimension/6"
+      },
+      "codeSyntax": {}
+    }
+  ]
+}

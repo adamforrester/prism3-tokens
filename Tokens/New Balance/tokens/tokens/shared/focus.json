@@ -1,0 +1,84 @@
+{
+  "nbds": {
+    "focus": {
+      "ring": {
+        "width": {
+          "$type": "dimension",
+          "$value": "{nbds.dimension.2}",
+          "$description": "Focus ring thickness (2px).",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17031:28",
+              "collection": "VariableCollectionId:17028:7",
+              "scopes": [
+                "STROKE_FLOAT"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "offset": {
+          "$type": "dimension",
+          "$value": "{nbds.dimension.2}",
+          "$description": "Focus ring outset from element edge (2px).",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17031:29",
+              "collection": "VariableCollectionId:17028:7",
+              "scopes": [
+                "WIDTH_HEIGHT"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "color": {
+          "default": {
+            "$type": "color",
+            "$value": "{nbds.color.red.550}",
+            "$description": "Focus ring colour on light foregrounds (NB Red).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17032:4",
+                "collection": "VariableCollectionId:17028:7",
+                "scopes": [
+                  "STROKE_COLOR"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "inverse": {
+            "$type": "color",
+            "$value": "{nbds.color.white}",
+            "$description": "Focus ring colour on dark foregrounds.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17032:5",
+                "collection": "VariableCollectionId:17028:7",
+                "scopes": [
+                  "STROKE_COLOR"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$extensions": {
+    "generator": {
+      "name": "Token Press",
+      "version": "2.3.1"
+    },
+    "figma": {
+      "collection": {
+        "id": "VariableCollectionId:17028:7",
+        "name": "focus",
+        "defaultModeId": "17028:3"
+      },
+      "mode": "Mode 1"
+    }
+  }
+}

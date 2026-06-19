@@ -1,0 +1,418 @@
+{
+  "nbds": {
+    "pds": {
+      "space": {
+        "0": {
+          "$type": "dimension",
+          "$value": "{pds.dimension.0}",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:73:3",
+              "collection": "VariableCollectionId:73:2",
+              "scopes": [
+                "WIDTH_HEIGHT",
+                "GAP"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "100": {
+          "$type": "dimension",
+          "$value": "{pds.dimension.8}",
+          "$description": "Small spacing; compact gap.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:73:7",
+              "collection": "VariableCollectionId:73:2",
+              "scopes": [
+                "WIDTH_HEIGHT",
+                "GAP"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "150": {
+          "$type": "dimension",
+          "$value": "{pds.dimension.12}",
+          "$description": "Small-medium spacing; comfortable gap.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:73:8",
+              "collection": "VariableCollectionId:73:2",
+              "scopes": [
+                "WIDTH_HEIGHT",
+                "GAP"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "200": {
+          "$type": "dimension",
+          "$value": "{pds.dimension.16}",
+          "$description": "Medium spacing; standard gap.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:73:9",
+              "collection": "VariableCollectionId:73:2",
+              "scopes": [
+                "WIDTH_HEIGHT",
+                "GAP"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "250": {
+          "$type": "dimension",
+          "$value": "{pds.dimension.20}",
+          "$description": "Medium-large spacing; relaxed gap.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:73:10",
+              "collection": "VariableCollectionId:73:2",
+              "scopes": [
+                "WIDTH_HEIGHT",
+                "GAP"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "300": {
+          "$type": "dimension",
+          "$value": "{pds.dimension.24}",
+          "$description": "Large spacing; generous gap.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:73:11",
+              "collection": "VariableCollectionId:73:2",
+              "scopes": [
+                "WIDTH_HEIGHT",
+                "GAP"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "400": {
+          "$type": "dimension",
+          "$value": "{pds.dimension.32}",
+          "$description": "Extra large spacing; spacious gap.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:73:12",
+              "collection": "VariableCollectionId:73:2",
+              "scopes": [
+                "WIDTH_HEIGHT",
+                "GAP"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "500": {
+          "$type": "dimension",
+          "$value": "{pds.dimension.40}",
+          "$description": "2XL spacing; very spacious gap.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:73:13",
+              "collection": "VariableCollectionId:73:2",
+              "scopes": [
+                "WIDTH_HEIGHT",
+                "GAP"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "600": {
+          "$type": "dimension",
+          "$value": "{pds.dimension.48}",
+          "$description": "3XL spacing; major gap.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:73:14",
+              "collection": "VariableCollectionId:73:2",
+              "scopes": [
+                "WIDTH_HEIGHT",
+                "GAP"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "700": {
+          "$type": "dimension",
+          "$value": "{pds.dimension.56}",
+          "$description": "4XL spacing; substantial gap.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:73:17",
+              "collection": "VariableCollectionId:73:2",
+              "scopes": [
+                "WIDTH_HEIGHT",
+                "GAP"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "800": {
+          "$type": "dimension",
+          "$value": "{pds.dimension.64}",
+          "$description": "5XL spacing; large section gap.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:73:15",
+              "collection": "VariableCollectionId:73:2",
+              "scopes": [
+                "WIDTH_HEIGHT",
+                "GAP"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "900": {
+          "$type": "dimension",
+          "$value": "{pds.dimension.72}",
+          "$description": "6XL spacing; extra large section gap.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:73:18",
+              "collection": "VariableCollectionId:73:2",
+              "scopes": [
+                "WIDTH_HEIGHT",
+                "GAP"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "1000": {
+          "$type": "dimension",
+          "$value": "{pds.dimension.80}",
+          "$description": "7XL spacing; maximum gap.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:73:16",
+              "collection": "VariableCollectionId:73:2",
+              "scopes": [
+                "WIDTH_HEIGHT",
+                "GAP"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "1100": {
+          "$type": "dimension",
+          "$value": "{pds.dimension.88}",
+          "$description": "8XL spacing; huge section gap.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7938:2642",
+              "collection": "VariableCollectionId:73:2",
+              "scopes": [
+                "WIDTH_HEIGHT",
+                "GAP"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "1200": {
+          "$type": "dimension",
+          "$value": "{pds.dimension.96}",
+          "$description": "9XL spacing; massive section gap.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7938:2643",
+              "collection": "VariableCollectionId:73:2",
+              "scopes": [
+                "WIDTH_HEIGHT",
+                "GAP"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "025": {
+          "$type": "dimension",
+          "$value": "{pds.dimension.2}",
+          "$description": "Micro spacing; finest gap.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:73:4",
+              "collection": "VariableCollectionId:73:2",
+              "scopes": [
+                "WIDTH_HEIGHT",
+                "GAP"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "050": {
+          "$type": "dimension",
+          "$value": "{pds.dimension.4}",
+          "$description": "Tiny spacing; minimal gap.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:73:5",
+              "collection": "VariableCollectionId:73:2",
+              "scopes": [
+                "WIDTH_HEIGHT",
+                "GAP"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "075": {
+          "$type": "dimension",
+          "$value": "{pds.dimension.6}",
+          "$description": "Extra small spacing; tight gap.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:73:6",
+              "collection": "VariableCollectionId:73:2",
+              "scopes": [
+                "WIDTH_HEIGHT",
+                "GAP"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        }
+      },
+      "size": {
+        "component": {
+          "height-2xs": {
+            "$type": "dimension",
+            "$value": "{pds.dimension.24}",
+            "$description": "2XS component height; tiny elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:73:19",
+                "collection": "VariableCollectionId:73:2",
+                "scopes": [
+                  "WIDTH_HEIGHT"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "height-sm": {
+            "$type": "dimension",
+            "$value": "{pds.dimension.36}",
+            "$description": "SM component height; small elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:73:20",
+                "collection": "VariableCollectionId:73:2",
+                "scopes": [
+                  "WIDTH_HEIGHT"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "height-md": {
+            "$type": "dimension",
+            "$value": "{pds.dimension.44}",
+            "$description": "MD component height; standard elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:73:21",
+                "collection": "VariableCollectionId:73:2",
+                "scopes": [
+                  "WIDTH_HEIGHT"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "height-lg": {
+            "$type": "dimension",
+            "$value": "{pds.dimension.56}",
+            "$description": "LG component height; prominent elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:73:22",
+                "collection": "VariableCollectionId:73:2",
+                "scopes": [
+                  "WIDTH_HEIGHT"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "height-xl": {
+            "$type": "dimension",
+            "$value": "{pds.dimension.64}",
+            "$description": "XL component height; large elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:73:23",
+                "collection": "VariableCollectionId:73:2",
+                "scopes": [
+                  "WIDTH_HEIGHT"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "height-xs": {
+            "$type": "dimension",
+            "$value": "{pds.dimension.32}",
+            "$description": "XS component height; compact elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2065:34713",
+                "collection": "VariableCollectionId:73:2",
+                "scopes": [
+                  "WIDTH_HEIGHT"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "height-2xl": {
+            "$type": "dimension",
+            "$value": "{pds.dimension.72}",
+            "$description": "2XL component height; extra large elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2065:34714",
+                "collection": "VariableCollectionId:73:2",
+                "scopes": [
+                  "WIDTH_HEIGHT"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$extensions": {
+    "generator": {
+      "name": "Token Press",
+      "version": "2.3.1"
+    },
+    "figma": {
+      "collection": {
+        "id": "VariableCollectionId:73:2",
+        "name": "space-size",
+        "defaultModeId": "73:0"
+      },
+      "mode": "Default"
+    }
+  }
+}

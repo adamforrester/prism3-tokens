@@ -1,0 +1,762 @@
+{
+  "$collection": "grids-layouts",
+  "$mode": "Mode 1",
+  "variables": [
+    {
+      "id": "VariableID:7728:35489",
+      "name": "pds/grid/sm/fluid/columns",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "SM fluid grid columns; mobile layouts.",
+      "value": 2,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7728:35496",
+        "name": "pds/grid/columns/2"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7728:35505",
+      "name": "pds/breakpoint/sm",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "SM breakpoint; small mobile screens.",
+      "value": 390,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7728:35490",
+        "name": "pds/breakpoint/390"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7728:35506",
+      "name": "pds/breakpoint/md",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "MD breakpoint; tablets and large phones.",
+      "value": 768,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7728:35491",
+        "name": "pds/breakpoint/768"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7728:35507",
+      "name": "pds/breakpoint/lg",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "LG breakpoint; small desktops.",
+      "value": 1024,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7728:35492",
+        "name": "pds/breakpoint/1024"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7728:35508",
+      "name": "pds/breakpoint/xl",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "XL breakpoint; standard desktops.",
+      "value": 1440,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7728:35493",
+        "name": "pds/breakpoint/1440"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7728:35509",
+      "name": "pds/breakpoint/2xl",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "2XL breakpoint; large desktops.",
+      "value": 1920,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7728:35494",
+        "name": "pds/breakpoint/1920"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7728:35510",
+      "name": "pds/grid/sm/fluid/gutter",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "SM fluid grid gutter; mobile spacing.",
+      "value": 16,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7728:35501",
+        "name": "pds/grid/gutter/16"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7728:35511",
+      "name": "pds/grid/sm/fluid/margin",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "SM fluid grid margin; mobile edge spacing.",
+      "value": 16,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7728:35503",
+        "name": "pds/grid/margin/16"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7728:35512",
+      "name": "pds/grid/sm/fluid/containerMax",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "SM fluid grid max width; full viewport.",
+      "value": 1,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7743:10391",
+        "name": "pds/grid/containerMax/full"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7743:10398",
+      "name": "pds/grid/sm/fixed/columns",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "SM fixed grid columns; mobile fixed layouts.",
+      "value": 2,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7728:35496",
+        "name": "pds/grid/columns/2"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7743:10399",
+      "name": "pds/grid/sm/fixed/gutter",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "SM fixed grid gutter; mobile fixed spacing.",
+      "value": 16,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7728:35501",
+        "name": "pds/grid/gutter/16"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7743:10400",
+      "name": "pds/grid/sm/fixed/margin",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "SM fixed grid margin; mobile fixed edge spacing.",
+      "value": 16,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7728:35503",
+        "name": "pds/grid/margin/16"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7743:10401",
+      "name": "pds/grid/sm/fixed/columnWidth",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "SM fixed column width; mobile fixed columns.",
+      "value": 163,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7743:10390",
+        "name": "pds/grid/columnWidth/163"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7743:10402",
+      "name": "pds/grid/md/fluid/columns",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "MD fluid grid columns; tablet layouts.",
+      "value": 4,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7728:35497",
+        "name": "pds/grid/columns/4"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7743:10403",
+      "name": "pds/grid/md/fluid/gutter",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "MD fluid grid gutter; tablet spacing.",
+      "value": 16,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7728:35501",
+        "name": "pds/grid/gutter/16"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7743:10404",
+      "name": "pds/grid/md/fluid/margin",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "MD fluid grid margin; tablet edge spacing.",
+      "value": 16,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7728:35503",
+        "name": "pds/grid/margin/16"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7743:10405",
+      "name": "pds/grid/md/fluid/containerMax",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "MD fluid grid max width; full viewport.",
+      "value": 1,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7743:10391",
+        "name": "pds/grid/containerMax/full"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7743:10406",
+      "name": "pds/grid/md/fixed/columns",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "MD fixed grid columns; tablet fixed layouts.",
+      "value": 4,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7728:35497",
+        "name": "pds/grid/columns/4"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7743:10407",
+      "name": "pds/grid/md/fixed/gutter",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "MD fixed grid gutter; tablet fixed spacing.",
+      "value": 16,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7728:35501",
+        "name": "pds/grid/gutter/16"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7743:10408",
+      "name": "pds/grid/md/fixed/margin",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "MD fixed grid margin; tablet fixed edge spacing.",
+      "value": 16,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7728:35503",
+        "name": "pds/grid/margin/16"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7743:10409",
+      "name": "pds/grid/md/fixed/columnWidth",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "MD fixed column width; tablet fixed columns.",
+      "value": 130,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7743:10389",
+        "name": "pds/grid/columnWidth/130"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7743:10410",
+      "name": "pds/grid/lg/fluid/columns",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "LG fluid grid columns; desktop layouts.",
+      "value": 8,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7728:35498",
+        "name": "pds/grid/columns/8"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7743:10411",
+      "name": "pds/grid/lg/fluid/gutter",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "LG fluid grid gutter; desktop spacing.",
+      "value": 24,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7728:35502",
+        "name": "pds/grid/gutter/24"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7743:10412",
+      "name": "pds/grid/lg/fluid/margin",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "LG fluid grid margin; desktop edge spacing.",
+      "value": 24,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7728:35504",
+        "name": "pds/grid/margin/24"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7743:10413",
+      "name": "pds/grid/lg/fluid/containerMax",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "LG fluid grid max width; full viewport.",
+      "value": 1,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7743:10391",
+        "name": "pds/grid/containerMax/full"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7743:10414",
+      "name": "pds/grid/lg/fixed/columns",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "LG fixed grid columns; desktop fixed layouts.",
+      "value": 8,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7728:35498",
+        "name": "pds/grid/columns/8"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7743:10415",
+      "name": "pds/grid/lg/fixed/gutter",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "LG fixed grid gutter; desktop fixed spacing.",
+      "value": 24,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7728:35502",
+        "name": "pds/grid/gutter/24"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7743:10416",
+      "name": "pds/grid/lg/fixed/margin",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "LG fixed grid margin; desktop fixed edge spacing.",
+      "value": 24,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7728:35504",
+        "name": "pds/grid/margin/24"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7743:10417",
+      "name": "pds/grid/lg/fixed/columnWidth",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "LG fixed column width; desktop fixed columns.",
+      "value": 85,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7743:10388",
+        "name": "pds/grid/columnWidth/85"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7743:10418",
+      "name": "pds/grid/xl/fluid/columns",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "XL fluid grid columns; wide desktop layouts.",
+      "value": 12,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7728:35499",
+        "name": "pds/grid/columns/12"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7743:10419",
+      "name": "pds/grid/xl/fluid/gutter",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "XL fluid grid gutter; wide desktop spacing.",
+      "value": 24,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7728:35502",
+        "name": "pds/grid/gutter/24"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7743:10420",
+      "name": "pds/grid/xl/fluid/margin",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "XL fluid grid margin; wide desktop edge spacing.",
+      "value": 24,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7728:35504",
+        "name": "pds/grid/margin/24"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7743:10421",
+      "name": "pds/grid/xl/fluid/containerMax",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "XL fluid grid max width; full viewport.",
+      "value": 1,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7743:10391",
+        "name": "pds/grid/containerMax/full"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7743:10422",
+      "name": "pds/grid/xl/fixed/columns",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "XL fixed grid columns; wide desktop fixed layouts.",
+      "value": 12,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7728:35499",
+        "name": "pds/grid/columns/12"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7743:10423",
+      "name": "pds/grid/xl/fixed/gutter",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "XL fixed grid gutter; wide desktop fixed spacing.",
+      "value": 24,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7728:35502",
+        "name": "pds/grid/gutter/24"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7743:10424",
+      "name": "pds/grid/xl/fixed/margin",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "XL fixed grid margin; wide desktop fixed edge spacing.",
+      "value": 24,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7728:35504",
+        "name": "pds/grid/margin/24"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7743:10425",
+      "name": "pds/grid/xl/fixed/columnWidth",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "XL fixed column width; wide desktop fixed columns.",
+      "value": 74,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7743:10387",
+        "name": "pds/grid/columnWidth/74"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8395:50812",
+      "name": "pds/grid/xs/fluid/columns",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "XS fluid grid columns; mobile layouts.",
+      "value": 2,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7728:35496",
+        "name": "pds/grid/columns/2"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8395:50813",
+      "name": "pds/grid/xs/fluid/gutter",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "XS fluid grid gutter; mobile spacing.",
+      "value": 16,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7728:35501",
+        "name": "pds/grid/gutter/16"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8395:50814",
+      "name": "pds/grid/xs/fluid/margin",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "XS fluid grid margin; mobile edge spacing.",
+      "value": 16,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7728:35503",
+        "name": "pds/grid/margin/16"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8395:50815",
+      "name": "pds/grid/xs/fluid/containerMax",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "XS fluid grid max width; full viewport.",
+      "value": 1,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7743:10391",
+        "name": "pds/grid/containerMax/full"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8395:50816",
+      "name": "pds/grid/xs/fixed/columns",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "XS fixed grid columns; mobile fixed layouts.",
+      "value": 2,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7728:35496",
+        "name": "pds/grid/columns/2"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8395:50817",
+      "name": "pds/grid/xs/fixed/gutter",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "XS fixed grid gutter; mobile fixed spacing.",
+      "value": 16,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7728:35501",
+        "name": "pds/grid/gutter/16"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8395:50818",
+      "name": "pds/grid/xs/fixed/margin",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "XS fixed grid margin; mobile fixed edge spacing.",
+      "value": 16,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7728:35503",
+        "name": "pds/grid/margin/16"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8395:50819",
+      "name": "pds/grid/xs/fixed/columnWidth",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "XS fixed column width; mobile fixed columns.",
+      "value": 163,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7743:10390",
+        "name": "pds/grid/columnWidth/163"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8395:50820",
+      "name": "pds/grid/2xl/fluid/columns",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "XL fluid grid columns; wide desktop layouts.",
+      "value": 12,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7728:35499",
+        "name": "pds/grid/columns/12"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8395:50821",
+      "name": "pds/grid/2xl/fluid/gutter",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "XL fluid grid gutter; wide desktop spacing.",
+      "value": 32,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:8395:50828",
+        "name": "pds/grid/gutter/32"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8395:50822",
+      "name": "pds/grid/2xl/fluid/margin",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "XL fluid grid margin; wide desktop edge spacing.",
+      "value": 48,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:8395:50829",
+        "name": "pds/grid/margin/48"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8395:50823",
+      "name": "pds/grid/2xl/fluid/containerMax",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "XL fluid grid max width; full viewport.",
+      "value": 1,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7743:10391",
+        "name": "pds/grid/containerMax/full"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8395:50824",
+      "name": "pds/grid/2xl/fixed/columns",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "XL fixed grid columns; wide desktop fixed layouts.",
+      "value": 12,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7728:35499",
+        "name": "pds/grid/columns/12"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8395:50825",
+      "name": "pds/grid/2xl/fixed/gutter",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "XL fixed grid gutter; wide desktop fixed spacing.",
+      "value": 32,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:8395:50828",
+        "name": "pds/grid/gutter/32"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8395:50826",
+      "name": "pds/grid/2xl/fixed/margin",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "XL fixed grid margin; wide desktop fixed edge spacing.",
+      "value": 48,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:8395:50829",
+        "name": "pds/grid/margin/48"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8395:50827",
+      "name": "pds/grid/2xl/fixed/columnWidth",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "XL fixed column width; wide desktop fixed columns.",
+      "value": 74,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:7743:10387",
+        "name": "pds/grid/columnWidth/74"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8395:50830",
+      "name": "pds/breakpoint/xs",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "XS breakpoint; Extra small screens.",
+      "value": 0,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:8395:50831",
+        "name": "pds/breakpoint/0"
+      },
+      "codeSyntax": {}
+    }
+  ]
+}

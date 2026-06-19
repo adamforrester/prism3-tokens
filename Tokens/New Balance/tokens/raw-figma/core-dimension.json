@@ -1,0 +1,376 @@
+{
+  "$collection": "core-dimension",
+  "$mode": "Mode 1",
+  "variables": [
+    {
+      "id": "VariableID:747:10548",
+      "name": "nbds/dimension/24",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "",
+      "value": 24,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10549",
+      "name": "nbds/dimension/12",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "",
+      "value": 12,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10550",
+      "name": "nbds/dimension/124",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "",
+      "value": 124,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10551",
+      "name": "nbds/dimension/116",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "",
+      "value": 116,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10552",
+      "name": "nbds/dimension/112",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "",
+      "value": 112,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10553",
+      "name": "nbds/dimension/4",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "",
+      "value": 4,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10554",
+      "name": "nbds/dimension/20",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "",
+      "value": 20,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10555",
+      "name": "nbds/dimension/108",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "",
+      "value": 108,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10556",
+      "name": "nbds/dimension/100",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "",
+      "value": 100,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10557",
+      "name": "nbds/dimension/128",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "",
+      "value": 128,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10558",
+      "name": "nbds/dimension/96",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "",
+      "value": 96,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10559",
+      "name": "nbds/dimension/88",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "",
+      "value": 88,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10560",
+      "name": "nbds/dimension/80",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "",
+      "value": 80,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10561",
+      "name": "nbds/dimension/76",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "",
+      "value": 76,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10562",
+      "name": "nbds/dimension/6",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "",
+      "value": 6,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10563",
+      "name": "nbds/dimension/2",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "",
+      "value": 2,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10564",
+      "name": "nbds/dimension/64",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "",
+      "value": 64,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10565",
+      "name": "nbds/dimension/8",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "",
+      "value": 8,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10566",
+      "name": "nbds/dimension/104",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "",
+      "value": 104,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10567",
+      "name": "nbds/dimension/120",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "",
+      "value": 120,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10568",
+      "name": "nbds/dimension/40",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "",
+      "value": 40,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10569",
+      "name": "nbds/dimension/44",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "",
+      "value": 44,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10570",
+      "name": "nbds/dimension/28",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "",
+      "value": 28,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10571",
+      "name": "nbds/dimension/52",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "",
+      "value": 52,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10572",
+      "name": "nbds/dimension/84",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "",
+      "value": 84,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10573",
+      "name": "nbds/dimension/0",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "",
+      "value": 0,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10574",
+      "name": "nbds/dimension/56",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "",
+      "value": 56,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10575",
+      "name": "nbds/dimension/16",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "",
+      "value": 16,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10576",
+      "name": "nbds/dimension/36",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "",
+      "value": 36,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10577",
+      "name": "nbds/dimension/48",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "",
+      "value": 48,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10578",
+      "name": "nbds/dimension/72",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "",
+      "value": 72,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10579",
+      "name": "nbds/dimension/68",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "",
+      "value": 68,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10580",
+      "name": "nbds/dimension/92",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "",
+      "value": 92,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10581",
+      "name": "nbds/dimension/32",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "",
+      "value": 32,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10582",
+      "name": "nbds/dimension/60",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "",
+      "value": 60,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10583",
+      "name": "nbds/dimension/1",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "",
+      "value": 1,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17151:332131",
+      "name": "nbds/dimension/720",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "720px dimension primitive — used for narrow reading containers.",
+      "value": 720,
+      "alias": null,
+      "codeSyntax": {}
+    }
+  ]
+}

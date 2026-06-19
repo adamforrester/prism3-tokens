@@ -1,0 +1,486 @@
+{
+  "$collection": "core-typography",
+  "$mode": "Mode 1",
+  "variables": [
+    {
+      "id": "VariableID:11:149",
+      "name": "nbds/font/weight/regular",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_STYLE"
+      ],
+      "description": "",
+      "value": "regular",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:11:153",
+      "name": "nbds/font/weight/medium",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_STYLE"
+      ],
+      "description": "",
+      "value": "medium",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:11:157",
+      "name": "nbds/font/family/itc-garamond-std",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_FAMILY"
+      ],
+      "description": "",
+      "value": "ITC Garamond Std",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:11:161",
+      "name": "nbds/font/family/proxima-nova",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_FAMILY"
+      ],
+      "description": "",
+      "value": "Proxima Nova",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:103:507",
+      "name": "nbds/font/weight/light-condensed",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_STYLE"
+      ],
+      "description": "",
+      "value": "Light Condensed",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6318:409",
+      "name": "nbds/font/weight/book-condensed",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_STYLE"
+      ],
+      "description": "",
+      "value": "Book Condensed",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:68",
+      "name": "nbds/font/size/12",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "12px font size primitive.",
+      "value": 12,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:69",
+      "name": "nbds/font/size/14",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "14px font size primitive.",
+      "value": 14,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:70",
+      "name": "nbds/font/size/16",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "16px font size primitive.",
+      "value": 16,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:71",
+      "name": "nbds/font/size/18",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "18px font size primitive.",
+      "value": 18,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:72",
+      "name": "nbds/font/size/20",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "20px font size primitive.",
+      "value": 20,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:73",
+      "name": "nbds/font/size/24",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "24px font size primitive.",
+      "value": 24,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:74",
+      "name": "nbds/font/size/28",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "28px font size primitive.",
+      "value": 28,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:75",
+      "name": "nbds/font/size/32",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "32px font size primitive.",
+      "value": 32,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:76",
+      "name": "nbds/font/size/40",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "40px font size primitive.",
+      "value": 40,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:77",
+      "name": "nbds/font/size/48",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "48px font size primitive.",
+      "value": 48,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:78",
+      "name": "nbds/font/size/60",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "60px font size primitive.",
+      "value": 60,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:79",
+      "name": "nbds/font/size/76",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "76px font size primitive.",
+      "value": 76,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:80",
+      "name": "nbds/font/size/96",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "96px font size primitive.",
+      "value": 96,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:81",
+      "name": "nbds/font/size/120",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "120px font size primitive.",
+      "value": 120,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:95",
+      "name": "nbds/font/letterspacing/tight",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LETTER_SPACING"
+      ],
+      "description": "Letter-spacing primitive: tight (-0.02).",
+      "value": -0.019999999552965164,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:96",
+      "name": "nbds/font/letterspacing/normal",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LETTER_SPACING"
+      ],
+      "description": "Letter-spacing primitive: normal (0).",
+      "value": 0,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:97",
+      "name": "nbds/font/letterspacing/wide",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LETTER_SPACING"
+      ],
+      "description": "Letter-spacing primitive: wide (0.04).",
+      "value": 0.03999999910593033,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17067:102661",
+      "name": "nbds/font/paragraph-spacing/16",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "PARAGRAPH_SPACING"
+      ],
+      "description": "16px paragraph-spacing primitive. Independent of lineheight by design — see Appendix B #52.",
+      "value": 16,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17067:102662",
+      "name": "nbds/font/paragraph-spacing/18",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "PARAGRAPH_SPACING"
+      ],
+      "description": "18px paragraph-spacing primitive. Independent of lineheight by design — see Appendix B #52.",
+      "value": 18,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17067:102663",
+      "name": "nbds/font/paragraph-spacing/20",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "PARAGRAPH_SPACING"
+      ],
+      "description": "20px paragraph-spacing primitive. Independent of lineheight by design — see Appendix B #52.",
+      "value": 20,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17067:102664",
+      "name": "nbds/font/paragraph-spacing/24",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "PARAGRAPH_SPACING"
+      ],
+      "description": "24px paragraph-spacing primitive. Independent of lineheight by design — see Appendix B #52.",
+      "value": 24,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17067:102665",
+      "name": "nbds/font/paragraph-spacing/28",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "PARAGRAPH_SPACING"
+      ],
+      "description": "28px paragraph-spacing primitive. Independent of lineheight by design — see Appendix B #52.",
+      "value": 28,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17067:102666",
+      "name": "nbds/font/paragraph-spacing/32",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "PARAGRAPH_SPACING"
+      ],
+      "description": "32px paragraph-spacing primitive. Independent of lineheight by design — see Appendix B #52.",
+      "value": 32,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17067:102667",
+      "name": "nbds/font/paragraph-spacing/36",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "PARAGRAPH_SPACING"
+      ],
+      "description": "36px paragraph-spacing primitive. Independent of lineheight by design — see Appendix B #52.",
+      "value": 36,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17067:102668",
+      "name": "nbds/font/paragraph-spacing/40",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "PARAGRAPH_SPACING"
+      ],
+      "description": "40px paragraph-spacing primitive. Independent of lineheight by design — see Appendix B #52.",
+      "value": 40,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17067:102669",
+      "name": "nbds/font/paragraph-spacing/48",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "PARAGRAPH_SPACING"
+      ],
+      "description": "48px paragraph-spacing primitive. Independent of lineheight by design — see Appendix B #52.",
+      "value": 48,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17067:102670",
+      "name": "nbds/font/paragraph-spacing/56",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "PARAGRAPH_SPACING"
+      ],
+      "description": "56px paragraph-spacing primitive. Independent of lineheight by design — see Appendix B #52.",
+      "value": 56,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17067:102671",
+      "name": "nbds/font/paragraph-spacing/68",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "PARAGRAPH_SPACING"
+      ],
+      "description": "68px paragraph-spacing primitive. Independent of lineheight by design — see Appendix B #52.",
+      "value": 68,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17067:102672",
+      "name": "nbds/font/paragraph-spacing/120",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "PARAGRAPH_SPACING"
+      ],
+      "description": "120px paragraph-spacing primitive. Independent of lineheight by design — see Appendix B #52.",
+      "value": 120,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17193:4",
+      "name": "nbds/font/lineheight/1p1",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LINE_HEIGHT"
+      ],
+      "description": "Unitless line-height ratio 1.1× (display tier — tightest leading for brand-character moments). Pattern B per Appendix B #73.",
+      "value": 1.100000023841858,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17193:5",
+      "name": "nbds/font/lineheight/1p2",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LINE_HEIGHT"
+      ],
+      "description": "Unitless line-height ratio 1.2× (heading tier — tight leading for hierarchy moments). Pattern B per Appendix B #73.",
+      "value": 1.2000000476837158,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17193:6",
+      "name": "nbds/font/lineheight/1p3",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LINE_HEIGHT"
+      ],
+      "description": "Unitless line-height ratio 1.3× (label tier and heading/sm — between heading and body). Pattern B per Appendix B #73.",
+      "value": 1.2999999523162842,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17193:7",
+      "name": "nbds/font/lineheight/1p4",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LINE_HEIGHT"
+      ],
+      "description": "Unitless line-height ratio 1.4× (body tier — readable leading). Pattern B per Appendix B #73.",
+      "value": 1.399999976158142,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17193:8",
+      "name": "nbds/font/lineheight/1p5",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LINE_HEIGHT"
+      ],
+      "description": "Unitless line-height ratio 1.5× (body tier — comfortable readable leading). Pattern B per Appendix B #73.",
+      "value": 1.5,
+      "alias": null,
+      "codeSyntax": {}
+    }
+  ]
+}

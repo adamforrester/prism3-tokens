@@ -1,0 +1,218 @@
+{
+  "nbds": {
+    "motion": {
+      "duration": {
+        "0": {
+          "$type": "duration",
+          "$value": "0ms",
+          "$description": "0ms duration primitive.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:99",
+              "collection": "VariableCollectionId:17027:98",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "50": {
+          "$type": "duration",
+          "$value": "50ms",
+          "$description": "50ms duration primitive.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:100",
+              "collection": "VariableCollectionId:17027:98",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "100": {
+          "$type": "duration",
+          "$value": "100ms",
+          "$description": "100ms duration primitive.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:101",
+              "collection": "VariableCollectionId:17027:98",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "150": {
+          "$type": "duration",
+          "$value": "150ms",
+          "$description": "150ms duration primitive.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:102",
+              "collection": "VariableCollectionId:17027:98",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "200": {
+          "$type": "duration",
+          "$value": "200ms",
+          "$description": "200ms duration primitive.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:103",
+              "collection": "VariableCollectionId:17027:98",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "300": {
+          "$type": "duration",
+          "$value": "300ms",
+          "$description": "300ms duration primitive.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:104",
+              "collection": "VariableCollectionId:17027:98",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "500": {
+          "$type": "duration",
+          "$value": "500ms",
+          "$description": "500ms duration primitive.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:105",
+              "collection": "VariableCollectionId:17027:98",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "800": {
+          "$type": "duration",
+          "$value": "800ms",
+          "$description": "800ms duration primitive.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:106",
+              "collection": "VariableCollectionId:17027:98",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        }
+      },
+      "easing": {
+        "linear": {
+          "$type": "cubicBezier",
+          "$value": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "$description": "Easing primitive: linear.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:107",
+              "collection": "VariableCollectionId:17027:98",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "ease-in": {
+          "$type": "cubicBezier",
+          "$value": [
+            0.42,
+            0,
+            1,
+            1
+          ],
+          "$description": "Easing primitive: ease-in.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:108",
+              "collection": "VariableCollectionId:17027:98",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "ease-out": {
+          "$type": "cubicBezier",
+          "$value": [
+            0,
+            0,
+            0.58,
+            1
+          ],
+          "$description": "Easing primitive: ease-out.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:109",
+              "collection": "VariableCollectionId:17027:98",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "ease-in-out": {
+          "$type": "cubicBezier",
+          "$value": [
+            0.42,
+            0,
+            0.58,
+            1
+          ],
+          "$description": "Easing primitive: ease-in-out.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:110",
+              "collection": "VariableCollectionId:17027:98",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "fast-out-slow-in": {
+          "$type": "cubicBezier",
+          "$value": [
+            0.2,
+            0,
+            0,
+            1
+          ],
+          "$description": "Easing primitive: emphasized.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:111",
+              "collection": "VariableCollectionId:17027:98",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        }
+      }
+    }
+  },
+  "$extensions": {
+    "generator": {
+      "name": "Token Press",
+      "version": "2.3.1"
+    },
+    "figma": {
+      "collection": {
+        "id": "VariableCollectionId:17027:98",
+        "name": "core-motion",
+        "defaultModeId": "17027:0"
+      },
+      "mode": "Mode 1"
+    }
+  }
+}

@@ -1,0 +1,2216 @@
+{
+  "nbds": {
+    "typography": {
+      "display": {
+        "5xl": {
+          "thicker": {
+            "desktop": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.display}",
+                "fontSize": "{pds.font.size.display.desktop.5xl}",
+                "fontWeight": "{pds.font.weight.bold}",
+                "letterSpacing": "{pds.font.letterspacing.display.extratight}",
+                "lineHeight": "{pds.font.lineheight.105}"
+              },
+              "$description": "5XL bold display desktop; maximum impact headlines.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:79f01a0edfcc80ccae64590817f22f7036e8420a,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            },
+            "mobile": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.display}",
+                "fontSize": "{pds.font.size.display.mobile.5xl}",
+                "fontWeight": "{pds.font.weight.bold}",
+                "letterSpacing": "{pds.font.letterspacing.display.tight}",
+                "lineHeight": "{pds.font.lineheight.105}"
+              },
+              "$description": "5XL bold display mobile; maximum impact mobile headlines.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:c938e2adf56b7ca7431a06472317bb35a354f7a2,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            }
+          },
+          "regular": {
+            "desktop": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.display}",
+                "fontSize": "{pds.font.size.display.desktop.5xl}",
+                "fontWeight": "{pds.font.weight.regular}",
+                "letterSpacing": "{pds.font.letterspacing.display.extratight}",
+                "lineHeight": "{pds.font.lineheight.105}"
+              },
+              "$description": "5XL regular display desktop; light maximum headlines.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:ed679085f601d5269813521e4984b133c788e462,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            },
+            "mobile": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.display}",
+                "fontSize": "{pds.font.size.display.mobile.5xl}",
+                "fontWeight": "{pds.font.weight.regular}",
+                "letterSpacing": "{pds.font.letterspacing.display.tight}",
+                "lineHeight": "{pds.font.lineheight.105}"
+              },
+              "$description": "5XL regular display mobile; light maximum mobile headlines.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:76797c128422cd18c5277d9fd91c206407fc2d48,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            }
+          }
+        },
+        "4xl": {
+          "thicker": {
+            "desktop": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.display}",
+                "fontSize": "{pds.font.size.display.desktop.4xl}",
+                "fontWeight": "{pds.font.weight.bold}",
+                "letterSpacing": "{pds.font.letterspacing.display.tight}",
+                "lineHeight": "{pds.font.lineheight.105}"
+              },
+              "$description": "4XL bold display desktop; massive headlines.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:2abe86def58bff4aee2505216a693a829f2af4c3,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            },
+            "mobile": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.display}",
+                "fontSize": "{pds.font.size.display.mobile.4xl}",
+                "fontWeight": "{pds.font.weight.bold}",
+                "letterSpacing": "{pds.font.letterspacing.display.tight}",
+                "lineHeight": "{pds.font.lineheight.105}"
+              },
+              "$description": "4XL bold display mobile; massive mobile headlines.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:a1196b2ee1ed549879b0c32d1e4659ed3dcea430,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            }
+          },
+          "regular": {
+            "desktop": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.display}",
+                "fontSize": "{pds.font.size.display.desktop.4xl}",
+                "fontWeight": "{pds.font.weight.regular}",
+                "letterSpacing": "{pds.font.letterspacing.display.tight}",
+                "lineHeight": "{pds.font.lineheight.105}"
+              },
+              "$description": "4XL regular display desktop; light massive headlines.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:79cc378e205b6575a46499b4cacf522e0a7580c0,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            },
+            "mobile": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.display}",
+                "fontSize": "{pds.font.size.display.mobile.4xl}",
+                "fontWeight": "{pds.font.weight.regular}",
+                "letterSpacing": "{pds.font.letterspacing.display.tight}",
+                "lineHeight": "{pds.font.lineheight.105}"
+              },
+              "$description": "4XL regular display desktop; light massive headlines.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:1ca0a88d0e080f15b80ff39c73e3602b92496f0a,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            }
+          }
+        },
+        "3xl": {
+          "thicker": {
+            "desktop": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.display}",
+                "fontSize": "{pds.font.size.display.desktop.3xl}",
+                "fontWeight": "{pds.font.weight.bold}",
+                "letterSpacing": "{pds.font.letterspacing.display.tight}",
+                "lineHeight": "{pds.font.lineheight.105}"
+              },
+              "$description": "3XL bold display desktop; hero headlines.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:bf14ff098bb22233877754b4efe57a850393ac0e,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            },
+            "mobile": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.display}",
+                "fontSize": "{pds.font.size.display.mobile.3xl}",
+                "fontWeight": "{pds.font.weight.bold}",
+                "letterSpacing": "{pds.font.letterspacing.display.tight}",
+                "lineHeight": "{pds.font.lineheight.105}"
+              },
+              "$description": "3XL bold display mobile; hero mobile headlines.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:9933b4c0fddebffa86e79c8f8fa84140c429094f,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            }
+          },
+          "regular": {
+            "desktop": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.display}",
+                "fontSize": "{pds.font.size.display.desktop.3xl}",
+                "fontWeight": "{pds.font.weight.regular}",
+                "letterSpacing": "{pds.font.letterspacing.display.tight}",
+                "lineHeight": "{pds.font.lineheight.105}"
+              },
+              "$description": "3XL regular display desktop; light hero headlines.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:7e41fc74f2d45c2cb9e3808a4a7f5b6890eb87bb,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            },
+            "mobile": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.display}",
+                "fontSize": "{pds.font.size.display.mobile.3xl}",
+                "fontWeight": "{pds.font.weight.regular}",
+                "letterSpacing": "{pds.font.letterspacing.display.tight}",
+                "lineHeight": "{pds.font.lineheight.105}"
+              },
+              "$description": "3XL regular display mobile; light hero mobile headlines.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:d64125599d8c94aab31dd554803274663748b6c0,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            }
+          }
+        },
+        "2xl": {
+          "thicker": {
+            "desktop": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.display}",
+                "fontSize": "{pds.font.size.display.desktop.2xl}",
+                "fontWeight": "{pds.font.weight.bold}",
+                "letterSpacing": "{pds.font.letterspacing.display.tight}",
+                "lineHeight": "{pds.font.lineheight.105}"
+              },
+              "$description": "2XL bold display desktop; major headlines.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:edf8e18eac31309e466d284ced5f4bd445b4186d,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            },
+            "mobile": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.display}",
+                "fontSize": "{pds.font.size.display.mobile.xl}",
+                "fontWeight": "{pds.font.weight.bold}",
+                "letterSpacing": "{pds.font.letterspacing.display.tight}",
+                "lineHeight": "{pds.font.lineheight.105}"
+              },
+              "$description": "2XL bold display mobile; major mobile headlines.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:bfcdf2a64834a6922be8840ae2cbb3ab1ef4545a,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            }
+          },
+          "regular": {
+            "desktop": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.display}",
+                "fontSize": "{pds.font.size.display.desktop.2xl}",
+                "fontWeight": "{pds.font.weight.regular}",
+                "letterSpacing": "{pds.font.letterspacing.display.tight}",
+                "lineHeight": "{pds.font.lineheight.105}"
+              },
+              "$description": "2XL regular display desktop; light major headlines.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:662b86dd0d273fb244a9932b96fa1df7d9dbb8bf,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            },
+            "mobile": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.display}",
+                "fontSize": "{pds.font.size.display.mobile.xl}",
+                "fontWeight": "{pds.font.weight.regular}",
+                "letterSpacing": "{pds.font.letterspacing.display.tight}",
+                "lineHeight": "{pds.font.lineheight.105}"
+              },
+              "$description": "2XL regular display mobile; light major mobile headlines.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:54d1857a3acb5cddbfd445391bf28edac149c086,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            }
+          }
+        },
+        "xl": {
+          "thicker": {
+            "desktop": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.display}",
+                "fontSize": "{pds.font.size.display.desktop.xl}",
+                "fontWeight": "{pds.font.weight.bold}",
+                "letterSpacing": "{pds.font.letterspacing.display.tight}",
+                "lineHeight": "{pds.font.lineheight.105}"
+              },
+              "$description": "XL bold display desktop; large headlines.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:cd7e60aa55a2ff129324df2fd060bcaa4d96001e,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            },
+            "mobile": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.display}",
+                "fontSize": "{pds.font.size.display.mobile.lg}",
+                "fontWeight": "{pds.font.weight.bold}",
+                "letterSpacing": "{pds.font.letterspacing.display.tight}",
+                "lineHeight": "{pds.font.lineheight.105}"
+              },
+              "$description": "XL bold display mobile; large mobile headlines.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:0807be3704bef022aed15ce21800c314b580b7a5,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            }
+          },
+          "regular": {
+            "desktop": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.display}",
+                "fontSize": "{pds.font.size.display.desktop.xl}",
+                "fontWeight": "{pds.font.weight.regular}",
+                "letterSpacing": "{pds.font.letterspacing.display.tight}",
+                "lineHeight": "{pds.font.lineheight.105}"
+              },
+              "$description": "XL regular display desktop; light large headlines.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:a5e85aab7367e87016ab204a01c14ee59c332efd,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            },
+            "mobile": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.display}",
+                "fontSize": "{pds.font.size.display.mobile.lg}",
+                "fontWeight": "{pds.font.weight.regular}",
+                "letterSpacing": "{pds.font.letterspacing.display.tight}",
+                "lineHeight": "{pds.font.lineheight.105}"
+              },
+              "$description": "XL regular display mobile; light large mobile headlines.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:e32f2628a62b8d053cdd03f1dee7941d8e1819ac,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            }
+          }
+        },
+        "lg": {
+          "thicker": {
+            "desktop": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.display}",
+                "fontSize": "{pds.font.size.display.desktop.lg}",
+                "fontWeight": "{pds.font.weight.bold}",
+                "letterSpacing": "{pds.font.letterspacing.display.tight}",
+                "lineHeight": "{pds.font.lineheight.105}"
+              },
+              "$description": "LG bold display desktop; prominent headlines.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:83a91b1a3b2ab5d4b5f48823b41e6f668789e7cc,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            },
+            "mobile": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.display}",
+                "fontSize": "{pds.font.size.display.mobile.md}",
+                "fontWeight": "{pds.font.weight.bold}",
+                "letterSpacing": "{pds.font.letterspacing.display.tight}",
+                "lineHeight": "{pds.font.lineheight.105}"
+              },
+              "$description": "LG bold display mobile; prominent mobile headlines.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:0e05e914d17cb9a966b1173c11d1d4d18803ab82,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            }
+          },
+          "regular": {
+            "desktop": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.display}",
+                "fontSize": "{pds.font.size.display.desktop.lg}",
+                "fontWeight": "{pds.font.weight.regular}",
+                "letterSpacing": "{pds.font.letterspacing.display.tight}",
+                "lineHeight": "{pds.font.lineheight.105}"
+              },
+              "$description": "LG regular display desktop; light prominent headlines.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:87b04b5ce641b806293eaeb2307944610b32ff55,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            },
+            "mobile": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.display}",
+                "fontSize": "{pds.font.size.display.mobile.md}",
+                "fontWeight": "{pds.font.weight.regular}",
+                "letterSpacing": "{pds.font.letterspacing.display.tight}",
+                "lineHeight": "{pds.font.lineheight.105}"
+              },
+              "$description": "LG regular display desktop; light prominent headlines.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:210cb535c7662edcff9280f3397d45c83993adec,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            }
+          }
+        },
+        "md": {
+          "thicker": {
+            "desktop": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.display}",
+                "fontSize": "{pds.font.size.display.desktop.md}",
+                "fontWeight": "{pds.font.weight.bold}",
+                "letterSpacing": "{pds.font.letterspacing.display.tight}",
+                "lineHeight": "{pds.font.lineheight.105}"
+              },
+              "$description": "MD bold display desktop; standard headlines.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:0dbe6bf5714e5a316d24c6a7e2b247ab582d7522,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            },
+            "mobile": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.display}",
+                "fontSize": "{pds.font.size.display.mobile.sm}",
+                "fontWeight": "{pds.font.weight.bold}",
+                "letterSpacing": "{pds.font.letterspacing.display.tight}",
+                "lineHeight": "{pds.font.lineheight.105}"
+              },
+              "$description": "MD bold display mobile; standard mobile headlines.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:0821e20be603fa8297534d616437ff9510d47c7c,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            }
+          },
+          "regular": {
+            "desktop": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.display}",
+                "fontSize": "{pds.font.size.display.desktop.md}",
+                "fontWeight": "{pds.font.weight.regular}",
+                "letterSpacing": "{pds.font.letterspacing.display.tight}",
+                "lineHeight": "{pds.font.lineheight.105}"
+              },
+              "$description": "MD regular display desktop; light standard headlines.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:4844f5364161e9faf768dbadafc1c50da70e8270,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            },
+            "mobile": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.display}",
+                "fontSize": "{pds.font.size.display.mobile.sm}",
+                "fontWeight": "{pds.font.weight.regular}",
+                "letterSpacing": "{pds.font.letterspacing.display.tight}",
+                "lineHeight": "{pds.font.lineheight.105}"
+              },
+              "$description": "MD regular display mobile; light standard mobile headlines.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:7b1354147a2f9b545a5348bfd6fcbb0fe31ca7cf,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            }
+          }
+        },
+        "sm": {
+          "thicker": {
+            "desktop": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.display}",
+                "fontSize": "{pds.font.size.display.desktop.sm}",
+                "fontWeight": "{pds.font.weight.bold}",
+                "letterSpacing": "{pds.font.letterspacing.display.tight}",
+                "lineHeight": "{pds.font.lineheight.105}"
+              },
+              "$description": "SM bold display desktop; compact headlines.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:bab53016083113349682ea89329fb6b35e636401,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            },
+            "mobile": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.display}",
+                "fontSize": "{pds.font.size.display.mobile.xs}",
+                "fontWeight": "{pds.font.weight.bold}",
+                "letterSpacing": "{pds.font.letterspacing.display.tight}",
+                "lineHeight": "{pds.font.lineheight.105}"
+              },
+              "$description": "SM bold display mobile; compact mobile headlines.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:4ff68139289f8338c7531c1ad66b08e951d92e71,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            }
+          },
+          "regular": {
+            "desktop": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.display}",
+                "fontSize": "{pds.font.size.display.desktop.sm}",
+                "fontWeight": "{pds.font.weight.regular}",
+                "letterSpacing": "{pds.font.letterspacing.display.tight}",
+                "lineHeight": "{pds.font.lineheight.105}"
+              },
+              "$description": "SM regular display desktop; light compact headlines.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:c24e8ec0e905d19a7b4eb7e02f9972133af947d9,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            },
+            "mobile": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.display}",
+                "fontSize": "{pds.font.size.display.mobile.xs}",
+                "fontWeight": "{pds.font.weight.regular}",
+                "letterSpacing": "{pds.font.letterspacing.display.tight}",
+                "lineHeight": "{pds.font.lineheight.105}"
+              },
+              "$description": "SM regular display mobile; light compact mobile headlines.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:0c9ab97f5277571ceb3b580118da68d6c616e330,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            }
+          }
+        },
+        "xs": {
+          "thicker": {
+            "desktop": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.display}",
+                "fontSize": "{pds.font.size.display.desktop.xs}",
+                "fontWeight": "{pds.font.weight.bold}",
+                "letterSpacing": "{pds.font.letterspacing.display.tight}",
+                "lineHeight": "{pds.font.lineheight.105}"
+              },
+              "$description": "XS bold display desktop; small hero text.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:0a5d8e4e70cd2ce1c305b2e727af891988034253,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            },
+            "mobile": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.display}",
+                "fontSize": "{pds.font.size.display.mobile.2xs}",
+                "fontWeight": "{pds.font.weight.bold}",
+                "letterSpacing": "{pds.font.letterspacing.display.tight}",
+                "lineHeight": "{pds.font.lineheight.105}"
+              },
+              "$description": "XS bold display mobile; small mobile hero text.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:f832f17ed07efbd5873709ac6e27c3e5488f1021,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            }
+          },
+          "regular": {
+            "desktop": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.display}",
+                "fontSize": "{pds.font.size.display.desktop.xs}",
+                "fontWeight": "{pds.font.weight.regular}",
+                "letterSpacing": "{pds.font.letterspacing.display.tight}",
+                "lineHeight": "{pds.font.lineheight.105}"
+              },
+              "$description": "XS regular display desktop; light small hero text.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:4e7516d6be96725120f61d551a708c7c835ee7cf,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            },
+            "mobile": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.display}",
+                "fontSize": "{pds.font.size.display.mobile.2xs}",
+                "fontWeight": "{pds.font.weight.regular}",
+                "letterSpacing": "{pds.font.letterspacing.display.tight}",
+                "lineHeight": "{pds.font.lineheight.105}"
+              },
+              "$description": "XS regular display mobile; light small mobile hero text.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:9787e45a9d0293a3a127ddbf56ae3ab07d12a80d,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            }
+          }
+        }
+      },
+      "title": {
+        "3xl": {
+          "thicker": {
+            "desktop": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.title}",
+                "fontSize": "{pds.font.size.title.desktop.3xl}",
+                "fontWeight": "{pds.font.weight.bold}",
+                "letterSpacing": "{pds.font.letterspacing.title.none}",
+                "lineHeight": "{pds.font.lineheight.125}"
+              },
+              "$description": "3XL bold title desktop; prominent section headings.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:f2726a254a3e935abac68de0a2e00c4fad52ca6a,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            },
+            "mobile": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.title}",
+                "fontSize": "{pds.font.size.title.mobile.2xl}",
+                "fontWeight": "{pds.font.weight.bold}",
+                "letterSpacing": "{pds.font.letterspacing.title.none}",
+                "lineHeight": "{pds.font.lineheight.125}"
+              },
+              "$description": "3XL bold title mobile; prominent mobile section headings.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:3a802a74cdf439a6bb3ea775c7a9d8bd946ec1c7,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            }
+          },
+          "regular": {
+            "desktop": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.title}",
+                "fontSize": "{pds.font.size.title.desktop.3xl}",
+                "fontWeight": "{pds.font.weight.regular}",
+                "letterSpacing": "{pds.font.letterspacing.title.none}",
+                "lineHeight": "{pds.font.lineheight.125}"
+              },
+              "$description": "3XL regular title desktop; light prominent headings.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:a87d2e6fa999315ecee3b86cbcab36fa1b8f075f,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            },
+            "mobile": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.title}",
+                "fontSize": "{pds.font.size.title.mobile.2xl}",
+                "fontWeight": "{pds.font.weight.regular}",
+                "letterSpacing": "{pds.font.letterspacing.title.none}",
+                "lineHeight": "{pds.font.lineheight.125}"
+              },
+              "$description": "3XL regular title mobile; light prominent mobile headings.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:1d84ecb2c4904c3b5e86aa00beb33c94180b2d73,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            }
+          }
+        },
+        "2xl": {
+          "thicker": {
+            "desktop": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.title}",
+                "fontSize": "{pds.font.size.title.desktop.2xl}",
+                "fontWeight": "{pds.font.weight.bold}",
+                "letterSpacing": "{pds.font.letterspacing.title.none}",
+                "lineHeight": "{pds.font.lineheight.125}"
+              },
+              "$description": "2XL bold title desktop; major section headings.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:f1832011734eceafaac1a7d15af2d44b429454bb,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            },
+            "mobile": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.title}",
+                "fontSize": "{pds.font.size.title.mobile.xl}",
+                "fontWeight": "{pds.font.weight.bold}",
+                "letterSpacing": "{pds.font.letterspacing.title.none}",
+                "lineHeight": "{pds.font.lineheight.125}"
+              },
+              "$description": "2XL bold title mobile; major mobile section headings.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:b0df2ab52c8d4dc7808edacaab7cfa8a4e24e45e,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            }
+          },
+          "regular": {
+            "desktop": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.title}",
+                "fontSize": "{pds.font.size.title.desktop.2xl}",
+                "fontWeight": "{pds.font.weight.regular}",
+                "letterSpacing": "{pds.font.letterspacing.title.none}",
+                "lineHeight": "{pds.font.lineheight.125}"
+              },
+              "$description": "2XL regular title desktop; light major headings.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:1a977b67ac52f7308aa631056984e919e669923a,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            },
+            "mobile": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.title}",
+                "fontSize": "{pds.font.size.title.mobile.xl}",
+                "fontWeight": "{pds.font.weight.regular}",
+                "letterSpacing": "{pds.font.letterspacing.title.none}",
+                "lineHeight": "{pds.font.lineheight.125}"
+              },
+              "$description": "2XL regular title mobile; light major mobile headings.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:edac8d8b6d77d39fd1eeaed489f2366acb3e8624,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            }
+          }
+        },
+        "xl": {
+          "thicker": {
+            "desktop": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.title}",
+                "fontSize": "{pds.font.size.title.desktop.xl}",
+                "fontWeight": "{pds.font.weight.bold}",
+                "letterSpacing": "{pds.font.letterspacing.title.none}",
+                "lineHeight": "{pds.font.lineheight.125}"
+              },
+              "$description": "XL bold title desktop; large section headings.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:cf43ce622eff8240a2ab5aed676a7083a316e2fb,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            },
+            "mobile": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.title}",
+                "fontSize": "{pds.font.size.title.mobile.lg}",
+                "fontWeight": "{pds.font.weight.bold}",
+                "letterSpacing": "{pds.font.letterspacing.title.none}",
+                "lineHeight": "{pds.font.lineheight.125}"
+              },
+              "$description": "XL bold title mobile; large mobile section headings.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:c2fcf11fb6fa493c5b85ebeab2d96cc74cfd2ee4,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            }
+          },
+          "regular": {
+            "desktop": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.title}",
+                "fontSize": "{pds.font.size.title.desktop.xl}",
+                "fontWeight": "{pds.font.weight.regular}",
+                "letterSpacing": "{pds.font.letterspacing.title.none}",
+                "lineHeight": "{pds.font.lineheight.125}"
+              },
+              "$description": "XL regular title desktop; light large headings.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:232430470802fe4498d99c2f0992c12ffcc79090,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            },
+            "mobile": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.title}",
+                "fontSize": "{pds.font.size.title.mobile.lg}",
+                "fontWeight": "{pds.font.weight.regular}",
+                "letterSpacing": "{pds.font.letterspacing.title.none}",
+                "lineHeight": "{pds.font.lineheight.125}"
+              },
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:4ba4d4238dd23dd7938f5397d6ef46c90d4cc0ce,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            }
+          }
+        },
+        "lg": {
+          "thicker": {
+            "desktop": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.title}",
+                "fontSize": "{pds.font.size.title.desktop.lg}",
+                "fontWeight": "{pds.font.weight.bold}",
+                "letterSpacing": "-1.5px",
+                "lineHeight": "{pds.font.lineheight.125}"
+              },
+              "$description": "LG bold title desktop; standard section headings.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:e0a89e4831685574b787025b6cf0c0b9e16770d2,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            },
+            "mobile": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.title}",
+                "fontSize": "{pds.font.size.title.mobile.md}",
+                "fontWeight": "{pds.font.weight.bold}",
+                "letterSpacing": "{pds.font.letterspacing.title.none}",
+                "lineHeight": "{pds.font.lineheight.125}"
+              },
+              "$description": "LG bold title mobile; standard mobile section headings.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:0ac20769fc8f6de54f603f2aa0c0438cdf14c1ea,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            }
+          },
+          "regular": {
+            "desktop": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.title}",
+                "fontSize": "{pds.font.size.title.desktop.lg}",
+                "fontWeight": "{pds.font.weight.regular}",
+                "letterSpacing": "{pds.font.letterspacing.title.none}",
+                "lineHeight": "{pds.font.lineheight.125}"
+              },
+              "$description": "LG regular title desktop; light standard headings.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:f151e085aac373b01c4c6c1578b391fb33c23d02,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            },
+            "mobile": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.title}",
+                "fontSize": "{pds.font.size.title.mobile.md}",
+                "fontWeight": "{pds.font.weight.regular}",
+                "letterSpacing": "{pds.font.letterspacing.title.none}",
+                "lineHeight": "{pds.font.lineheight.125}"
+              },
+              "$description": "LG regular title mobile; light standard mobile headings.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:3daf47564aa550b1ac4c59627c9aeb0f88b1ec35,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            }
+          }
+        },
+        "sm": {
+          "thicker": {
+            "desktop": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.title}",
+                "fontSize": "{pds.font.size.title.desktop.sm}",
+                "fontWeight": "{pds.font.weight.bold}",
+                "letterSpacing": "{pds.font.letterspacing.title.none}",
+                "lineHeight": "{pds.font.lineheight.125}"
+              },
+              "$description": "SM bold title desktop; small section headings.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:08e1f279d3596bb9326043eb519e54672588ac76,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            },
+            "mobile": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.title}",
+                "fontSize": "{pds.font.size.title.desktop.xs}",
+                "fontWeight": "{pds.font.weight.bold}",
+                "letterSpacing": "{pds.font.letterspacing.title.none}",
+                "lineHeight": "{pds.font.lineheight.125}"
+              },
+              "$description": "SM bold title mobile; small mobile section headings.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:a493dd896b32feab4a687ce90bb8214d2c37f569,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            }
+          },
+          "regular": {
+            "desktop": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.title}",
+                "fontSize": "{pds.font.size.title.desktop.sm}",
+                "fontWeight": "{pds.font.weight.regular}",
+                "letterSpacing": "{pds.font.letterspacing.title.none}",
+                "lineHeight": "{pds.font.lineheight.125}"
+              },
+              "$description": "SM regular title desktop; light small headings.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:6c7b8b8f7f2d3fdc6c152ab0e2ede5a6f920dadc,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            },
+            "mobile": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.title}",
+                "fontSize": "{pds.font.size.title.desktop.xs}",
+                "fontWeight": "{pds.font.weight.regular}",
+                "letterSpacing": "{pds.font.letterspacing.title.none}",
+                "lineHeight": "{pds.font.lineheight.125}"
+              },
+              "$description": "SM regular title mobile; light small mobile headings.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:6384dd7aff9822405726ecc29d91813c280b57d8,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            }
+          }
+        },
+        "xs": {
+          "thicker": {
+            "mobile": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.title}",
+                "fontSize": "{pds.font.size.title.desktop.xs}",
+                "fontWeight": "{pds.font.weight.bold}",
+                "letterSpacing": "{pds.font.letterspacing.title.none}",
+                "lineHeight": "{pds.font.lineheight.125}"
+              },
+              "$description": "XS bold title desktop; extra small section headings.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:af9db07dc4506372d0c9f5ec8cfc609f782fea7f,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            },
+            "desktop": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.title}",
+                "fontSize": "{pds.font.size.title.desktop.xs}",
+                "fontWeight": "{pds.font.weight.bold}",
+                "letterSpacing": "{pds.font.letterspacing.title.none}",
+                "lineHeight": "{pds.font.lineheight.125}"
+              },
+              "$description": "XS bold title mobile; extra small mobile section headings.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:6dae02b3c74c828845bbf70366798881a57889c4,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            }
+          },
+          "regular": {
+            "mobile": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.title}",
+                "fontSize": "{pds.font.size.title.desktop.xs}",
+                "fontWeight": "{pds.font.weight.regular}",
+                "letterSpacing": "{pds.font.letterspacing.title.none}",
+                "lineHeight": "{pds.font.lineheight.125}"
+              },
+              "$description": "XS regular title desktop; light extra small headings.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:d342087074852946b698df0cba04abbdbf896287,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            },
+            "desktop": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.title}",
+                "fontSize": "{pds.font.size.title.desktop.xs}",
+                "fontWeight": "{pds.font.weight.regular}",
+                "letterSpacing": "{pds.font.letterspacing.title.none}",
+                "lineHeight": "{pds.font.lineheight.125}"
+              },
+              "$description": "XS regular title mobile; light extra small mobile headings.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:f446dc322abb1939c2f53cc0a6c7b95a5239f859,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            }
+          }
+        },
+        "2xs": {
+          "thicker": {
+            "desktop": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.title}",
+                "fontSize": "{pds.font.size.title.desktop.2xs}",
+                "fontWeight": "{pds.font.weight.bold}",
+                "letterSpacing": "{pds.font.letterspacing.title.none}",
+                "lineHeight": "{pds.font.lineheight.150}"
+              },
+              "$description": "2XS bold title desktop; smallest section headings.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:6892c7df0dad1a6efc02f292b3f2858ff436bfc1,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            },
+            "mobile": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.title}",
+                "fontSize": "{pds.font.size.title.desktop.2xs}",
+                "fontWeight": "{pds.font.weight.bold}",
+                "letterSpacing": "{pds.font.letterspacing.title.none}",
+                "lineHeight": "{pds.font.lineheight.150}"
+              },
+              "$description": "2XS bold title mobile; smallest mobile section headings.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:b40dfd1f6fb231c580e507c5fe9b46434cb6106f,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            }
+          },
+          "regular": {
+            "desktop": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.title}",
+                "fontSize": "{pds.font.size.title.desktop.2xs}",
+                "fontWeight": "{pds.font.weight.regular}",
+                "letterSpacing": "{pds.font.letterspacing.title.none}",
+                "lineHeight": "{pds.font.lineheight.150}"
+              },
+              "$description": "2XS regular title desktop; light smallest headings.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:009b6f7755e2d90a6cb94ac88034763c2a8f50a3,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            },
+            "mobile": {
+              "$type": "typography",
+              "$value": {
+                "fontFamily": "{pds.font.family.title}",
+                "fontSize": "{pds.font.size.title.desktop.2xs}",
+                "fontWeight": "{pds.font.weight.regular}",
+                "letterSpacing": "{pds.font.letterspacing.title.none}",
+                "lineHeight": "{pds.font.lineheight.150}"
+              },
+              "$description": "2XS regular title mobile; light smallest mobile headings.",
+              "$extensions": {
+                "figma": {
+                  "styleId": "S:03e29aaff23ee07ffe07045a2e747fe914f87a71,",
+                  "paragraphSpacing": 0,
+                  "paragraphIndent": 0,
+                  "textCase": "ORIGINAL",
+                  "textDecoration": "NONE"
+                }
+              }
+            }
+          }
+        }
+      },
+      "body": {
+        "lg": {
+          "thicker": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.body}",
+              "fontSize": "{pds.font.size.body.lg}",
+              "fontWeight": "{pds.font.weight.bold}",
+              "letterSpacing": "{pds.font.letterspacing.body.none}",
+              "lineHeight": "{pds.font.lineheight.150}"
+            },
+            "$description": "Large bold body; emphasized featured content.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:e150b825e3f888d380b6ff046148c0fd84ca3000,",
+                "paragraphSpacing": 24,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "NONE"
+              }
+            }
+          },
+          "thicker-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.body}",
+              "fontSize": "{pds.font.size.body.lg}",
+              "fontWeight": "{pds.font.weight.bold}",
+              "letterSpacing": "{pds.font.letterspacing.body.none}",
+              "lineHeight": "{pds.font.lineheight.150}",
+              "textDecoration": "underline"
+            },
+            "$description": "Large bold body link; prominent hyperlinks.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:75b125a012827dceb23b9bfc38583e05df8ed352,",
+                "paragraphSpacing": 24,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "UNDERLINE"
+              }
+            }
+          },
+          "regular": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.body}",
+              "fontSize": "{pds.font.size.body.lg}",
+              "fontWeight": "{pds.font.weight.regular}",
+              "letterSpacing": "{pds.font.letterspacing.body.none}",
+              "lineHeight": "{pds.font.lineheight.150}"
+            },
+            "$description": "Large regular body; featured paragraph text.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:3a6d5d2b8288578b42eab7b72ce1463185ec6ab8,",
+                "paragraphSpacing": 24,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "NONE"
+              }
+            }
+          },
+          "regular-italic": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.body}",
+              "fontSize": "{pds.font.size.body.lg}",
+              "fontWeight": "{pds.font.weight.regular}",
+              "letterSpacing": "{pds.font.letterspacing.body.none}",
+              "lineHeight": "{pds.font.lineheight.150}",
+              "fontStyle": "italic"
+            },
+            "$description": "Large italic body; emphasized featured text.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:086563f99aa468121c18eeca46a3a3b3a48cdc94,",
+                "paragraphSpacing": 24,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "NONE"
+              }
+            }
+          },
+          "regular-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.body}",
+              "fontSize": "{pds.font.size.body.lg}",
+              "fontWeight": "{pds.font.weight.regular}",
+              "letterSpacing": "{pds.font.letterspacing.body.none}",
+              "lineHeight": "{pds.font.lineheight.150}",
+              "textDecoration": "underline"
+            },
+            "$description": "Large regular body link; featured hyperlinks.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:d6a469f7c87eebbde8997faeaa99ffa49727ebc0,",
+                "paragraphSpacing": 24,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "UNDERLINE"
+              }
+            }
+          }
+        },
+        "md": {
+          "thicker": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.body}",
+              "fontSize": "{pds.font.size.body.md}",
+              "fontWeight": "{pds.font.weight.bold}",
+              "letterSpacing": "{pds.font.letterspacing.body.none}",
+              "lineHeight": "{pds.font.lineheight.150}"
+            },
+            "$description": "Medium bold body; emphasized standard text.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:eb63f11947cf485787f6fbbbeb55b788956ad2e3,",
+                "paragraphSpacing": 24,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "NONE"
+              }
+            }
+          },
+          "thicker-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.body}",
+              "fontSize": "{pds.font.size.body.md}",
+              "fontWeight": "{pds.font.weight.bold}",
+              "letterSpacing": "{pds.font.letterspacing.body.none}",
+              "lineHeight": "{pds.font.lineheight.150}",
+              "textDecoration": "underline"
+            },
+            "$description": "Medium bold body link; prominent standard hyperlinks.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:8ff38e4bc2130119eda5a6944ab887c8077ea851,",
+                "paragraphSpacing": 24,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "UNDERLINE"
+              }
+            }
+          },
+          "regular": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.body}",
+              "fontSize": "{pds.font.size.body.md}",
+              "fontWeight": "{pds.font.weight.regular}",
+              "letterSpacing": "{pds.font.letterspacing.body.none}",
+              "lineHeight": "{pds.font.lineheight.150}"
+            },
+            "$description": "Medium regular body; standard paragraph text.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:a9ecd39d8b8485fe1cb08650b927cb3689d84eaa,",
+                "paragraphSpacing": 24,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "NONE"
+              }
+            }
+          },
+          "regular-italic": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.body}",
+              "fontSize": "{pds.font.size.body.md}",
+              "fontWeight": "{pds.font.weight.regular}",
+              "letterSpacing": "{pds.font.letterspacing.body.none}",
+              "lineHeight": "{pds.font.lineheight.150}",
+              "fontStyle": "italic"
+            },
+            "$description": "Medium italic body; emphasized standard text.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:474bf11753a28545d75d461883e23469e7f63a3c,",
+                "paragraphSpacing": 24,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "NONE"
+              }
+            }
+          },
+          "regular-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.body}",
+              "fontSize": "{pds.font.size.body.md}",
+              "fontWeight": "{pds.font.weight.regular}",
+              "letterSpacing": "{pds.font.letterspacing.body.none}",
+              "lineHeight": "{pds.font.lineheight.150}",
+              "textDecoration": "underline"
+            },
+            "$description": "Medium regular body link; standard hyperlinks.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:ad4229af7efe637c93dfd6a93a42d68215b03482,",
+                "paragraphSpacing": 24,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "UNDERLINE"
+              }
+            }
+          }
+        },
+        "sm": {
+          "thicker": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.body}",
+              "fontSize": "{pds.font.size.body.sm}",
+              "fontWeight": "{pds.font.weight.bold}",
+              "letterSpacing": "{pds.font.letterspacing.body.none}",
+              "lineHeight": "{pds.font.lineheight.150}"
+            },
+            "$description": "Small bold body; emphasized compact text.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:d118f88c9a0153e674d0ed7477f30c072e2a46d7,",
+                "paragraphSpacing": 22,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "NONE"
+              }
+            }
+          },
+          "thicker-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.body}",
+              "fontSize": "{pds.font.size.body.sm}",
+              "fontWeight": "{pds.font.weight.bold}",
+              "letterSpacing": "{pds.font.letterspacing.body.none}",
+              "lineHeight": "{pds.font.lineheight.150}",
+              "textDecoration": "underline"
+            },
+            "$description": "Small bold body link; compact prominent hyperlinks.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:2287f171d51229dcc5c8ab7e06558b040d10ee5a,",
+                "paragraphSpacing": 22,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "UNDERLINE"
+              }
+            }
+          },
+          "regular": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.body}",
+              "fontSize": "{pds.font.size.body.sm}",
+              "fontWeight": "{pds.font.weight.regular}",
+              "letterSpacing": "{pds.font.letterspacing.body.none}",
+              "lineHeight": "{pds.font.lineheight.150}"
+            },
+            "$description": "Small regular body; compact paragraph text.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:b19c0bb3a89d0d69f6fa5d5481badcd8397953ea,",
+                "paragraphSpacing": 22,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "NONE"
+              }
+            }
+          },
+          "regular-italic": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.body}",
+              "fontSize": "{pds.font.size.body.sm}",
+              "fontWeight": "{pds.font.weight.regular}",
+              "letterSpacing": "{pds.font.letterspacing.body.none}",
+              "lineHeight": "{pds.font.lineheight.150}",
+              "fontStyle": "italic"
+            },
+            "$description": "Small italic body; emphasized compact text.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:b75a3419e070373343802a836a9b3bc00c8e93d1,",
+                "paragraphSpacing": 22,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "NONE"
+              }
+            }
+          },
+          "regular-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.body}",
+              "fontSize": "{pds.font.size.body.sm}",
+              "fontWeight": "{pds.font.weight.regular}",
+              "letterSpacing": "{pds.font.letterspacing.body.none}",
+              "lineHeight": "{pds.font.lineheight.150}",
+              "textDecoration": "underline"
+            },
+            "$description": "Small regular body link; compact hyperlinks.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:b688c12439bcd157b8726527b18485424decffc8,",
+                "paragraphSpacing": 22,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "UNDERLINE"
+              }
+            }
+          }
+        }
+      },
+      "detail": {
+        "lg": {
+          "thick": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.detail}",
+              "fontSize": "{pds.font.size.detail.lg}",
+              "fontWeight": "{pds.font.weight.semibold}",
+              "letterSpacing": "{pds.font.letterspacing.detail.none}",
+              "lineHeight": "{pds.font.lineheight.165}"
+            },
+            "$description": "Large semibold detail; prominent captions.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:4aaf7f391ab36af3eb458b027a2a5dd216e98870,",
+                "paragraphSpacing": 0,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "NONE"
+              }
+            }
+          },
+          "thick-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.detail}",
+              "fontSize": "{pds.font.size.detail.lg}",
+              "fontWeight": "{pds.font.weight.semibold}",
+              "letterSpacing": "{pds.font.letterspacing.detail.none}",
+              "lineHeight": "{pds.font.lineheight.165}",
+              "textDecoration": "underline"
+            },
+            "$description": "Large semibold detail link; prominent caption hyperlinks.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:d6537768481f1bdfbe27533944bcd7f4a69a9424,",
+                "paragraphSpacing": 0,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "UNDERLINE"
+              }
+            }
+          },
+          "regular": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.detail}",
+              "fontSize": "{pds.font.size.detail.lg}",
+              "fontWeight": "{pds.font.weight.regular}",
+              "letterSpacing": "{pds.font.letterspacing.detail.none}",
+              "lineHeight": "{pds.font.lineheight.165}"
+            },
+            "$description": "Large regular detail; standard captions.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:036d2c206678312638bfaee5d71bca9abe54d812,",
+                "paragraphSpacing": 0,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "NONE"
+              }
+            }
+          },
+          "regular-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.detail}",
+              "fontSize": "{pds.font.size.detail.lg}",
+              "fontWeight": "{pds.font.weight.regular}",
+              "letterSpacing": "{pds.font.letterspacing.detail.none}",
+              "lineHeight": "{pds.font.lineheight.165}",
+              "textDecoration": "underline"
+            },
+            "$description": "Large regular detail link; standard caption hyperlinks.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:7b687e0a674c909fcfc983b0b624c42c458e1c8c,",
+                "paragraphSpacing": 0,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "UNDERLINE"
+              }
+            }
+          }
+        },
+        "md": {
+          "thick": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.detail}",
+              "fontSize": "{pds.font.size.detail.md}",
+              "fontWeight": "{pds.font.weight.semibold}",
+              "letterSpacing": "{pds.font.letterspacing.detail.none}",
+              "lineHeight": "{pds.font.lineheight.165}"
+            },
+            "$description": "Medium semibold detail; emphasized metadata.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:285a85252658367edd67840f34a9e1a4dced3218,",
+                "paragraphSpacing": 0,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "NONE"
+              }
+            }
+          },
+          "thick-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.detail}",
+              "fontSize": "{pds.font.size.detail.md}",
+              "fontWeight": "{pds.font.weight.semibold}",
+              "letterSpacing": "{pds.font.letterspacing.detail.none}",
+              "lineHeight": "{pds.font.lineheight.165}",
+              "textDecoration": "underline"
+            },
+            "$description": "Medium semibold detail; emphasized metadata.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:f0583d43b2c36b79223422a4b0dc8119ac17d39d,",
+                "paragraphSpacing": 0,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "UNDERLINE"
+              }
+            }
+          },
+          "regular": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.detail}",
+              "fontSize": "{pds.font.size.detail.md}",
+              "fontWeight": "{pds.font.weight.regular}",
+              "letterSpacing": "{pds.font.letterspacing.detail.none}",
+              "lineHeight": "{pds.font.lineheight.165}"
+            },
+            "$description": "Medium regular detail; standard metadata.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:f4eef76319b44de0c9656000604ff8af2e15bc28,",
+                "paragraphSpacing": 0,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "NONE"
+              }
+            }
+          },
+          "regular-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.detail}",
+              "fontSize": "{pds.font.size.detail.md}",
+              "fontWeight": "{pds.font.weight.regular}",
+              "letterSpacing": "{pds.font.letterspacing.detail.none}",
+              "lineHeight": "{pds.font.lineheight.165}",
+              "textDecoration": "underline"
+            },
+            "$description": "Medium regular detail link; standard metadata hyperlinks.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:440e114720e58b0876a3958fae90f2feeb996d93,",
+                "paragraphSpacing": 0,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "UNDERLINE"
+              }
+            }
+          }
+        },
+        "sm": {
+          "thick": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.detail}",
+              "fontSize": "{pds.font.size.detail.sm}",
+              "fontWeight": "{pds.font.weight.semibold}",
+              "letterSpacing": "{pds.font.letterspacing.detail.none}",
+              "lineHeight": "{pds.font.lineheight.150}"
+            },
+            "$description": "Small semibold detail; emphasized fine print.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:f81701f9e8066206adb61c3b3b4b24310eceeb69,",
+                "paragraphSpacing": 0,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "NONE"
+              }
+            }
+          },
+          "thick-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.detail}",
+              "fontSize": "{pds.font.size.detail.sm}",
+              "fontWeight": "{pds.font.weight.semibold}",
+              "letterSpacing": "{pds.font.letterspacing.detail.none}",
+              "lineHeight": "{pds.font.lineheight.150}",
+              "textDecoration": "underline"
+            },
+            "$description": "Small semibold detail link; emphasized fine print hyperlinks.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:c9ab2d07173b54fdb92625bc5d31171424317968,",
+                "paragraphSpacing": 0,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "UNDERLINE"
+              }
+            }
+          },
+          "regular": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.detail}",
+              "fontSize": "{pds.font.size.detail.md}",
+              "fontWeight": "{pds.font.weight.regular}",
+              "letterSpacing": "{pds.font.letterspacing.detail.none}",
+              "lineHeight": "{pds.font.lineheight.150}"
+            },
+            "$description": "Small regular detail; standard fine print.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:72ec54f705ed0c9cec8d7799b97165094f22c24f,",
+                "paragraphSpacing": 0,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "NONE"
+              }
+            }
+          },
+          "regular-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.detail}",
+              "fontSize": "{pds.font.size.detail.md}",
+              "fontWeight": "{pds.font.weight.regular}",
+              "letterSpacing": "{pds.font.letterspacing.detail.none}",
+              "lineHeight": "{pds.font.lineheight.150}",
+              "textDecoration": "underline"
+            },
+            "$description": "Small regular detail link; fine print hyperlinks.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:c0194d6fdd0ba7c598d22aaaf4bb2c775a02c9e0,",
+                "paragraphSpacing": 0,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "UNDERLINE"
+              }
+            }
+          }
+        }
+      },
+      "button": {
+        "lg": {
+          "thick": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.body}",
+              "fontSize": "{pds.font.size.button.lg}",
+              "fontWeight": "{pds.font.weight.medium}",
+              "letterSpacing": "{pds.font.letterspacing.body.none}",
+              "lineHeight": "{pds.font.lineheight.125}"
+            },
+            "$description": "Large medium button; prominent CTA text.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:fcb5c2ca3dea23c1432faca9cd4fda68420c6ba9,",
+                "paragraphSpacing": 0,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "NONE"
+              }
+            }
+          },
+          "thick-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.body}",
+              "fontSize": "{pds.font.size.button.lg}",
+              "fontWeight": "{pds.font.weight.medium}",
+              "letterSpacing": "{pds.font.letterspacing.body.none}",
+              "lineHeight": "{pds.font.lineheight.125}",
+              "textDecoration": "underline"
+            },
+            "$description": "Large medium button link; prominent CTA hyperlinks.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:7d8fcc5f2bf4901b30716882cf22a2006ee119a8,",
+                "paragraphSpacing": 0,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "UNDERLINE"
+              }
+            }
+          },
+          "regular": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.body}",
+              "fontSize": "{pds.font.size.button.lg}",
+              "fontWeight": "{pds.font.weight.regular}",
+              "letterSpacing": "{pds.font.letterspacing.body.none}",
+              "lineHeight": "{pds.font.lineheight.125}"
+            },
+            "$description": "Large regular button; standard large button text.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:395fd809c0cbe19868c7b57f7ce42ea0638879f6,",
+                "paragraphSpacing": 0,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "NONE"
+              }
+            }
+          },
+          "regular-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.body}",
+              "fontSize": "{pds.font.size.button.lg}",
+              "fontWeight": "{pds.font.weight.regular}",
+              "letterSpacing": "{pds.font.letterspacing.body.none}",
+              "lineHeight": "{pds.font.lineheight.125}",
+              "textDecoration": "underline"
+            },
+            "$description": "Large regular button link; standard large button hyperlinks.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:dce37a39998c0689e6aa54258f015718e1f21107,",
+                "paragraphSpacing": 0,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "UNDERLINE"
+              }
+            }
+          }
+        },
+        "md": {
+          "thick": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.body}",
+              "fontSize": "{pds.font.size.button.md}",
+              "fontWeight": "{pds.font.weight.medium}",
+              "letterSpacing": "{pds.font.letterspacing.body.none}",
+              "lineHeight": "{pds.font.lineheight.125}"
+            },
+            "$description": "Medium medium button; standard CTA text.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:39b31f2c4466c234bd9b1113c6e483e8de80ee3c,",
+                "paragraphSpacing": 0,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "NONE"
+              }
+            }
+          },
+          "thick-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.body}",
+              "fontSize": "{pds.font.size.button.md}",
+              "fontWeight": "{pds.font.weight.medium}",
+              "letterSpacing": "{pds.font.letterspacing.body.none}",
+              "lineHeight": "{pds.font.lineheight.125}",
+              "textDecoration": "underline"
+            },
+            "$description": "Medium medium button link; standard CTA hyperlinks.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:edf7935f4694da6c306b3ff31c6b9001dced06fb,",
+                "paragraphSpacing": 0,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "UNDERLINE"
+              }
+            }
+          },
+          "regular": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.body}",
+              "fontSize": "{pds.font.size.button.md}",
+              "fontWeight": "{pds.font.weight.regular}",
+              "letterSpacing": "{pds.font.letterspacing.body.none}",
+              "lineHeight": "{pds.font.lineheight.125}"
+            },
+            "$description": "Medium regular button; standard button text.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:1760c86b3fa3efc18e15c757724beca9b82a684d,",
+                "paragraphSpacing": 0,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "NONE"
+              }
+            }
+          },
+          "regular-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.body}",
+              "fontSize": "{pds.font.size.button.md}",
+              "fontWeight": "{pds.font.weight.regular}",
+              "letterSpacing": "{pds.font.letterspacing.body.none}",
+              "lineHeight": "{pds.font.lineheight.125}",
+              "textDecoration": "underline"
+            },
+            "$description": "Medium regular button link; standard button hyperlinks.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:343e0d205a83bfb8c4cc44909d3795fc97c2d553,",
+                "paragraphSpacing": 0,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "UNDERLINE"
+              }
+            }
+          }
+        },
+        "sm": {
+          "thick": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.body}",
+              "fontSize": "{pds.font.size.button.sm}",
+              "fontWeight": "{pds.font.weight.medium}",
+              "letterSpacing": "{pds.font.letterspacing.body.none}",
+              "lineHeight": "{pds.font.lineheight.115}"
+            },
+            "$description": "Small medium button; compact CTA text.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:e4af98432c62e345abf1f9c4c2b95ed265f69403,",
+                "paragraphSpacing": 0,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "NONE"
+              }
+            }
+          },
+          "thick-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.body}",
+              "fontSize": "{pds.font.size.button.sm}",
+              "fontWeight": "{pds.font.weight.medium}",
+              "letterSpacing": "{pds.font.letterspacing.body.none}",
+              "lineHeight": "{pds.font.lineheight.125}",
+              "textDecoration": "underline"
+            },
+            "$description": "Small medium button link; compact CTA hyperlinks.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:f099d5c1c444c574be271e20c5ea88f2164e4240,",
+                "paragraphSpacing": 0,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "UNDERLINE"
+              }
+            }
+          },
+          "regular": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.body}",
+              "fontSize": "{pds.font.size.button.sm}",
+              "fontWeight": "{pds.font.weight.regular}",
+              "letterSpacing": "{pds.font.letterspacing.body.none}",
+              "lineHeight": "{pds.font.lineheight.115}"
+            },
+            "$description": "Small regular button; compact button text.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:9a3782f7897cbb7c9ead8c718969911e78cc6030,",
+                "paragraphSpacing": 0,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "NONE"
+              }
+            }
+          },
+          "regular-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{pds.font.family.body}",
+              "fontSize": "{pds.font.size.button.sm}",
+              "fontWeight": "{pds.font.weight.regular}",
+              "letterSpacing": "{pds.font.letterspacing.body.none}",
+              "lineHeight": "{pds.font.lineheight.125}",
+              "textDecoration": "underline"
+            },
+            "$description": "Small regular button link; compact button hyperlinks.",
+            "$extensions": {
+              "figma": {
+                "styleId": "S:eb233275855a532a203c893000701181ce5cce71,",
+                "paragraphSpacing": 0,
+                "paragraphIndent": 0,
+                "textCase": "ORIGINAL",
+                "textDecoration": "UNDERLINE"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$extensions": {
+    "generator": {
+      "name": "Token Press",
+      "version": "2.3.1"
+    }
+  }
+}

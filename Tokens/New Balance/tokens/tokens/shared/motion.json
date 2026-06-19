@@ -1,0 +1,258 @@
+{
+  "nbds": {
+    "motion": {
+      "duration": {
+        "instant": {
+          "$type": "duration",
+          "$value": "{nbds.motion.duration.50}",
+          "$description": "Micro / instant feel (50ms). Informational.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17031:4",
+              "collection": "VariableCollectionId:17028:5",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "fast": {
+          "$type": "duration",
+          "$value": "{nbds.motion.duration.100}",
+          "$description": "Fast animations (100ms) — hover state changes.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17031:5",
+              "collection": "VariableCollectionId:17028:5",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "quick": {
+          "$type": "duration",
+          "$value": "{nbds.motion.duration.150}",
+          "$description": "Quick transitions (150ms).",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17031:6",
+              "collection": "VariableCollectionId:17028:5",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "normal": {
+          "$type": "duration",
+          "$value": "{nbds.motion.duration.200}",
+          "$description": "Default timing (200ms).",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17031:7",
+              "collection": "VariableCollectionId:17028:5",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "moderate": {
+          "$type": "duration",
+          "$value": "{nbds.motion.duration.300}",
+          "$description": "Moderate pacing (300ms).",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17031:8",
+              "collection": "VariableCollectionId:17028:5",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "slow": {
+          "$type": "duration",
+          "$value": "{nbds.motion.duration.500}",
+          "$description": "Slow animations (500ms). Vestibular.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17031:9",
+              "collection": "VariableCollectionId:17028:5",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "slower": {
+          "$type": "duration",
+          "$value": "{nbds.motion.duration.800}",
+          "$description": "Very slow (800ms). Vestibular.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17031:10",
+              "collection": "VariableCollectionId:17028:5",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "instant-reduced": {
+          "$type": "duration",
+          "$value": "{nbds.motion.duration.50}",
+          "$description": "Reduced-motion: instant preserved at floor.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17031:15",
+              "collection": "VariableCollectionId:17028:5",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "fast-reduced": {
+          "$type": "duration",
+          "$value": "{nbds.motion.duration.50}",
+          "$description": "Reduced-motion: fast halved to floor.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17031:16",
+              "collection": "VariableCollectionId:17028:5",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "quick-reduced": {
+          "$type": "duration",
+          "$value": "{nbds.motion.duration.100}",
+          "$description": "Reduced-motion: quick halved.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17031:17",
+              "collection": "VariableCollectionId:17028:5",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "normal-reduced": {
+          "$type": "duration",
+          "$value": "{nbds.motion.duration.100}",
+          "$description": "Reduced-motion: normal halved.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17031:18",
+              "collection": "VariableCollectionId:17028:5",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "moderate-reduced": {
+          "$type": "duration",
+          "$value": "{nbds.motion.duration.0}",
+          "$description": "Reduced-motion: moderate dropped (vestibular boundary).",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17031:19",
+              "collection": "VariableCollectionId:17028:5",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "slow-reduced": {
+          "$type": "duration",
+          "$value": "{nbds.motion.duration.0}",
+          "$description": "Reduced-motion: slow dropped (vestibular).",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17031:20",
+              "collection": "VariableCollectionId:17028:5",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "slower-reduced": {
+          "$type": "duration",
+          "$value": "{nbds.motion.duration.0}",
+          "$description": "Reduced-motion: slower dropped (vestibular).",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17031:21",
+              "collection": "VariableCollectionId:17028:5",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        }
+      },
+      "easing": {
+        "standard": {
+          "$type": "cubicBezier",
+          "$value": "{nbds.motion.easing.ease-in-out}",
+          "$description": "Default easing.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17031:11",
+              "collection": "VariableCollectionId:17028:5",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "enter": {
+          "$type": "cubicBezier",
+          "$value": "{nbds.motion.easing.ease-out}",
+          "$description": "Entering / appearing elements.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17031:12",
+              "collection": "VariableCollectionId:17028:5",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "exit": {
+          "$type": "cubicBezier",
+          "$value": "{nbds.motion.easing.ease-in}",
+          "$description": "Exiting / disappearing elements.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17031:13",
+              "collection": "VariableCollectionId:17028:5",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "emphasized": {
+          "$type": "cubicBezier",
+          "$value": "{nbds.motion.easing.fast-out-slow-in}",
+          "$description": "Attention-drawing motion.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17031:14",
+              "collection": "VariableCollectionId:17028:5",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        }
+      }
+    }
+  },
+  "$extensions": {
+    "generator": {
+      "name": "Token Press",
+      "version": "2.3.1"
+    },
+    "figma": {
+      "collection": {
+        "id": "VariableCollectionId:17028:5",
+        "name": "motion",
+        "defaultModeId": "17028:1"
+      },
+      "mode": "Mode 1"
+    }
+  }
+}

@@ -1,0 +1,460 @@
+{
+  "$collection": "space-size",
+  "$mode": "Mode 1",
+  "variables": [
+    {
+      "id": "VariableID:747:10444",
+      "name": "nbds/space/3xl",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP"
+      ],
+      "description": "",
+      "value": 128,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:747:10557",
+        "name": "nbds/dimension/128"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10462",
+      "name": "nbds/space/2xl",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP"
+      ],
+      "description": "",
+      "value": 96,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:747:10558",
+        "name": "nbds/dimension/96"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10463",
+      "name": "nbds/space/xl",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP"
+      ],
+      "description": "",
+      "value": 64,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:747:10564",
+        "name": "nbds/dimension/64"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10465",
+      "name": "nbds/space/lg",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP"
+      ],
+      "description": "",
+      "value": 48,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:747:10577",
+        "name": "nbds/dimension/48"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10466",
+      "name": "nbds/space/sm",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP"
+      ],
+      "description": "",
+      "value": 24,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:747:10548",
+        "name": "nbds/dimension/24"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10467",
+      "name": "nbds/space/md",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP"
+      ],
+      "description": "",
+      "value": 32,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:747:10581",
+        "name": "nbds/dimension/32"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10468",
+      "name": "nbds/space/xs",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP"
+      ],
+      "description": "",
+      "value": 16,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:747:10575",
+        "name": "nbds/dimension/16"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10469",
+      "name": "nbds/space/3xs",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP"
+      ],
+      "description": "",
+      "value": 8,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:747:10565",
+        "name": "nbds/dimension/8"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:747:10473",
+      "name": "nbds/space/4xs",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP"
+      ],
+      "description": "",
+      "value": 4,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:747:10553",
+        "name": "nbds/dimension/4"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:9001:82091",
+      "name": "nbds/space/2xs",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP"
+      ],
+      "description": "",
+      "value": 12,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:747:10549",
+        "name": "nbds/dimension/12"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:30",
+      "name": "nbds/size/component/height-xs",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "XS component height.",
+      "value": 24,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:747:10548",
+        "name": "nbds/dimension/24"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:31",
+      "name": "nbds/size/component/height-sm",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "SM component height.",
+      "value": 32,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:747:10581",
+        "name": "nbds/dimension/32"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:32",
+      "name": "nbds/size/component/height-md",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "MD component height (standard buttons, inputs).",
+      "value": 40,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:747:10568",
+        "name": "nbds/dimension/40"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:33",
+      "name": "nbds/size/component/height-lg",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "LG component height.",
+      "value": 48,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:747:10577",
+        "name": "nbds/dimension/48"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:34",
+      "name": "nbds/size/component/height-xl",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "XL component height.",
+      "value": 56,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:747:10574",
+        "name": "nbds/dimension/56"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:35",
+      "name": "nbds/size/icon/xs",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "XS icon size.",
+      "value": 12,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:747:10549",
+        "name": "nbds/dimension/12"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:36",
+      "name": "nbds/size/icon/sm",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "SM icon size.",
+      "value": 16,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:747:10575",
+        "name": "nbds/dimension/16"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:37",
+      "name": "nbds/size/icon/md",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "MD icon size (standard inline icons).",
+      "value": 20,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:747:10554",
+        "name": "nbds/dimension/20"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:38",
+      "name": "nbds/size/icon/lg",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "LG icon size.",
+      "value": 24,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:747:10548",
+        "name": "nbds/dimension/24"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:39",
+      "name": "nbds/size/icon/xl",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "XL icon size (prominent icons).",
+      "value": 32,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:747:10581",
+        "name": "nbds/dimension/32"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:40",
+      "name": "nbds/border-width/none",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "STROKE_FLOAT"
+      ],
+      "description": "No border.",
+      "value": 0,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:747:10573",
+        "name": "nbds/dimension/0"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:41",
+      "name": "nbds/border-width/hairline",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "STROKE_FLOAT"
+      ],
+      "description": "Hairline border (1px).",
+      "value": 1,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:747:10583",
+        "name": "nbds/dimension/1"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:42",
+      "name": "nbds/border-width/thin",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "STROKE_FLOAT"
+      ],
+      "description": "Thin border (2px).",
+      "value": 2,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:747:10563",
+        "name": "nbds/dimension/2"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:43",
+      "name": "nbds/border-width/thick",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "STROKE_FLOAT"
+      ],
+      "description": "Thick border (4px).",
+      "value": 4,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:747:10553",
+        "name": "nbds/dimension/4"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:44",
+      "name": "nbds/opacity/0",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "OPACITY"
+      ],
+      "description": "Fully transparent.",
+      "value": 0,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:45",
+      "name": "nbds/opacity/disabled",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "OPACITY"
+      ],
+      "description": "Disabled element opacity.",
+      "value": 0.4000000059604645,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:46",
+      "name": "nbds/opacity/scrim/light",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "OPACITY"
+      ],
+      "description": "Light scrim overlay.",
+      "value": 0.6000000238418579,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:47",
+      "name": "nbds/opacity/scrim/heavy",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "OPACITY"
+      ],
+      "description": "Heavy scrim overlay.",
+      "value": 0.800000011920929,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17030:48",
+      "name": "nbds/opacity/100",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "OPACITY"
+      ],
+      "description": "Fully opaque.",
+      "value": 1,
+      "alias": null,
+      "codeSyntax": {}
+    }
+  ]
+}

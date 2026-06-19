@@ -1,0 +1,90 @@
+{
+  "nbds": {
+    "radius": {
+      "none": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.0}",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:14:326",
+            "collection": "VariableCollectionId:10:324",
+            "scopes": [
+              "CORNER_RADIUS"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      },
+      "sm": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.2}",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:14:330",
+            "collection": "VariableCollectionId:10:324",
+            "scopes": [
+              "CORNER_RADIUS"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      },
+      "md": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.4}",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:14:333",
+            "collection": "VariableCollectionId:10:324",
+            "scopes": [
+              "CORNER_RADIUS"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      },
+      "round": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.128}",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:266:2190",
+            "collection": "VariableCollectionId:10:324",
+            "scopes": [
+              "CORNER_RADIUS"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      },
+      "lg": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.6}",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:17363:696379",
+            "collection": "VariableCollectionId:10:324",
+            "scopes": [
+              "CORNER_RADIUS"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      }
+    }
+  },
+  "$extensions": {
+    "generator": {
+      "name": "Token Press",
+      "version": "2.3.1"
+    },
+    "figma": {
+      "collection": {
+        "id": "VariableCollectionId:10:324",
+        "name": "radius",
+        "defaultModeId": "10:4"
+      },
+      "mode": "Mode 1"
+    }
+  }
+}

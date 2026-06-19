@@ -1,0 +1,160 @@
+{
+  "$collection": "layout",
+  "$mode": "Mode 1",
+  "variables": [
+    {
+      "id": "VariableID:17031:22",
+      "name": "nbds/breakpoint/mobile",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "Mobile breakpoint floor (0px). Mobile = viewport < desktop crossover.",
+      "value": 0,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:113",
+        "name": "nbds/breakpoint/0"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17031:25",
+      "name": "nbds/breakpoint/desktop",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "Desktop breakpoint crossover (1024px). Desktop = viewport ≥ 1024px.",
+      "value": 1024,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:116",
+        "name": "nbds/breakpoint/1024"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17031:27",
+      "name": "nbds/container/max",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "Maximum content container width (1920px). Caps content sprawl on ultra-wide displays.",
+      "value": 1920,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17151:332124",
+        "name": "nbds/breakpoint/1920"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17151:332125",
+      "name": "nbds/grid/mobile/columns",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "ALL_SCOPES"
+      ],
+      "description": "Mobile grid column count.",
+      "value": 4,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17151:332126",
+      "name": "nbds/grid/mobile/gutter",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "GAP"
+      ],
+      "description": "Mobile grid gutter (space between columns).",
+      "value": 16,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:747:10575",
+        "name": "nbds/dimension/16"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17151:332127",
+      "name": "nbds/grid/mobile/margin",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP"
+      ],
+      "description": "Mobile grid margin (space between grid edge and viewport).",
+      "value": 16,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:747:10575",
+        "name": "nbds/dimension/16"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17151:332128",
+      "name": "nbds/grid/desktop/columns",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "ALL_SCOPES"
+      ],
+      "description": "Desktop grid column count.",
+      "value": 12,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17151:332129",
+      "name": "nbds/grid/desktop/gutter",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "GAP"
+      ],
+      "description": "Desktop grid gutter (space between columns).",
+      "value": 24,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:747:10548",
+        "name": "nbds/dimension/24"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17151:332130",
+      "name": "nbds/grid/desktop/margin",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP"
+      ],
+      "description": "Desktop grid margin (space between grid edge and viewport).",
+      "value": 24,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:747:10548",
+        "name": "nbds/dimension/24"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17151:332132",
+      "name": "nbds/container/narrow",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "Narrow content container width (720px). For long-form reading content (articles, editorial).",
+      "value": 720,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17151:332131",
+        "name": "nbds/dimension/720"
+      },
+      "codeSyntax": {}
+    }
+  ]
+}

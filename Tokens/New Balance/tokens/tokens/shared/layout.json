@@ -1,0 +1,180 @@
+{
+  "nbds": {
+    "breakpoint": {
+      "mobile": {
+        "$type": "dimension",
+        "$value": "{nbds.breakpoint.0}",
+        "$description": "Mobile breakpoint floor (0px). Mobile = viewport < desktop crossover.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:17031:22",
+            "collection": "VariableCollectionId:17028:6",
+            "scopes": [
+              "WIDTH_HEIGHT"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      },
+      "desktop": {
+        "$type": "dimension",
+        "$value": "{nbds.breakpoint.1024}",
+        "$description": "Desktop breakpoint crossover (1024px). Desktop = viewport ≥ 1024px.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:17031:25",
+            "collection": "VariableCollectionId:17028:6",
+            "scopes": [
+              "WIDTH_HEIGHT"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      }
+    },
+    "container": {
+      "max": {
+        "$type": "dimension",
+        "$value": "{nbds.breakpoint.1920}",
+        "$description": "Maximum content container width (1920px). Caps content sprawl on ultra-wide displays.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:17031:27",
+            "collection": "VariableCollectionId:17028:6",
+            "scopes": [
+              "WIDTH_HEIGHT"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      },
+      "narrow": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.720}",
+        "$description": "Narrow content container width (720px). For long-form reading content (articles, editorial).",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:17151:332132",
+            "collection": "VariableCollectionId:17028:6",
+            "scopes": [
+              "WIDTH_HEIGHT"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      }
+    },
+    "grid": {
+      "mobile": {
+        "columns": {
+          "$type": "number",
+          "$value": 4,
+          "$description": "Mobile grid column count.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17151:332125",
+              "collection": "VariableCollectionId:17028:6",
+              "scopes": [
+                "ALL_SCOPES"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "gutter": {
+          "$type": "dimension",
+          "$value": "{nbds.dimension.16}",
+          "$description": "Mobile grid gutter (space between columns).",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17151:332126",
+              "collection": "VariableCollectionId:17028:6",
+              "scopes": [
+                "GAP"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "margin": {
+          "$type": "dimension",
+          "$value": "{nbds.dimension.16}",
+          "$description": "Mobile grid margin (space between grid edge and viewport).",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17151:332127",
+              "collection": "VariableCollectionId:17028:6",
+              "scopes": [
+                "WIDTH_HEIGHT",
+                "GAP"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        }
+      },
+      "desktop": {
+        "columns": {
+          "$type": "number",
+          "$value": 12,
+          "$description": "Desktop grid column count.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17151:332128",
+              "collection": "VariableCollectionId:17028:6",
+              "scopes": [
+                "ALL_SCOPES"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "gutter": {
+          "$type": "dimension",
+          "$value": "{nbds.dimension.24}",
+          "$description": "Desktop grid gutter (space between columns).",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17151:332129",
+              "collection": "VariableCollectionId:17028:6",
+              "scopes": [
+                "GAP"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "margin": {
+          "$type": "dimension",
+          "$value": "{nbds.dimension.24}",
+          "$description": "Desktop grid margin (space between grid edge and viewport).",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17151:332130",
+              "collection": "VariableCollectionId:17028:6",
+              "scopes": [
+                "WIDTH_HEIGHT",
+                "GAP"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        }
+      }
+    }
+  },
+  "$extensions": {
+    "generator": {
+      "name": "Token Press",
+      "version": "2.3.1"
+    },
+    "figma": {
+      "collection": {
+        "id": "VariableCollectionId:17028:6",
+        "name": "layout",
+        "defaultModeId": "17028:2"
+      },
+      "mode": "Mode 1"
+    }
+  }
+}

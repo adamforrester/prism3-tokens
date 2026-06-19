@@ -1,0 +1,80 @@
+{
+  "$collection": "focus",
+  "$mode": "Mode 1",
+  "variables": [
+    {
+      "id": "VariableID:17031:28",
+      "name": "nbds/focus/ring/width",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "STROKE_FLOAT"
+      ],
+      "description": "Focus ring thickness (2px).",
+      "value": 2,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:747:10563",
+        "name": "nbds/dimension/2"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17031:29",
+      "name": "nbds/focus/ring/offset",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "Focus ring outset from element edge (2px).",
+      "value": 2,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:747:10563",
+        "name": "nbds/dimension/2"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17032:4",
+      "name": "nbds/focus/ring/color/default",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "STROKE_COLOR"
+      ],
+      "description": "Focus ring colour on light foregrounds (NB Red).",
+      "value": {
+        "r": 0.8117647171020508,
+        "g": 0.03921568766236305,
+        "b": 0.1725490242242813,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:649:428",
+        "name": "nbds/color/red/550"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17032:5",
+      "name": "nbds/focus/ring/color/inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "STROKE_COLOR"
+      ],
+      "description": "Focus ring colour on dark foregrounds.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:647:1329",
+        "name": "nbds/color/white"
+      },
+      "codeSyntax": {}
+    }
+  ]
+}

@@ -1,0 +1,424 @@
+{
+  "$collection": "space-size",
+  "$mode": "Default",
+  "variables": [
+    {
+      "id": "VariableID:73:3",
+      "name": "pds/space/0",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP"
+      ],
+      "description": "",
+      "value": 0,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:45:21",
+        "name": "pds/dimension/0"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:73:4",
+      "name": "pds/space/025",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP"
+      ],
+      "description": "Micro spacing; finest gap.",
+      "value": 2,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:46:22",
+        "name": "pds/dimension/2"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:73:5",
+      "name": "pds/space/050",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP"
+      ],
+      "description": "Tiny spacing; minimal gap.",
+      "value": 4,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:46:23",
+        "name": "pds/dimension/4"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:73:6",
+      "name": "pds/space/075",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP"
+      ],
+      "description": "Extra small spacing; tight gap.",
+      "value": 6,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:46:24",
+        "name": "pds/dimension/6"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:73:7",
+      "name": "pds/space/100",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP"
+      ],
+      "description": "Small spacing; compact gap.",
+      "value": 8,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:46:25",
+        "name": "pds/dimension/8"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:73:8",
+      "name": "pds/space/150",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP"
+      ],
+      "description": "Small-medium spacing; comfortable gap.",
+      "value": 12,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:46:26",
+        "name": "pds/dimension/12"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:73:9",
+      "name": "pds/space/200",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP"
+      ],
+      "description": "Medium spacing; standard gap.",
+      "value": 16,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:46:27",
+        "name": "pds/dimension/16"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:73:10",
+      "name": "pds/space/250",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP"
+      ],
+      "description": "Medium-large spacing; relaxed gap.",
+      "value": 20,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:46:28",
+        "name": "pds/dimension/20"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:73:11",
+      "name": "pds/space/300",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP"
+      ],
+      "description": "Large spacing; generous gap.",
+      "value": 24,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:46:29",
+        "name": "pds/dimension/24"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:73:12",
+      "name": "pds/space/400",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP"
+      ],
+      "description": "Extra large spacing; spacious gap.",
+      "value": 32,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:46:30",
+        "name": "pds/dimension/32"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:73:13",
+      "name": "pds/space/500",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP"
+      ],
+      "description": "2XL spacing; very spacious gap.",
+      "value": 40,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:46:31",
+        "name": "pds/dimension/40"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:73:14",
+      "name": "pds/space/600",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP"
+      ],
+      "description": "3XL spacing; major gap.",
+      "value": 48,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:46:32",
+        "name": "pds/dimension/48"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:73:15",
+      "name": "pds/space/800",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP"
+      ],
+      "description": "5XL spacing; large section gap.",
+      "value": 64,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:46:33",
+        "name": "pds/dimension/64"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:73:16",
+      "name": "pds/space/1000",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP"
+      ],
+      "description": "7XL spacing; maximum gap.",
+      "value": 80,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:46:34",
+        "name": "pds/dimension/80"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:73:17",
+      "name": "pds/space/700",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP"
+      ],
+      "description": "4XL spacing; substantial gap.",
+      "value": 56,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:46:36",
+        "name": "pds/dimension/56"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:73:18",
+      "name": "pds/space/900",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP"
+      ],
+      "description": "6XL spacing; extra large section gap.",
+      "value": 72,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:46:38",
+        "name": "pds/dimension/72"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:73:19",
+      "name": "pds/size/component/height-2xs",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "2XS component height; tiny elements.",
+      "value": 24,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:46:29",
+        "name": "pds/dimension/24"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:73:20",
+      "name": "pds/size/component/height-sm",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "SM component height; small elements.",
+      "value": 36,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:46:37",
+        "name": "pds/dimension/36"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:73:21",
+      "name": "pds/size/component/height-md",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "MD component height; standard elements.",
+      "value": 44,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:2050:5972",
+        "name": "pds/dimension/44"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:73:22",
+      "name": "pds/size/component/height-lg",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "LG component height; prominent elements.",
+      "value": 56,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:46:36",
+        "name": "pds/dimension/56"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:73:23",
+      "name": "pds/size/component/height-xl",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "XL component height; large elements.",
+      "value": 64,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:46:33",
+        "name": "pds/dimension/64"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2065:34713",
+      "name": "pds/size/component/height-xs",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "XS component height; compact elements.",
+      "value": 32,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:46:30",
+        "name": "pds/dimension/32"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2065:34714",
+      "name": "pds/size/component/height-2xl",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "2XL component height; extra large elements.",
+      "value": 72,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:46:38",
+        "name": "pds/dimension/72"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7938:2642",
+      "name": "pds/space/1100",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP"
+      ],
+      "description": "8XL spacing; huge section gap.",
+      "value": 88,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:46:39",
+        "name": "pds/dimension/88"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7938:2643",
+      "name": "pds/space/1200",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP"
+      ],
+      "description": "9XL spacing; massive section gap.",
+      "value": 96,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:46:40",
+        "name": "pds/dimension/96"
+      },
+      "codeSyntax": {}
+    }
+  ]
+}

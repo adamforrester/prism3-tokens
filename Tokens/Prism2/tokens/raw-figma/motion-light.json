@@ -1,0 +1,314 @@
+{
+  "$collection": "motion",
+  "$mode": "light",
+  "variables": [
+    {
+      "id": "VariableID:8331:38096",
+      "name": "pds/motion/duration/instant",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Micro / instant feel",
+      "value": 50,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:8331:38079",
+        "name": "pds/motion/duration/050"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8331:38097",
+      "name": "pds/motion/duration/fast",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Fast animations.",
+      "value": 100,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:8331:38080",
+        "name": "pds/motion/duration/100"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8331:38098",
+      "name": "pds/motion/duration/normal",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Default timing for most animations.",
+      "value": 200,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:8331:38082",
+        "name": "pds/motion/duration/200"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8331:38099",
+      "name": "pds/motion/duration/slow",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Slow animations.",
+      "value": 500,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:8375:44784",
+        "name": "pds/motion/duration/500"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8331:38100",
+      "name": "pds/motion/duration/slower",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Very slow animations.",
+      "value": 800,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:8375:44782",
+        "name": "pds/motion/duration/800"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8375:44785",
+      "name": "pds/motion/duration/quick",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Quick transitions.",
+      "value": 150,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:8331:38081",
+        "name": "pds/motion/duration/150"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8375:44786",
+      "name": "pds/motion/duration/moderate",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Moderate pacing for transitions.",
+      "value": 300,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:8331:38083",
+        "name": "pds/motion/duration/300"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8375:44789",
+      "name": "pds/motion/transition/enter/duration",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Enter/appear animation duration.",
+      "value": 200,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:8331:38098",
+        "name": "pds/motion/duration/normal"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8375:44791",
+      "name": "pds/motion/transition/enter/timingFunction",
+      "resolvedType": "STRING",
+      "scopes": [],
+      "description": "Enter/appear easing curve.",
+      "value": "cubic-bezier(0, 0, 0.58, 1)",
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:8331:38094",
+        "name": "pds/motion/easing/ease-out"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8375:44793",
+      "name": "pds/motion/transition/exit/timingFunction",
+      "resolvedType": "STRING",
+      "scopes": [],
+      "description": "Exit/disappear easing curve.",
+      "value": "cubic-bezier(0.42, 0, 1, 1)",
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:8331:38093",
+        "name": "pds/motion/easing/ease-in"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8375:44795",
+      "name": "pds/motion/transition/expand/timingFunction",
+      "resolvedType": "STRING",
+      "scopes": [],
+      "description": "Expand easing curve.",
+      "value": "cubic-bezier(0.2, 0, 0, 1)",
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:8375:44787",
+        "name": "pds/motion/easing/emphasized"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8375:44797",
+      "name": "pds/motion/transition/collapse/timingFunction",
+      "resolvedType": "STRING",
+      "scopes": [],
+      "description": "Collapse easing curve.",
+      "value": "cubic-bezier(0.42, 0, 1, 1)",
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:8331:38093",
+        "name": "pds/motion/easing/ease-in"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8375:44799",
+      "name": "pds/motion/transition/fade/timingFunction",
+      "resolvedType": "STRING",
+      "scopes": [],
+      "description": "Linear fade easing.",
+      "value": "linear",
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:8331:38092",
+        "name": "pds/motion/easing/linear"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8417:286",
+      "name": "pds/motion/transition/enter/delay",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Enter/appear animation delay.",
+      "value": 0,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:8417:288",
+        "name": "pds/motion/duration/000"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8417:289",
+      "name": "pds/motion/transition/exit/delay",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Exit/disappear animation delay.",
+      "value": 0,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:8417:288",
+        "name": "pds/motion/duration/000"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8417:290",
+      "name": "pds/motion/transition/exit/duration",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Exit/disappear animation duration.",
+      "value": 150,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:8375:44785",
+        "name": "pds/motion/duration/quick"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8417:291",
+      "name": "pds/motion/transition/expand/delay",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Expand animation dleay.",
+      "value": 0,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:8417:288",
+        "name": "pds/motion/duration/000"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8417:292",
+      "name": "pds/motion/transition/collapse/delay",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Collapse animation delay.",
+      "value": 0,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:8417:288",
+        "name": "pds/motion/duration/000"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8417:293",
+      "name": "pds/motion/transition/fade/delay",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Fade animation delay.",
+      "value": 0,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:8417:288",
+        "name": "pds/motion/duration/000"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8417:294",
+      "name": "pds/motion/transition/expand/duration",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Expand animation duration.",
+      "value": 300,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:8375:44786",
+        "name": "pds/motion/duration/moderate"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8417:295",
+      "name": "pds/motion/transition/collapse/duration",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Collapse animation duration.",
+      "value": 150,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:8375:44785",
+        "name": "pds/motion/duration/quick"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8417:296",
+      "name": "pds/motion/transition/fade/duration",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Fade animation duration.",
+      "value": 150,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:8375:44785",
+        "name": "pds/motion/duration/quick"
+      },
+      "codeSyntax": {}
+    }
+  ]
+}

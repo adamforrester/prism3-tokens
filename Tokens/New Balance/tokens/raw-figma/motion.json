@@ -1,0 +1,258 @@
+{
+  "$collection": "motion",
+  "$mode": "Mode 1",
+  "variables": [
+    {
+      "id": "VariableID:17031:4",
+      "name": "nbds/motion/duration/instant",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Micro / instant feel (50ms). Informational.",
+      "value": 50,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:100",
+        "name": "nbds/motion/duration/50"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17031:5",
+      "name": "nbds/motion/duration/fast",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Fast animations (100ms) — hover state changes.",
+      "value": 100,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:101",
+        "name": "nbds/motion/duration/100"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17031:6",
+      "name": "nbds/motion/duration/quick",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Quick transitions (150ms).",
+      "value": 150,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:102",
+        "name": "nbds/motion/duration/150"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17031:7",
+      "name": "nbds/motion/duration/normal",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Default timing (200ms).",
+      "value": 200,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:103",
+        "name": "nbds/motion/duration/200"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17031:8",
+      "name": "nbds/motion/duration/moderate",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Moderate pacing (300ms).",
+      "value": 300,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:104",
+        "name": "nbds/motion/duration/300"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17031:9",
+      "name": "nbds/motion/duration/slow",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Slow animations (500ms). Vestibular.",
+      "value": 500,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:105",
+        "name": "nbds/motion/duration/500"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17031:10",
+      "name": "nbds/motion/duration/slower",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Very slow (800ms). Vestibular.",
+      "value": 800,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:106",
+        "name": "nbds/motion/duration/800"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17031:11",
+      "name": "nbds/motion/easing/standard",
+      "resolvedType": "STRING",
+      "scopes": [],
+      "description": "Default easing.",
+      "value": "cubic-bezier(0.42, 0, 0.58, 1)",
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:110",
+        "name": "nbds/motion/easing/ease-in-out"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17031:12",
+      "name": "nbds/motion/easing/enter",
+      "resolvedType": "STRING",
+      "scopes": [],
+      "description": "Entering / appearing elements.",
+      "value": "cubic-bezier(0, 0, 0.58, 1)",
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:109",
+        "name": "nbds/motion/easing/ease-out"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17031:13",
+      "name": "nbds/motion/easing/exit",
+      "resolvedType": "STRING",
+      "scopes": [],
+      "description": "Exiting / disappearing elements.",
+      "value": "cubic-bezier(0.42, 0, 1, 1)",
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:108",
+        "name": "nbds/motion/easing/ease-in"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17031:14",
+      "name": "nbds/motion/easing/emphasized",
+      "resolvedType": "STRING",
+      "scopes": [],
+      "description": "Attention-drawing motion.",
+      "value": "cubic-bezier(0.2, 0, 0, 1)",
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:111",
+        "name": "nbds/motion/easing/fast-out-slow-in"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17031:15",
+      "name": "nbds/motion/duration/instant-reduced",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Reduced-motion: instant preserved at floor.",
+      "value": 50,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:100",
+        "name": "nbds/motion/duration/50"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17031:16",
+      "name": "nbds/motion/duration/fast-reduced",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Reduced-motion: fast halved to floor.",
+      "value": 50,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:100",
+        "name": "nbds/motion/duration/50"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17031:17",
+      "name": "nbds/motion/duration/quick-reduced",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Reduced-motion: quick halved.",
+      "value": 100,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:101",
+        "name": "nbds/motion/duration/100"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17031:18",
+      "name": "nbds/motion/duration/normal-reduced",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Reduced-motion: normal halved.",
+      "value": 100,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:101",
+        "name": "nbds/motion/duration/100"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17031:19",
+      "name": "nbds/motion/duration/moderate-reduced",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Reduced-motion: moderate dropped (vestibular boundary).",
+      "value": 0,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:99",
+        "name": "nbds/motion/duration/0"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17031:20",
+      "name": "nbds/motion/duration/slow-reduced",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Reduced-motion: slow dropped (vestibular).",
+      "value": 0,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:99",
+        "name": "nbds/motion/duration/0"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17031:21",
+      "name": "nbds/motion/duration/slower-reduced",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Reduced-motion: slower dropped (vestibular).",
+      "value": 0,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:17027:99",
+        "name": "nbds/motion/duration/0"
+      },
+      "codeSyntax": {}
+    }
+  ]
+}

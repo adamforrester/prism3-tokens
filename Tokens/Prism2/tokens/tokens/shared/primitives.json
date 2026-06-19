@@ -1,0 +1,4994 @@
+{
+  "nbds": {
+    "pds": {
+      "color": {
+        "blueberry": {
+          "100": {
+            "$type": "color",
+            "$value": "rgb(214, 227, 249)",
+            "$description": "Light blue; secondary backgrounds.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:43:4",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "150": {
+            "$type": "color",
+            "$value": "rgb(195, 213, 244)",
+            "$description": "Soft blue; borders and dividers.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:234:19208",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "200": {
+            "$type": "color",
+            "$value": "rgb(175, 199, 243)",
+            "$description": "Medium-light blue; inactive states.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:43:5",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "250": {
+            "$type": "color",
+            "$value": "rgb(157, 186, 238)",
+            "$description": "Medium blue; secondary UI elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:234:19209",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "300": {
+            "$type": "color",
+            "$value": "rgb(137, 172, 235)",
+            "$description": "Mid-tone blue; tertiary elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:43:6",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "350": {
+            "$type": "color",
+            "$value": "rgb(118, 158, 229)",
+            "$description": "Balanced blue; hover states on components.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:234:19210",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "400": {
+            "$type": "color",
+            "$value": "rgb(100, 144, 227)",
+            "$description": "Strong blue; active states.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:43:7",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "450": {
+            "$type": "color",
+            "$value": "rgb(82, 130, 221)",
+            "$description": "Deep blue; primary interactive elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:234:19211",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "500": {
+            "$type": "color",
+            "$value": "rgb(62, 115, 214)",
+            "$description": "Standard blue; default interactive color.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:43:8",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "550": {
+            "$type": "color",
+            "$value": "rgb(45, 101, 212)",
+            "$description": "Saturated blue; hover states on interactive elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:234:19212",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "600": {
+            "$type": "color",
+            "$value": "rgb(22, 86, 206)",
+            "$description": "Rich blue; text links and icons.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:43:9",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "650": {
+            "$type": "color",
+            "$value": "rgb(0, 70, 200)",
+            "$description": "Dark blue; emphasized interactive elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:234:19205",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "700": {
+            "$type": "color",
+            "$value": "rgb(0, 60, 174)",
+            "$description": "Deep saturated blue; pressed states.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:43:10",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "750": {
+            "$type": "color",
+            "$value": "rgb(8, 50, 146)",
+            "$description": "Very dark blue; high-contrast elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:234:19206",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "800": {
+            "$type": "color",
+            "$value": "rgb(4, 40, 123)",
+            "$description": "Near-black blue; strong emphasis.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:43:11",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "850": {
+            "$type": "color",
+            "$value": "rgb(0, 31, 101)",
+            "$description": "Darkest blue tone; extreme contrast.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:43:12",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "900": {
+            "$type": "color",
+            "$value": "rgb(0, 22, 80)",
+            "$description": "Almost black blue; text on light backgrounds.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:43:16",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "950": {
+            "$type": "color",
+            "$value": "rgb(0, 13, 53)",
+            "$description": "Pure dark blue; maximum contrast.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:43:17",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "050": {
+            "$type": "color",
+            "$value": "rgb(235, 241, 251)",
+            "$description": "Very light blue; hover states on light surfaces.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:43:3",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "025": {
+            "$type": "color",
+            "$value": "rgb(244, 248, 255)",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:234:19207",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          }
+        },
+        "neutral": {
+          "100": {
+            "$type": "color",
+            "$value": "rgb(226, 226, 226)",
+            "$description": "Light gray; secondary backgrounds.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:43:35",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "150": {
+            "$type": "color",
+            "$value": "rgb(212, 212, 212)",
+            "$description": "Soft gray; borders and dividers.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:43:36",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "200": {
+            "$type": "color",
+            "$value": "rgb(198, 198, 198)",
+            "$description": "Medium-light gray; disabled states.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:43:37",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "250": {
+            "$type": "color",
+            "$value": "rgb(185, 185, 185)",
+            "$description": "Medium gray; placeholder text.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:43:38",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "300": {
+            "$type": "color",
+            "$value": "rgb(171, 171, 171)",
+            "$description": "Mid-tone gray; secondary borders.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:43:39",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "350": {
+            "$type": "color",
+            "$value": "rgb(158, 158, 158)",
+            "$description": "Balanced gray; tertiary elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:43:40",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "400": {
+            "$type": "color",
+            "$value": "rgb(145, 145, 145)",
+            "$description": "Strong gray; icons and graphics.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:43:41",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "450": {
+            "$type": "color",
+            "$value": "rgb(132, 132, 132)",
+            "$description": "Deep gray; secondary text.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:43:42",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "500": {
+            "$type": "color",
+            "$value": "rgb(118, 118, 118)",
+            "$description": "Standard gray; body text.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:43:43",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "550": {
+            "$type": "color",
+            "$value": "rgb(106, 106, 106)",
+            "$description": "Saturated gray; labels.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:43:44",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "600": {
+            "$type": "color",
+            "$value": "rgb(94, 94, 94)",
+            "$description": "Rich gray; headings.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:43:45",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "650": {
+            "$type": "color",
+            "$value": "rgb(82, 82, 82)",
+            "$description": "Dark gray; emphasized text.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:43:46",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "700": {
+            "$type": "color",
+            "$value": "rgb(71, 71, 71)",
+            "$description": "Deep saturated gray; strong text.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:43:47",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "750": {
+            "$type": "color",
+            "$value": "rgb(59, 59, 59)",
+            "$description": "Very dark gray; high-contrast text.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:234:18849",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "800": {
+            "$type": "color",
+            "$value": "rgb(48, 48, 48)",
+            "$description": "Near-black gray; primary headings.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:234:18850",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "850": {
+            "$type": "color",
+            "$value": "rgb(38, 38, 38)",
+            "$description": "Darkest gray tone; maximum emphasis.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:234:18851",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "900": {
+            "$type": "color",
+            "$value": "rgb(27, 27, 27)",
+            "$description": "Almost black; critical text.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:234:18852",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "950": {
+            "$type": "color",
+            "$value": "rgb(17, 17, 17)",
+            "$description": "Pure dark gray; absolute contrast.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:43:48",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "050": {
+            "$type": "color",
+            "$value": "rgb(241, 241, 241)",
+            "$description": "Very light gray; hover states on white.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:43:34",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "025": {
+            "$type": "color",
+            "$value": "rgb(248, 248, 248)",
+            "$description": "Lightest gray; subtle backgrounds.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:234:18843",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          }
+        },
+        "strawberry": {
+          "100": {
+            "$type": "color",
+            "$value": "rgb(255, 218, 212)",
+            "$description": "Light red; secondary error backgrounds.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:4",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "150": {
+            "$type": "color",
+            "$value": "rgb(252, 200, 192)",
+            "$description": "Soft red; error borders.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:239:14831",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "200": {
+            "$type": "color",
+            "$value": "rgb(251, 181, 170)",
+            "$description": "Medium-light red; disabled error states.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:5",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "250": {
+            "$type": "color",
+            "$value": "rgb(246, 164, 151)",
+            "$description": "Medium red; secondary error elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:239:14832",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "300": {
+            "$type": "color",
+            "$value": "rgb(245, 144, 129)",
+            "$description": "Mid-tone red; tertiary error elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:3",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "350": {
+            "$type": "color",
+            "$value": "rgb(239, 125, 109)",
+            "$description": "Balanced red; error hover states.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:239:14833",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "400": {
+            "$type": "color",
+            "$value": "rgb(235, 103, 87)",
+            "$description": "Strong red; active error states.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:6",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "450": {
+            "$type": "color",
+            "$value": "rgb(228, 81, 67)",
+            "$description": "Deep red; error interactive elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:7",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "500": {
+            "$type": "color",
+            "$value": "rgb(223, 51, 39)",
+            "$description": "Standard red; default error color.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:8",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "550": {
+            "$type": "color",
+            "$value": "rgb(216, 0, 0)",
+            "$description": "Saturated red; error surfaces.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:9",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "600": {
+            "$type": "color",
+            "$value": "rgb(193, 0, 0)",
+            "$description": "Rich red; error text and icons.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:10",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "650": {
+            "$type": "color",
+            "$value": "rgb(169, 2, 1)",
+            "$description": "Dark red; emphasized error elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:11",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "700": {
+            "$type": "color",
+            "$value": "rgb(148, 0, 0)",
+            "$description": "Deep saturated red; critical states.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:12",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "750": {
+            "$type": "color",
+            "$value": "rgb(125, 3, 3)",
+            "$description": "Very dark red; high-contrast errors.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:13",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "800": {
+            "$type": "color",
+            "$value": "rgb(105, 0, 0)",
+            "$description": "Near-black red; severe errors.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:14",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "850": {
+            "$type": "color",
+            "$value": "rgb(85, 0, 0)",
+            "$description": "Darkest red tone; extreme error contrast.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:15",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "900": {
+            "$type": "color",
+            "$value": "rgb(64, 1, 3)",
+            "$description": "Almost black red; critical error text.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:16",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "950": {
+            "$type": "color",
+            "$value": "rgb(46, 0, 0)",
+            "$description": "Pure dark red; maximum error contrast.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:239:14834",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "025": {
+            "$type": "color",
+            "$value": "rgb(255, 246, 245)",
+            "$description": "Lightest red; subtle error backgrounds.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:2",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "050": {
+            "$type": "color",
+            "$value": "rgb(253, 237, 234)",
+            "$description": "Very light red; hover on error surfaces.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:239:14901",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          }
+        },
+        "lime": {
+          "100": {
+            "$type": "color",
+            "$value": "rgb(193, 238, 188)",
+            "$description": "Light green; secondary success backgrounds.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:18",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "150": {
+            "$type": "color",
+            "$value": "rgb(167, 228, 160)",
+            "$description": "Soft green; success borders.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:19",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "200": {
+            "$type": "color",
+            "$value": "rgb(132, 218, 125)",
+            "$description": "Medium-light green; disabled success states.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:20",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "250": {
+            "$type": "color",
+            "$value": "rgb(94, 208, 86)",
+            "$description": "Medium green; secondary success elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:21",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "300": {
+            "$type": "color",
+            "$value": "rgb(35, 196, 27)",
+            "$description": "Mid-tone green; tertiary success elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:22",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "350": {
+            "$type": "color",
+            "$value": "rgb(25, 183, 23)",
+            "$description": "Balanced green; success hover states.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:23",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "400": {
+            "$type": "color",
+            "$value": "rgb(33, 167, 24)",
+            "$description": "Strong green; active success states.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:24",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "450": {
+            "$type": "color",
+            "$value": "rgb(20, 153, 16)",
+            "$description": "Deep green; success interactive elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:25",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "500": {
+            "$type": "color",
+            "$value": "rgb(25, 137, 17)",
+            "$description": "Standard green; default success color.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:26",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "550": {
+            "$type": "color",
+            "$value": "rgb(21, 124, 15)",
+            "$description": "Saturated green; success surfaces.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:27",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "600": {
+            "$type": "color",
+            "$value": "rgb(13, 110, 8)",
+            "$description": "Rich green; success text and icons.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:28",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "650": {
+            "$type": "color",
+            "$value": "rgb(13, 96, 8)",
+            "$description": "Dark green; emphasized success elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:29",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "700": {
+            "$type": "color",
+            "$value": "rgb(7, 83, 5)",
+            "$description": "Deep saturated green; confirmed states.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:236:13807",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "750": {
+            "$type": "color",
+            "$value": "rgb(7, 70, 5)",
+            "$description": "Very dark green; high-contrast success.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:236:13808",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "800": {
+            "$type": "color",
+            "$value": "rgb(2, 57, 3)",
+            "$description": "Near-black green; strong success.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:236:13809",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "850": {
+            "$type": "color",
+            "$value": "rgb(3, 45, 2)",
+            "$description": "Darkest green tone; extreme success contrast.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:236:13810",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "900": {
+            "$type": "color",
+            "$value": "rgb(3, 33, 3)",
+            "$description": "Almost black green; critical success text.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:30",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "950": {
+            "$type": "color",
+            "$value": "rgb(0, 22, 0)",
+            "$description": "Pure dark green; maximum success contrast.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:31",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "025": {
+            "$type": "color",
+            "$value": "rgb(239, 251, 238)",
+            "$description": "Lightest green; subtle success backgrounds.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:17",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "050": {
+            "$type": "color",
+            "$value": "rgb(225, 247, 222)",
+            "$description": "Very light green; hover on success surfaces.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:235:13806",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          }
+        },
+        "pumpkin": {
+          "100": {
+            "$type": "color",
+            "$value": "rgb(254, 220, 200)",
+            "$description": "Light orange; secondary warning backgrounds.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:33",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "150": {
+            "$type": "color",
+            "$value": "rgb(254, 201, 169)",
+            "$description": "Soft orange; warning borders.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:239:15313",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "200": {
+            "$type": "color",
+            "$value": "rgb(255, 182, 138)",
+            "$description": "Medium-light orange; disabled warning states.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:34",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "250": {
+            "$type": "color",
+            "$value": "rgb(253, 163, 105)",
+            "$description": "Medium orange; secondary warning elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:239:15312",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "300": {
+            "$type": "color",
+            "$value": "rgb(248, 145, 75)",
+            "$description": "Mid-tone orange; tertiary warning elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:35",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "350": {
+            "$type": "color",
+            "$value": "rgb(245, 124, 19)",
+            "$description": "Balanced orange; warning hover states.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:239:15309",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "400": {
+            "$type": "color",
+            "$value": "rgb(226, 114, 13)",
+            "$description": "Strong orange; active warning states.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:36",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "450": {
+            "$type": "color",
+            "$value": "rgb(206, 103, 14)",
+            "$description": "Deep orange; warning interactive elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:239:15310",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "500": {
+            "$type": "color",
+            "$value": "rgb(185, 93, 14)",
+            "$description": "Standard orange; default warning color.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:37",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "550": {
+            "$type": "color",
+            "$value": "rgb(169, 83, 7)",
+            "$description": "Saturated orange; warning surfaces.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:239:15311",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "600": {
+            "$type": "color",
+            "$value": "rgb(149, 74, 9)",
+            "$description": "Rich orange; warning text and icons.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:38",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "650": {
+            "$type": "color",
+            "$value": "rgb(132, 63, 4)",
+            "$description": "Dark orange; emphasized warning elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:39",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "700": {
+            "$type": "color",
+            "$value": "rgb(114, 54, 5)",
+            "$description": "Deep saturated orange; caution states.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:42",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "750": {
+            "$type": "color",
+            "$value": "rgb(97, 45, 2)",
+            "$description": "Very dark orange; high-contrast warnings.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:41",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "800": {
+            "$type": "color",
+            "$value": "rgb(80, 36, 4)",
+            "$description": "Near-black orange; severe warnings.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:40",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "850": {
+            "$type": "color",
+            "$value": "rgb(64, 28, 0)",
+            "$description": "Darkest orange tone; extreme warning contrast.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:43",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "900": {
+            "$type": "color",
+            "$value": "rgb(48, 19, 7)",
+            "$description": "Almost black orange; critical warning text.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:44",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "950": {
+            "$type": "color",
+            "$value": "rgb(31, 12, 2)",
+            "$description": "Pure dark orange; maximum warning contrast.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:45",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "050": {
+            "$type": "color",
+            "$value": "rgb(255, 237, 225)",
+            "$description": "Very light orange; hover on warning surfaces.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:32",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "025": {
+            "$type": "color",
+            "$value": "rgb(255, 246, 240)",
+            "$description": "Lightest orange; subtle warning backgrounds.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:239:15308",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          }
+        },
+        "lemon": {
+          "100": {
+            "$type": "color",
+            "$value": "rgb(255, 229, 0)",
+            "$description": "Light yellow; secondary info backgrounds.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:48",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "150": {
+            "$type": "color",
+            "$value": "rgb(238, 214, 0)",
+            "$description": "Soft yellow; info borders.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:239:15571",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "200": {
+            "$type": "color",
+            "$value": "rgb(222, 200, 0)",
+            "$description": "Medium-light yellow; disabled info states.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:49",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "250": {
+            "$type": "color",
+            "$value": "rgb(208, 186, 0)",
+            "$description": "Medium yellow; secondary info elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:239:15572",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "300": {
+            "$type": "color",
+            "$value": "rgb(192, 172, 3)",
+            "$description": "Mid-tone yellow; tertiary info elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:50",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "350": {
+            "$type": "color",
+            "$value": "rgb(177, 159, 0)",
+            "$description": "Balanced yellow; info hover states.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:51",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "400": {
+            "$type": "color",
+            "$value": "rgb(162, 145, 9)",
+            "$description": "Strong yellow; active info states.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:52",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "450": {
+            "$type": "color",
+            "$value": "rgb(148, 133, 0)",
+            "$description": "Deep yellow; info interactive elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:53",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "500": {
+            "$type": "color",
+            "$value": "rgb(133, 119, 0)",
+            "$description": "Standard yellow; default info color.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:54",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "550": {
+            "$type": "color",
+            "$value": "rgb(120, 107, 0)",
+            "$description": "Saturated yellow; info surfaces.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:239:15573",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "600": {
+            "$type": "color",
+            "$value": "rgb(106, 95, 2)",
+            "$description": "Rich yellow; info text and icons.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:55",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "650": {
+            "$type": "color",
+            "$value": "rgb(93, 83, 0)",
+            "$description": "Dark yellow; emphasized info elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:239:15574",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "700": {
+            "$type": "color",
+            "$value": "rgb(80, 71, 1)",
+            "$description": "Deep saturated yellow; highlight states.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:56",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "750": {
+            "$type": "color",
+            "$value": "rgb(68, 60, 0)",
+            "$description": "Very dark yellow; high-contrast info.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:57",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "800": {
+            "$type": "color",
+            "$value": "rgb(56, 49, 0)",
+            "$description": "Near-black yellow; strong info.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:58",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "850": {
+            "$type": "color",
+            "$value": "rgb(43, 38, 2)",
+            "$description": "Darkest yellow tone; extreme info contrast.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:239:15575",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "900": {
+            "$type": "color",
+            "$value": "rgb(33, 28, 0)",
+            "$description": "Almost black yellow; critical info text.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:59",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "950": {
+            "$type": "color",
+            "$value": "rgb(20, 17, 0)",
+            "$description": "Pure dark yellow; maximum info contrast.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:60",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "050": {
+            "$type": "color",
+            "$value": "rgb(255, 243, 160)",
+            "$description": "Very light yellow; hover on info surfaces.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:47",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "025": {
+            "$type": "color",
+            "$value": "rgb(255, 249, 209)",
+            "$description": "Lightest yellow; subtle info backgrounds.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:239:15570",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          }
+        },
+        "brand": {
+          "primary": {
+            "100": {
+              "$type": "color",
+              "$value": "rgb(213, 227, 255)",
+              "$description": "Light primary brand; secondary brand backgrounds.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:44:63",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "150": {
+              "$type": "color",
+              "$value": "rgb(191, 213, 255)",
+              "$description": "Soft primary brand; brand borders.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:44:64",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "200": {
+              "$type": "color",
+              "$value": "rgb(172, 199, 255)",
+              "$description": "Medium-light primary brand; disabled brand states.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:239:15063",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "250": {
+              "$type": "color",
+              "$value": "rgb(152, 184, 253)",
+              "$description": "Medium primary brand; secondary brand elements.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:239:15064",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "300": {
+              "$type": "color",
+              "$value": "rgb(133, 169, 255)",
+              "$description": "Mid-tone primary brand; tertiary brand elements.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:44:65",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "350": {
+              "$type": "color",
+              "$value": "rgb(114, 155, 254)",
+              "$description": "Balanced primary brand; brand hover states.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:239:15065",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "400": {
+              "$type": "color",
+              "$value": "rgb(97, 139, 255)",
+              "$description": "Strong primary brand; active brand states.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:44:66",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "450": {
+              "$type": "color",
+              "$value": "rgb(78, 123, 255)",
+              "$description": "Deep primary brand; brand interactive elements.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:239:15066",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "500": {
+              "$type": "color",
+              "$value": "rgb(60, 105, 253)",
+              "$description": "Standard primary brand; default brand color.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:44:67",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "550": {
+              "$type": "color",
+              "$value": "rgb(50, 86, 255)",
+              "$description": "Saturated primary brand; brand surfaces.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:239:15067",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "600": {
+              "$type": "color",
+              "$value": "rgb(40, 63, 255)",
+              "$description": "Rich primary brand; brand text and icons.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:44:68",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "650": {
+              "$type": "color",
+              "$value": "rgb(30, 30, 255)",
+              "$description": "Dark primary brand; emphasized brand elements.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:239:15068",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "700": {
+              "$type": "color",
+              "$value": "rgb(21, 24, 225)",
+              "$description": "Deep saturated primary brand; strong brand states.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:44:69",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "750": {
+              "$type": "color",
+              "$value": "rgb(8, 18, 195)",
+              "$description": "Very dark primary brand; high-contrast brand.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:239:15069",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "800": {
+              "$type": "color",
+              "$value": "rgb(18, 16, 159)",
+              "$description": "Near-black primary brand; bold brand elements.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:44:70",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "850": {
+              "$type": "color",
+              "$value": "rgb(9, 10, 131)",
+              "$description": "Darkest primary brand tone; extreme brand contrast.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:44:71",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "900": {
+              "$type": "color",
+              "$value": "rgb(3, 5, 104)",
+              "$description": "Almost black primary brand; critical brand text.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:44:75",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "950": {
+              "$type": "color",
+              "$value": "rgb(4, 4, 70)",
+              "$description": "Pure dark primary brand; maximum brand contrast.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:44:76",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "050": {
+              "$type": "color",
+              "$value": "rgb(233, 241, 255)",
+              "$description": "Very light primary brand; hover on brand surfaces.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:44:62",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "025": {
+              "$type": "color",
+              "$value": "rgb(244, 248, 255)",
+              "$description": "Lightest primary brand; subtle brand backgrounds.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:239:15062",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          },
+          "secondary": {
+            "100": {
+              "$type": "color",
+              "$value": "rgb(226, 223, 255)",
+              "$description": "Light secondary brand; secondary accent backgrounds.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:2346:6044",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "150": {
+              "$type": "color",
+              "$value": "rgb(212, 208, 254)",
+              "$description": "Soft secondary brand; accent borders.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:2346:6045",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "200": {
+              "$type": "color",
+              "$value": "rgb(199, 191, 255)",
+              "$description": "Medium-light secondary brand; disabled accent states.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:2346:6046",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "250": {
+              "$type": "color",
+              "$value": "rgb(185, 175, 254)",
+              "$description": "Medium secondary brand; secondary accent elements.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:2346:6047",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "300": {
+              "$type": "color",
+              "$value": "rgb(173, 158, 255)",
+              "$description": "Mid-tone secondary brand; tertiary accent elements.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:2346:6048",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "350": {
+              "$type": "color",
+              "$value": "rgb(161, 142, 255)",
+              "$description": "Balanced secondary brand; accent hover states.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:2346:6049",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "400": {
+              "$type": "color",
+              "$value": "rgb(149, 125, 253)",
+              "$description": "Strong secondary brand; active accent states.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:2346:6050",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "450": {
+              "$type": "color",
+              "$value": "rgb(140, 105, 255)",
+              "$description": "Deep secondary brand; accent interactive elements.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:2346:6051",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "500": {
+              "$type": "color",
+              "$value": "rgb(130, 84, 255)",
+              "$description": "Standard secondary brand; default accent color.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:2346:6052",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "550": {
+              "$type": "color",
+              "$value": "rgb(121, 61, 254)",
+              "$description": "Saturated secondary brand; accent surfaces.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:2346:6053",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "600": {
+              "$type": "color",
+              "$value": "rgb(112, 0, 255)",
+              "$description": "Rich secondary brand; accent text and icons.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:2346:6054",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "650": {
+              "$type": "color",
+              "$value": "rgb(101, 2, 230)",
+              "$description": "Dark secondary brand; emphasized accent elements.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:2346:6055",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "700": {
+              "$type": "color",
+              "$value": "rgb(86, 0, 203)",
+              "$description": "Deep saturated secondary brand; strong accent states.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:2346:6056",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "750": {
+              "$type": "color",
+              "$value": "rgb(74, 3, 170)",
+              "$description": "Very dark secondary brand; high-contrast accent.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:2346:6057",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "800": {
+              "$type": "color",
+              "$value": "rgb(60, 0, 144)",
+              "$description": "Near-black secondary brand; bold accent elements.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:2346:6058",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "850": {
+              "$type": "color",
+              "$value": "rgb(47, 0, 119)",
+              "$description": "Darkest secondary brand tone; extreme accent contrast.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:2346:6059",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "900": {
+              "$type": "color",
+              "$value": "rgb(36, 1, 90)",
+              "$description": "Almost black secondary brand; critical accent text.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:2346:6060",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "950": {
+              "$type": "color",
+              "$value": "rgb(23, 0, 66)",
+              "$description": "Pure dark secondary brand; maximum accent contrast.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:2346:6061",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "025": {
+              "$type": "color",
+              "$value": "rgb(247, 247, 255)",
+              "$description": "Lightest secondary brand; subtle accent backgrounds.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:2346:6042",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "050": {
+              "$type": "color",
+              "$value": "rgb(240, 239, 253)",
+              "$description": "Very light secondary brand; hover on accent surfaces.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:2346:6043",
+                  "collection": "VariableCollectionId:43:2",
+                  "scopes": [],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          }
+        },
+        "white": {
+          "$type": "color",
+          "$value": "rgb(255, 255, 255)",
+          "$description": "Pure white; lightest possible value.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:64:32",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "black": {
+          "$type": "color",
+          "$value": "rgb(0, 0, 0)",
+          "$description": "Pure black; darkest possible value.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:64:33",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "neutral-cool": {
+          "100": {
+            "$type": "color",
+            "$value": "rgb(224, 226, 231)",
+            "$description": "Light cool gray; secondary backgrounds.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:94:54",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "150": {
+            "$type": "color",
+            "$value": "rgb(209, 212, 220)",
+            "$description": "Soft cool gray; borders.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:234:19164",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "200": {
+            "$type": "color",
+            "$value": "rgb(194, 198, 208)",
+            "$description": "Medium-light cool gray; disabled states.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:94:55",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "250": {
+            "$type": "color",
+            "$value": "rgb(180, 184, 197)",
+            "$description": "Medium cool gray; placeholders.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:94:56",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "300": {
+            "$type": "color",
+            "$value": "rgb(166, 171, 186)",
+            "$description": "Mid-tone cool gray; dividers.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:94:57",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "350": {
+            "$type": "color",
+            "$value": "rgb(152, 158, 175)",
+            "$description": "Balanced cool gray; tertiary elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:94:58",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "400": {
+            "$type": "color",
+            "$value": "rgb(138, 145, 163)",
+            "$description": "Strong cool gray; icons.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:94:59",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "450": {
+            "$type": "color",
+            "$value": "rgb(130, 137, 157)",
+            "$description": "Deep cool gray; secondary text.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:94:60",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "500": {
+            "$type": "color",
+            "$value": "rgb(112, 118, 136)",
+            "$description": "Standard cool gray; body text.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:94:61",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "550": {
+            "$type": "color",
+            "$value": "rgb(101, 106, 122)",
+            "$description": "Saturated cool gray; labels.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:94:62",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "600": {
+            "$type": "color",
+            "$value": "rgb(89, 94, 109)",
+            "$description": "Rich cool gray; headings.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:94:63",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "650": {
+            "$type": "color",
+            "$value": "rgb(78, 82, 95)",
+            "$description": "Dark cool gray; emphasized text.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:94:64",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "700": {
+            "$type": "color",
+            "$value": "rgb(67, 71, 82)",
+            "$description": "Deep saturated cool gray; strong text.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:94:65",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "750": {
+            "$type": "color",
+            "$value": "rgb(56, 59, 69)",
+            "$description": "Very dark cool gray; high-contrast text.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:94:66",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "800": {
+            "$type": "color",
+            "$value": "rgb(45, 48, 56)",
+            "$description": "Near-black cool gray; primary headings.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:94:67",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "850": {
+            "$type": "color",
+            "$value": "rgb(36, 38, 45)",
+            "$description": "Darkest cool gray; maximum emphasis.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:234:19159",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "900": {
+            "$type": "color",
+            "$value": "rgb(25, 27, 33)",
+            "$description": "Almost black cool gray; critical text.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:234:19160",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "950": {
+            "$type": "color",
+            "$value": "rgb(15, 17, 21)",
+            "$description": "Pure dark cool gray; absolute contrast.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:234:19162",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "025": {
+            "$type": "color",
+            "$value": "rgb(248, 248, 250)",
+            "$description": "Lightest cool gray; subtle backgrounds with blue hint.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:94:53",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "050": {
+            "$type": "color",
+            "$value": "rgb(240, 241, 243)",
+            "$description": "Very light cool gray; hover states.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:234:19163",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          }
+        },
+        "neutral-coolest": {
+          "100": {
+            "$type": "color",
+            "$value": "rgb(213, 229, 242)",
+            "$description": "Light coolest gray; secondary backgrounds.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2379:102819",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "150": {
+            "$type": "color",
+            "$value": "rgb(191, 215, 236)",
+            "$description": "Soft coolest gray; borders.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2379:102820",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "200": {
+            "$type": "color",
+            "$value": "rgb(172, 202, 228)",
+            "$description": "Medium-light coolest gray; disabled states.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2379:102821",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "250": {
+            "$type": "color",
+            "$value": "rgb(151, 189, 222)",
+            "$description": "Medium coolest gray; placeholders.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2379:102822",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "300": {
+            "$type": "color",
+            "$value": "rgb(132, 176, 214)",
+            "$description": "Mid-tone coolest gray; dividers.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2379:102823",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "350": {
+            "$type": "color",
+            "$value": "rgb(110, 163, 208)",
+            "$description": "Balanced coolest gray; tertiary elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2379:102824",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "400": {
+            "$type": "color",
+            "$value": "rgb(90, 150, 200)",
+            "$description": "Strong coolest gray; icons.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2379:102825",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "450": {
+            "$type": "color",
+            "$value": "rgb(68, 137, 191)",
+            "$description": "Deep coolest gray; secondary text.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2379:102826",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "500": {
+            "$type": "color",
+            "$value": "rgb(42, 123, 184)",
+            "$description": "Standard coolest gray; body text.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2379:102827",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "550": {
+            "$type": "color",
+            "$value": "rgb(0, 113, 178)",
+            "$description": "Saturated coolest gray; labels.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2379:102828",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "600": {
+            "$type": "color",
+            "$value": "rgb(0, 99, 155)",
+            "$description": "Rich coolest gray; headings.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2379:102829",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "650": {
+            "$type": "color",
+            "$value": "rgb(0, 86, 138)",
+            "$description": "Dark coolest gray; emphasized text.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2379:102830",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "700": {
+            "$type": "color",
+            "$value": "rgb(0, 74, 120)",
+            "$description": "Deep saturated coolest gray; strong text.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2379:102831",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "750": {
+            "$type": "color",
+            "$value": "rgb(3, 62, 100)",
+            "$description": "Very dark coolest gray; high-contrast text.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2379:102832",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "800": {
+            "$type": "color",
+            "$value": "rgb(0, 51, 84)",
+            "$description": "Near-black coolest gray; primary headings.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2379:102833",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "850": {
+            "$type": "color",
+            "$value": "rgb(0, 40, 68)",
+            "$description": "Darkest coolest gray; maximum emphasis.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2379:102834",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "900": {
+            "$type": "color",
+            "$value": "rgb(1, 29, 51)",
+            "$description": "Almost black coolest gray; critical text.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2379:102835",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "950": {
+            "$type": "color",
+            "$value": "rgb(0, 18, 36)",
+            "$description": "Pure dark coolest gray; absolute contrast.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2379:102836",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "025": {
+            "$type": "color",
+            "$value": "rgb(244, 248, 252)",
+            "$description": "Lightest coolest gray; backgrounds with strong blue cast.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2379:102817",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "050": {
+            "$type": "color",
+            "$value": "rgb(233, 242, 250)",
+            "$description": "Very light coolest gray; subtle surfaces.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2379:102818",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          }
+        }
+      },
+      "transparency": {
+        "dark-10": {
+          "$type": "color",
+          "$value": "rgba(0, 0, 0, 0.1)",
+          "$description": "Dark color tokens with alpha channel.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:44:78",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "dark-20": {
+          "$type": "color",
+          "$value": "rgba(0, 0, 0, 0.2)",
+          "$description": "Dark color tokens with alpha channel.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:44:79",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "dark-30": {
+          "$type": "color",
+          "$value": "rgba(0, 0, 0, 0.3)",
+          "$description": "Dark color tokens with alpha channel.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:44:80",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "dark-40": {
+          "$type": "color",
+          "$value": "rgba(0, 0, 0, 0.4)",
+          "$description": "Dark color tokens with alpha channel.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:44:81",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "dark-50": {
+          "$type": "color",
+          "$value": "rgba(0, 0, 0, 0.5)",
+          "$description": "Dark color tokens with alpha channel.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:44:82",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "dark-60": {
+          "$type": "color",
+          "$value": "rgba(0, 0, 0, 0.6)",
+          "$description": "Dark color tokens with alpha channel.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:44:83",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "dark-70": {
+          "$type": "color",
+          "$value": "rgba(0, 0, 0, 0.7)",
+          "$description": "Dark color tokens with alpha channel.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:44:84",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "dark-80": {
+          "$type": "color",
+          "$value": "rgba(0, 0, 0, 0.8)",
+          "$description": "Dark color tokens with alpha channel.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:44:85",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "dark-90": {
+          "$type": "color",
+          "$value": "rgba(0, 0, 0, 0.9)",
+          "$description": "Dark color tokens with alpha channel.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:44:86",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "light-10": {
+          "$type": "color",
+          "$value": "rgba(255, 255, 255, 0.1)",
+          "$description": "10% transparency; very subtle translucency.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:44:88",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "light-20": {
+          "$type": "color",
+          "$value": "rgba(255, 255, 255, 0.2)",
+          "$description": "Light color tokens with alpha channel.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:44:98",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "light-30": {
+          "$type": "color",
+          "$value": "rgba(255, 255, 255, 0.3)",
+          "$description": "Light color tokens with alpha channel.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:44:99",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "light-40": {
+          "$type": "color",
+          "$value": "rgba(255, 255, 255, 0.4)",
+          "$description": "Light color tokens with alpha channel.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:44:100",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "light-50": {
+          "$type": "color",
+          "$value": "rgba(255, 255, 255, 0.5)",
+          "$description": "Light color tokens with alpha channel.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:44:101",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "light-60": {
+          "$type": "color",
+          "$value": "rgba(255, 255, 255, 0.6)",
+          "$description": "Light color tokens with alpha channel.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:44:102",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "light-70": {
+          "$type": "color",
+          "$value": "rgba(255, 255, 255, 0.7)",
+          "$description": "Light color tokens with alpha channel.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:44:103",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "light-80": {
+          "$type": "color",
+          "$value": "rgba(255, 255, 255, 0.8)",
+          "$description": "Light color tokens with alpha channel.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:44:104",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "light-90": {
+          "$type": "color",
+          "$value": "rgba(255, 255, 255, 0.9)",
+          "$description": "Light color tokens with alpha channel.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:44:105",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "dark-0": {
+          "$type": "color",
+          "$value": "rgba(0, 0, 0, 0)",
+          "$description": "Dark color tokens with alpha channel.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:69:193",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "light-0": {
+          "$type": "color",
+          "$value": "rgba(255, 255, 255, 0)",
+          "$description": "Light color tokens with alpha channel.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:69:194",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "dark-05": {
+          "$type": "color",
+          "$value": "rgba(0, 0, 0, 0.05)",
+          "$description": "Dark color tokens with alpha channel.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7781:8065",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        }
+      },
+      "font": {
+        "size": {
+          "100": {
+            "$type": "dimension",
+            "$value": "16px",
+            "$description": "16px font size; standard text (1rem).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:127",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_SIZE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "125": {
+            "$type": "dimension",
+            "$value": "20px",
+            "$description": "20px font size; heading text (1.25rem).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:129",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_SIZE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "150": {
+            "$type": "dimension",
+            "$value": "24px",
+            "$description": "24px font size; subheading text (1.5rem).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:108:78",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_SIZE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "175": {
+            "$type": "dimension",
+            "$value": "28px",
+            "$description": "28px font size; heading text (1.75rem).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:130",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_SIZE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "200": {
+            "$type": "dimension",
+            "$value": "32px",
+            "$description": "32px font size; large heading (2rem).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:131",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_SIZE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "225": {
+            "$type": "dimension",
+            "$value": "36px",
+            "$description": "36px font size; prominent heading (2.25rem).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:132",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_SIZE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "250": {
+            "$type": "dimension",
+            "$value": "40px",
+            "$description": "40px font size; display heading (2.5rem).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:133",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_SIZE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "300": {
+            "$type": "dimension",
+            "$value": "48px",
+            "$description": "48px font size; large display (3rem).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:134",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_SIZE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "350": {
+            "$type": "dimension",
+            "$value": "56px",
+            "$description": "56px font size; extra large display (3.5rem).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:135",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_SIZE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "400": {
+            "$type": "dimension",
+            "$value": "64px",
+            "$description": "64px font size; hero display (4rem).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:136",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_SIZE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "450": {
+            "$type": "dimension",
+            "$value": "72px",
+            "$description": "72px font size; massive display (4.5rem).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:137",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_SIZE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "500": {
+            "$type": "dimension",
+            "$value": "80px",
+            "$description": "80px font size; giant display (5rem).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:138",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_SIZE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "600": {
+            "$type": "dimension",
+            "$value": "96px",
+            "$description": "96px font size; enormous display (6rem).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:139",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_SIZE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "700": {
+            "$type": "dimension",
+            "$value": "112px",
+            "$description": "112px font size; colossal display (7rem).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:140",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_SIZE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "800": {
+            "$type": "dimension",
+            "$value": "128px",
+            "$description": "128px font size; maximum display (8rem).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:141",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_SIZE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "900": {
+            "$type": "dimension",
+            "$value": "144px",
+            "$description": "144px font size; extreme display (9rem).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:142",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_SIZE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "1000": {
+            "$type": "dimension",
+            "$value": "160px",
+            "$description": "160px font size; ultimate display (10rem).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:143",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_SIZE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "1125": {
+            "$type": "dimension",
+            "$value": "18px",
+            "$description": "18px font size; large body text (1.125rem).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:128",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_SIZE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "0625": {
+            "$type": "dimension",
+            "$value": "10px",
+            "$description": "10px font size; micro text (0.625rem).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:125",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_SIZE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "0875": {
+            "$type": "dimension",
+            "$value": "14px",
+            "$description": "14px font size; body text (0.875rem).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:44:126",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_SIZE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "0688": {
+            "$type": "dimension",
+            "$value": "11px",
+            "$description": "11px font size; tiny text (0.688rem).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:69:155",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_SIZE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "075": {
+            "$type": "dimension",
+            "$value": "12px",
+            "$description": "12px font size; small text (0.75rem).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:69:156",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_SIZE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          }
+        },
+        "letterspacing": {
+          "0": {
+            "$type": "dimension",
+            "$value": "0px",
+            "$description": "Zero letter spacing; normal tracking (0rem).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:45:18",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "LETTER_SPACING"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "3": {
+            "$type": "dimension",
+            "$value": "3px",
+            "$description": "Positive letter spacing; open tracking (0.03rem).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:45:19",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "LETTER_SPACING"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "6": {
+            "$type": "dimension",
+            "$value": "6px",
+            "$description": "Wide letter spacing; very open tracking (0.06rem).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:45:20",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "LETTER_SPACING"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "neg-03": {
+            "$type": "dimension",
+            "$value": "-3px",
+            "$description": "Very negative letter spacing; very tight tracking (-0.03rem).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:45:16",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "LETTER_SPACING"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "neg-015": {
+            "$type": "dimension",
+            "$value": "-1.5px",
+            "$description": "Negative letter spacing; tight tracking (-0.015rem).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:45:17",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "LETTER_SPACING"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          }
+        },
+        "weight": {
+          "thin": {
+            "$type": "fontWeight",
+            "$value": 100,
+            "$description": "Thin weight; ultra-light emphasis (100).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2209:18062",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_STYLE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "thin-italic": {
+            "$type": "fontWeight",
+            "$value": 100,
+            "$description": "Thin italic weight; ultra-light slanted (100).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2209:18067",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_STYLE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "extra-light": {
+            "$type": "fontWeight",
+            "$value": 200,
+            "$description": "Extra light weight; very light emphasis (200).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2209:18068",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_STYLE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "extra-light-italic": {
+            "$type": "fontWeight",
+            "$value": 200,
+            "$description": "Extra light italic; very light slanted (200).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2209:18069",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_STYLE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "light": {
+            "$type": "fontWeight",
+            "$value": 300,
+            "$description": "Light weight; subtle emphasis (300).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2209:18070",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_STYLE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "light-italic": {
+            "$type": "fontWeight",
+            "$value": 300,
+            "$description": "Light italic; subtle slanted emphasis (300).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2209:18071",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_STYLE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "regular": {
+            "$type": "fontWeight",
+            "$value": 400,
+            "$description": "Regular weight; standard text (400).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2209:18072",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_STYLE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "regular-italic": {
+            "$type": "fontWeight",
+            "$value": 400,
+            "$description": "Regular italic; standard slanted text (400).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2209:18073",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_STYLE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "medium": {
+            "$type": "fontWeight",
+            "$value": 500,
+            "$description": "Medium weight; moderate emphasis (500).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2209:18074",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_STYLE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "medium-italic": {
+            "$type": "fontWeight",
+            "$value": 500,
+            "$description": "Medium italic; moderate slanted emphasis (500).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2209:18077",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_STYLE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "semi-bold": {
+            "$type": "fontWeight",
+            "$value": 600,
+            "$description": "Semibold weight; strong emphasis (600).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2209:18078",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_STYLE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "semibold-italic": {
+            "$type": "fontWeight",
+            "$value": 600,
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2209:18080",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_STYLE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "bold": {
+            "$type": "fontWeight",
+            "$value": 700,
+            "$description": "Bold weight; prominent emphasis (700).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2209:18081",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_STYLE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "bold-italic": {
+            "$type": "fontWeight",
+            "$value": 700,
+            "$description": "Bold italic; prominent slanted emphasis (700).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2209:18082",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_STYLE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "extrabold": {
+            "$type": "fontWeight",
+            "$value": 800,
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2209:18083",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_STYLE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "extra-bold-italic": {
+            "$type": "fontWeight",
+            "$value": 800,
+            "$description": "Extra bold italic; very strong slanted (800).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2209:18084",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_STYLE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "black": {
+            "$type": "fontWeight",
+            "$value": 900,
+            "$description": "Black weight; maximum emphasis (900).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2209:18085",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_STYLE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "black-italic": {
+            "$type": "fontWeight",
+            "$value": 900,
+            "$description": "Black italic; maximum slanted emphasis (900).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:2209:18086",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_STYLE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "semibold": {
+            "$type": "fontWeight",
+            "$value": 600,
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:7380:47194",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_STYLE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "italic": {
+            "$type": "fontWeight",
+            "$value": 400,
+            "$description": "Italic style; slanted emphasis (400).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:7380:47196",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_STYLE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "semi-bold-italic": {
+            "$type": "fontWeight",
+            "$value": 600,
+            "$description": "Semibold italic; strong slanted emphasis (600).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:7380:47197",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_STYLE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "extra-bold": {
+            "$type": "fontWeight",
+            "$value": 800,
+            "$description": "Extra bold weight; very strong emphasis (800).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:7380:47198",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_STYLE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "extrabold-italic": {
+            "$type": "fontWeight",
+            "$value": 800,
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:7380:47199",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_STYLE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "extralight": {
+            "$type": "fontWeight",
+            "$value": 200,
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:7380:47200",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_STYLE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "extralight-italic": {
+            "$type": "fontWeight",
+            "$value": 200,
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:7380:47201",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_STYLE"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          }
+        },
+        "family": {
+          "inter": {
+            "$type": "fontFamily",
+            "$value": "Inter",
+            "$description": "Inter typeface; modern geometric sans-serif.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:5325:41570",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_FAMILY"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "roboto": {
+            "$type": "fontFamily",
+            "$value": "Roboto",
+            "$description": "Roboto typeface; neo-grotesque sans-serif.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:5325:41571",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_FAMILY"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "poppins": {
+            "$type": "fontFamily",
+            "$value": "Poppins",
+            "$description": "Poppins typeface; geometric display font.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:5325:41572",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "FONT_FAMILY"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          }
+        },
+        "lineheight": {
+          "105": {
+            "$type": "number",
+            "$value": 1.05,
+            "$description": "105% line height; very compact leading.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:7383:47202",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "LINE_HEIGHT"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "115": {
+            "$type": "number",
+            "$value": 1.15,
+            "$description": "115% line height; tight leading.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:7383:47203",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "LINE_HEIGHT"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "125": {
+            "$type": "number",
+            "$value": 1.25,
+            "$description": "125% line height; compact leading.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:7383:47204",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "LINE_HEIGHT"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "150": {
+            "$type": "number",
+            "$value": 1.5,
+            "$description": "150% line height; standard reading leading.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:7383:47205",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "LINE_HEIGHT"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "165": {
+            "$type": "number",
+            "$value": 1.65,
+            "$description": "165% line height; generous leading.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:7383:47206",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "LINE_HEIGHT"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "175": {
+            "$type": "number",
+            "$value": 1.75,
+            "$description": "175% line height; very generous leading.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:7383:47207",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [
+                  "LINE_HEIGHT"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          }
+        }
+      },
+      "dimension": {
+        "0": {
+          "$type": "dimension",
+          "$value": "0px",
+          "$description": "Zero dimension; no spacing or size (0px).",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:45:21",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "1": {
+          "$type": "dimension",
+          "$value": "1px",
+          "$description": "1px dimension; hairline spacing or borders.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:100:2",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "2": {
+          "$type": "dimension",
+          "$value": "2px",
+          "$description": "Micro dimension; finest spacing (2px).",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:46:22",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "4": {
+          "$type": "dimension",
+          "$value": "4px",
+          "$description": "Tiny dimension; minimal spacing (4px).",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:46:23",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "6": {
+          "$type": "dimension",
+          "$value": "6px",
+          "$description": "Extra small dimension; tight spacing (6px).",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:46:24",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "8": {
+          "$type": "dimension",
+          "$value": "8px",
+          "$description": "Small dimension; compact spacing (8px).",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:46:25",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "12": {
+          "$type": "dimension",
+          "$value": "12px",
+          "$description": "Small-medium dimension; comfortable spacing (12px).",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:46:26",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "16": {
+          "$type": "dimension",
+          "$value": "16px",
+          "$description": "Medium dimension; standard spacing (16px).",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:46:27",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "20": {
+          "$type": "dimension",
+          "$value": "20px",
+          "$description": "Medium-large dimension; relaxed spacing (20px).",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:46:28",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "24": {
+          "$type": "dimension",
+          "$value": "24px",
+          "$description": "Large dimension; generous spacing (24px).",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:46:29",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "32": {
+          "$type": "dimension",
+          "$value": "32px",
+          "$description": "Extra large dimension; spacious layout (32px).",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:46:30",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "36": {
+          "$type": "dimension",
+          "$value": "36px",
+          "$description": "36px dimension; component heights.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:46:37",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "40": {
+          "$type": "dimension",
+          "$value": "40px",
+          "$description": "40px dimension; standard component sizing.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:46:31",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "44": {
+          "$type": "dimension",
+          "$value": "44px",
+          "$description": "44px dimension; touch-friendly sizing.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:2050:5972",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "48": {
+          "$type": "dimension",
+          "$value": "48px",
+          "$description": "48px dimension; larger components.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:46:32",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "56": {
+          "$type": "dimension",
+          "$value": "56px",
+          "$description": "56px dimension; prominent components.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:46:36",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "64": {
+          "$type": "dimension",
+          "$value": "64px",
+          "$description": "64px dimension; large interactive areas.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:46:33",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "72": {
+          "$type": "dimension",
+          "$value": "72px",
+          "$description": "72px dimension; extra large components.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:46:38",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "80": {
+          "$type": "dimension",
+          "$value": "80px",
+          "$description": "80px dimension; major layout spacing.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:46:34",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "88": {
+          "$type": "dimension",
+          "$value": "88px",
+          "$description": "88px dimension; substantial spacing.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:46:39",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "96": {
+          "$type": "dimension",
+          "$value": "96px",
+          "$description": "96px dimension; maximum spacing unit.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:46:40",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "112": {
+          "$type": "dimension",
+          "$value": "112px",
+          "$description": "112px dimension; large component sizing.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:46:41",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "128": {
+          "$type": "dimension",
+          "$value": "128px",
+          "$description": "128px dimension; extra large elements.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:46:42",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "144": {
+          "$type": "dimension",
+          "$value": "144px",
+          "$description": "144px dimension; major layout spacing.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:46:43",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "999": {
+          "$type": "dimension",
+          "$value": "999px",
+          "$description": "999px dimension; maximum rounded corners.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:155:5728",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "neg-06": {
+          "$type": "dimension",
+          "$value": "-6px",
+          "$description": "Negative 6px dimension; tight negative spacing.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:294:22591",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "neg-04": {
+          "$type": "dimension",
+          "$value": "-4px",
+          "$description": "Negative 4px dimension; minimal negative spacing.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:294:22592",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "neg-02": {
+          "$type": "dimension",
+          "$value": "-2px",
+          "$description": "Negative 2px dimension; micro negative spacing.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:294:22593",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        }
+      },
+      "opacity": {
+        "0": {
+          "$type": "number",
+          "$value": 0,
+          "$description": "Zero opacity; fully transparent (0%).",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:48:19",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [
+                "OPACITY"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "10": {
+          "$type": "number",
+          "$value": 0.1,
+          "$description": "10% opacity; very subtle visibility.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:48:20",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [
+                "OPACITY"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "20": {
+          "$type": "number",
+          "$value": 0.2,
+          "$description": "20% opacity; light transparency.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:48:21",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [
+                "OPACITY"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "30": {
+          "$type": "number",
+          "$value": 0.3,
+          "$description": "30% opacity; subtle transparency.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:48:22",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [
+                "OPACITY"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "40": {
+          "$type": "number",
+          "$value": 0.4,
+          "$description": "40% opacity; moderate transparency.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:48:23",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [
+                "OPACITY"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "50": {
+          "$type": "number",
+          "$value": 0.5,
+          "$description": "50% opacity; half transparency.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:48:24",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [
+                "OPACITY"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "60": {
+          "$type": "number",
+          "$value": 0.6,
+          "$description": "60% opacity; moderate opacity.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:48:25",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [
+                "OPACITY"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "70": {
+          "$type": "number",
+          "$value": 0.7,
+          "$description": "70% opacity; substantial opacity.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:48:26",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [
+                "OPACITY"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "80": {
+          "$type": "number",
+          "$value": 0.8,
+          "$description": "80% opacity; mostly opaque.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:48:27",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [
+                "OPACITY"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "90": {
+          "$type": "number",
+          "$value": 0.9,
+          "$description": "90% opacity; nearly opaque.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:48:28",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [
+                "OPACITY"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "100": {
+          "$type": "number",
+          "$value": 1,
+          "$description": "100% opacity; fully opaque.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:48:29",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [
+                "OPACITY"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        }
+      },
+      "breakpoint": {
+        "0": {
+          "$type": "dimension",
+          "$value": "0px",
+          "$description": "0px breakpoint; Minimum breakpoint (0px).",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:8395:50831",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "390": {
+          "$type": "dimension",
+          "$value": "390px",
+          "$description": "390px breakpoint; small mobile devices.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7728:35490",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "768": {
+          "$type": "dimension",
+          "$value": "768px",
+          "$description": "768px breakpoint; tablets and large phones.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7728:35491",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "1024": {
+          "$type": "dimension",
+          "$value": "1024px",
+          "$description": "1024px breakpoint; small desktops and tablets.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7728:35492",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "1440": {
+          "$type": "dimension",
+          "$value": "1440px",
+          "$description": "1440px breakpoint; standard desktops.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7728:35493",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "1920": {
+          "$type": "dimension",
+          "$value": "1920px",
+          "$description": "1920px breakpoint; large desktops and displays.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7728:35494",
+              "collection": "VariableCollectionId:43:2",
+              "scopes": [],
+              "codeSyntax": {}
+            }
+          }
+        }
+      },
+      "grid": {
+        "columns": {
+          "2": {
+            "$type": "number",
+            "$value": 2,
+            "$description": "2-column grid; mobile layouts.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:7728:35496",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "4": {
+            "$type": "number",
+            "$value": 4,
+            "$description": "4-column grid; tablet layouts.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:7728:35497",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "8": {
+            "$type": "number",
+            "$value": 8,
+            "$description": "8-column grid; desktop layouts.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:7728:35498",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "12": {
+            "$type": "number",
+            "$value": 12,
+            "$description": "12-column grid; wide desktop layouts.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:7728:35499",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          }
+        },
+        "gutter": {
+          "16": {
+            "$type": "dimension",
+            "$value": "16px",
+            "$description": "16px gutter; standard column spacing.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:7728:35501",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "24": {
+            "$type": "dimension",
+            "$value": "24px",
+            "$description": "24px gutter; wider column spacing.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:7728:35502",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "32": {
+            "$type": "dimension",
+            "$value": "32px",
+            "$description": "32px gutter; wider column spacing.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:8395:50828",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          }
+        },
+        "margin": {
+          "16": {
+            "$type": "dimension",
+            "$value": "16px",
+            "$description": "16px margin; standard edge spacing.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:7728:35503",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "24": {
+            "$type": "dimension",
+            "$value": "24px",
+            "$description": "24px margin; wider edge spacing.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:7728:35504",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "48": {
+            "$type": "dimension",
+            "$value": "48px",
+            "$description": "48px margin; widest edge spacing.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:8395:50829",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          }
+        },
+        "columnwidth": {
+          "74": {
+            "$type": "dimension",
+            "$value": "74px",
+            "$description": "74px column width; XL fixed grid.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:7743:10387",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "85": {
+            "$type": "dimension",
+            "$value": "85px",
+            "$description": "85px column width; LG fixed grid.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:7743:10388",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "130": {
+            "$type": "dimension",
+            "$value": "130px",
+            "$description": "130px column width; MD fixed grid.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:7743:10389",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "163": {
+            "$type": "dimension",
+            "$value": "163px",
+            "$description": "163px column width; SM fixed grid.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:7743:10390",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          }
+        },
+        "containermax": {
+          "full": {
+            "$type": "dimension",
+            "$value": "100%",
+            "$description": "Full-width container; no maximum width.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:7743:10391",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "xl": {
+            "$type": "dimension",
+            "$value": "1920px",
+            "$description": "Extra large container max width; 1440px constraint.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:7743:10395",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "lg": {
+            "$type": "dimension",
+            "$value": "1440px",
+            "$description": "Large container max width; 1024px constraint.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:7743:10396",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          }
+        }
+      },
+      "motion": {
+        "duration": {
+          "100": {
+            "$type": "duration",
+            "$value": "100ms",
+            "$description": "Fast duration; quick animations (100ms).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:8331:38080",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "150": {
+            "$type": "duration",
+            "$value": "150ms",
+            "$description": "Quick duration; rapid transitions (150ms).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:8331:38081",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "200": {
+            "$type": "duration",
+            "$value": "200ms",
+            "$description": "Normal duration; standard animations (200ms).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:8331:38082",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "250": {
+            "$type": "duration",
+            "$value": "250ms",
+            "$description": "Slightly longer default",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:8375:44781",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "300": {
+            "$type": "duration",
+            "$value": "300ms",
+            "$description": "Moderate duration; balanced animations (300ms).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:8331:38083",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "400": {
+            "$type": "duration",
+            "$value": "400ms",
+            "$description": "Slower",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:8331:38084",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "500": {
+            "$type": "duration",
+            "$value": "500ms",
+            "$description": "Slow duration; deliberate animations (500ms).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:8375:44784",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "600": {
+            "$type": "duration",
+            "$value": "600ms",
+            "$description": "Long",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:8331:38085",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "800": {
+            "$type": "duration",
+            "$value": "800ms",
+            "$description": "Slower duration; extended animations (800ms).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:8375:44782",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "1000": {
+            "$type": "duration",
+            "$value": "1000ms",
+            "$description": "Extended duration; long animations (1000ms).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:8375:44783",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "050": {
+            "$type": "duration",
+            "$value": "50ms",
+            "$description": "Instant duration; micro-interactions (50ms).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:8331:38079",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "025": {
+            "$type": "duration",
+            "$value": "25ms",
+            "$description": "Instant duration; micro-interactions (50ms).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:8417:287",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "000": {
+            "$type": "duration",
+            "$value": "0ms",
+            "$description": "Instant duration; micro-interactions (50ms).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:8417:288",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          }
+        },
+        "easing": {
+          "linear": {
+            "$type": "cubicBezier",
+            "$value": [
+              0,
+              0,
+              1,
+              1
+            ],
+            "$description": "Linear easing; constant speed throughout.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:8331:38092",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "ease-in": {
+            "$type": "cubicBezier",
+            "$value": [
+              0.42,
+              0,
+              1,
+              1
+            ],
+            "$description": "Ease-in; starts slow and accelerates.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:8331:38093",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "ease-out": {
+            "$type": "cubicBezier",
+            "$value": [
+              0,
+              0,
+              0.58,
+              1
+            ],
+            "$description": "Ease-out; starts fast and decelerates.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:8331:38094",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "ease-in-out": {
+            "$type": "cubicBezier",
+            "$value": [
+              0.42,
+              0,
+              0.58,
+              1
+            ],
+            "$description": "Balanced standard",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:8331:38095",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "emphasized": {
+            "$type": "cubicBezier",
+            "$value": [
+              0.2,
+              0,
+              0,
+              1
+            ],
+            "$description": "Emphasized easing; distinctive brand motion curve.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:8375:44787",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "expressive": {
+            "$type": "cubicBezier",
+            "$value": [
+              0.4,
+              0,
+              0.2,
+              1
+            ],
+            "$description": "Smooth / premium feel",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:8375:44788",
+                "collection": "VariableCollectionId:43:2",
+                "scopes": [],
+                "codeSyntax": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$extensions": {
+    "generator": {
+      "name": "Token Press",
+      "version": "2.3.1"
+    },
+    "figma": {
+      "collection": {
+        "id": "VariableCollectionId:43:2",
+        "name": "Primitives",
+        "defaultModeId": "43:0"
+      },
+      "mode": "Mode 1"
+    }
+  }
+}

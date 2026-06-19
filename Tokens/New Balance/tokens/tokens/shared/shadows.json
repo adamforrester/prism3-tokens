@@ -1,0 +1,372 @@
+{
+  "nbds": {
+    "shadow": {
+      "xs": {
+        "default": {
+          "$type": "shadow",
+          "$value": [
+            {
+              "color": "rgba(0, 0, 0, 0.2)",
+              "offsetX": "0px",
+              "offsetY": "1px",
+              "blur": "4px",
+              "spread": "1px"
+            },
+            {
+              "color": "rgba(0, 0, 0, 0.3)",
+              "offsetX": "0px",
+              "offsetY": "1px",
+              "blur": "2px",
+              "spread": "0px"
+            }
+          ],
+          "$description": "Placeholder xs/default shadow from Prism2 reference set. Adjust if AO design language adopts shadows.",
+          "$extensions": {
+            "figma": {
+              "styleId": "S:8c86779ab1b33510df2c97e966f1d9db2d88f31b,",
+              "effectTypes": [
+                "DROP_SHADOW",
+                "DROP_SHADOW"
+              ]
+            }
+          }
+        },
+        "inverse": {
+          "$type": "shadow",
+          "$value": [
+            {
+              "color": "rgba(0, 0, 0, 0.3)",
+              "offsetX": "0px",
+              "offsetY": "1px",
+              "blur": "2px",
+              "spread": "0px"
+            },
+            {
+              "color": "rgba(0, 0, 0, 0.2)",
+              "offsetX": "0px",
+              "offsetY": "1px",
+              "blur": "4px",
+              "spread": "1px"
+            }
+          ],
+          "$description": "Placeholder xs/inverse shadow from Prism2 reference set. Adjust if AO design language adopts shadows.",
+          "$extensions": {
+            "figma": {
+              "styleId": "S:9d648bff47dcd27fe917863baa42162bdff6af35,",
+              "effectTypes": [
+                "DROP_SHADOW",
+                "DROP_SHADOW"
+              ]
+            }
+          }
+        }
+      },
+      "sm": {
+        "default": {
+          "$type": "shadow",
+          "$value": [
+            {
+              "color": "rgba(0, 0, 0, 0.2)",
+              "offsetX": "0px",
+              "offsetY": "2px",
+              "blur": "8px",
+              "spread": "0px"
+            },
+            {
+              "color": "rgba(0, 0, 0, 0.2)",
+              "offsetX": "0px",
+              "offsetY": "1px",
+              "blur": "2px",
+              "spread": "-2px"
+            }
+          ],
+          "$description": "Placeholder sm/default shadow from Prism2 reference set. Adjust if AO design language adopts shadows.",
+          "$extensions": {
+            "figma": {
+              "styleId": "S:5cbfdc552254677ac231c1079d889ba7f4650512,",
+              "effectTypes": [
+                "DROP_SHADOW",
+                "DROP_SHADOW"
+              ]
+            }
+          }
+        },
+        "inverse": {
+          "$type": "shadow",
+          "$value": [
+            {
+              "color": "rgba(0, 0, 0, 0.4)",
+              "offsetX": "0px",
+              "offsetY": "1px",
+              "blur": "2px",
+              "spread": "2px"
+            },
+            {
+              "color": "rgba(0, 0, 0, 0.3)",
+              "offsetX": "0px",
+              "offsetY": "2px",
+              "blur": "6px",
+              "spread": "2px"
+            }
+          ],
+          "$description": "Placeholder sm/inverse shadow from Prism2 reference set. Adjust if AO design language adopts shadows.",
+          "$extensions": {
+            "figma": {
+              "styleId": "S:45118b6155a5327e12f3e2a691d14d5948fddc96,",
+              "effectTypes": [
+                "DROP_SHADOW",
+                "DROP_SHADOW"
+              ]
+            }
+          }
+        }
+      },
+      "md": {
+        "default": {
+          "$type": "shadow",
+          "$value": [
+            {
+              "color": "rgba(0, 0, 0, 0.3)",
+              "offsetX": "0px",
+              "offsetY": "6px",
+              "blur": "16px",
+              "spread": "-4px"
+            },
+            {
+              "color": "rgba(0, 0, 0, 0.1)",
+              "offsetX": "0px",
+              "offsetY": "4px",
+              "blur": "12px",
+              "spread": "-2px"
+            }
+          ],
+          "$description": "Placeholder md/default shadow from Prism2 reference set. Adjust if AO design language adopts shadows.",
+          "$extensions": {
+            "figma": {
+              "styleId": "S:8c9344ae29a9e48864449dfa6f7984e47b0c9080,",
+              "effectTypes": [
+                "DROP_SHADOW",
+                "DROP_SHADOW"
+              ]
+            }
+          }
+        },
+        "inverse": {
+          "$type": "shadow",
+          "$value": [
+            {
+              "color": "rgba(0, 0, 0, 0.4)",
+              "offsetX": "0px",
+              "offsetY": "6px",
+              "blur": "16px",
+              "spread": "4px"
+            },
+            {
+              "color": "rgba(0, 0, 0, 0.3)",
+              "offsetX": "0px",
+              "offsetY": "4px",
+              "blur": "8px",
+              "spread": "2px"
+            }
+          ],
+          "$description": "Placeholder md/inverse shadow from Prism2 reference set. Adjust if AO design language adopts shadows.",
+          "$extensions": {
+            "figma": {
+              "styleId": "S:9f5ccca06238f7306ab571fa63615a7371a47f5e,",
+              "effectTypes": [
+                "DROP_SHADOW",
+                "DROP_SHADOW"
+              ]
+            }
+          }
+        }
+      },
+      "lg": {
+        "default": {
+          "$type": "shadow",
+          "$value": [
+            {
+              "color": "rgba(0, 0, 0, 0.2)",
+              "offsetX": "0px",
+              "offsetY": "8px",
+              "blur": "24px",
+              "spread": "2px"
+            },
+            {
+              "color": "rgba(0, 0, 0, 0.1)",
+              "offsetX": "0px",
+              "offsetY": "8px",
+              "blur": "12px",
+              "spread": "-2px"
+            }
+          ],
+          "$description": "Placeholder lg/default shadow from Prism2 reference set. Adjust if AO design language adopts shadows.",
+          "$extensions": {
+            "figma": {
+              "styleId": "S:a68db164416c08176fb097acd0146eda622883cf,",
+              "effectTypes": [
+                "DROP_SHADOW",
+                "DROP_SHADOW"
+              ]
+            }
+          }
+        },
+        "inverse": {
+          "$type": "shadow",
+          "$value": [
+            {
+              "color": "rgba(0, 0, 0, 0.5)",
+              "offsetX": "0px",
+              "offsetY": "8px",
+              "blur": "32px",
+              "spread": "12px"
+            },
+            {
+              "color": "rgba(0, 0, 0, 0.3)",
+              "offsetX": "0px",
+              "offsetY": "8px",
+              "blur": "12px",
+              "spread": "2px"
+            }
+          ],
+          "$description": "Placeholder lg/inverse shadow from Prism2 reference set. Adjust if AO design language adopts shadows.",
+          "$extensions": {
+            "figma": {
+              "styleId": "S:59f858063a2b74135e985ef3a812c5e47fb5a32f,",
+              "effectTypes": [
+                "DROP_SHADOW",
+                "DROP_SHADOW"
+              ]
+            }
+          }
+        }
+      },
+      "xl": {
+        "default": {
+          "$type": "shadow",
+          "$value": [
+            {
+              "color": "rgba(0, 0, 0, 0.3)",
+              "offsetX": "0px",
+              "offsetY": "12px",
+              "blur": "36px",
+              "spread": "2px"
+            },
+            {
+              "color": "rgba(0, 0, 0, 0.1)",
+              "offsetX": "0px",
+              "offsetY": "6px",
+              "blur": "8px",
+              "spread": "-4px"
+            }
+          ],
+          "$description": "Placeholder xl/default shadow from Prism2 reference set. Adjust if AO design language adopts shadows.",
+          "$extensions": {
+            "figma": {
+              "styleId": "S:38b353a8a4fefb95ddf9f38891584188979e9a14,",
+              "effectTypes": [
+                "DROP_SHADOW",
+                "DROP_SHADOW"
+              ]
+            }
+          }
+        },
+        "inverse": {
+          "$type": "shadow",
+          "$value": [
+            {
+              "color": "rgb(0, 0, 0)",
+              "offsetX": "0px",
+              "offsetY": "12px",
+              "blur": "36px",
+              "spread": "2px"
+            },
+            {
+              "color": "rgba(0, 0, 0, 0.3)",
+              "offsetX": "0px",
+              "offsetY": "8px",
+              "blur": "12px",
+              "spread": "2px"
+            }
+          ],
+          "$description": "Placeholder xl/inverse shadow from Prism2 reference set. Adjust if AO design language adopts shadows.",
+          "$extensions": {
+            "figma": {
+              "styleId": "S:3db2880daaea3ea88048acb9ca8f63342db83ba6,",
+              "effectTypes": [
+                "DROP_SHADOW",
+                "DROP_SHADOW"
+              ]
+            }
+          }
+        }
+      },
+      "2xl": {
+        "default": {
+          "$type": "shadow",
+          "$value": [
+            {
+              "color": "rgba(0, 0, 0, 0.1)",
+              "offsetX": "0px",
+              "offsetY": "20px",
+              "blur": "88px",
+              "spread": "-4px"
+            },
+            {
+              "color": "rgba(0, 0, 0, 0.1)",
+              "offsetX": "0px",
+              "offsetY": "8px",
+              "blur": "32px",
+              "spread": "-6px"
+            }
+          ],
+          "$description": "Placeholder 2xl/default shadow from Prism2 reference set. Adjust if AO design language adopts shadows.",
+          "$extensions": {
+            "figma": {
+              "styleId": "S:88802614ddda5f66d3ff2f6c049078fe2a070336,",
+              "effectTypes": [
+                "DROP_SHADOW",
+                "DROP_SHADOW"
+              ]
+            }
+          }
+        },
+        "inverse": {
+          "$type": "shadow",
+          "$value": [
+            {
+              "color": "rgb(0, 0, 0)",
+              "offsetX": "0px",
+              "offsetY": "20px",
+              "blur": "88px",
+              "spread": "-4px"
+            },
+            {
+              "color": "rgb(0, 0, 0)",
+              "offsetX": "0px",
+              "offsetY": "8px",
+              "blur": "32px",
+              "spread": "-6px"
+            }
+          ],
+          "$description": "Placeholder 2xl/inverse shadow from Prism2 reference set. Adjust if AO design language adopts shadows.",
+          "$extensions": {
+            "figma": {
+              "styleId": "S:d68618ad2da4972fe41c60b31201d3d025db25db,",
+              "effectTypes": [
+                "DROP_SHADOW",
+                "DROP_SHADOW"
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "$extensions": {
+    "generator": {
+      "name": "Token Press",
+      "version": "2.3.1"
+    }
+  }
+}

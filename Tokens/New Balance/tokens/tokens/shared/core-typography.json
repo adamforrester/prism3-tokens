@@ -1,0 +1,626 @@
+{
+  "nbds": {
+    "font": {
+      "weight": {
+        "regular": {
+          "$type": "fontWeight",
+          "$value": 400,
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:11:149",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "FONT_STYLE"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "medium": {
+          "$type": "fontWeight",
+          "$value": 500,
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:11:153",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "FONT_STYLE"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "light-condensed": {
+          "$type": "fontWeight",
+          "$value": 400,
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:103:507",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "FONT_STYLE"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "book-condensed": {
+          "$type": "fontWeight",
+          "$value": 400,
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:6318:409",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "FONT_STYLE"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        }
+      },
+      "family": {
+        "itc-garamond-std": {
+          "$type": "fontFamily",
+          "$value": "ITC Garamond Std",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:11:157",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "FONT_FAMILY"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "proxima-nova": {
+          "$type": "fontFamily",
+          "$value": "Proxima Nova",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:11:161",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "FONT_FAMILY"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        }
+      },
+      "size": {
+        "12": {
+          "$type": "dimension",
+          "$value": "12px",
+          "$description": "12px font size primitive.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:68",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "FONT_SIZE"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "14": {
+          "$type": "dimension",
+          "$value": "14px",
+          "$description": "14px font size primitive.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:69",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "FONT_SIZE"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "16": {
+          "$type": "dimension",
+          "$value": "16px",
+          "$description": "16px font size primitive.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:70",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "FONT_SIZE"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "18": {
+          "$type": "dimension",
+          "$value": "18px",
+          "$description": "18px font size primitive.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:71",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "FONT_SIZE"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "20": {
+          "$type": "dimension",
+          "$value": "20px",
+          "$description": "20px font size primitive.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:72",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "FONT_SIZE"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "24": {
+          "$type": "dimension",
+          "$value": "24px",
+          "$description": "24px font size primitive.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:73",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "FONT_SIZE"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "28": {
+          "$type": "dimension",
+          "$value": "28px",
+          "$description": "28px font size primitive.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:74",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "FONT_SIZE"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "32": {
+          "$type": "dimension",
+          "$value": "32px",
+          "$description": "32px font size primitive.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:75",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "FONT_SIZE"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "40": {
+          "$type": "dimension",
+          "$value": "40px",
+          "$description": "40px font size primitive.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:76",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "FONT_SIZE"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "48": {
+          "$type": "dimension",
+          "$value": "48px",
+          "$description": "48px font size primitive.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:77",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "FONT_SIZE"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "60": {
+          "$type": "dimension",
+          "$value": "60px",
+          "$description": "60px font size primitive.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:78",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "FONT_SIZE"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "76": {
+          "$type": "dimension",
+          "$value": "76px",
+          "$description": "76px font size primitive.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:79",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "FONT_SIZE"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "96": {
+          "$type": "dimension",
+          "$value": "96px",
+          "$description": "96px font size primitive.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:80",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "FONT_SIZE"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "120": {
+          "$type": "dimension",
+          "$value": "120px",
+          "$description": "120px font size primitive.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:81",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "FONT_SIZE"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        }
+      },
+      "letterspacing": {
+        "tight": {
+          "$type": "dimension",
+          "$value": "-0.02px",
+          "$description": "Letter-spacing primitive: tight (-0.02).",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:95",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "LETTER_SPACING"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "normal": {
+          "$type": "dimension",
+          "$value": "0px",
+          "$description": "Letter-spacing primitive: normal (0).",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:96",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "LETTER_SPACING"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "wide": {
+          "$type": "dimension",
+          "$value": "0.04px",
+          "$description": "Letter-spacing primitive: wide (0.04).",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17027:97",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "LETTER_SPACING"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        }
+      },
+      "paragraph-spacing": {
+        "16": {
+          "$type": "dimension",
+          "$value": "16px",
+          "$description": "16px paragraph-spacing primitive. Independent of lineheight by design — see Appendix B #52.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17067:102661",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "PARAGRAPH_SPACING"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "18": {
+          "$type": "dimension",
+          "$value": "18px",
+          "$description": "18px paragraph-spacing primitive. Independent of lineheight by design — see Appendix B #52.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17067:102662",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "PARAGRAPH_SPACING"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "20": {
+          "$type": "dimension",
+          "$value": "20px",
+          "$description": "20px paragraph-spacing primitive. Independent of lineheight by design — see Appendix B #52.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17067:102663",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "PARAGRAPH_SPACING"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "24": {
+          "$type": "dimension",
+          "$value": "24px",
+          "$description": "24px paragraph-spacing primitive. Independent of lineheight by design — see Appendix B #52.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17067:102664",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "PARAGRAPH_SPACING"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "28": {
+          "$type": "dimension",
+          "$value": "28px",
+          "$description": "28px paragraph-spacing primitive. Independent of lineheight by design — see Appendix B #52.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17067:102665",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "PARAGRAPH_SPACING"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "32": {
+          "$type": "dimension",
+          "$value": "32px",
+          "$description": "32px paragraph-spacing primitive. Independent of lineheight by design — see Appendix B #52.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17067:102666",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "PARAGRAPH_SPACING"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "36": {
+          "$type": "dimension",
+          "$value": "36px",
+          "$description": "36px paragraph-spacing primitive. Independent of lineheight by design — see Appendix B #52.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17067:102667",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "PARAGRAPH_SPACING"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "40": {
+          "$type": "dimension",
+          "$value": "40px",
+          "$description": "40px paragraph-spacing primitive. Independent of lineheight by design — see Appendix B #52.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17067:102668",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "PARAGRAPH_SPACING"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "48": {
+          "$type": "dimension",
+          "$value": "48px",
+          "$description": "48px paragraph-spacing primitive. Independent of lineheight by design — see Appendix B #52.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17067:102669",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "PARAGRAPH_SPACING"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "56": {
+          "$type": "dimension",
+          "$value": "56px",
+          "$description": "56px paragraph-spacing primitive. Independent of lineheight by design — see Appendix B #52.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17067:102670",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "PARAGRAPH_SPACING"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "68": {
+          "$type": "dimension",
+          "$value": "68px",
+          "$description": "68px paragraph-spacing primitive. Independent of lineheight by design — see Appendix B #52.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17067:102671",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "PARAGRAPH_SPACING"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "120": {
+          "$type": "dimension",
+          "$value": "120px",
+          "$description": "120px paragraph-spacing primitive. Independent of lineheight by design — see Appendix B #52.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17067:102672",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "PARAGRAPH_SPACING"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        }
+      },
+      "lineheight": {
+        "1p1": {
+          "$type": "number",
+          "$value": 1.1,
+          "$description": "Unitless line-height ratio 1.1× (display tier — tightest leading for brand-character moments). Pattern B per Appendix B #73.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17193:4",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "LINE_HEIGHT"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "1p2": {
+          "$type": "number",
+          "$value": 1.2,
+          "$description": "Unitless line-height ratio 1.2× (heading tier — tight leading for hierarchy moments). Pattern B per Appendix B #73.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17193:5",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "LINE_HEIGHT"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "1p3": {
+          "$type": "number",
+          "$value": 1.3,
+          "$description": "Unitless line-height ratio 1.3× (label tier and heading/sm — between heading and body). Pattern B per Appendix B #73.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17193:6",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "LINE_HEIGHT"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "1p4": {
+          "$type": "number",
+          "$value": 1.4,
+          "$description": "Unitless line-height ratio 1.4× (body tier — readable leading). Pattern B per Appendix B #73.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17193:7",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "LINE_HEIGHT"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "1p5": {
+          "$type": "number",
+          "$value": 1.5,
+          "$description": "Unitless line-height ratio 1.5× (body tier — comfortable readable leading). Pattern B per Appendix B #73.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17193:8",
+              "collection": "VariableCollectionId:9:270",
+              "scopes": [
+                "LINE_HEIGHT"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        }
+      }
+    }
+  },
+  "$extensions": {
+    "generator": {
+      "name": "Token Press",
+      "version": "2.3.1"
+    },
+    "figma": {
+      "collection": {
+        "id": "VariableCollectionId:9:270",
+        "name": "core-typography",
+        "defaultModeId": "9:0"
+      },
+      "mode": "Mode 1"
+    }
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "nbds": {
+    "breakpoint": {
+      "0": {
+        "$type": "dimension",
+        "$value": "0px",
+        "$description": "0px breakpoint primitive.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:17027:113",
+            "collection": "VariableCollectionId:17027:112",
+            "scopes": [
+              "WIDTH_HEIGHT"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      },
+      "1024": {
+        "$type": "dimension",
+        "$value": "1024px",
+        "$description": "1024px breakpoint primitive.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:17027:116",
+            "collection": "VariableCollectionId:17027:112",
+            "scopes": [
+              "WIDTH_HEIGHT"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      },
+      "1920": {
+        "$type": "dimension",
+        "$value": "1920px",
+        "$description": "1920px breakpoint primitive — max container width.",
+        "$extensions": {
+          "figma": {
+            "variableId": "VariableID:17151:332124",
+            "collection": "VariableCollectionId:17027:112",
+            "scopes": [
+              "WIDTH_HEIGHT"
+            ],
+            "codeSyntax": {}
+          }
+        }
+      }
+    }
+  },
+  "$extensions": {
+    "generator": {
+      "name": "Token Press",
+      "version": "2.3.1"
+    },
+    "figma": {
+      "collection": {
+        "id": "VariableCollectionId:17027:112",
+        "name": "core-breakpoint",
+        "defaultModeId": "17027:1"
+      },
+      "mode": "Mode 1"
+    }
+  }
+}

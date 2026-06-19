@@ -1,0 +1,4915 @@
+{
+  "$collection": "Primitives",
+  "$mode": "Mode 1",
+  "variables": [
+    {
+      "id": "VariableID:43:3",
+      "name": "pds/color/blueberry/050",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Very light blue; hover states on light surfaces.",
+      "value": {
+        "r": 0.9215686321258545,
+        "g": 0.9450980424880981,
+        "b": 0.9843137264251709,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:43:4",
+      "name": "pds/color/blueberry/100",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Light blue; secondary backgrounds.",
+      "value": {
+        "r": 0.8392156958580017,
+        "g": 0.8901960849761963,
+        "b": 0.9764705896377563,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:43:5",
+      "name": "pds/color/blueberry/200",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Medium-light blue; inactive states.",
+      "value": {
+        "r": 0.686274528503418,
+        "g": 0.7803921699523926,
+        "b": 0.9529411792755127,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:43:6",
+      "name": "pds/color/blueberry/300",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Mid-tone blue; tertiary elements.",
+      "value": {
+        "r": 0.5372549295425415,
+        "g": 0.6745098233222961,
+        "b": 0.9215686321258545,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:43:7",
+      "name": "pds/color/blueberry/400",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Strong blue; active states.",
+      "value": {
+        "r": 0.3921568691730499,
+        "g": 0.5647059082984924,
+        "b": 0.8901960849761963,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:43:8",
+      "name": "pds/color/blueberry/500",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Standard blue; default interactive color.",
+      "value": {
+        "r": 0.24313725531101227,
+        "g": 0.45098039507865906,
+        "b": 0.8392156958580017,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:43:9",
+      "name": "pds/color/blueberry/600",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Rich blue; text links and icons.",
+      "value": {
+        "r": 0.08627451211214066,
+        "g": 0.33725491166114807,
+        "b": 0.8078431487083435,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:43:10",
+      "name": "pds/color/blueberry/700",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Deep saturated blue; pressed states.",
+      "value": {
+        "r": 0,
+        "g": 0.23529411852359772,
+        "b": 0.6823529601097107,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:43:11",
+      "name": "pds/color/blueberry/800",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Near-black blue; strong emphasis.",
+      "value": {
+        "r": 0.01568627543747425,
+        "g": 0.1568627506494522,
+        "b": 0.48235294222831726,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:43:12",
+      "name": "pds/color/blueberry/850",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Darkest blue tone; extreme contrast.",
+      "value": {
+        "r": 0,
+        "g": 0.12156862765550613,
+        "b": 0.3960784375667572,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:43:16",
+      "name": "pds/color/blueberry/900",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Almost black blue; text on light backgrounds.",
+      "value": {
+        "r": 0,
+        "g": 0.08627451211214066,
+        "b": 0.3137255012989044,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:43:17",
+      "name": "pds/color/blueberry/950",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Pure dark blue; maximum contrast.",
+      "value": {
+        "r": 0,
+        "g": 0.05098039284348488,
+        "b": 0.2078431397676468,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:43:34",
+      "name": "pds/color/neutral/050",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Very light gray; hover states on white.",
+      "value": {
+        "r": 0.9450980424880981,
+        "g": 0.9450980424880981,
+        "b": 0.9450980424880981,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:43:35",
+      "name": "pds/color/neutral/100",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Light gray; secondary backgrounds.",
+      "value": {
+        "r": 0.886274516582489,
+        "g": 0.886274516582489,
+        "b": 0.886274516582489,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:43:36",
+      "name": "pds/color/neutral/150",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Soft gray; borders and dividers.",
+      "value": {
+        "r": 0.8313725590705872,
+        "g": 0.8313725590705872,
+        "b": 0.8313725590705872,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:43:37",
+      "name": "pds/color/neutral/200",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Medium-light gray; disabled states.",
+      "value": {
+        "r": 0.7764706015586853,
+        "g": 0.7764706015586853,
+        "b": 0.7764706015586853,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:43:38",
+      "name": "pds/color/neutral/250",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Medium gray; placeholder text.",
+      "value": {
+        "r": 0.7254902124404907,
+        "g": 0.7254902124404907,
+        "b": 0.7254902124404907,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:43:39",
+      "name": "pds/color/neutral/300",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Mid-tone gray; secondary borders.",
+      "value": {
+        "r": 0.6705882549285889,
+        "g": 0.6705882549285889,
+        "b": 0.6705882549285889,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:43:40",
+      "name": "pds/color/neutral/350",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Balanced gray; tertiary elements.",
+      "value": {
+        "r": 0.6196078658103943,
+        "g": 0.6196078658103943,
+        "b": 0.6196078658103943,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:43:41",
+      "name": "pds/color/neutral/400",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Strong gray; icons and graphics.",
+      "value": {
+        "r": 0.5686274766921997,
+        "g": 0.5686274766921997,
+        "b": 0.5686274766921997,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:43:42",
+      "name": "pds/color/neutral/450",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Deep gray; secondary text.",
+      "value": {
+        "r": 0.5176470875740051,
+        "g": 0.5176470875740051,
+        "b": 0.5176470875740051,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:43:43",
+      "name": "pds/color/neutral/500",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Standard gray; body text.",
+      "value": {
+        "r": 0.4627451002597809,
+        "g": 0.4627451002597809,
+        "b": 0.4627451002597809,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:43:44",
+      "name": "pds/color/neutral/550",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Saturated gray; labels.",
+      "value": {
+        "r": 0.4156862795352936,
+        "g": 0.4156862795352936,
+        "b": 0.4156862795352936,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:43:45",
+      "name": "pds/color/neutral/600",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Rich gray; headings.",
+      "value": {
+        "r": 0.3686274588108063,
+        "g": 0.3686274588108063,
+        "b": 0.3686274588108063,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:43:46",
+      "name": "pds/color/neutral/650",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Dark gray; emphasized text.",
+      "value": {
+        "r": 0.32156863808631897,
+        "g": 0.32156863808631897,
+        "b": 0.32156863808631897,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:43:47",
+      "name": "pds/color/neutral/700",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Deep saturated gray; strong text.",
+      "value": {
+        "r": 0.27843138575553894,
+        "g": 0.27843138575553894,
+        "b": 0.27843138575553894,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:43:48",
+      "name": "pds/color/neutral/950",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Pure dark gray; absolute contrast.",
+      "value": {
+        "r": 0.06666667014360428,
+        "g": 0.06666667014360428,
+        "b": 0.06666667014360428,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:2",
+      "name": "pds/color/strawberry/025",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Lightest red; subtle error backgrounds.",
+      "value": {
+        "r": 1,
+        "g": 0.9647058844566345,
+        "b": 0.9607843160629272,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:3",
+      "name": "pds/color/strawberry/300",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Mid-tone red; tertiary error elements.",
+      "value": {
+        "r": 0.9607843160629272,
+        "g": 0.5647059082984924,
+        "b": 0.5058823823928833,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:4",
+      "name": "pds/color/strawberry/100",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Light red; secondary error backgrounds.",
+      "value": {
+        "r": 1,
+        "g": 0.8549019694328308,
+        "b": 0.8313725590705872,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:5",
+      "name": "pds/color/strawberry/200",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Medium-light red; disabled error states.",
+      "value": {
+        "r": 0.9843137264251709,
+        "g": 0.7098039388656616,
+        "b": 0.6666666865348816,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:6",
+      "name": "pds/color/strawberry/400",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Strong red; active error states.",
+      "value": {
+        "r": 0.9215686321258545,
+        "g": 0.40392157435417175,
+        "b": 0.34117648005485535,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:7",
+      "name": "pds/color/strawberry/450",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Deep red; error interactive elements.",
+      "value": {
+        "r": 0.8941176533699036,
+        "g": 0.3176470696926117,
+        "b": 0.26274511218070984,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:8",
+      "name": "pds/color/strawberry/500",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Standard red; default error color.",
+      "value": {
+        "r": 0.8745098114013672,
+        "g": 0.20000000298023224,
+        "b": 0.15294118225574493,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:9",
+      "name": "pds/color/strawberry/550",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Saturated red; error surfaces.",
+      "value": {
+        "r": 0.8470588326454163,
+        "g": 0,
+        "b": 0,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:10",
+      "name": "pds/color/strawberry/600",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Rich red; error text and icons.",
+      "value": {
+        "r": 0.7568627595901489,
+        "g": 0,
+        "b": 0,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:11",
+      "name": "pds/color/strawberry/650",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Dark red; emphasized error elements.",
+      "value": {
+        "r": 0.6627451181411743,
+        "g": 0.007843137718737125,
+        "b": 0.003921568859368563,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:12",
+      "name": "pds/color/strawberry/700",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Deep saturated red; critical states.",
+      "value": {
+        "r": 0.5803921818733215,
+        "g": 0,
+        "b": 0,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:13",
+      "name": "pds/color/strawberry/750",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Very dark red; high-contrast errors.",
+      "value": {
+        "r": 0.4901960790157318,
+        "g": 0.0117647061124444,
+        "b": 0.0117647061124444,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:14",
+      "name": "pds/color/strawberry/800",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Near-black red; severe errors.",
+      "value": {
+        "r": 0.4117647111415863,
+        "g": 0,
+        "b": 0,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:15",
+      "name": "pds/color/strawberry/850",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Darkest red tone; extreme error contrast.",
+      "value": {
+        "r": 0.3333333432674408,
+        "g": 0,
+        "b": 0,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:16",
+      "name": "pds/color/strawberry/900",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Almost black red; critical error text.",
+      "value": {
+        "r": 0.250980406999588,
+        "g": 0.003921568859368563,
+        "b": 0.0117647061124444,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:17",
+      "name": "pds/color/lime/025",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Lightest green; subtle success backgrounds.",
+      "value": {
+        "r": 0.9372549057006836,
+        "g": 0.9843137264251709,
+        "b": 0.9333333373069763,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:18",
+      "name": "pds/color/lime/100",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Light green; secondary success backgrounds.",
+      "value": {
+        "r": 0.7568627595901489,
+        "g": 0.9333333373069763,
+        "b": 0.7372549176216125,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:19",
+      "name": "pds/color/lime/150",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Soft green; success borders.",
+      "value": {
+        "r": 0.6549019813537598,
+        "g": 0.8941176533699036,
+        "b": 0.6274510025978088,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:20",
+      "name": "pds/color/lime/200",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Medium-light green; disabled success states.",
+      "value": {
+        "r": 0.5176470875740051,
+        "g": 0.8549019694328308,
+        "b": 0.4901960790157318,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:21",
+      "name": "pds/color/lime/250",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Medium green; secondary success elements.",
+      "value": {
+        "r": 0.3686274588108063,
+        "g": 0.8156862854957581,
+        "b": 0.33725491166114807,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:22",
+      "name": "pds/color/lime/300",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Mid-tone green; tertiary success elements.",
+      "value": {
+        "r": 0.13725490868091583,
+        "g": 0.7686274647712708,
+        "b": 0.10588235408067703,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:23",
+      "name": "pds/color/lime/350",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Balanced green; success hover states.",
+      "value": {
+        "r": 0.09803921729326248,
+        "g": 0.7176470756530762,
+        "b": 0.09019608050584793,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:24",
+      "name": "pds/color/lime/400",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Strong green; active success states.",
+      "value": {
+        "r": 0.12941177189350128,
+        "g": 0.6549019813537598,
+        "b": 0.0941176488995552,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:25",
+      "name": "pds/color/lime/450",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Deep green; success interactive elements.",
+      "value": {
+        "r": 0.0784313753247261,
+        "g": 0.6000000238418579,
+        "b": 0.062745101749897,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:26",
+      "name": "pds/color/lime/500",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Standard green; default success color.",
+      "value": {
+        "r": 0.09803921729326248,
+        "g": 0.5372549295425415,
+        "b": 0.06666667014360428,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:27",
+      "name": "pds/color/lime/550",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Saturated green; success surfaces.",
+      "value": {
+        "r": 0.08235294371843338,
+        "g": 0.48627451062202454,
+        "b": 0.05882352963089943,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:28",
+      "name": "pds/color/lime/600",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Rich green; success text and icons.",
+      "value": {
+        "r": 0.05098039284348488,
+        "g": 0.4313725531101227,
+        "b": 0.0313725508749485,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:29",
+      "name": "pds/color/lime/650",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Dark green; emphasized success elements.",
+      "value": {
+        "r": 0.05098039284348488,
+        "g": 0.3764705955982208,
+        "b": 0.0313725508749485,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:30",
+      "name": "pds/color/lime/900",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Almost black green; critical success text.",
+      "value": {
+        "r": 0.0117647061124444,
+        "g": 0.12941177189350128,
+        "b": 0.0117647061124444,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:31",
+      "name": "pds/color/lime/950",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Pure dark green; maximum success contrast.",
+      "value": {
+        "r": 0,
+        "g": 0.08627451211214066,
+        "b": 0,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:32",
+      "name": "pds/color/pumpkin/050",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Very light orange; hover on warning surfaces.",
+      "value": {
+        "r": 1,
+        "g": 0.929411768913269,
+        "b": 0.8823529481887817,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:33",
+      "name": "pds/color/pumpkin/100",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Light orange; secondary warning backgrounds.",
+      "value": {
+        "r": 0.9960784316062927,
+        "g": 0.8627451062202454,
+        "b": 0.7843137383460999,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:34",
+      "name": "pds/color/pumpkin/200",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Medium-light orange; disabled warning states.",
+      "value": {
+        "r": 1,
+        "g": 0.7137255072593689,
+        "b": 0.5411764979362488,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:35",
+      "name": "pds/color/pumpkin/300",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Mid-tone orange; tertiary warning elements.",
+      "value": {
+        "r": 0.9725490212440491,
+        "g": 0.5686274766921997,
+        "b": 0.29411765933036804,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:36",
+      "name": "pds/color/pumpkin/400",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Strong orange; active warning states.",
+      "value": {
+        "r": 0.886274516582489,
+        "g": 0.4470588266849518,
+        "b": 0.05098039284348488,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:37",
+      "name": "pds/color/pumpkin/500",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Standard orange; default warning color.",
+      "value": {
+        "r": 0.7254902124404907,
+        "g": 0.364705890417099,
+        "b": 0.054901961237192154,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:38",
+      "name": "pds/color/pumpkin/600",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Rich orange; warning text and icons.",
+      "value": {
+        "r": 0.5843137502670288,
+        "g": 0.29019609093666077,
+        "b": 0.03529411926865578,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:39",
+      "name": "pds/color/pumpkin/650",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Dark orange; emphasized warning elements.",
+      "value": {
+        "r": 0.5176470875740051,
+        "g": 0.24705882370471954,
+        "b": 0.01568627543747425,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:40",
+      "name": "pds/color/pumpkin/800",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Near-black orange; severe warnings.",
+      "value": {
+        "r": 0.3137255012989044,
+        "g": 0.1411764770746231,
+        "b": 0.01568627543747425,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:41",
+      "name": "pds/color/pumpkin/750",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Very dark orange; high-contrast warnings.",
+      "value": {
+        "r": 0.3803921639919281,
+        "g": 0.1764705926179886,
+        "b": 0.007843137718737125,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:42",
+      "name": "pds/color/pumpkin/700",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Deep saturated orange; caution states.",
+      "value": {
+        "r": 0.4470588266849518,
+        "g": 0.21176470816135406,
+        "b": 0.019607843831181526,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:43",
+      "name": "pds/color/pumpkin/850",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Darkest orange tone; extreme warning contrast.",
+      "value": {
+        "r": 0.250980406999588,
+        "g": 0.10980392247438431,
+        "b": 0,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:44",
+      "name": "pds/color/pumpkin/900",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Almost black orange; critical warning text.",
+      "value": {
+        "r": 0.1882352977991104,
+        "g": 0.07450980693101883,
+        "b": 0.027450980618596077,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:45",
+      "name": "pds/color/pumpkin/950",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Pure dark orange; maximum warning contrast.",
+      "value": {
+        "r": 0.12156862765550613,
+        "g": 0.0470588244497776,
+        "b": 0.007843137718737125,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:47",
+      "name": "pds/color/lemon/050",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Very light yellow; hover on info surfaces.",
+      "value": {
+        "r": 1,
+        "g": 0.9529411792755127,
+        "b": 0.6274510025978088,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:48",
+      "name": "pds/color/lemon/100",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Light yellow; secondary info backgrounds.",
+      "value": {
+        "r": 1,
+        "g": 0.8980392217636108,
+        "b": 0,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:49",
+      "name": "pds/color/lemon/200",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Medium-light yellow; disabled info states.",
+      "value": {
+        "r": 0.8705882430076599,
+        "g": 0.7843137383460999,
+        "b": 0,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:50",
+      "name": "pds/color/lemon/300",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Mid-tone yellow; tertiary info elements.",
+      "value": {
+        "r": 0.7529411911964417,
+        "g": 0.6745098233222961,
+        "b": 0.0117647061124444,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:51",
+      "name": "pds/color/lemon/350",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Balanced yellow; info hover states.",
+      "value": {
+        "r": 0.6941176652908325,
+        "g": 0.6235294342041016,
+        "b": 0,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:52",
+      "name": "pds/color/lemon/400",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Strong yellow; active info states.",
+      "value": {
+        "r": 0.6352941393852234,
+        "g": 0.5686274766921997,
+        "b": 0.03529411926865578,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:53",
+      "name": "pds/color/lemon/450",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Deep yellow; info interactive elements.",
+      "value": {
+        "r": 0.5803921818733215,
+        "g": 0.5215686559677124,
+        "b": 0,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:54",
+      "name": "pds/color/lemon/500",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Standard yellow; default info color.",
+      "value": {
+        "r": 0.5215686559677124,
+        "g": 0.46666666865348816,
+        "b": 0,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:55",
+      "name": "pds/color/lemon/600",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Rich yellow; info text and icons.",
+      "value": {
+        "r": 0.4156862795352936,
+        "g": 0.37254902720451355,
+        "b": 0.007843137718737125,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:56",
+      "name": "pds/color/lemon/700",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Deep saturated yellow; highlight states.",
+      "value": {
+        "r": 0.3137255012989044,
+        "g": 0.27843138575553894,
+        "b": 0.003921568859368563,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:57",
+      "name": "pds/color/lemon/750",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Very dark yellow; high-contrast info.",
+      "value": {
+        "r": 0.2666666805744171,
+        "g": 0.23529411852359772,
+        "b": 0,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:58",
+      "name": "pds/color/lemon/800",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Near-black yellow; strong info.",
+      "value": {
+        "r": 0.21960784494876862,
+        "g": 0.1921568661928177,
+        "b": 0,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:59",
+      "name": "pds/color/lemon/900",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Almost black yellow; critical info text.",
+      "value": {
+        "r": 0.12941177189350128,
+        "g": 0.10980392247438431,
+        "b": 0,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:60",
+      "name": "pds/color/lemon/950",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Pure dark yellow; maximum info contrast.",
+      "value": {
+        "r": 0.0784313753247261,
+        "g": 0.06666667014360428,
+        "b": 0,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:62",
+      "name": "pds/color/brand/primary/050",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Very light primary brand; hover on brand surfaces.",
+      "value": {
+        "r": 0.9137254953384399,
+        "g": 0.9450980424880981,
+        "b": 1,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:63",
+      "name": "pds/color/brand/primary/100",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Light primary brand; secondary brand backgrounds.",
+      "value": {
+        "r": 0.8352941274642944,
+        "g": 0.8901960849761963,
+        "b": 1,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:64",
+      "name": "pds/color/brand/primary/150",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Soft primary brand; brand borders.",
+      "value": {
+        "r": 0.7490196228027344,
+        "g": 0.8352941274642944,
+        "b": 1,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:65",
+      "name": "pds/color/brand/primary/300",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Mid-tone primary brand; tertiary brand elements.",
+      "value": {
+        "r": 0.5215686559677124,
+        "g": 0.6627451181411743,
+        "b": 1,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:66",
+      "name": "pds/color/brand/primary/400",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Strong primary brand; active brand states.",
+      "value": {
+        "r": 0.3803921639919281,
+        "g": 0.545098066329956,
+        "b": 1,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:67",
+      "name": "pds/color/brand/primary/500",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Standard primary brand; default brand color.",
+      "value": {
+        "r": 0.23529411852359772,
+        "g": 0.4117647111415863,
+        "b": 0.9921568632125854,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:68",
+      "name": "pds/color/brand/primary/600",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Rich primary brand; brand text and icons.",
+      "value": {
+        "r": 0.1568627506494522,
+        "g": 0.24705882370471954,
+        "b": 1,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:69",
+      "name": "pds/color/brand/primary/700",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Deep saturated primary brand; strong brand states.",
+      "value": {
+        "r": 0.08235294371843338,
+        "g": 0.0941176488995552,
+        "b": 0.8823529481887817,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:70",
+      "name": "pds/color/brand/primary/800",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Near-black primary brand; bold brand elements.",
+      "value": {
+        "r": 0.07058823853731155,
+        "g": 0.062745101749897,
+        "b": 0.6235294342041016,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:71",
+      "name": "pds/color/brand/primary/850",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Darkest primary brand tone; extreme brand contrast.",
+      "value": {
+        "r": 0.03529411926865578,
+        "g": 0.03921568766236305,
+        "b": 0.5137255191802979,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:75",
+      "name": "pds/color/brand/primary/900",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Almost black primary brand; critical brand text.",
+      "value": {
+        "r": 0.0117647061124444,
+        "g": 0.019607843831181526,
+        "b": 0.40784314274787903,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:76",
+      "name": "pds/color/brand/primary/950",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Pure dark primary brand; maximum brand contrast.",
+      "value": {
+        "r": 0.01568627543747425,
+        "g": 0.01568627543747425,
+        "b": 0.27450981736183167,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:78",
+      "name": "pds/transparency/dark-10",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Dark color tokens with alpha channel.",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.10000000149011612
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:79",
+      "name": "pds/transparency/dark-20",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Dark color tokens with alpha channel.",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.20000000298023224
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:80",
+      "name": "pds/transparency/dark-30",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Dark color tokens with alpha channel.",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.30000001192092896
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:81",
+      "name": "pds/transparency/dark-40",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Dark color tokens with alpha channel.",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.4000000059604645
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:82",
+      "name": "pds/transparency/dark-50",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Dark color tokens with alpha channel.",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.5
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:83",
+      "name": "pds/transparency/dark-60",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Dark color tokens with alpha channel.",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.6000000238418579
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:84",
+      "name": "pds/transparency/dark-70",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Dark color tokens with alpha channel.",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.699999988079071
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:85",
+      "name": "pds/transparency/dark-80",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Dark color tokens with alpha channel.",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.800000011920929
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:86",
+      "name": "pds/transparency/dark-90",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Dark color tokens with alpha channel.",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.8999999761581421
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:88",
+      "name": "pds/transparency/light-10",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "10% transparency; very subtle translucency.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 0.10000000149011612
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:98",
+      "name": "pds/transparency/light-20",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Light color tokens with alpha channel.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 0.20000000298023224
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:99",
+      "name": "pds/transparency/light-30",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Light color tokens with alpha channel.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 0.30000001192092896
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:100",
+      "name": "pds/transparency/light-40",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Light color tokens with alpha channel.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 0.4000000059604645
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:101",
+      "name": "pds/transparency/light-50",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Light color tokens with alpha channel.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 0.5
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:102",
+      "name": "pds/transparency/light-60",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Light color tokens with alpha channel.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 0.6000000238418579
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:103",
+      "name": "pds/transparency/light-70",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Light color tokens with alpha channel.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 0.699999988079071
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:104",
+      "name": "pds/transparency/light-80",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Light color tokens with alpha channel.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 0.800000011920929
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:105",
+      "name": "pds/transparency/light-90",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Light color tokens with alpha channel.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 0.8999999761581421
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:125",
+      "name": "pds/font/size/0625",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "10px font size; micro text (0.625rem).",
+      "value": 10,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:126",
+      "name": "pds/font/size/0875",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "14px font size; body text (0.875rem).",
+      "value": 14,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:127",
+      "name": "pds/font/size/100",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "16px font size; standard text (1rem).",
+      "value": 16,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:128",
+      "name": "pds/font/size/1125",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "18px font size; large body text (1.125rem).",
+      "value": 18,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:129",
+      "name": "pds/font/size/125",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "20px font size; heading text (1.25rem).",
+      "value": 20,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:130",
+      "name": "pds/font/size/175",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "28px font size; heading text (1.75rem).",
+      "value": 28,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:131",
+      "name": "pds/font/size/200",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "32px font size; large heading (2rem).",
+      "value": 32,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:132",
+      "name": "pds/font/size/225",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "36px font size; prominent heading (2.25rem).",
+      "value": 36,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:133",
+      "name": "pds/font/size/250",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "40px font size; display heading (2.5rem).",
+      "value": 40,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:134",
+      "name": "pds/font/size/300",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "48px font size; large display (3rem).",
+      "value": 48,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:135",
+      "name": "pds/font/size/350",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "56px font size; extra large display (3.5rem).",
+      "value": 56,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:136",
+      "name": "pds/font/size/400",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "64px font size; hero display (4rem).",
+      "value": 64,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:137",
+      "name": "pds/font/size/450",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "72px font size; massive display (4.5rem).",
+      "value": 72,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:138",
+      "name": "pds/font/size/500",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "80px font size; giant display (5rem).",
+      "value": 80,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:139",
+      "name": "pds/font/size/600",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "96px font size; enormous display (6rem).",
+      "value": 96,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:140",
+      "name": "pds/font/size/700",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "112px font size; colossal display (7rem).",
+      "value": 112,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:141",
+      "name": "pds/font/size/800",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "128px font size; maximum display (8rem).",
+      "value": 128,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:142",
+      "name": "pds/font/size/900",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "144px font size; extreme display (9rem).",
+      "value": 144,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:44:143",
+      "name": "pds/font/size/1000",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "160px font size; ultimate display (10rem).",
+      "value": 160,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:45:16",
+      "name": "pds/font/letterSpacing/neg-03",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LETTER_SPACING"
+      ],
+      "description": "Very negative letter spacing; very tight tracking (-0.03rem).",
+      "value": -3,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:45:17",
+      "name": "pds/font/letterSpacing/neg-015",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LETTER_SPACING"
+      ],
+      "description": "Negative letter spacing; tight tracking (-0.015rem).",
+      "value": -1.5,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:45:18",
+      "name": "pds/font/letterSpacing/0",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LETTER_SPACING"
+      ],
+      "description": "Zero letter spacing; normal tracking (0rem).",
+      "value": 0,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:45:19",
+      "name": "pds/font/letterSpacing/3",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LETTER_SPACING"
+      ],
+      "description": "Positive letter spacing; open tracking (0.03rem).",
+      "value": 3,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:45:20",
+      "name": "pds/font/letterSpacing/6",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LETTER_SPACING"
+      ],
+      "description": "Wide letter spacing; very open tracking (0.06rem).",
+      "value": 6,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:45:21",
+      "name": "pds/dimension/0",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Zero dimension; no spacing or size (0px).",
+      "value": 0,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:46:22",
+      "name": "pds/dimension/2",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Micro dimension; finest spacing (2px).",
+      "value": 2,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:46:23",
+      "name": "pds/dimension/4",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Tiny dimension; minimal spacing (4px).",
+      "value": 4,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:46:24",
+      "name": "pds/dimension/6",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Extra small dimension; tight spacing (6px).",
+      "value": 6,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:46:25",
+      "name": "pds/dimension/8",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Small dimension; compact spacing (8px).",
+      "value": 8,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:46:26",
+      "name": "pds/dimension/12",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Small-medium dimension; comfortable spacing (12px).",
+      "value": 12,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:46:27",
+      "name": "pds/dimension/16",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Medium dimension; standard spacing (16px).",
+      "value": 16,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:46:28",
+      "name": "pds/dimension/20",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Medium-large dimension; relaxed spacing (20px).",
+      "value": 20,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:46:29",
+      "name": "pds/dimension/24",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Large dimension; generous spacing (24px).",
+      "value": 24,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:46:30",
+      "name": "pds/dimension/32",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Extra large dimension; spacious layout (32px).",
+      "value": 32,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:46:31",
+      "name": "pds/dimension/40",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "40px dimension; standard component sizing.",
+      "value": 40,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:46:32",
+      "name": "pds/dimension/48",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "48px dimension; larger components.",
+      "value": 48,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:46:33",
+      "name": "pds/dimension/64",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "64px dimension; large interactive areas.",
+      "value": 64,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:46:34",
+      "name": "pds/dimension/80",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "80px dimension; major layout spacing.",
+      "value": 80,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:46:36",
+      "name": "pds/dimension/56",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "56px dimension; prominent components.",
+      "value": 56,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:46:37",
+      "name": "pds/dimension/36",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "36px dimension; component heights.",
+      "value": 36,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:46:38",
+      "name": "pds/dimension/72",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "72px dimension; extra large components.",
+      "value": 72,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:46:39",
+      "name": "pds/dimension/88",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "88px dimension; substantial spacing.",
+      "value": 88,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:46:40",
+      "name": "pds/dimension/96",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "96px dimension; maximum spacing unit.",
+      "value": 96,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:46:41",
+      "name": "pds/dimension/112",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "112px dimension; large component sizing.",
+      "value": 112,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:46:42",
+      "name": "pds/dimension/128",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "128px dimension; extra large elements.",
+      "value": 128,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:46:43",
+      "name": "pds/dimension/144",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "144px dimension; major layout spacing.",
+      "value": 144,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:48:19",
+      "name": "pds/opacity/0",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "OPACITY"
+      ],
+      "description": "Zero opacity; fully transparent (0%).",
+      "value": 0,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:48:20",
+      "name": "pds/opacity/10",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "OPACITY"
+      ],
+      "description": "10% opacity; very subtle visibility.",
+      "value": 0.10000000149011612,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:48:21",
+      "name": "pds/opacity/20",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "OPACITY"
+      ],
+      "description": "20% opacity; light transparency.",
+      "value": 0.20000000298023224,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:48:22",
+      "name": "pds/opacity/30",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "OPACITY"
+      ],
+      "description": "30% opacity; subtle transparency.",
+      "value": 0.30000001192092896,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:48:23",
+      "name": "pds/opacity/40",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "OPACITY"
+      ],
+      "description": "40% opacity; moderate transparency.",
+      "value": 0.4000000059604645,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:48:24",
+      "name": "pds/opacity/50",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "OPACITY"
+      ],
+      "description": "50% opacity; half transparency.",
+      "value": 0.5,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:48:25",
+      "name": "pds/opacity/60",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "OPACITY"
+      ],
+      "description": "60% opacity; moderate opacity.",
+      "value": 0.6000000238418579,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:48:26",
+      "name": "pds/opacity/70",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "OPACITY"
+      ],
+      "description": "70% opacity; substantial opacity.",
+      "value": 0.699999988079071,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:48:27",
+      "name": "pds/opacity/80",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "OPACITY"
+      ],
+      "description": "80% opacity; mostly opaque.",
+      "value": 0.800000011920929,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:48:28",
+      "name": "pds/opacity/90",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "OPACITY"
+      ],
+      "description": "90% opacity; nearly opaque.",
+      "value": 0.8999999761581421,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:48:29",
+      "name": "pds/opacity/100",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "OPACITY"
+      ],
+      "description": "100% opacity; fully opaque.",
+      "value": 1,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:64:32",
+      "name": "pds/color/white",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Pure white; lightest possible value.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:64:33",
+      "name": "pds/color/black",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Pure black; darkest possible value.",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:69:155",
+      "name": "pds/font/size/0688",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "11px font size; tiny text (0.688rem).",
+      "value": 11,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:69:156",
+      "name": "pds/font/size/075",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "12px font size; small text (0.75rem).",
+      "value": 12,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:69:193",
+      "name": "pds/transparency/dark-0",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Dark color tokens with alpha channel.",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:69:194",
+      "name": "pds/transparency/light-0",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Light color tokens with alpha channel.",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 0
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:94:53",
+      "name": "pds/color/neutral-cool/025",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Lightest cool gray; subtle backgrounds with blue hint.",
+      "value": {
+        "r": 0.9725490212440491,
+        "g": 0.9725490212440491,
+        "b": 0.9803921580314636,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:94:54",
+      "name": "pds/color/neutral-cool/100",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Light cool gray; secondary backgrounds.",
+      "value": {
+        "r": 0.8784313797950745,
+        "g": 0.886274516582489,
+        "b": 0.9058823585510254,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:94:55",
+      "name": "pds/color/neutral-cool/200",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Medium-light cool gray; disabled states.",
+      "value": {
+        "r": 0.7607843279838562,
+        "g": 0.7764706015586853,
+        "b": 0.8156862854957581,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:94:56",
+      "name": "pds/color/neutral-cool/250",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Medium cool gray; placeholders.",
+      "value": {
+        "r": 0.7058823704719543,
+        "g": 0.7215686440467834,
+        "b": 0.772549033164978,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:94:57",
+      "name": "pds/color/neutral-cool/300",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Mid-tone cool gray; dividers.",
+      "value": {
+        "r": 0.6509804129600525,
+        "g": 0.6705882549285889,
+        "b": 0.729411780834198,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:94:58",
+      "name": "pds/color/neutral-cool/350",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Balanced cool gray; tertiary elements.",
+      "value": {
+        "r": 0.5960784554481506,
+        "g": 0.6196078658103943,
+        "b": 0.686274528503418,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:94:59",
+      "name": "pds/color/neutral-cool/400",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Strong cool gray; icons.",
+      "value": {
+        "r": 0.5411764979362488,
+        "g": 0.5686274766921997,
+        "b": 0.6392157077789307,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:94:60",
+      "name": "pds/color/neutral-cool/450",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Deep cool gray; secondary text.",
+      "value": {
+        "r": 0.5098039507865906,
+        "g": 0.5372549295425415,
+        "b": 0.615686297416687,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:94:61",
+      "name": "pds/color/neutral-cool/500",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Standard cool gray; body text.",
+      "value": {
+        "r": 0.43921568989753723,
+        "g": 0.4627451002597809,
+        "b": 0.5333333611488342,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:94:62",
+      "name": "pds/color/neutral-cool/550",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Saturated cool gray; labels.",
+      "value": {
+        "r": 0.3960784375667572,
+        "g": 0.4156862795352936,
+        "b": 0.47843137383461,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:94:63",
+      "name": "pds/color/neutral-cool/600",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Rich cool gray; headings.",
+      "value": {
+        "r": 0.3490196168422699,
+        "g": 0.3686274588108063,
+        "b": 0.4274509847164154,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:94:64",
+      "name": "pds/color/neutral-cool/650",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Dark cool gray; emphasized text.",
+      "value": {
+        "r": 0.30588236451148987,
+        "g": 0.32156863808631897,
+        "b": 0.37254902720451355,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:94:65",
+      "name": "pds/color/neutral-cool/700",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Deep saturated cool gray; strong text.",
+      "value": {
+        "r": 0.26274511218070984,
+        "g": 0.27843138575553894,
+        "b": 0.32156863808631897,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:94:66",
+      "name": "pds/color/neutral-cool/750",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Very dark cool gray; high-contrast text.",
+      "value": {
+        "r": 0.21960784494876862,
+        "g": 0.23137255012989044,
+        "b": 0.2705882489681244,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:94:67",
+      "name": "pds/color/neutral-cool/800",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Near-black cool gray; primary headings.",
+      "value": {
+        "r": 0.1764705926179886,
+        "g": 0.1882352977991104,
+        "b": 0.21960784494876862,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:100:2",
+      "name": "pds/dimension/1",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "1px dimension; hairline spacing or borders.",
+      "value": 1,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:108:78",
+      "name": "pds/font/size/150",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "24px font size; subheading text (1.5rem).",
+      "value": 24,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:155:5728",
+      "name": "pds/dimension/999",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "999px dimension; maximum rounded corners.",
+      "value": 999,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:234:18843",
+      "name": "pds/color/neutral/025",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Lightest gray; subtle backgrounds.",
+      "value": {
+        "r": 0.9725490212440491,
+        "g": 0.9725490212440491,
+        "b": 0.9725490212440491,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:234:18849",
+      "name": "pds/color/neutral/750",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Very dark gray; high-contrast text.",
+      "value": {
+        "r": 0.23137255012989044,
+        "g": 0.23137255012989044,
+        "b": 0.23137255012989044,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:234:18850",
+      "name": "pds/color/neutral/800",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Near-black gray; primary headings.",
+      "value": {
+        "r": 0.1882352977991104,
+        "g": 0.1882352977991104,
+        "b": 0.1882352977991104,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:234:18851",
+      "name": "pds/color/neutral/850",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Darkest gray tone; maximum emphasis.",
+      "value": {
+        "r": 0.14901961386203766,
+        "g": 0.14901961386203766,
+        "b": 0.14901961386203766,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:234:18852",
+      "name": "pds/color/neutral/900",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Almost black; critical text.",
+      "value": {
+        "r": 0.10588235408067703,
+        "g": 0.10588235408067703,
+        "b": 0.10588235408067703,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:234:19159",
+      "name": "pds/color/neutral-cool/850",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Darkest cool gray; maximum emphasis.",
+      "value": {
+        "r": 0.1411764770746231,
+        "g": 0.14901961386203766,
+        "b": 0.1764705926179886,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:234:19160",
+      "name": "pds/color/neutral-cool/900",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Almost black cool gray; critical text.",
+      "value": {
+        "r": 0.09803921729326248,
+        "g": 0.10588235408067703,
+        "b": 0.12941177189350128,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:234:19162",
+      "name": "pds/color/neutral-cool/950",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Pure dark cool gray; absolute contrast.",
+      "value": {
+        "r": 0.05882352963089943,
+        "g": 0.06666667014360428,
+        "b": 0.08235294371843338,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:234:19163",
+      "name": "pds/color/neutral-cool/050",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Very light cool gray; hover states.",
+      "value": {
+        "r": 0.9411764740943909,
+        "g": 0.9450980424880981,
+        "b": 0.9529411792755127,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:234:19164",
+      "name": "pds/color/neutral-cool/150",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Soft cool gray; borders.",
+      "value": {
+        "r": 0.8196078538894653,
+        "g": 0.8313725590705872,
+        "b": 0.8627451062202454,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:234:19205",
+      "name": "pds/color/blueberry/650",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Dark blue; emphasized interactive elements.",
+      "value": {
+        "r": 0,
+        "g": 0.27450981736183167,
+        "b": 0.7843137383460999,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:234:19206",
+      "name": "pds/color/blueberry/750",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Very dark blue; high-contrast elements.",
+      "value": {
+        "r": 0.0313725508749485,
+        "g": 0.19607843458652496,
+        "b": 0.572549045085907,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:234:19207",
+      "name": "pds/color/blueberry/025",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "",
+      "value": {
+        "r": 0.95686274766922,
+        "g": 0.9725490212440491,
+        "b": 1,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:234:19208",
+      "name": "pds/color/blueberry/150",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Soft blue; borders and dividers.",
+      "value": {
+        "r": 0.7647058963775635,
+        "g": 0.8352941274642944,
+        "b": 0.95686274766922,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:234:19209",
+      "name": "pds/color/blueberry/250",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Medium blue; secondary UI elements.",
+      "value": {
+        "r": 0.615686297416687,
+        "g": 0.729411780834198,
+        "b": 0.9333333373069763,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:234:19210",
+      "name": "pds/color/blueberry/350",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Balanced blue; hover states on components.",
+      "value": {
+        "r": 0.4627451002597809,
+        "g": 0.6196078658103943,
+        "b": 0.8980392217636108,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:234:19211",
+      "name": "pds/color/blueberry/450",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Deep blue; primary interactive elements.",
+      "value": {
+        "r": 0.32156863808631897,
+        "g": 0.5098039507865906,
+        "b": 0.8666666746139526,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:234:19212",
+      "name": "pds/color/blueberry/550",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Saturated blue; hover states on interactive elements.",
+      "value": {
+        "r": 0.1764705926179886,
+        "g": 0.3960784375667572,
+        "b": 0.8313725590705872,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:235:13806",
+      "name": "pds/color/lime/050",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Very light green; hover on success surfaces.",
+      "value": {
+        "r": 0.8823529481887817,
+        "g": 0.9686274528503418,
+        "b": 0.8705882430076599,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:236:13807",
+      "name": "pds/color/lime/700",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Deep saturated green; confirmed states.",
+      "value": {
+        "r": 0.027450980618596077,
+        "g": 0.32549020648002625,
+        "b": 0.019607843831181526,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:236:13808",
+      "name": "pds/color/lime/750",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Very dark green; high-contrast success.",
+      "value": {
+        "r": 0.027450980618596077,
+        "g": 0.27450981736183167,
+        "b": 0.019607843831181526,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:236:13809",
+      "name": "pds/color/lime/800",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Near-black green; strong success.",
+      "value": {
+        "r": 0.007843137718737125,
+        "g": 0.2235294133424759,
+        "b": 0.0117647061124444,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:236:13810",
+      "name": "pds/color/lime/850",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Darkest green tone; extreme success contrast.",
+      "value": {
+        "r": 0.0117647061124444,
+        "g": 0.1764705926179886,
+        "b": 0.007843137718737125,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:239:14831",
+      "name": "pds/color/strawberry/150",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Soft red; error borders.",
+      "value": {
+        "r": 0.9882352948188782,
+        "g": 0.7843137383460999,
+        "b": 0.7529411911964417,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:239:14832",
+      "name": "pds/color/strawberry/250",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Medium red; secondary error elements.",
+      "value": {
+        "r": 0.9647058844566345,
+        "g": 0.6431372761726379,
+        "b": 0.5921568870544434,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:239:14833",
+      "name": "pds/color/strawberry/350",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Balanced red; error hover states.",
+      "value": {
+        "r": 0.9372549057006836,
+        "g": 0.4901960790157318,
+        "b": 0.4274509847164154,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:239:14834",
+      "name": "pds/color/strawberry/950",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Pure dark red; maximum error contrast.",
+      "value": {
+        "r": 0.18039216101169586,
+        "g": 0,
+        "b": 0,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:239:14901",
+      "name": "pds/color/strawberry/050",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Very light red; hover on error surfaces.",
+      "value": {
+        "r": 0.9921568632125854,
+        "g": 0.929411768913269,
+        "b": 0.9176470637321472,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:239:15062",
+      "name": "pds/color/brand/primary/025",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Lightest primary brand; subtle brand backgrounds.",
+      "value": {
+        "r": 0.95686274766922,
+        "g": 0.9725490212440491,
+        "b": 1,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:239:15063",
+      "name": "pds/color/brand/primary/200",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Medium-light primary brand; disabled brand states.",
+      "value": {
+        "r": 0.6745098233222961,
+        "g": 0.7803921699523926,
+        "b": 1,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:239:15064",
+      "name": "pds/color/brand/primary/250",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Medium primary brand; secondary brand elements.",
+      "value": {
+        "r": 0.5960784554481506,
+        "g": 0.7215686440467834,
+        "b": 0.9921568632125854,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:239:15065",
+      "name": "pds/color/brand/primary/350",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Balanced primary brand; brand hover states.",
+      "value": {
+        "r": 0.4470588266849518,
+        "g": 0.6078431606292725,
+        "b": 0.9960784316062927,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:239:15066",
+      "name": "pds/color/brand/primary/450",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Deep primary brand; brand interactive elements.",
+      "value": {
+        "r": 0.30588236451148987,
+        "g": 0.48235294222831726,
+        "b": 1,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:239:15067",
+      "name": "pds/color/brand/primary/550",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Saturated primary brand; brand surfaces.",
+      "value": {
+        "r": 0.19607843458652496,
+        "g": 0.33725491166114807,
+        "b": 1,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:239:15068",
+      "name": "pds/color/brand/primary/650",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Dark primary brand; emphasized brand elements.",
+      "value": {
+        "r": 0.11764705926179886,
+        "g": 0.11764705926179886,
+        "b": 1,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:239:15069",
+      "name": "pds/color/brand/primary/750",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Very dark primary brand; high-contrast brand.",
+      "value": {
+        "r": 0.0313725508749485,
+        "g": 0.07058823853731155,
+        "b": 0.7647058963775635,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:239:15308",
+      "name": "pds/color/pumpkin/025",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Lightest orange; subtle warning backgrounds.",
+      "value": {
+        "r": 1,
+        "g": 0.9647058844566345,
+        "b": 0.9411764740943909,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:239:15309",
+      "name": "pds/color/pumpkin/350",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Balanced orange; warning hover states.",
+      "value": {
+        "r": 0.9607843160629272,
+        "g": 0.48627451062202454,
+        "b": 0.07450980693101883,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:239:15310",
+      "name": "pds/color/pumpkin/450",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Deep orange; warning interactive elements.",
+      "value": {
+        "r": 0.8078431487083435,
+        "g": 0.40392157435417175,
+        "b": 0.054901961237192154,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:239:15311",
+      "name": "pds/color/pumpkin/550",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Saturated orange; warning surfaces.",
+      "value": {
+        "r": 0.6627451181411743,
+        "g": 0.32549020648002625,
+        "b": 0.027450980618596077,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:239:15312",
+      "name": "pds/color/pumpkin/250",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Medium orange; secondary warning elements.",
+      "value": {
+        "r": 0.9921568632125854,
+        "g": 0.6392157077789307,
+        "b": 0.4117647111415863,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:239:15313",
+      "name": "pds/color/pumpkin/150",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Soft orange; warning borders.",
+      "value": {
+        "r": 0.9960784316062927,
+        "g": 0.7882353067398071,
+        "b": 0.6627451181411743,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:239:15570",
+      "name": "pds/color/lemon/025",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Lightest yellow; subtle info backgrounds.",
+      "value": {
+        "r": 1,
+        "g": 0.9764705896377563,
+        "b": 0.8196078538894653,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:239:15571",
+      "name": "pds/color/lemon/150",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Soft yellow; info borders.",
+      "value": {
+        "r": 0.9333333373069763,
+        "g": 0.8392156958580017,
+        "b": 0,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:239:15572",
+      "name": "pds/color/lemon/250",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Medium yellow; secondary info elements.",
+      "value": {
+        "r": 0.8156862854957581,
+        "g": 0.729411780834198,
+        "b": 0,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:239:15573",
+      "name": "pds/color/lemon/550",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Saturated yellow; info surfaces.",
+      "value": {
+        "r": 0.47058823704719543,
+        "g": 0.41960784792900085,
+        "b": 0,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:239:15574",
+      "name": "pds/color/lemon/650",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Dark yellow; emphasized info elements.",
+      "value": {
+        "r": 0.364705890417099,
+        "g": 0.32549020648002625,
+        "b": 0,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:239:15575",
+      "name": "pds/color/lemon/850",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Darkest yellow tone; extreme info contrast.",
+      "value": {
+        "r": 0.16862745583057404,
+        "g": 0.14901961386203766,
+        "b": 0.007843137718737125,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:294:22591",
+      "name": "pds/dimension/neg-06",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Negative 6px dimension; tight negative spacing.",
+      "value": -6,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:294:22592",
+      "name": "pds/dimension/neg-04",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Negative 4px dimension; minimal negative spacing.",
+      "value": -4,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:294:22593",
+      "name": "pds/dimension/neg-02",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Negative 2px dimension; micro negative spacing.",
+      "value": -2,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2050:5972",
+      "name": "pds/dimension/44",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "44px dimension; touch-friendly sizing.",
+      "value": 44,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2209:18062",
+      "name": "pds/font/weight/thin",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_STYLE"
+      ],
+      "description": "Thin weight; ultra-light emphasis (100).",
+      "value": "Thin",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2209:18067",
+      "name": "pds/font/weight/thin-italic",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_STYLE"
+      ],
+      "description": "Thin italic weight; ultra-light slanted (100).",
+      "value": "Thin Italic",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2209:18068",
+      "name": "pds/font/weight/extra-light",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_STYLE"
+      ],
+      "description": "Extra light weight; very light emphasis (200).",
+      "value": "Extra Light",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2209:18069",
+      "name": "pds/font/weight/extra-light-italic",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_STYLE"
+      ],
+      "description": "Extra light italic; very light slanted (200).",
+      "value": "Extra Light Italic",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2209:18070",
+      "name": "pds/font/weight/light",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_STYLE"
+      ],
+      "description": "Light weight; subtle emphasis (300).",
+      "value": "Light",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2209:18071",
+      "name": "pds/font/weight/light-italic",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_STYLE"
+      ],
+      "description": "Light italic; subtle slanted emphasis (300).",
+      "value": "Light Italic",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2209:18072",
+      "name": "pds/font/weight/regular",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_STYLE"
+      ],
+      "description": "Regular weight; standard text (400).",
+      "value": "Regular",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2209:18073",
+      "name": "pds/font/weight/regular-italic",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_STYLE"
+      ],
+      "description": "Regular italic; standard slanted text (400).",
+      "value": "Regular Italic",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2209:18074",
+      "name": "pds/font/weight/medium",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_STYLE"
+      ],
+      "description": "Medium weight; moderate emphasis (500).",
+      "value": "Medium",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2209:18077",
+      "name": "pds/font/weight/medium-italic",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_STYLE"
+      ],
+      "description": "Medium italic; moderate slanted emphasis (500).",
+      "value": "Medium Italic",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2209:18078",
+      "name": "pds/font/weight/semi-bold",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_STYLE"
+      ],
+      "description": "Semibold weight; strong emphasis (600).",
+      "value": "Semi Bold",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2209:18080",
+      "name": "pds/font/weight/semiBold-italic",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_STYLE"
+      ],
+      "description": "",
+      "value": "SemiBold Italic",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2209:18081",
+      "name": "pds/font/weight/bold",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_STYLE"
+      ],
+      "description": "Bold weight; prominent emphasis (700).",
+      "value": "Bold",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2209:18082",
+      "name": "pds/font/weight/bold-italic",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_STYLE"
+      ],
+      "description": "Bold italic; prominent slanted emphasis (700).",
+      "value": "Bold Italic",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2209:18083",
+      "name": "pds/font/weight/extraBold",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_STYLE"
+      ],
+      "description": "",
+      "value": "ExtraBold",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2209:18084",
+      "name": "pds/font/weight/extra-bold-italic",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_STYLE"
+      ],
+      "description": "Extra bold italic; very strong slanted (800).",
+      "value": "Extra Bold Italic",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2209:18085",
+      "name": "pds/font/weight/black",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_STYLE"
+      ],
+      "description": "Black weight; maximum emphasis (900).",
+      "value": "Black",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2209:18086",
+      "name": "pds/font/weight/black-italic",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_STYLE"
+      ],
+      "description": "Black italic; maximum slanted emphasis (900).",
+      "value": "Black Italic",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2346:6042",
+      "name": "pds/color/brand/secondary/025",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Lightest secondary brand; subtle accent backgrounds.",
+      "value": {
+        "r": 0.9686274528503418,
+        "g": 0.9686274528503418,
+        "b": 1,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2346:6043",
+      "name": "pds/color/brand/secondary/050",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Very light secondary brand; hover on accent surfaces.",
+      "value": {
+        "r": 0.9411764740943909,
+        "g": 0.9372549057006836,
+        "b": 0.9921568632125854,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2346:6044",
+      "name": "pds/color/brand/secondary/100",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Light secondary brand; secondary accent backgrounds.",
+      "value": {
+        "r": 0.886274516582489,
+        "g": 0.8745098114013672,
+        "b": 1,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2346:6045",
+      "name": "pds/color/brand/secondary/150",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Soft secondary brand; accent borders.",
+      "value": {
+        "r": 0.8313725590705872,
+        "g": 0.8156862854957581,
+        "b": 0.9960784316062927,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2346:6046",
+      "name": "pds/color/brand/secondary/200",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Medium-light secondary brand; disabled accent states.",
+      "value": {
+        "r": 0.7803921699523926,
+        "g": 0.7490196228027344,
+        "b": 1,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2346:6047",
+      "name": "pds/color/brand/secondary/250",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Medium secondary brand; secondary accent elements.",
+      "value": {
+        "r": 0.7254902124404907,
+        "g": 0.686274528503418,
+        "b": 0.9960784316062927,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2346:6048",
+      "name": "pds/color/brand/secondary/300",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Mid-tone secondary brand; tertiary accent elements.",
+      "value": {
+        "r": 0.6784313917160034,
+        "g": 0.6196078658103943,
+        "b": 1,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2346:6049",
+      "name": "pds/color/brand/secondary/350",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Balanced secondary brand; accent hover states.",
+      "value": {
+        "r": 0.6313725709915161,
+        "g": 0.5568627715110779,
+        "b": 1,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2346:6050",
+      "name": "pds/color/brand/secondary/400",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Strong secondary brand; active accent states.",
+      "value": {
+        "r": 0.5843137502670288,
+        "g": 0.4901960790157318,
+        "b": 0.9921568632125854,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2346:6051",
+      "name": "pds/color/brand/secondary/450",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Deep secondary brand; accent interactive elements.",
+      "value": {
+        "r": 0.5490196347236633,
+        "g": 0.4117647111415863,
+        "b": 1,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2346:6052",
+      "name": "pds/color/brand/secondary/500",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Standard secondary brand; default accent color.",
+      "value": {
+        "r": 0.5098039507865906,
+        "g": 0.3294117748737335,
+        "b": 1,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2346:6053",
+      "name": "pds/color/brand/secondary/550",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Saturated secondary brand; accent surfaces.",
+      "value": {
+        "r": 0.4745098054409027,
+        "g": 0.239215686917305,
+        "b": 0.9960784316062927,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2346:6054",
+      "name": "pds/color/brand/secondary/600",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Rich secondary brand; accent text and icons.",
+      "value": {
+        "r": 0.43921568989753723,
+        "g": 0,
+        "b": 1,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2346:6055",
+      "name": "pds/color/brand/secondary/650",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Dark secondary brand; emphasized accent elements.",
+      "value": {
+        "r": 0.3960784375667572,
+        "g": 0.007843137718737125,
+        "b": 0.9019607901573181,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2346:6056",
+      "name": "pds/color/brand/secondary/700",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Deep saturated secondary brand; strong accent states.",
+      "value": {
+        "r": 0.33725491166114807,
+        "g": 0,
+        "b": 0.7960784435272217,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2346:6057",
+      "name": "pds/color/brand/secondary/750",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Very dark secondary brand; high-contrast accent.",
+      "value": {
+        "r": 0.29019609093666077,
+        "g": 0.0117647061124444,
+        "b": 0.6666666865348816,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2346:6058",
+      "name": "pds/color/brand/secondary/800",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Near-black secondary brand; bold accent elements.",
+      "value": {
+        "r": 0.23529411852359772,
+        "g": 0,
+        "b": 0.5647059082984924,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2346:6059",
+      "name": "pds/color/brand/secondary/850",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Darkest secondary brand tone; extreme accent contrast.",
+      "value": {
+        "r": 0.18431372940540314,
+        "g": 0,
+        "b": 0.46666666865348816,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2346:6060",
+      "name": "pds/color/brand/secondary/900",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Almost black secondary brand; critical accent text.",
+      "value": {
+        "r": 0.1411764770746231,
+        "g": 0.003921568859368563,
+        "b": 0.3529411852359772,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2346:6061",
+      "name": "pds/color/brand/secondary/950",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Pure dark secondary brand; maximum accent contrast.",
+      "value": {
+        "r": 0.09019608050584793,
+        "g": 0,
+        "b": 0.25882354378700256,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2379:102817",
+      "name": "pds/color/neutral-coolest/025",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Lightest coolest gray; backgrounds with strong blue cast.",
+      "value": {
+        "r": 0.95686274766922,
+        "g": 0.9725490212440491,
+        "b": 0.9882352948188782,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2379:102818",
+      "name": "pds/color/neutral-coolest/050",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Very light coolest gray; subtle surfaces.",
+      "value": {
+        "r": 0.9137254953384399,
+        "g": 0.9490196108818054,
+        "b": 0.9803921580314636,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2379:102819",
+      "name": "pds/color/neutral-coolest/100",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Light coolest gray; secondary backgrounds.",
+      "value": {
+        "r": 0.8352941274642944,
+        "g": 0.8980392217636108,
+        "b": 0.9490196108818054,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2379:102820",
+      "name": "pds/color/neutral-coolest/150",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Soft coolest gray; borders.",
+      "value": {
+        "r": 0.7490196228027344,
+        "g": 0.843137264251709,
+        "b": 0.9254902005195618,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2379:102821",
+      "name": "pds/color/neutral-coolest/200",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Medium-light coolest gray; disabled states.",
+      "value": {
+        "r": 0.6745098233222961,
+        "g": 0.7921568751335144,
+        "b": 0.8941176533699036,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2379:102822",
+      "name": "pds/color/neutral-coolest/250",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Medium coolest gray; placeholders.",
+      "value": {
+        "r": 0.5921568870544434,
+        "g": 0.7411764860153198,
+        "b": 0.8705882430076599,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2379:102823",
+      "name": "pds/color/neutral-coolest/300",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Mid-tone coolest gray; dividers.",
+      "value": {
+        "r": 0.5176470875740051,
+        "g": 0.6901960968971252,
+        "b": 0.8392156958580017,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2379:102824",
+      "name": "pds/color/neutral-coolest/350",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Balanced coolest gray; tertiary elements.",
+      "value": {
+        "r": 0.4313725531101227,
+        "g": 0.6392157077789307,
+        "b": 0.8156862854957581,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2379:102825",
+      "name": "pds/color/neutral-coolest/400",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Strong coolest gray; icons.",
+      "value": {
+        "r": 0.3529411852359772,
+        "g": 0.5882353186607361,
+        "b": 0.7843137383460999,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2379:102826",
+      "name": "pds/color/neutral-coolest/450",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Deep coolest gray; secondary text.",
+      "value": {
+        "r": 0.2666666805744171,
+        "g": 0.5372549295425415,
+        "b": 0.7490196228027344,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2379:102827",
+      "name": "pds/color/neutral-coolest/500",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Standard coolest gray; body text.",
+      "value": {
+        "r": 0.16470588743686676,
+        "g": 0.48235294222831726,
+        "b": 0.7215686440467834,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2379:102828",
+      "name": "pds/color/neutral-coolest/550",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Saturated coolest gray; labels.",
+      "value": {
+        "r": 0,
+        "g": 0.4431372582912445,
+        "b": 0.6980392336845398,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2379:102829",
+      "name": "pds/color/neutral-coolest/600",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Rich coolest gray; headings.",
+      "value": {
+        "r": 0,
+        "g": 0.38823530077934265,
+        "b": 0.6078431606292725,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2379:102830",
+      "name": "pds/color/neutral-coolest/650",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Dark coolest gray; emphasized text.",
+      "value": {
+        "r": 0,
+        "g": 0.33725491166114807,
+        "b": 0.5411764979362488,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2379:102831",
+      "name": "pds/color/neutral-coolest/700",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Deep saturated coolest gray; strong text.",
+      "value": {
+        "r": 0,
+        "g": 0.29019609093666077,
+        "b": 0.47058823704719543,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2379:102832",
+      "name": "pds/color/neutral-coolest/750",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Very dark coolest gray; high-contrast text.",
+      "value": {
+        "r": 0.0117647061124444,
+        "g": 0.24313725531101227,
+        "b": 0.3921568691730499,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2379:102833",
+      "name": "pds/color/neutral-coolest/800",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Near-black coolest gray; primary headings.",
+      "value": {
+        "r": 0,
+        "g": 0.20000000298023224,
+        "b": 0.3294117748737335,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2379:102834",
+      "name": "pds/color/neutral-coolest/850",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Darkest coolest gray; maximum emphasis.",
+      "value": {
+        "r": 0,
+        "g": 0.1568627506494522,
+        "b": 0.2666666805744171,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2379:102835",
+      "name": "pds/color/neutral-coolest/900",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Almost black coolest gray; critical text.",
+      "value": {
+        "r": 0.003921568859368563,
+        "g": 0.11372549086809158,
+        "b": 0.20000000298023224,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:2379:102836",
+      "name": "pds/color/neutral-coolest/950",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Pure dark coolest gray; absolute contrast.",
+      "value": {
+        "r": 0,
+        "g": 0.07058823853731155,
+        "b": 0.1411764770746231,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:5325:41570",
+      "name": "pds/font/family/inter",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_FAMILY"
+      ],
+      "description": "Inter typeface; modern geometric sans-serif.",
+      "value": "Inter",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:5325:41571",
+      "name": "pds/font/family/roboto",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_FAMILY"
+      ],
+      "description": "Roboto typeface; neo-grotesque sans-serif.",
+      "value": "Roboto",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:5325:41572",
+      "name": "pds/font/family/poppins",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_FAMILY"
+      ],
+      "description": "Poppins typeface; geometric display font.",
+      "value": "Poppins",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7380:47194",
+      "name": "pds/font/weight/semiBold",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_STYLE"
+      ],
+      "description": "",
+      "value": "SemiBold",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7380:47196",
+      "name": "pds/font/weight/italic",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_STYLE"
+      ],
+      "description": "Italic style; slanted emphasis (400).",
+      "value": "Italic",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7380:47197",
+      "name": "pds/font/weight/semi-bold-italic",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_STYLE"
+      ],
+      "description": "Semibold italic; strong slanted emphasis (600).",
+      "value": "Semi Bold Italic",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7380:47198",
+      "name": "pds/font/weight/extra-bold",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_STYLE"
+      ],
+      "description": "Extra bold weight; very strong emphasis (800).",
+      "value": "Extra Bold",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7380:47199",
+      "name": "pds/font/weight/extraBold-italic",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_STYLE"
+      ],
+      "description": "",
+      "value": "ExtraBold Italic",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7380:47200",
+      "name": "pds/font/weight/extraLight",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_STYLE"
+      ],
+      "description": "",
+      "value": "ExtraLight",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7380:47201",
+      "name": "pds/font/weight/extraLight-italic",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_STYLE"
+      ],
+      "description": "",
+      "value": "ExtraLight Italic",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7383:47202",
+      "name": "pds/font/lineHeight/105",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LINE_HEIGHT"
+      ],
+      "description": "105% line height; very compact leading.",
+      "value": 1.0499999523162842,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7383:47203",
+      "name": "pds/font/lineHeight/115",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LINE_HEIGHT"
+      ],
+      "description": "115% line height; tight leading.",
+      "value": 1.149999976158142,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7383:47204",
+      "name": "pds/font/lineHeight/125",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LINE_HEIGHT"
+      ],
+      "description": "125% line height; compact leading.",
+      "value": 1.25,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7383:47205",
+      "name": "pds/font/lineHeight/150",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LINE_HEIGHT"
+      ],
+      "description": "150% line height; standard reading leading.",
+      "value": 1.5,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7383:47206",
+      "name": "pds/font/lineHeight/165",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LINE_HEIGHT"
+      ],
+      "description": "165% line height; generous leading.",
+      "value": 1.649999976158142,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7383:47207",
+      "name": "pds/font/lineHeight/175",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "LINE_HEIGHT"
+      ],
+      "description": "175% line height; very generous leading.",
+      "value": 1.75,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7728:35490",
+      "name": "pds/breakpoint/390",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "390px breakpoint; small mobile devices.",
+      "value": 390,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7728:35491",
+      "name": "pds/breakpoint/768",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "768px breakpoint; tablets and large phones.",
+      "value": 768,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7728:35492",
+      "name": "pds/breakpoint/1024",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "1024px breakpoint; small desktops and tablets.",
+      "value": 1024,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7728:35493",
+      "name": "pds/breakpoint/1440",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "1440px breakpoint; standard desktops.",
+      "value": 1440,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7728:35494",
+      "name": "pds/breakpoint/1920",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "1920px breakpoint; large desktops and displays.",
+      "value": 1920,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7728:35496",
+      "name": "pds/grid/columns/2",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "2-column grid; mobile layouts.",
+      "value": 2,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7728:35497",
+      "name": "pds/grid/columns/4",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "4-column grid; tablet layouts.",
+      "value": 4,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7728:35498",
+      "name": "pds/grid/columns/8",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "8-column grid; desktop layouts.",
+      "value": 8,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7728:35499",
+      "name": "pds/grid/columns/12",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "12-column grid; wide desktop layouts.",
+      "value": 12,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7728:35501",
+      "name": "pds/grid/gutter/16",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "16px gutter; standard column spacing.",
+      "value": 16,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7728:35502",
+      "name": "pds/grid/gutter/24",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "24px gutter; wider column spacing.",
+      "value": 24,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7728:35503",
+      "name": "pds/grid/margin/16",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "16px margin; standard edge spacing.",
+      "value": 16,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7728:35504",
+      "name": "pds/grid/margin/24",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "24px margin; wider edge spacing.",
+      "value": 24,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7743:10387",
+      "name": "pds/grid/columnWidth/74",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "74px column width; XL fixed grid.",
+      "value": 74,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7743:10388",
+      "name": "pds/grid/columnWidth/85",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "85px column width; LG fixed grid.",
+      "value": 85,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7743:10389",
+      "name": "pds/grid/columnWidth/130",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "130px column width; MD fixed grid.",
+      "value": 130,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7743:10390",
+      "name": "pds/grid/columnWidth/163",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "163px column width; SM fixed grid.",
+      "value": 163,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7743:10391",
+      "name": "pds/grid/containerMax/full",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Full-width container; no maximum width.",
+      "value": 1,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7743:10395",
+      "name": "pds/grid/containerMax/xl",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Extra large container max width; 1440px constraint.",
+      "value": 1920,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7743:10396",
+      "name": "pds/grid/containerMax/lg",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Large container max width; 1024px constraint.",
+      "value": 1440,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7781:8065",
+      "name": "pds/transparency/dark-05",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Dark color tokens with alpha channel.",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.05000000074505806
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8331:38079",
+      "name": "pds/motion/duration/050",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Instant duration; micro-interactions (50ms).",
+      "value": 50,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8331:38080",
+      "name": "pds/motion/duration/100",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Fast duration; quick animations (100ms).",
+      "value": 100,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8331:38081",
+      "name": "pds/motion/duration/150",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Quick duration; rapid transitions (150ms).",
+      "value": 150,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8331:38082",
+      "name": "pds/motion/duration/200",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Normal duration; standard animations (200ms).",
+      "value": 200,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8331:38083",
+      "name": "pds/motion/duration/300",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Moderate duration; balanced animations (300ms).",
+      "value": 300,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8331:38084",
+      "name": "pds/motion/duration/400",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Slower",
+      "value": 400,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8331:38085",
+      "name": "pds/motion/duration/600",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Long",
+      "value": 600,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8331:38092",
+      "name": "pds/motion/easing/linear",
+      "resolvedType": "STRING",
+      "scopes": [],
+      "description": "Linear easing; constant speed throughout.",
+      "value": "linear",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8331:38093",
+      "name": "pds/motion/easing/ease-in",
+      "resolvedType": "STRING",
+      "scopes": [],
+      "description": "Ease-in; starts slow and accelerates.",
+      "value": "cubic-bezier(0.42, 0, 1, 1)",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8331:38094",
+      "name": "pds/motion/easing/ease-out",
+      "resolvedType": "STRING",
+      "scopes": [],
+      "description": "Ease-out; starts fast and decelerates.",
+      "value": "cubic-bezier(0, 0, 0.58, 1)",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8331:38095",
+      "name": "pds/motion/easing/ease-in-out",
+      "resolvedType": "STRING",
+      "scopes": [],
+      "description": "Balanced standard",
+      "value": "cubic-bezier(0.42, 0, 0.58, 1)",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8375:44781",
+      "name": "pds/motion/duration/250",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Slightly longer default",
+      "value": 250,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8375:44782",
+      "name": "pds/motion/duration/800",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Slower duration; extended animations (800ms).",
+      "value": 800,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8375:44783",
+      "name": "pds/motion/duration/1000",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Extended duration; long animations (1000ms).",
+      "value": 1000,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8375:44784",
+      "name": "pds/motion/duration/500",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Slow duration; deliberate animations (500ms).",
+      "value": 500,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8375:44787",
+      "name": "pds/motion/easing/emphasized",
+      "resolvedType": "STRING",
+      "scopes": [],
+      "description": "Emphasized easing; distinctive brand motion curve.",
+      "value": "cubic-bezier(0.2, 0, 0, 1)",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8375:44788",
+      "name": "pds/motion/easing/expressive",
+      "resolvedType": "STRING",
+      "scopes": [],
+      "description": "Smooth / premium feel",
+      "value": "cubic-bezier(0.4, 0, 0.2, 1)",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8395:50828",
+      "name": "pds/grid/gutter/32",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "32px gutter; wider column spacing.",
+      "value": 32,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8395:50829",
+      "name": "pds/grid/margin/48",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "48px margin; widest edge spacing.",
+      "value": 48,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8395:50831",
+      "name": "pds/breakpoint/0",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "0px breakpoint; Minimum breakpoint (0px).",
+      "value": 0,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8417:287",
+      "name": "pds/motion/duration/025",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Instant duration; micro-interactions (50ms).",
+      "value": 25,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:8417:288",
+      "name": "pds/motion/duration/000",
+      "resolvedType": "FLOAT",
+      "scopes": [],
+      "description": "Instant duration; micro-interactions (50ms).",
+      "value": 0,
+      "alias": null,
+      "codeSyntax": {}
+    }
+  ]
+}

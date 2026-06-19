@@ -1,0 +1,1236 @@
+{
+  "$collection": "core-color",
+  "$mode": "Mode 1",
+  "variables": [
+    {
+      "id": "VariableID:647:1316",
+      "name": "nbds/color/black",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:647:1317",
+      "name": "nbds/color/neutral/950",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "",
+      "value": {
+        "r": 0.08235294371843338,
+        "g": 0.0784313753247261,
+        "b": 0.08235294371843338,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:647:1325",
+      "name": "nbds/color/neutral/650",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "",
+      "value": {
+        "r": 0.32549020648002625,
+        "g": 0.3450980484485626,
+        "b": 0.3686274588108063,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:647:1326",
+      "name": "nbds/color/neutral/300",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "",
+      "value": {
+        "r": 0.6705882549285889,
+        "g": 0.6941176652908325,
+        "b": 0.7098039388656616,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:647:1327",
+      "name": "nbds/color/neutral/100",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "",
+      "value": {
+        "r": 0.8980392217636108,
+        "g": 0.9058823585510254,
+        "b": 0.9098039269447327,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:647:1328",
+      "name": "nbds/color/neutral/050",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "",
+      "value": {
+        "r": 0.9607843160629272,
+        "g": 0.9647058844566345,
+        "b": 0.9647058844566345,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:647:1329",
+      "name": "nbds/color/white",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:649:428",
+      "name": "nbds/color/red/550",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "",
+      "value": {
+        "r": 0.8117647171020508,
+        "g": 0.03921568766236305,
+        "b": 0.1725490242242813,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:649:429",
+      "name": "nbds/color/red/300",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "",
+      "value": {
+        "r": 0.9058823585510254,
+        "g": 0.5176470875740051,
+        "b": 0.5843137502670288,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:649:430",
+      "name": "nbds/color/red/100",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "",
+      "value": {
+        "r": 0.9803921580314636,
+        "g": 0.9019607901573181,
+        "b": 0.9137254953384399,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:649:431",
+      "name": "nbds/color/red/050",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "",
+      "value": {
+        "r": 0.9921568632125854,
+        "g": 0.9529411792755127,
+        "b": 0.95686274766922,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7359:4565",
+      "name": "nbds/color/neutral/850",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "",
+      "value": {
+        "r": 0.13725490868091583,
+        "g": 0.1411764770746231,
+        "b": 0.14901961386203766,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7359:4566",
+      "name": "nbds/color/neutral/800",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "",
+      "value": {
+        "r": 0.20392157137393951,
+        "g": 0.2078431397676468,
+        "b": 0.21960784494876862,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:7359:4580",
+      "name": "nbds/color/neutral/500",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "",
+      "value": {
+        "r": 0.45098039507865906,
+        "g": 0.48235294222831726,
+        "b": 0.5098039507865906,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:9001:80743",
+      "name": "nbds/color/red/700",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "",
+      "value": {
+        "r": 0.572549045085907,
+        "g": 0.027450980618596077,
+        "b": 0.12156862765550613,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:9001:81291",
+      "name": "nbds/color/green/500",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "",
+      "value": {
+        "r": 0.07058823853731155,
+        "g": 0.5098039507865906,
+        "b": 0.2590431272983551,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:9001:81347",
+      "name": "nbds/color/amber/600",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "",
+      "value": {
+        "r": 0.6039215922355652,
+        "g": 0.2235294133424759,
+        "b": 0.007843137718737125,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:9001:81348",
+      "name": "nbds/color/amber/500",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "",
+      "value": {
+        "r": 0.7019608020782471,
+        "g": 0.3843137323856354,
+        "b": 0.019607843831181526,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:4",
+      "name": "nbds/color/red/150",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned red ramp step 150.",
+      "value": {
+        "r": 0.9843137264251709,
+        "g": 0.7843137383460999,
+        "b": 0.772549033164978,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:5",
+      "name": "nbds/color/red/200",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned red ramp step 200.",
+      "value": {
+        "r": 0.9764705896377563,
+        "g": 0.7137255072593689,
+        "b": 0.6980392336845398,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:6",
+      "name": "nbds/color/red/250",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned red ramp step 250.",
+      "value": {
+        "r": 0.95686274766922,
+        "g": 0.6431372761726379,
+        "b": 0.6235294342041016,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:7",
+      "name": "nbds/color/red/350",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned red ramp step 350.",
+      "value": {
+        "r": 0.9215686321258545,
+        "g": 0.4941176474094391,
+        "b": 0.47843137383461,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:8",
+      "name": "nbds/color/red/400",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned red ramp step 400.",
+      "value": {
+        "r": 0.8980392217636108,
+        "g": 0.41960784792900085,
+        "b": 0.4117647111415863,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:9",
+      "name": "nbds/color/red/450",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned red ramp step 450.",
+      "value": {
+        "r": 0.8705882430076599,
+        "g": 0.33725491166114807,
+        "b": 0.34117648005485535,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:10",
+      "name": "nbds/color/red/500",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned red ramp step 500.",
+      "value": {
+        "r": 0.8470588326454163,
+        "g": 0.23529411852359772,
+        "b": 0.26274511218070984,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:11",
+      "name": "nbds/color/red/600",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned red ramp step 600.",
+      "value": {
+        "r": 0.7411764860153198,
+        "g": 0.04313725605607033,
+        "b": 0.1568627506494522,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:12",
+      "name": "nbds/color/red/650",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned red ramp step 650.",
+      "value": {
+        "r": 0.658823549747467,
+        "g": 0.007843137718737125,
+        "b": 0.12941177189350128,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:13",
+      "name": "nbds/color/red/750",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned red ramp step 750.",
+      "value": {
+        "r": 0.48627451062202454,
+        "g": 0.007843137718737125,
+        "b": 0.08627451211214066,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:14",
+      "name": "nbds/color/red/800",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned red ramp step 800.",
+      "value": {
+        "r": 0.4000000059604645,
+        "g": 0.0235294122248888,
+        "b": 0.07058823853731155,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:15",
+      "name": "nbds/color/red/850",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned red ramp step 850.",
+      "value": {
+        "r": 0.32549020648002625,
+        "g": 0.003921568859368563,
+        "b": 0.04313725605607033,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:16",
+      "name": "nbds/color/red/900",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned red ramp step 900.",
+      "value": {
+        "r": 0.2549019753932953,
+        "g": 0,
+        "b": 0.01568627543747425,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:17",
+      "name": "nbds/color/red/950",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned red ramp step 950.",
+      "value": {
+        "r": 0.1725490242242813,
+        "g": 0,
+        "b": 0.0117647061124444,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:18",
+      "name": "nbds/color/red/025",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned red ramp step 025.",
+      "value": {
+        "r": 1,
+        "g": 0.9647058844566345,
+        "b": 0.9607843160629272,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:19",
+      "name": "nbds/color/green/100",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned green ramp step 100.",
+      "value": {
+        "r": 0.8352941274642944,
+        "g": 0.9058823585510254,
+        "b": 0.8470588326454163,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:20",
+      "name": "nbds/color/green/150",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned green ramp step 150.",
+      "value": {
+        "r": 0.7568627595901489,
+        "g": 0.8588235378265381,
+        "b": 0.7803921699523926,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:21",
+      "name": "nbds/color/green/200",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned green ramp step 200.",
+      "value": {
+        "r": 0.6823529601097107,
+        "g": 0.8117647171020508,
+        "b": 0.7098039388656616,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:22",
+      "name": "nbds/color/green/250",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned green ramp step 250.",
+      "value": {
+        "r": 0.5960784554481506,
+        "g": 0.7647058963775635,
+        "b": 0.6352941393852234,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:23",
+      "name": "nbds/color/green/300",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned green ramp step 300.",
+      "value": {
+        "r": 0.5176470875740051,
+        "g": 0.7176470756530762,
+        "b": 0.5647059082984924,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:24",
+      "name": "nbds/color/green/350",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned green ramp step 350.",
+      "value": {
+        "r": 0.43921568989753723,
+        "g": 0.6705882549285889,
+        "b": 0.49803921580314636,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:25",
+      "name": "nbds/color/green/400",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned green ramp step 400.",
+      "value": {
+        "r": 0.3490196168422699,
+        "g": 0.6235294342041016,
+        "b": 0.4274509847164154,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:26",
+      "name": "nbds/color/green/450",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned green ramp step 450.",
+      "value": {
+        "r": 0.25882354378700256,
+        "g": 0.5764706134796143,
+        "b": 0.35686275362968445,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:27",
+      "name": "nbds/color/green/550",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned green ramp step 550.",
+      "value": {
+        "r": 0.05098039284348488,
+        "g": 0.48235294222831726,
+        "b": 0.24313725531101227,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:28",
+      "name": "nbds/color/green/600",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned green ramp step 600.",
+      "value": {
+        "r": 0.054901961237192154,
+        "g": 0.4274509847164154,
+        "b": 0.21568627655506134,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:29",
+      "name": "nbds/color/green/650",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned green ramp step 650.",
+      "value": {
+        "r": 0.03921568766236305,
+        "g": 0.37254902720451355,
+        "b": 0.18431372940540314,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:30",
+      "name": "nbds/color/green/700",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned green ramp step 700.",
+      "value": {
+        "r": 0.03529411926865578,
+        "g": 0.32156863808631897,
+        "b": 0.1568627506494522,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:31",
+      "name": "nbds/color/green/750",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned green ramp step 750.",
+      "value": {
+        "r": 0.01568627543747425,
+        "g": 0.2705882489681244,
+        "b": 0.12156862765550613,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:32",
+      "name": "nbds/color/green/800",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned green ramp step 800.",
+      "value": {
+        "r": 0.019607843831181526,
+        "g": 0.2235294133424759,
+        "b": 0.10196078568696976,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:33",
+      "name": "nbds/color/green/850",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned green ramp step 850.",
+      "value": {
+        "r": 0,
+        "g": 0.1764705926179886,
+        "b": 0.07058823853731155,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:34",
+      "name": "nbds/color/green/900",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned green ramp step 900.",
+      "value": {
+        "r": 0.003921568859368563,
+        "g": 0.12941177189350128,
+        "b": 0.0470588244497776,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:35",
+      "name": "nbds/color/green/950",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned green ramp step 950.",
+      "value": {
+        "r": 0.007843137718737125,
+        "g": 0.08235294371843338,
+        "b": 0.0235294122248888,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:36",
+      "name": "nbds/color/green/025",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned green ramp step 025.",
+      "value": {
+        "r": 0.95686274766922,
+        "g": 0.9764705896377563,
+        "b": 0.9607843160629272,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:37",
+      "name": "nbds/color/green/050",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned green ramp step 050.",
+      "value": {
+        "r": 0.9215686321258545,
+        "g": 0.9529411792755127,
+        "b": 0.929411768913269,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:38",
+      "name": "nbds/color/amber/100",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned amber ramp step 100.",
+      "value": {
+        "r": 0.9490196108818054,
+        "g": 0.8745098114013672,
+        "b": 0.8235294222831726,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:39",
+      "name": "nbds/color/amber/150",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned amber ramp step 150.",
+      "value": {
+        "r": 0.9254902005195618,
+        "g": 0.8117647171020508,
+        "b": 0.729411780834198,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:40",
+      "name": "nbds/color/amber/200",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned amber ramp step 200.",
+      "value": {
+        "r": 0.8901960849761963,
+        "g": 0.7529411911964417,
+        "b": 0.6470588445663452,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:41",
+      "name": "nbds/color/amber/250",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned amber ramp step 250.",
+      "value": {
+        "r": 0.8666666746139526,
+        "g": 0.6901960968971252,
+        "b": 0.5568627715110779,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:42",
+      "name": "nbds/color/amber/300",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned amber ramp step 300.",
+      "value": {
+        "r": 0.8313725590705872,
+        "g": 0.6313725709915161,
+        "b": 0.4745098054409027,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:43",
+      "name": "nbds/color/amber/350",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned amber ramp step 350.",
+      "value": {
+        "r": 0.7960784435272217,
+        "g": 0.5686274766921997,
+        "b": 0.3960784375667572,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:44",
+      "name": "nbds/color/amber/400",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned amber ramp step 400.",
+      "value": {
+        "r": 0.7686274647712708,
+        "g": 0.5098039507865906,
+        "b": 0.29411765933036804,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:45",
+      "name": "nbds/color/amber/450",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned amber ramp step 450.",
+      "value": {
+        "r": 0.7333333492279053,
+        "g": 0.4470588266849518,
+        "b": 0.20000000298023224,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:46",
+      "name": "nbds/color/amber/550",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned amber ramp step 550.",
+      "value": {
+        "r": 0.6352941393852234,
+        "g": 0.34117648005485535,
+        "b": 0.007843137718737125,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:47",
+      "name": "nbds/color/amber/650",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned amber ramp step 650.",
+      "value": {
+        "r": 0.49803921580314636,
+        "g": 0.26274511218070984,
+        "b": 0.003921568859368563,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:48",
+      "name": "nbds/color/amber/700",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned amber ramp step 700.",
+      "value": {
+        "r": 0.4274509847164154,
+        "g": 0.22745098173618317,
+        "b": 0.01568627543747425,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:49",
+      "name": "nbds/color/amber/750",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned amber ramp step 750.",
+      "value": {
+        "r": 0.364705890417099,
+        "g": 0.1882352977991104,
+        "b": 0.003921568859368563,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:50",
+      "name": "nbds/color/amber/800",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned amber ramp step 800.",
+      "value": {
+        "r": 0.2980392277240753,
+        "g": 0.15294118225574493,
+        "b": 0.01568627543747425,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:51",
+      "name": "nbds/color/amber/850",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned amber ramp step 850.",
+      "value": {
+        "r": 0.239215686917305,
+        "g": 0.11372549086809158,
+        "b": 0.019607843831181526,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:52",
+      "name": "nbds/color/amber/900",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned amber ramp step 900.",
+      "value": {
+        "r": 0.18431372940540314,
+        "g": 0.0784313753247261,
+        "b": 0.007843137718737125,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:53",
+      "name": "nbds/color/amber/950",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned amber ramp step 950.",
+      "value": {
+        "r": 0.12156862765550613,
+        "g": 0.0470588244497776,
+        "b": 0,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:54",
+      "name": "nbds/color/amber/025",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned amber ramp step 025.",
+      "value": {
+        "r": 0.9882352948188782,
+        "g": 0.9686274528503418,
+        "b": 0.9529411792755127,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:55",
+      "name": "nbds/color/amber/050",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned amber ramp step 050.",
+      "value": {
+        "r": 0.9686274528503418,
+        "g": 0.9372549057006836,
+        "b": 0.9176470637321472,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:56",
+      "name": "nbds/color/neutral/150",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned neutral ramp step 150.",
+      "value": {
+        "r": 0.8235294222831726,
+        "g": 0.8352941274642944,
+        "b": 0.843137264251709,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:57",
+      "name": "nbds/color/neutral/200",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned neutral ramp step 200.",
+      "value": {
+        "r": 0.7686274647712708,
+        "g": 0.7803921699523926,
+        "b": 0.7921568751335144,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:58",
+      "name": "nbds/color/neutral/250",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned neutral ramp step 250.",
+      "value": {
+        "r": 0.7098039388656616,
+        "g": 0.7254902124404907,
+        "b": 0.7411764860153198,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:59",
+      "name": "nbds/color/neutral/350",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned neutral ramp step 350.",
+      "value": {
+        "r": 0.6000000238418579,
+        "g": 0.6235294342041016,
+        "b": 0.6431372761726379,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:60",
+      "name": "nbds/color/neutral/400",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned neutral ramp step 400.",
+      "value": {
+        "r": 0.545098066329956,
+        "g": 0.5686274766921997,
+        "b": 0.5921568870544434,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:61",
+      "name": "nbds/color/neutral/450",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned neutral ramp step 450.",
+      "value": {
+        "r": 0.4901960790157318,
+        "g": 0.5215686559677124,
+        "b": 0.545098066329956,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:62",
+      "name": "nbds/color/neutral/550",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned neutral ramp step 550.",
+      "value": {
+        "r": 0.3921568691730499,
+        "g": 0.41960784792900085,
+        "b": 0.4431372582912445,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:63",
+      "name": "nbds/color/neutral/600",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned neutral ramp step 600.",
+      "value": {
+        "r": 0.3450980484485626,
+        "g": 0.37254902720451355,
+        "b": 0.3921568691730499,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:64",
+      "name": "nbds/color/neutral/700",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned neutral ramp step 700.",
+      "value": {
+        "r": 0.25882354378700256,
+        "g": 0.27843138575553894,
+        "b": 0.29411765933036804,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:65",
+      "name": "nbds/color/neutral/750",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned neutral ramp step 750.",
+      "value": {
+        "r": 0.21960784494876862,
+        "g": 0.23529411852359772,
+        "b": 0.250980406999588,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:66",
+      "name": "nbds/color/neutral/900",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned neutral ramp step 900.",
+      "value": {
+        "r": 0.10196078568696976,
+        "g": 0.10980392247438431,
+        "b": 0.11764705926179886,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:67",
+      "name": "nbds/color/neutral/025",
+      "resolvedType": "COLOR",
+      "scopes": [],
+      "description": "Univers L*-aligned neutral ramp step 025.",
+      "value": {
+        "r": 0.9686274528503418,
+        "g": 0.9725490212440491,
+        "b": 0.9725490212440491,
+        "a": 1
+      },
+      "alias": null,
+      "codeSyntax": {}
+    }
+  ]
+}

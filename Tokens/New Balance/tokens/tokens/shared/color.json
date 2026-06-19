@@ -1,0 +1,2308 @@
+{
+  "nbds": {
+    "color": {
+      "text": {
+        "primary": {
+          "default": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.950}",
+            "$description": "Main text; high-emphasis content on light foregrounds. Primary text colour.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:10:348",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "ALL_FILLS"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "inverse": {
+            "$type": "color",
+            "$value": "{nbds.color.white}",
+            "$description": "Primary text on dark foregrounds (footer, hero overlays, dark CTAs).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:4",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "TEXT_FILL"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          }
+        },
+        "secondary": {
+          "default": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.650}",
+            "$description": "Supporting text; body copy and less-emphasis content.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:10:352",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "ALL_FILLS",
+                  "STROKE_COLOR"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "inverse": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.100}",
+            "$description": "Supporting text on dark foregrounds.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:5",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "TEXT_FILL"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          }
+        },
+        "accent": {
+          "default": {
+            "$type": "color",
+            "$value": "{nbds.color.amber.600}",
+            "$description": "Accent text colour. Used for eyebrow / lead-in copy and other emphasised text moments where attention is needed without communicating a status. Resolves to amber/600 by default.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:664:2031",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "ALL_FILLS"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "inverse": {
+            "$type": "color",
+            "$value": "{nbds.color.amber.300}",
+            "$description": "Accent text colour on dark/inverted surfaces. Resolves to amber/300.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17142:253782",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "ALL_FILLS"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          }
+        },
+        "link": {
+          "default": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.950}",
+            "$description": "Link text colour (legacy). New work should use nbds/color/link/default. Will be reviewed for deprecation in Phase 5.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:668:1719",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "ALL_FILLS"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          }
+        },
+        "promo": {
+          "default": {
+            "$type": "color",
+            "$value": "{nbds.color.red.550}",
+            "$description": "Promotional text (sale, limited edition messaging). NB Red for brand prominence.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:9001:81214",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "ALL_SCOPES"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          }
+        },
+        "on-feedback": {
+          "negative": {
+            "bold": {
+              "$type": "color",
+              "$value": "{nbds.color.white}",
+              "$description": "Text on bold negative (red) feedback foregrounds. Guaranteed AA against feedback/foreground/negative/bold.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:96",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "TEXT_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "subtle": {
+              "$type": "color",
+              "$value": "{nbds.color.red.700}",
+              "$description": "Text on subtle negative foregrounds.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:97",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "TEXT_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          },
+          "positive": {
+            "bold": {
+              "$type": "color",
+              "$value": "{nbds.color.white}",
+              "$description": "Text on bold positive (green) feedback foregrounds.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:98",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "TEXT_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "subtle": {
+              "$type": "color",
+              "$value": "{nbds.color.green.700}",
+              "$description": "Text on subtle positive foregrounds.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:99",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "TEXT_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          },
+          "warning": {
+            "bold": {
+              "$type": "color",
+              "$value": "{nbds.color.white}",
+              "$description": "Text on bold warning (amber) feedback foregrounds.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:100",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "TEXT_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "subtle": {
+              "$type": "color",
+              "$value": "{nbds.color.amber.700}",
+              "$description": "Text on subtle warning foregrounds.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:101",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "TEXT_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          }
+        }
+      },
+      "background": {
+        "primary": {
+          "default": {
+            "$type": "color",
+            "$value": "{nbds.color.white}",
+            "$description": "Primary page canvas. Z = 0 (per strategy §6.2.0). Strictly non-interactive.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:10:368",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "FRAME_FILL",
+                  "SHAPE_FILL"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "inverse": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.950}",
+            "$description": "Primary page canvas when the page is dark.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:13",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "FRAME_FILL",
+                  "SHAPE_FILL"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          }
+        }
+      },
+      "feedback": {
+        "text": {
+          "negative": {
+            "default": {
+              "$type": "color",
+              "$value": "{nbds.color.red.700}",
+              "$description": "Error / destructive message text on light foregrounds.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:10:380",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "ALL_FILLS"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "inverse": {
+              "$type": "color",
+              "$value": "{nbds.color.red.300}",
+              "$description": "Error text on dark foregrounds.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:16",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "TEXT_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          },
+          "positive": {
+            "default": {
+              "$type": "color",
+              "$value": "{nbds.color.green.600}",
+              "$description": "Success message text.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:9001:81290",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "ALL_SCOPES"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "inverse": {
+              "$type": "color",
+              "$value": "{nbds.color.green.300}",
+              "$description": "Success text on dark foregrounds.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:17",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "TEXT_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          },
+          "warning": {
+            "default": {
+              "$type": "color",
+              "$value": "{nbds.color.amber.600}",
+              "$description": "Warning / caution message text.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:9001:81349",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "ALL_SCOPES"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "inverse": {
+              "$type": "color",
+              "$value": "{nbds.color.amber.300}",
+              "$description": "Warning text on dark foregrounds.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:18",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "TEXT_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          }
+        },
+        "border": {
+          "negative": {
+            "default": {
+              "$type": "color",
+              "$value": "{nbds.color.red.550}",
+              "$description": "Error border (form fields, alerts).",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:668:2104",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "STROKE_COLOR"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "inverse": {
+              "$type": "color",
+              "$value": "{nbds.color.red.300}",
+              "$description": "Error border on dark foregrounds.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:25",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "STROKE_COLOR"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          },
+          "positive": {
+            "default": {
+              "$type": "color",
+              "$value": "{nbds.color.green.500}",
+              "$description": "Success border.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:26",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "STROKE_COLOR"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          },
+          "warning": {
+            "default": {
+              "$type": "color",
+              "$value": "{nbds.color.amber.500}",
+              "$description": "Warning border.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:27",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "STROKE_COLOR"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          }
+        },
+        "foreground": {
+          "negative": {
+            "bold": {
+              "$type": "color",
+              "$value": "{nbds.color.red.550}",
+              "$description": "Prominent error fill (banners, toasts, critical alerts). NB Red.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:19",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "FRAME_FILL",
+                    "SHAPE_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "subtle": {
+              "$type": "color",
+              "$value": "{nbds.color.red.050}",
+              "$description": "Subtle error fill (inline alerts).",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:20",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "FRAME_FILL",
+                    "SHAPE_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          },
+          "positive": {
+            "bold": {
+              "$type": "color",
+              "$value": "{nbds.color.green.500}",
+              "$description": "Prominent success fill.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:21",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "FRAME_FILL",
+                    "SHAPE_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "subtle": {
+              "$type": "color",
+              "$value": "{nbds.color.green.050}",
+              "$description": "Subtle success fill.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:22",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "FRAME_FILL",
+                    "SHAPE_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          },
+          "warning": {
+            "bold": {
+              "$type": "color",
+              "$value": "{nbds.color.amber.500}",
+              "$description": "Prominent warning fill.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:23",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "FRAME_FILL",
+                    "SHAPE_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "subtle": {
+              "$type": "color",
+              "$value": "{nbds.color.amber.050}",
+              "$description": "Subtle warning fill.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:24",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "FRAME_FILL",
+                    "SHAPE_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          }
+        },
+        "icon": {
+          "negative": {
+            "default": {
+              "$type": "color",
+              "$value": "{nbds.color.red.700}",
+              "$description": "Error icon.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:28",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "FRAME_FILL",
+                    "SHAPE_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          },
+          "positive": {
+            "default": {
+              "$type": "color",
+              "$value": "{nbds.color.green.600}",
+              "$description": "Success icon.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:29",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "FRAME_FILL",
+                    "SHAPE_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          },
+          "warning": {
+            "default": {
+              "$type": "color",
+              "$value": "{nbds.color.amber.600}",
+              "$description": "Warning icon.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:30",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "FRAME_FILL",
+                    "SHAPE_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          }
+        }
+      },
+      "border": {
+        "default": {
+          "default": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.950}",
+            "$description": "Default border on standard foregrounds.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:10:386",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "STROKE_COLOR"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "inverse": {
+            "$type": "color",
+            "$value": "{nbds.color.white}",
+            "$description": "Default border on dark foregrounds.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:14",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "STROKE_COLOR"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          }
+        },
+        "divider": {
+          "default": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.100}",
+            "$description": "Subtle divider for separating content blocks.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:10:390",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "STROKE_COLOR"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "inverse": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.700}",
+            "$description": "Subtle divider on dark foregrounds.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:15",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "STROKE_COLOR"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          }
+        }
+      },
+      "foreground": {
+        "secondary": {
+          "default": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.050}",
+            "$description": "Secondary foreground; layered content above primary foreground. Z = 2.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:10:412",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "FRAME_FILL",
+                  "SHAPE_FILL"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "inverse": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.950}",
+            "$description": "Secondary foreground on dark contexts.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:11",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "FRAME_FILL",
+                  "SHAPE_FILL"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          }
+        },
+        "primary": {
+          "default": {
+            "$type": "color",
+            "$value": "{nbds.color.white}",
+            "$description": "Primary foreground; base layer for components on the page background. Z=1.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:9",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "FRAME_FILL",
+                  "SHAPE_FILL"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "inverse": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.900}",
+            "$description": "Primary foreground for dark CTA/footer panels.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:10",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "FRAME_FILL",
+                  "SHAPE_FILL"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          }
+        },
+        "tertiary": {
+          "default": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.100}",
+            "$description": "Tertiary foreground; deepest nesting tier. Z=3.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:12",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "FRAME_FILL",
+                  "SHAPE_FILL"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          }
+        }
+      },
+      "icon": {
+        "primary": {
+          "default": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.950}",
+            "$description": "Default icon colour on light foregrounds.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:668:1718",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "ALL_FILLS",
+                  "STROKE_COLOR"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "inverse": {
+            "$type": "color",
+            "$value": "{nbds.color.white}",
+            "$description": "Default icon on dark foregrounds.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:6",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "FRAME_FILL",
+                  "SHAPE_FILL"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          }
+        },
+        "secondary": {
+          "default": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.650}",
+            "$description": "Subdued icon for low-emphasis use.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:7",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "FRAME_FILL",
+                  "SHAPE_FILL"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "inverse": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.100}",
+            "$description": "Subdued icon on dark foregrounds.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:8",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "FRAME_FILL",
+                  "SHAPE_FILL"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          }
+        },
+        "on-feedback": {
+          "negative": {
+            "bold": {
+              "$type": "color",
+              "$value": "{nbds.color.white}",
+              "$description": "Icon on bold negative foregrounds.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:102",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "FRAME_FILL",
+                    "SHAPE_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "subtle": {
+              "$type": "color",
+              "$value": "{nbds.color.red.700}",
+              "$description": "Icon on subtle negative foregrounds.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:103",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "FRAME_FILL",
+                    "SHAPE_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          },
+          "positive": {
+            "bold": {
+              "$type": "color",
+              "$value": "{nbds.color.white}",
+              "$description": "Icon on bold positive foregrounds.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:104",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "FRAME_FILL",
+                    "SHAPE_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "subtle": {
+              "$type": "color",
+              "$value": "{nbds.color.green.700}",
+              "$description": "Icon on subtle positive foregrounds.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:105",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "FRAME_FILL",
+                    "SHAPE_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          },
+          "warning": {
+            "bold": {
+              "$type": "color",
+              "$value": "{nbds.color.white}",
+              "$description": "Icon on bold warning foregrounds.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:106",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "FRAME_FILL",
+                    "SHAPE_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "subtle": {
+              "$type": "color",
+              "$value": "{nbds.color.amber.700}",
+              "$description": "Icon on subtle warning foregrounds.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:107",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "FRAME_FILL",
+                    "SHAPE_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          }
+        }
+      },
+      "button": {
+        "foreground": {
+          "primary": {
+            "default": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.950}",
+              "$description": "Primary button fill, default state. NB Black.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:668:2105",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "FRAME_FILL",
+                    "SHAPE_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "hovered": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.800}",
+              "$description": "Primary button fill, hovered state.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7359:4567",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "FRAME_FILL",
+                    "SHAPE_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "pressed": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.850}",
+              "$description": "Primary button fill, pressed/active state.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7359:4568",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "FRAME_FILL",
+                    "SHAPE_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "disabled": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.100}",
+              "$description": "Primary button fill, disabled state.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7359:4582",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "FRAME_FILL",
+                    "SHAPE_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "focused": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.950}",
+              "$description": "Primary button fill, focused (colour unchanged; focus ring handles indication).",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:71",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "FRAME_FILL",
+                    "SHAPE_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "default-inverse": {
+              "$type": "color",
+              "$value": "{nbds.color.white}",
+              "$description": "Inverse-context sibling of nbds/color/button/foreground/primary/default. Use on dark surfaces.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17045:5",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "FRAME_FILL",
+                    "SHAPE_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "disabled-inverse": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.300}",
+              "$description": "Inverse-context sibling of nbds/color/button/foreground/primary/disabled. Use on dark surfaces.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17045:7",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "FRAME_FILL",
+                    "SHAPE_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "hovered-inverse": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.050}",
+              "$description": "Inverse-context sibling of nbds/color/button/foreground/primary/hovered. Use on dark surfaces.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17045:9",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "FRAME_FILL",
+                    "SHAPE_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "pressed-inverse": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.100}",
+              "$description": "Inverse-context sibling of nbds/color/button/foreground/primary/pressed. Use on dark surfaces.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17045:10",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "FRAME_FILL",
+                    "SHAPE_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          },
+          "secondary": {
+            "default": {
+              "$type": "color",
+              "$value": "{nbds.color.white}",
+              "$description": "Secondary button fill, default (transparent or matches surface).",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:82",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "FRAME_FILL",
+                    "SHAPE_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "hovered": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.050}",
+              "$description": "Secondary button fill, hovered.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:83",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "FRAME_FILL",
+                    "SHAPE_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "pressed": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.100}",
+              "$description": "Secondary button fill, pressed.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:84",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "FRAME_FILL",
+                    "SHAPE_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "focused": {
+              "$type": "color",
+              "$value": "{nbds.color.white}",
+              "$description": "Secondary button fill, focused.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:85",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "FRAME_FILL",
+                    "SHAPE_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "disabled": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.050}",
+              "$description": "Secondary button fill, disabled.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:86",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "FRAME_FILL",
+                    "SHAPE_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          }
+        },
+        "text": {
+          "primary": {
+            "default": {
+              "$type": "color",
+              "$value": "{nbds.color.white}",
+              "$description": "Primary button text/icon colour, default state.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:668:2106",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "TEXT_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "disabled": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.500}",
+              "$description": "Primary button text, disabled state.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7359:4581",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "TEXT_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "hovered": {
+              "$type": "color",
+              "$value": "{nbds.color.white}",
+              "$description": "Primary button text, hovered.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:72",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "TEXT_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "pressed": {
+              "$type": "color",
+              "$value": "{nbds.color.white}",
+              "$description": "Primary button text, pressed.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:73",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "TEXT_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "focused": {
+              "$type": "color",
+              "$value": "{nbds.color.white}",
+              "$description": "Primary button text, focused.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:74",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "TEXT_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "default-inverse": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.950}",
+              "$description": "Inverse-context sibling of nbds/color/button/text/primary/default. Use on dark surfaces.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17045:4",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "TEXT_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "disabled-inverse": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.100}",
+              "$description": "Inverse-context sibling of nbds/color/button/text/primary/disabled. Use on dark surfaces.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17045:8",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "TEXT_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          },
+          "secondary": {
+            "default": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.950}",
+              "$description": "Secondary button text, default.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:87",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "TEXT_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "hovered": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.950}",
+              "$description": "Secondary button text, hovered.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:88",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "TEXT_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "pressed": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.900}",
+              "$description": "Secondary button text, pressed.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:89",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "TEXT_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "focused": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.950}",
+              "$description": "Secondary button text, focused.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:90",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "TEXT_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "disabled": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.500}",
+              "$description": "Secondary button text, disabled.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:91",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "TEXT_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          }
+        },
+        "border": {
+          "secondary": {
+            "default": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.100}",
+              "$description": "Secondary button border, default state.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:668:2107",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "STROKE_COLOR"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "hovered": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.300}",
+              "$description": "Secondary button border, hovered state.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7447:16940",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "STROKE_COLOR"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "pressed": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.500}",
+              "$description": "Secondary button border, pressed state.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:7447:16941",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "STROKE_COLOR"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "focused": {
+              "$type": "color",
+              "$value": "{nbds.focus.ring.color.default}",
+              "$description": "Secondary button border, focused. Re-alias to focus ring after 3.4.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:94",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "STROKE_COLOR"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "disabled": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.300}",
+              "$description": "Secondary button border, disabled.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:95",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "STROKE_COLOR"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "default-inverse": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.050}",
+              "$description": "Inverse-context sibling of nbds/color/button/border/secondary/default. Use on dark surfaces.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17045:6",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "STROKE_COLOR"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "hovered-inverse": {
+              "$type": "color",
+              "$value": "{nbds.color.white}",
+              "$description": "Inverse-context sibling of nbds/color/button/border/secondary/hovered. Use on dark surfaces.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17045:11",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "STROKE_COLOR"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "pressed-inverse": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.100}",
+              "$description": "Inverse-context sibling of nbds/color/button/border/secondary/pressed. Use on dark surfaces.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17045:12",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "STROKE_COLOR"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          },
+          "primary": {
+            "default": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.950}",
+              "$description": "Primary button border (same as fill — no visible border by default).",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:80",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "STROKE_COLOR"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "focused": {
+              "$type": "color",
+              "$value": "{nbds.focus.ring.color.default}",
+              "$description": "Primary button border, focused. Aliased to NB Red — re-alias to focus ring after 3.4.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:81",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "STROKE_COLOR"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          }
+        },
+        "icon": {
+          "primary": {
+            "default": {
+              "$type": "color",
+              "$value": "{nbds.color.white}",
+              "$description": "Primary button icon, default.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:75",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "FRAME_FILL",
+                    "SHAPE_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "hovered": {
+              "$type": "color",
+              "$value": "{nbds.color.white}",
+              "$description": "Primary button icon, hovered.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:76",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "FRAME_FILL",
+                    "SHAPE_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "pressed": {
+              "$type": "color",
+              "$value": "{nbds.color.white}",
+              "$description": "Primary button icon, pressed.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:77",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "FRAME_FILL",
+                    "SHAPE_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "focused": {
+              "$type": "color",
+              "$value": "{nbds.color.white}",
+              "$description": "Primary button icon, focused.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:78",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "FRAME_FILL",
+                    "SHAPE_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "disabled": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.500}",
+              "$description": "Primary button icon, disabled.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:79",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "FRAME_FILL",
+                    "SHAPE_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          },
+          "secondary": {
+            "default": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.950}",
+              "$description": "Secondary button icon, default.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:92",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "FRAME_FILL",
+                    "SHAPE_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            },
+            "disabled": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.500}",
+              "$description": "Secondary button icon, disabled.",
+              "$extensions": {
+                "figma": {
+                  "variableId": "VariableID:17029:93",
+                  "collection": "VariableCollectionId:10:347",
+                  "scopes": [
+                    "FRAME_FILL",
+                    "SHAPE_FILL"
+                  ],
+                  "codeSyntax": {}
+                }
+              }
+            }
+          }
+        }
+      },
+      "link": {
+        "default": {
+          "$type": "color",
+          "$value": "{nbds.color.neutral.950}",
+          "$description": "Link colour, default state.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7520:1575",
+              "collection": "VariableCollectionId:10:347",
+              "scopes": [
+                "TEXT_FILL"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "hovered": {
+          "$type": "color",
+          "$value": "{nbds.color.neutral.800}",
+          "$description": "Link colour, hovered state.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7520:1577",
+              "collection": "VariableCollectionId:10:347",
+              "scopes": [
+                "TEXT_FILL"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "pressed": {
+          "$type": "color",
+          "$value": "{nbds.color.neutral.850}",
+          "$description": "Link colour, pressed state.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:7520:1578",
+              "collection": "VariableCollectionId:10:347",
+              "scopes": [
+                "TEXT_FILL"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "focused": {
+          "$type": "color",
+          "$value": "{nbds.focus.ring.color.default}",
+          "$description": "Link focused. Aliased to NB Red — will re-alias to focus ring after Phase 3.4.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17029:64",
+              "collection": "VariableCollectionId:10:347",
+              "scopes": [
+                "TEXT_FILL"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "visited": {
+          "$type": "color",
+          "$value": "{nbds.color.neutral.700}",
+          "$description": "Visited link colour.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17029:65",
+              "collection": "VariableCollectionId:10:347",
+              "scopes": [
+                "TEXT_FILL"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "disabled": {
+          "$type": "color",
+          "$value": "{nbds.color.neutral.500}",
+          "$description": "Disabled link.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17029:66",
+              "collection": "VariableCollectionId:10:347",
+              "scopes": [
+                "TEXT_FILL"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "default-inverse": {
+          "$type": "color",
+          "$value": "{nbds.color.white}",
+          "$description": "Link on dark foregrounds.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17029:67",
+              "collection": "VariableCollectionId:10:347",
+              "scopes": [
+                "TEXT_FILL"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "hovered-inverse": {
+          "$type": "color",
+          "$value": "{nbds.color.neutral.050}",
+          "$description": "Hovered link on dark.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17029:68",
+              "collection": "VariableCollectionId:10:347",
+              "scopes": [
+                "TEXT_FILL"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "pressed-inverse": {
+          "$type": "color",
+          "$value": "{nbds.color.neutral.100}",
+          "$description": "Pressed link on dark.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17029:69",
+              "collection": "VariableCollectionId:10:347",
+              "scopes": [
+                "TEXT_FILL"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        },
+        "focused-inverse": {
+          "$type": "color",
+          "$value": "{nbds.focus.ring.color.inverse}",
+          "$description": "Focused link on dark. Will re-alias to focus ring inverse after Phase 3.4.",
+          "$extensions": {
+            "figma": {
+              "variableId": "VariableID:17029:70",
+              "collection": "VariableCollectionId:10:347",
+              "scopes": [
+                "TEXT_FILL"
+              ],
+              "codeSyntax": {}
+            }
+          }
+        }
+      },
+      "interactive": {
+        "text": {
+          "default": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.950}",
+            "$description": "Default text on interactive elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:31",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "TEXT_FILL"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "hovered": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.800}",
+            "$description": "Text on hovered interactive elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:32",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "TEXT_FILL"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "pressed": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.900}",
+            "$description": "Text on pressed interactive elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:33",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "TEXT_FILL"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.500}",
+            "$description": "Text on disabled interactive elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:34",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "TEXT_FILL"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "visited": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.700}",
+            "$description": "Text on visited interactive elements (links).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:35",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "TEXT_FILL"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "default-inverse": {
+            "$type": "color",
+            "$value": "{nbds.color.white}",
+            "$description": "Default interactive text on dark foregrounds.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:36",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "TEXT_FILL"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "hovered-inverse": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.050}",
+            "$description": "Hovered interactive text on dark.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:37",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "TEXT_FILL"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "pressed-inverse": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.100}",
+            "$description": "Pressed interactive text on dark.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:38",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "TEXT_FILL"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "disabled-inverse": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.600}",
+            "$description": "Disabled interactive text on dark.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:39",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "TEXT_FILL"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          }
+        },
+        "icon": {
+          "default": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.950}",
+            "$description": "Default icon on interactive elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:40",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "FRAME_FILL",
+                  "SHAPE_FILL"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "hovered": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.800}",
+            "$description": "Hovered interactive icon.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:41",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "FRAME_FILL",
+                  "SHAPE_FILL"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "pressed": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.900}",
+            "$description": "Pressed interactive icon.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:42",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "FRAME_FILL",
+                  "SHAPE_FILL"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.500}",
+            "$description": "Disabled interactive icon.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:43",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "FRAME_FILL",
+                  "SHAPE_FILL"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "default-inverse": {
+            "$type": "color",
+            "$value": "{nbds.color.white}",
+            "$description": "Default interactive icon on dark.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:44",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "FRAME_FILL",
+                  "SHAPE_FILL"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "hovered-inverse": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.050}",
+            "$description": "Hovered interactive icon on dark.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:45",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "FRAME_FILL",
+                  "SHAPE_FILL"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "pressed-inverse": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.100}",
+            "$description": "Pressed interactive icon on dark.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:46",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "FRAME_FILL",
+                  "SHAPE_FILL"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "disabled-inverse": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.600}",
+            "$description": "Disabled interactive icon on dark.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:47",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "FRAME_FILL",
+                  "SHAPE_FILL"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          }
+        },
+        "foreground": {
+          "default": {
+            "$type": "color",
+            "$value": "{nbds.color.white}",
+            "$description": "Default fill of interactive container (chip, list row).",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:48",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "FRAME_FILL",
+                  "SHAPE_FILL"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "hovered": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.050}",
+            "$description": "Fill of hovered interactive container.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:49",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "FRAME_FILL",
+                  "SHAPE_FILL"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "pressed": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.100}",
+            "$description": "Fill of pressed interactive container.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:50",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "FRAME_FILL",
+                  "SHAPE_FILL"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "selected": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.050}",
+            "$description": "Fill of selected interactive container.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:51",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "FRAME_FILL",
+                  "SHAPE_FILL"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.050}",
+            "$description": "Fill of disabled interactive container.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:52",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "FRAME_FILL",
+                  "SHAPE_FILL"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "hovered-inverse": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.800}",
+            "$description": "Hovered interactive fill on dark.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:53",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "FRAME_FILL",
+                  "SHAPE_FILL"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "pressed-inverse": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.700}",
+            "$description": "Pressed interactive fill on dark.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:54",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "FRAME_FILL",
+                  "SHAPE_FILL"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "selected-inverse": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.800}",
+            "$description": "Selected interactive fill on dark.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:55",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "FRAME_FILL",
+                  "SHAPE_FILL"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          }
+        },
+        "border": {
+          "default": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.500}",
+            "$description": "Default border for interactive form elements.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:56",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "STROKE_COLOR"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "hovered": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.700}",
+            "$description": "Hovered interactive border.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:57",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "STROKE_COLOR"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "focused": {
+            "$type": "color",
+            "$value": "{nbds.focus.ring.color.default}",
+            "$description": "Focused interactive border. Aliased to NB Red until focus ring tokens are created in Phase 3.4 — should re-alias to nbds/color/focus/ring/color/default then.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:58",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "STROKE_COLOR"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.300}",
+            "$description": "Disabled interactive border.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:59",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "STROKE_COLOR"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "default-inverse": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.500}",
+            "$description": "Default interactive border on dark.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:60",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "STROKE_COLOR"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "hovered-inverse": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.300}",
+            "$description": "Hovered border on dark.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:61",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "STROKE_COLOR"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "focused-inverse": {
+            "$type": "color",
+            "$value": "{nbds.focus.ring.color.inverse}",
+            "$description": "Focused border on dark. Will re-alias to focus ring inverse after 3.4.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:62",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "STROKE_COLOR"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          },
+          "disabled-inverse": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.700}",
+            "$description": "Disabled border on dark.",
+            "$extensions": {
+              "figma": {
+                "variableId": "VariableID:17029:63",
+                "collection": "VariableCollectionId:10:347",
+                "scopes": [
+                  "STROKE_COLOR"
+                ],
+                "codeSyntax": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$extensions": {
+    "generator": {
+      "name": "Token Press",
+      "version": "2.3.1"
+    },
+    "figma": {
+      "collection": {
+        "id": "VariableCollectionId:10:347",
+        "name": "color",
+        "defaultModeId": "10:5"
+      },
+      "mode": "Default"
+    }
+  }
+}

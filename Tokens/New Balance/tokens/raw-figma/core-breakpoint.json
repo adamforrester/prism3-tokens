@@ -1,0 +1,42 @@
+{
+  "$collection": "core-breakpoint",
+  "$mode": "Mode 1",
+  "variables": [
+    {
+      "id": "VariableID:17027:113",
+      "name": "nbds/breakpoint/0",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "0px breakpoint primitive.",
+      "value": 0,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17027:116",
+      "name": "nbds/breakpoint/1024",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "1024px breakpoint primitive.",
+      "value": 1024,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:17151:332124",
+      "name": "nbds/breakpoint/1920",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "1920px breakpoint primitive — max container width.",
+      "value": 1920,
+      "alias": null,
+      "codeSyntax": {}
+    }
+  ]
+}
