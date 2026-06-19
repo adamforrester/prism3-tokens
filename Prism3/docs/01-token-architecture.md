@@ -44,7 +44,7 @@ Prism3 keeps the shape and changes exactly those two things:
 
 A consequence: the literal `strawberry/blueberry/pumpkin` status palettes stop being hard-wired hues — status *meaning* stays invariant while the colour is brand-derived or explicitly overridden (§5.2), instead of every brand inheriting fruit names.
 
-**New Balance is the natural regression test.** NB already carries the `brand.primary` slots *and* the fruit palettes; re-generating NB from a 5-input schema and diffing against today's hand-authored values is the cleanest proof that the engine reproduces an existing brand before it invents new ones.
+**New Balance is the natural regression test.** NB already carries the `brand.primary` slots *and* the fruit palettes; re-generating NB from a schema and diffing against today's hand-authored values is the cleanest proof that the engine reproduces an existing brand before it invents new ones. A first pass — NB's tokens reverse-engineered into a schema, measured in OKLCH, with predicted diffs and acceptance criteria — is worked through in `02-nb-regression-pass.md`. Headline finding: NB's neutral is **cool (~243°)**, not warm, and its **brand hue equals its danger hue** (both red ~23°).
 
 ---
 
@@ -352,7 +352,7 @@ The export bridges Figma slash-paths (`prism/color/action/primary/hover`) ↔ DT
 5. **Figma is first-class:** axis-per-collection mapping defined (§11).
 
 **Still open (next pass):**
-1. **Reference brand:** New Balance (real regression target) is the working first pick; we'll pressure-test multiple brands after.
+1. **Reference brand:** New Balance (real regression target) is the working first pick — first pass done in `02-nb-regression-pass.md`; we'll pressure-test multiple brands after.
 2. **Typography code detail:** do we also ship parallel `vw` *and* container-`cqi` fluid sets, or viewport-only for now? How many endpoints beyond min/max?
 3. **Engine implementation stack** — deferred with the tool-surface decision; constrains §9.
 4. **Hue count & per-hue chroma ceilings** — the engine's default palette breadth (how many generated hues beyond brand/neutral/status).
