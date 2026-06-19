@@ -17,7 +17,7 @@ Three structural moves carry over the best of what exists and discard the rest:
 |---|---|---|---|
 | Primitive tier | implicit in `shared/` | **explicit `core-*`** ✓ | explicit `core.*` (adopt NB) |
 | Brand identity in token path | `nbds.pds.*` baked in | `nbds.*` baked in | **brand removed**; stable `prism.*` product root kept |
-| Color ramps | hand-picked | Univers L*-aligned, not tuned | **generated, OKLCH, contrast-anchored** |
+| Color ramps | hand-picked | Univers L*-aligned, not tuned | **generated, OKLCH, contrast-anchored, ~20 steps, brand value pinned exactly, multi-anchor fit-or-split** |
 | Brand as an axis | a mode | n/a (single brand) | **a collection / output package** |
 | Focus / breakpoint / layout / reduced-motion | missing | **present** ✓ | present (adopt NB) |
 | Typography composites | display/title/body/button/detail ✓ | viewport-split (desktop/mobile) ✓ | **both ideas merged** |
@@ -133,7 +133,7 @@ Runtime composition (code) is attribute switching on the root; the brand package
 Every category lists its **core** (primitive) shape and its **semantic** contract. Semantic names follow the grammar `<category>.<concept>.<variant>.<state>` (§6).
 
 ### 4.1 Color
-- **Core:** `core.color.<hue>.<step>` — generated OKLCH ramps. Hues: `brand` (primary), optional `brand-secondary` / `accent`, `neutral` (from neutralHue), and the **system status hues** `success` / `warning` / `danger` / `info` (stable across brands). Steps are contrast roles (§5.2).
+- **Core:** `core.color.<hue>.<step>` — generated OKLCH ramps, ~20 steps each (§5.1). Hues: `brand` (primary) plus any number of additional brand scales from `brandColors[]` (each either a multi-anchor extension of an existing ramp or its own named scale — fit-or-split, §5.1a), optional `brand-secondary` / `accent`, `neutral` (from neutralHue), and the **system status hues** `success` / `warning` / `danger` / `info` (stable across brands). Steps are contrast roles, and every supplied brand value is pinned exactly (§5.1–5.2).
 - **Semantic:** the role taxonomy, ported and tightened from Prism2:
   - `color.text.{primary,secondary,disabled,brand,on-{surface}}.{default,inverse}`
   - `color.surface.{base,raised,sunken,brand,inverse}` and `color.background.*`
@@ -189,12 +189,23 @@ The heart of Prism3. A brand input (§7) is expanded into the full `core.*` + se
 
 ### 5.1 Color authoring space
 - **OKLCH is the authoring space.** HSL is not used for ramp generation (its lightness is a mechanical RGB midpoint, not perceptual).
-- **Source-anchored:** the brand color is a *fixed point*; the ramp is generated *around* it, not regenerated from a hue.
-- **Per-hue chroma ceilings are mandatory** (e.g. yellow caps far lower than blue) so vivid hues don't clamp to mud. OKLCH is a space, not a gamut.
+- **Source-anchored, and the anchor is preserved *exactly*.** The brand color is a *fixed point*: it appears verbatim as a ramp step, never normalized to a generator's nearest lightness target. This is the explicit lesson from the Univers methodology — most palette tools emit an even ramp that *omits* the real brand value, forcing a manual re-insertion. Prism3 inverts that: the anchor defines its own step's lightness, and the rest of the ramp is generated *around* it. The brand color is always present, always correct, by construction.
+- **~20 steps per ramp (the Univers step density).** The default ramp is the NB-style 20-step scale (`025, 050, 100, 150 … 950`) — enough shades to always have a usable tint/shade to hand without manual interpolation. This is an engine constant (not a per-brand input — it stays out of the schema to honor input minimalism), aligned to what NB already ships.
+- **Per-hue chroma ceilings are mandatory** (e.g. yellow caps far lower than blue) so vivid hues don't clamp to mud. OKLCH is a space, not a gamut. Per-brand override via `chromaCeiling`.
 - **Render targets:** author in OKLCH; emit sRGB (hex fallback) + optional Display-P3 for brand-critical surfaces. Declare a per-platform fidelity contract; **test converted native colors against the design source.** DTCG Color Module `colorSpace` carries this.
+
+### 5.1a Multiple brand colors — fit or split
+Brands rarely have exactly one brand color. A client may run **two brand blues** (e.g. a light and a dark), or several distinct hues. The engine intakes any number of brand colors (`primaryColor` + `brandColors[]`) and decides, per pair, whether they **share one ramp** or **spin into separate scales**:
+
+- **Fit one ramp (multi-anchor):** colors of a **compatible hue** (ΔH within ~15–20°) that sit at **distinct lightness positions** become *multiple pinned anchors on a single ramp*. The ramp is generated to pass through **all** of them exactly (L/C/H interpolated between anchors, extrapolated beyond). Two brand blues at L≈70 and L≈40, both hue ≈250, are one `brand-blue` scale with two preserved anchors.
+- **Split into separate scales:** colors that **diverge in hue**, or that **collide at the same lightness step** (can't both be pinned on a monotonic-L ramp), or whose chroma demands conflict, each get their **own named scale** (`brand-blue`, `brand-blue-2`). The user keeps both exact values; the engine just stops pretending they're one ramp.
+
+The decision is automatic by default; `scale` on a brand color forces grouping or separation when the designer knows better. Either way, **every supplied brand value is preserved exactly** (per §5.1) — fit-or-split only changes *how many ramps* carry them, never the values.
 
 ### 5.2 Ramp = contrast roles
 Steps are generated so that **each step is a guaranteed contrast role**, not an arbitrary lightness. Semantic tokens reference *role names* ("the step where Lc 60 on light is guaranteed"), so every brand aligns contrast at the same role even with different hues. This is what lets a brand swap without re-checking every pair by hand.
+
+**Reconciling exact anchors with contrast roles:** the two are not in tension. The ~20 role-steps are generated, and the brand anchor(s) define the lightness of the step(s) they land on — the anchor's measured L *is* that step's target, and neighbors interpolate to keep the role guarantees intact across the rest of the ramp. NB demonstrates this already: `red.550` is simultaneously the exact NB Red **and** a functioning contrast-role step. Where an anchor falls between two role steps, the engine nudges that step's target L to the anchor (value exact, role preserved) rather than shifting the anchor.
 
 ### 5.3 Forced-foreground (`on-X`) luminance flip
 Every `on-X` token is **computed to flip black/white (or near-) based on the swapped primitive's luminance.** This is the load-bearing multi-brand technique: `color.action.primary` and `color.action.primary.on` stay compliant as the underlying primitive changes. Adopt as default.

@@ -15,7 +15,7 @@
 
     "primaryColor": {
       "type": "object",
-      "description": "REQUIRED #1. The brand's primary color as an OKLCH seed. The engine treats this as a fixed anchor point and generates the full contrast-anchored ramp AROUND it (not from a hue). It also derives contrast-pinned text-on-primary pairs and accent semantics by formula.",
+      "description": "REQUIRED #1. The brand's primary color as an OKLCH seed. The engine treats this as a fixed anchor and generates the full contrast-anchored ramp AROUND it (not from a hue). The supplied value is PRESERVED EXACTLY — it appears verbatim as a ramp step, never normalized to the generator's nearest lightness target (the Univers lesson: most tools omit the real brand value and force manual re-insertion). The default ramp is ~20 steps (025..950); step count is an engine constant, not a schema input. The engine also derives contrast-pinned text-on-primary pairs and accent semantics by formula.",
       "additionalProperties": false,
       "required": ["oklch"],
       "properties": {
@@ -28,6 +28,12 @@
           "description": "Optional per-brand override of the generated hue's max chroma, to keep vivid steps in-gamut. Defaults to the engine's per-hue ceiling."
         }
       }
+    },
+
+    "brandColors": {
+      "type": "array",
+      "description": "OPTIONAL. Additional brand colors beyond primaryColor, for brands with more than one brand hue (e.g. a couple of brand blues). Each value is PINNED EXACTLY (per primaryColor). The engine groups colors of a compatible hue (deltaH within ~15-20deg) that sit at distinct lightness positions into a SINGLE multi-anchor ramp that passes through all of them; colors that diverge in hue, collide at the same lightness, or conflict in chroma each get their OWN named scale. The grouping is automatic; set `scale` on an item to force it. Fit-or-split changes how many ramps carry the values, never the values.",
+      "items": { "$ref": "#/$defs/brandColor" }
     },
 
     "neutralHue": {
@@ -161,12 +167,17 @@
     },
     "brandColor": {
       "type": "object",
+      "description": "A brand color seed. The oklch value is preserved exactly as a ramp step (anchor). Optionally controls how it groups into ramps.",
       "additionalProperties": false,
       "required": ["oklch"],
       "properties": {
         "oklch": { "$ref": "#/$defs/oklch" },
-        "name": { "type": "string" },
-        "chromaCeiling": { "type": "number", "minimum": 0, "maximum": 0.4 }
+        "name": { "type": "string", "description": "Human label, flows to the generated scale name, docs and .ai.json." },
+        "chromaCeiling": { "type": "number", "minimum": 0, "maximum": 0.4 },
+        "scale": {
+          "type": "string",
+          "description": "OPTIONAL grouping control, overriding the engine's automatic fit-or-split. A named scale id (e.g. 'brand-blue') forces this color onto/into that ramp as an additional anchor; 'separate' forces its own standalone scale. Omit to let the engine decide by hue/lightness distance."
+        }
       }
     },
     "fontStack": {
