@@ -124,6 +124,8 @@ Net: the spine of the architecture — exact-anchor preservation, ~20-step bands
 
 **Output.** The engine emits a DTCG token tree (`../engine/emit-dtcg.ts` → `../engine/out/nb.tokens.json`) in NB's own dialect, so it is drop-in comparable with the hand-built tokens. Each primitive leaf additionally carries its OKLCH source, tonal band, anchor flag, and contrast under `$extensions.prism3`, and a `nbds.semantic.*` layer maps the contract roles to primitive steps via brace aliases (all validated to resolve). This is the consumable artifact — the bridge to Style Dictionary and Figma import.
 
+**Modes.** The same primitives feed four generated appearance modes — `light`, `dark`, `hc-light`, `hc-dark` (`../engine/modes.ts`, report at `../engine/modes-report.md`). Modes don't regenerate primitives; they re-resolve each semantic role to a primitive step *by contrast target* against the mode's surface. The brand anchor is preserved where it can be (light `action.primary` = `red.550`) and auto-adjusted where it can't (dark `action.primary` lightens to `red.450` to clear AA on a near-black surface). All 28 cross-mode contrast contracts pass — evidence that one OKLCH primitive set plus contrast-derived role mapping covers the full appearance axis without per-mode hand-tuning.
+
 ---
 
 *Companion files: `../schema/theme-schema.example.json` (the measured NB input), `01-token-architecture.md` (the architecture this tests). Source data: `Tokens/New Balance/tokens/tokens/shared/core-color.json` and siblings.*

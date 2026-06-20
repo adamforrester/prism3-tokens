@@ -23,9 +23,23 @@ Node ≥ 20. No `npm install` needed — the color math is self-contained
 - `color.ts` — sRGB ↔ OKLCH, sRGB → CIELAB, CIEDE2000, WCAG contrast + dual-side window, gamut-aware max chroma. No deps.
 - `ramp.ts` — ramp generation per spec §5.1–5.2: exact anchor pinning, 20-step scale, chroma **arc** (tapers toward both ends), gamut clamp, 5 tonal bands, contrast-role placement.
 - `theme.ts` — loads the schema into ramp specs (one source of truth for the regression and the emitter).
+- `modes.ts` — appearance modes (light / dark / hc-light / hc-dark). Resolves each semantic role to a primitive step by contrast target against the mode's surface.
 - `nb-regression.ts` — diffs generated ramps against the real NB tokens (ΔE00 per step), checks the contrast contracts, writes `nb-regression-report.md`.
-- `emit-dtcg.ts` — emits `out/nb.tokens.json` (see below) and validates every alias resolves.
-- `nb-regression-report.md`, `out/nb.tokens.json` — generated outputs (committed so results are reviewable without running).
+- `emit-dtcg.ts` — emits `out/nb.tokens.json` (see below), generates the per-mode semantic layer, validates every alias resolves and every mode contrast contract holds, writes `modes-report.md`.
+- `nb-regression-report.md`, `modes-report.md`, `out/nb.tokens.json` — generated outputs (committed so results are reviewable without running).
+
+## Modes (`modes-report.md`)
+
+Modes do **not** regenerate primitives — the ramps are shared. What changes per
+mode is which primitive step each semantic role resolves to, and the engine
+*derives* that by contrast target against the mode's own surface rather than
+hand-mapping it. So `text.primary` is the definition "the strongest neutral on
+this surface" and `action.primary` is "the brand step nearest the anchor that
+clears AA on this surface" — both resolve correctly in any mode for free. In
+light mode `action.primary` is the exact brand anchor (`red.550`); in dark mode
+it auto-lightens to `red.450` because the anchor can't clear 4.5:1 on a
+near-black surface. The run verifies every mode's contrast contracts (currently
+28/28).
 
 ## DTCG output (`out/nb.tokens.json`)
 

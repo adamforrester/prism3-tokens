@@ -17,6 +17,7 @@ import { dirname, resolve } from 'node:path';
 import { RGB, contrast, oklchToRgb } from './color';
 import { Step, stepKey, bandOf } from './ramp';
 import { loadSpecs, buildRamp, RampSpec } from './theme';
+import { resolveAllModes } from './modes';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const WHITE: RGB = { r: 255, g: 255, b: 255 };
@@ -88,31 +89,24 @@ for (const spec of specs) {
   color[spec.palette] = node;
 }
 
-// Semantic layer — contract roles mapped to primitive steps via DTCG aliases.
-const semantic = {
-  text: {
-    primary: aliasLeaf('nbds.color.neutral.950', 'Primary text on light surfaces'),
-    secondary: aliasLeaf('nbds.color.neutral.650', 'Secondary / supporting text on light'),
-    inverse: aliasLeaf('nbds.color.white', 'Text on dark surfaces'),
-  },
-  surface: {
-    default: aliasLeaf('nbds.color.white', 'Default page surface'),
-    sunken: aliasLeaf('nbds.color.neutral.050', 'Sunken / subtle surface'),
-  },
-  border: {
-    default: aliasLeaf('nbds.color.neutral.200', 'Default border (Quarter-Tone, not text-safe by design)'),
-    strong: aliasLeaf('nbds.color.neutral.400', 'Stronger border / divider'),
-  },
-  action: {
-    primary: aliasLeaf('nbds.color.red.550', 'Primary action — the exact brand red anchor'),
-    'primary-hover': aliasLeaf('nbds.color.red.600', 'Primary action, hover'),
-  },
-  status: {
-    success: aliasLeaf('nbds.color.green.500', 'Success'),
-    warning: aliasLeaf('nbds.color.amber.500', 'Warning'),
-    danger: aliasLeaf('nbds.color.red.550', 'Danger / destructive'),
-  },
-};
+// Semantic layer — one generated mapping PER MODE. Roles are resolved by
+// contrast target against each mode's surface (see modes.ts), then emitted as
+// DTCG brace aliases to primitive steps. nbds.semantic.<mode>.<group>.<role>.
+const anchorNum = (role: string) => specs.find((s) => s.role === role)!.anchor!.stepNum;
+const modeResults = resolveAllModes(ramps, {
+  brand: anchorNum('brand'), success: anchorNum('success'), warning: anchorNum('warning'),
+});
+const semantic: Record<string, any> = {};
+for (const mr of modeResults) {
+  const modeTree: Record<string, any> = {};
+  for (const [roleKey, r] of Object.entries(mr.roles)) {
+    const [group, name] = roleKey.split('.');
+    (modeTree[group] ??= {})[name] = aliasLeaf(r.path, r.description, {
+      mode: mr.mode, contrast: r.ratio, against: r.against, ...(r.min > 0 ? { min: r.min } : {}),
+    });
+  }
+  semantic[mr.mode] = modeTree;
+}
 
 const tree = {
   nbds: { color, semantic },
@@ -164,10 +158,32 @@ mkdirSync(outDir, { recursive: true });
 const outPath = resolve(outDir, 'nb.tokens.json');
 writeFileSync(outPath, JSON.stringify(tree, null, 2) + '\n');
 
+// ---- verify per-mode contrast contracts and write a modes report ----
+const md: string[] = ['# Prism3 modes — generated semantic mappings & contrast contracts', ''];
+md.push('Roles are resolved by contrast target against each mode\'s surface (see `modes.ts`). Primitives are shared; only the role→step mapping changes per mode.', '');
+let totalChecks = 0, totalPass = 0;
+for (const mr of modeResults) {
+  md.push(`## ${mr.mode}`, '');
+  md.push('| role | → step | contrast | floor | result |', '|---|---|---|---|---|');
+  for (const [roleKey, r] of Object.entries(mr.roles)) {
+    const checked = r.min > 0;
+    const pass = !checked || r.ratio >= r.min;
+    if (checked) { totalChecks++; if (pass) totalPass++; }
+    const ref = r.path.replace('nbds.color.', '');
+    md.push(`| ${roleKey} | ${ref} | ${checked ? r.ratio.toFixed(2) : '—'} | ${checked ? r.min : '—'} | ${checked ? (pass ? '✅' : '❌') : '·'} |`);
+  }
+  md.push('');
+}
+md.push(`**Contrast contracts across modes: ${totalPass}/${totalChecks} pass.**`);
+const modesPath = resolve(here, 'modes-report.md');
+writeFileSync(modesPath, md.join('\n') + '\n');
+
 console.log('Prism3 DTCG emit');
 console.log(`  palettes: ${Object.keys(color).join(', ')}`);
 console.log(`  color leaves: ${leaves}`);
+console.log(`  modes: ${modeResults.map((m) => m.mode).join(', ')}`);
 console.log(`  semantic aliases: ${aliases.length}, resolved: ${aliases.length - broken.length}/${aliases.length}`);
+console.log(`  mode contrast contracts: ${totalPass}/${totalChecks} pass`);
 if (broken.length) {
   console.log(`  ❌ broken aliases:`);
   for (const b of broken) console.log(`     ${b.path} -> {${b.ref}}`);
@@ -175,4 +191,6 @@ if (broken.length) {
 } else {
   console.log('  ✅ all aliases resolve');
 }
+if (totalPass < totalChecks) process.exitCode = 1;
 console.log(`  [written] ${outPath}`);
+console.log(`  [written] ${modesPath}`);
