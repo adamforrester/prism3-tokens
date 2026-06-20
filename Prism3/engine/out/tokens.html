@@ -1,0 +1,490 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prism3 tokens</title>
+<style>
+  :root{font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+  body{margin:0;background:#0f1115;color:#e6e7eb;padding:28px 32px 80px}
+  h1{font-size:22px;margin:0 0 4px} h2{font-size:19px;margin:40px 0 6px;border-bottom:1px solid #2a2e37;padding-bottom:8px}
+  h3{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:#aeb4c0;margin:24px 0 10px;font-weight:600}
+  .muted{color:#6b7280;font-weight:400;text-transform:none;letter-spacing:0;font-size:12px}
+  .lead{color:#9aa1ad;max-width:70ch;font-size:14px;line-height:1.5}
+  .palette{display:flex;align-items:center;gap:14px;margin:6px 0}
+  .plabel{width:80px;font-size:13px;color:#cbd1db;text-align:right;flex:0 0 auto}
+  .ramp{display:flex;flex-wrap:wrap;gap:3px}
+  .sw{width:62px;height:54px;border-radius:6px;display:flex;flex-direction:column;justify-content:flex-end;padding:5px;box-sizing:border-box}
+  .sw span{font-size:11px;font-weight:600} .sw small{font-size:9px;opacity:.85;font-variant-numeric:tabular-nums}
+  table.sem{border-collapse:separate;border-spacing:3px;margin-top:6px}
+  table.sem th{font-size:11px;color:#9aa1ad;font-weight:600;text-align:left;padding:2px 6px}
+  td.rk{font-size:12px;color:#cbd1db;white-space:nowrap;padding-right:10px;font-variant-numeric:tabular-nums}
+  td.cell{width:140px;height:46px;border-radius:6px;vertical-align:top;padding:6px 8px}
+  td.cell span{font-size:11px;font-weight:600;display:block} td.cell small{font-size:9px;opacity:.85}
+  .bars{display:flex;flex-direction:column;gap:3px}
+  .barrow{display:flex;align-items:center;gap:10px;font-size:11px}
+  .bk{width:38px;text-align:right;color:#9aa1ad;font-variant-numeric:tabular-nums}
+  .bar{height:14px;background:#4f8cff;border-radius:3px;min-width:2px}
+  .bar.sp{background:#36c08f} .bv{color:#6b7280}
+  .radii{display:flex;gap:18px;flex-wrap:wrap}
+  .rcell{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;color:#cbd1db}
+  .rbox{width:56px;height:56px;background:linear-gradient(135deg,#4f8cff,#9b6bff)}
+  .rcell small{color:#6b7280}
+</style></head><body>
+<h1>Prism3 — generated token taxonomy</h1>
+<p class="lead">Every value below is engine-generated from a small theme input and read back from the emitted DTCG files (<code>out/*.tokens.json</code>). ★ marks the exact brand anchor. Regenerate with <code>npx tsx Prism3/engine/visualize.ts</code>.</p>
+<section><h2>nb <span class="muted">nbds.* / rgb</span></h2>
+<h3>Colour primitives</h3>
+<div class="palette"><div class="plabel">red</div><div class="ramp">
+<div class="sw" style="background:#fef4f3;color:#111" title="red.025 #fef4f3"><span>025</span><small>#fef4f3</small></div>
+<div class="sw" style="background:#f7e5e4;color:#111" title="red.050 #f7e5e4"><span>050</span><small>#f7e5e4</small></div>
+<div class="sw" style="background:#f2d5d3;color:#111" title="red.100 #f2d5d3"><span>100</span><small>#f2d5d3</small></div>
+<div class="sw" style="background:#efc5c2;color:#111" title="red.150 #efc5c2"><span>150</span><small>#efc5c2</small></div>
+<div class="sw" style="background:#ebb4b1;color:#111" title="red.200 #ebb4b1"><span>200</span><small>#ebb4b1</small></div>
+<div class="sw" style="background:#e8a39f;color:#111" title="red.250 #e8a39f"><span>250</span><small>#e8a39f</small></div>
+<div class="sw" style="background:#e5918d;color:#111" title="red.300 #e5918d"><span>300</span><small>#e5918d</small></div>
+<div class="sw" style="background:#e17f7b;color:#111" title="red.350 #e17f7b"><span>350</span><small>#e17f7b</small></div>
+<div class="sw" style="background:#de6c69;color:#fff" title="red.400 #de6c69"><span>400</span><small>#de6c69</small></div>
+<div class="sw" style="background:#da5657;color:#fff" title="red.450 #da5657"><span>450</span><small>#da5657</small></div>
+<div class="sw" style="background:#d53d44;color:#fff" title="red.500 #d53d44"><span>500</span><small>#d53d44</small></div>
+<div class="sw" style="background:#cf0b2c;color:#fff" title="red.550 #cf0b2c"><span>550 ★</span><small>#cf0b2c</small></div>
+<div class="sw" style="background:#b80024;color:#fff" title="red.600 #b80024"><span>600</span><small>#b80024</small></div>
+<div class="sw" style="background:#a1001e;color:#fff" title="red.650 #a1001e"><span>650</span><small>#a1001e</small></div>
+<div class="sw" style="background:#8a0018;color:#fff" title="red.700 #8a0018"><span>700</span><small>#8a0018</small></div>
+<div class="sw" style="background:#730013;color:#fff" title="red.750 #730013"><span>750</span><small>#730013</small></div>
+<div class="sw" style="background:#5e000d;color:#fff" title="red.800 #5e000d"><span>800</span><small>#5e000d</small></div>
+<div class="sw" style="background:#490008;color:#fff" title="red.850 #490008"><span>850</span><small>#490008</small></div>
+<div class="sw" style="background:#350004;color:#fff" title="red.900 #350004"><span>900</span><small>#350004</small></div>
+<div class="sw" style="background:#230002;color:#fff" title="red.950 #230002"><span>950</span><small>#230002</small></div>
+</div></div>
+<div class="palette"><div class="plabel">green</div><div class="ramp">
+<div class="sw" style="background:#f4f8f4;color:#111" title="green.025 #f4f8f4"><span>025</span><small>#f4f8f4</small></div>
+<div class="sw" style="background:#e2ebe4;color:#111" title="green.050 #e2ebe4"><span>050</span><small>#e2ebe4</small></div>
+<div class="sw" style="background:#cfded2;color:#111" title="green.100 #cfded2"><span>100</span><small>#cfded2</small></div>
+<div class="sw" style="background:#bcd2c1;color:#111" title="green.150 #bcd2c1"><span>150</span><small>#bcd2c1</small></div>
+<div class="sw" style="background:#a8c6af;color:#111" title="green.200 #a8c6af"><span>200</span><small>#a8c6af</small></div>
+<div class="sw" style="background:#94bb9d;color:#111" title="green.250 #94bb9d"><span>250</span><small>#94bb9d</small></div>
+<div class="sw" style="background:#7faf8b;color:#111" title="green.300 #7faf8b"><span>300</span><small>#7faf8b</small></div>
+<div class="sw" style="background:#69a479;color:#111" title="green.350 #69a479"><span>350</span><small>#69a479</small></div>
+<div class="sw" style="background:#529867;color:#fff" title="green.400 #529867"><span>400</span><small>#529867</small></div>
+<div class="sw" style="background:#388d55;color:#fff" title="green.450 #388d55"><span>450</span><small>#388d55</small></div>
+<div class="sw" style="background:#0e8243;color:#fff" title="green.500 #0e8243"><span>500</span><small>#0e8243</small></div>
+<div class="sw" style="background:#05743a;color:#fff" title="green.550 #05743a"><span>550</span><small>#05743a</small></div>
+<div class="sw" style="background:#006732;color:#fff" title="green.600 #006732"><span>600</span><small>#006732</small></div>
+<div class="sw" style="background:#005a2b;color:#fff" title="green.650 #005a2b"><span>650</span><small>#005a2b</small></div>
+<div class="sw" style="background:#004d23;color:#fff" title="green.700 #004d23"><span>700</span><small>#004d23</small></div>
+<div class="sw" style="background:#00401d;color:#fff" title="green.750 #00401d"><span>750</span><small>#00401d</small></div>
+<div class="sw" style="background:#003416;color:#fff" title="green.800 #003416"><span>800</span><small>#003416</small></div>
+<div class="sw" style="background:#00280f;color:#fff" title="green.850 #00280f"><span>850</span><small>#00280f</small></div>
+<div class="sw" style="background:#001d09;color:#fff" title="green.900 #001d09"><span>900</span><small>#001d09</small></div>
+<div class="sw" style="background:#001205;color:#fff" title="green.950 #001205"><span>950</span><small>#001205</small></div>
+</div></div>
+<div class="palette"><div class="plabel">amber</div><div class="ramp">
+<div class="sw" style="background:#faf6f2;color:#111" title="amber.025 #faf6f2"><span>025</span><small>#faf6f2</small></div>
+<div class="sw" style="background:#f1e8e1;color:#111" title="amber.050 #f1e8e1"><span>050</span><small>#f1e8e1</small></div>
+<div class="sw" style="background:#e9d9ce;color:#111" title="amber.100 #e9d9ce"><span>100</span><small>#e9d9ce</small></div>
+<div class="sw" style="background:#e1cbba;color:#111" title="amber.150 #e1cbba"><span>150</span><small>#e1cbba</small></div>
+<div class="sw" style="background:#dabca6;color:#111" title="amber.200 #dabca6"><span>200</span><small>#dabca6</small></div>
+<div class="sw" style="background:#d4ae91;color:#111" title="amber.250 #d4ae91"><span>250</span><small>#d4ae91</small></div>
+<div class="sw" style="background:#cd9f7b;color:#111" title="amber.300 #cd9f7b"><span>300</span><small>#cd9f7b</small></div>
+<div class="sw" style="background:#c79065;color:#111" title="amber.350 #c79065"><span>350</span><small>#c79065</small></div>
+<div class="sw" style="background:#c0814d;color:#fff" title="amber.400 #c0814d"><span>400</span><small>#c0814d</small></div>
+<div class="sw" style="background:#ba7232;color:#fff" title="amber.450 #ba7232"><span>450</span><small>#ba7232</small></div>
+<div class="sw" style="background:#b36203;color:#fff" title="amber.500 #b36203"><span>500</span><small>#b36203</small></div>
+<div class="sw" style="background:#a05700;color:#fff" title="amber.550 #a05700"><span>550</span><small>#a05700</small></div>
+<div class="sw" style="background:#8d4c00;color:#fff" title="amber.600 #8d4c00"><span>600</span><small>#8d4c00</small></div>
+<div class="sw" style="background:#7b4100;color:#fff" title="amber.650 #7b4100"><span>650</span><small>#7b4100</small></div>
+<div class="sw" style="background:#693700;color:#fff" title="amber.700 #693700"><span>700</span><small>#693700</small></div>
+<div class="sw" style="background:#582d00;color:#fff" title="amber.750 #582d00"><span>750</span><small>#582d00</small></div>
+<div class="sw" style="background:#472300;color:#fff" title="amber.800 #472300"><span>800</span><small>#472300</small></div>
+<div class="sw" style="background:#371a00;color:#fff" title="amber.850 #371a00"><span>850</span><small>#371a00</small></div>
+<div class="sw" style="background:#281100;color:#fff" title="amber.900 #281100"><span>900</span><small>#281100</small></div>
+<div class="sw" style="background:#190800;color:#fff" title="amber.950 #190800"><span>950</span><small>#190800</small></div>
+</div></div>
+<div class="palette"><div class="plabel">neutral</div><div class="ramp">
+<div class="sw" style="background:#f6f7f7;color:#111" title="neutral.025 #f6f7f7"><span>025</span><small>#f6f7f7</small></div>
+<div class="sw" style="background:#e8e9ea;color:#111" title="neutral.050 #e8e9ea"><span>050</span><small>#e8e9ea</small></div>
+<div class="sw" style="background:#dadcdd;color:#111" title="neutral.100 #dadcdd"><span>100</span><small>#dadcdd</small></div>
+<div class="sw" style="background:#ccced1;color:#111" title="neutral.150 #ccced1"><span>150</span><small>#ccced1</small></div>
+<div class="sw" style="background:#bec1c4;color:#111" title="neutral.200 #bec1c4"><span>200</span><small>#bec1c4</small></div>
+<div class="sw" style="background:#b1b4b8;color:#111" title="neutral.250 #b1b4b8"><span>250</span><small>#b1b4b8</small></div>
+<div class="sw" style="background:#a3a8ab;color:#111" title="neutral.300 #a3a8ab"><span>300</span><small>#a3a8ab</small></div>
+<div class="sw" style="background:#969b9f;color:#111" title="neutral.350 #969b9f"><span>350</span><small>#969b9f</small></div>
+<div class="sw" style="background:#898f93;color:#111" title="neutral.400 #898f93"><span>400</span><small>#898f93</small></div>
+<div class="sw" style="background:#7d8387;color:#fff" title="neutral.450 #7d8387"><span>450</span><small>#7d8387</small></div>
+<div class="sw" style="background:#70767c;color:#fff" title="neutral.500 #70767c"><span>500</span><small>#70767c</small></div>
+<div class="sw" style="background:#636a6f;color:#fff" title="neutral.550 #636a6f"><span>550</span><small>#636a6f</small></div>
+<div class="sw" style="background:#565d62;color:#fff" title="neutral.600 #565d62"><span>600</span><small>#565d62</small></div>
+<div class="sw" style="background:#4b5055;color:#fff" title="neutral.650 #4b5055"><span>650</span><small>#4b5055</small></div>
+<div class="sw" style="background:#3f4449;color:#fff" title="neutral.700 #3f4449"><span>700</span><small>#3f4449</small></div>
+<div class="sw" style="background:#34383c;color:#fff" title="neutral.750 #34383c"><span>750</span><small>#34383c</small></div>
+<div class="sw" style="background:#292d30;color:#fff" title="neutral.800 #292d30"><span>800</span><small>#292d30</small></div>
+<div class="sw" style="background:#1f2224;color:#fff" title="neutral.850 #1f2224"><span>850</span><small>#1f2224</small></div>
+<div class="sw" style="background:#151719;color:#fff" title="neutral.900 #151719"><span>900</span><small>#151719</small></div>
+<div class="sw" style="background:#0c0d0f;color:#fff" title="neutral.950 #0c0d0f"><span>950</span><small>#0c0d0f</small></div>
+</div></div>
+<h3>Semantic roles <span class="muted">(resolved per mode)</span></h3>
+<table class="sem"><thead><tr><th>role</th><th>light</th><th>dark</th><th>hc-light</th><th>hc-dark</th></tr></thead><tbody>
+<tr><td class="rk">text.primary</td>
+<td class="cell" style="background:#0c0d0f;color:#fff"><span>neutral.950</span><small>#0c0d0f · 19.44:1</small></td>
+<td class="cell" style="background:#f6f7f7;color:#111"><span>neutral.025</span><small>#f6f7f7 · 18.11:1</small></td>
+<td class="cell" style="background:#000000;color:#fff"><span>black</span><small>#000000 · 21:1</small></td>
+<td class="cell" style="background:#ffffff;color:#111"><span>white</span><small>#ffffff · 21:1</small></td>
+</tr>
+<tr><td class="rk">text.secondary</td>
+<td class="cell" style="background:#70767c;color:#fff"><span>neutral.500</span><small>#70767c · 4.59:1</small></td>
+<td class="cell" style="background:#7d8387;color:#fff"><span>neutral.450</span><small>#7d8387 · 5.06:1</small></td>
+<td class="cell" style="background:#4b5055;color:#fff"><span>neutral.650</span><small>#4b5055 · 8.15:1</small></td>
+<td class="cell" style="background:#969b9f;color:#111"><span>neutral.350</span><small>#969b9f · 7.49:1</small></td>
+</tr>
+<tr><td class="rk">text.inverse</td>
+<td class="cell" style="background:#f6f7f7;color:#111"><span>neutral.025</span><small>#f6f7f7 · 19.57:1</small></td>
+<td class="cell" style="background:#0c0d0f;color:#fff"><span>neutral.950</span><small>#0c0d0f · 19.44:1</small></td>
+<td class="cell" style="background:#ffffff;color:#111"><span>white</span><small>#ffffff · 21:1</small></td>
+<td class="cell" style="background:#000000;color:#fff"><span>black</span><small>#000000 · 21:1</small></td>
+</tr>
+<tr><td class="rk">surface.default</td>
+<td class="cell" style="background:#ffffff;color:#111"><span>white</span><small>#ffffff · 1:1</small></td>
+<td class="cell" style="background:#0c0d0f;color:#fff"><span>neutral.950</span><small>#0c0d0f · 1:1</small></td>
+<td class="cell" style="background:#ffffff;color:#111"><span>white</span><small>#ffffff · 1:1</small></td>
+<td class="cell" style="background:#000000;color:#fff"><span>black</span><small>#000000 · 1:1</small></td>
+</tr>
+<tr><td class="rk">surface.sunken</td>
+<td class="cell" style="background:#e8e9ea;color:#111"><span>neutral.050</span><small>#e8e9ea · 1:1</small></td>
+<td class="cell" style="background:#000000;color:#fff"><span>black</span><small>#000000 · 1:1</small></td>
+<td class="cell" style="background:#e8e9ea;color:#111"><span>neutral.050</span><small>#e8e9ea · 1:1</small></td>
+<td class="cell" style="background:#0c0d0f;color:#fff"><span>neutral.950</span><small>#0c0d0f · 1:1</small></td>
+</tr>
+<tr><td class="rk">border.default</td>
+<td class="cell" style="background:#dadcdd;color:#111"><span>neutral.100</span><small>#dadcdd · 1.38:1</small></td>
+<td class="cell" style="background:#34383c;color:#fff"><span>neutral.750</span><small>#34383c · 1.65:1</small></td>
+<td class="cell" style="background:#70767c;color:#fff"><span>neutral.500</span><small>#70767c · 4.59:1</small></td>
+<td class="cell" style="background:#70767c;color:#fff"><span>neutral.500</span><small>#70767c · 4.57:1</small></td>
+</tr>
+<tr><td class="rk">border.strong</td>
+<td class="cell" style="background:#898f93;color:#111"><span>neutral.400</span><small>#898f93 · 3.27:1</small></td>
+<td class="cell" style="background:#70767c;color:#fff"><span>neutral.500</span><small>#70767c · 4.23:1</small></td>
+<td class="cell" style="background:#3f4449;color:#fff"><span>neutral.700</span><small>#3f4449 · 9.84:1</small></td>
+<td class="cell" style="background:#b1b4b8;color:#111"><span>neutral.250</span><small>#b1b4b8 · 10.09:1</small></td>
+</tr>
+<tr><td class="rk">action.primary</td>
+<td class="cell" style="background:#cf0b2c;color:#fff"><span>red.550</span><small>#cf0b2c · 5.62:1</small></td>
+<td class="cell" style="background:#da5657;color:#fff"><span>red.450</span><small>#da5657 · 5.05:1</small></td>
+<td class="cell" style="background:#a1001e;color:#fff"><span>red.650</span><small>#a1001e · 8.29:1</small></td>
+<td class="cell" style="background:#e17f7b;color:#111"><span>red.350</span><small>#e17f7b · 7.52:1</small></td>
+</tr>
+<tr><td class="rk">status.success</td>
+<td class="cell" style="background:#0e8243;color:#fff"><span>green.500</span><small>#0e8243 · 4.89:1</small></td>
+<td class="cell" style="background:#388d55;color:#fff"><span>green.450</span><small>#388d55 · 4.73:1</small></td>
+<td class="cell" style="background:#006732;color:#fff"><span>green.600</span><small>#006732 · 7.03:1</small></td>
+<td class="cell" style="background:#69a479;color:#111"><span>green.350</span><small>#69a479 · 7.19:1</small></td>
+</tr>
+<tr><td class="rk">status.warning</td>
+<td class="cell" style="background:#b36203;color:#fff"><span>amber.500</span><small>#b36203 · 4.5:1</small></td>
+<td class="cell" style="background:#ba7232;color:#fff"><span>amber.450</span><small>#ba7232 · 5.13:1</small></td>
+<td class="cell" style="background:#7b4100;color:#fff"><span>amber.650</span><small>#7b4100 · 8.08:1</small></td>
+<td class="cell" style="background:#c79065;color:#111"><span>amber.350</span><small>#c79065 · 7.61:1</small></td>
+</tr>
+<tr><td class="rk">status.danger</td>
+<td class="cell" style="background:#cf0b2c;color:#fff"><span>red.550</span><small>#cf0b2c · 5.62:1</small></td>
+<td class="cell" style="background:#da5657;color:#fff"><span>red.450</span><small>#da5657 · 5.05:1</small></td>
+<td class="cell" style="background:#a1001e;color:#fff"><span>red.650</span><small>#a1001e · 8.29:1</small></td>
+<td class="cell" style="background:#e17f7b;color:#111"><span>red.350</span><small>#e17f7b · 7.52:1</small></td>
+</tr>
+</tbody></table>
+<h3>Dimension grid <span class="muted">37 primitives</span></h3><div class="bars">
+<div class="barrow"><span class="bk">0</span><div class="bar" style="width:0px"></div></div>
+<div class="barrow"><span class="bk">1</span><div class="bar" style="width:1px"></div></div>
+<div class="barrow"><span class="bk">2</span><div class="bar" style="width:2px"></div></div>
+<div class="barrow"><span class="bk">4</span><div class="bar" style="width:4px"></div></div>
+<div class="barrow"><span class="bk">6</span><div class="bar" style="width:6px"></div></div>
+<div class="barrow"><span class="bk">8</span><div class="bar" style="width:8px"></div></div>
+<div class="barrow"><span class="bk">12</span><div class="bar" style="width:12px"></div></div>
+<div class="barrow"><span class="bk">16</span><div class="bar" style="width:16px"></div></div>
+<div class="barrow"><span class="bk">20</span><div class="bar" style="width:20px"></div></div>
+<div class="barrow"><span class="bk">24</span><div class="bar" style="width:24px"></div></div>
+<div class="barrow"><span class="bk">28</span><div class="bar" style="width:28px"></div></div>
+<div class="barrow"><span class="bk">32</span><div class="bar" style="width:32px"></div></div>
+<div class="barrow"><span class="bk">36</span><div class="bar" style="width:36px"></div></div>
+<div class="barrow"><span class="bk">40</span><div class="bar" style="width:40px"></div></div>
+<div class="barrow"><span class="bk">44</span><div class="bar" style="width:44px"></div></div>
+<div class="barrow"><span class="bk">48</span><div class="bar" style="width:48px"></div></div>
+<div class="barrow"><span class="bk">52</span><div class="bar" style="width:52px"></div></div>
+<div class="barrow"><span class="bk">56</span><div class="bar" style="width:56px"></div></div>
+<div class="barrow"><span class="bk">60</span><div class="bar" style="width:60px"></div></div>
+<div class="barrow"><span class="bk">64</span><div class="bar" style="width:64px"></div></div>
+<div class="barrow"><span class="bk">68</span><div class="bar" style="width:68px"></div></div>
+<div class="barrow"><span class="bk">72</span><div class="bar" style="width:72px"></div></div>
+<div class="barrow"><span class="bk">76</span><div class="bar" style="width:76px"></div></div>
+<div class="barrow"><span class="bk">80</span><div class="bar" style="width:80px"></div></div>
+<div class="barrow"><span class="bk">84</span><div class="bar" style="width:84px"></div></div>
+<div class="barrow"><span class="bk">88</span><div class="bar" style="width:88px"></div></div>
+<div class="barrow"><span class="bk">92</span><div class="bar" style="width:92px"></div></div>
+<div class="barrow"><span class="bk">96</span><div class="bar" style="width:96px"></div></div>
+<div class="barrow"><span class="bk">100</span><div class="bar" style="width:100px"></div></div>
+<div class="barrow"><span class="bk">104</span><div class="bar" style="width:104px"></div></div>
+<div class="barrow"><span class="bk">108</span><div class="bar" style="width:108px"></div></div>
+<div class="barrow"><span class="bk">112</span><div class="bar" style="width:112px"></div></div>
+<div class="barrow"><span class="bk">116</span><div class="bar" style="width:116px"></div></div>
+<div class="barrow"><span class="bk">120</span><div class="bar" style="width:120px"></div></div>
+<div class="barrow"><span class="bk">124</span><div class="bar" style="width:124px"></div></div>
+<div class="barrow"><span class="bk">128</span><div class="bar" style="width:128px"></div></div>
+<div class="barrow"><span class="bk">720</span><div class="bar" style="width:200px"></div></div>
+</div>
+<h3>Space <span class="muted">density: comfortable</span></h3><div class="bars">
+<div class="barrow"><span class="bk">4xs</span><div class="bar sp" style="width:4px"></div><span class="bv">4px</span></div>
+<div class="barrow"><span class="bk">3xs</span><div class="bar sp" style="width:8px"></div><span class="bv">8px</span></div>
+<div class="barrow"><span class="bk">2xs</span><div class="bar sp" style="width:12px"></div><span class="bv">12px</span></div>
+<div class="barrow"><span class="bk">xs</span><div class="bar sp" style="width:16px"></div><span class="bv">16px</span></div>
+<div class="barrow"><span class="bk">sm</span><div class="bar sp" style="width:24px"></div><span class="bv">24px</span></div>
+<div class="barrow"><span class="bk">md</span><div class="bar sp" style="width:32px"></div><span class="bv">32px</span></div>
+<div class="barrow"><span class="bk">lg</span><div class="bar sp" style="width:48px"></div><span class="bv">48px</span></div>
+<div class="barrow"><span class="bk">xl</span><div class="bar sp" style="width:64px"></div><span class="bv">64px</span></div>
+<div class="barrow"><span class="bk">2xl</span><div class="bar sp" style="width:96px"></div><span class="bv">96px</span></div>
+<div class="barrow"><span class="bk">3xl</span><div class="bar sp" style="width:128px"></div><span class="bv">128px</span></div>
+</div>
+<h3>Radius <span class="muted">scale: 1</span></h3><div class="radii">
+<div class="rcell"><div class="rbox" style="border-radius:0px"></div><span>none</span><small>0px</small></div>
+<div class="rcell"><div class="rbox" style="border-radius:2px"></div><span>sm</span><small>2px</small></div>
+<div class="rcell"><div class="rbox" style="border-radius:4px"></div><span>md</span><small>4px</small></div>
+<div class="rcell"><div class="rbox" style="border-radius:6px"></div><span>lg</span><small>6px</small></div>
+<div class="rcell"><div class="rbox" style="border-radius:48px"></div><span>round</span><small>128px</small></div>
+</div>
+</section>
+<section><h2>aurora <span class="muted">prism.* / hex</span></h2>
+<h3>Colour primitives</h3>
+<div class="palette"><div class="plabel">primary</div><div class="ramp">
+<div class="sw" style="background:#f6f6fd;color:#111" title="primary.025 #f6f6fd"><span>025</span><small>#f6f6fd</small></div>
+<div class="sw" style="background:#e8e8f4;color:#111" title="primary.050 #e8e8f4"><span>050</span><small>#e8e8f4</small></div>
+<div class="sw" style="background:#dadaed;color:#111" title="primary.100 #dadaed"><span>100</span><small>#dadaed</small></div>
+<div class="sw" style="background:#cccce8;color:#111" title="primary.150 #cccce8"><span>150</span><small>#cccce8</small></div>
+<div class="sw" style="background:#bebee3;color:#111" title="primary.200 #bebee3"><span>200</span><small>#bebee3</small></div>
+<div class="sw" style="background:#b1b0de;color:#111" title="primary.250 #b1b0de"><span>250</span><small>#b1b0de</small></div>
+<div class="sw" style="background:#a3a2da;color:#111" title="primary.300 #a3a2da"><span>300</span><small>#a3a2da</small></div>
+<div class="sw" style="background:#9694d6;color:#111" title="primary.350 #9694d6"><span>350</span><small>#9694d6</small></div>
+<div class="sw" style="background:#8a86d2;color:#111" title="primary.400 #8a86d2"><span>400</span><small>#8a86d2</small></div>
+<div class="sw" style="background:#7d77ce;color:#fff" title="primary.450 #7d77ce"><span>450</span><small>#7d77ce</small></div>
+<div class="sw" style="background:#7269ca;color:#fff" title="primary.500 #7269ca"><span>500</span><small>#7269ca</small></div>
+<div class="sw" style="background:#5e4bc3;color:#fff" title="primary.550 #5e4bc3"><span>550 ★</span><small>#5e4bc3</small></div>
+<div class="sw" style="background:#5241af;color:#fff" title="primary.600 #5241af"><span>600</span><small>#5241af</small></div>
+<div class="sw" style="background:#47379b;color:#fff" title="primary.650 #47379b"><span>650</span><small>#47379b</small></div>
+<div class="sw" style="background:#3d2d87;color:#fff" title="primary.700 #3d2d87"><span>700</span><small>#3d2d87</small></div>
+<div class="sw" style="background:#322474;color:#fff" title="primary.750 #322474"><span>750</span><small>#322474</small></div>
+<div class="sw" style="background:#281b61;color:#fff" title="primary.800 #281b61"><span>800</span><small>#281b61</small></div>
+<div class="sw" style="background:#1f124f;color:#fff" title="primary.850 #1f124f"><span>850</span><small>#1f124f</small></div>
+<div class="sw" style="background:#15093e;color:#fff" title="primary.900 #15093e"><span>900</span><small>#15093e</small></div>
+<div class="sw" style="background:#0d032d;color:#fff" title="primary.950 #0d032d"><span>950</span><small>#0d032d</small></div>
+</div></div>
+<div class="palette"><div class="plabel">neutral</div><div class="ramp">
+<div class="sw" style="background:#f7f7f7;color:#111" title="neutral.025 #f7f7f7"><span>025</span><small>#f7f7f7</small></div>
+<div class="sw" style="background:#e9e9ea;color:#111" title="neutral.050 #e9e9ea"><span>050</span><small>#e9e9ea</small></div>
+<div class="sw" style="background:#dbdbdd;color:#111" title="neutral.100 #dbdbdd"><span>100</span><small>#dbdbdd</small></div>
+<div class="sw" style="background:#ceced0;color:#111" title="neutral.150 #ceced0"><span>150</span><small>#ceced0</small></div>
+<div class="sw" style="background:#c1c1c3;color:#111" title="neutral.200 #c1c1c3"><span>200</span><small>#c1c1c3</small></div>
+<div class="sw" style="background:#b4b4b6;color:#111" title="neutral.250 #b4b4b6"><span>250</span><small>#b4b4b6</small></div>
+<div class="sw" style="background:#a7a7aa;color:#111" title="neutral.300 #a7a7aa"><span>300</span><small>#a7a7aa</small></div>
+<div class="sw" style="background:#9a9a9e;color:#111" title="neutral.350 #9a9a9e"><span>350</span><small>#9a9a9e</small></div>
+<div class="sw" style="background:#8e8e92;color:#111" title="neutral.400 #8e8e92"><span>400</span><small>#8e8e92</small></div>
+<div class="sw" style="background:#818286;color:#fff" title="neutral.450 #818286"><span>450</span><small>#818286</small></div>
+<div class="sw" style="background:#75767a;color:#fff" title="neutral.500 #75767a"><span>500</span><small>#75767a</small></div>
+<div class="sw" style="background:#68686d;color:#fff" title="neutral.550 #68686d"><span>550</span><small>#68686d</small></div>
+<div class="sw" style="background:#5c5c61;color:#fff" title="neutral.600 #5c5c61"><span>600</span><small>#5c5c61</small></div>
+<div class="sw" style="background:#4f4f54;color:#fff" title="neutral.650 #4f4f54"><span>650</span><small>#4f4f54</small></div>
+<div class="sw" style="background:#434347;color:#fff" title="neutral.700 #434347"><span>700</span><small>#434347</small></div>
+<div class="sw" style="background:#38383b;color:#fff" title="neutral.750 #38383b"><span>750</span><small>#38383b</small></div>
+<div class="sw" style="background:#2c2c2f;color:#fff" title="neutral.800 #2c2c2f"><span>800</span><small>#2c2c2f</small></div>
+<div class="sw" style="background:#212124;color:#fff" title="neutral.850 #212124"><span>850</span><small>#212124</small></div>
+<div class="sw" style="background:#171719;color:#fff" title="neutral.900 #171719"><span>900</span><small>#171719</small></div>
+<div class="sw" style="background:#0d0d0e;color:#fff" title="neutral.950 #0d0d0e"><span>950</span><small>#0d0d0e</small></div>
+</div></div>
+<div class="palette"><div class="plabel">success</div><div class="ramp">
+<div class="sw" style="background:#f4f8f4;color:#111" title="success.025 #f4f8f4"><span>025</span><small>#f4f8f4</small></div>
+<div class="sw" style="background:#d5f2d4;color:#111" title="success.050 #d5f2d4"><span>050</span><small>#d5f2d4</small></div>
+<div class="sw" style="background:#abefac;color:#111" title="success.100 #abefac"><span>100</span><small>#abefac</small></div>
+<div class="sw" style="background:#8ce790;color:#111" title="success.150 #8ce790"><span>150</span><small>#8ce790</small></div>
+<div class="sw" style="background:#81d885;color:#111" title="success.200 #81d885"><span>200</span><small>#81d885</small></div>
+<div class="sw" style="background:#76c97a;color:#111" title="success.250 #76c97a"><span>250</span><small>#76c97a</small></div>
+<div class="sw" style="background:#6cbb6f;color:#111" title="success.300 #6cbb6f"><span>300</span><small>#6cbb6f</small></div>
+<div class="sw" style="background:#61ad65;color:#111" title="success.350 #61ad65"><span>350</span><small>#61ad65</small></div>
+<div class="sw" style="background:#579f5b;color:#fff" title="success.400 #579f5b"><span>400</span><small>#579f5b</small></div>
+<div class="sw" style="background:#4d9151;color:#fff" title="success.450 #4d9151"><span>450</span><small>#4d9151</small></div>
+<div class="sw" style="background:#438347;color:#fff" title="success.500 #438347"><span>500</span><small>#438347</small></div>
+<div class="sw" style="background:#39763d;color:#fff" title="success.550 #39763d"><span>550</span><small>#39763d</small></div>
+<div class="sw" style="background:#2f6833;color:#fff" title="success.600 #2f6833"><span>600</span><small>#2f6833</small></div>
+<div class="sw" style="background:#255b29;color:#fff" title="success.650 #255b29"><span>650</span><small>#255b29</small></div>
+<div class="sw" style="background:#1b4e20;color:#fff" title="success.700 #1b4e20"><span>700</span><small>#1b4e20</small></div>
+<div class="sw" style="background:#124217;color:#fff" title="success.750 #124217"><span>750</span><small>#124217</small></div>
+<div class="sw" style="background:#07360e;color:#fff" title="success.800 #07360e"><span>800</span><small>#07360e</small></div>
+<div class="sw" style="background:#002a05;color:#fff" title="success.850 #002a05"><span>850</span><small>#002a05</small></div>
+<div class="sw" style="background:#001e03;color:#fff" title="success.900 #001e03"><span>900</span><small>#001e03</small></div>
+<div class="sw" style="background:#001301;color:#fff" title="success.950 #001301"><span>950</span><small>#001301</small></div>
+</div></div>
+<div class="palette"><div class="plabel">warning</div><div class="ramp">
+<div class="sw" style="background:#faf6f1;color:#111" title="warning.025 #faf6f1"><span>025</span><small>#faf6f1</small></div>
+<div class="sw" style="background:#f5e7d5;color:#111" title="warning.050 #f5e7d5"><span>050</span><small>#f5e7d5</small></div>
+<div class="sw" style="background:#f4d7b0;color:#111" title="warning.100 #f4d7b0"><span>100</span><small>#f4d7b0</small></div>
+<div class="sw" style="background:#f4c686;color:#111" title="warning.150 #f4c686"><span>150</span><small>#f4c686</small></div>
+<div class="sw" style="background:#f5b450;color:#111" title="warning.200 #f5b450"><span>200</span><small>#f5b450</small></div>
+<div class="sw" style="background:#eba634;color:#111" title="warning.250 #eba634"><span>250</span><small>#eba634</small></div>
+<div class="sw" style="background:#db992b;color:#111" title="warning.300 #db992b"><span>300</span><small>#db992b</small></div>
+<div class="sw" style="background:#cc8d22;color:#111" title="warning.350 #cc8d22"><span>350</span><small>#cc8d22</small></div>
+<div class="sw" style="background:#bd8218;color:#fff" title="warning.400 #bd8218"><span>400</span><small>#bd8218</small></div>
+<div class="sw" style="background:#ae760d;color:#fff" title="warning.450 #ae760d"><span>450</span><small>#ae760d</small></div>
+<div class="sw" style="background:#9f6b00;color:#fff" title="warning.500 #9f6b00"><span>500</span><small>#9f6b00</small></div>
+<div class="sw" style="background:#8e5f00;color:#fff" title="warning.550 #8e5f00"><span>550</span><small>#8e5f00</small></div>
+<div class="sw" style="background:#7e5300;color:#fff" title="warning.600 #7e5300"><span>600</span><small>#7e5300</small></div>
+<div class="sw" style="background:#6d4800;color:#fff" title="warning.650 #6d4800"><span>650</span><small>#6d4800</small></div>
+<div class="sw" style="background:#5d3d00;color:#fff" title="warning.700 #5d3d00"><span>700</span><small>#5d3d00</small></div>
+<div class="sw" style="background:#4e3200;color:#fff" title="warning.750 #4e3200"><span>750</span><small>#4e3200</small></div>
+<div class="sw" style="background:#3f2700;color:#fff" title="warning.800 #3f2700"><span>800</span><small>#3f2700</small></div>
+<div class="sw" style="background:#301d00;color:#fff" title="warning.850 #301d00"><span>850</span><small>#301d00</small></div>
+<div class="sw" style="background:#231400;color:#fff" title="warning.900 #231400"><span>900</span><small>#231400</small></div>
+<div class="sw" style="background:#160b00;color:#fff" title="warning.950 #160b00"><span>950</span><small>#160b00</small></div>
+</div></div>
+<div class="palette"><div class="plabel">danger</div><div class="ramp">
+<div class="sw" style="background:#fcf5f4;color:#111" title="danger.025 #fcf5f4"><span>025</span><small>#fcf5f4</small></div>
+<div class="sw" style="background:#f6e6e3;color:#111" title="danger.050 #f6e6e3"><span>050</span><small>#f6e6e3</small></div>
+<div class="sw" style="background:#f2d5d2;color:#111" title="danger.100 #f2d5d2"><span>100</span><small>#f2d5d2</small></div>
+<div class="sw" style="background:#eec5bf;color:#111" title="danger.150 #eec5bf"><span>150</span><small>#eec5bf</small></div>
+<div class="sw" style="background:#ecb4ac;color:#111" title="danger.200 #ecb4ac"><span>200</span><small>#ecb4ac</small></div>
+<div class="sw" style="background:#e9a299;color:#111" title="danger.250 #e9a299"><span>250</span><small>#e9a299</small></div>
+<div class="sw" style="background:#e69086;color:#111" title="danger.300 #e69086"><span>300</span><small>#e69086</small></div>
+<div class="sw" style="background:#e37d72;color:#111" title="danger.350 #e37d72"><span>350</span><small>#e37d72</small></div>
+<div class="sw" style="background:#e0695e;color:#fff" title="danger.400 #e0695e"><span>400</span><small>#e0695e</small></div>
+<div class="sw" style="background:#d9554c;color:#fff" title="danger.450 #d9554c"><span>450</span><small>#d9554c</small></div>
+<div class="sw" style="background:#c94c44;color:#fff" title="danger.500 #c94c44"><span>500</span><small>#c94c44</small></div>
+<div class="sw" style="background:#b5413a;color:#fff" title="danger.550 #b5413a"><span>550</span><small>#b5413a</small></div>
+<div class="sw" style="background:#a13731;color:#fff" title="danger.600 #a13731"><span>600</span><small>#a13731</small></div>
+<div class="sw" style="background:#8e2d27;color:#fff" title="danger.650 #8e2d27"><span>650</span><small>#8e2d27</small></div>
+<div class="sw" style="background:#7b231f;color:#fff" title="danger.700 #7b231f"><span>700</span><small>#7b231f</small></div>
+<div class="sw" style="background:#691916;color:#fff" title="danger.750 #691916"><span>750</span><small>#691916</small></div>
+<div class="sw" style="background:#570f0d;color:#fff" title="danger.800 #570f0d"><span>800</span><small>#570f0d</small></div>
+<div class="sw" style="background:#460506;color:#fff" title="danger.850 #460506"><span>850</span><small>#460506</small></div>
+<div class="sw" style="background:#350001;color:#fff" title="danger.900 #350001"><span>900</span><small>#350001</small></div>
+<div class="sw" style="background:#230001;color:#fff" title="danger.950 #230001"><span>950</span><small>#230001</small></div>
+</div></div>
+<h3>Semantic roles <span class="muted">(resolved per mode)</span></h3>
+<table class="sem"><thead><tr><th>role</th><th>light</th><th>dark</th><th>hc-light</th><th>hc-dark</th></tr></thead><tbody>
+<tr><td class="rk">text.primary</td>
+<td class="cell" style="background:#0d0d0e;color:#fff"><span>neutral.950</span><small>#0d0d0e · 19.43:1</small></td>
+<td class="cell" style="background:#f7f7f7;color:#111"><span>neutral.025</span><small>#f7f7f7 · 18.13:1</small></td>
+<td class="cell" style="background:#000000;color:#fff"><span>black</span><small>#000000 · 21:1</small></td>
+<td class="cell" style="background:#ffffff;color:#111"><span>white</span><small>#ffffff · 21:1</small></td>
+</tr>
+<tr><td class="rk">text.secondary</td>
+<td class="cell" style="background:#75767a;color:#fff"><span>neutral.500</span><small>#75767a · 4.54:1</small></td>
+<td class="cell" style="background:#818286;color:#fff"><span>neutral.450</span><small>#818286 · 5.06:1</small></td>
+<td class="cell" style="background:#4f4f54;color:#fff"><span>neutral.650</span><small>#4f4f54 · 8.14:1</small></td>
+<td class="cell" style="background:#9a9a9e;color:#111"><span>neutral.350</span><small>#9a9a9e · 7.49:1</small></td>
+</tr>
+<tr><td class="rk">text.inverse</td>
+<td class="cell" style="background:#f7f7f7;color:#111"><span>neutral.025</span><small>#f7f7f7 · 19.6:1</small></td>
+<td class="cell" style="background:#0d0d0e;color:#fff"><span>neutral.950</span><small>#0d0d0e · 19.43:1</small></td>
+<td class="cell" style="background:#ffffff;color:#111"><span>white</span><small>#ffffff · 21:1</small></td>
+<td class="cell" style="background:#000000;color:#fff"><span>black</span><small>#000000 · 21:1</small></td>
+</tr>
+<tr><td class="rk">surface.default</td>
+<td class="cell" style="background:#ffffff;color:#111"><span>white</span><small>#ffffff · 1:1</small></td>
+<td class="cell" style="background:#0d0d0e;color:#fff"><span>neutral.950</span><small>#0d0d0e · 1:1</small></td>
+<td class="cell" style="background:#ffffff;color:#111"><span>white</span><small>#ffffff · 1:1</small></td>
+<td class="cell" style="background:#000000;color:#fff"><span>black</span><small>#000000 · 1:1</small></td>
+</tr>
+<tr><td class="rk">surface.sunken</td>
+<td class="cell" style="background:#e9e9ea;color:#111"><span>neutral.050</span><small>#e9e9ea · 1:1</small></td>
+<td class="cell" style="background:#000000;color:#fff"><span>black</span><small>#000000 · 1:1</small></td>
+<td class="cell" style="background:#e9e9ea;color:#111"><span>neutral.050</span><small>#e9e9ea · 1:1</small></td>
+<td class="cell" style="background:#0d0d0e;color:#fff"><span>neutral.950</span><small>#0d0d0e · 1:1</small></td>
+</tr>
+<tr><td class="rk">border.default</td>
+<td class="cell" style="background:#dbdbdd;color:#111"><span>neutral.100</span><small>#dbdbdd · 1.38:1</small></td>
+<td class="cell" style="background:#38383b;color:#fff"><span>neutral.750</span><small>#38383b · 1.66:1</small></td>
+<td class="cell" style="background:#75767a;color:#fff"><span>neutral.500</span><small>#75767a · 4.54:1</small></td>
+<td class="cell" style="background:#75767a;color:#fff"><span>neutral.500</span><small>#75767a · 4.63:1</small></td>
+</tr>
+<tr><td class="rk">border.strong</td>
+<td class="cell" style="background:#8e8e92;color:#111"><span>neutral.400</span><small>#8e8e92 · 3.26:1</small></td>
+<td class="cell" style="background:#75767a;color:#fff"><span>neutral.500</span><small>#75767a · 4.28:1</small></td>
+<td class="cell" style="background:#434347;color:#fff"><span>neutral.700</span><small>#434347 · 9.85:1</small></td>
+<td class="cell" style="background:#b4b4b6;color:#111"><span>neutral.250</span><small>#b4b4b6 · 10.14:1</small></td>
+</tr>
+<tr><td class="rk">action.primary</td>
+<td class="cell" style="background:#5e4bc3;color:#fff"><span>primary.550</span><small>#5e4bc3 · 6.42:1</small></td>
+<td class="cell" style="background:#7d77ce;color:#fff"><span>primary.450</span><small>#7d77ce · 5:1</small></td>
+<td class="cell" style="background:#5241af;color:#fff"><span>primary.600</span><small>#5241af · 7.68:1</small></td>
+<td class="cell" style="background:#9694d6;color:#111"><span>primary.350</span><small>#9694d6 · 7.5:1</small></td>
+</tr>
+<tr><td class="rk">status.success</td>
+<td class="cell" style="background:#438347;color:#fff"><span>success.500</span><small>#438347 · 4.59:1</small></td>
+<td class="cell" style="background:#4d9151;color:#fff"><span>success.450</span><small>#4d9151 · 5.07:1</small></td>
+<td class="cell" style="background:#255b29;color:#fff"><span>success.650</span><small>#255b29 · 8.05:1</small></td>
+<td class="cell" style="background:#61ad65;color:#111"><span>success.350</span><small>#61ad65 · 7.67:1</small></td>
+</tr>
+<tr><td class="rk">status.warning</td>
+<td class="cell" style="background:#9f6b00;color:#fff"><span>warning.500</span><small>#9f6b00 · 4.59:1</small></td>
+<td class="cell" style="background:#ae760d;color:#fff"><span>warning.450</span><small>#ae760d · 4.99:1</small></td>
+<td class="cell" style="background:#6d4800;color:#fff"><span>warning.650</span><small>#6d4800 · 8.15:1</small></td>
+<td class="cell" style="background:#cc8d22;color:#111"><span>warning.350</span><small>#cc8d22 · 7.4:1</small></td>
+</tr>
+<tr><td class="rk">status.danger</td>
+<td class="cell" style="background:#c94c44;color:#fff"><span>danger.500</span><small>#c94c44 · 4.56:1</small></td>
+<td class="cell" style="background:#d9554c;color:#fff"><span>danger.450</span><small>#d9554c · 4.95:1</small></td>
+<td class="cell" style="background:#8e2d27;color:#fff"><span>danger.650</span><small>#8e2d27 · 8.22:1</small></td>
+<td class="cell" style="background:#e37d72;color:#111"><span>danger.350</span><small>#e37d72 · 7.44:1</small></td>
+</tr>
+</tbody></table>
+<h3>Dimension grid <span class="muted">36 primitives</span></h3><div class="bars">
+<div class="barrow"><span class="bk">0</span><div class="bar" style="width:0px"></div></div>
+<div class="barrow"><span class="bk">1</span><div class="bar" style="width:1px"></div></div>
+<div class="barrow"><span class="bk">2</span><div class="bar" style="width:2px"></div></div>
+<div class="barrow"><span class="bk">4</span><div class="bar" style="width:4px"></div></div>
+<div class="barrow"><span class="bk">6</span><div class="bar" style="width:6px"></div></div>
+<div class="barrow"><span class="bk">8</span><div class="bar" style="width:8px"></div></div>
+<div class="barrow"><span class="bk">12</span><div class="bar" style="width:12px"></div></div>
+<div class="barrow"><span class="bk">16</span><div class="bar" style="width:16px"></div></div>
+<div class="barrow"><span class="bk">20</span><div class="bar" style="width:20px"></div></div>
+<div class="barrow"><span class="bk">24</span><div class="bar" style="width:24px"></div></div>
+<div class="barrow"><span class="bk">28</span><div class="bar" style="width:28px"></div></div>
+<div class="barrow"><span class="bk">32</span><div class="bar" style="width:32px"></div></div>
+<div class="barrow"><span class="bk">36</span><div class="bar" style="width:36px"></div></div>
+<div class="barrow"><span class="bk">40</span><div class="bar" style="width:40px"></div></div>
+<div class="barrow"><span class="bk">44</span><div class="bar" style="width:44px"></div></div>
+<div class="barrow"><span class="bk">48</span><div class="bar" style="width:48px"></div></div>
+<div class="barrow"><span class="bk">52</span><div class="bar" style="width:52px"></div></div>
+<div class="barrow"><span class="bk">56</span><div class="bar" style="width:56px"></div></div>
+<div class="barrow"><span class="bk">60</span><div class="bar" style="width:60px"></div></div>
+<div class="barrow"><span class="bk">64</span><div class="bar" style="width:64px"></div></div>
+<div class="barrow"><span class="bk">68</span><div class="bar" style="width:68px"></div></div>
+<div class="barrow"><span class="bk">72</span><div class="bar" style="width:72px"></div></div>
+<div class="barrow"><span class="bk">76</span><div class="bar" style="width:76px"></div></div>
+<div class="barrow"><span class="bk">80</span><div class="bar" style="width:80px"></div></div>
+<div class="barrow"><span class="bk">84</span><div class="bar" style="width:84px"></div></div>
+<div class="barrow"><span class="bk">88</span><div class="bar" style="width:88px"></div></div>
+<div class="barrow"><span class="bk">92</span><div class="bar" style="width:92px"></div></div>
+<div class="barrow"><span class="bk">96</span><div class="bar" style="width:96px"></div></div>
+<div class="barrow"><span class="bk">100</span><div class="bar" style="width:100px"></div></div>
+<div class="barrow"><span class="bk">104</span><div class="bar" style="width:104px"></div></div>
+<div class="barrow"><span class="bk">108</span><div class="bar" style="width:108px"></div></div>
+<div class="barrow"><span class="bk">112</span><div class="bar" style="width:112px"></div></div>
+<div class="barrow"><span class="bk">116</span><div class="bar" style="width:116px"></div></div>
+<div class="barrow"><span class="bk">120</span><div class="bar" style="width:120px"></div></div>
+<div class="barrow"><span class="bk">124</span><div class="bar" style="width:124px"></div></div>
+<div class="barrow"><span class="bk">128</span><div class="bar" style="width:128px"></div></div>
+</div>
+<h3>Space <span class="muted">density: compact</span></h3><div class="bars">
+<div class="barrow"><span class="bk">4xs</span><div class="bar sp" style="width:2px"></div><span class="bv">2px</span></div>
+<div class="barrow"><span class="bk">3xs</span><div class="bar sp" style="width:6px"></div><span class="bv">6px</span></div>
+<div class="barrow"><span class="bk">2xs</span><div class="bar sp" style="width:8px"></div><span class="bv">8px</span></div>
+<div class="barrow"><span class="bk">xs</span><div class="bar sp" style="width:12px"></div><span class="bv">12px</span></div>
+<div class="barrow"><span class="bk">sm</span><div class="bar sp" style="width:20px"></div><span class="bv">20px</span></div>
+<div class="barrow"><span class="bk">md</span><div class="bar sp" style="width:28px"></div><span class="bv">28px</span></div>
+<div class="barrow"><span class="bk">lg</span><div class="bar sp" style="width:44px"></div><span class="bv">44px</span></div>
+<div class="barrow"><span class="bk">xl</span><div class="bar sp" style="width:60px"></div><span class="bv">60px</span></div>
+<div class="barrow"><span class="bk">2xl</span><div class="bar sp" style="width:92px"></div><span class="bv">92px</span></div>
+<div class="barrow"><span class="bk">3xl</span><div class="bar sp" style="width:124px"></div><span class="bv">124px</span></div>
+</div>
+<h3>Radius <span class="muted">scale: 2</span></h3><div class="radii">
+<div class="rcell"><div class="rbox" style="border-radius:0px"></div><span>none</span><small>0px</small></div>
+<div class="rcell"><div class="rbox" style="border-radius:4px"></div><span>sm</span><small>4px</small></div>
+<div class="rcell"><div class="rbox" style="border-radius:8px"></div><span>md</span><small>8px</small></div>
+<div class="rcell"><div class="rbox" style="border-radius:12px"></div><span>lg</span><small>12px</small></div>
+<div class="rcell"><div class="rbox" style="border-radius:48px"></div><span>round</span><small>128px</small></div>
+</div>
+</section>
+</body></html>
