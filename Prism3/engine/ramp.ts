@@ -5,9 +5,13 @@
  *  - exact anchor preservation (the brand value is a pinned step, never shifted)
  *  - ~20-step scale
  *  - gamut-aware chroma (vivid hues taper naturally at the extremes)
+ *  - chroma arc (tints desaturate)
  *  - 5 tonal bands over the steps
+ *  - contrast-role-targeted placement: role-critical steps are PLACED at the
+ *    luminance their contrast role requires, not wherever even spacing lands
+ *    them. The Mid-Tone 500 is the dual-side AA pivot (4.5:1 on white & black).
  */
-import { OKLCH, RGB, maxChroma, oklchToRgb, hex } from './color';
+import { OKLCH, RGB, maxChroma, oklchToRgb, hex, luminance, dualContrastWindow } from './color';
 
 /** The 20-step scale (Univers/NB density), excluding pure white(000)/black(999). */
 export const STEP_NUMS = [
@@ -31,7 +35,7 @@ export type Anchor = { oklch: OKLCH; stepNum: number };
 
 export type RampOpts = {
   hue: number;
-  /** Constant target chroma (the plateau); gamut-clamped per step. */
+  /** Constant target chroma (the plateau); shaped into an arc then gamut-clamped. */
   chroma: number;
   chromaCeiling?: number;
   /** Lightest/darkest OKLCH L targets (engine defaults). */
@@ -39,6 +43,8 @@ export type RampOpts = {
   lMin?: number;
   /** Optional exact anchor, pinned verbatim at its step. */
   anchor?: Anchor;
+  /** Place role-critical steps at their required luminance. Default true. */
+  roleTargets?: boolean;
 };
 
 /** Where an even-L engine would auto-place a color of lightness `l`. */
@@ -53,51 +59,93 @@ export const autoPlaceStep = (l: number, lMax = 0.975, lMin = 0.16): number => {
   return best;
 };
 
+/** The chroma arc as a function of L — peaks at the anchor (or mid), tapers to both ends. */
+const chromaForL = (
+  L: number, hue: number, plateau: number, peakL: number, anchored: boolean,
+  lMax: number, lMin: number, ceiling: number
+): number => {
+  let shape: number;
+  if (anchored) {
+    if (L >= peakL) {
+      const t = Math.min(1, (L - peakL) / (lMax - peakL));
+      shape = 0.05 + 0.95 * (1 - t) ** 1.3; // tints desaturate toward white
+    } else {
+      const t = Math.min(1, (peakL - L) / (peakL - lMin));
+      shape = 0.45 + 0.55 * (1 - t); // shades keep more chroma than tints
+    }
+  } else {
+    shape = 1 - Math.min(1, Math.abs(L - peakL) / 0.5); // symmetric bell (neutral)
+  }
+  return Math.min(plateau * shape, maxChroma(L, hue, ceiling));
+};
+
+/** Solve for the L whose rendered luminance hits `targetY` (Y rises with L). */
+const solveLForLuminance = (
+  targetY: number, hue: number,
+  cFor: (L: number) => number, lMax: number, lMin: number
+): number => {
+  let lo = lMin, hi = lMax;
+  for (let i = 0; i < 30; i++) {
+    const mid = (lo + hi) / 2;
+    const y = luminance(oklchToRgb({ l: mid, c: cFor(mid), h: hue }));
+    if (y < targetY) lo = mid; else hi = mid;
+  }
+  return (lo + hi) / 2;
+};
+
+/** Piecewise-linear L over step indices through the given knots (sorted, monotonic). */
+const lCurve = (knots: { i: number; L: number }[], n: number): number[] => {
+  const ks = [...knots].sort((a, b) => a.i - b.i);
+  const L: number[] = [];
+  for (let x = 0; x < n; x++) {
+    let a = ks[0], b = ks[ks.length - 1];
+    for (let k = 0; k < ks.length - 1; k++) {
+      if (x >= ks[k].i && x <= ks[k + 1].i) { a = ks[k]; b = ks[k + 1]; break; }
+    }
+    L[x] = a.i === b.i ? a.L : a.L + (b.L - a.L) * ((x - a.i) / (b.i - a.i));
+  }
+  return L;
+};
+
 export const generateRamp = (opts: RampOpts): Step[] => {
-  const { hue, chroma, chromaCeiling = 0.4, lMax = 0.975, lMin = 0.16, anchor } = opts;
+  const {
+    hue, chroma, chromaCeiling = 0.4, lMax = 0.975, lMin = 0.16, anchor, roleTargets = true,
+  } = opts;
   const n = STEP_NUMS.length;
   const ai = anchor ? STEP_NUMS.indexOf(anchor.stepNum) : -1;
+  const peakL = anchor ? anchor.oklch.l : 0.5;
+  const cFor = (L: number) => chromaForL(L, hue, chroma, peakL, !!anchor, lMax, lMin, chromaCeiling);
+
+  // ---- build the L curve from knots: endpoints + brand anchor + role anchors ----
+  const knots: { i: number; L: number }[] = [
+    { i: 0, L: lMax },
+    { i: n - 1, L: lMin },
+  ];
+  if (anchor) knots.push({ i: ai, L: anchor.oklch.l });
+  if (roleTargets) {
+    // Mid-Tone 500 = the dual-side AA pivot: place it at the centre of the
+    // luminance window where it clears 4.5:1 on BOTH white and black.
+    const i500 = STEP_NUMS.indexOf(500);
+    if (i500 !== ai) {
+      const [ylo, yhi] = dualContrastWindow(4.5);
+      const L500 = solveLForLuminance((ylo + yhi) / 2, hue, cFor, lMax, lMin);
+      knots.push({ i: i500, L: L500 });
+    }
+  }
+  // keep knots monotonic in L (a lighter step must not end up darker)
+  const sorted = [...knots].sort((a, b) => a.i - b.i);
+  for (let k = 1; k < sorted.length; k++) {
+    if (sorted[k].L > sorted[k - 1].L) sorted[k].L = sorted[k - 1].L; // clamp non-increasing
+  }
+  const Ls = lCurve(sorted, n);
 
   return STEP_NUMS.map((num, i) => {
-    // ---- Lightness: even by default; piecewise-linear through the anchor if pinned ----
-    let L: number;
-    if (ai < 0) {
-      L = lMax + (lMin - lMax) * (i / (n - 1));
-    } else if (i === ai) {
-      L = anchor!.oklch.l;
-    } else if (i < ai) {
-      L = lMax + (anchor!.oklch.l - lMax) * (i / ai);
-    } else {
-      L = anchor!.oklch.l + (lMin - anchor!.oklch.l) * ((i - ai) / (n - 1 - ai));
-    }
-
-    // ---- Chroma: an ARC that peaks at the anchor (or mid) and tapers toward
-    //      both ends, then clamped to the in-gamut max; anchor exact. Real
-    //      ramps desaturate their tints — a flat plateau over-saturates the
-    //      light end where the gamut is wide (NB regression, green.050). ----
-    let C: number, H: number;
+    let L = Ls[i], C: number, H: number;
     if (i === ai) {
-      C = anchor!.oklch.c;
-      H = anchor!.oklch.h;
+      L = anchor!.oklch.l; C = anchor!.oklch.c; H = anchor!.oklch.h; // anchor exact
     } else {
-      H = hue;
-      const peakL = anchor ? anchor.oklch.l : 0.5;
-      let shape: number;
-      if (anchor) {
-        if (L >= peakL) {
-          const t = Math.min(1, (L - peakL) / (lMax - peakL));
-          shape = 0.05 + 0.95 * (1 - t) ** 1.3; // tints desaturate toward white
-        } else {
-          const t = Math.min(1, (peakL - L) / (peakL - lMin));
-          shape = 0.45 + 0.55 * (1 - t); // shades keep more chroma than tints
-        }
-      } else {
-        // no anchor (neutral): symmetric bell, near-gray at both ends
-        shape = 1 - Math.min(1, Math.abs(L - peakL) / 0.5);
-      }
-      C = Math.min(chroma * shape, maxChroma(L, H, chromaCeiling));
+      H = hue; C = cFor(L);
     }
-
     const o: OKLCH = { l: L, c: C, h: H };
     const rgb = oklchToRgb(o);
     return { num, key: stepKey(num), oklch: o, rgb, hex: hex(rgb), band: bandOf(num) };

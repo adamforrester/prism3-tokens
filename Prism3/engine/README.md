@@ -27,14 +27,13 @@ and writes `nb-regression-report.md` next to the script.
 
 ## What it currently does / doesn't
 
-**Does:** exact anchor preservation, even-L ramp with anchor-pinned interpolation,
-chroma arc, gamut-aware chroma, band classification, WCAG contract checks.
+**Does:** exact anchor preservation; anchor-pinned L interpolation; chroma arc;
+gamut-aware chroma; **contrast-role-targeted placement** (Mid-Tone 500 pinned to
+the dual-side AA luminance pivot so all band contracts pass); band classification;
+WCAG contract checks.
 
-**Doesn't yet (next features, surfaced by the run):**
-- *Contrast-role-targeted L placement* — steps are currently placed on an even-L
-  curve, so a Mid-Tone can land just under the dual-side 4.5 floor
-  (`red.500 vs black` = 4.46). The spec (§5.2) calls for steps to be *placed*
-  to guarantee their contrast role; that is the next increment.
+**Doesn't yet (next increments):**
 - *Optional per-step hue drift* — NB hand-shifts a few steps (amber.600, red.300);
   a constant-hue engine won't follow those unless we add an opt-in drift curve.
+  Constant-hue is the right default, so this is opt-in, not a gap.
 - Light/dark/HC mode generation, type/space/radius/motion, DTCG + Figma emit.

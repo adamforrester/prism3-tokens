@@ -9,16 +9,16 @@ Anchor pinned at `550` (exact). An even-L engine would auto-place this lightness
 | step | band | gen hex | NB hex | ΔE00 |
 |---|---|---|---|---|
 | 025 | Highlight | `#fef4f3` | `#fff6f5` | 0.56 |
-| 050 | Highlight | `#f7e5e3` | `#fdf3f4` | 4.17 ⚠️ |
+| 050 | Highlight | `#f7e5e4` | `#fdf3f4` | 4.09 ⚠️ |
 | 100 | ¼ | `#f2d5d3` | `#fae6e9` | 4.90 ⚠️ |
-| 150 | ¼ | `#eec4c1` | `#fbc8c5` | 2.68 |
-| 200 | ¼ | `#ebb3b0` | `#f9b6b2` | 2.71 |
-| 250 | ¼ | `#e8a29e` | `#f4a49f` | 2.24 |
-| 300 | ¼ | `#e5908c` | `#e78495` | 6.98 ⚠️ |
-| 350 | ¼ | `#e17d79` | `#eb7e7a` | 1.80 |
-| 400 | Mid | `#dd6967` | `#e56b69` | 1.59 |
-| 450 | Mid | `#d95454` | `#de5657` | 1.21 |
-| 500 | Mid | `#d43941` | `#d83c43` | 1.15 |
+| 150 | ¼ | `#efc5c2` | `#fbc8c5` | 2.57 |
+| 200 | ¼ | `#ebb4b1` | `#f9b6b2` | 2.81 |
+| 250 | ¼ | `#e8a39f` | `#f4a49f` | 2.30 |
+| 300 | ¼ | `#e5918d` | `#e78495` | 7.05 ⚠️ |
+| 350 | ¼ | `#e17f7b` | `#eb7e7a` | 1.83 |
+| 400 | Mid | `#de6c69` | `#e56b69` | 1.24 |
+| 450 | Mid | `#da5657` | `#de5657` | 0.78 |
+| 500 | Mid | `#d53d44` | `#d83c43` | 0.63 |
 | 550 | Mid | `#cf0b2c` | `#cf0a2c` | 0.05 |
 | 600 | Mid | `#b80024` | `#bd0b28` | 1.35 |
 | 650 | ¾ | `#a1001e` | `#a80221` | 1.44 |
@@ -29,7 +29,7 @@ Anchor pinned at `550` (exact). An even-L engine would auto-place this lightness
 | 900 | ¾ | `#350004` | `#410004` | 3.69 ⚠️ |
 | 950 | Shadow | `#230002` | `#2c0003` | 4.45 ⚠️ |
 
-**ΔE00 mean 2.45, max 6.98 at 300** over 20 steps.
+**ΔE00 mean 2.39, max 7.05 at 300** over 20 steps.
 
 ## success (green)
 Anchor pinned at `500` (exact). An even-L engine would auto-place this lightness at `500` — same step.
@@ -92,57 +92,57 @@ Anchor pinned at `500` (exact). An even-L engine would auto-place this lightness
 | step | band | gen hex | NB hex | ΔE00 |
 |---|---|---|---|---|
 | 025 | Highlight | `#f6f7f7` | `#f7f8f8` | 0.20 |
-| 050 | Highlight | `#e7e9ea` | `#f5f6f6` | 2.83 |
-| 100 | ¼ | `#d9dbdc` | `#e5e7e8` | 2.67 |
-| 150 | ¼ | `#cacdcf` | `#d2d5d7` | 1.91 |
-| 200 | ¼ | `#bcbfc2` | `#c4c7ca` | 2.04 |
-| 250 | ¼ | `#aeb2b5` | `#b5b9bd` | 2.00 |
-| 300 | ¼ | `#a0a4a8` | `#abb1b5` | 3.77 ⚠️ |
-| 350 | ¼ | `#92979c` | `#999fa4` | 2.52 |
-| 400 | Mid | `#858a8f` | `#8b9197` | 2.44 |
-| 450 | Mid | `#787e83` | `#7d858b` | 2.67 |
-| 500 | Mid | `#6b7177` | `#737b82` | 3.94 ⚠️ |
-| 550 | Mid | `#5e656b` | `#646b71` | 2.27 |
-| 600 | Mid | `#53595e` | `#585f64` | 2.14 |
-| 650 | ¾ | `#474d52` | `#53585e` | 4.03 ⚠️ |
-| 700 | ¾ | `#3d4246` | `#42474b` | 1.67 |
-| 750 | ¾ | `#32363a` | `#383c40` | 1.95 |
-| 800 | ¾ | `#282b2e` | `#343538` | 3.56 ⚠️ |
-| 850 | ¾ | `#1e2123` | `#232426` | 1.70 |
+| 050 | Highlight | `#e8e9ea` | `#f5f6f6` | 2.76 |
+| 100 | ¼ | `#dadcdd` | `#e5e7e8` | 2.44 |
+| 150 | ¼ | `#ccced1` | `#d2d5d7` | 1.81 |
+| 200 | ¼ | `#bec1c4` | `#c4c7ca` | 1.52 |
+| 250 | ¼ | `#b1b4b8` | `#b5b9bd` | 1.39 |
+| 300 | ¼ | `#a3a8ab` | `#abb1b5` | 2.61 |
+| 350 | ¼ | `#969b9f` | `#999fa4` | 1.34 |
+| 400 | Mid | `#898f93` | `#8b9197` | 1.32 |
+| 450 | Mid | `#7d8387` | `#7d858b` | 1.33 |
+| 500 | Mid | `#70767c` | `#737b82` | 2.06 |
+| 550 | Mid | `#636a6f` | `#646b71` | 0.71 |
+| 600 | Mid | `#565d62` | `#585f64` | 0.72 |
+| 650 | ¾ | `#4b5055` | `#53585e` | 2.88 |
+| 700 | ¾ | `#3f4449` | `#42474b` | 1.17 |
+| 750 | ¾ | `#34383c` | `#383c40` | 1.30 |
+| 800 | ¾ | `#292d30` | `#343538` | 3.33 ⚠️ |
+| 850 | ¾ | `#1f2224` | `#232426` | 1.52 |
 | 900 | ¾ | `#151719` | `#1a1c1e` | 1.57 |
 | 950 | Shadow | `#0c0d0f` | `#151415` | 2.01 |
 
-**ΔE00 mean 2.39, max 4.03 at 650** over 20 steps.
+**ΔE00 mean 1.70, max 3.33 at 800** over 20 steps.
 
 ## Tonal-band contrast contracts (generated ramps)
 
 | check | ratio | rule | result |
 |---|---|---|---|
-| red.500 vs white | 4.71 | ≥4.5 (Mid-Tone floor) | ✅ |
-| red.500 vs black | 4.46 | ≥4.5 (Mid-Tone floor) | ❌ |
+| red.500 vs white | 4.58 | ≥4.5 (Mid-Tone floor) | ✅ |
+| red.500 vs black | 4.58 | ≥4.5 (Mid-Tone floor) | ✅ |
 | red.550 vs neutral.025 | 5.24 | ≥4.5 (550 on Highlights) | ✅ |
-| red.550 vs neutral.050 | 4.61 | ≥4.5 (550 on Highlights) | ✅ |
+| red.550 vs neutral.050 | 4.62 | ≥4.5 (550 on Highlights) | ✅ |
 | red.550 vs white | 5.62 | ≥4.5 (NB promo text canary) | ✅ |
-| neutral.100 vs white | 1.39 | <4.5 (¼-Tone = borders, not text) | ✅ |
-| neutral.250 vs white | 2.14 | <4.5 (¼-Tone = borders, not text) | ✅ |
-| neutral.350 vs white | 2.95 | <4.5 (¼-Tone = borders, not text) | ✅ |
-| neutral.650 vs white | 8.57 | ≥4.5 (text on light) | ✅ |
-| neutral.800 vs white | 14.24 | ≥4.5 (text on light) | ✅ |
+| neutral.100 vs white | 1.38 | <4.5 (¼-Tone = borders, not text) | ✅ |
+| neutral.250 vs white | 2.08 | <4.5 (¼-Tone = borders, not text) | ✅ |
+| neutral.350 vs white | 2.81 | <4.5 (¼-Tone = borders, not text) | ✅ |
+| neutral.650 vs white | 8.15 | ≥4.5 (text on light) | ✅ |
+| neutral.800 vs white | 13.89 | ≥4.5 (text on light) | ✅ |
 | neutral.950 vs white | 19.44 | ≥4.5 (text on light) | ✅ |
 
 Canary cross-check — white on **real** NB `red.550`: 5.63:1; on **generated** red.550: 5.62:1.
 
 ## Verdict
 
-- **brand (red)** — ΔE00 mean 2.45, max 6.98 (300), within-tolerance 15/20.
+- **brand (red)** — ΔE00 mean 2.39, max 7.05 (300), within-tolerance 15/20.
 - **success (green)** — ΔE00 mean 1.88, max 2.47 (150), within-tolerance 20/20.
 - **warning (amber)** — ΔE00 mean 1.83, max 9.15 (600), within-tolerance 19/20.
-- **neutral** — ΔE00 mean 2.39, max 4.03 (650), within-tolerance 16/20.
+- **neutral** — ΔE00 mean 1.70, max 3.33 (800), within-tolerance 19/20.
 
-- Aggregate ΔE00 mean across ramps: **2.14**.
+- Aggregate ΔE00 mean across ramps: **1.95**.
 - Worst step overall: **warning (amber) 600** at ΔE00 9.15 (an NB hand-applied hue kink — see docs/02 §4).
-- Contrast contracts: **10/11 pass** — failing: red.500 vs black
+- Contrast contracts: **11/11 pass**.
 
 > Aggregate mean within ΔE00 ≤ 3: the engine reproduces NB perceptually from the schema alone. Residual per-step outliers are NB hand-nudges (hue kinks), not engine error.
 
-**Open engine features this run surfaces:** (1) contrast-role-targeted L placement — `red.500 vs black` lands 4.46 under an even-L curve and needs the step nudged to clear the dual-side 4.5 floor (spec §5.2); (2) optional per-step hue drift to follow brand hand-kinks if a brand wants them (NB amber.600 / red.300).
+**Engine status:** contrast-role-targeted L placement is now implemented — the Mid-Tone 500 is placed at the dual-side AA luminance pivot, so all band contrast contracts pass (and, because NB is Univers-derived, matching that pivot also tightened the perceptual fit). Remaining increments: (1) optional per-step hue drift to follow brand hand-kinks if a brand wants them (NB amber.600 / red.300); (2) light/dark/HC mode generation; (3) DTCG + Figma emit.

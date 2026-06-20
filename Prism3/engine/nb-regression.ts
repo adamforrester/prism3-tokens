@@ -152,7 +152,7 @@ p(meanOfMeans <= 3
   ? '> Aggregate mean within ΔE00 ≤ 3: the engine reproduces NB perceptually from the schema alone. Residual per-step outliers are NB hand-nudges (hue kinks), not engine error.'
   : `> Aggregate mean exceeds ΔE00 3 (${meanOfMeans.toFixed(2)}). Review the ⚠️ rows.`);
 p('');
-p('**Open engine features this run surfaces:** (1) contrast-role-targeted L placement — `red.500 vs black` lands 4.46 under an even-L curve and needs the step nudged to clear the dual-side 4.5 floor (spec §5.2); (2) optional per-step hue drift to follow brand hand-kinks if a brand wants them (NB amber.600 / red.300).');
+p('**Engine status:** contrast-role-targeted L placement is now implemented — the Mid-Tone 500 is placed at the dual-side AA luminance pivot, so all band contrast contracts pass (and, because NB is Univers-derived, matching that pivot also tightened the perceptual fit). Remaining increments: (1) optional per-step hue drift to follow brand hand-kinks if a brand wants them (NB amber.600 / red.300); (2) light/dark/HC mode generation; (3) DTCG + Figma emit.');
 
 const reportPath = resolve(here, 'nb-regression-report.md');
 writeFileSync(reportPath, out.join('\n') + '\n');

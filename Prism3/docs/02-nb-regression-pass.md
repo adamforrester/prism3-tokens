@@ -101,27 +101,26 @@ Meeting 1–5 means the engine can reproduce a real brand before it is trusted t
 
 The paper prediction above has now been run for real. A dependency-free TypeScript prototype (`../engine/`, run with `npx tsx Prism3/engine/nb-regression.ts`) generates the brand/red, success/green, warning/amber and neutral ramps from the schema and diffs them against the real NB tokens with CIEDE2000. Full output is committed at `../engine/nb-regression-report.md`.
 
-**Result (v0 engine):**
+**Result (with contrast-role-targeted placement):**
 
 | ramp | ΔE00 mean | within ΔE00 ≤ 3 |
 |---|---|---|
-| brand (red) | 2.45 | 15/20 |
+| brand (red) | 2.39 | 15/20 |
 | success (green) | 1.88 | 20/20 |
 | warning (amber) | 1.83 | 19/20 |
-| neutral | 2.39 | 16/20 |
+| neutral | 1.70 | 19/20 |
 
-Aggregate mean **ΔE00 2.14** — within the §5 acceptance bar. Specific confirmations:
+Aggregate mean **ΔE00 1.95**, and **11/11 tonal-band contrast contracts pass** — within the §5 acceptance bar. Specific confirmations:
 
 - **Exact anchor pinning is exact:** generated `red.550` = `#cf0b2c` vs NB `#cf0a2c`, ΔE00 **0.05**; white-on-`red.550` contrast **5.62** vs NB's **5.63** (the canary, criterion §5).
 - **The chroma model had to be corrected by the data.** A first cut held chroma flat across the ramp and the light tints blew out (green.050 ΔE00 **20**), because the light-green gamut is wide and NB *chooses* to desaturate its tints. Switching to a chroma **arc** that tapers toward both ends dropped green's mean from 6.23 → 1.88. This is the regression doing its job — falsifying a wrong assumption before it shipped.
 - **The residual outliers are the predicted hand-nudges**, not engine error: NB swings `amber.600` toward red (H42 vs 59) and `red.300` toward pink (H9.6 vs 23) — the §4 "hand-authoring tells." A constant-hue engine won't follow them by design.
 
-**Two genuine engine gaps surfaced (both expected, both spec-aligned):**
+**Contrast-role-targeted placement (now implemented).** The first run placed steps on an even-L curve, so `red.500` landed at **4.46:1 on black** — just under the Mid-Tone dual-side 4.5 floor (10/11 contracts). The fix follows spec §5.2: role-critical steps are *placed* at the luminance their role requires, not wherever even spacing lands them. The Mid-Tone 500 is now pinned to the centre of the narrow luminance window where a color clears 4.5:1 on **both** white and black (Y ≈ 0.18). `red.500` now reads **4.58:1 on white and black**, and all **11/11** contracts pass. Because NB is itself Univers-derived (which also pivots 500 at the dual-AA point), matching that pivot *also* tightened the perceptual fit — aggregate ΔE00 fell 2.14 → 1.95, neutral 2.39 → 1.70.
 
-1. **Contrast-role-targeted L placement.** Steps currently sit on an even-L curve, so `red.500` lands at **4.46:1 on black** — just under the Mid-Tone dual-side 4.5 floor (10/11 contract checks pass). Spec §5.2 already calls for steps to be *placed* to guarantee their contrast role; that is the next increment, and it is what closes this gap.
-2. **Optional per-step hue drift** to reproduce brand hand-kinks where a brand wants them.
+**One increment still open:** optional **per-step hue drift** to reproduce brand hand-kinks where a brand wants them (NB `amber.600`, `red.300` — the only remaining ΔE00 outliers). Constant-hue is the right default; this would be opt-in.
 
-Net: the spine of the architecture — exact-anchor preservation, ~20-step bands, gamut-aware OKLCH ramps, contrast contracts — reproduces a real shipped brand from a ~7-input schema. The two gaps are increments, not refutations.
+Net: the spine of the architecture — exact-anchor preservation, ~20-step bands, gamut-aware OKLCH ramps, **contrast-role placement**, and the band contracts — reproduces a real shipped brand from a ~7-input schema, fully passing the colour acceptance criteria.
 
 ---
 

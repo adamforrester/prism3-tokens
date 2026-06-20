@@ -101,6 +101,21 @@ export const contrast = (a: RGB, b: RGB): number => {
   return Math.round((Math.max(la, lb) / Math.min(la, lb)) * 100) / 100;
 };
 
+/** WCAG relative luminance of a color as actually rendered (0..1). */
+export const luminance = (rgb: RGB): number => relLuminance(rgb);
+
+/**
+ * Luminance window in which a color clears `ratio`:1 against BOTH white and
+ * black. For 4.5 it is the famously narrow [~0.175, ~0.183] — this is what
+ * makes the Mid-Tone 500 step (the dual-side AA pivot) a placed role, not an
+ * accident of even spacing.
+ */
+export const dualContrastWindow = (ratio = 4.5): [number, number] => {
+  const min = ratio * 0.05 - 0.05; // passes on black
+  const max = 1.05 / ratio - 0.05; // passes on white
+  return [min, max];
+};
+
 // ---- sRGB -> CIELAB (D65) for CIEDE2000 ----
 const rgbToLab = ({ r, g, b }: RGB) => {
   const lr = srgbToLinear(r), lg = srgbToLinear(g), lb = srgbToLinear(b);
