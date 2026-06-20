@@ -1,0 +1,1792 @@
+{
+  "nbds": {
+    "color": {
+      "white": {
+        "$type": "color",
+        "$value": "rgb(255, 255, 255)",
+        "$description": "Pure white — Highlight base / default surface",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "source": "oklch",
+            "band": "Highlights"
+          }
+        }
+      },
+      "black": {
+        "$type": "color",
+        "$value": "rgb(0, 0, 0)",
+        "$description": "Pure black — Shadow base",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "source": "oklch",
+            "band": "Shadows"
+          }
+        }
+      },
+      "red": {
+        "100": {
+          "$type": "color",
+          "$value": "rgb(242, 213, 211)",
+          "$description": "brand (red) 100 — Quarter-Tone band — Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.8974,
+                "c": 0.0326,
+                "h": 23
+              },
+              "hex": "#f2d5d3",
+              "band": "Quarter",
+              "anchor": false,
+              "contrastOnWhite": 1.38
+            }
+          }
+        },
+        "150": {
+          "$type": "color",
+          "$value": "rgb(239, 197, 194)",
+          "$description": "brand (red) 150 — Quarter-Tone band — Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.8586,
+                "c": 0.0478,
+                "h": 23
+              },
+              "hex": "#efc5c2",
+              "band": "Quarter",
+              "anchor": false,
+              "contrastOnWhite": 1.56
+            }
+          }
+        },
+        "200": {
+          "$type": "color",
+          "$value": "rgb(235, 180, 177)",
+          "$description": "brand (red) 200 — Quarter-Tone band — Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.8198,
+                "c": 0.0646,
+                "h": 23
+              },
+              "hex": "#ebb4b1",
+              "band": "Quarter",
+              "anchor": false,
+              "contrastOnWhite": 1.8
+            }
+          }
+        },
+        "250": {
+          "$type": "color",
+          "$value": "rgb(232, 163, 159)",
+          "$description": "brand (red) 250 — Quarter-Tone band — Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.7809,
+                "c": 0.0827,
+                "h": 23
+              },
+              "hex": "#e8a39f",
+              "band": "Quarter",
+              "anchor": false,
+              "contrastOnWhite": 2.06
+            }
+          }
+        },
+        "300": {
+          "$type": "color",
+          "$value": "rgb(229, 145, 141)",
+          "$description": "brand (red) 300 — Quarter-Tone band — Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.7421,
+                "c": 0.1019,
+                "h": 23
+              },
+              "hex": "#e5918d",
+              "band": "Quarter",
+              "anchor": false,
+              "contrastOnWhite": 2.4
+            }
+          }
+        },
+        "350": {
+          "$type": "color",
+          "$value": "rgb(225, 127, 123)",
+          "$description": "brand (red) 350 — Quarter-Tone band — Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.7033,
+                "c": 0.1222,
+                "h": 23
+              },
+              "hex": "#e17f7b",
+              "band": "Quarter",
+              "anchor": false,
+              "contrastOnWhite": 2.79
+            }
+          }
+        },
+        "400": {
+          "$type": "color",
+          "$value": "rgb(222, 108, 105)",
+          "$description": "brand (red) 400 — Mid-Tone band — Mid-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.6645,
+                "c": 0.1433,
+                "h": 23
+              },
+              "hex": "#de6c69",
+              "band": "Mid",
+              "anchor": false,
+              "contrastOnWhite": 3.25
+            }
+          }
+        },
+        "450": {
+          "$type": "color",
+          "$value": "rgb(218, 86, 87)",
+          "$description": "brand (red) 450 — Mid-Tone band — Mid-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.6257,
+                "c": 0.1652,
+                "h": 23
+              },
+              "hex": "#da5657",
+              "band": "Mid",
+              "anchor": false,
+              "contrastOnWhite": 3.85
+            }
+          }
+        },
+        "500": {
+          "$type": "color",
+          "$value": "rgb(213, 61, 68)",
+          "$description": "brand (red) 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white and black)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.5869,
+                "c": 0.1879,
+                "h": 23
+              },
+              "hex": "#d53d44",
+              "band": "Mid",
+              "anchor": false,
+              "contrastOnWhite": 4.58
+            }
+          }
+        },
+        "550": {
+          "$type": "color",
+          "$value": "rgb(207, 11, 44)",
+          "$description": "brand (red) 550 — Mid-Tone band — brand-anchor (exact brand value, pinned)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.542,
+                "c": 0.215,
+                "h": 23
+              },
+              "hex": "#cf0b2c",
+              "band": "Mid",
+              "anchor": true,
+              "contrastOnWhite": 5.62
+            }
+          }
+        },
+        "600": {
+          "$type": "color",
+          "$value": "rgb(184, 0, 36)",
+          "$description": "brand (red) 600 — Mid-Tone band — Mid-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.4943,
+                "c": 0.1996,
+                "h": 23
+              },
+              "hex": "#b80024",
+              "band": "Mid",
+              "anchor": false,
+              "contrastOnWhite": 6.85
+            }
+          }
+        },
+        "650": {
+          "$type": "color",
+          "$value": "rgb(161, 0, 30)",
+          "$description": "brand (red) 650 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.4465,
+                "c": 0.1804,
+                "h": 23
+              },
+              "hex": "#a1001e",
+              "band": "ThreeQuarter",
+              "anchor": false,
+              "contrastOnWhite": 8.29
+            }
+          }
+        },
+        "700": {
+          "$type": "color",
+          "$value": "rgb(138, 0, 24)",
+          "$description": "brand (red) 700 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.3988,
+                "c": 0.1612,
+                "h": 23
+              },
+              "hex": "#8a0018",
+              "band": "ThreeQuarter",
+              "anchor": false,
+              "contrastOnWhite": 10.03
+            }
+          }
+        },
+        "750": {
+          "$type": "color",
+          "$value": "rgb(115, 0, 19)",
+          "$description": "brand (red) 750 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.351,
+                "c": 0.1419,
+                "h": 23
+              },
+              "hex": "#730013",
+              "band": "ThreeQuarter",
+              "anchor": false,
+              "contrastOnWhite": 12.08
+            }
+          }
+        },
+        "800": {
+          "$type": "color",
+          "$value": "rgb(94, 0, 13)",
+          "$description": "brand (red) 800 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.3033,
+                "c": 0.1228,
+                "h": 23
+              },
+              "hex": "#5e000d",
+              "band": "ThreeQuarter",
+              "anchor": false,
+              "contrastOnWhite": 14.17
+            }
+          }
+        },
+        "850": {
+          "$type": "color",
+          "$value": "rgb(73, 0, 8)",
+          "$description": "brand (red) 850 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.2555,
+                "c": 0.1037,
+                "h": 23
+              },
+              "hex": "#490008",
+              "band": "ThreeQuarter",
+              "anchor": false,
+              "contrastOnWhite": 16.32
+            }
+          }
+        },
+        "900": {
+          "$type": "color",
+          "$value": "rgb(53, 0, 4)",
+          "$description": "brand (red) 900 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.2078,
+                "c": 0.0846,
+                "h": 23
+              },
+              "hex": "#350004",
+              "band": "ThreeQuarter",
+              "anchor": false,
+              "contrastOnWhite": 18.21
+            }
+          }
+        },
+        "950": {
+          "$type": "color",
+          "$value": "rgb(35, 0, 2)",
+          "$description": "brand (red) 950 — Shadow band — Shadow",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.16,
+                "c": 0.0659,
+                "h": 23
+              },
+              "hex": "#230002",
+              "band": "Shadows",
+              "anchor": false,
+              "contrastOnWhite": 19.58
+            }
+          }
+        },
+        "025": {
+          "$type": "color",
+          "$value": "rgb(254, 244, 243)",
+          "$description": "brand (red) 025 — Highlight band — Highlight",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.975,
+                "c": 0.0108,
+                "h": 23
+              },
+              "hex": "#fef4f3",
+              "band": "Highlights",
+              "anchor": false,
+              "contrastOnWhite": 1.08
+            }
+          }
+        },
+        "050": {
+          "$type": "color",
+          "$value": "rgb(247, 229, 228)",
+          "$description": "brand (red) 050 — Highlight band — Highlight",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.9362,
+                "c": 0.0196,
+                "h": 23
+              },
+              "hex": "#f7e5e4",
+              "band": "Highlights",
+              "anchor": false,
+              "contrastOnWhite": 1.22
+            }
+          }
+        }
+      },
+      "green": {
+        "100": {
+          "$type": "color",
+          "$value": "rgb(207, 222, 210)",
+          "$description": "success (green) 100 — Quarter-Tone band — Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.8866,
+                "c": 0.0227,
+                "h": 152
+              },
+              "hex": "#cfded2",
+              "band": "Quarter",
+              "anchor": false,
+              "contrastOnWhite": 1.4
+            }
+          }
+        },
+        "150": {
+          "$type": "color",
+          "$value": "rgb(188, 210, 193)",
+          "$description": "success (green) 150 — Quarter-Tone band — Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.8424,
+                "c": 0.0338,
+                "h": 152
+              },
+              "hex": "#bcd2c1",
+              "band": "Quarter",
+              "anchor": false,
+              "contrastOnWhite": 1.6
+            }
+          }
+        },
+        "200": {
+          "$type": "color",
+          "$value": "rgb(168, 198, 175)",
+          "$description": "success (green) 200 — Quarter-Tone band — Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.7982,
+                "c": 0.0461,
+                "h": 152
+              },
+              "hex": "#a8c6af",
+              "band": "Quarter",
+              "anchor": false,
+              "contrastOnWhite": 1.85
+            }
+          }
+        },
+        "250": {
+          "$type": "color",
+          "$value": "rgb(148, 187, 157)",
+          "$description": "success (green) 250 — Quarter-Tone band — Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.754,
+                "c": 0.0593,
+                "h": 152
+              },
+              "hex": "#94bb9d",
+              "band": "Quarter",
+              "anchor": false,
+              "contrastOnWhite": 2.13
+            }
+          }
+        },
+        "300": {
+          "$type": "color",
+          "$value": "rgb(127, 175, 139)",
+          "$description": "success (green) 300 — Quarter-Tone band — Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.7098,
+                "c": 0.0733,
+                "h": 152
+              },
+              "hex": "#7faf8b",
+              "band": "Quarter",
+              "anchor": false,
+              "contrastOnWhite": 2.5
+            }
+          }
+        },
+        "350": {
+          "$type": "color",
+          "$value": "rgb(105, 164, 121)",
+          "$description": "success (green) 350 — Quarter-Tone band — Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.6656,
+                "c": 0.0881,
+                "h": 152
+              },
+              "hex": "#69a479",
+              "band": "Quarter",
+              "anchor": false,
+              "contrastOnWhite": 2.92
+            }
+          }
+        },
+        "400": {
+          "$type": "color",
+          "$value": "rgb(82, 152, 103)",
+          "$description": "success (green) 400 — Mid-Tone band — Mid-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.6214,
+                "c": 0.1035,
+                "h": 152
+              },
+              "hex": "#529867",
+              "band": "Mid",
+              "anchor": false,
+              "contrastOnWhite": 3.47
+            }
+          }
+        },
+        "450": {
+          "$type": "color",
+          "$value": "rgb(56, 141, 85)",
+          "$description": "success (green) 450 — Mid-Tone band — Mid-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.5772,
+                "c": 0.1195,
+                "h": 152
+              },
+              "hex": "#388d55",
+              "band": "Mid",
+              "anchor": false,
+              "contrastOnWhite": 4.11
+            }
+          }
+        },
+        "500": {
+          "$type": "color",
+          "$value": "rgb(14, 130, 67)",
+          "$description": "success (green) 500 — Mid-Tone band — success-anchor (exact brand value, pinned)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.533,
+                "c": 0.136,
+                "h": 152
+              },
+              "hex": "#0e8243",
+              "band": "Mid",
+              "anchor": true,
+              "contrastOnWhite": 4.89
+            }
+          }
+        },
+        "550": {
+          "$type": "color",
+          "$value": "rgb(5, 116, 58)",
+          "$description": "success (green) 550 — Mid-Tone band — Mid-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.4916,
+                "c": 0.1277,
+                "h": 152
+              },
+              "hex": "#05743a",
+              "band": "Mid",
+              "anchor": false,
+              "contrastOnWhite": 5.89
+            }
+          }
+        },
+        "600": {
+          "$type": "color",
+          "$value": "rgb(0, 103, 50)",
+          "$description": "success (green) 600 — Mid-Tone band — Mid-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.4501,
+                "c": 0.1186,
+                "h": 152
+              },
+              "hex": "#006732",
+              "band": "Mid",
+              "anchor": false,
+              "contrastOnWhite": 7.03
+            }
+          }
+        },
+        "650": {
+          "$type": "color",
+          "$value": "rgb(0, 90, 43)",
+          "$description": "success (green) 650 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.4087,
+                "c": 0.1077,
+                "h": 152
+              },
+              "hex": "#005a2b",
+              "band": "ThreeQuarter",
+              "anchor": false,
+              "contrastOnWhite": 8.41
+            }
+          }
+        },
+        "700": {
+          "$type": "color",
+          "$value": "rgb(0, 77, 35)",
+          "$description": "success (green) 700 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.3672,
+                "c": 0.0968,
+                "h": 152
+              },
+              "hex": "#004d23",
+              "band": "ThreeQuarter",
+              "anchor": false,
+              "contrastOnWhite": 10.07
+            }
+          }
+        },
+        "750": {
+          "$type": "color",
+          "$value": "rgb(0, 64, 29)",
+          "$description": "success (green) 750 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.3258,
+                "c": 0.086,
+                "h": 152
+              },
+              "hex": "#00401d",
+              "band": "ThreeQuarter",
+              "anchor": false,
+              "contrastOnWhite": 11.99
+            }
+          }
+        },
+        "800": {
+          "$type": "color",
+          "$value": "rgb(0, 52, 22)",
+          "$description": "success (green) 800 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.2843,
+                "c": 0.0751,
+                "h": 152
+              },
+              "hex": "#003416",
+              "band": "ThreeQuarter",
+              "anchor": false,
+              "contrastOnWhite": 13.97
+            }
+          }
+        },
+        "850": {
+          "$type": "color",
+          "$value": "rgb(0, 40, 15)",
+          "$description": "success (green) 850 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.2429,
+                "c": 0.0644,
+                "h": 152
+              },
+              "hex": "#00280f",
+              "band": "ThreeQuarter",
+              "anchor": false,
+              "contrastOnWhite": 16.03
+            }
+          }
+        },
+        "900": {
+          "$type": "color",
+          "$value": "rgb(0, 29, 9)",
+          "$description": "success (green) 900 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.2014,
+                "c": 0.0537,
+                "h": 152
+              },
+              "hex": "#001d09",
+              "band": "ThreeQuarter",
+              "anchor": false,
+              "contrastOnWhite": 17.8
+            }
+          }
+        },
+        "950": {
+          "$type": "color",
+          "$value": "rgb(0, 18, 5)",
+          "$description": "success (green) 950 — Shadow band — Shadow",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.16,
+                "c": 0.0432,
+                "h": 152
+              },
+              "hex": "#001205",
+              "band": "Shadows",
+              "anchor": false,
+              "contrastOnWhite": 19.29
+            }
+          }
+        },
+        "025": {
+          "$type": "color",
+          "$value": "rgb(244, 248, 244)",
+          "$description": "success (green) 025 — Highlight band — Highlight",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.975,
+                "c": 0.0068,
+                "h": 152
+              },
+              "hex": "#f4f8f4",
+              "band": "Highlights",
+              "anchor": false,
+              "contrastOnWhite": 1.07
+            }
+          }
+        },
+        "050": {
+          "$type": "color",
+          "$value": "rgb(226, 235, 228)",
+          "$description": "success (green) 050 — Highlight band — Highlight",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.9308,
+                "c": 0.0133,
+                "h": 152
+              },
+              "hex": "#e2ebe4",
+              "band": "Highlights",
+              "anchor": false,
+              "contrastOnWhite": 1.22
+            }
+          }
+        }
+      },
+      "amber": {
+        "100": {
+          "$type": "color",
+          "$value": "rgb(233, 217, 206)",
+          "$description": "warning (amber) 100 — Quarter-Tone band — Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.8956,
+                "c": 0.0227,
+                "h": 59
+              },
+              "hex": "#e9d9ce",
+              "band": "Quarter",
+              "anchor": false,
+              "contrastOnWhite": 1.37
+            }
+          }
+        },
+        "150": {
+          "$type": "color",
+          "$value": "rgb(225, 203, 186)",
+          "$description": "warning (amber) 150 — Quarter-Tone band — Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.8559,
+                "c": 0.0338,
+                "h": 59
+              },
+              "hex": "#e1cbba",
+              "band": "Quarter",
+              "anchor": false,
+              "contrastOnWhite": 1.56
+            }
+          }
+        },
+        "200": {
+          "$type": "color",
+          "$value": "rgb(218, 188, 166)",
+          "$description": "warning (amber) 200 — Quarter-Tone band — Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.8162,
+                "c": 0.0461,
+                "h": 59
+              },
+              "hex": "#dabca6",
+              "band": "Quarter",
+              "anchor": false,
+              "contrastOnWhite": 1.79
+            }
+          }
+        },
+        "250": {
+          "$type": "color",
+          "$value": "rgb(212, 174, 145)",
+          "$description": "warning (amber) 250 — Quarter-Tone band — Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.7765,
+                "c": 0.0593,
+                "h": 59
+              },
+              "hex": "#d4ae91",
+              "band": "Quarter",
+              "anchor": false,
+              "contrastOnWhite": 2.05
+            }
+          }
+        },
+        "300": {
+          "$type": "color",
+          "$value": "rgb(205, 159, 123)",
+          "$description": "warning (amber) 300 — Quarter-Tone band — Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.7368,
+                "c": 0.0733,
+                "h": 59
+              },
+              "hex": "#cd9f7b",
+              "band": "Quarter",
+              "anchor": false,
+              "contrastOnWhite": 2.38
+            }
+          }
+        },
+        "350": {
+          "$type": "color",
+          "$value": "rgb(199, 144, 101)",
+          "$description": "warning (amber) 350 — Quarter-Tone band — Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.6971,
+                "c": 0.0881,
+                "h": 59
+              },
+              "hex": "#c79065",
+              "band": "Quarter",
+              "anchor": false,
+              "contrastOnWhite": 2.76
+            }
+          }
+        },
+        "400": {
+          "$type": "color",
+          "$value": "rgb(192, 129, 77)",
+          "$description": "warning (amber) 400 — Mid-Tone band — Mid-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.6574,
+                "c": 0.1035,
+                "h": 59
+              },
+              "hex": "#c0814d",
+              "band": "Mid",
+              "anchor": false,
+              "contrastOnWhite": 3.24
+            }
+          }
+        },
+        "450": {
+          "$type": "color",
+          "$value": "rgb(186, 114, 50)",
+          "$description": "warning (amber) 450 — Mid-Tone band — Mid-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.6177,
+                "c": 0.1195,
+                "h": 59
+              },
+              "hex": "#ba7232",
+              "band": "Mid",
+              "anchor": false,
+              "contrastOnWhite": 3.79
+            }
+          }
+        },
+        "500": {
+          "$type": "color",
+          "$value": "rgb(179, 98, 3)",
+          "$description": "warning (amber) 500 — Mid-Tone band — warning-anchor (exact brand value, pinned)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.578,
+                "c": 0.136,
+                "h": 59
+              },
+              "hex": "#b36203",
+              "band": "Mid",
+              "anchor": true,
+              "contrastOnWhite": 4.5
+            }
+          }
+        },
+        "550": {
+          "$type": "color",
+          "$value": "rgb(160, 87, 0)",
+          "$description": "warning (amber) 550 — Mid-Tone band — Mid-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.5316,
+                "c": 0.126,
+                "h": 59
+              },
+              "hex": "#a05700",
+              "band": "Mid",
+              "anchor": false,
+              "contrastOnWhite": 5.44
+            }
+          }
+        },
+        "600": {
+          "$type": "color",
+          "$value": "rgb(141, 76, 0)",
+          "$description": "warning (amber) 600 — Mid-Tone band — Mid-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.4851,
+                "c": 0.1151,
+                "h": 59
+              },
+              "hex": "#8d4c00",
+              "band": "Mid",
+              "anchor": false,
+              "contrastOnWhite": 6.63
+            }
+          }
+        },
+        "650": {
+          "$type": "color",
+          "$value": "rgb(123, 65, 0)",
+          "$description": "warning (amber) 650 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.4387,
+                "c": 0.1041,
+                "h": 59
+              },
+              "hex": "#7b4100",
+              "band": "ThreeQuarter",
+              "anchor": false,
+              "contrastOnWhite": 8.08
+            }
+          }
+        },
+        "700": {
+          "$type": "color",
+          "$value": "rgb(105, 55, 0)",
+          "$description": "warning (amber) 700 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.3922,
+                "c": 0.0931,
+                "h": 59
+              },
+              "hex": "#693700",
+              "band": "ThreeQuarter",
+              "anchor": false,
+              "contrastOnWhite": 9.78
+            }
+          }
+        },
+        "750": {
+          "$type": "color",
+          "$value": "rgb(88, 45, 0)",
+          "$description": "warning (amber) 750 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.3458,
+                "c": 0.0822,
+                "h": 59
+              },
+              "hex": "#582d00",
+              "band": "ThreeQuarter",
+              "anchor": false,
+              "contrastOnWhite": 11.73
+            }
+          }
+        },
+        "800": {
+          "$type": "color",
+          "$value": "rgb(71, 35, 0)",
+          "$description": "warning (amber) 800 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.2993,
+                "c": 0.0713,
+                "h": 59
+              },
+              "hex": "#472300",
+              "band": "ThreeQuarter",
+              "anchor": false,
+              "contrastOnWhite": 13.92
+            }
+          }
+        },
+        "850": {
+          "$type": "color",
+          "$value": "rgb(55, 26, 0)",
+          "$description": "warning (amber) 850 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.2529,
+                "c": 0.0604,
+                "h": 59
+              },
+              "hex": "#371a00",
+              "band": "ThreeQuarter",
+              "anchor": false,
+              "contrastOnWhite": 16.03
+            }
+          }
+        },
+        "900": {
+          "$type": "color",
+          "$value": "rgb(40, 17, 0)",
+          "$description": "warning (amber) 900 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.2064,
+                "c": 0.0497,
+                "h": 59
+              },
+              "hex": "#281100",
+              "band": "ThreeQuarter",
+              "anchor": false,
+              "contrastOnWhite": 17.94
+            }
+          }
+        },
+        "950": {
+          "$type": "color",
+          "$value": "rgb(25, 8, 0)",
+          "$description": "warning (amber) 950 — Shadow band — Shadow",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.16,
+                "c": 0.0393,
+                "h": 59
+              },
+              "hex": "#190800",
+              "band": "Shadows",
+              "anchor": false,
+              "contrastOnWhite": 19.52
+            }
+          }
+        },
+        "025": {
+          "$type": "color",
+          "$value": "rgb(250, 246, 242)",
+          "$description": "warning (amber) 025 — Highlight band — Highlight",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.975,
+                "c": 0.0068,
+                "h": 59
+              },
+              "hex": "#faf6f2",
+              "band": "Highlights",
+              "anchor": false,
+              "contrastOnWhite": 1.08
+            }
+          }
+        },
+        "050": {
+          "$type": "color",
+          "$value": "rgb(241, 232, 225)",
+          "$description": "warning (amber) 050 — Highlight band — Highlight",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.9353,
+                "c": 0.0133,
+                "h": 59
+              },
+              "hex": "#f1e8e1",
+              "band": "Highlights",
+              "anchor": false,
+              "contrastOnWhite": 1.21
+            }
+          }
+        }
+      },
+      "neutral": {
+        "100": {
+          "$type": "color",
+          "$value": "rgb(218, 220, 221)",
+          "$description": "neutral 100 — Quarter-Tone band — Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.8928,
+                "c": 0.0028,
+                "h": 243
+              },
+              "hex": "#dadcdd",
+              "band": "Quarter",
+              "anchor": false,
+              "contrastOnWhite": 1.38
+            }
+          }
+        },
+        "150": {
+          "$type": "color",
+          "$value": "rgb(204, 206, 209)",
+          "$description": "neutral 150 — Quarter-Tone band — Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.8517,
+                "c": 0.0039,
+                "h": 243
+              },
+              "hex": "#ccced1",
+              "band": "Quarter",
+              "anchor": false,
+              "contrastOnWhite": 1.58
+            }
+          }
+        },
+        "200": {
+          "$type": "color",
+          "$value": "rgb(190, 193, 196)",
+          "$description": "neutral 200 — Quarter-Tone band — Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.8105,
+                "c": 0.0049,
+                "h": 243
+              },
+              "hex": "#bec1c4",
+              "band": "Quarter",
+              "anchor": false,
+              "contrastOnWhite": 1.81
+            }
+          }
+        },
+        "250": {
+          "$type": "color",
+          "$value": "rgb(177, 180, 184)",
+          "$description": "neutral 250 — Quarter-Tone band — Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.7694,
+                "c": 0.006,
+                "h": 243
+              },
+              "hex": "#b1b4b8",
+              "band": "Quarter",
+              "anchor": false,
+              "contrastOnWhite": 2.08
+            }
+          }
+        },
+        "300": {
+          "$type": "color",
+          "$value": "rgb(163, 168, 171)",
+          "$description": "neutral 300 — Quarter-Tone band — Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.7283,
+                "c": 0.0071,
+                "h": 243
+              },
+              "hex": "#a3a8ab",
+              "band": "Quarter",
+              "anchor": false,
+              "contrastOnWhite": 2.4
+            }
+          }
+        },
+        "350": {
+          "$type": "color",
+          "$value": "rgb(150, 155, 159)",
+          "$description": "neutral 350 — Quarter-Tone band — Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.6872,
+                "c": 0.0081,
+                "h": 243
+              },
+              "hex": "#969b9f",
+              "band": "Quarter",
+              "anchor": false,
+              "contrastOnWhite": 2.81
+            }
+          }
+        },
+        "400": {
+          "$type": "color",
+          "$value": "rgb(137, 143, 147)",
+          "$description": "neutral 400 — Mid-Tone band — Mid-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.6461,
+                "c": 0.0092,
+                "h": 243
+              },
+              "hex": "#898f93",
+              "band": "Mid",
+              "anchor": false,
+              "contrastOnWhite": 3.27
+            }
+          }
+        },
+        "450": {
+          "$type": "color",
+          "$value": "rgb(125, 131, 135)",
+          "$description": "neutral 450 — Mid-Tone band — Mid-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.605,
+                "c": 0.0103,
+                "h": 243
+              },
+              "hex": "#7d8387",
+              "band": "Mid",
+              "anchor": false,
+              "contrastOnWhite": 3.84
+            }
+          }
+        },
+        "500": {
+          "$type": "color",
+          "$value": "rgb(112, 118, 124)",
+          "$description": "neutral 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white and black)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.5639,
+                "c": 0.0113,
+                "h": 243
+              },
+              "hex": "#70767c",
+              "band": "Mid",
+              "anchor": false,
+              "contrastOnWhite": 4.59
+            }
+          }
+        },
+        "550": {
+          "$type": "color",
+          "$value": "rgb(99, 106, 111)",
+          "$description": "neutral 550 — Mid-Tone band — Mid-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.519,
+                "c": 0.0125,
+                "h": 243
+              },
+              "hex": "#636a6f",
+              "band": "Mid",
+              "anchor": false,
+              "contrastOnWhite": 5.49
+            }
+          }
+        },
+        "600": {
+          "$type": "color",
+          "$value": "rgb(86, 93, 98)",
+          "$description": "neutral 600 — Mid-Tone band — Mid-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.4741,
+                "c": 0.0123,
+                "h": 243
+              },
+              "hex": "#565d62",
+              "band": "Mid",
+              "anchor": false,
+              "contrastOnWhite": 6.69
+            }
+          }
+        },
+        "650": {
+          "$type": "color",
+          "$value": "rgb(75, 80, 85)",
+          "$description": "neutral 650 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.4292,
+                "c": 0.0112,
+                "h": 243
+              },
+              "hex": "#4b5055",
+              "band": "ThreeQuarter",
+              "anchor": false,
+              "contrastOnWhite": 8.15
+            }
+          }
+        },
+        "700": {
+          "$type": "color",
+          "$value": "rgb(63, 68, 73)",
+          "$description": "neutral 700 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.3844,
+                "c": 0.01,
+                "h": 243
+              },
+              "hex": "#3f4449",
+              "band": "ThreeQuarter",
+              "anchor": false,
+              "contrastOnWhite": 9.84
+            }
+          }
+        },
+        "750": {
+          "$type": "color",
+          "$value": "rgb(52, 56, 60)",
+          "$description": "neutral 750 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.3395,
+                "c": 0.0088,
+                "h": 243
+              },
+              "hex": "#34383c",
+              "band": "ThreeQuarter",
+              "anchor": false,
+              "contrastOnWhite": 11.82
+            }
+          }
+        },
+        "800": {
+          "$type": "color",
+          "$value": "rgb(41, 45, 48)",
+          "$description": "neutral 800 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.2946,
+                "c": 0.0077,
+                "h": 243
+              },
+              "hex": "#292d30",
+              "band": "ThreeQuarter",
+              "anchor": false,
+              "contrastOnWhite": 13.89
+            }
+          }
+        },
+        "850": {
+          "$type": "color",
+          "$value": "rgb(31, 34, 36)",
+          "$description": "neutral 850 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.2497,
+                "c": 0.0065,
+                "h": 243
+              },
+              "hex": "#1f2224",
+              "band": "ThreeQuarter",
+              "anchor": false,
+              "contrastOnWhite": 16
+            }
+          }
+        },
+        "900": {
+          "$type": "color",
+          "$value": "rgb(21, 23, 25)",
+          "$description": "neutral 900 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.2049,
+                "c": 0.0053,
+                "h": 243
+              },
+              "hex": "#151719",
+              "band": "ThreeQuarter",
+              "anchor": false,
+              "contrastOnWhite": 17.97
+            }
+          }
+        },
+        "950": {
+          "$type": "color",
+          "$value": "rgb(12, 13, 15)",
+          "$description": "neutral 950 — Shadow band — Shadow",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.16,
+                "c": 0.0042,
+                "h": 243
+              },
+              "hex": "#0c0d0f",
+              "band": "Shadows",
+              "anchor": false,
+              "contrastOnWhite": 19.44
+            }
+          }
+        },
+        "025": {
+          "$type": "color",
+          "$value": "rgb(246, 247, 247)",
+          "$description": "neutral 025 — Highlight band — Highlight",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.975,
+                "c": 0.0007,
+                "h": 243
+              },
+              "hex": "#f6f7f7",
+              "band": "Highlights",
+              "anchor": false,
+              "contrastOnWhite": 1.07
+            }
+          }
+        },
+        "050": {
+          "$type": "color",
+          "$value": "rgb(232, 233, 234)",
+          "$description": "neutral 050 — Highlight band — Highlight",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.9339,
+                "c": 0.0017,
+                "h": 243
+              },
+              "hex": "#e8e9ea",
+              "band": "Highlights",
+              "anchor": false,
+              "contrastOnWhite": 1.22
+            }
+          }
+        }
+      }
+    },
+    "semantic": {
+      "text": {
+        "primary": {
+          "$type": "color",
+          "$value": "{nbds.color.neutral.950}",
+          "$description": "Primary text on light surfaces",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.color.neutral.950"
+            }
+          }
+        },
+        "secondary": {
+          "$type": "color",
+          "$value": "{nbds.color.neutral.650}",
+          "$description": "Secondary / supporting text on light",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.color.neutral.650"
+            }
+          }
+        },
+        "inverse": {
+          "$type": "color",
+          "$value": "{nbds.color.white}",
+          "$description": "Text on dark surfaces",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.color.white"
+            }
+          }
+        }
+      },
+      "surface": {
+        "default": {
+          "$type": "color",
+          "$value": "{nbds.color.white}",
+          "$description": "Default page surface",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.color.white"
+            }
+          }
+        },
+        "sunken": {
+          "$type": "color",
+          "$value": "{nbds.color.neutral.050}",
+          "$description": "Sunken / subtle surface",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.color.neutral.050"
+            }
+          }
+        }
+      },
+      "border": {
+        "default": {
+          "$type": "color",
+          "$value": "{nbds.color.neutral.200}",
+          "$description": "Default border (Quarter-Tone, not text-safe by design)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.color.neutral.200"
+            }
+          }
+        },
+        "strong": {
+          "$type": "color",
+          "$value": "{nbds.color.neutral.400}",
+          "$description": "Stronger border / divider",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.color.neutral.400"
+            }
+          }
+        }
+      },
+      "action": {
+        "primary": {
+          "$type": "color",
+          "$value": "{nbds.color.red.550}",
+          "$description": "Primary action — the exact brand red anchor",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.color.red.550"
+            }
+          }
+        },
+        "primary-hover": {
+          "$type": "color",
+          "$value": "{nbds.color.red.600}",
+          "$description": "Primary action, hover",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.color.red.600"
+            }
+          }
+        }
+      },
+      "status": {
+        "success": {
+          "$type": "color",
+          "$value": "{nbds.color.green.500}",
+          "$description": "Success",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.color.green.500"
+            }
+          }
+        },
+        "warning": {
+          "$type": "color",
+          "$value": "{nbds.color.amber.500}",
+          "$description": "Warning",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.color.amber.500"
+            }
+          }
+        },
+        "danger": {
+          "$type": "color",
+          "$value": "{nbds.color.red.550}",
+          "$description": "Danger / destructive",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.color.red.550"
+            }
+          }
+        }
+      }
+    }
+  },
+  "$extensions": {
+    "generator": {
+      "name": "Prism3 engine",
+      "method": "OKLCH generation from theme schema"
+    },
+    "prism3": {
+      "schema": "theme-schema.example.json",
+      "note": "Generated primitives + semantic aliases. Primitives carry OKLCH provenance and tonal-band/contrast roles under $extensions.prism3."
+    }
+  }
+}

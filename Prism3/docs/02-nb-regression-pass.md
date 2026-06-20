@@ -122,6 +122,8 @@ Aggregate mean **ΔE00 1.95**, and **11/11 tonal-band contrast contracts pass** 
 
 Net: the spine of the architecture — exact-anchor preservation, ~20-step bands, gamut-aware OKLCH ramps, **contrast-role placement**, and the band contracts — reproduces a real shipped brand from a ~7-input schema, fully passing the colour acceptance criteria.
 
+**Output.** The engine emits a DTCG token tree (`../engine/emit-dtcg.ts` → `../engine/out/nb.tokens.json`) in NB's own dialect, so it is drop-in comparable with the hand-built tokens. Each primitive leaf additionally carries its OKLCH source, tonal band, anchor flag, and contrast under `$extensions.prism3`, and a `nbds.semantic.*` layer maps the contract roles to primitive steps via brace aliases (all validated to resolve). This is the consumable artifact — the bridge to Style Dictionary and Figma import.
+
 ---
 
 *Companion files: `../schema/theme-schema.example.json` (the measured NB input), `01-token-architecture.md` (the architecture this tests). Source data: `Tokens/New Balance/tokens/tokens/shared/core-color.json` and siblings.*

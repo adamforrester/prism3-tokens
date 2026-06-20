@@ -13,13 +13,13 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
-import { RGB, contrast, deltaE2000, rgbToOklch } from './color';
-import { generateRamp, STEP_NUMS, stepKey, bandOf, autoPlaceStep, Step } from './ramp';
+import { RGB, contrast, deltaE2000 } from './color';
+import { stepKey, autoPlaceStep, Step } from './ramp';
+import { loadSpecs, buildRamp } from './theme';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const repo = resolve(here, '../..');
 const NB = resolve(repo, 'Tokens/New Balance/tokens/tokens/shared/core-color.json');
-const SCHEMA = resolve(here, '../schema/theme-schema.example.json');
 
 const WHITE: RGB = { r: 255, g: 255, b: 255 };
 const BLACK: RGB = { r: 0, g: 0, b: 0 };
@@ -35,20 +35,8 @@ const nbStep = (pal: string, num: number): RGB | null => {
   return node?.$value ? parseRgb(node.$value) : null;
 };
 
-// ---- load schema anchors ----
-const schema = JSON.parse(readFileSync(SCHEMA, 'utf8'));
-const oklchOf = (o: any) => ({ l: o.l, c: o.c, h: o.h });
-
-type RampSpec = {
-  name: string; nbPalette: string; hue: number; chroma: number;
-  anchor?: { oklch: { l: number; c: number; h: number }; stepNum: number };
-};
-const specs: RampSpec[] = [
-  { name: 'brand (red)', nbPalette: 'red',   hue: schema.primaryColor.oklch.h, chroma: schema.primaryColor.oklch.c, anchor: { oklch: oklchOf(schema.primaryColor.oklch), stepNum: 550 } },
-  { name: 'success (green)', nbPalette: 'green', hue: schema.statusColors.success.oklch.h, chroma: schema.statusColors.success.oklch.c, anchor: { oklch: oklchOf(schema.statusColors.success.oklch), stepNum: 500 } },
-  { name: 'warning (amber)', nbPalette: 'amber', hue: schema.statusColors.warning.oklch.h, chroma: schema.statusColors.warning.oklch.c, anchor: { oklch: oklchOf(schema.statusColors.warning.oklch), stepNum: 500 } },
-  { name: 'neutral',    nbPalette: 'neutral', hue: schema.neutralHue.hue, chroma: schema.neutralHue.chroma },
-];
+// ---- ramp specs (shared loader) ----
+const specs = loadSpecs();
 
 const out: string[] = [];
 const p = (s = '') => { out.push(s); console.log(s); };
@@ -63,9 +51,7 @@ let worstStep = { name: '', key: '', de: 0 };
 const summary: { name: string; mean: number; max: number; maxKey: string; covered: number; within: number }[] = [];
 
 for (const spec of specs) {
-  const ramp = generateRamp({
-    hue: spec.hue, chroma: spec.chroma, anchor: spec.anchor,
-  });
+  const ramp = buildRamp(spec);
   p(`## ${spec.name}`);
   if (spec.anchor) {
     const auto = autoPlaceStep(spec.anchor.oklch.l);
@@ -77,7 +63,7 @@ for (const spec of specs) {
   const des: number[] = [];
   let max = 0, maxKey = '';
   for (const s of ramp) {
-    const actual = nbStep(spec.nbPalette, s.num);
+    const actual = nbStep(spec.palette, s.num);
     if (!actual) continue;
     const de = deltaE2000(s.rgb, actual);
     des.push(de);
@@ -97,8 +83,8 @@ for (const spec of specs) {
 // ---- functional checks: tonal-band contrast contracts (§5.2) ----
 p('## Tonal-band contrast contracts (generated ramps)');
 p('');
-const red = generateRamp({ hue: specs[0].hue, chroma: specs[0].chroma, anchor: specs[0].anchor });
-const neutral = generateRamp({ hue: specs[3].hue, chroma: specs[3].chroma });
+const red = buildRamp(specs[0]);
+const neutral = buildRamp(specs[3]);
 const rgbAt = (r: Step[], n: number) => r.find((s) => s.num === n)!.rgb;
 
 const checks: { label: string; got: number; pass: boolean; rule: string }[] = [];
