@@ -1,12 +1,18 @@
 # Prism3 engine (prototype)
 
 A thin, dependency-free TypeScript prototype of the Prism3 generation engine.
-Its only job right now is to **prove the color thesis against New Balance**:
-generate NB's ramps from the reverse-engineered schema and diff them against
-the real hand-built tokens.
+It does two things:
 
-This is not the production engine — it is the smallest thing that turns
-`docs/02-nb-regression-pass.md` from a paper prediction into a measured result.
+1. **Proves the color thesis against New Balance** — generates NB's ramps from
+   the reverse-engineered schema and diffs them against the real hand-built
+   tokens (`nb-regression.ts`).
+2. **Proves the white-label claim** — takes a minimal brand input (primary +
+   neutral) and generates a complete color system, *synthesising* status
+   palettes and *carving a dedicated danger red* when the brand's primary isn't
+   red (`emit-dtcg.ts`, second theme `aurora`).
+
+This is not the production engine, but it is no longer color-thesis-only: it
+generates two brands (NB + a synthetic violet brand) end-to-end.
 
 ## Run
 
@@ -22,11 +28,11 @@ Node ≥ 20. No `npm install` needed — the color math is self-contained
 
 - `color.ts` — sRGB ↔ OKLCH, sRGB → CIELAB, CIEDE2000, WCAG contrast + dual-side window, gamut-aware max chroma. No deps.
 - `ramp.ts` — ramp generation per spec §5.1–5.2: exact anchor pinning, 20-step scale, chroma **arc** (tapers toward both ends), gamut clamp, 5 tonal bands, contrast-role placement.
-- `theme.ts` — loads the schema into ramp specs (one source of truth for the regression and the emitter).
-- `modes.ts` — appearance modes (light / dark / hc-light / hc-dark). Resolves each semantic role to a primitive step by contrast target against the mode's surface.
-- `nb-regression.ts` — diffs generated ramps against the real NB tokens (ΔE00 per step), checks the contrast contracts, writes `nb-regression-report.md`.
-- `emit-dtcg.ts` — emits `out/nb.tokens.json` (see below), generates the per-mode semantic layer, validates every alias resolves and every mode contrast contract holds, writes `modes-report.md`.
-- `nb-regression-report.md`, `modes-report.md`, `out/nb.tokens.json` — generated outputs (committed so results are reviewable without running).
+- `theme.ts` — builds a brand-agnostic `Theme` (palettes, role→palette map, namespace, color format). Two entry points: `nbTheme()` (measured NB anchors, `nbds.color`/rgb) and `brandTheme(input)` (white-label: synthesises status hues + carves a danger red, `prism.color`/hex).
+- `modes.ts` — appearance modes (light / dark / hc-light / hc-dark). Resolves each semantic role to a primitive step by contrast target against the mode's surface. Brand-agnostic — paths/palette names come from the `Theme`.
+- `nb-regression.ts` — diffs generated NB ramps against the real NB tokens (ΔE00 per step), checks the contrast contracts, writes `nb-regression-report.md`.
+- `emit-dtcg.ts` — emits a DTCG tree per theme (`out/<id>.tokens.json`), generates the per-mode semantic layer, validates every alias resolves and every mode contrast contract holds, writes `modes-report.md`.
+- generated outputs (committed so results are reviewable without running): `nb-regression-report.md`, `modes-report.md`, `out/nb.tokens.json`, `out/aurora.tokens.json`.
 
 ## Modes (`modes-report.md`)
 
@@ -41,17 +47,24 @@ it auto-lightens to `red.450` because the anchor can't clear 4.5:1 on a
 near-black surface. The run verifies every mode's contrast contracts (currently
 28/28).
 
-## DTCG output (`out/nb.tokens.json`)
+## DTCG output (`out/*.tokens.json`)
 
-Emitted in NB's own DTCG dialect — `nbds.color.<palette>.<step>`, `rgb(r, g, b)`
-values, 3-digit padded steps — so it is drop-in comparable with the hand-built
-NB tokens. Beyond parity, every primitive leaf carries the engine's provenance
-under `$extensions.prism3`: the OKLCH source, hex, tonal band, whether it is the
-exact pinned anchor, and its on-white contrast. A `nbds.semantic.*` layer maps
-the contract roles (text, surface, border, action, status) to primitive steps
-via DTCG brace aliases (e.g. `action.primary` → `{nbds.color.red.550}`), and the
-run validates that all of them resolve. This is the artifact downstream
-consumers (Style Dictionary, Figma import) actually read.
+Two emit profiles prove the same engine serves both regression and product:
+
+- **`out/nb.tokens.json`** — NB's own dialect (`nbds.color.<palette>.<step>`,
+  `rgb(r, g, b)`, padded steps) so it is byte-comparable with the hand-built NB
+  tokens.
+- **`out/aurora.tokens.json`** — the product dialect (`prism.color.*`, hex,
+  DTCG-standard, Style-Dictionary-safe) for a synthetic violet brand that only
+  declared a primary + neutral. The engine added `success`/`warning` from
+  canonical hues and a `danger` red carved at hue 27 (because violet is not red),
+  so `action.primary` → `{prism.color.primary.550}` while `status.danger` →
+  `{prism.color.danger.500}` — distinct palettes, the white-label requirement.
+
+Every primitive leaf carries provenance under `$extensions.prism3` (OKLCH source,
+hex, tonal band, anchor flag, on-white contrast). A per-mode `…semantic.<mode>.*`
+layer maps the contract roles to primitive steps via DTCG brace aliases; the run
+validates every alias resolves and every mode contrast contract holds.
 
 ## What it currently does / doesn't
 
@@ -60,8 +73,13 @@ gamut-aware chroma; **contrast-role-targeted placement** (Mid-Tone 500 pinned to
 the dual-side AA luminance pivot so all band contracts pass); band classification;
 WCAG contract checks.
 
-**Doesn't yet (next increments):**
-- *Optional per-step hue drift* — NB hand-shifts a few steps (amber.600, red.300);
-  a constant-hue engine won't follow those unless we add an opt-in drift curve.
-  Constant-hue is the right default, so this is opt-in, not a gap.
-- Light/dark/HC mode generation, type/space/radius/motion, DTCG + Figma emit.
+**Deliberately not reproduced:**
+- *NB's per-step hue kinks* (amber.600, red.300). Following them would require
+  per-step hue drift — effectively letting a brand specify every step's hue,
+  which the architecture resists ("resist the seventh"). Constant hue is the
+  principled default; these outliers characterise NB's hand-authoring, not an
+  engine gap.
+
+**Next increments:**
+- Type / space / radius / motion scales from the schema; raw-figma round-trip;
+  downstream pipeline (Style Dictionary / Figma MCP).

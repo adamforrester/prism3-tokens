@@ -9,20 +9,24 @@
 
 ## Current status (2026-06-20)
 
-**The color axis is built and proven end-to-end.** From a ~7-input theme schema
-the engine generates gamut-aware OKLCH ramps, validates them against a real
-shipped brand (New Balance), places steps by contrast role, emits a consumable
-DTCG token file, and generates four contrast-verified appearance modes.
+**The color axis is built, proven against a real brand, AND proven white-label.**
+From a ~7-input schema the engine generates gamut-aware OKLCH ramps, validates
+them against New Balance, places steps by contrast role, generates four
+contrast-verified appearance modes, and emits consumable DTCG. It now also runs
+a *second, synthetic* brand (`aurora`, a violet primary with no status colors)
+end-to-end — synthesising status palettes and carving a dedicated danger red the
+brand never specified. Status generation no longer depends on brand anchors.
 
 Headline numbers (regenerate with the commands below):
 
-| Check | Result |
-|---|---|
-| NB color regression, aggregate ΔE00 (generated vs real NB) | **1.95** |
-| Tonal-band contrast contracts (single ramp) | **11/11 pass** |
-| Cross-mode contrast contracts (light/dark/hc-light/hc-dark) | **28/28 pass** |
-| DTCG semantic aliases resolve | **44/44** |
-| Color leaves emitted | 126 |
+| Check | NB | Aurora (white-label) |
+|---|---|---|
+| Aggregate ΔE00 vs real NB | **1.95** | n/a |
+| Tonal-band contrast contracts | **11/11** | (same engine) |
+| Cross-mode contrast contracts | **28/28** | **28/28** |
+| DTCG semantic aliases resolve | **44/44** | **44/44** |
+| Color leaves emitted | 126 | 146 (5 palettes incl. carved danger) |
+| Emit profile | `nbds.color` / rgb | `prism.color` / hex |
 
 Work lives on branch `claude/prism3-token-architecture-leipq2` and is merged to
 `main` for review.
@@ -43,14 +47,14 @@ Prism3/
 └── engine/                         ← dependency-free TypeScript prototype
     ├── color.ts                    ← sRGB↔OKLCH, CIELAB, CIEDE2000, WCAG contrast, gamut-aware max chroma
     ├── ramp.ts                     ← ramp generation: exact anchor, 20 steps, chroma arc, 5 bands, contrast-role placement
-    ├── theme.ts                    ← schema → ramp specs (one source of truth)
-    ├── modes.ts                    ← light/dark/hc-light/hc-dark, roles resolved by contrast target
+    ├── theme.ts                    ← Theme builder: nbTheme() (measured) + brandTheme() (white-label, status synthesis + danger carve)
+    ├── modes.ts                    ← light/dark/hc-light/hc-dark, roles resolved by contrast target, brand-agnostic
     ├── nb-regression.ts            ← diffs generated vs real NB, checks contracts → nb-regression-report.md
-    ├── emit-dtcg.ts                ← emits out/nb.tokens.json + modes-report.md, validates aliases & mode contracts
+    ├── emit-dtcg.ts                ← emits out/<id>.tokens.json per theme (NB + aurora) + modes-report.md, validates aliases & mode contracts
     ├── README.md                   ← how the engine works / how to run
     ├── nb-regression-report.md     ← generated (committed for review)
-    ├── modes-report.md             ← generated (committed for review)
-    └── out/nb.tokens.json          ← generated DTCG output (committed for review)
+    ├── modes-report.md             ← generated, covers both themes (committed for review)
+    └── out/{nb,aurora}.tokens.json ← generated DTCG output per theme (committed for review)
 ```
 
 ### How to run
@@ -87,22 +91,40 @@ npx tsx Prism3/engine/emit-dtcg.ts       # emit DTCG + modes, validate
   each semantic role re-resolves to a primitive step by contrast target against
   the mode's surface. The brand anchor is preserved where it can be (light
   `action.primary` = `red.550`) and auto-adjusted where it can't (dark → `red.450`).
+- **Status palettes are engine-supplied; danger is carved (white-label).** A
+  brand supplies primary + neutral; the engine synthesises success/warning from
+  canonical hues. If the primary is in red territory the brand red *is* the
+  danger red (NB); otherwise the engine carves a dedicated danger red the brand
+  never specified (aurora). Proven by running a second, non-red brand end-to-end.
+  *Rationale:* status-from-anchors only worked because NB happened to supply
+  them; a real white-label brand won't, and `danger == primary` for a red brand
+  is a coincidence that breaks for everyone else (review finding).
+- **Two emit profiles, one engine.** `nbds.color`/rgb for the NB regression
+  (byte-comparable to real NB) and `prism.color`/hex for product output
+  (DTCG-standard, Style-Dictionary-safe). Resolves the namespace + value-format
+  review notes without losing NB comparability.
+- **NB's per-step hue kinks are NOT reproduced, by design.** Per-step hue drift
+  would be a brand input the schema deliberately resists ("resist the seventh").
+  The `amber.600`/`red.300` outliers characterise NB's hand-authoring; they are
+  not an engine gap (review finding — reframed from an earlier "opt-in feature").
 
 ---
 
 ## Open items / next steps (roughly prioritized)
 
-1. **Prove downstream consumption.** Feed `out/nb.tokens.json` through Style
+Reordered per external review: prove breadth (a second brand through the full
+stack) before pipeline plumbing — it tests the white-label thesis harder.
+
+1. **Extend beyond color.** Type / space / radius / motion scales from the
+   schema, so a second brand can be driven through the *full* stack (font swap +
+   radius change), not just color. The schema already specs these (§4); the
+   engine doesn't generate them yet. **Biggest remaining gap.**
+2. **Prove downstream consumption.** Feed `out/*.tokens.json` through Style
    Dictionary and/or the Figma MCP — confirm a real tool ingests it and the four
-   modes map to Figma variable modes. This turns "generation" into "pipeline".
-2. **Round-trip the raw-figma format.** Emit the second parallel format
-   (`raw-figma/`) the repo keeps, preserving `variableId` linkage so the two
-   formats stay reconcilable (see root `CLAUDE.md`).
-3. **Extend beyond color.** Type / space / radius / motion scales from the
-   schema (the schema already gestures at these).
-4. **Opt-in per-step hue drift.** Reproduce brand hand-kinks (NB `amber.600`,
-   `red.300` — the only remaining ΔE00 outliers). Constant-hue stays the default.
-5. **Figma binding constraints.** Verify variable/mode constraints via the Figma
+   modes map to Figma variable modes. Turns "generation" into "pipeline".
+3. **Round-trip the raw-figma format.** Emit the second parallel format
+   (`raw-figma/`) the repo keeps, preserving `variableId` linkage (root `CLAUDE.md`).
+4. **Figma binding constraints.** Verify variable/mode constraints via the Figma
    MCP (still outstanding from the architecture review).
 
 ---

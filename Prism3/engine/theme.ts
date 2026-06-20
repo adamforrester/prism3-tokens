@@ -1,30 +1,126 @@
 /**
- * Prism3 engine — theme loading.
+ * Prism3 engine — theme building.
  *
- * Reads the reverse-engineered NB schema and turns it into ramp specs, so the
- * regression and the DTCG emitter generate from one source of truth.
+ * Two entry points:
+ *  - nbTheme()      — the New Balance regression theme: reads measured anchors
+ *                     from the schema, names palettes by hue (red/green/amber),
+ *                     emits in NB's dialect (nbds.color / rgb). Used to prove the
+ *                     engine reproduces a real brand.
+ *  - brandTheme()   — the white-label path: a brand supplies primary + neutral
+ *                     (+ optional status overrides) and the engine SYNTHESISES
+ *                     status palettes from canonical hues, carving a separate
+ *                     danger red when the primary isn't already red. Names
+ *                     palettes by role and emits the product dialect (prism.color
+ *                     / hex). This is what makes the system white-label.
  */
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
-import { generateRamp, Step } from './ramp';
+import { generateRamp, peakChromaL, autoPlaceStep, Step } from './ramp';
 
 const here = dirname(fileURLToPath(import.meta.url));
 export const SCHEMA = resolve(here, '../schema/theme-schema.example.json');
 
-export type Role = 'brand' | 'neutral' | 'success' | 'warning';
+export type Role = 'brand' | 'neutral' | 'success' | 'warning' | 'danger';
+export type OKLCH = { l: number; c: number; h: number };
 
-export type RampSpec = {
-  name: string;       // human label, e.g. "brand (red)"
-  palette: string;    // token key, e.g. "red"
-  role: Role;
-  hue: number;
-  chroma: number;
-  anchor?: { oklch: { l: number; c: number; h: number }; stepNum: number };
+/** A generated primitive palette. */
+export type PaletteBuild = { palette: string; role: Role; steps: Step[]; description: string };
+
+/** Everything the emitter and the modes engine need to be brand-agnostic. */
+export type Theme = {
+  id: string;
+  namespace: string;                 // 'nbds.color' | 'prism.color'
+  colorFormat: 'rgb' | 'hex';
+  palettes: PaletteBuild[];
+  roleToPalette: Record<Role, string>;
+  roleAnchorStep: Record<Role, number>;
+  notes: string[];                   // human-readable record of engine decisions
 };
 
-const oklchOf = (o: any) => ({ l: o.l, c: o.c, h: o.h });
+// ---- canonical status hues (engine-supplied; a brand need not specify them) ----
+const STATUS_DEFAULTS: Record<'success' | 'warning' | 'danger', OKLCH & { chroma: number }> = {
+  success: { l: 0.55, c: 0.15, h: 145, chroma: 0.15 },
+  warning: { l: 0.55, c: 0.15, h: 75, chroma: 0.15 },
+  danger: { l: 0.55, c: 0.17, h: 27, chroma: 0.17 },
+};
 
+/** Angular distance between two hues (degrees, 0..180). */
+const hueDist = (a: number, b: number): number => {
+  const d = Math.abs(a - b) % 360;
+  return d > 180 ? 360 - d : d;
+};
+/** Is this primary hue close enough to the danger red that it IS the danger hue? */
+export const inRedTerritory = (hue: number): boolean => hueDist(hue, STATUS_DEFAULTS.danger.h) <= 20;
+
+/** Generate a vivid, unanchored status ramp from a canonical hue. */
+const statusRamp = (hue: number, chroma: number): Step[] =>
+  generateRamp({ hue, chroma, peakL: peakChromaL(hue) });
+
+// ---------------------------------------------------------------------------
+// White-label brand input -> Theme
+// ---------------------------------------------------------------------------
+export type BrandInput = {
+  id: string;
+  primary: OKLCH;                    // the exact brand anchor
+  neutral: { hue: number; chroma: number };
+  /** Optional measured status overrides; omit to let the engine synthesise. */
+  status?: Partial<Record<'success' | 'warning' | 'danger', OKLCH & { chroma: number }>>;
+};
+
+export const brandTheme = (input: BrandInput): Theme => {
+  const notes: string[] = [];
+  const anchorStep = autoPlaceStep(input.primary.l);
+  notes.push(`primary anchor (h${input.primary.h}) pinned exactly at step ${anchorStep}`);
+
+  const palettes: PaletteBuild[] = [
+    { palette: 'primary', role: 'brand', description: 'Brand primary', steps: generateRamp({ hue: input.primary.h, chroma: input.primary.c, anchor: { oklch: input.primary, stepNum: anchorStep } }) },
+    { palette: 'neutral', role: 'neutral', description: 'Neutral', steps: generateRamp({ hue: input.neutral.hue, chroma: input.neutral.chroma }) },
+  ];
+
+  const status = (k: 'success' | 'warning') => {
+    const s = input.status?.[k] ?? STATUS_DEFAULTS[k];
+    notes.push(`${k}: ${input.status?.[k] ? 'brand-supplied' : 'engine default'} hue ${s.h}`);
+    return { palette: k, role: k as Role, description: `${k} status`, steps: statusRamp(s.h, s.chroma) };
+  };
+  palettes.push(status('success'), status('warning'));
+
+  // ---- danger carve ----
+  const roleToPalette: Record<Role, string> = {
+    brand: 'primary', neutral: 'neutral', success: 'success', warning: 'warning', danger: 'danger',
+  };
+  if (input.status?.danger) {
+    palettes.push({ palette: 'danger', role: 'danger', description: 'danger status (brand-supplied)', steps: statusRamp(input.status.danger.h, input.status.danger.chroma) });
+    notes.push(`danger: brand-supplied hue ${input.status.danger.h}`);
+  } else if (inRedTerritory(input.primary.h)) {
+    // The brand's own hue IS the danger hue — reuse the primary palette rather
+    // than minting a near-duplicate red.
+    roleToPalette.danger = 'primary';
+    notes.push(`danger: primary hue ${input.primary.h} is in red territory → danger reuses the primary palette (no separate red)`);
+  } else {
+    // Primary is not red, so carve a dedicated danger red the brand never gave us.
+    const d = STATUS_DEFAULTS.danger;
+    palettes.push({ palette: 'danger', role: 'danger', description: 'danger status (engine-carved red — primary is not red)', steps: statusRamp(d.h, d.chroma) });
+    notes.push(`danger: primary hue ${input.primary.h} is NOT red → carved a dedicated danger red at hue ${d.h}`);
+  }
+
+  return {
+    id: input.id, namespace: 'prism.color', colorFormat: 'hex', palettes, roleToPalette, notes,
+    roleAnchorStep: { brand: anchorStep, neutral: 500, success: 500, warning: 500, danger: 500 },
+  };
+};
+
+// ---------------------------------------------------------------------------
+// New Balance regression theme (measured anchors, NB dialect)
+// ---------------------------------------------------------------------------
+const oklchOf = (o: any): OKLCH => ({ l: o.l, c: o.c, h: o.h });
+
+export type RampSpec = {
+  name: string; palette: string; role: Role; hue: number; chroma: number;
+  anchor?: { oklch: OKLCH; stepNum: number };
+};
+
+/** NB regression specs (kept stable so the regression stays comparable). */
 export const loadSpecs = (): RampSpec[] => {
   const s = JSON.parse(readFileSync(SCHEMA, 'utf8'));
   return [
@@ -37,3 +133,16 @@ export const loadSpecs = (): RampSpec[] => {
 
 export const buildRamp = (spec: RampSpec): Step[] =>
   generateRamp({ hue: spec.hue, chroma: spec.chroma, anchor: spec.anchor });
+
+export const nbTheme = (): Theme => {
+  const specs = loadSpecs();
+  const palettes: PaletteBuild[] = specs.map((s) => ({
+    palette: s.palette, role: s.role, description: s.name, steps: buildRamp(s),
+  }));
+  return {
+    id: 'nb', namespace: 'nbds.color', colorFormat: 'rgb', palettes,
+    roleToPalette: { brand: 'red', neutral: 'neutral', success: 'green', warning: 'amber', danger: 'red' },
+    roleAnchorStep: { brand: 550, neutral: 500, success: 500, warning: 500, danger: 550 },
+    notes: ['NB regression: measured anchors; brand red also serves as danger (NB brand hue is its danger hue).'],
+  };
+};

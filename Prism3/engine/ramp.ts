@@ -43,6 +43,10 @@ export type RampOpts = {
   lMin?: number;
   /** Optional exact anchor, pinned verbatim at its step. */
   anchor?: Anchor;
+  /** Chroma-peak lightness for an UNanchored vivid ramp (status colors). When
+   *  set (and no anchor), the ramp uses the asymmetric arc instead of the
+   *  neutral bell. Ignored if `anchor` is given. */
+  peakL?: number;
   /** Place role-critical steps at their required luminance. Default true. */
   roleTargets?: boolean;
 };
@@ -59,13 +63,24 @@ export const autoPlaceStep = (l: number, lMax = 0.975, lMin = 0.16): number => {
   return best;
 };
 
-/** The chroma arc as a function of L — peaks at the anchor (or mid), tapers to both ends. */
+/** The lightness at which a hue reaches its widest in-gamut chroma (yellows peak
+ *  light, blues peak dark). Used to centre an unanchored vivid ramp. */
+export const peakChromaL = (hue: number, ceiling = 0.4): number => {
+  let bestL = 0.5, best = 0;
+  for (let L = 0.05; L <= 0.97; L += 0.01) {
+    const c = maxChroma(L, hue, ceiling);
+    if (c > best) { best = c; bestL = L; }
+  }
+  return bestL;
+};
+
+/** The chroma arc as a function of L — peaks at the anchor/peakL (arc), or mid (bell). */
 const chromaForL = (
-  L: number, hue: number, plateau: number, peakL: number, anchored: boolean,
+  L: number, hue: number, plateau: number, peakL: number, arc: boolean,
   lMax: number, lMin: number, ceiling: number
 ): number => {
   let shape: number;
-  if (anchored) {
+  if (arc) {
     if (L >= peakL) {
       const t = Math.min(1, (L - peakL) / (lMax - peakL));
       shape = 0.05 + 0.95 * (1 - t) ** 1.3; // tints desaturate toward white
@@ -113,8 +128,9 @@ export const generateRamp = (opts: RampOpts): Step[] => {
   } = opts;
   const n = STEP_NUMS.length;
   const ai = anchor ? STEP_NUMS.indexOf(anchor.stepNum) : -1;
-  const peakL = anchor ? anchor.oklch.l : 0.5;
-  const cFor = (L: number) => chromaForL(L, hue, chroma, peakL, !!anchor, lMax, lMin, chromaCeiling);
+  const arc = !!anchor || opts.peakL != null; // arc for brand/status, bell for neutral
+  const peakL = anchor ? anchor.oklch.l : (opts.peakL ?? 0.5);
+  const cFor = (L: number) => chromaForL(L, hue, chroma, peakL, arc, lMax, lMin, chromaCeiling);
 
   // ---- build the L curve from knots: endpoints + brand anchor + role anchors ----
   const knots: { i: number; L: number }[] = [

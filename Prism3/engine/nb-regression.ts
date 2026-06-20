@@ -138,7 +138,7 @@ p(meanOfMeans <= 3
   ? '> Aggregate mean within ΔE00 ≤ 3: the engine reproduces NB perceptually from the schema alone. Residual per-step outliers are NB hand-nudges (hue kinks), not engine error.'
   : `> Aggregate mean exceeds ΔE00 3 (${meanOfMeans.toFixed(2)}). Review the ⚠️ rows.`);
 p('');
-p('**Engine status:** contrast-role-targeted L placement is now implemented — the Mid-Tone 500 is placed at the dual-side AA luminance pivot, so all band contrast contracts pass (and, because NB is Univers-derived, matching that pivot also tightened the perceptual fit). Remaining increments: (1) optional per-step hue drift to follow brand hand-kinks if a brand wants them (NB amber.600 / red.300); (2) light/dark/HC mode generation; (3) DTCG + Figma emit.');
+p('**Engine status:** contrast-role-targeted L placement is implemented — the Mid-Tone 500 is placed at the dual-side AA luminance pivot, so all band contrast contracts pass (and, because NB is Univers-derived, matching that pivot also tightened the perceptual fit). The residual outliers (amber.600, red.300) are NB hand-applied hue kinks; the engine deliberately does NOT reproduce these — per-step hue drift would be a brand input the schema intentionally resists. They are a characterisation of NB\'s hand-authoring, not a feature gap. Modes (light/dark/HC) and DTCG emit are also implemented.');
 
 const reportPath = resolve(here, 'nb-regression-report.md');
 writeFileSync(reportPath, out.join('\n') + '\n');
