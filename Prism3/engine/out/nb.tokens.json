@@ -2329,19 +2329,628 @@
           }
         }
       }
+    },
+    "dimension": {
+      "0": {
+        "$type": "dimension",
+        "$value": "0px",
+        "$description": "0px — dimension primitive",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 0
+          }
+        }
+      },
+      "1": {
+        "$type": "dimension",
+        "$value": "1px",
+        "$description": "1px — dimension primitive",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 1
+          }
+        }
+      },
+      "2": {
+        "$type": "dimension",
+        "$value": "2px",
+        "$description": "2px — dimension primitive",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 2
+          }
+        }
+      },
+      "4": {
+        "$type": "dimension",
+        "$value": "4px",
+        "$description": "4px — dimension primitive",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 4
+          }
+        }
+      },
+      "6": {
+        "$type": "dimension",
+        "$value": "6px",
+        "$description": "6px — dimension primitive",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 6
+          }
+        }
+      },
+      "8": {
+        "$type": "dimension",
+        "$value": "8px",
+        "$description": "8px — dimension primitive",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 8
+          }
+        }
+      },
+      "12": {
+        "$type": "dimension",
+        "$value": "12px",
+        "$description": "12px — dimension primitive",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 12
+          }
+        }
+      },
+      "16": {
+        "$type": "dimension",
+        "$value": "16px",
+        "$description": "16px — dimension primitive",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 16
+          }
+        }
+      },
+      "20": {
+        "$type": "dimension",
+        "$value": "20px",
+        "$description": "20px — dimension primitive",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 20
+          }
+        }
+      },
+      "24": {
+        "$type": "dimension",
+        "$value": "24px",
+        "$description": "24px — dimension primitive",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 24
+          }
+        }
+      },
+      "28": {
+        "$type": "dimension",
+        "$value": "28px",
+        "$description": "28px — dimension primitive",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 28
+          }
+        }
+      },
+      "32": {
+        "$type": "dimension",
+        "$value": "32px",
+        "$description": "32px — dimension primitive",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 32
+          }
+        }
+      },
+      "36": {
+        "$type": "dimension",
+        "$value": "36px",
+        "$description": "36px — dimension primitive",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 36
+          }
+        }
+      },
+      "40": {
+        "$type": "dimension",
+        "$value": "40px",
+        "$description": "40px — dimension primitive",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 40
+          }
+        }
+      },
+      "44": {
+        "$type": "dimension",
+        "$value": "44px",
+        "$description": "44px — dimension primitive",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 44
+          }
+        }
+      },
+      "48": {
+        "$type": "dimension",
+        "$value": "48px",
+        "$description": "48px — dimension primitive",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 48
+          }
+        }
+      },
+      "52": {
+        "$type": "dimension",
+        "$value": "52px",
+        "$description": "52px — dimension primitive",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 52
+          }
+        }
+      },
+      "56": {
+        "$type": "dimension",
+        "$value": "56px",
+        "$description": "56px — dimension primitive",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 56
+          }
+        }
+      },
+      "60": {
+        "$type": "dimension",
+        "$value": "60px",
+        "$description": "60px — dimension primitive",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 60
+          }
+        }
+      },
+      "64": {
+        "$type": "dimension",
+        "$value": "64px",
+        "$description": "64px — dimension primitive",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 64
+          }
+        }
+      },
+      "68": {
+        "$type": "dimension",
+        "$value": "68px",
+        "$description": "68px — dimension primitive",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 68
+          }
+        }
+      },
+      "72": {
+        "$type": "dimension",
+        "$value": "72px",
+        "$description": "72px — dimension primitive",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 72
+          }
+        }
+      },
+      "76": {
+        "$type": "dimension",
+        "$value": "76px",
+        "$description": "76px — dimension primitive",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 76
+          }
+        }
+      },
+      "80": {
+        "$type": "dimension",
+        "$value": "80px",
+        "$description": "80px — dimension primitive",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 80
+          }
+        }
+      },
+      "84": {
+        "$type": "dimension",
+        "$value": "84px",
+        "$description": "84px — dimension primitive",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 84
+          }
+        }
+      },
+      "88": {
+        "$type": "dimension",
+        "$value": "88px",
+        "$description": "88px — dimension primitive",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 88
+          }
+        }
+      },
+      "92": {
+        "$type": "dimension",
+        "$value": "92px",
+        "$description": "92px — dimension primitive",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 92
+          }
+        }
+      },
+      "96": {
+        "$type": "dimension",
+        "$value": "96px",
+        "$description": "96px — dimension primitive",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 96
+          }
+        }
+      },
+      "100": {
+        "$type": "dimension",
+        "$value": "100px",
+        "$description": "100px — dimension primitive",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 100
+          }
+        }
+      },
+      "104": {
+        "$type": "dimension",
+        "$value": "104px",
+        "$description": "104px — dimension primitive",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 104
+          }
+        }
+      },
+      "108": {
+        "$type": "dimension",
+        "$value": "108px",
+        "$description": "108px — dimension primitive",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 108
+          }
+        }
+      },
+      "112": {
+        "$type": "dimension",
+        "$value": "112px",
+        "$description": "112px — dimension primitive",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 112
+          }
+        }
+      },
+      "116": {
+        "$type": "dimension",
+        "$value": "116px",
+        "$description": "116px — dimension primitive",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 116
+          }
+        }
+      },
+      "120": {
+        "$type": "dimension",
+        "$value": "120px",
+        "$description": "120px — dimension primitive",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 120
+          }
+        }
+      },
+      "124": {
+        "$type": "dimension",
+        "$value": "124px",
+        "$description": "124px — dimension primitive",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 124
+          }
+        }
+      },
+      "128": {
+        "$type": "dimension",
+        "$value": "128px",
+        "$description": "128px — dimension primitive",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 128
+          }
+        }
+      },
+      "720": {
+        "$type": "dimension",
+        "$value": "720px",
+        "$description": "720px — dimension primitive",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 720
+          }
+        }
+      }
+    },
+    "space": {
+      "4xs": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.4}",
+        "$description": "space 4xs — 4px (density: comfortable)",
+        "$extensions": {
+          "prism3": {
+            "role": "semantic",
+            "aliasOf": "nbds.dimension.4",
+            "px": 4,
+            "density": "comfortable"
+          }
+        }
+      },
+      "3xs": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.8}",
+        "$description": "space 3xs — 8px (density: comfortable)",
+        "$extensions": {
+          "prism3": {
+            "role": "semantic",
+            "aliasOf": "nbds.dimension.8",
+            "px": 8,
+            "density": "comfortable"
+          }
+        }
+      },
+      "2xs": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.12}",
+        "$description": "space 2xs — 12px (density: comfortable)",
+        "$extensions": {
+          "prism3": {
+            "role": "semantic",
+            "aliasOf": "nbds.dimension.12",
+            "px": 12,
+            "density": "comfortable"
+          }
+        }
+      },
+      "xs": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.16}",
+        "$description": "space xs — 16px (density: comfortable)",
+        "$extensions": {
+          "prism3": {
+            "role": "semantic",
+            "aliasOf": "nbds.dimension.16",
+            "px": 16,
+            "density": "comfortable"
+          }
+        }
+      },
+      "sm": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.24}",
+        "$description": "space sm — 24px (density: comfortable)",
+        "$extensions": {
+          "prism3": {
+            "role": "semantic",
+            "aliasOf": "nbds.dimension.24",
+            "px": 24,
+            "density": "comfortable"
+          }
+        }
+      },
+      "md": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.32}",
+        "$description": "space md — 32px (density: comfortable)",
+        "$extensions": {
+          "prism3": {
+            "role": "semantic",
+            "aliasOf": "nbds.dimension.32",
+            "px": 32,
+            "density": "comfortable"
+          }
+        }
+      },
+      "lg": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.48}",
+        "$description": "space lg — 48px (density: comfortable)",
+        "$extensions": {
+          "prism3": {
+            "role": "semantic",
+            "aliasOf": "nbds.dimension.48",
+            "px": 48,
+            "density": "comfortable"
+          }
+        }
+      },
+      "xl": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.64}",
+        "$description": "space xl — 64px (density: comfortable)",
+        "$extensions": {
+          "prism3": {
+            "role": "semantic",
+            "aliasOf": "nbds.dimension.64",
+            "px": 64,
+            "density": "comfortable"
+          }
+        }
+      },
+      "2xl": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.96}",
+        "$description": "space 2xl — 96px (density: comfortable)",
+        "$extensions": {
+          "prism3": {
+            "role": "semantic",
+            "aliasOf": "nbds.dimension.96",
+            "px": 96,
+            "density": "comfortable"
+          }
+        }
+      },
+      "3xl": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.128}",
+        "$description": "space 3xl — 128px (density: comfortable)",
+        "$extensions": {
+          "prism3": {
+            "role": "semantic",
+            "aliasOf": "nbds.dimension.128",
+            "px": 128,
+            "density": "comfortable"
+          }
+        }
+      }
+    },
+    "radius": {
+      "none": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.0}",
+        "$description": "radius none — 0px",
+        "$extensions": {
+          "prism3": {
+            "role": "semantic",
+            "aliasOf": "nbds.dimension.0",
+            "px": 0,
+            "radiusScale": 1
+          }
+        }
+      },
+      "sm": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.2}",
+        "$description": "radius sm — 2px",
+        "$extensions": {
+          "prism3": {
+            "role": "semantic",
+            "aliasOf": "nbds.dimension.2",
+            "px": 2,
+            "radiusScale": 1
+          }
+        }
+      },
+      "md": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.4}",
+        "$description": "radius md — 4px",
+        "$extensions": {
+          "prism3": {
+            "role": "semantic",
+            "aliasOf": "nbds.dimension.4",
+            "px": 4,
+            "radiusScale": 1
+          }
+        }
+      },
+      "lg": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.6}",
+        "$description": "radius lg — 6px",
+        "$extensions": {
+          "prism3": {
+            "role": "semantic",
+            "aliasOf": "nbds.dimension.6",
+            "px": 6,
+            "radiusScale": 1
+          }
+        }
+      },
+      "round": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.128}",
+        "$description": "radius round — 128px (pill)",
+        "$extensions": {
+          "prism3": {
+            "role": "semantic",
+            "aliasOf": "nbds.dimension.128",
+            "px": 128,
+            "radiusScale": 1
+          }
+        }
+      }
     }
   },
   "$extensions": {
     "generator": {
       "name": "Prism3 engine",
-      "method": "OKLCH generation from theme schema"
+      "method": "OKLCH colour + grid-derived dimension generation"
     },
     "prism3": {
       "theme": "nb",
-      "namespace": "nbds.color",
+      "root": "nbds",
       "colorFormat": "rgb",
       "decisions": [
-        "NB regression: measured anchors; brand red also serves as danger (NB brand hue is its danger hue)."
+        "NB regression: measured anchors; brand red also serves as danger (NB brand hue is its danger hue).",
+        "dimension axis: 4px grid, comfortable density, radius scale 1 (baseMd 4px)."
       ]
     }
   }

@@ -28,7 +28,8 @@ Node ≥ 20. No `npm install` needed — the color math is self-contained
 
 - `color.ts` — sRGB ↔ OKLCH, sRGB → CIELAB, CIEDE2000, WCAG contrast + dual-side window, gamut-aware max chroma. No deps.
 - `ramp.ts` — ramp generation per spec §5.1–5.2: exact anchor pinning, 20-step scale, chroma **arc** (tapers toward both ends), gamut clamp, 5 tonal bands, contrast-role placement.
-- `theme.ts` — builds a brand-agnostic `Theme` (palettes, role→palette map, namespace, color format). Two entry points: `nbTheme()` (measured NB anchors, `nbds.color`/rgb) and `brandTheme(input)` (white-label: synthesises status hues + carves a danger red, `prism.color`/hex).
+- `scale.ts` — the dimension axis: a primitive 4px grid + `space` (density-driven) and `radius` (scale-driven) semantic ramps. Same primitives+aliases shape as color; two levers (density enum, radius scalar) carry all the variance.
+- `theme.ts` — builds a brand-agnostic `Theme` (palettes, role→palette map, namespace, color format, dimension axis). Two entry points: `nbTheme()` (measured NB anchors, `nbds.*`/rgb) and `brandTheme(input)` (white-label: synthesises status hues, carves a danger red, applies a form factor, `prism.*`/hex).
 - `modes.ts` — appearance modes (light / dark / hc-light / hc-dark). Resolves each semantic role to a primitive step by contrast target against the mode's surface. Brand-agnostic — paths/palette names come from the `Theme`.
 - `nb-regression.ts` — diffs generated NB ramps against the real NB tokens (ΔE00 per step), checks the contrast contracts, writes `nb-regression-report.md`.
 - `emit-dtcg.ts` — emits a DTCG tree per theme (`out/<id>.tokens.json`), generates the per-mode semantic layer, validates every alias resolves and every mode contrast contract holds, writes `modes-report.md`.
@@ -66,12 +67,32 @@ hex, tonal band, anchor flag, on-white contrast). A per-mode `…semantic.<mode>
 layer maps the contract roles to primitive steps via DTCG brace aliases; the run
 validates every alias resolves and every mode contrast contract holds.
 
+## Dimension axis (space + radius)
+
+The non-color scales follow the same architecture as color: a primitive
+`dimension` grid (`0,1,2,4,6,8,…,128` px) with `space` and `radius` semantic
+tokens that *alias* into it. All brand variance rides two levers, per the
+schema's "resist the seventh" discipline:
+
+- **`density`** (one enum) shifts the space mapping along the grid —
+  `comfortable` reproduces NB (`md`=32px); `compact` steps every token one grid
+  rung tighter (`md`=28px).
+- **`radius.scale`** (one scalar) scales the corner ramp — `1` is NB's sharp
+  `2/4/6`; `2` gives aurora's soft `4/8/12`; `0` collapses everything except the
+  pill to zero.
+
+Because these are integer px, the NB regression bar is **exact equality**, not
+ΔE — and the engine hits **15/15** (10 space + 5 radius) from `baseUnit=4` /
+`comfortable` / `scale=1`. Aurora runs a different form factor (compact / soft)
+through the identical code path.
+
 ## What it currently does / doesn't
 
 **Does:** exact anchor preservation; anchor-pinned L interpolation; chroma arc;
 gamut-aware chroma; **contrast-role-targeted placement** (Mid-Tone 500 pinned to
 the dual-side AA luminance pivot so all band contracts pass); band classification;
-WCAG contract checks.
+WCAG contract checks; **the dimension axis** (grid + density-driven space +
+scale-driven radius, 15/15 exact vs NB); two-brand emit in two dialects.
 
 **Deliberately not reproduced:**
 - *NB's per-step hue kinks* (amber.600, red.300). Following them would require
@@ -81,5 +102,6 @@ WCAG contract checks.
   engine gap.
 
 **Next increments:**
-- Type / space / radius / motion scales from the schema; raw-figma round-trip;
-  downstream pipeline (Style Dictionary / Figma MCP).
+- Typography (modular scale / weight ladder / fluid triplets) and motion
+  (duration / easing ramp) from the schema; raw-figma round-trip; downstream
+  pipeline (Style Dictionary / Figma MCP).

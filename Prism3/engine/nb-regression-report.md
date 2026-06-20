@@ -132,6 +132,30 @@ Anchor pinned at `500` (exact). An even-L engine would auto-place this lightness
 
 Canary cross-check — white on **real** NB `red.550`: 5.63:1; on **generated** red.550: 5.62:1.
 
+## Dimension axis — generated vs hand-built (exact)
+
+Space and radius are integer px aliasing the dimension grid, so the bar is **exact equality**, not ΔE. Generated from one density enum + one radius scalar (schema §4/§5).
+
+| token | kind | generated | NB | match |
+|---|---|---|---|---|
+| space.4xs | space | 4 | 4 | ✅ |
+| space.3xs | space | 8 | 8 | ✅ |
+| space.2xs | space | 12 | 12 | ✅ |
+| space.xs | space | 16 | 16 | ✅ |
+| space.sm | space | 24 | 24 | ✅ |
+| space.md | space | 32 | 32 | ✅ |
+| space.lg | space | 48 | 48 | ✅ |
+| space.xl | space | 64 | 64 | ✅ |
+| space.2xl | space | 96 | 96 | ✅ |
+| space.3xl | space | 128 | 128 | ✅ |
+| radius.none | radius | 0 | 0 | ✅ |
+| radius.sm | radius | 2 | 2 | ✅ |
+| radius.md | radius | 4 | 4 | ✅ |
+| radius.lg | radius | 6 | 6 | ✅ |
+| radius.round | radius | 128 | 128 | ✅ |
+
+**Dimension axis: 15/15 exact matches** — NB's space + radius reproduced from `baseUnit=4`, `comfortable`, `radius.scale=1`.
+
 ## Verdict
 
 - **brand (red)** — ΔE00 mean 2.39, max 7.05 (300), within-tolerance 15/20.
@@ -142,6 +166,7 @@ Canary cross-check — white on **real** NB `red.550`: 5.63:1; on **generated** 
 - Aggregate ΔE00 mean across ramps: **1.95**.
 - Worst step overall: **warning (amber) 600** at ΔE00 9.15 (an NB hand-applied hue kink — see docs/02 §4).
 - Contrast contracts: **11/11 pass**.
+- Dimension axis (space + radius): **15/15 exact matches**.
 
 > Aggregate mean within ΔE00 ≤ 3: the engine reproduces NB perceptually from the schema alone. Residual per-step outliers are NB hand-nudges (hue kinks), not engine error.
 

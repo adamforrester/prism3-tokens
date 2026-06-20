@@ -1,12 +1,13 @@
-# Prism3 modes — generated semantic mappings & contrast contracts
+# Prism3 modes & scales — generated mappings, contrast contracts, dimension axis
 
-# Theme: nb (nbds.color / rgb)
+# Theme: nb (nbds.* / rgb)
 
 - NB regression: measured anchors; brand red also serves as danger (NB brand hue is its danger hue).
+- dimension axis: 4px grid, comfortable density, radius scale 1 (baseMd 4px).
 
 Palettes: red, green, amber, neutral. Danger draws from `red`.
 
-## nb — light
+## nb — colour mode: light
 
 | role | → step | contrast | floor | result |
 |---|---|---|---|---|
@@ -22,7 +23,7 @@ Palettes: red, green, amber, neutral. Danger draws from `red`.
 | status.warning | amber.500 | 4.50 | 4.5 | ✅ |
 | status.danger | red.550 | 5.62 | 4.5 | ✅ |
 
-## nb — dark
+## nb — colour mode: dark
 
 | role | → step | contrast | floor | result |
 |---|---|---|---|---|
@@ -38,7 +39,7 @@ Palettes: red, green, amber, neutral. Danger draws from `red`.
 | status.warning | amber.450 | 5.13 | 4.5 | ✅ |
 | status.danger | red.450 | 5.05 | 4.5 | ✅ |
 
-## nb — hc-light
+## nb — colour mode: hc-light
 
 | role | → step | contrast | floor | result |
 |---|---|---|---|---|
@@ -54,7 +55,7 @@ Palettes: red, green, amber, neutral. Danger draws from `red`.
 | status.warning | amber.650 | 8.08 | 7 | ✅ |
 | status.danger | red.650 | 8.29 | 7 | ✅ |
 
-## nb — hc-dark
+## nb — colour mode: hc-dark
 
 | role | → step | contrast | floor | result |
 |---|---|---|---|---|
@@ -70,16 +71,46 @@ Palettes: red, green, amber, neutral. Danger draws from `red`.
 | status.warning | amber.350 | 7.61 | 7 | ✅ |
 | status.danger | red.350 | 7.52 | 7 | ✅ |
 
-# Theme: aurora (prism.color / hex)
+## nb — dimension axis
+
+Grid (37 primitives, px): 0, 1, 2, 4, 6, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 64, 68, 72, 76, 80, 84, 88, 92, 96, 100, 104, 108, 112, 116, 120, 124, 128, 720
+
+Space — density `comfortable`:
+
+| token | px | × base |
+|---|---|---|
+| space.4xs | 4 | 1 |
+| space.3xs | 8 | 2 |
+| space.2xs | 12 | 3 |
+| space.xs | 16 | 4 |
+| space.sm | 24 | 6 |
+| space.md | 32 | 8 |
+| space.lg | 48 | 12 |
+| space.xl | 64 | 16 |
+| space.2xl | 96 | 24 |
+| space.3xl | 128 | 32 |
+
+Radius — scale `1`:
+
+| token | px |
+|---|---|
+| radius.none | 0 |
+| radius.sm | 2 |
+| radius.md | 4 |
+| radius.lg | 6 |
+| radius.round | 128 (pill) |
+
+# Theme: aurora (prism.* / hex)
 
 - primary anchor (h285) pinned exactly at step 550
 - success: engine default hue 145
 - warning: engine default hue 75
 - danger: primary hue 285 is NOT red → carved a dedicated danger red at hue 27
+- dimension axis: 4px grid, density 'compact', radius scale 2 (baseMd 4px)
 
 Palettes: primary, neutral, success, warning, danger. Danger draws from `danger`.
 
-## aurora — light
+## aurora — colour mode: light
 
 | role | → step | contrast | floor | result |
 |---|---|---|---|---|
@@ -95,7 +126,7 @@ Palettes: primary, neutral, success, warning, danger. Danger draws from `danger`
 | status.warning | warning.500 | 4.59 | 4.5 | ✅ |
 | status.danger | danger.500 | 4.56 | 4.5 | ✅ |
 
-## aurora — dark
+## aurora — colour mode: dark
 
 | role | → step | contrast | floor | result |
 |---|---|---|---|---|
@@ -111,7 +142,7 @@ Palettes: primary, neutral, success, warning, danger. Danger draws from `danger`
 | status.warning | warning.450 | 4.99 | 4.5 | ✅ |
 | status.danger | danger.450 | 4.95 | 4.5 | ✅ |
 
-## aurora — hc-light
+## aurora — colour mode: hc-light
 
 | role | → step | contrast | floor | result |
 |---|---|---|---|---|
@@ -127,7 +158,7 @@ Palettes: primary, neutral, success, warning, danger. Danger draws from `danger`
 | status.warning | warning.650 | 8.15 | 7 | ✅ |
 | status.danger | danger.650 | 8.22 | 7 | ✅ |
 
-## aurora — hc-dark
+## aurora — colour mode: hc-dark
 
 | role | → step | contrast | floor | result |
 |---|---|---|---|---|
@@ -142,4 +173,33 @@ Palettes: primary, neutral, success, warning, danger. Danger draws from `danger`
 | status.success | success.350 | 7.67 | 7 | ✅ |
 | status.warning | warning.350 | 7.40 | 7 | ✅ |
 | status.danger | danger.350 | 7.44 | 7 | ✅ |
+
+## aurora — dimension axis
+
+Grid (36 primitives, px): 0, 1, 2, 4, 6, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 64, 68, 72, 76, 80, 84, 88, 92, 96, 100, 104, 108, 112, 116, 120, 124, 128
+
+Space — density `compact`:
+
+| token | px | × base |
+|---|---|---|
+| space.4xs | 2 | 0.5 |
+| space.3xs | 6 | 1.5 |
+| space.2xs | 8 | 2 |
+| space.xs | 12 | 3 |
+| space.sm | 20 | 5 |
+| space.md | 28 | 7 |
+| space.lg | 44 | 11 |
+| space.xl | 60 | 15 |
+| space.2xl | 92 | 23 |
+| space.3xl | 124 | 31 |
+
+Radius — scale `2`:
+
+| token | px |
+|---|---|
+| radius.none | 0 |
+| radius.sm | 4 |
+| radius.md | 8 |
+| radius.lg | 12 |
+| radius.round | 128 (pill) |
 

@@ -17,6 +17,7 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 import { generateRamp, peakChromaL, autoPlaceStep, Step } from './ramp';
+import { dimensionGrid, spaceScale, radiusScale, SpaceStep, RadiusStep, Density } from './scale';
 
 const here = dirname(fileURLToPath(import.meta.url));
 export const SCHEMA = resolve(here, '../schema/theme-schema.example.json');
@@ -27,14 +28,25 @@ export type OKLCH = { l: number; c: number; h: number };
 /** A generated primitive palette. */
 export type PaletteBuild = { palette: string; role: Role; steps: Step[]; description: string };
 
+/** The non-color (dimension) axis: a primitive grid + space/radius semantics. */
+export type Dims = {
+  grid: number[];
+  space: SpaceStep[];
+  radius: RadiusStep[];
+  density: Density;
+  radiusScaleValue: number;
+};
+
 /** Everything the emitter and the modes engine need to be brand-agnostic. */
 export type Theme = {
   id: string;
-  namespace: string;                 // 'nbds.color' | 'prism.color'
+  root: string;                      // 'nbds' | 'prism' (brand root namespace)
+  namespace: string;                 // '<root>.color'
   colorFormat: 'rgb' | 'hex';
   palettes: PaletteBuild[];
   roleToPalette: Record<Role, string>;
   roleAnchorStep: Record<Role, number>;
+  dims: Dims;
   notes: string[];                   // human-readable record of engine decisions
 };
 
@@ -66,6 +78,23 @@ export type BrandInput = {
   neutral: { hue: number; chroma: number };
   /** Optional measured status overrides; omit to let the engine synthesise. */
   status?: Partial<Record<'success' | 'warning' | 'danger', OKLCH & { chroma: number }>>;
+  /** Dimension axis levers (schema-required #4/#5). Defaults reproduce a
+   *  conventional 4px-grid, sharp-corner system. */
+  baseUnit?: number;                 // spacing grid base (px), default 4
+  density?: Density;                 // default 'comfortable'
+  radiusScale?: number;              // 0=sharp … 1=default … 2=soft, default 1
+  baseMd?: number;                   // radius.md anchor (px) at scale 1, default 4
+};
+
+const buildDims = (baseUnit: number, density: Density, rScale: number, baseMd: number, extras: number[] = []): Dims => {
+  const grid = dimensionGrid(baseUnit, 128, extras);
+  return {
+    grid,
+    space: spaceScale(density, grid, baseUnit),
+    radius: radiusScale(rScale, baseMd, 128),
+    density,
+    radiusScaleValue: rScale,
+  };
 };
 
 export const brandTheme = (input: BrandInput): Theme => {
@@ -104,9 +133,16 @@ export const brandTheme = (input: BrandInput): Theme => {
     notes.push(`danger: primary hue ${input.primary.h} is NOT red → carved a dedicated danger red at hue ${d.h}`);
   }
 
+  const baseUnit = input.baseUnit ?? 4;
+  const density = input.density ?? 'comfortable';
+  const rScale = input.radiusScale ?? 1;
+  const baseMd = input.baseMd ?? 4;
+  notes.push(`dimension axis: ${baseUnit}px grid, density '${density}', radius scale ${rScale} (baseMd ${baseMd}px)`);
+
   return {
-    id: input.id, namespace: 'prism.color', colorFormat: 'hex', palettes, roleToPalette, notes,
+    id: input.id, root: 'prism', namespace: 'prism.color', colorFormat: 'hex', palettes, roleToPalette, notes,
     roleAnchorStep: { brand: anchorStep, neutral: 500, success: 500, warning: 500, danger: 500 },
+    dims: buildDims(baseUnit, density, rScale, baseMd),
   };
 };
 
@@ -139,10 +175,19 @@ export const nbTheme = (): Theme => {
   const palettes: PaletteBuild[] = specs.map((s) => ({
     palette: s.palette, role: s.role, description: s.name, steps: buildRamp(s),
   }));
+  const s = JSON.parse(readFileSync(SCHEMA, 'utf8'));
+  const baseUnit = s.density?.baseUnit ?? 4;
+  const baseMd = s.radius?.baseMd ?? 4;
+  // NB ships scale=1 ("linear-2px"), comfortable density, and a 720px layout outlier.
+  const dims = buildDims(baseUnit, 'comfortable', 1, baseMd, [720]);
   return {
-    id: 'nb', namespace: 'nbds.color', colorFormat: 'rgb', palettes,
+    id: 'nb', root: 'nbds', namespace: 'nbds.color', colorFormat: 'rgb', palettes,
     roleToPalette: { brand: 'red', neutral: 'neutral', success: 'green', warning: 'amber', danger: 'red' },
     roleAnchorStep: { brand: 550, neutral: 500, success: 500, warning: 500, danger: 550 },
-    notes: ['NB regression: measured anchors; brand red also serves as danger (NB brand hue is its danger hue).'],
+    dims,
+    notes: [
+      'NB regression: measured anchors; brand red also serves as danger (NB brand hue is its danger hue).',
+      `dimension axis: ${baseUnit}px grid, comfortable density, radius scale 1 (baseMd ${baseMd}px).`,
+    ],
   };
 };

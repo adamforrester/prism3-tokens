@@ -9,24 +9,28 @@
 
 ## Current status (2026-06-20)
 
-**The color axis is built, proven against a real brand, AND proven white-label.**
-From a ~7-input schema the engine generates gamut-aware OKLCH ramps, validates
-them against New Balance, places steps by contrast role, generates four
-contrast-verified appearance modes, and emits consumable DTCG. It now also runs
-a *second, synthetic* brand (`aurora`, a violet primary with no status colors)
-end-to-end — synthesising status palettes and carving a dedicated danger red the
-brand never specified. Status generation no longer depends on brand anchors.
+**The color AND dimension axes are built, proven against a real brand, and
+proven white-label.** From a ~7-input schema the engine generates gamut-aware
+OKLCH ramps, places steps by contrast role, generates four contrast-verified
+appearance modes, generates the space + radius scales from a primitive grid, and
+emits consumable DTCG. It validates all of this against New Balance, and runs a
+*second, synthetic* brand (`aurora`) end-to-end — synthesising status palettes,
+carving a dedicated danger red the brand never specified, and applying a distinct
+form factor (soft corners + compact density). Status, space, and radius
+generation are all brand-input-driven, not NB-specific.
 
 Headline numbers (regenerate with the commands below):
 
 | Check | NB | Aurora (white-label) |
 |---|---|---|
-| Aggregate ΔE00 vs real NB | **1.95** | n/a |
+| Aggregate ΔE00 vs real NB (color) | **1.95** | n/a |
 | Tonal-band contrast contracts | **11/11** | (same engine) |
 | Cross-mode contrast contracts | **28/28** | **28/28** |
-| DTCG semantic aliases resolve | **44/44** | **44/44** |
-| Color leaves emitted | 126 | 146 (5 palettes incl. carved danger) |
-| Emit profile | `nbds.color` / rgb | `prism.color` / hex |
+| **Dimension axis (space + radius) vs real NB, exact** | **15/15** | n/a |
+| DTCG semantic aliases resolve (color + dim) | **59/59** | **59/59** |
+| Color primitives / dim grid emitted | 82 / 37 | 102 / 36 |
+| Form factor | comfortable / radius 1 (sharp) | compact / radius 2 (soft) |
+| Emit profile | `nbds.*` / rgb | `prism.*` / hex |
 
 Work lives on branch `claude/prism3-token-architecture-leipq2` and is merged to
 `main` for review.
@@ -46,8 +50,9 @@ Prism3/
 │   └── theme-schema.example.json   ← worked NB input (anchors, hues, etc.)
 └── engine/                         ← dependency-free TypeScript prototype
     ├── color.ts                    ← sRGB↔OKLCH, CIELAB, CIEDE2000, WCAG contrast, gamut-aware max chroma
-    ├── ramp.ts                     ← ramp generation: exact anchor, 20 steps, chroma arc, 5 bands, contrast-role placement
-    ├── theme.ts                    ← Theme builder: nbTheme() (measured) + brandTheme() (white-label, status synthesis + danger carve)
+    ├── ramp.ts                     ← color ramp generation: exact anchor, 20 steps, chroma arc, 5 bands, contrast-role placement
+    ├── scale.ts                    ← dimension axis: 4px grid + space (density-driven) + radius (scale-driven) generation
+    ├── theme.ts                    ← Theme builder: nbTheme() (measured) + brandTheme() (white-label, status synthesis + danger carve + form factor)
     ├── modes.ts                    ← light/dark/hc-light/hc-dark, roles resolved by contrast target, brand-agnostic
     ├── nb-regression.ts            ← diffs generated vs real NB, checks contracts → nb-regression-report.md
     ├── emit-dtcg.ts                ← emits out/<id>.tokens.json per theme (NB + aurora) + modes-report.md, validates aliases & mode contracts
@@ -107,6 +112,15 @@ npx tsx Prism3/engine/emit-dtcg.ts       # emit DTCG + modes, validate
   would be a brand input the schema deliberately resists ("resist the seventh").
   The `amber.600`/`red.300` outliers characterise NB's hand-authoring; they are
   not an engine gap (review finding — reframed from an earlier "opt-in feature").
+- **Dimension axis mirrors the color architecture: primitives + semantic
+  aliases.** A primitive `dimension` grid (4px: 0,1,2,4,6,8,…,128) with `space`
+  and `radius` semantic tokens aliasing into it — the same shape as color ramps
+  + semantic roles. Two levers carry all variance: `density` (one enum) shifts
+  the space mapping along the grid; `radius.scale` (one scalar) scales the corner
+  ramp from sharp to soft. Reproduces NB's space + radius **exactly** (15/15)
+  from `baseUnit=4` / `comfortable` / `scale=1`, and aurora runs a *different*
+  form factor (compact / scale 2) through the same code. These are integer px, so
+  the bar is exact equality, not perceptual ΔE.
 
 ---
 
@@ -115,10 +129,11 @@ npx tsx Prism3/engine/emit-dtcg.ts       # emit DTCG + modes, validate
 Reordered per external review: prove breadth (a second brand through the full
 stack) before pipeline plumbing — it tests the white-label thesis harder.
 
-1. **Extend beyond color.** Type / space / radius / motion scales from the
-   schema, so a second brand can be driven through the *full* stack (font swap +
-   radius change), not just color. The schema already specs these (§4); the
-   engine doesn't generate them yet. **Biggest remaining gap.**
+1. **Finish "beyond color": typography + motion.** Space + radius are DONE (the
+   dimension axis above). Still to do: the modular type scale / weight ladder /
+   fluid triplets from `typography`, and the motion duration/easing ramp from
+   `motionPersonality`. Typography is the bigger lever (the font-swap white-label
+   claim) and the larger remaining gap.
 2. **Prove downstream consumption.** Feed `out/*.tokens.json` through Style
    Dictionary and/or the Figma MCP — confirm a real tool ingests it and the four
    modes map to Figma variable modes. Turns "generation" into "pipeline".
@@ -126,6 +141,11 @@ stack) before pipeline plumbing — it tests the white-label thesis harder.
    (`raw-figma/`) the repo keeps, preserving `variableId` linkage (root `CLAUDE.md`).
 4. **Figma binding constraints.** Verify variable/mode constraints via the Figma
    MCP (still outstanding from the architecture review).
+5. **Tune status-hue defaults against a reference set** (Tailwind/Radix/Material/
+   USWDS + NB's measured green/amber). Current canonical hues (success 145,
+   warning 75, danger 27) are plausible but not evidence-derived; functionally
+   safe (placed by luminance) but worth grounding. Overrides already wired via
+   `BrandInput.status` / schema `statusColors`.
 
 ---
 
