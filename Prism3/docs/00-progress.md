@@ -97,6 +97,18 @@ npx tsx Prism3/engine/emit-dtcg.ts       # emit DTCG + modes, validate
   each semantic role re-resolves to a primitive step by contrast target against
   the mode's surface. The brand anchor is preserved where it can be (light
   `action.primary` = `red.550`) and auto-adjusted where it can't (dark → `red.450`).
+- **Contrast is validated against the floor surface, not the pure extreme.**
+  Saturated, contract-bearing foregrounds (action, status, secondary text) clear
+  their ratio against the most-tinted supported surface — light/hc-light →
+  `neutral.50` (a step off white), dark/hc-dark → `neutral.950` (a step off
+  black) — not pure white/black. Pure white is the *most forgiving* light
+  background; a colour that only just passes there breaks the moment it sits on a
+  `neutral.50` card. Validating against the floor builds in headroom so the
+  colour holds across the elevation range, and is symmetric with the dark side
+  (which already used `neutral.950`). Proof: aurora's light `action.primary`
+  shifts `accent.500 → accent.550` to clear 4.5:1 on `neutral.50`. *Rationale:*
+  user direction — "actions need to meet contrast on surfaces that sit on top of
+  white, not just pure white; otherwise it breaks with other light neutrals."
 - **Status palettes are engine-supplied; danger is carved (white-label).** A
   brand supplies primary + neutral; the engine synthesises success/warning from
   canonical hues. If the primary is in red territory the brand red *is* the

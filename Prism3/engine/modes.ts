@@ -49,6 +49,13 @@ const pickBrand = (steps: Step[], ns: string, palette: string, anchorNum: number
 
 export type ModeCfg = {
   surface: Cand; sunken: Cand; inverseSurface: RGB;
+  // The contrast FLOOR surface: the most-tinted (closest-to-mid) light/dark
+  // surface the system supports — i.e. the worst case for a saturated foreground.
+  // Saturated, contract-bearing roles (action, status, secondary text) are
+  // validated against this, NOT the pure-white/black base, so they keep their
+  // contrast when placed on a card/panel a step off the page extreme. Passing the
+  // floor implies passing the base surface. `floorName` is its semantic token.
+  floor: Cand; floorName: string;
   primaryMin: number; secondaryMin: number; borderTarget: number; actionMin: number;
 };
 
@@ -62,11 +69,14 @@ const modeConfigs = (ns: string, neutralPalette: string, neutral: Step[]): Recor
     const s = neutral.find((x) => x.num === num)!;
     return cand(`${ns}.${neutralPalette}.${s.key}`, s.rgb);
   };
+  // Floor = the supported surface nearest mid-gray (lowest contrast for a
+  // saturated fg): light → neutral.50 (a step off white); dark → neutral.950 (a
+  // step off black). The "first step off the extreme we actually use as a surface."
   return {
-    light:     { surface: cand(`${ns}.white`, WHITE), sunken: n(50),  inverseSurface: BLACK, primaryMin: 7,  secondaryMin: 4.5, borderTarget: 1.4, actionMin: 4.5 },
-    dark:      { surface: n(950),                     sunken: cand(`${ns}.black`, BLACK), inverseSurface: WHITE, primaryMin: 7,  secondaryMin: 4.5, borderTarget: 1.8, actionMin: 4.5 },
-    'hc-light':{ surface: cand(`${ns}.white`, WHITE), sunken: n(50),  inverseSurface: BLACK, primaryMin: 15, secondaryMin: 7,   borderTarget: 4.5, actionMin: 7   },
-    'hc-dark': { surface: cand(`${ns}.black`, BLACK), sunken: n(950), inverseSurface: WHITE, primaryMin: 15, secondaryMin: 7,   borderTarget: 4.5, actionMin: 7   },
+    light:     { surface: cand(`${ns}.white`, WHITE), sunken: n(50),  floor: n(50),  floorName: 'surface.sunken',  inverseSurface: BLACK, primaryMin: 7,  secondaryMin: 4.5, borderTarget: 1.4, actionMin: 4.5 },
+    dark:      { surface: n(950),                     sunken: cand(`${ns}.black`, BLACK), floor: n(950), floorName: 'surface.default', inverseSurface: WHITE, primaryMin: 7,  secondaryMin: 4.5, borderTarget: 1.8, actionMin: 4.5 },
+    'hc-light':{ surface: cand(`${ns}.white`, WHITE), sunken: n(50),  floor: n(50),  floorName: 'surface.sunken',  inverseSurface: BLACK, primaryMin: 15, secondaryMin: 7,   borderTarget: 4.5, actionMin: 7   },
+    'hc-dark': { surface: cand(`${ns}.black`, BLACK), sunken: n(950), floor: n(950), floorName: 'surface.sunken',  inverseSurface: WHITE, primaryMin: 15, secondaryMin: 7,   borderTarget: 4.5, actionMin: 7   },
   };
 };
 
@@ -80,32 +90,37 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
     ? [cand(`${ns}.white`, WHITE), ...ramp, cand(`${ns}.black`, BLACK)]
     : ramp;
   const surfaceRgb = cfg.surface.rgb;
+  const floorRgb = cfg.floor.rgb; // worst-case supported surface (see ModeCfg)
 
   const role = (r: Rated, description: string, against: string, min: number): ResolvedRole =>
     ({ path: r.path, description, ratio: Math.round(r.ratio * 100) / 100, against, min });
 
+  // Primary text & borders resolve against the literal base surface (primary
+  // text is the darkest/lightest neutral and clears any light surface trivially).
   const primary = pickMostExtreme(textCands, surfaceRgb);
-  const secondary = pickMinPass(textCands, surfaceRgb, cfg.secondaryMin);
   const inverse = pickMostExtreme(textCands, cfg.inverseSurface);
   const borderDefault = pickClosest(ramp, surfaceRgb, cfg.borderTarget);
   const borderStrong = pickClosest(ramp, surfaceRgb, cfg.borderTarget * 2.2);
+  // Contract-bearing foregrounds resolve against the FLOOR surface, so they hold
+  // on tinted surfaces (cards/panels) a step off white/black, not just the base.
+  const secondary = pickMinPass(textCands, floorRgb, cfg.secondaryMin);
   const brandRole = (r: Role): Rated =>
-    pickBrand(ramps.get(r2p[r])!, ns, r2p[r], theme.roleAnchorStep[r], surfaceRgb, cfg.actionMin);
+    pickBrand(ramps.get(r2p[r])!, ns, r2p[r], theme.roleAnchorStep[r], floorRgb, cfg.actionMin);
 
   return {
     mode, surface: surfaceRgb,
     roles: {
       'text.primary':   role(primary,   `Primary text — strongest neutral for max legibility`, 'surface.default', cfg.primaryMin),
-      'text.secondary': role(secondary, `Secondary text — least-extreme neutral clearing ${cfg.secondaryMin}:1`, 'surface.default', cfg.secondaryMin),
+      'text.secondary': role(secondary, `Secondary text — least-extreme neutral clearing ${cfg.secondaryMin}:1 on the floor surface (${cfg.floorName})`, cfg.floorName, cfg.secondaryMin),
       'text.inverse':   role(inverse,   `Inverse text — strongest neutral on the opposite surface`, 'inverseSurface', cfg.secondaryMin),
       'surface.default':{ path: cfg.surface.path, description: 'Default page surface', ratio: 1, against: 'self', min: 0 },
       'surface.sunken': { path: cfg.sunken.path,  description: 'Sunken / subtle surface', ratio: 1, against: 'self', min: 0 },
       'border.default': role(borderDefault, `Default border — decorative, ~${cfg.borderTarget}:1`, 'surface.default', 0),
       'border.strong':  role(borderStrong,  `Stronger border / divider`, 'surface.default', 0),
-      'action.primary': role(brandRole('action'),  `Primary action — clears ${cfg.actionMin}:1 (palette: ${theme.roleToPalette.action})`, 'surface.default', cfg.actionMin),
-      'status.success': role(brandRole('success'), `Success — clears ${cfg.actionMin}:1`, 'surface.default', cfg.actionMin),
-      'status.warning': role(brandRole('warning'), `Warning — clears ${cfg.actionMin}:1`, 'surface.default', cfg.actionMin),
-      'status.danger':  role(brandRole('danger'),  `Danger / destructive — clears ${cfg.actionMin}:1`, 'surface.default', cfg.actionMin),
+      'action.primary': role(brandRole('action'),  `Primary action — clears ${cfg.actionMin}:1 on the floor surface (${cfg.floorName}), so it holds on the base surface too (palette: ${theme.roleToPalette.action})`, cfg.floorName, cfg.actionMin),
+      'status.success': role(brandRole('success'), `Success — clears ${cfg.actionMin}:1 on the floor surface (${cfg.floorName})`, cfg.floorName, cfg.actionMin),
+      'status.warning': role(brandRole('warning'), `Warning — clears ${cfg.actionMin}:1 on the floor surface (${cfg.floorName})`, cfg.floorName, cfg.actionMin),
+      'status.danger':  role(brandRole('danger'),  `Danger / destructive — clears ${cfg.actionMin}:1 on the floor surface (${cfg.floorName})`, cfg.floorName, cfg.actionMin),
     },
   };
 };

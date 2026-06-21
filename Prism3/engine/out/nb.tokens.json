@@ -1656,15 +1656,15 @@
           },
           "secondary": {
             "$type": "color",
-            "$value": "{nbds.color.neutral.500}",
-            "$description": "Secondary text — least-extreme neutral clearing 4.5:1",
+            "$value": "{nbds.color.neutral.550}",
+            "$description": "Secondary text — least-extreme neutral clearing 4.5:1 on the floor surface (surface.sunken)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.neutral.500",
+                "aliasOf": "nbds.color.neutral.550",
                 "mode": "light",
-                "contrast": 4.59,
-                "against": "surface.default",
+                "contrast": 4.52,
+                "against": "surface.sunken",
                 "min": 4.5
               }
             }
@@ -1749,14 +1749,14 @@
           "primary": {
             "$type": "color",
             "$value": "{nbds.color.red.550}",
-            "$description": "Primary action — clears 4.5:1 (palette: red)",
+            "$description": "Primary action — clears 4.5:1 on the floor surface (surface.sunken), so it holds on the base surface too (palette: red)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
                 "aliasOf": "nbds.color.red.550",
                 "mode": "light",
-                "contrast": 5.62,
-                "against": "surface.default",
+                "contrast": 4.62,
+                "against": "surface.sunken",
                 "min": 4.5
               }
             }
@@ -1765,30 +1765,30 @@
         "status": {
           "success": {
             "$type": "color",
-            "$value": "{nbds.color.green.500}",
-            "$description": "Success — clears 4.5:1",
+            "$value": "{nbds.color.green.550}",
+            "$description": "Success — clears 4.5:1 on the floor surface (surface.sunken)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.green.500",
+                "aliasOf": "nbds.color.green.550",
                 "mode": "light",
-                "contrast": 4.89,
-                "against": "surface.default",
+                "contrast": 4.84,
+                "against": "surface.sunken",
                 "min": 4.5
               }
             }
           },
           "warning": {
             "$type": "color",
-            "$value": "{nbds.color.amber.500}",
-            "$description": "Warning — clears 4.5:1",
+            "$value": "{nbds.color.amber.600}",
+            "$description": "Warning — clears 4.5:1 on the floor surface (surface.sunken)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.amber.500",
+                "aliasOf": "nbds.color.amber.600",
                 "mode": "light",
-                "contrast": 4.5,
-                "against": "surface.default",
+                "contrast": 5.46,
+                "against": "surface.sunken",
                 "min": 4.5
               }
             }
@@ -1796,14 +1796,14 @@
           "danger": {
             "$type": "color",
             "$value": "{nbds.color.red.550}",
-            "$description": "Danger / destructive — clears 4.5:1",
+            "$description": "Danger / destructive — clears 4.5:1 on the floor surface (surface.sunken)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
                 "aliasOf": "nbds.color.red.550",
                 "mode": "light",
-                "contrast": 5.62,
-                "against": "surface.default",
+                "contrast": 4.62,
+                "against": "surface.sunken",
                 "min": 4.5
               }
             }
@@ -1830,7 +1830,7 @@
           "secondary": {
             "$type": "color",
             "$value": "{nbds.color.neutral.450}",
-            "$description": "Secondary text — least-extreme neutral clearing 4.5:1",
+            "$description": "Secondary text — least-extreme neutral clearing 4.5:1 on the floor surface (surface.default)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -1922,7 +1922,7 @@
           "primary": {
             "$type": "color",
             "$value": "{nbds.color.red.450}",
-            "$description": "Primary action — clears 4.5:1 (palette: red)",
+            "$description": "Primary action — clears 4.5:1 on the floor surface (surface.default), so it holds on the base surface too (palette: red)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -1939,7 +1939,7 @@
           "success": {
             "$type": "color",
             "$value": "{nbds.color.green.450}",
-            "$description": "Success — clears 4.5:1",
+            "$description": "Success — clears 4.5:1 on the floor surface (surface.default)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -1954,7 +1954,7 @@
           "warning": {
             "$type": "color",
             "$value": "{nbds.color.amber.450}",
-            "$description": "Warning — clears 4.5:1",
+            "$description": "Warning — clears 4.5:1 on the floor surface (surface.default)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -1969,7 +1969,7 @@
           "danger": {
             "$type": "color",
             "$value": "{nbds.color.red.450}",
-            "$description": "Danger / destructive — clears 4.5:1",
+            "$description": "Danger / destructive — clears 4.5:1 on the floor surface (surface.default)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -2002,15 +2002,15 @@
           },
           "secondary": {
             "$type": "color",
-            "$value": "{nbds.color.neutral.650}",
-            "$description": "Secondary text — least-extreme neutral clearing 7:1",
+            "$value": "{nbds.color.neutral.700}",
+            "$description": "Secondary text — least-extreme neutral clearing 7:1 on the floor surface (surface.sunken)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.neutral.650",
+                "aliasOf": "nbds.color.neutral.700",
                 "mode": "hc-light",
-                "contrast": 8.15,
-                "against": "surface.default",
+                "contrast": 8.09,
+                "against": "surface.sunken",
                 "min": 7
               }
             }
@@ -2094,15 +2094,15 @@
         "action": {
           "primary": {
             "$type": "color",
-            "$value": "{nbds.color.red.650}",
-            "$description": "Primary action — clears 7:1 (palette: red)",
+            "$value": "{nbds.color.red.700}",
+            "$description": "Primary action — clears 7:1 on the floor surface (surface.sunken), so it holds on the base surface too (palette: red)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.red.650",
+                "aliasOf": "nbds.color.red.700",
                 "mode": "hc-light",
-                "contrast": 8.29,
-                "against": "surface.default",
+                "contrast": 8.25,
+                "against": "surface.sunken",
                 "min": 7
               }
             }
@@ -2111,45 +2111,45 @@
         "status": {
           "success": {
             "$type": "color",
-            "$value": "{nbds.color.green.600}",
-            "$description": "Success — clears 7:1",
+            "$value": "{nbds.color.green.700}",
+            "$description": "Success — clears 7:1 on the floor surface (surface.sunken)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.green.600",
+                "aliasOf": "nbds.color.green.700",
                 "mode": "hc-light",
-                "contrast": 7.03,
-                "against": "surface.default",
+                "contrast": 8.28,
+                "against": "surface.sunken",
                 "min": 7
               }
             }
           },
           "warning": {
             "$type": "color",
-            "$value": "{nbds.color.amber.650}",
-            "$description": "Warning — clears 7:1",
+            "$value": "{nbds.color.amber.700}",
+            "$description": "Warning — clears 7:1 on the floor surface (surface.sunken)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.amber.650",
+                "aliasOf": "nbds.color.amber.700",
                 "mode": "hc-light",
-                "contrast": 8.08,
-                "against": "surface.default",
+                "contrast": 8.05,
+                "against": "surface.sunken",
                 "min": 7
               }
             }
           },
           "danger": {
             "$type": "color",
-            "$value": "{nbds.color.red.650}",
-            "$description": "Danger / destructive — clears 7:1",
+            "$value": "{nbds.color.red.700}",
+            "$description": "Danger / destructive — clears 7:1 on the floor surface (surface.sunken)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.red.650",
+                "aliasOf": "nbds.color.red.700",
                 "mode": "hc-light",
-                "contrast": 8.29,
-                "against": "surface.default",
+                "contrast": 8.25,
+                "against": "surface.sunken",
                 "min": 7
               }
             }
@@ -2175,15 +2175,15 @@
           },
           "secondary": {
             "$type": "color",
-            "$value": "{nbds.color.neutral.350}",
-            "$description": "Secondary text — least-extreme neutral clearing 7:1",
+            "$value": "{nbds.color.neutral.300}",
+            "$description": "Secondary text — least-extreme neutral clearing 7:1 on the floor surface (surface.sunken)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.neutral.350",
+                "aliasOf": "nbds.color.neutral.300",
                 "mode": "hc-dark",
-                "contrast": 7.49,
-                "against": "surface.default",
+                "contrast": 8.1,
+                "against": "surface.sunken",
                 "min": 7
               }
             }
@@ -2267,15 +2267,15 @@
         "action": {
           "primary": {
             "$type": "color",
-            "$value": "{nbds.color.red.350}",
-            "$description": "Primary action — clears 7:1 (palette: red)",
+            "$value": "{nbds.color.red.300}",
+            "$description": "Primary action — clears 7:1 on the floor surface (surface.sunken), so it holds on the base surface too (palette: red)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.red.350",
+                "aliasOf": "nbds.color.red.300",
                 "mode": "hc-dark",
-                "contrast": 7.52,
-                "against": "surface.default",
+                "contrast": 8.12,
+                "against": "surface.sunken",
                 "min": 7
               }
             }
@@ -2284,15 +2284,15 @@
         "status": {
           "success": {
             "$type": "color",
-            "$value": "{nbds.color.green.350}",
-            "$description": "Success — clears 7:1",
+            "$value": "{nbds.color.green.300}",
+            "$description": "Success — clears 7:1 on the floor surface (surface.sunken)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.green.350",
+                "aliasOf": "nbds.color.green.300",
                 "mode": "hc-dark",
-                "contrast": 7.19,
-                "against": "surface.default",
+                "contrast": 7.78,
+                "against": "surface.sunken",
                 "min": 7
               }
             }
@@ -2300,29 +2300,29 @@
           "warning": {
             "$type": "color",
             "$value": "{nbds.color.amber.350}",
-            "$description": "Warning — clears 7:1",
+            "$description": "Warning — clears 7:1 on the floor surface (surface.sunken)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
                 "aliasOf": "nbds.color.amber.350",
                 "mode": "hc-dark",
-                "contrast": 7.61,
-                "against": "surface.default",
+                "contrast": 7.04,
+                "against": "surface.sunken",
                 "min": 7
               }
             }
           },
           "danger": {
             "$type": "color",
-            "$value": "{nbds.color.red.350}",
-            "$description": "Danger / destructive — clears 7:1",
+            "$value": "{nbds.color.red.300}",
+            "$description": "Danger / destructive — clears 7:1 on the floor surface (surface.sunken)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.red.350",
+                "aliasOf": "nbds.color.red.300",
                 "mode": "hc-dark",
-                "contrast": 7.52,
-                "against": "surface.default",
+                "contrast": 8.12,
+                "against": "surface.sunken",
                 "min": 7
               }
             }

@@ -50,6 +50,15 @@ for free. The action palette is whatever `roleToPalette.action` points at
 different palette from the violet brand). The run verifies every mode's contrast
 contracts (currently 28/28).
 
+**Contrast is measured against the floor surface, not the pure extreme.** Action,
+status, and secondary text clear their ratio against the most-tinted supported
+surface — `neutral.50` in light/hc-light (a step off white), `neutral.950` in
+dark/hc-dark (a step off black) — because pure white is the *most forgiving*
+light background and a colour that only passes there fails on a `neutral.50`
+card. Passing the floor implies passing the base surface, so colours hold across
+the elevation range. This is why aurora's light `action.primary` is `accent.550`,
+not `accent.500`: the extra step is the headroom the tinted surface demands.
+
 ## DTCG output (`out/*.tokens.json`)
 
 Two emit profiles prove the same engine serves both regression and product:
