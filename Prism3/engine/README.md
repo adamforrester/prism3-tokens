@@ -6,10 +6,12 @@ It does two things:
 1. **Proves the color thesis against New Balance** — generates NB's ramps from
    the reverse-engineered schema and diffs them against the real hand-built
    tokens (`nb-regression.ts`).
-2. **Proves the white-label claim** — takes a minimal brand input (primary +
-   neutral) and generates a complete color system, *synthesising* status
-   palettes and *carving a dedicated danger red* when the brand's primary isn't
-   red (`emit-dtcg.ts`, second theme `aurora`).
+2. **Proves the white-label claim** — takes a brand input (primary + neutral +
+   any number of additional `brandColors[]`) and generates a complete color
+   system, *synthesising* status palettes, *carving a dedicated danger red* when
+   the brand's primary isn't red, and *decoupling the `action` role from
+   `brand`* so the interactive colour need not be the hero colour
+   (`emit-dtcg.ts`, second theme `aurora`).
 
 This is not the production engine, but it is no longer color-thesis-only: it
 generates two brands (NB + a synthetic violet brand) end-to-end.
@@ -41,12 +43,12 @@ Modes do **not** regenerate primitives — the ramps are shared. What changes pe
 mode is which primitive step each semantic role resolves to, and the engine
 *derives* that by contrast target against the mode's own surface rather than
 hand-mapping it. So `text.primary` is the definition "the strongest neutral on
-this surface" and `action.primary` is "the brand step nearest the anchor that
-clears AA on this surface" — both resolve correctly in any mode for free. In
-light mode `action.primary` is the exact brand anchor (`red.550`); in dark mode
-it auto-lightens to `red.450` because the anchor can't clear 4.5:1 on a
-near-black surface. The run verifies every mode's contrast contracts (currently
-28/28).
+this surface" and `action.primary` is "the step of the *action palette* nearest
+its anchor that clears AA on this surface" — both resolve correctly in any mode
+for free. The action palette is whatever `roleToPalette.action` points at
+(NB: `red`, decoupled-by-default but here same as brand; aurora: `accent`, a
+different palette from the violet brand). The run verifies every mode's contrast
+contracts (currently 28/28).
 
 ## DTCG output (`out/*.tokens.json`)
 
@@ -56,11 +58,14 @@ Two emit profiles prove the same engine serves both regression and product:
   `rgb(r, g, b)`, padded steps) so it is byte-comparable with the hand-built NB
   tokens.
 - **`out/aurora.tokens.json`** — the product dialect (`prism.color.*`, hex,
-  DTCG-standard, Style-Dictionary-safe) for a synthetic violet brand that only
-  declared a primary + neutral. The engine added `success`/`warning` from
-  canonical hues and a `danger` red carved at hue 27 (because violet is not red),
-  so `action.primary` → `{prism.color.primary.550}` while `status.danger` →
-  `{prism.color.danger.500}` — distinct palettes, the white-label requirement.
+  DTCG-standard, Style-Dictionary-safe) for a synthetic violet brand that
+  declared a primary + neutral + an azure `accent`. The engine added
+  `success`/`warning` from canonical hues and a `danger` red carved at hue 27
+  (because violet is not red), and — because the brand named `accent` as its
+  `actionPalette` — `action.primary` → `{prism.color.accent.500}` while the
+  brand hue lives at `{prism.color.primary.*}` and `status.danger` →
+  `{prism.color.danger.500}`. Action, brand, and danger are three distinct
+  palettes: the white-label requirement, with action decoupled from brand.
 
 Every primitive leaf carries provenance under `$extensions.prism3` (OKLCH source,
 hex, tonal band, anchor flag, on-white contrast). A per-mode `…semantic.<mode>.*`

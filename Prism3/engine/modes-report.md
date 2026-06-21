@@ -119,12 +119,14 @@ Component sizes — t-shirt, density `comfortable` (height + paired padding from
 # Theme: aurora (prism.* / hex)
 
 - primary anchor (h285) pinned exactly at step 550
+- brand colour 'accent' (h235) added
 - success: engine default hue 145
 - warning: engine default hue 75
+- action colour is decoupled: uses palette 'accent', NOT the primary brand palette — explicit brand decision
 - danger: primary hue 285 is NOT red → carved a dedicated danger red at hue 27
 - dimension axis: 4px grid, 8px space rhythm, density 'compact' (drives component sizes), radius scale 2 (baseMd 4px)
 
-Palettes: primary, neutral, success, warning, danger. Danger draws from `danger`.
+Palettes: primary, neutral, accent, success, warning, danger. Danger draws from `danger`.
 
 ## aurora — colour mode: light
 
@@ -137,7 +139,7 @@ Palettes: primary, neutral, success, warning, danger. Danger draws from `danger`
 | surface.sunken | neutral.050 | — | — | · |
 | border.default | neutral.100 | — | — | · |
 | border.strong | neutral.400 | — | — | · |
-| action.primary | primary.550 | 6.42 | 4.5 | ✅ |
+| action.primary | accent.500 | 4.56 | 4.5 | ✅ |
 | status.success | success.500 | 4.59 | 4.5 | ✅ |
 | status.warning | warning.500 | 4.59 | 4.5 | ✅ |
 | status.danger | danger.500 | 4.56 | 4.5 | ✅ |
@@ -153,7 +155,7 @@ Palettes: primary, neutral, success, warning, danger. Danger draws from `danger`
 | surface.sunken | black | — | — | · |
 | border.default | neutral.750 | — | — | · |
 | border.strong | neutral.500 | — | — | · |
-| action.primary | primary.450 | 5.00 | 4.5 | ✅ |
+| action.primary | accent.450 | 4.87 | 4.5 | ✅ |
 | status.success | success.450 | 5.07 | 4.5 | ✅ |
 | status.warning | warning.450 | 4.99 | 4.5 | ✅ |
 | status.danger | danger.450 | 4.95 | 4.5 | ✅ |
@@ -169,7 +171,7 @@ Palettes: primary, neutral, success, warning, danger. Danger draws from `danger`
 | surface.sunken | neutral.050 | — | — | · |
 | border.default | neutral.500 | — | — | · |
 | border.strong | neutral.700 | — | — | · |
-| action.primary | primary.600 | 7.68 | 7 | ✅ |
+| action.primary | accent.650 | 8.30 | 7 | ✅ |
 | status.success | success.650 | 8.05 | 7 | ✅ |
 | status.warning | warning.650 | 8.15 | 7 | ✅ |
 | status.danger | danger.650 | 8.22 | 7 | ✅ |
@@ -185,7 +187,7 @@ Palettes: primary, neutral, success, warning, danger. Danger draws from `danger`
 | surface.sunken | neutral.950 | — | — | · |
 | border.default | neutral.500 | — | — | · |
 | border.strong | neutral.250 | — | — | · |
-| action.primary | primary.350 | 7.50 | 7 | ✅ |
+| action.primary | accent.350 | 7.36 | 7 | ✅ |
 | status.success | success.350 | 7.67 | 7 | ✅ |
 | status.warning | warning.350 | 7.40 | 7 | ✅ |
 | status.danger | danger.350 | 7.44 | 7 | ✅ |

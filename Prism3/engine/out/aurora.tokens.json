@@ -831,6 +831,408 @@
           }
         }
       },
+      "accent": {
+        "100": {
+          "$type": "color",
+          "$value": "#ccdee9",
+          "$description": "Brand accent 100 — Quarter-Tone band — Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.89,
+                "c": 0.0251,
+                "h": 235
+              },
+              "hex": "#ccdee9",
+              "band": "Quarter",
+              "anchor": false,
+              "contrastOnWhite": 1.38
+            }
+          }
+        },
+        "150": {
+          "$type": "color",
+          "$value": "#b6d2e2",
+          "$description": "Brand accent 150 — Quarter-Tone band — Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.8475,
+                "c": 0.0373,
+                "h": 235
+              },
+              "hex": "#b6d2e2",
+              "band": "Quarter",
+              "anchor": false,
+              "contrastOnWhite": 1.58
+            }
+          }
+        },
+        "200": {
+          "$type": "color",
+          "$value": "#a0c5dc",
+          "$description": "Brand accent 200 — Quarter-Tone band — Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.805,
+                "c": 0.0508,
+                "h": 235
+              },
+              "hex": "#a0c5dc",
+              "band": "Quarter",
+              "anchor": false,
+              "contrastOnWhite": 1.82
+            }
+          }
+        },
+        "250": {
+          "$type": "color",
+          "$value": "#89b9d6",
+          "$description": "Brand accent 250 — Quarter-Tone band — Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.7625,
+                "c": 0.0654,
+                "h": 235
+              },
+              "hex": "#89b9d6",
+              "band": "Quarter",
+              "anchor": false,
+              "contrastOnWhite": 2.11
+            }
+          }
+        },
+        "300": {
+          "$type": "color",
+          "$value": "#71add0",
+          "$description": "Brand accent 300 — Quarter-Tone band — Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.72,
+                "c": 0.0809,
+                "h": 235
+              },
+              "hex": "#71add0",
+              "band": "Quarter",
+              "anchor": false,
+              "contrastOnWhite": 2.44
+            }
+          }
+        },
+        "350": {
+          "$type": "color",
+          "$value": "#56a1cb",
+          "$description": "Brand accent 350 — Quarter-Tone band — Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.6775,
+                "c": 0.0971,
+                "h": 235
+              },
+              "hex": "#56a1cb",
+              "band": "Quarter",
+              "anchor": false,
+              "contrastOnWhite": 2.85
+            }
+          }
+        },
+        "400": {
+          "$type": "color",
+          "$value": "#3595c6",
+          "$description": "Brand accent 400 — Mid-Tone band — Mid-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.635,
+                "c": 0.1141,
+                "h": 235
+              },
+              "hex": "#3595c6",
+              "band": "Mid",
+              "anchor": false,
+              "contrastOnWhite": 3.35
+            }
+          }
+        },
+        "450": {
+          "$type": "color",
+          "$value": "#0088be",
+          "$description": "Brand accent 450 — Mid-Tone band — Mid-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.5925,
+                "c": 0.1258,
+                "h": 235
+              },
+              "hex": "#0088be",
+              "band": "Mid",
+              "anchor": false,
+              "contrastOnWhite": 3.99
+            }
+          }
+        },
+        "500": {
+          "$type": "color",
+          "$value": "#007cbb",
+          "$description": "Brand accent 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.55,
+                "c": 0.15,
+                "h": 235
+              },
+              "hex": "#007cbb",
+              "band": "Mid",
+              "anchor": false,
+              "contrastOnWhite": 4.56
+            }
+          }
+        },
+        "550": {
+          "$type": "color",
+          "$value": "#006e99",
+          "$description": "Brand accent 550 — Mid-Tone band — Mid-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.5067,
+                "c": 0.1076,
+                "h": 235
+              },
+              "hex": "#006e99",
+              "band": "Mid",
+              "anchor": false,
+              "contrastOnWhite": 5.69
+            }
+          }
+        },
+        "600": {
+          "$type": "color",
+          "$value": "#006188",
+          "$description": "Brand accent 600 — Mid-Tone band — Mid-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.4633,
+                "c": 0.0984,
+                "h": 235
+              },
+              "hex": "#006188",
+              "band": "Mid",
+              "anchor": false,
+              "contrastOnWhite": 6.85
+            }
+          }
+        },
+        "650": {
+          "$type": "color",
+          "$value": "#005476",
+          "$description": "Brand accent 650 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.42,
+                "c": 0.0892,
+                "h": 235
+              },
+              "hex": "#005476",
+              "band": "ThreeQuarter",
+              "anchor": false,
+              "contrastOnWhite": 8.3
+            }
+          }
+        },
+        "700": {
+          "$type": "color",
+          "$value": "#004766",
+          "$description": "Brand accent 700 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.3767,
+                "c": 0.0801,
+                "h": 235
+              },
+              "hex": "#004766",
+              "band": "ThreeQuarter",
+              "anchor": false,
+              "contrastOnWhite": 10.03
+            }
+          }
+        },
+        "750": {
+          "$type": "color",
+          "$value": "#003b55",
+          "$description": "Brand accent 750 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.3333,
+                "c": 0.0709,
+                "h": 235
+              },
+              "hex": "#003b55",
+              "band": "ThreeQuarter",
+              "anchor": false,
+              "contrastOnWhite": 11.95
+            }
+          }
+        },
+        "800": {
+          "$type": "color",
+          "$value": "#003045",
+          "$description": "Brand accent 800 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.29,
+                "c": 0.0618,
+                "h": 235
+              },
+              "hex": "#003045",
+              "band": "ThreeQuarter",
+              "anchor": false,
+              "contrastOnWhite": 13.92
+            }
+          }
+        },
+        "850": {
+          "$type": "color",
+          "$value": "#002436",
+          "$description": "Brand accent 850 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.2467,
+                "c": 0.0527,
+                "h": 235
+              },
+              "hex": "#002436",
+              "band": "ThreeQuarter",
+              "anchor": false,
+              "contrastOnWhite": 16.08
+            }
+          }
+        },
+        "900": {
+          "$type": "color",
+          "$value": "#001928",
+          "$description": "Brand accent 900 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.2033,
+                "c": 0.0437,
+                "h": 235
+              },
+              "hex": "#001928",
+              "band": "ThreeQuarter",
+              "anchor": false,
+              "contrastOnWhite": 17.95
+            }
+          }
+        },
+        "950": {
+          "$type": "color",
+          "$value": "#000f1a",
+          "$description": "Brand accent 950 — Shadow band — Shadow",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.16,
+                "c": 0.0349,
+                "h": 235
+              },
+              "hex": "#000f1a",
+              "band": "Shadows",
+              "anchor": false,
+              "contrastOnWhite": 19.39
+            }
+          }
+        },
+        "025": {
+          "$type": "color",
+          "$value": "#f2f8fb",
+          "$description": "Brand accent 025 — Highlight band — Highlight",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.975,
+                "c": 0.0075,
+                "h": 235
+              },
+              "hex": "#f2f8fb",
+              "band": "Highlights",
+              "anchor": false,
+              "contrastOnWhite": 1.07
+            }
+          }
+        },
+        "050": {
+          "$type": "color",
+          "$value": "#e0ebf1",
+          "$description": "Brand accent 050 — Highlight band — Highlight",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "source": "oklch",
+              "oklch": {
+                "l": 0.9325,
+                "c": 0.0146,
+                "h": 235
+              },
+              "hex": "#e0ebf1",
+              "band": "Highlights",
+              "anchor": false,
+              "contrastOnWhite": 1.21
+            }
+          }
+        }
+      },
       "success": {
         "100": {
           "$type": "color",
@@ -2150,14 +2552,14 @@
         "action": {
           "primary": {
             "$type": "color",
-            "$value": "{prism.color.primary.550}",
-            "$description": "Primary action — brand, clears 4.5:1",
+            "$value": "{prism.color.accent.500}",
+            "$description": "Primary action — clears 4.5:1 (palette: accent)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "prism.color.primary.550",
+                "aliasOf": "prism.color.accent.500",
                 "mode": "light",
-                "contrast": 6.42,
+                "contrast": 4.56,
                 "against": "surface.default",
                 "min": 4.5
               }
@@ -2323,14 +2725,14 @@
         "action": {
           "primary": {
             "$type": "color",
-            "$value": "{prism.color.primary.450}",
-            "$description": "Primary action — brand, clears 4.5:1",
+            "$value": "{prism.color.accent.450}",
+            "$description": "Primary action — clears 4.5:1 (palette: accent)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "prism.color.primary.450",
+                "aliasOf": "prism.color.accent.450",
                 "mode": "dark",
-                "contrast": 5,
+                "contrast": 4.87,
                 "against": "surface.default",
                 "min": 4.5
               }
@@ -2496,14 +2898,14 @@
         "action": {
           "primary": {
             "$type": "color",
-            "$value": "{prism.color.primary.600}",
-            "$description": "Primary action — brand, clears 7:1",
+            "$value": "{prism.color.accent.650}",
+            "$description": "Primary action — clears 7:1 (palette: accent)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "prism.color.primary.600",
+                "aliasOf": "prism.color.accent.650",
                 "mode": "hc-light",
-                "contrast": 7.68,
+                "contrast": 8.3,
                 "against": "surface.default",
                 "min": 7
               }
@@ -2669,14 +3071,14 @@
         "action": {
           "primary": {
             "$type": "color",
-            "$value": "{prism.color.primary.350}",
-            "$description": "Primary action — brand, clears 7:1",
+            "$value": "{prism.color.accent.350}",
+            "$description": "Primary action — clears 7:1 (palette: accent)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "prism.color.primary.350",
+                "aliasOf": "prism.color.accent.350",
                 "mode": "hc-dark",
-                "contrast": 7.5,
+                "contrast": 7.36,
                 "against": "surface.default",
                 "min": 7
               }
@@ -3616,8 +4018,10 @@
       "colorFormat": "hex",
       "decisions": [
         "primary anchor (h285) pinned exactly at step 550",
+        "brand colour 'accent' (h235) added",
         "success: engine default hue 145",
         "warning: engine default hue 75",
+        "action colour is decoupled: uses palette 'accent', NOT the primary brand palette — explicit brand decision",
         "danger: primary hue 285 is NOT red → carved a dedicated danger red at hue 27",
         "dimension axis: 4px grid, 8px space rhythm, density 'compact' (drives component sizes), radius scale 2 (baseMd 4px)"
       ]

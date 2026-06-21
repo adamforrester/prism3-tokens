@@ -22,7 +22,10 @@ import { dimensionGrid, spaceScale, radiusScale, componentSizes, SpaceStep, Radi
 const here = dirname(fileURLToPath(import.meta.url));
 export const SCHEMA = resolve(here, '../schema/theme-schema.example.json');
 
-export type Role = 'brand' | 'neutral' | 'success' | 'warning' | 'danger';
+// Semantic colour roles. `action` is FIRST-CLASS and distinct from `brand`:
+// the brand's hero colour is not always the right interactive colour (poor
+// contrast, or reserved by brand guidelines), so action maps independently.
+export type Role = 'brand' | 'neutral' | 'success' | 'warning' | 'danger' | 'action';
 export type OKLCH = { l: number; c: number; h: number };
 
 /** A generated primitive palette. */
@@ -76,8 +79,17 @@ const statusRamp = (hue: number, chroma: number): Step[] =>
 // ---------------------------------------------------------------------------
 export type BrandInput = {
   id: string;
-  primary: OKLCH;                    // the exact brand anchor
+  primary: OKLCH;                    // the exact brand anchor (palette 'primary')
   neutral: { hue: number; chroma: number };
+  /** Additional brand colours — secondary, tertiary, accents. Any number; each
+   *  becomes its own ramp and can be pointed at by `actionPalette` (or used
+   *  decoratively). This is what makes the palette set open-ended. */
+  brandColors?: { name: string; oklch: OKLCH }[];
+  /** Which palette drives interactive/action colour. Defaults to 'primary', but
+   *  brands whose hero colour is unsuitable for actions name another palette
+   *  here (e.g. an accent, or even neutral). The engine FLAGS this decision in
+   *  notes so it's an explicit, confirmable choice — never a silent assumption. */
+  actionPalette?: string;
   /** Optional measured status overrides; omit to let the engine synthesise. */
   status?: Partial<Record<'success' | 'warning' | 'danger', OKLCH & { chroma: number }>>;
   /** Dimension axis levers (schema-required #4/#5). Defaults reproduce a
@@ -109,6 +121,12 @@ export const brandTheme = (input: BrandInput): Theme => {
     { palette: 'neutral', role: 'neutral', description: 'Neutral', steps: generateRamp({ hue: input.neutral.hue, chroma: input.neutral.chroma }) },
   ];
 
+  // Additional brand colours (secondary / tertiary / accents) — arbitrary count.
+  for (const bc of input.brandColors ?? []) {
+    palettes.push({ palette: bc.name, role: 'brand', description: `Brand ${bc.name}`, steps: generateRamp({ hue: bc.oklch.h, chroma: bc.oklch.c, anchor: { oklch: bc.oklch, stepNum: autoPlaceStep(bc.oklch.l) } }) });
+    notes.push(`brand colour '${bc.name}' (h${bc.oklch.h}) added`);
+  }
+
   const status = (k: 'success' | 'warning') => {
     const s = input.status?.[k] ?? STATUS_DEFAULTS[k];
     notes.push(`${k}: ${input.status?.[k] ? 'brand-supplied' : 'engine default'} hue ${s.h}`);
@@ -116,9 +134,18 @@ export const brandTheme = (input: BrandInput): Theme => {
   };
   palettes.push(status('success'), status('warning'));
 
+  // ---- action role (decoupled from brand) ----
+  const actionPalette = input.actionPalette ?? 'primary';
+  if (!palettes.some((p) => p.palette === actionPalette)) {
+    throw new Error(`actionPalette '${actionPalette}' is not a defined palette (have: ${palettes.map((p) => p.palette).join(', ')})`);
+  }
+  notes.push(actionPalette === 'primary'
+    ? `action colour defaults to the PRIMARY brand palette — CONFIRM this hue is the intended interactive colour for this brand`
+    : `action colour is decoupled: uses palette '${actionPalette}', NOT the primary brand palette — explicit brand decision`);
+
   // ---- danger carve ----
   const roleToPalette: Record<Role, string> = {
-    brand: 'primary', neutral: 'neutral', success: 'success', warning: 'warning', danger: 'danger',
+    brand: 'primary', neutral: 'neutral', success: 'success', warning: 'warning', danger: 'danger', action: actionPalette,
   };
   if (input.status?.danger) {
     palettes.push({ palette: 'danger', role: 'danger', description: 'danger status (brand-supplied)', steps: statusRamp(input.status.danger.h, input.status.danger.chroma) });
@@ -144,7 +171,7 @@ export const brandTheme = (input: BrandInput): Theme => {
 
   return {
     id: input.id, root: 'prism', namespace: 'prism.color', colorFormat: 'hex', palettes, roleToPalette, notes,
-    roleAnchorStep: { brand: anchorStep, neutral: 500, success: 500, warning: 500, danger: 500 },
+    roleAnchorStep: { brand: anchorStep, neutral: 500, success: 500, warning: 500, danger: 500, action: actionPalette === 'primary' ? anchorStep : 500 },
     dims: buildDims(baseUnit, spaceBase, density, rScale, baseMd),
   };
 };
@@ -187,8 +214,8 @@ export const nbTheme = (): Theme => {
   const dims = buildDims(baseUnit, 8, 'comfortable', 1, baseMd, [720]);
   return {
     id: 'nb', root: 'nbds', namespace: 'nbds.color', colorFormat: 'rgb', palettes,
-    roleToPalette: { brand: 'red', neutral: 'neutral', success: 'green', warning: 'amber', danger: 'red' },
-    roleAnchorStep: { brand: 550, neutral: 500, success: 500, warning: 500, danger: 550 },
+    roleToPalette: { brand: 'red', neutral: 'neutral', success: 'green', warning: 'amber', danger: 'red', action: 'red' },
+    roleAnchorStep: { brand: 550, neutral: 500, success: 500, warning: 500, danger: 550, action: 550 },
     dims,
     notes: [
       'NB regression: measured anchors; brand red also serves as danger (NB brand hue is its danger hue).',

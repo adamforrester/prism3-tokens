@@ -1749,7 +1749,7 @@
           "primary": {
             "$type": "color",
             "$value": "{nbds.color.red.550}",
-            "$description": "Primary action — brand, clears 4.5:1",
+            "$description": "Primary action — clears 4.5:1 (palette: red)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -1922,7 +1922,7 @@
           "primary": {
             "$type": "color",
             "$value": "{nbds.color.red.450}",
-            "$description": "Primary action — brand, clears 4.5:1",
+            "$description": "Primary action — clears 4.5:1 (palette: red)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -2095,7 +2095,7 @@
           "primary": {
             "$type": "color",
             "$value": "{nbds.color.red.650}",
-            "$description": "Primary action — brand, clears 7:1",
+            "$description": "Primary action — clears 7:1 (palette: red)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -2268,7 +2268,7 @@
           "primary": {
             "$type": "color",
             "$value": "{nbds.color.red.350}",
-            "$description": "Primary action — brand, clears 7:1",
+            "$description": "Primary action — clears 7:1 (palette: red)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",

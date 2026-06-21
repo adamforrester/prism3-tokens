@@ -28,7 +28,8 @@ Headline numbers (regenerate with the commands below):
 | Cross-mode contrast contracts | **28/28** | **28/28** |
 | **Dimension axis, exact** (Prism2 space + NB radius) | **21/21** | n/a |
 | DTCG semantic aliases resolve (color + dim + size) | **80/80** | **80/80** |
-| Color primitives / dim grid emitted | 82 / 37 | 102 / 36 |
+| Color primitives / dim grid emitted | 82 / 37 | 122 / 36 |
+| Brand palettes / action source | red / **action = brand** (red) | primary+accent+… / **action = accent ≠ brand** |
 | Form factor | comfortable / radius 1 (sharp) | compact / radius 2 (soft) |
 | Emit profile | `nbds.*` / rgb | `prism.*` / hex |
 
@@ -52,7 +53,7 @@ Prism3/
     ├── color.ts                    ← sRGB↔OKLCH, CIELAB, CIEDE2000, WCAG contrast, gamut-aware max chroma
     ├── ramp.ts                     ← color ramp generation: exact anchor, 20 steps, chroma arc, 5 bands, contrast-role placement
     ├── scale.ts                    ← dimension axis: 4px grid + numbered space scale (8px rhythm) + radius + component sizes
-    ├── theme.ts                    ← Theme builder: nbTheme() (measured) + brandTheme() (white-label, status synthesis + danger carve + form factor)
+    ├── theme.ts                    ← Theme builder: nbTheme() (measured) + brandTheme() (white-label: open brandColors[], action role decoupled from brand, status synthesis + danger carve + form factor)
     ├── modes.ts                    ← light/dark/hc-light/hc-dark, roles resolved by contrast target, brand-agnostic
     ├── nb-regression.ts            ← diffs generated vs real NB, checks contracts → nb-regression-report.md
     ├── emit-dtcg.ts                ← emits out/<id>.tokens.json per theme (NB + aurora) + modes-report.md, validates aliases & mode contracts
@@ -104,6 +105,18 @@ npx tsx Prism3/engine/emit-dtcg.ts       # emit DTCG + modes, validate
   *Rationale:* status-from-anchors only worked because NB happened to supply
   them; a real white-label brand won't, and `danger == primary` for a red brand
   is a coincidence that breaks for everyone else (review finding).
+- **Open brand-palette set + action decoupled from brand.** The white-label
+  input takes `primary` + `neutral` + an arbitrary `brandColors[]` (secondary /
+  tertiary / accent — any number), and `action` is now a FIRST-CLASS semantic
+  role mapped independently of `brand`. Many brands' hero colour is a poor or
+  reserved interactive colour, so `actionPalette` points action wherever the
+  brand needs; it defaults to `primary` but the engine **emits a note flagging
+  the decision** so it's confirmed, never silently assumed. Proven on aurora: a
+  violet hero brand whose `action.primary` resolves to a separate azure
+  `accent.500`, while NB keeps `action = brand` (red) by design. *Rationale:*
+  user direction — "action is not always the primary brand colour; needs
+  flexibility built in, and the system should confirm which colour drives
+  actions."
 - **Two emit profiles, one engine.** `nbds.color`/rgb for the NB regression
   (byte-comparable to real NB) and `prism.color`/hex for product output
   (DTCG-standard, Style-Dictionary-safe). Resolves the namespace + value-format

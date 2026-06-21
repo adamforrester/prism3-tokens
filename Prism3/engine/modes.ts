@@ -102,7 +102,7 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
       'surface.sunken': { path: cfg.sunken.path,  description: 'Sunken / subtle surface', ratio: 1, against: 'self', min: 0 },
       'border.default': role(borderDefault, `Default border — decorative, ~${cfg.borderTarget}:1`, 'surface.default', 0),
       'border.strong':  role(borderStrong,  `Stronger border / divider`, 'surface.default', 0),
-      'action.primary': role(brandRole('brand'),  `Primary action — brand, clears ${cfg.actionMin}:1`, 'surface.default', cfg.actionMin),
+      'action.primary': role(brandRole('action'),  `Primary action — clears ${cfg.actionMin}:1 (palette: ${theme.roleToPalette.action})`, 'surface.default', cfg.actionMin),
       'status.success': role(brandRole('success'), `Success — clears ${cfg.actionMin}:1`, 'surface.default', cfg.actionMin),
       'status.warning': role(brandRole('warning'), `Warning — clears ${cfg.actionMin}:1`, 'surface.default', cfg.actionMin),
       'status.danger':  role(brandRole('danger'),  `Danger / destructive — clears ${cfg.actionMin}:1`, 'surface.default', cfg.actionMin),
@@ -110,7 +110,7 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
   };
 };
 
-type Role = 'brand' | 'neutral' | 'success' | 'warning' | 'danger';
+type Role = 'brand' | 'neutral' | 'success' | 'warning' | 'danger' | 'action';
 
 export const resolveAllModes = (theme: Theme): ModeResult[] => {
   const ramps = new Map(theme.palettes.map((p) => [p.palette, p.steps] as const));

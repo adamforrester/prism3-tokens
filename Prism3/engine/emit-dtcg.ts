@@ -173,8 +173,12 @@ const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats: Stats
 // exercise the dimension levers, not just colour.
 const aurora: BrandInput = {
   id: 'aurora',
-  primary: { l: 0.5, c: 0.18, h: 285 },
+  primary: { l: 0.5, c: 0.18, h: 285 },          // hero brand: violet
   neutral: { hue: 285, chroma: 0.008 },
+  // Extra brand colours (open-ended set) + action DECOUPLED from the hero:
+  // aurora's violet is its identity, but interactive UI uses the azure accent.
+  brandColors: [{ name: 'accent', oklch: { l: 0.55, c: 0.15, h: 235 } }],
+  actionPalette: 'accent',
   radiusScale: 2,
   density: 'compact',
 };
