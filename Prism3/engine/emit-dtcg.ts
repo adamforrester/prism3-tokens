@@ -179,6 +179,9 @@ const aurora: BrandInput = {
   // aurora's violet is its identity, but interactive UI uses the azure accent.
   brandColors: [{ name: 'accent', oklch: { l: 0.55, c: 0.15, h: 235 } }],
   actionPalette: 'accent',
+  // Primary light surface is a tinted off-white (neutral.50), NOT pure white, so
+  // the contrast floor moves to neutral.100 — actions are validated there.
+  surfaces: { light: { base: 50 } },
   radiusScale: 2,
   density: 'compact',
 };

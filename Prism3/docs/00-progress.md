@@ -105,10 +105,22 @@ npx tsx Prism3/engine/emit-dtcg.ts       # emit DTCG + modes, validate
   background; a colour that only just passes there breaks the moment it sits on a
   `neutral.50` card. Validating against the floor builds in headroom so the
   colour holds across the elevation range, and is symmetric with the dark side
-  (which already used `neutral.950`). Proof: aurora's light `action.primary`
-  shifts `accent.500 → accent.550` to clear 4.5:1 on `neutral.50`. *Rationale:*
-  user direction — "actions need to meet contrast on surfaces that sit on top of
-  white, not just pure white; otherwise it breaks with other light neutrals."
+  (which already used `neutral.950`). Without it, a saturated colour that only
+  clears 4.5:1 on pure white drops below AA the moment it sits on a `neutral.50`
+  card. *Rationale:* user direction — "actions need to meet contrast on surfaces
+  that sit on top of white, not just pure white; otherwise it breaks with other
+  light neutrals."
+- **The primary surface — and therefore the floor — is configurable.** A brand
+  can declare a non-white/black page surface per mode via `surfaces` (base =
+  `white` | `black` | a neutral step); the contrast floor moves with it (a
+  tinted base defaults its floor one step further toward mid), and the engine
+  **flags a non-default surface in notes for confirmation**. Defaults reproduce
+  the white/`neutral.950` behaviour exactly, so brands that don't set it are
+  unaffected. Proof: aurora declares its light page as `neutral.50`, the floor
+  auto-moves to `neutral.100`, and `action.primary` resolves to `accent.600`
+  (4.95:1 on the tinted page) — two steps off the naive white-only pick.
+  *Rationale:* user direction — "we may need to allow a user to confirm the
+  primary surface colour that's not white, and that would change the floor."
 - **Status palettes are engine-supplied; danger is carved (white-label).** A
   brand supplies primary + neutral; the engine synthesises success/warning from
   canonical hues. If the primary is in red territory the brand red *is* the

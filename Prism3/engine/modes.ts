@@ -8,7 +8,7 @@
  */
 import { RGB, contrast } from './color';
 import { Step } from './ramp';
-import { Theme } from './theme';
+import { Theme, SurfaceSpec, SurfacesConfig } from './theme';
 
 export type ModeName = 'light' | 'dark' | 'hc-light' | 'hc-dark';
 
@@ -64,19 +64,34 @@ export type ModeResult = { mode: ModeName; surface: RGB; roles: Record<string, R
 
 const cand = (path: string, rgb: RGB): Cand => ({ path, rgb });
 
-const modeConfigs = (ns: string, neutralPalette: string, neutral: Step[]): Record<ModeName, ModeCfg> => {
-  const n = (num: number) => {
-    const s = neutral.find((x) => x.num === num)!;
-    return cand(`${ns}.${neutralPalette}.${s.key}`, s.rgb);
+const modeConfigs = (ns: string, neutralPalette: string, neutral: Step[], surfaces: SurfacesConfig = {}): Record<ModeName, ModeCfg> => {
+  const nNear = (num: number): Step => neutral.reduce((a, b) => (Math.abs(b.num - num) < Math.abs(a.num - num) ? b : a));
+  const n = (num: number) => { const s = nNear(num); return cand(`${ns}.${neutralPalette}.${s.key}`, s.rgb); };
+  const spec = (s: SurfaceSpec): Cand => (s === 'white' ? cand(`${ns}.white`, WHITE) : s === 'black' ? cand(`${ns}.black`, BLACK) : n(s));
+  const short = (c: Cand) => c.path.replace(`${ns}.`, '');
+
+  // Resolve a light-family or dark-family surface set. The contrast FLOOR is the
+  // most-tinted (closest-to-mid) surface in use — the worst case for a saturated
+  // fg — so passing it implies passing the base. Defaults reproduce the previous
+  // behaviour (light: white/floor neutral.50; dark: neutral.950/floor 950).
+  const resolve = (family: 'light' | 'dark', defBase: SurfaceSpec) => {
+    const cfg = surfaces[family] ?? {};
+    const base = cfg.base ?? defBase;
+    // Default floor: white→50, black→950, a tinted neutral base→one step further
+    // toward mid (light: +50 darker; dark: -50 lighter); else the base itself.
+    const defFloor = typeof base === 'number' ? (family === 'light' ? base + 50 : base - 50)
+      : base === 'white' ? 50 : 950;
+    const floorStep = cfg.floorStep ?? defFloor;
+    return { base: spec(base), floor: n(floorStep) };
   };
-  // Floor = the supported surface nearest mid-gray (lowest contrast for a
-  // saturated fg): light → neutral.50 (a step off white); dark → neutral.950 (a
-  // step off black). The "first step off the extreme we actually use as a surface."
+
+  const light = resolve('light', 'white');
+  const dark = resolve('dark', 950);
   return {
-    light:     { surface: cand(`${ns}.white`, WHITE), sunken: n(50),  floor: n(50),  floorName: 'surface.sunken',  inverseSurface: BLACK, primaryMin: 7,  secondaryMin: 4.5, borderTarget: 1.4, actionMin: 4.5 },
-    dark:      { surface: n(950),                     sunken: cand(`${ns}.black`, BLACK), floor: n(950), floorName: 'surface.default', inverseSurface: WHITE, primaryMin: 7,  secondaryMin: 4.5, borderTarget: 1.8, actionMin: 4.5 },
-    'hc-light':{ surface: cand(`${ns}.white`, WHITE), sunken: n(50),  floor: n(50),  floorName: 'surface.sunken',  inverseSurface: BLACK, primaryMin: 15, secondaryMin: 7,   borderTarget: 4.5, actionMin: 7   },
-    'hc-dark': { surface: cand(`${ns}.black`, BLACK), sunken: n(950), floor: n(950), floorName: 'surface.sunken',  inverseSurface: WHITE, primaryMin: 15, secondaryMin: 7,   borderTarget: 4.5, actionMin: 7   },
+    light:     { surface: light.base, sunken: light.floor, floor: light.floor, floorName: short(light.floor), inverseSurface: BLACK, primaryMin: 7,  secondaryMin: 4.5, borderTarget: 1.4, actionMin: 4.5 },
+    dark:      { surface: dark.base,  sunken: cand(`${ns}.black`, BLACK), floor: dark.floor, floorName: short(dark.floor), inverseSurface: WHITE, primaryMin: 7,  secondaryMin: 4.5, borderTarget: 1.8, actionMin: 4.5 },
+    'hc-light':{ surface: cand(`${ns}.white`, WHITE), sunken: light.floor, floor: light.floor, floorName: short(light.floor), inverseSurface: BLACK, primaryMin: 15, secondaryMin: 7, borderTarget: 4.5, actionMin: 7 },
+    'hc-dark': { surface: cand(`${ns}.black`, BLACK), sunken: dark.floor,  floor: dark.floor, floorName: short(dark.floor), inverseSurface: WHITE, primaryMin: 15, secondaryMin: 7, borderTarget: 4.5, actionMin: 7 },
   };
 };
 
@@ -130,6 +145,6 @@ type Role = 'brand' | 'neutral' | 'success' | 'warning' | 'danger' | 'action';
 export const resolveAllModes = (theme: Theme): ModeResult[] => {
   const ramps = new Map(theme.palettes.map((p) => [p.palette, p.steps] as const));
   const neutral = ramps.get(theme.roleToPalette.neutral)!;
-  const cfgs = modeConfigs(theme.namespace, theme.roleToPalette.neutral, neutral);
+  const cfgs = modeConfigs(theme.namespace, theme.roleToPalette.neutral, neutral, theme.surfaces);
   return (Object.keys(cfgs) as ModeName[]).map((m) => resolveMode(m, cfgs[m], theme, ramps));
 };

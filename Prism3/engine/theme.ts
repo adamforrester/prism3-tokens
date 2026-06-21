@@ -51,8 +51,20 @@ export type Theme = {
   palettes: PaletteBuild[];
   roleToPalette: Record<Role, string>;
   roleAnchorStep: Record<Role, number>;
+  surfaces?: SurfacesConfig;         // optional non-default surfaces (drives the contrast floor)
   dims: Dims;
   notes: string[];                   // human-readable record of engine decisions
+};
+
+// The page-default surface is not always pure white/black. A brand can declare
+// its primary surface per mode; the contrast FLOOR (the worst-case surface
+// saturated foregrounds are validated against) follows it. `base` is 'white',
+// 'black', or a neutral step number; `floorStep` names the neutral step used as
+// the floor (defaults: white→50, black→950, a tinted base→one step more tinted).
+export type SurfaceSpec = 'white' | 'black' | number;
+export type SurfacesConfig = {
+  light?: { base?: SurfaceSpec; floorStep?: number };
+  dark?:  { base?: SurfaceSpec; floorStep?: number };
 };
 
 // ---- canonical status hues (engine-supplied; a brand need not specify them) ----
@@ -90,6 +102,10 @@ export type BrandInput = {
    *  here (e.g. an accent, or even neutral). The engine FLAGS this decision in
    *  notes so it's an explicit, confirmable choice — never a silent assumption. */
   actionPalette?: string;
+  /** Non-default primary surfaces per mode (e.g. a warm off-white page). The
+   *  contrast floor moves with the declared base, and the engine flags it in
+   *  notes so the surface choice is confirmed. Omit for white/black defaults. */
+  surfaces?: SurfacesConfig;
   /** Optional measured status overrides; omit to let the engine synthesise. */
   status?: Partial<Record<'success' | 'warning' | 'danger', OKLCH & { chroma: number }>>;
   /** Dimension axis levers (schema-required #4/#5). Defaults reproduce a
@@ -169,9 +185,19 @@ export const brandTheme = (input: BrandInput): Theme => {
   const baseMd = input.baseMd ?? 4;
   notes.push(`dimension axis: ${baseUnit}px grid, ${spaceBase}px space rhythm, density '${density}' (drives component sizes), radius scale ${rScale} (baseMd ${baseMd}px)`);
 
+  // ---- surface confirmation ----
+  for (const [mode, sf] of Object.entries(input.surfaces ?? {})) {
+    if (sf?.base !== undefined && sf.base !== 'white' && sf.base !== 'black') {
+      notes.push(`${mode} primary surface is NON-default (neutral.${sf.base}) — CONFIRM this is the page colour; the contrast floor moves with it${sf.floorStep ? ` (floor neutral.${sf.floorStep})` : ''}`);
+    } else if (sf?.floorStep !== undefined) {
+      notes.push(`${mode} contrast floor overridden to neutral.${sf.floorStep}`);
+    }
+  }
+
   return {
     id: input.id, root: 'prism', namespace: 'prism.color', colorFormat: 'hex', palettes, roleToPalette, notes,
     roleAnchorStep: { brand: anchorStep, neutral: 500, success: 500, warning: 500, danger: 500, action: actionPalette === 'primary' ? anchorStep : 500 },
+    surfaces: input.surfaces,
     dims: buildDims(baseUnit, spaceBase, density, rScale, baseMd),
   };
 };

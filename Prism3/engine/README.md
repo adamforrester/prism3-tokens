@@ -56,8 +56,15 @@ surface — `neutral.50` in light/hc-light (a step off white), `neutral.950` in
 dark/hc-dark (a step off black) — because pure white is the *most forgiving*
 light background and a colour that only passes there fails on a `neutral.50`
 card. Passing the floor implies passing the base surface, so colours hold across
-the elevation range. This is why aurora's light `action.primary` is `accent.550`,
-not `accent.500`: the extra step is the headroom the tinted surface demands.
+the elevation range.
+
+The base surface is configurable: a brand can declare a non-white/black page via
+`surfaces` (e.g. `{ light: { base: 50 } }`), and the floor moves with it — a
+tinted base floors one step further toward mid, and the engine flags the choice
+in notes for confirmation. Aurora exercises this: its light page is `neutral.50`,
+so the floor is `neutral.100` and `action.primary` resolves to `accent.600`
+(4.95:1 on that page) — two steps off the naive white-only pick. NB sets no
+surface override, so it keeps the white/`neutral.950` defaults unchanged.
 
 ## DTCG output (`out/*.tokens.json`)
 
