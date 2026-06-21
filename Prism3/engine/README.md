@@ -42,16 +42,27 @@ Node ≥ 20. No `npm install` needed — the color math is self-contained
 Modes do **not** regenerate primitives — the ramps are shared. What changes per
 mode is which primitive step each semantic role resolves to, and the engine
 *derives* that by contrast target against the mode's own surface rather than
-hand-mapping it. So `text.primary` is the definition "the strongest neutral on
-this surface" and `action.primary` is "the step of the *action palette* nearest
-its anchor that clears AA on this surface" — both resolve correctly in any mode
-for free. The action palette is whatever `roleToPalette.action` points at
-(NB: `red`, decoupled-by-default but here same as brand; aurora: `accent`, a
+hand-mapping it. So `foreground.primary` is the definition "the strongest neutral
+on this surface" and `action.default` is "the step of the *action palette*
+nearest its anchor that clears AA on this surface" — both resolve correctly in
+any mode for free. The action palette is whatever `roleToPalette.action` points
+at (NB: `red`, decoupled-by-default but here same as brand; aurora: `accent`, a
 different palette from the violet brand). The run verifies every mode's contrast
-contracts (currently 28/28).
+contracts (currently 108/108).
 
-**Contrast is measured against the floor surface, not the pure extreme.** Action,
-status, and secondary text clear their ratio against the most-tinted supported
+**Semantic vocabulary.** Decided against a 7-system field survey + the practice
+KB: `background.*` (non-interactive containers — default/raised/overlay/sunken/
+subtle/inverse + semantic tints), `foreground.*` (content — text tiers, vivid
+semantic text, links, and `on-*` pair tokens), `action.*` (the interactive fill
+role as states — default/hover/pressed/focus/inactive, *not* a dedicated
+`interactive/` tree), and `border.*` (incl. focus ring + validation). `status` is
+folded into background/foreground/border by role (success/warning/danger/info).
+Two-level keys throughout; states/qualifiers live in the name (`action.hover`,
+`background.brand-subtle`, `foreground.on-action`).
+
+**Contrast is measured against the floor surface, not the pure extreme.** The
+saturated, contract-bearing foregrounds (action + states, vivid semantic text,
+secondary/tertiary text) clear their ratio against the most-tinted supported
 surface — `neutral.50` in light/hc-light (a step off white), `neutral.950` in
 dark/hc-dark (a step off black) — because pure white is the *most forgiving*
 light background and a colour that only passes there fails on a `neutral.50`
@@ -62,7 +73,7 @@ The base surface is configurable: a brand can declare a non-white/black page via
 `surfaces` (e.g. `{ light: { base: 50 } }`), and the floor moves with it — a
 tinted base floors one step further toward mid, and the engine flags the choice
 in notes for confirmation. Aurora exercises this: its light page is `neutral.50`,
-so the floor is `neutral.100` and `action.primary` resolves to `accent.600`
+so the floor is `neutral.100` and `action.default` resolves to `accent.600`
 (4.95:1 on that page) — two steps off the naive white-only pick. NB sets no
 surface override, so it keeps the white/`neutral.950` defaults unchanged.
 
@@ -78,10 +89,11 @@ Two emit profiles prove the same engine serves both regression and product:
   declared a primary + neutral + an azure `accent`. The engine added
   `success`/`warning` from canonical hues and a `danger` red carved at hue 27
   (because violet is not red), and — because the brand named `accent` as its
-  `actionPalette` — `action.primary` → `{prism.color.accent.500}` while the
-  brand hue lives at `{prism.color.primary.*}` and `status.danger` →
-  `{prism.color.danger.500}`. Action, brand, and danger are three distinct
-  palettes: the white-label requirement, with action decoupled from brand.
+  `actionPalette` — `action.default` → `{prism.color.accent.600}` while the
+  brand hue lives at `foreground.brand` → `{prism.color.primary.*}` and
+  `foreground.danger` → `{prism.color.danger.*}`. Action, brand, and danger are
+  three distinct palettes: the white-label requirement, with action decoupled
+  from brand.
 
 Every primitive leaf carries provenance under `$extensions.prism3` (OKLCH source,
 hex, tonal band, anchor flag, on-white contrast). A per-mode `…semantic.<mode>.*`

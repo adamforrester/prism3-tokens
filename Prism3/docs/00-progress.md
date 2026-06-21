@@ -7,7 +7,7 @@
 
 ---
 
-## Current status (2026-06-20)
+## Current status (2026-06-21)
 
 **The color AND dimension axes are built, proven against a real brand, and
 proven white-label.** From a ~7-input schema the engine generates gamut-aware
@@ -25,10 +25,10 @@ Headline numbers (regenerate with the commands below):
 |---|---|---|
 | Aggregate ΔE00 vs real NB (color) | **1.95** | n/a |
 | Tonal-band contrast contracts | **11/11** | (same engine) |
-| Cross-mode contrast contracts | **28/28** | **28/28** |
+| Cross-mode contrast contracts | **108/108** | **108/108** |
 | **Dimension axis, exact** (Prism2 space + NB radius) | **21/21** | n/a |
-| DTCG semantic aliases resolve (color + dim + size) | **80/80** | **80/80** |
-| Color primitives / dim grid emitted | 82 / 37 | 122 / 36 |
+| DTCG semantic aliases resolve (color + dim + size) | **208/208** | **208/208** |
+| Color primitives / dim grid emitted | 102 / 37 | 142 / 36 |
 | Brand palettes / action source | red / **action = brand** (red) | primary+accent+… / **action = accent ≠ brand** |
 | Form factor | comfortable / radius 1 (sharp) | compact / radius 2 (soft) |
 | Emit profile | `nbds.*` / rgb | `prism.*` / hex |
@@ -95,10 +95,28 @@ npx tsx Prism3/engine/emit-dtcg.ts       # emit DTCG + modes, validate
   the perceptual fit (aggregate ΔE00 2.14 → 1.95).
 - **Modes are derived, not hand-mapped.** Primitives are shared across modes;
   each semantic role re-resolves to a primitive step by contrast target against
-  the mode's surface. The brand anchor is preserved where it can be (light
-  `action.primary` = `red.550`) and auto-adjusted where it can't (dark → `red.450`).
+  the mode's surface. The brand anchor is preserved where it can be and
+  auto-adjusted where it can't (a dark-mode action lightens when the anchor can't
+  clear AA on a near-black surface).
+- **Semantic vocabulary: `background` / `foreground` / `action` / `border`,
+  states-on-roles.** Decided against a 7-system field survey + the practice KB.
+  `background.*` = non-interactive container fills (default/raised/overlay/sunken/
+  subtle/inverse + semantic tints); `foreground.*` = content incl. text tiers,
+  vivid semantic text, links, and `on-*` pair tokens; `action.*` = the
+  interactive fill role as states (default/hover/pressed/focus/inactive) — NOT a
+  dedicated `interactive/` tree; `border.*` = edges incl. focus ring + validation.
+  `status` is folded into background/foreground/border by role (success/warning/
+  danger/**info**, info newly synthesised). 36 semantic roles × 4 modes. Field
+  evidence: background-vs-surface split ~5:3 (tie-broken toward the brand's NB
+  vocabulary), `on-*` pairing universal (7/7), states-on-roles 6/7 (only Carbon
+  ships a dedicated interactive namespace). *Rationale:* user decision after
+  research — keep NB's background/foreground words, drop NB's interactive bucket
+  in favour of the field-standard states-on-roles. Text on a vivid fill targets
+  AA (gamut-bounded — 7:1 is unreachable on a saturated mid), everything else
+  escalates in HC.
 - **Contrast is validated against the floor surface, not the pure extreme.**
-  Saturated, contract-bearing foregrounds (action, status, secondary text) clear
+  Saturated, contract-bearing foregrounds (action + states, vivid semantic text,
+  secondary/tertiary text) clear
   their ratio against the most-tinted supported surface — light/hc-light →
   `neutral.50` (a step off white), dark/hc-dark → `neutral.950` (a step off
   black) — not pure white/black. Pure white is the *most forgiving* light
@@ -117,7 +135,7 @@ npx tsx Prism3/engine/emit-dtcg.ts       # emit DTCG + modes, validate
   **flags a non-default surface in notes for confirmation**. Defaults reproduce
   the white/`neutral.950` behaviour exactly, so brands that don't set it are
   unaffected. Proof: aurora declares its light page as `neutral.50`, the floor
-  auto-moves to `neutral.100`, and `action.primary` resolves to `accent.600`
+  auto-moves to `neutral.100`, and `action.default` resolves to `accent.600`
   (4.95:1 on the tinted page) — two steps off the naive white-only pick.
   *Rationale:* user direction — "we may need to allow a user to confirm the
   primary surface colour that's not white, and that would change the floor."
@@ -136,7 +154,7 @@ npx tsx Prism3/engine/emit-dtcg.ts       # emit DTCG + modes, validate
   reserved interactive colour, so `actionPalette` points action wherever the
   brand needs; it defaults to `primary` but the engine **emits a note flagging
   the decision** so it's confirmed, never silently assumed. Proven on aurora: a
-  violet hero brand whose `action.primary` resolves to a separate azure
+  violet hero brand whose `action.default` resolves to a separate azure
   `accent.500`, while NB keeps `action = brand` (red) by design. *Rationale:*
   user direction — "action is not always the primary brand colour; needs
   flexibility built in, and the system should confirm which colour drives

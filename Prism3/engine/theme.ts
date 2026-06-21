@@ -25,7 +25,7 @@ export const SCHEMA = resolve(here, '../schema/theme-schema.example.json');
 // Semantic colour roles. `action` is FIRST-CLASS and distinct from `brand`:
 // the brand's hero colour is not always the right interactive colour (poor
 // contrast, or reserved by brand guidelines), so action maps independently.
-export type Role = 'brand' | 'neutral' | 'success' | 'warning' | 'danger' | 'action';
+export type Role = 'brand' | 'neutral' | 'success' | 'warning' | 'danger' | 'info' | 'action';
 export type OKLCH = { l: number; c: number; h: number };
 
 /** A generated primitive palette. */
@@ -68,10 +68,11 @@ export type SurfacesConfig = {
 };
 
 // ---- canonical status hues (engine-supplied; a brand need not specify them) ----
-const STATUS_DEFAULTS: Record<'success' | 'warning' | 'danger', OKLCH & { chroma: number }> = {
+const STATUS_DEFAULTS: Record<'success' | 'warning' | 'danger' | 'info', OKLCH & { chroma: number }> = {
   success: { l: 0.55, c: 0.15, h: 145, chroma: 0.15 },
   warning: { l: 0.55, c: 0.15, h: 75, chroma: 0.15 },
   danger: { l: 0.55, c: 0.17, h: 27, chroma: 0.17 },
+  info: { l: 0.55, c: 0.13, h: 245, chroma: 0.13 },
 };
 
 /** Angular distance between two hues (degrees, 0..180). */
@@ -143,12 +144,12 @@ export const brandTheme = (input: BrandInput): Theme => {
     notes.push(`brand colour '${bc.name}' (h${bc.oklch.h}) added`);
   }
 
-  const status = (k: 'success' | 'warning') => {
-    const s = input.status?.[k] ?? STATUS_DEFAULTS[k];
-    notes.push(`${k}: ${input.status?.[k] ? 'brand-supplied' : 'engine default'} hue ${s.h}`);
+  const status = (k: 'success' | 'warning' | 'info') => {
+    const s = (k !== 'info' && input.status?.[k]) ? input.status[k]! : STATUS_DEFAULTS[k];
+    notes.push(`${k}: ${k !== 'info' && input.status?.[k] ? 'brand-supplied' : 'engine default'} hue ${s.h}`);
     return { palette: k, role: k as Role, description: `${k} status`, steps: statusRamp(s.h, s.chroma) };
   };
-  palettes.push(status('success'), status('warning'));
+  palettes.push(status('success'), status('warning'), status('info'));
 
   // ---- action role (decoupled from brand) ----
   const actionPalette = input.actionPalette ?? 'primary';
@@ -161,7 +162,7 @@ export const brandTheme = (input: BrandInput): Theme => {
 
   // ---- danger carve ----
   const roleToPalette: Record<Role, string> = {
-    brand: 'primary', neutral: 'neutral', success: 'success', warning: 'warning', danger: 'danger', action: actionPalette,
+    brand: 'primary', neutral: 'neutral', success: 'success', warning: 'warning', danger: 'danger', info: 'info', action: actionPalette,
   };
   if (input.status?.danger) {
     palettes.push({ palette: 'danger', role: 'danger', description: 'danger status (brand-supplied)', steps: statusRamp(input.status.danger.h, input.status.danger.chroma) });
@@ -196,7 +197,7 @@ export const brandTheme = (input: BrandInput): Theme => {
 
   return {
     id: input.id, root: 'prism', namespace: 'prism.color', colorFormat: 'hex', palettes, roleToPalette, notes,
-    roleAnchorStep: { brand: anchorStep, neutral: 500, success: 500, warning: 500, danger: 500, action: actionPalette === 'primary' ? anchorStep : 500 },
+    roleAnchorStep: { brand: anchorStep, neutral: 500, success: 500, warning: 500, danger: 500, info: 500, action: actionPalette === 'primary' ? anchorStep : 500 },
     surfaces: input.surfaces,
     dims: buildDims(baseUnit, spaceBase, density, rScale, baseMd),
   };
@@ -231,6 +232,8 @@ export const nbTheme = (): Theme => {
   const palettes: PaletteBuild[] = specs.map((s) => ({
     palette: s.palette, role: s.role, description: s.name, steps: buildRamp(s),
   }));
+  // NB ships no blue; synthesise an info palette so the semantic layer is complete.
+  palettes.push({ palette: 'info', role: 'info', description: 'info status (engine-synthesised — NB has no blue)', steps: statusRamp(STATUS_DEFAULTS.info.h, STATUS_DEFAULTS.info.chroma) });
   const s = JSON.parse(readFileSync(SCHEMA, 'utf8'));
   const baseUnit = s.density?.baseUnit ?? 4;
   const baseMd = s.radius?.baseMd ?? 4;
@@ -240,8 +243,8 @@ export const nbTheme = (): Theme => {
   const dims = buildDims(baseUnit, 8, 'comfortable', 1, baseMd, [720]);
   return {
     id: 'nb', root: 'nbds', namespace: 'nbds.color', colorFormat: 'rgb', palettes,
-    roleToPalette: { brand: 'red', neutral: 'neutral', success: 'green', warning: 'amber', danger: 'red', action: 'red' },
-    roleAnchorStep: { brand: 550, neutral: 500, success: 500, warning: 500, danger: 550, action: 550 },
+    roleToPalette: { brand: 'red', neutral: 'neutral', success: 'green', warning: 'amber', danger: 'red', info: 'info', action: 'red' },
+    roleAnchorStep: { brand: 550, neutral: 500, success: 500, warning: 500, danger: 550, info: 500, action: 550 },
     dims,
     notes: [
       'NB regression: measured anchors; brand red also serves as danger (NB brand hue is its danger hue).',
