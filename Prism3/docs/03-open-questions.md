@@ -1,0 +1,111 @@
+# 03 — Open Questions & Decision Backlog
+
+> A running backlog of semantic-layer decisions that aren't settled yet. Each
+> item carries the field evidence (a nine-system survey: M3, Carbon, Atlassian,
+> Fluent, Polaris, Primer, Spectrum, Radix, Tailwind/shadcn), the current Prism3
+> state, the options, and a recommendation to react to. These are *to discuss* —
+> nothing here is implemented until it graduates to a decision in `00-progress`.
+
+---
+
+## The one reframe that cuts across most of these
+
+**Surface colour and elevation are two different axes, and the rigorous systems keep them as separate token families.** M3 explicitly decoupled tone-based surfaces from elevation (`surface-container-*` for fill, a separate `level0–5` for depth; the old "+1..+5 elevation overlay" was retired). Atlassian splits `elevation.surface.*` (fill) from `elevation.shadow.*` (depth) and tells you to pair them. Fluent ships `neutralBackground1–6` *and* a parallel `shadow2–64`. Carbon's layers carry no tonal overlay — shadow carries depth. Spectrum pairs surface aliases with a separate `drop-shadow-*` family.
+
+So "elevation" is a **shadow** decision; "which fill" is a **surface ladder** decision. Our engine currently conflates them into one `background.*` group whose names (`raised`, `overlay`, `sunken`) smuggle a depth/use-case meaning into what is really just a fill ladder. Most of Item 1 falls out of separating them.
+
+---
+
+## Item 1 — Elevation / surface naming  ·  **OPEN**
+
+**The question.** How do we name non-interactive container fills? Numbered depth (`primary/secondary/tertiary/quaternary`, the shape you've used before) vs semantic-role (`raised/overlay/sunken`) vs component-specific (`card`, `popover`)? How many tiers? And is `overlay` a surface at all?
+
+**Field evidence — genuinely split, along a clean line:**
+- **Numbered-by-depth:** Carbon (`background`, `layer-01/02/03`, `field-01/02/03`; you nest by incrementing the number), Fluent (`neutralBackground1–6`), Spectrum (`background-base` → `layer-1` → `layer-2` + an `elevated` role), Tailwind (50→950 lightness).
+- **Semantic emphasis/role:** M3 (`surface-container-lowest/low/high/highest`, 5 tiers, named by *emphasis* not depth), Atlassian (`surface`/`raised`/`overlay`/`sunken`), Polaris (`bg-surface` + `-secondary`/`-tertiary`), Primer (`bgColor-default`/`muted`/`inset`).
+- **Component-specific:** shadcn (`background`/`card`/`popover`/`sidebar`).
+
+**"overlay" is overloaded — this directly confirms your worry.** It means opposite things across systems: Atlassian's `surface.overlay` is the *floating surface* (the dialog/menu fill), but Radix's `--color-overlay`, Fluent's `colorBackgroundOverlay`, and Spectrum's `overlay-color` are all the *scrim* (the dim layer behind the dialog). One word, two concepts — exactly the "pre-applied use case" trap. M3 sidesteps it by having no `overlay` surface token at all.
+
+**Tier count.** 3–5 distinct fills is the norm: Carbon 3+base, Polaris 3, Atlassian 4, M3 5, Fluent 6. Your `primary/secondary/tertiary` (+ optional `quaternary`) sits comfortably inside that; past four, only Fluent/M3 go further and most engagements never use it.
+
+**Current Prism3 state.** One `background.*` group: `default/raised/overlay/sunken/subtle/inverse` + semantic `*-subtle` tints. Conflates fill ladder with depth; `overlay` and `sunken` bake in use-cases; no separate shadow family exists.
+
+**Recommendation.**
+1. **Adopt a numbered/role-neutral fill ladder** — `background.default` (page) → `background.secondary` → `background.tertiary` (+ `quaternary` only if a brand needs it). This validates your prior instinct and dodges the `overlay` ambiguity entirely.
+2. **Drop `raised`/`overlay`/`sunken` as surface tiers.** A dialog or menu is just the top of the ladder; the *lift* is a shadow, not a different fill name.
+3. **Keep the orthogonal roles** that aren't depth: `background.inverse` and the `background.{brand,success,warning,danger,info}-subtle` role tints stay.
+4. **Spin out elevation as its own concern** — a future `shadow.*` (or `elevation.*`) token family, paired with the ladder (Item linked to 2/3). Tracked here, not built yet.
+5. *If* self-documenting component surfaces are wanted, add them as **aliases** that point at a ladder step (`surface.dialog → background.tertiary`), the M3/Atlassian move — names without new values.
+
+---
+
+## Item 2 — Scrim / backdrop + opacity primitives  ·  **OPEN**
+
+**The question.** The dim layer behind modals/drawers is a distinct concept from the dialog surface (you flagged this correctly). How do we tokenise it, and does it need light/dark variants? And do we need an opacity/alpha primitive layer to express it (plus state layers, disabled)?
+
+**Field evidence — scrim is universal, and it's black-alpha:**
+- M3 `scrim` = `#000` @ **32%** (same both schemes — opacity multiplies the resolved colour).
+- Carbon `$overlay` = black @ **60%**, uniform across themes.
+- Spectrum splits it cleanly: `overlay-color` = black + `overlay-opacity` = **0.4 light / 0.6 dark**.
+- Fluent `colorBackgroundOverlay` = **40% light / 50% dark**.
+- Radix `--color-overlay` = `blackA6` light / `blackA8` dark (≈40% / 60%).
+- Polaris `backdrop-bg` = black @ 71%; shadcn `bg-black/50`.
+- Atlassian `color.blanket` (+ `.selected`, `.danger`) — a dedicated scrim *family*.
+
+**Light vs dark: split, but the "differ" camp is principled.** M3/Carbon hold one value; Spectrum/Fluent/Radix dim *harder* in dark mode to keep separation over an already-dark UI. Worth honouring.
+
+**Opacity primitives — also split:**
+- **Alpha ramps as primitives:** Fluent (`blackAlpha`/`whiteAlpha`), Radix (`blackA`/`whiteA` *and* a per-colour alpha variant of every hue).
+- **Opacity constants:** M3 (`state-layer` hover 0.08 / focus 0.12 / pressed 0.12 / dragged 0.16).
+- **Alpha baked into tokens, no general ramp:** Carbon, Atlassian, Polaris.
+
+**Radix's insight worth stealing:** alpha colours "appear visually the same over any background," so a single token composites correctly in light *and* dark. That's the elegant answer to "the same overlay reads differently per mode."
+
+**Current Prism3 state.** No scrim token. No opacity/alpha primitives at all. This is a genuine gap — scrims, state layers, and (depending on Item 4) disabled all want alpha.
+
+**Recommendation.**
+1. **Introduce an opacity primitive scale** (e.g. `opacity.{5,10,20,40,60,80}`) as the base unit, feeding scrim/state/focus.
+2. **Mint `black-alpha` + `white-alpha` ramps** (the Fluent/Radix move) — they solve scrims, shadows, and overlay tints that must sit over *any* surface, in one token per step.
+3. **Add `scrim`** (not "overlay") = black-alpha at a chosen step, with **distinct light/dark values** (lean Spectrum's color+opacity split: cleaner to reason about than a baked rgba). Optionally `scrim.danger` later (Atlassian blanket).
+4. State-layer opacities (hover/pressed/focus) likely belong here too — ties into the interactive states we already emit under `action.*`.
+
+---
+
+## Item 3 — Disabled colouring  ·  **OPEN (live contradiction to resolve)**
+
+**The question.** How is disabled coloured — global opacity, dedicated tokens, or a contrast-preserved neutral? And what's our accessibility position?
+
+**Field evidence — two camps:**
+- **Opacity-based:** M3 (content `on-surface` @ **38%**, container @ **12%** — system-wide constants), Radix (component-level opacity).
+- **Dedicated tokens:** Carbon (`text-disabled` etc. ≈ **25%** alpha baked into a named token), Fluent (solid greys — `colorNeutralForegroundDisabled` `#bdbdbd`), Atlassian (`color.text.disabled` = `#091E424F`, alpha-hex), Polaris (`*-disabled`, rgba 0.05 fills).
+- The rigorous/enterprise systems lean **dedicated tokens**; M3 is the notable opacity holdout. Opacity-based compounds badly (disabled-on-disabled, fails over images) — the main reason the dedicated camp exists.
+- **Accessibility:** all lean on WCAG 1.4.3 *exempting* disabled controls from contrast minima; none of the surveyed docs state it explicitly (verified absence, not oversight).
+
+**Current Prism3 state.** Dedicated tokens — `foreground.disabled` (a low-contrast neutral, ~`neutral.300`, intentionally sub-AA) and `action.inactive` (neutral fill). This matches the *majority* (dedicated) camp. **But** KB `28-web-accessibility-implementation §3` stakes out "the practice's harder line": disabled should be **contrast-preserved**. Those two positions can't both stand.
+
+**Recommendation — resolve toward a documented floor (option c).** Keep dedicated tokens (correct, and field-aligned), but reconcile the contradiction by giving disabled an **explicit, documented contrast floor** (~2.5–3:1 perceptible) rather than either "exempt, anything goes" (M3's 38% can fall below that) or "full AA" (almost nobody does this, and it makes disabled indistinguishable from enabled). This honours the KB's spirit — don't make disabled *invisible* — while staying realistic and matching how the field actually ships. **Action:** pick the floor, then either soften KB §3's wording to match, or hold the stricter line and re-tune the engine. Needs your call.
+
+---
+
+## Item 4 — White / black token policy  ·  **OPEN**
+
+**The question.** Do we expose pure `white`/`black` to consumers, and where (if ever) should surfaces resolve to them vs the tinted neutral ramp ends?
+
+**Field evidence:**
+- **Exposure split:** Fluent and Carbon *do* ship raw `white`/`black` primitives; M3, Atlassian, Radix, Primer do *not* expose them as consumable roles (tinted neutral + `scrim`=`#000`).
+- **Usage is near-universal, though:** dark bases are **tinted near-black, not pure** — Carbon `#161616`, Fluent dark base `#292929`, Spectrum dark `gray-25` `#111`, M3 tonal. Pure black dark surfaces cause eye strain and kill elevation legibility.
+- **Pure-white cards on a tinted page is a blessed pattern:** Polaris page `bg` = `#f1f1f1` with `bg-surface` = `#fff`; Spectrum/Fluent/Carbon light *bases* are `#fff`. So white *is* used — for the base or top card, not for every tier.
+
+**Current Prism3 state.** We ship both pure `.white`/`.black` *and* tinted ramp ends (`neutral.025` `#f7f7f7`, `neutral.950` `#0d0d0e`). Light `raised`/`overlay` resolve to pure `.white`; dark base is the tinted `neutral.950` (good). Aurora's config (page `neutral.050`, cards white) actually *is* the blessed Polaris pattern; NB's (white page + white cards) is the degenerate case where the tier collapses.
+
+**Recommendation.**
+1. **Keep exposing pure `.white`/`.black` as primitives** (Fluent/Carbon precedent) — they're needed for scrim, shadow, and on-colour text regardless.
+2. **Policy: surfaces route through the neutral ramp by default.** Reserve pure white/black for: the page base *when a brand chooses a white page*, scrim/shadow (black), and on-colour text. **Never** pure black for dark surfaces (we already use tinted `neutral.950` — good).
+3. **Reconsider `raised` = pure white when the page is also white** (the NB degenerate case): either step it to `neutral.025`, or accept that in a white-page system the lift is shadow-only (no colour change) — which loops back to Item 1's surface/elevation split.
+
+---
+
+## Suggested sequencing
+
+1, 2, and 4 are entangled (the surface ladder, the scrim/alpha primitives that elevation needs, and the white/black policy all touch the same `background.*` rework) — worth deciding together. Item 3 (disabled) is independent and can be resolved on its own; it's the one with an active KB contradiction, so arguably first.

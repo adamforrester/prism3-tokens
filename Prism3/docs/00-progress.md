@@ -45,7 +45,8 @@ Prism3/
 ├── docs/
 │   ├── 00-progress.md              ← this file (status + decisions + next steps)
 │   ├── 01-token-architecture.md    ← the architecture spec / Theme Schema contract
-│   └── 02-nb-regression-pass.md    ← the NB regression: method + measured results
+│   ├── 02-nb-regression-pass.md    ← the NB regression: method + measured results
+│   └── 03-open-questions.md         ← semantic-layer decision backlog (elevation, scrim/opacity, disabled, white/black)
 ├── schema/
 │   ├── theme-schema.json           ← brand input contract (JSON Schema)
 │   └── theme-schema.example.json   ← worked NB input (anchors, hues, etc.)
@@ -225,6 +226,12 @@ stack) before pipeline plumbing — it tests the white-label thesis harder.
    warning 75, danger 27) are plausible but not evidence-derived; functionally
    safe (placed by luminance) but worth grounding. Overrides already wired via
    `BrandInput.status` / schema `statusColors`.
+6. **Semantic-layer decision backlog (`03-open-questions.md`).** Four open
+   questions raised in review — elevation/surface naming (numbered vs role; drop
+   the overloaded `overlay`), scrim + opacity primitives (a genuine gap — no
+   alpha layer exists), disabled colouring (resolve the engine-vs-KB §3
+   contradiction), and white/black token policy. Researched (nine-system survey)
+   with recommendations; awaiting decisions before any `background.*` rework.
 
 ---
 
