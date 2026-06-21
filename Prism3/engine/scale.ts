@@ -1,23 +1,26 @@
 /**
- * Prism3 engine — non-color scales: the dimension grid, and the space + radius
- * semantic ramps derived from it.
+ * Prism3 engine — non-color scales: the dimension grid, the space scale, the
+ * radius ramp, and the component-size layer.
  *
- * Same architecture as the color axis: a primitive grid + semantic tokens that
- * alias into it. Two brand levers carry all the variance, per the schema's
- * "resist the seventh" discipline:
- *   - density (one enum) shifts the space mapping up/down the grid;
- *   - radius.scale (one scalar) scales the corner ramp from sharp to soft.
- * Everything else (the grid shape, the semantic ladder) is an engine constant.
+ * Three Curtis tiers show up here:
+ *   - reference : `dimension` grid (fine substrate) + `space` scale (8px rhythm,
+ *                 numbered by multiplier — space.100 = 1×spaceBase, density-free)
+ *   - component : `size` (control heights + paired padding) — t-shirt named,
+ *                 the layer DENSITY acts on (compact `md` resolves smaller, name
+ *                 unchanged), the layer that gives cross-component consistency
+ *   - radius    : a small bounded ramp, t-shirt named (genuinely semantic there)
  *
- * base = 4 reproduces New Balance exactly:
- *   grid    0,1,2,4,6,8,12,16,…,128
- *   space   4xs..3xl = 4,8,12,16,24,32,48,64,96,128
- *   radius  none/sm/md/lg/round = 0,2,4,6,128
+ * Taxonomy POV (knowledge-base 02/22/24): numbered-multiplier beats t-shirt for
+ * a *scale* (handles "between" sizes, extends, and the number means "n×base"
+ * invariantly across brands — white-label-honest). T-shirt is reserved for the
+ * *component* layer, where it maps to a `size="md"` prop. spaceBase=8 reproduces
+ * Prism2's space scale exactly; the 4px grid still backs radius/borders.
  */
 
-export type SpaceStep = { name: string; mult: number; px: number };
-export type RadiusStep = { name: string; px: number; pill?: boolean };
 export type Density = 'comfortable' | 'compact' | 'spacious';
+export type SpaceStep = { key: string; mult: number; px: number };
+export type RadiusStep = { name: string; px: number; pill?: boolean };
+export type SizeStep = { name: string; height: number; padX: number; padY: number };
 
 /** The primitive dimension grid (px): fine sub-steps for borders/hairlines, a
  *  base / 1.5×base / 2×base shoulder, then a `base`-spaced ladder to `max`. */
@@ -28,30 +31,42 @@ export const dimensionGrid = (base = 4, max = 128, extras: number[] = []): numbe
   return [...g].filter((v) => Number.isInteger(v) && v >= 0).sort((a, b) => a - b);
 };
 
-// Semantic space ladder in base-units (the comfortable density). NB measured:
-// 4xs..3xl = 1,2,3,4,6,8,12,16,24,32 × base.
-const SPACE_LADDER: { name: string; mult: number }[] = [
-  { name: '4xs', mult: 1 }, { name: '3xs', mult: 2 }, { name: '2xs', mult: 3 },
-  { name: 'xs', mult: 4 }, { name: 'sm', mult: 6 }, { name: 'md', mult: 8 },
-  { name: 'lg', mult: 12 }, { name: 'xl', mult: 16 }, { name: '2xl', mult: 24 },
-  { name: '3xl', mult: 32 },
+// Numbered-multiplier space scale (reference tier). key/100 = multiplier of
+// spaceBase: 025=0.25× … 100=1× … 1200=12×. Linear, density-independent.
+const SPACE_KEYS = ['0', '025', '050', '075', '100', '200', '300', '400', '500', '600', '700', '800', '900', '1000', '1100', '1200'];
+
+/** The space scale for a given rhythm. spaceBase=8 reproduces Prism2 exactly. */
+export const spaceScale = (spaceBase = 8): SpaceStep[] =>
+  SPACE_KEYS.map((k) => {
+    const mult = Number(k) / 100;
+    return { key: k, mult, px: Math.round(mult * spaceBase) };
+  });
+
+// Component-size ladder (comfortable), expressed in spaceBase multiples so a
+// "size" is a CONTRACT (height + horizontal/vertical padding) every component
+// opts into — guaranteeing a `md` button, input and select agree. Heights and
+// paddings both land on the shared scales.
+const SIZE_LADDER: { name: string; h: number; x: number; y: number }[] = [
+  { name: 'xs', h: 4, x: 1, y: 0.5 },
+  { name: 'sm', h: 5, x: 2, y: 0.75 },
+  { name: 'md', h: 6, x: 2, y: 1 },
+  { name: 'lg', h: 7, x: 3, y: 1 },
+  { name: 'xl', h: 8, x: 3, y: 2 },
 ];
 
-/** Space ramp for a density. 'compact' steps each token one rung DOWN the grid,
- *  'spacious' one rung up; values stay snapped to grid primitives. */
-export const spaceScale = (density: Density, grid: number[], base = 4): SpaceStep[] => {
+/** Component sizes for a density. DENSITY lives here, not on the space scale:
+ *  'compact' resolves each step to the next-smaller rung's metrics while keeping
+ *  the name — so `size.md` stays `md` but renders tighter. */
+export const componentSizes = (density: Density, spaceBase = 8): SizeStep[] => {
   const shift = density === 'compact' ? -1 : density === 'spacious' ? 1 : 0;
-  return SPACE_LADDER.map(({ name, mult }) => {
-    const comfPx = mult * base;
-    let i = grid.indexOf(comfPx);
-    if (i < 0) i = Math.max(0, grid.findIndex((v) => v >= comfPx));
-    const j = Math.min(grid.length - 1, Math.max(0, i + shift));
-    const px = grid[j];
-    return { name, mult: px / base, px };
+  return SIZE_LADDER.map((s, i) => {
+    const src = SIZE_LADDER[Math.min(SIZE_LADDER.length - 1, Math.max(0, i + shift))];
+    return { name: s.name, height: Math.round(src.h * spaceBase), padX: Math.round(src.x * spaceBase), padY: Math.round(src.y * spaceBase) };
   });
 };
 
-// Radius base ramp (px at scale=1) — the "linear-2px" shape NB ships.
+// Radius base ramp (px at scale=1) — a small bounded, genuinely-semantic set, so
+// t-shirt naming holds (both NB and Prism2 name it this way).
 const RADIUS_LADDER: { name: string; factor: number }[] = [
   { name: 'none', factor: 0 }, { name: 'sm', factor: 0.5 },
   { name: 'md', factor: 1 }, { name: 'lg', factor: 1.5 },

@@ -3131,133 +3131,211 @@
       }
     },
     "space": {
-      "4xs": {
+      "0": {
         "$type": "dimension",
-        "$value": "{prism.dimension.2}",
-        "$description": "space 4xs — 2px (density: compact)",
+        "$value": "{prism.dimension.0}",
+        "$description": "space.0 — 0px (0× 8px base)",
         "$extensions": {
           "prism3": {
             "role": "semantic",
-            "aliasOf": "prism.dimension.2",
-            "px": 2,
-            "density": "compact"
+            "aliasOf": "prism.dimension.0",
+            "px": 0,
+            "mult": 0
           }
         }
       },
-      "3xs": {
-        "$type": "dimension",
-        "$value": "{prism.dimension.6}",
-        "$description": "space 3xs — 6px (density: compact)",
-        "$extensions": {
-          "prism3": {
-            "role": "semantic",
-            "aliasOf": "prism.dimension.6",
-            "px": 6,
-            "density": "compact"
-          }
-        }
-      },
-      "2xs": {
+      "100": {
         "$type": "dimension",
         "$value": "{prism.dimension.8}",
-        "$description": "space 2xs — 8px (density: compact)",
+        "$description": "space.100 — 8px (1× 8px base)",
         "$extensions": {
           "prism3": {
             "role": "semantic",
             "aliasOf": "prism.dimension.8",
             "px": 8,
-            "density": "compact"
+            "mult": 1
           }
         }
       },
-      "xs": {
+      "200": {
         "$type": "dimension",
-        "$value": "{prism.dimension.12}",
-        "$description": "space xs — 12px (density: compact)",
+        "$value": "{prism.dimension.16}",
+        "$description": "space.200 — 16px (2× 8px base)",
         "$extensions": {
           "prism3": {
             "role": "semantic",
-            "aliasOf": "prism.dimension.12",
-            "px": 12,
-            "density": "compact"
+            "aliasOf": "prism.dimension.16",
+            "px": 16,
+            "mult": 2
           }
         }
       },
-      "sm": {
+      "300": {
         "$type": "dimension",
-        "$value": "{prism.dimension.20}",
-        "$description": "space sm — 20px (density: compact)",
+        "$value": "{prism.dimension.24}",
+        "$description": "space.300 — 24px (3× 8px base)",
         "$extensions": {
           "prism3": {
             "role": "semantic",
-            "aliasOf": "prism.dimension.20",
-            "px": 20,
-            "density": "compact"
+            "aliasOf": "prism.dimension.24",
+            "px": 24,
+            "mult": 3
           }
         }
       },
-      "md": {
+      "400": {
         "$type": "dimension",
-        "$value": "{prism.dimension.28}",
-        "$description": "space md — 28px (density: compact)",
+        "$value": "{prism.dimension.32}",
+        "$description": "space.400 — 32px (4× 8px base)",
         "$extensions": {
           "prism3": {
             "role": "semantic",
-            "aliasOf": "prism.dimension.28",
-            "px": 28,
-            "density": "compact"
+            "aliasOf": "prism.dimension.32",
+            "px": 32,
+            "mult": 4
           }
         }
       },
-      "lg": {
+      "500": {
         "$type": "dimension",
-        "$value": "{prism.dimension.44}",
-        "$description": "space lg — 44px (density: compact)",
+        "$value": "{prism.dimension.40}",
+        "$description": "space.500 — 40px (5× 8px base)",
         "$extensions": {
           "prism3": {
             "role": "semantic",
-            "aliasOf": "prism.dimension.44",
-            "px": 44,
-            "density": "compact"
+            "aliasOf": "prism.dimension.40",
+            "px": 40,
+            "mult": 5
           }
         }
       },
-      "xl": {
+      "600": {
         "$type": "dimension",
-        "$value": "{prism.dimension.60}",
-        "$description": "space xl — 60px (density: compact)",
+        "$value": "{prism.dimension.48}",
+        "$description": "space.600 — 48px (6× 8px base)",
         "$extensions": {
           "prism3": {
             "role": "semantic",
-            "aliasOf": "prism.dimension.60",
-            "px": 60,
-            "density": "compact"
+            "aliasOf": "prism.dimension.48",
+            "px": 48,
+            "mult": 6
           }
         }
       },
-      "2xl": {
+      "700": {
         "$type": "dimension",
-        "$value": "{prism.dimension.92}",
-        "$description": "space 2xl — 92px (density: compact)",
+        "$value": "{prism.dimension.56}",
+        "$description": "space.700 — 56px (7× 8px base)",
         "$extensions": {
           "prism3": {
             "role": "semantic",
-            "aliasOf": "prism.dimension.92",
-            "px": 92,
-            "density": "compact"
+            "aliasOf": "prism.dimension.56",
+            "px": 56,
+            "mult": 7
           }
         }
       },
-      "3xl": {
+      "800": {
         "$type": "dimension",
-        "$value": "{prism.dimension.124}",
-        "$description": "space 3xl — 124px (density: compact)",
+        "$value": "{prism.dimension.64}",
+        "$description": "space.800 — 64px (8× 8px base)",
         "$extensions": {
           "prism3": {
             "role": "semantic",
-            "aliasOf": "prism.dimension.124",
-            "px": 124,
-            "density": "compact"
+            "aliasOf": "prism.dimension.64",
+            "px": 64,
+            "mult": 8
+          }
+        }
+      },
+      "900": {
+        "$type": "dimension",
+        "$value": "{prism.dimension.72}",
+        "$description": "space.900 — 72px (9× 8px base)",
+        "$extensions": {
+          "prism3": {
+            "role": "semantic",
+            "aliasOf": "prism.dimension.72",
+            "px": 72,
+            "mult": 9
+          }
+        }
+      },
+      "1000": {
+        "$type": "dimension",
+        "$value": "{prism.dimension.80}",
+        "$description": "space.1000 — 80px (10× 8px base)",
+        "$extensions": {
+          "prism3": {
+            "role": "semantic",
+            "aliasOf": "prism.dimension.80",
+            "px": 80,
+            "mult": 10
+          }
+        }
+      },
+      "1100": {
+        "$type": "dimension",
+        "$value": "{prism.dimension.88}",
+        "$description": "space.1100 — 88px (11× 8px base)",
+        "$extensions": {
+          "prism3": {
+            "role": "semantic",
+            "aliasOf": "prism.dimension.88",
+            "px": 88,
+            "mult": 11
+          }
+        }
+      },
+      "1200": {
+        "$type": "dimension",
+        "$value": "{prism.dimension.96}",
+        "$description": "space.1200 — 96px (12× 8px base)",
+        "$extensions": {
+          "prism3": {
+            "role": "semantic",
+            "aliasOf": "prism.dimension.96",
+            "px": 96,
+            "mult": 12
+          }
+        }
+      },
+      "025": {
+        "$type": "dimension",
+        "$value": "{prism.dimension.2}",
+        "$description": "space.025 — 2px (0.25× 8px base)",
+        "$extensions": {
+          "prism3": {
+            "role": "semantic",
+            "aliasOf": "prism.dimension.2",
+            "px": 2,
+            "mult": 0.25
+          }
+        }
+      },
+      "050": {
+        "$type": "dimension",
+        "$value": "{prism.dimension.4}",
+        "$description": "space.050 — 4px (0.5× 8px base)",
+        "$extensions": {
+          "prism3": {
+            "role": "semantic",
+            "aliasOf": "prism.dimension.4",
+            "px": 4,
+            "mult": 0.5
+          }
+        }
+      },
+      "075": {
+        "$type": "dimension",
+        "$value": "{prism.dimension.6}",
+        "$description": "space.075 — 6px (0.75× 8px base)",
+        "$extensions": {
+          "prism3": {
+            "role": "semantic",
+            "aliasOf": "prism.dimension.6",
+            "px": 6,
+            "mult": 0.75
           }
         }
       }
@@ -3328,6 +3406,203 @@
           }
         }
       }
+    },
+    "size": {
+      "xs": {
+        "height": {
+          "$type": "dimension",
+          "$value": "{prism.dimension.32}",
+          "$description": "size.xs control height — 32px (density: compact)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.dimension.32",
+              "px": 32,
+              "density": "compact"
+            }
+          }
+        },
+        "padding-x": {
+          "$type": "dimension",
+          "$value": "{prism.space.100}",
+          "$description": "size.xs horizontal inset — 8px (density: compact)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.space.100",
+              "px": 8
+            }
+          }
+        },
+        "padding-y": {
+          "$type": "dimension",
+          "$value": "{prism.space.050}",
+          "$description": "size.xs vertical inset — 4px (density: compact)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.space.050",
+              "px": 4
+            }
+          }
+        }
+      },
+      "sm": {
+        "height": {
+          "$type": "dimension",
+          "$value": "{prism.dimension.32}",
+          "$description": "size.sm control height — 32px (density: compact)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.dimension.32",
+              "px": 32,
+              "density": "compact"
+            }
+          }
+        },
+        "padding-x": {
+          "$type": "dimension",
+          "$value": "{prism.space.100}",
+          "$description": "size.sm horizontal inset — 8px (density: compact)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.space.100",
+              "px": 8
+            }
+          }
+        },
+        "padding-y": {
+          "$type": "dimension",
+          "$value": "{prism.space.050}",
+          "$description": "size.sm vertical inset — 4px (density: compact)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.space.050",
+              "px": 4
+            }
+          }
+        }
+      },
+      "md": {
+        "height": {
+          "$type": "dimension",
+          "$value": "{prism.dimension.40}",
+          "$description": "size.md control height — 40px (density: compact)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.dimension.40",
+              "px": 40,
+              "density": "compact"
+            }
+          }
+        },
+        "padding-x": {
+          "$type": "dimension",
+          "$value": "{prism.space.200}",
+          "$description": "size.md horizontal inset — 16px (density: compact)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.space.200",
+              "px": 16
+            }
+          }
+        },
+        "padding-y": {
+          "$type": "dimension",
+          "$value": "{prism.space.075}",
+          "$description": "size.md vertical inset — 6px (density: compact)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.space.075",
+              "px": 6
+            }
+          }
+        }
+      },
+      "lg": {
+        "height": {
+          "$type": "dimension",
+          "$value": "{prism.dimension.48}",
+          "$description": "size.lg control height — 48px (density: compact)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.dimension.48",
+              "px": 48,
+              "density": "compact"
+            }
+          }
+        },
+        "padding-x": {
+          "$type": "dimension",
+          "$value": "{prism.space.200}",
+          "$description": "size.lg horizontal inset — 16px (density: compact)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.space.200",
+              "px": 16
+            }
+          }
+        },
+        "padding-y": {
+          "$type": "dimension",
+          "$value": "{prism.space.100}",
+          "$description": "size.lg vertical inset — 8px (density: compact)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.space.100",
+              "px": 8
+            }
+          }
+        }
+      },
+      "xl": {
+        "height": {
+          "$type": "dimension",
+          "$value": "{prism.dimension.56}",
+          "$description": "size.xl control height — 56px (density: compact)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.dimension.56",
+              "px": 56,
+              "density": "compact"
+            }
+          }
+        },
+        "padding-x": {
+          "$type": "dimension",
+          "$value": "{prism.space.300}",
+          "$description": "size.xl horizontal inset — 24px (density: compact)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.space.300",
+              "px": 24
+            }
+          }
+        },
+        "padding-y": {
+          "$type": "dimension",
+          "$value": "{prism.space.100}",
+          "$description": "size.xl vertical inset — 8px (density: compact)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.space.100",
+              "px": 8
+            }
+          }
+        }
+      }
     }
   },
   "$extensions": {
@@ -3344,7 +3619,7 @@
         "success: engine default hue 145",
         "warning: engine default hue 75",
         "danger: primary hue 285 is NOT red → carved a dedicated danger red at hue 27",
-        "dimension axis: 4px grid, density 'compact', radius scale 2 (baseMd 4px)"
+        "dimension axis: 4px grid, 8px space rhythm, density 'compact' (drives component sizes), radius scale 2 (baseMd 4px)"
       ]
     }
   }

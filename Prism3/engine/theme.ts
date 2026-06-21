@@ -17,7 +17,7 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 import { generateRamp, peakChromaL, autoPlaceStep, Step } from './ramp';
-import { dimensionGrid, spaceScale, radiusScale, SpaceStep, RadiusStep, Density } from './scale';
+import { dimensionGrid, spaceScale, radiusScale, componentSizes, SpaceStep, RadiusStep, SizeStep, Density } from './scale';
 
 const here = dirname(fileURLToPath(import.meta.url));
 export const SCHEMA = resolve(here, '../schema/theme-schema.example.json');
@@ -28,13 +28,15 @@ export type OKLCH = { l: number; c: number; h: number };
 /** A generated primitive palette. */
 export type PaletteBuild = { palette: string; role: Role; steps: Step[]; description: string };
 
-/** The non-color (dimension) axis: a primitive grid + space/radius semantics. */
+/** The non-color (dimension) axis: a primitive grid + space/radius/size scales. */
 export type Dims = {
   grid: number[];
-  space: SpaceStep[];
+  space: SpaceStep[];        // reference tier — numbered multiplier, density-free
   radius: RadiusStep[];
+  sizes: SizeStep[];         // component tier — t-shirt, density acts here
   density: Density;
   radiusScaleValue: number;
+  spaceBase: number;
 };
 
 /** Everything the emitter and the modes engine need to be brand-agnostic. */
@@ -79,23 +81,23 @@ export type BrandInput = {
   /** Optional measured status overrides; omit to let the engine synthesise. */
   status?: Partial<Record<'success' | 'warning' | 'danger', OKLCH & { chroma: number }>>;
   /** Dimension axis levers (schema-required #4/#5). Defaults reproduce a
-   *  conventional 4px-grid, sharp-corner system. */
-  baseUnit?: number;                 // spacing grid base (px), default 4
-  density?: Density;                 // default 'comfortable'
+   *  conventional 4px-grid / 8px-rhythm, sharp-corner system. */
+  baseUnit?: number;                 // fine dimension grid base (px), default 4
+  spaceBase?: number;                // spacing rhythm (px), default 8
+  density?: Density;                 // default 'comfortable' (drives component sizes)
   radiusScale?: number;              // 0=sharp … 1=default … 2=soft, default 1
   baseMd?: number;                   // radius.md anchor (px) at scale 1, default 4
 };
 
-const buildDims = (baseUnit: number, density: Density, rScale: number, baseMd: number, extras: number[] = []): Dims => {
-  const grid = dimensionGrid(baseUnit, 128, extras);
-  return {
-    grid,
-    space: spaceScale(density, grid, baseUnit),
-    radius: radiusScale(rScale, baseMd, 128),
-    density,
-    radiusScaleValue: rScale,
-  };
-};
+const buildDims = (baseUnit: number, spaceBase: number, density: Density, rScale: number, baseMd: number, extras: number[] = []): Dims => ({
+  grid: dimensionGrid(baseUnit, 128, extras),
+  space: spaceScale(spaceBase),
+  radius: radiusScale(rScale, baseMd, 128),
+  sizes: componentSizes(density, spaceBase),
+  density,
+  radiusScaleValue: rScale,
+  spaceBase,
+});
 
 export const brandTheme = (input: BrandInput): Theme => {
   const notes: string[] = [];
@@ -134,15 +136,16 @@ export const brandTheme = (input: BrandInput): Theme => {
   }
 
   const baseUnit = input.baseUnit ?? 4;
+  const spaceBase = input.spaceBase ?? 8;
   const density = input.density ?? 'comfortable';
   const rScale = input.radiusScale ?? 1;
   const baseMd = input.baseMd ?? 4;
-  notes.push(`dimension axis: ${baseUnit}px grid, density '${density}', radius scale ${rScale} (baseMd ${baseMd}px)`);
+  notes.push(`dimension axis: ${baseUnit}px grid, ${spaceBase}px space rhythm, density '${density}' (drives component sizes), radius scale ${rScale} (baseMd ${baseMd}px)`);
 
   return {
     id: input.id, root: 'prism', namespace: 'prism.color', colorFormat: 'hex', palettes, roleToPalette, notes,
     roleAnchorStep: { brand: anchorStep, neutral: 500, success: 500, warning: 500, danger: 500 },
-    dims: buildDims(baseUnit, density, rScale, baseMd),
+    dims: buildDims(baseUnit, spaceBase, density, rScale, baseMd),
   };
 };
 
@@ -178,8 +181,10 @@ export const nbTheme = (): Theme => {
   const s = JSON.parse(readFileSync(SCHEMA, 'utf8'));
   const baseUnit = s.density?.baseUnit ?? 4;
   const baseMd = s.radius?.baseMd ?? 4;
-  // NB ships scale=1 ("linear-2px"), comfortable density, and a 720px layout outlier.
-  const dims = buildDims(baseUnit, 'comfortable', 1, baseMd, [720]);
+  // Engine taxonomy (not NB's): 8px space rhythm reproducing Prism2's numbered
+  // scale; NB's 4px grid still backs radius/borders. NB ships radius scale=1 and
+  // a 720px layout outlier.
+  const dims = buildDims(baseUnit, 8, 'comfortable', 1, baseMd, [720]);
   return {
     id: 'nb', root: 'nbds', namespace: 'nbds.color', colorFormat: 'rgb', palettes,
     roleToPalette: { brand: 'red', neutral: 'neutral', success: 'green', warning: 'amber', danger: 'red' },
@@ -187,7 +192,7 @@ export const nbTheme = (): Theme => {
     dims,
     notes: [
       'NB regression: measured anchors; brand red also serves as danger (NB brand hue is its danger hue).',
-      `dimension axis: ${baseUnit}px grid, comfortable density, radius scale 1 (baseMd ${baseMd}px).`,
+      `dimension axis: ${baseUnit}px grid, 8px space rhythm (Prism2 numbered scale), comfortable density, radius scale 1 (baseMd ${baseMd}px).`,
     ],
   };
 };

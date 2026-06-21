@@ -134,27 +134,33 @@ Canary cross-check — white on **real** NB `red.550`: 5.63:1; on **generated** 
 
 ## Dimension axis — generated vs hand-built (exact)
 
-Space and radius are integer px aliasing the dimension grid, so the bar is **exact equality**, not ΔE. Generated from one density enum + one radius scalar (schema §4/§5).
+Integer px, so the bar is **exact equality**, not ΔE. Space follows Prism2's numbered-multiplier scale (our adopted taxonomy — see naming POV); radius follows NB. Both fall out of two inputs: `spaceBase=8` and `radius.scale=1`.
 
-| token | kind | generated | NB | match |
-|---|---|---|---|---|
-| space.4xs | space | 4 | 4 | ✅ |
-| space.3xs | space | 8 | 8 | ✅ |
-| space.2xs | space | 12 | 12 | ✅ |
-| space.xs | space | 16 | 16 | ✅ |
-| space.sm | space | 24 | 24 | ✅ |
-| space.md | space | 32 | 32 | ✅ |
-| space.lg | space | 48 | 48 | ✅ |
-| space.xl | space | 64 | 64 | ✅ |
-| space.2xl | space | 96 | 96 | ✅ |
-| space.3xl | space | 128 | 128 | ✅ |
-| radius.none | radius | 0 | 0 | ✅ |
-| radius.sm | radius | 2 | 2 | ✅ |
-| radius.md | radius | 4 | 4 | ✅ |
-| radius.lg | radius | 6 | 6 | ✅ |
-| radius.round | radius | 128 | 128 | ✅ |
+| token | kind | target | generated | actual | match |
+|---|---|---|---|---|---|
+| space.0 | space | Prism2 | 0 | 0 | ✅ |
+| space.025 | space | Prism2 | 2 | 2 | ✅ |
+| space.050 | space | Prism2 | 4 | 4 | ✅ |
+| space.075 | space | Prism2 | 6 | 6 | ✅ |
+| space.100 | space | Prism2 | 8 | 8 | ✅ |
+| space.200 | space | Prism2 | 16 | 16 | ✅ |
+| space.300 | space | Prism2 | 24 | 24 | ✅ |
+| space.400 | space | Prism2 | 32 | 32 | ✅ |
+| space.500 | space | Prism2 | 40 | 40 | ✅ |
+| space.600 | space | Prism2 | 48 | 48 | ✅ |
+| space.700 | space | Prism2 | 56 | 56 | ✅ |
+| space.800 | space | Prism2 | 64 | 64 | ✅ |
+| space.900 | space | Prism2 | 72 | 72 | ✅ |
+| space.1000 | space | Prism2 | 80 | 80 | ✅ |
+| space.1100 | space | Prism2 | 88 | 88 | ✅ |
+| space.1200 | space | Prism2 | 96 | 96 | ✅ |
+| radius.none | radius | NB | 0 | 0 | ✅ |
+| radius.sm | radius | NB | 2 | 2 | ✅ |
+| radius.md | radius | NB | 4 | 4 | ✅ |
+| radius.lg | radius | NB | 6 | 6 | ✅ |
+| radius.round | radius | NB | 128 | 128 | ✅ |
 
-**Dimension axis: 15/15 exact matches** — NB's space + radius reproduced from `baseUnit=4`, `comfortable`, `radius.scale=1`.
+**Dimension axis: 21/21 exact matches** — Prism2's full numbered space scale + NB's radius ramp, both generated from the engine's two dimension levers.
 
 ## Verdict
 
@@ -166,7 +172,7 @@ Space and radius are integer px aliasing the dimension grid, so the bar is **exa
 - Aggregate ΔE00 mean across ramps: **1.95**.
 - Worst step overall: **warning (amber) 600** at ΔE00 9.15 (an NB hand-applied hue kink — see docs/02 §4).
 - Contrast contracts: **11/11 pass**.
-- Dimension axis (space + radius): **15/15 exact matches**.
+- Dimension axis (Prism2 space + NB radius): **21/21 exact matches**.
 
 > Aggregate mean within ΔE00 ≤ 3: the engine reproduces NB perceptually from the schema alone. Residual per-step outliers are NB hand-nudges (hue kinks), not engine error.
 

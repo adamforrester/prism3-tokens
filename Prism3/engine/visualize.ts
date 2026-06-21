@@ -115,14 +115,14 @@ for (const b of brands) {
   for (const px of grid) html.push(`<div class="barrow"><span class="bk">${px}</span><div class="bar" style="width:${Math.min(px, 200)}px"></div></div>`);
   html.push('</div>');
 
-  // space
-  const density = data.space[Object.keys(data.space)[0]].$extensions.prism3.density;
-  txt.push(`\n— SPACE (density: ${density}) —`);
-  html.push(`<h3>Space <span class="muted">density: ${density}</span></h3><div class="bars">`);
+  // space (numbered multiplier, reference tier)
+  txt.push('\n— SPACE (numbered ×base, reference tier) —');
+  html.push('<h3>Space <span class="muted">numbered multiplier · reference tier</span></h3><div class="bars">');
   for (const k of Object.keys(data.space)) {
     const px = pxOf(tree, data.space[k]);
-    txt.push(`  space.${k.padEnd(4)} ${String(px).padStart(3)}px  → dimension.${aliasTarget(data.space[k]).split('.').pop()}`);
-    html.push(`<div class="barrow"><span class="bk">${k}</span><div class="bar sp" style="width:${Math.min(px, 200)}px"></div><span class="bv">${px}px</span></div>`);
+    const mult = data.space[k].$extensions.prism3.mult;
+    txt.push(`  space.${k.padEnd(4)} ${String(px).padStart(3)}px  (${mult}× base)`);
+    html.push(`<div class="barrow"><span class="bk">${k}</span><div class="bar sp" style="width:${Math.min(px, 200)}px"></div><span class="bv">${px}px · ${mult}×</span></div>`);
   }
   html.push('</div>');
 
@@ -135,6 +135,20 @@ for (const b of brands) {
     txt.push(`  radius.${k.padEnd(5)} ${String(px).padStart(3)}px`);
     const shown = Math.min(px, 48);
     html.push(`<div class="rcell"><div class="rbox" style="border-radius:${shown}px"></div><span>${k}</span><small>${px}px</small></div>`);
+  }
+  html.push('</div>');
+
+  // component sizes (component tier — density acts here)
+  const sizeDensity = data.size[Object.keys(data.size)[0]].height.$extensions.prism3.density;
+  txt.push(`\n— COMPONENT SIZES (density: ${sizeDensity}) —`);
+  html.push(`<h3>Component sizes <span class="muted">density: ${sizeDensity} · height + paired padding</span></h3><div class="sizes">`);
+  for (const k of Object.keys(data.size)) {
+    const h = pxOf(tree, data.size[k].height);
+    const px2 = pxOf(tree, data.size[k]['padding-x']);
+    const py = pxOf(tree, data.size[k]['padding-y']);
+    txt.push(`  size.${k.padEnd(3)} height ${String(h).padStart(2)}px · pad ${px2}×${py}px`);
+    // a mock control: fixed-width box at the real height, with real inset shown as an inner fill
+    html.push(`<div class="scell"><div class="control" style="height:${h}px;padding:${py}px ${px2}px"><div class="ctext">${k}</div></div><small>${h}h · ${px2}×${py}</small></div>`);
   }
   html.push('</div>');
 
@@ -170,6 +184,10 @@ const page = `<!doctype html><html lang="en"><head><meta charset="utf-8">
   .rcell{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;color:#cbd1db}
   .rbox{width:56px;height:56px;background:linear-gradient(135deg,#4f8cff,#9b6bff)}
   .rcell small{color:#6b7280}
+  .sizes{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-end}
+  .scell{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;color:#6b7280}
+  .control{box-sizing:border-box;min-width:64px;background:#2a2e37;border:1px solid #3a3f4a;border-radius:6px;display:flex;align-items:center;justify-content:center}
+  .ctext{background:#4f8cff33;border:1px solid #4f8cff;color:#cdd9ff;border-radius:3px;font-size:11px;font-weight:600;padding:1px 8px;height:100%;display:flex;align-items:center}
 </style></head><body>
 <h1>Prism3 — generated token taxonomy</h1>
 <p class="lead">Every value below is engine-generated from a small theme input and read back from the emitted DTCG files (<code>out/*.tokens.json</code>). ★ marks the exact brand anchor. Regenerate with <code>npx tsx Prism3/engine/visualize.ts</code>.</p>

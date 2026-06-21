@@ -122,35 +122,39 @@ const nbPromo = nbStep('red', 550)!;
 p(`Canary cross-check — white on **real** NB \`red.550\`: ${contrast(nbPromo, WHITE).toFixed(2)}:1; on **generated** red.550: ${c550w.toFixed(2)}:1.`);
 p('');
 
-// ---- dimension axis regression (space + radius are EXACT, not perceptual) ----
-const NBSPACE = resolve(repo, 'Tokens/New Balance/tokens/tokens/shared/space-size.json');
+// ---- dimension axis regression (integer px → EXACT equality, not ΔE) ----
+// NB is a fidelity TEST, not the taxonomy authority. On naming we deliberately
+// followed Prism2 (numbered-multiplier space, KB POV 02/22), not NB's legacy
+// t-shirt ramp — so SPACE validates against Prism2; RADIUS (which both systems
+// name the same way) still validates against NB.
+const PRISM2SPACE = resolve(repo, 'Tokens/Prism2/tokens/tokens/shared/space-size.json');
 const NBRAD = resolve(repo, 'Tokens/New Balance/tokens/tokens/shared/radius.json');
-const nbSpace = JSON.parse(readFileSync(NBSPACE, 'utf8')).nbds.space as Record<string, any>;
+const p2Space = JSON.parse(readFileSync(PRISM2SPACE, 'utf8')).nbds.pds.space as Record<string, any>;
 const nbRad = JSON.parse(readFileSync(NBRAD, 'utf8')).nbds.radius as Record<string, any>;
 const aliasPx = (v: string) => Number(v.match(/dimension\.(\d+)/)![1]);
 const dims = nbTheme().dims;
 
 p('## Dimension axis — generated vs hand-built (exact)');
 p('');
-p('Space and radius are integer px aliasing the dimension grid, so the bar is **exact equality**, not ΔE. Generated from one density enum + one radius scalar (schema §4/§5).');
+p('Integer px, so the bar is **exact equality**, not ΔE. Space follows Prism2\'s numbered-multiplier scale (our adopted taxonomy — see naming POV); radius follows NB. Both fall out of two inputs: `spaceBase=8` and `radius.scale=1`.');
 p('');
-p('| token | kind | generated | NB | match |');
-p('|---|---|---|---|---|');
+p('| token | kind | target | generated | actual | match |');
+p('|---|---|---|---|---|---|');
 let dimChecks = 0, dimPass = 0;
 for (const s of dims.space) {
-  const nbv = nbSpace[s.name] ? aliasPx(nbSpace[s.name].$value) : null;
-  if (nbv == null) continue;
-  dimChecks++; const okMatch = nbv === s.px; if (okMatch) dimPass++;
-  p(`| space.${s.name} | space | ${s.px} | ${nbv} | ${okMatch ? '✅' : '❌'} |`);
+  const av = p2Space[s.key] ? aliasPx(p2Space[s.key].$value) : null;
+  if (av == null) continue;
+  dimChecks++; const okMatch = av === s.px; if (okMatch) dimPass++;
+  p(`| space.${s.key} | space | Prism2 | ${s.px} | ${av} | ${okMatch ? '✅' : '❌'} |`);
 }
 for (const r of dims.radius) {
-  const nbv = nbRad[r.name] ? aliasPx(nbRad[r.name].$value) : null;
-  if (nbv == null) continue;
-  dimChecks++; const okMatch = nbv === r.px; if (okMatch) dimPass++;
-  p(`| radius.${r.name} | radius | ${r.px} | ${nbv} | ${okMatch ? '✅' : '❌'} |`);
+  const av = nbRad[r.name] ? aliasPx(nbRad[r.name].$value) : null;
+  if (av == null) continue;
+  dimChecks++; const okMatch = av === r.px; if (okMatch) dimPass++;
+  p(`| radius.${r.name} | radius | NB | ${r.px} | ${av} | ${okMatch ? '✅' : '❌'} |`);
 }
 p('');
-p(`**Dimension axis: ${dimPass}/${dimChecks} exact matches** — NB's space + radius reproduced from \`baseUnit=4\`, \`comfortable\`, \`radius.scale=1\`.`);
+p(`**Dimension axis: ${dimPass}/${dimChecks} exact matches** — Prism2's full numbered space scale + NB's radius ramp, both generated from the engine's two dimension levers.`);
 p('');
 
 // ---- verdict ----
@@ -164,7 +168,7 @@ p('');
 p(`- Aggregate ΔE00 mean across ramps: **${meanOfMeans.toFixed(2)}**.`);
 p(`- Worst step overall: **${worstStep.name} ${worstStep.key}** at ΔE00 ${worstStep.de.toFixed(2)} (an NB hand-applied hue kink — see docs/02 §4).`);
 p(`- Contrast contracts: **${checks.length - failed.length}/${checks.length} pass**${failed.length ? ` — failing: ${failed.map((f) => f.label).join(', ')}` : '.'}`);
-p(`- Dimension axis (space + radius): **${dimPass}/${dimChecks} exact matches**.`);
+p(`- Dimension axis (Prism2 space + NB radius): **${dimPass}/${dimChecks} exact matches**.`);
 p('');
 p(meanOfMeans <= 3
   ? '> Aggregate mean within ΔE00 ≤ 3: the engine reproduces NB perceptually from the schema alone. Residual per-step outliers are NB hand-nudges (hue kinks), not engine error.'

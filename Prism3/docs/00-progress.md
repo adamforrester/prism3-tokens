@@ -26,8 +26,8 @@ Headline numbers (regenerate with the commands below):
 | Aggregate ΔE00 vs real NB (color) | **1.95** | n/a |
 | Tonal-band contrast contracts | **11/11** | (same engine) |
 | Cross-mode contrast contracts | **28/28** | **28/28** |
-| **Dimension axis (space + radius) vs real NB, exact** | **15/15** | n/a |
-| DTCG semantic aliases resolve (color + dim) | **59/59** | **59/59** |
+| **Dimension axis, exact** (Prism2 space + NB radius) | **21/21** | n/a |
+| DTCG semantic aliases resolve (color + dim + size) | **80/80** | **80/80** |
 | Color primitives / dim grid emitted | 82 / 37 | 102 / 36 |
 | Form factor | comfortable / radius 1 (sharp) | compact / radius 2 (soft) |
 | Emit profile | `nbds.*` / rgb | `prism.*` / hex |
@@ -51,7 +51,7 @@ Prism3/
 └── engine/                         ← dependency-free TypeScript prototype
     ├── color.ts                    ← sRGB↔OKLCH, CIELAB, CIEDE2000, WCAG contrast, gamut-aware max chroma
     ├── ramp.ts                     ← color ramp generation: exact anchor, 20 steps, chroma arc, 5 bands, contrast-role placement
-    ├── scale.ts                    ← dimension axis: 4px grid + space (density-driven) + radius (scale-driven) generation
+    ├── scale.ts                    ← dimension axis: 4px grid + numbered space scale (8px rhythm) + radius + component sizes
     ├── theme.ts                    ← Theme builder: nbTheme() (measured) + brandTheme() (white-label, status synthesis + danger carve + form factor)
     ├── modes.ts                    ← light/dark/hc-light/hc-dark, roles resolved by contrast target, brand-agnostic
     ├── nb-regression.ts            ← diffs generated vs real NB, checks contracts → nb-regression-report.md
@@ -113,14 +113,35 @@ npx tsx Prism3/engine/emit-dtcg.ts       # emit DTCG + modes, validate
   The `amber.600`/`red.300` outliers characterise NB's hand-authoring; they are
   not an engine gap (review finding — reframed from an earlier "opt-in feature").
 - **Dimension axis mirrors the color architecture: primitives + semantic
-  aliases.** A primitive `dimension` grid (4px: 0,1,2,4,6,8,…,128) with `space`
-  and `radius` semantic tokens aliasing into it — the same shape as color ramps
-  + semantic roles. Two levers carry all variance: `density` (one enum) shifts
-  the space mapping along the grid; `radius.scale` (one scalar) scales the corner
-  ramp from sharp to soft. Reproduces NB's space + radius **exactly** (15/15)
-  from `baseUnit=4` / `comfortable` / `scale=1`, and aurora runs a *different*
-  form factor (compact / scale 2) through the same code. These are integer px, so
-  the bar is exact equality, not perceptual ΔE.
+  aliases.** A primitive `dimension` grid (4px: 0,1,2,4,6,8,…,128) with `space`,
+  `radius`, and component `size` tokens aliasing into it — the same shape as
+  color ramps + semantic roles. Reproduces our chosen targets **exactly** (21/21)
+  and aurora runs a *different* form factor (compact / scale 2) through the same
+  code. Integer px, so the bar is exact equality, not perceptual ΔE.
+- **Naming taxonomy POV — numbered-multiplier space, t-shirt only at the
+  component layer** (knowledge-base 02/22/24; matches the user's preference and
+  the Prism2 house standard). The reasoning, pressure-tested rather than copied
+  from NB (which is a *fidelity test*, not the taxonomy authority):
+  - **Space** is a numbered-multiplier scale at the *reference* tier:
+    `space.100`=1×, `.200`=2× … on an **8px rhythm** (`space.100`=8px). The
+    number means "n× base" *invariantly across brands* — the white-label-honest
+    encoding the KB calls for. NB ships a legacy t-shirt ramp (`4xs…3xl`), which
+    the KB explicitly warns against (t-shirt breaks past ~7 steps); we
+    deliberately did **not** follow it. So SPACE validates against **Prism2**
+    (16/16), the system whose taxonomy we adopted; radius — t-shirt in both
+    systems — still validates against **NB** (5/5).
+  - **Two bases, by design:** a 4px *fine grid* backs radius/borders; an 8px
+    *space rhythm* backs spacing. Prism2 proves this split (fine 2/4/6 for
+    corners, 8-step rhythm for layout).
+  - **Density moved to the component tier.** A numbered scale is already
+    near-primitive, so remapping `space.400` by density is murky. Instead the
+    numbered scale is density-free, and `density` drives the **component `size`**
+    layer: each t-shirt size (`xs…xl`) is a *contract* binding a control height
+    **and** paired padding from the shared scales, so a `md` button/input/select
+    agree. `compact` resolves `size.md` to smaller metrics while the *name*
+    stays `md` (name-stable, value-shifts). This is Curtis's three tiers made
+    literal: reference (numbered) → component (t-shirt) → (radius, bounded
+    semantic).
 
 ---
 
@@ -129,11 +150,14 @@ npx tsx Prism3/engine/emit-dtcg.ts       # emit DTCG + modes, validate
 Reordered per external review: prove breadth (a second brand through the full
 stack) before pipeline plumbing — it tests the white-label thesis harder.
 
-1. **Finish "beyond color": typography + motion.** Space + radius are DONE (the
-   dimension axis above). Still to do: the modular type scale / weight ladder /
-   fluid triplets from `typography`, and the motion duration/easing ramp from
-   `motionPersonality`. Typography is the bigger lever (the font-swap white-label
-   claim) and the larger remaining gap.
+1. **Finish "beyond color": typography + motion.** Space, radius, and a first
+   component-size layer are DONE (the dimension axis above). Still to do: the
+   modular type scale / weight ladder / fluid triplets from `typography`, and the
+   motion duration/easing ramp from `motionPersonality`. Typography is the bigger
+   lever (the font-swap white-label claim) and the larger remaining gap.
+   Component sizing is a prototype — the height/padding *values* are sensible
+   defaults, not yet validated against a real component set; revisit when the
+   component layer is real.
 2. **Prove downstream consumption.** Feed `out/*.tokens.json` through Style
    Dictionary and/or the Figma MCP — confirm a real tool ingests it and the four
    modes map to Figma variable modes. Turns "generation" into "pipeline".

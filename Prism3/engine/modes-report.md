@@ -3,7 +3,7 @@
 # Theme: nb (nbds.* / rgb)
 
 - NB regression: measured anchors; brand red also serves as danger (NB brand hue is its danger hue).
-- dimension axis: 4px grid, comfortable density, radius scale 1 (baseMd 4px).
+- dimension axis: 4px grid, 8px space rhythm (Prism2 numbered scale), comfortable density, radius scale 1 (baseMd 4px).
 
 Palettes: red, green, amber, neutral. Danger draws from `red`.
 
@@ -75,20 +75,26 @@ Palettes: red, green, amber, neutral. Danger draws from `red`.
 
 Grid (37 primitives, px): 0, 1, 2, 4, 6, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 64, 68, 72, 76, 80, 84, 88, 92, 96, 100, 104, 108, 112, 116, 120, 124, 128, 720
 
-Space — density `comfortable`:
+Space — numbered multiplier, `8px` rhythm (reference tier, density-free):
 
 | token | px | × base |
 |---|---|---|
-| space.4xs | 4 | 1 |
-| space.3xs | 8 | 2 |
-| space.2xs | 12 | 3 |
-| space.xs | 16 | 4 |
-| space.sm | 24 | 6 |
-| space.md | 32 | 8 |
-| space.lg | 48 | 12 |
-| space.xl | 64 | 16 |
-| space.2xl | 96 | 24 |
-| space.3xl | 128 | 32 |
+| space.0 | 0 | 0× |
+| space.025 | 2 | 0.25× |
+| space.050 | 4 | 0.5× |
+| space.075 | 6 | 0.75× |
+| space.100 | 8 | 1× |
+| space.200 | 16 | 2× |
+| space.300 | 24 | 3× |
+| space.400 | 32 | 4× |
+| space.500 | 40 | 5× |
+| space.600 | 48 | 6× |
+| space.700 | 56 | 7× |
+| space.800 | 64 | 8× |
+| space.900 | 72 | 9× |
+| space.1000 | 80 | 10× |
+| space.1100 | 88 | 11× |
+| space.1200 | 96 | 12× |
 
 Radius — scale `1`:
 
@@ -100,13 +106,23 @@ Radius — scale `1`:
 | radius.lg | 6 |
 | radius.round | 128 (pill) |
 
+Component sizes — t-shirt, density `comfortable` (height + paired padding from the shared scales):
+
+| size | height | padding-x | padding-y |
+|---|---|---|---|
+| size.xs | 32px | 8px | 4px |
+| size.sm | 40px | 16px | 6px |
+| size.md | 48px | 16px | 8px |
+| size.lg | 56px | 24px | 8px |
+| size.xl | 64px | 24px | 16px |
+
 # Theme: aurora (prism.* / hex)
 
 - primary anchor (h285) pinned exactly at step 550
 - success: engine default hue 145
 - warning: engine default hue 75
 - danger: primary hue 285 is NOT red → carved a dedicated danger red at hue 27
-- dimension axis: 4px grid, density 'compact', radius scale 2 (baseMd 4px)
+- dimension axis: 4px grid, 8px space rhythm, density 'compact' (drives component sizes), radius scale 2 (baseMd 4px)
 
 Palettes: primary, neutral, success, warning, danger. Danger draws from `danger`.
 
@@ -178,20 +194,26 @@ Palettes: primary, neutral, success, warning, danger. Danger draws from `danger`
 
 Grid (36 primitives, px): 0, 1, 2, 4, 6, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 64, 68, 72, 76, 80, 84, 88, 92, 96, 100, 104, 108, 112, 116, 120, 124, 128
 
-Space — density `compact`:
+Space — numbered multiplier, `8px` rhythm (reference tier, density-free):
 
 | token | px | × base |
 |---|---|---|
-| space.4xs | 2 | 0.5 |
-| space.3xs | 6 | 1.5 |
-| space.2xs | 8 | 2 |
-| space.xs | 12 | 3 |
-| space.sm | 20 | 5 |
-| space.md | 28 | 7 |
-| space.lg | 44 | 11 |
-| space.xl | 60 | 15 |
-| space.2xl | 92 | 23 |
-| space.3xl | 124 | 31 |
+| space.0 | 0 | 0× |
+| space.025 | 2 | 0.25× |
+| space.050 | 4 | 0.5× |
+| space.075 | 6 | 0.75× |
+| space.100 | 8 | 1× |
+| space.200 | 16 | 2× |
+| space.300 | 24 | 3× |
+| space.400 | 32 | 4× |
+| space.500 | 40 | 5× |
+| space.600 | 48 | 6× |
+| space.700 | 56 | 7× |
+| space.800 | 64 | 8× |
+| space.900 | 72 | 9× |
+| space.1000 | 80 | 10× |
+| space.1100 | 88 | 11× |
+| space.1200 | 96 | 12× |
 
 Radius — scale `2`:
 
@@ -202,4 +224,14 @@ Radius — scale `2`:
 | radius.md | 8 |
 | radius.lg | 12 |
 | radius.round | 128 (pill) |
+
+Component sizes — t-shirt, density `compact` (height + paired padding from the shared scales):
+
+| size | height | padding-x | padding-y |
+|---|---|---|---|
+| size.xs | 32px | 8px | 4px |
+| size.sm | 32px | 8px | 4px |
+| size.md | 40px | 16px | 6px |
+| size.lg | 48px | 16px | 8px |
+| size.xl | 56px | 24px | 8px |
 

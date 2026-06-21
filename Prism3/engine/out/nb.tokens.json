@@ -2740,133 +2740,211 @@
       }
     },
     "space": {
-      "4xs": {
+      "0": {
         "$type": "dimension",
-        "$value": "{nbds.dimension.4}",
-        "$description": "space 4xs — 4px (density: comfortable)",
+        "$value": "{nbds.dimension.0}",
+        "$description": "space.0 — 0px (0× 8px base)",
         "$extensions": {
           "prism3": {
             "role": "semantic",
-            "aliasOf": "nbds.dimension.4",
-            "px": 4,
-            "density": "comfortable"
+            "aliasOf": "nbds.dimension.0",
+            "px": 0,
+            "mult": 0
           }
         }
       },
-      "3xs": {
+      "100": {
         "$type": "dimension",
         "$value": "{nbds.dimension.8}",
-        "$description": "space 3xs — 8px (density: comfortable)",
+        "$description": "space.100 — 8px (1× 8px base)",
         "$extensions": {
           "prism3": {
             "role": "semantic",
             "aliasOf": "nbds.dimension.8",
             "px": 8,
-            "density": "comfortable"
+            "mult": 1
           }
         }
       },
-      "2xs": {
-        "$type": "dimension",
-        "$value": "{nbds.dimension.12}",
-        "$description": "space 2xs — 12px (density: comfortable)",
-        "$extensions": {
-          "prism3": {
-            "role": "semantic",
-            "aliasOf": "nbds.dimension.12",
-            "px": 12,
-            "density": "comfortable"
-          }
-        }
-      },
-      "xs": {
+      "200": {
         "$type": "dimension",
         "$value": "{nbds.dimension.16}",
-        "$description": "space xs — 16px (density: comfortable)",
+        "$description": "space.200 — 16px (2× 8px base)",
         "$extensions": {
           "prism3": {
             "role": "semantic",
             "aliasOf": "nbds.dimension.16",
             "px": 16,
-            "density": "comfortable"
+            "mult": 2
           }
         }
       },
-      "sm": {
+      "300": {
         "$type": "dimension",
         "$value": "{nbds.dimension.24}",
-        "$description": "space sm — 24px (density: comfortable)",
+        "$description": "space.300 — 24px (3× 8px base)",
         "$extensions": {
           "prism3": {
             "role": "semantic",
             "aliasOf": "nbds.dimension.24",
             "px": 24,
-            "density": "comfortable"
+            "mult": 3
           }
         }
       },
-      "md": {
+      "400": {
         "$type": "dimension",
         "$value": "{nbds.dimension.32}",
-        "$description": "space md — 32px (density: comfortable)",
+        "$description": "space.400 — 32px (4× 8px base)",
         "$extensions": {
           "prism3": {
             "role": "semantic",
             "aliasOf": "nbds.dimension.32",
             "px": 32,
-            "density": "comfortable"
+            "mult": 4
           }
         }
       },
-      "lg": {
+      "500": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.40}",
+        "$description": "space.500 — 40px (5× 8px base)",
+        "$extensions": {
+          "prism3": {
+            "role": "semantic",
+            "aliasOf": "nbds.dimension.40",
+            "px": 40,
+            "mult": 5
+          }
+        }
+      },
+      "600": {
         "$type": "dimension",
         "$value": "{nbds.dimension.48}",
-        "$description": "space lg — 48px (density: comfortable)",
+        "$description": "space.600 — 48px (6× 8px base)",
         "$extensions": {
           "prism3": {
             "role": "semantic",
             "aliasOf": "nbds.dimension.48",
             "px": 48,
-            "density": "comfortable"
+            "mult": 6
           }
         }
       },
-      "xl": {
+      "700": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.56}",
+        "$description": "space.700 — 56px (7× 8px base)",
+        "$extensions": {
+          "prism3": {
+            "role": "semantic",
+            "aliasOf": "nbds.dimension.56",
+            "px": 56,
+            "mult": 7
+          }
+        }
+      },
+      "800": {
         "$type": "dimension",
         "$value": "{nbds.dimension.64}",
-        "$description": "space xl — 64px (density: comfortable)",
+        "$description": "space.800 — 64px (8× 8px base)",
         "$extensions": {
           "prism3": {
             "role": "semantic",
             "aliasOf": "nbds.dimension.64",
             "px": 64,
-            "density": "comfortable"
+            "mult": 8
           }
         }
       },
-      "2xl": {
+      "900": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.72}",
+        "$description": "space.900 — 72px (9× 8px base)",
+        "$extensions": {
+          "prism3": {
+            "role": "semantic",
+            "aliasOf": "nbds.dimension.72",
+            "px": 72,
+            "mult": 9
+          }
+        }
+      },
+      "1000": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.80}",
+        "$description": "space.1000 — 80px (10× 8px base)",
+        "$extensions": {
+          "prism3": {
+            "role": "semantic",
+            "aliasOf": "nbds.dimension.80",
+            "px": 80,
+            "mult": 10
+          }
+        }
+      },
+      "1100": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.88}",
+        "$description": "space.1100 — 88px (11× 8px base)",
+        "$extensions": {
+          "prism3": {
+            "role": "semantic",
+            "aliasOf": "nbds.dimension.88",
+            "px": 88,
+            "mult": 11
+          }
+        }
+      },
+      "1200": {
         "$type": "dimension",
         "$value": "{nbds.dimension.96}",
-        "$description": "space 2xl — 96px (density: comfortable)",
+        "$description": "space.1200 — 96px (12× 8px base)",
         "$extensions": {
           "prism3": {
             "role": "semantic",
             "aliasOf": "nbds.dimension.96",
             "px": 96,
-            "density": "comfortable"
+            "mult": 12
           }
         }
       },
-      "3xl": {
+      "025": {
         "$type": "dimension",
-        "$value": "{nbds.dimension.128}",
-        "$description": "space 3xl — 128px (density: comfortable)",
+        "$value": "{nbds.dimension.2}",
+        "$description": "space.025 — 2px (0.25× 8px base)",
         "$extensions": {
           "prism3": {
             "role": "semantic",
-            "aliasOf": "nbds.dimension.128",
-            "px": 128,
-            "density": "comfortable"
+            "aliasOf": "nbds.dimension.2",
+            "px": 2,
+            "mult": 0.25
+          }
+        }
+      },
+      "050": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.4}",
+        "$description": "space.050 — 4px (0.5× 8px base)",
+        "$extensions": {
+          "prism3": {
+            "role": "semantic",
+            "aliasOf": "nbds.dimension.4",
+            "px": 4,
+            "mult": 0.5
+          }
+        }
+      },
+      "075": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.6}",
+        "$description": "space.075 — 6px (0.75× 8px base)",
+        "$extensions": {
+          "prism3": {
+            "role": "semantic",
+            "aliasOf": "nbds.dimension.6",
+            "px": 6,
+            "mult": 0.75
           }
         }
       }
@@ -2937,6 +3015,203 @@
           }
         }
       }
+    },
+    "size": {
+      "xs": {
+        "height": {
+          "$type": "dimension",
+          "$value": "{nbds.dimension.32}",
+          "$description": "size.xs control height — 32px (density: comfortable)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.dimension.32",
+              "px": 32,
+              "density": "comfortable"
+            }
+          }
+        },
+        "padding-x": {
+          "$type": "dimension",
+          "$value": "{nbds.space.100}",
+          "$description": "size.xs horizontal inset — 8px (density: comfortable)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.space.100",
+              "px": 8
+            }
+          }
+        },
+        "padding-y": {
+          "$type": "dimension",
+          "$value": "{nbds.space.050}",
+          "$description": "size.xs vertical inset — 4px (density: comfortable)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.space.050",
+              "px": 4
+            }
+          }
+        }
+      },
+      "sm": {
+        "height": {
+          "$type": "dimension",
+          "$value": "{nbds.dimension.40}",
+          "$description": "size.sm control height — 40px (density: comfortable)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.dimension.40",
+              "px": 40,
+              "density": "comfortable"
+            }
+          }
+        },
+        "padding-x": {
+          "$type": "dimension",
+          "$value": "{nbds.space.200}",
+          "$description": "size.sm horizontal inset — 16px (density: comfortable)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.space.200",
+              "px": 16
+            }
+          }
+        },
+        "padding-y": {
+          "$type": "dimension",
+          "$value": "{nbds.space.075}",
+          "$description": "size.sm vertical inset — 6px (density: comfortable)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.space.075",
+              "px": 6
+            }
+          }
+        }
+      },
+      "md": {
+        "height": {
+          "$type": "dimension",
+          "$value": "{nbds.dimension.48}",
+          "$description": "size.md control height — 48px (density: comfortable)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.dimension.48",
+              "px": 48,
+              "density": "comfortable"
+            }
+          }
+        },
+        "padding-x": {
+          "$type": "dimension",
+          "$value": "{nbds.space.200}",
+          "$description": "size.md horizontal inset — 16px (density: comfortable)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.space.200",
+              "px": 16
+            }
+          }
+        },
+        "padding-y": {
+          "$type": "dimension",
+          "$value": "{nbds.space.100}",
+          "$description": "size.md vertical inset — 8px (density: comfortable)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.space.100",
+              "px": 8
+            }
+          }
+        }
+      },
+      "lg": {
+        "height": {
+          "$type": "dimension",
+          "$value": "{nbds.dimension.56}",
+          "$description": "size.lg control height — 56px (density: comfortable)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.dimension.56",
+              "px": 56,
+              "density": "comfortable"
+            }
+          }
+        },
+        "padding-x": {
+          "$type": "dimension",
+          "$value": "{nbds.space.300}",
+          "$description": "size.lg horizontal inset — 24px (density: comfortable)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.space.300",
+              "px": 24
+            }
+          }
+        },
+        "padding-y": {
+          "$type": "dimension",
+          "$value": "{nbds.space.100}",
+          "$description": "size.lg vertical inset — 8px (density: comfortable)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.space.100",
+              "px": 8
+            }
+          }
+        }
+      },
+      "xl": {
+        "height": {
+          "$type": "dimension",
+          "$value": "{nbds.dimension.64}",
+          "$description": "size.xl control height — 64px (density: comfortable)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.dimension.64",
+              "px": 64,
+              "density": "comfortable"
+            }
+          }
+        },
+        "padding-x": {
+          "$type": "dimension",
+          "$value": "{nbds.space.300}",
+          "$description": "size.xl horizontal inset — 24px (density: comfortable)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.space.300",
+              "px": 24
+            }
+          }
+        },
+        "padding-y": {
+          "$type": "dimension",
+          "$value": "{nbds.space.200}",
+          "$description": "size.xl vertical inset — 16px (density: comfortable)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.space.200",
+              "px": 16
+            }
+          }
+        }
+      }
     }
   },
   "$extensions": {
@@ -2950,7 +3225,7 @@
       "colorFormat": "rgb",
       "decisions": [
         "NB regression: measured anchors; brand red also serves as danger (NB brand hue is its danger hue).",
-        "dimension axis: 4px grid, comfortable density, radius scale 1 (baseMd 4px)."
+        "dimension axis: 4px grid, 8px space rhythm (Prism2 numbered scale), comfortable density, radius scale 1 (baseMd 4px)."
       ]
     }
   }

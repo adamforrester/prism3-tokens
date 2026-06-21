@@ -67,32 +67,40 @@ hex, tonal band, anchor flag, on-white contrast). A per-mode `…semantic.<mode>
 layer maps the contract roles to primitive steps via DTCG brace aliases; the run
 validates every alias resolves and every mode contrast contract holds.
 
-## Dimension axis (space + radius)
+## Dimension axis (space · radius · component sizes)
 
 The non-color scales follow the same architecture as color: a primitive
-`dimension` grid (`0,1,2,4,6,8,…,128` px) with `space` and `radius` semantic
-tokens that *alias* into it. All brand variance rides two levers, per the
-schema's "resist the seventh" discipline:
+`dimension` grid (`0,1,2,4,6,8,…,128` px) with semantic tokens aliasing into it,
+organised by Curtis's three tiers (knowledge-base 02/22/24):
 
-- **`density`** (one enum) shifts the space mapping along the grid —
-  `comfortable` reproduces NB (`md`=32px); `compact` steps every token one grid
-  rung tighter (`md`=28px).
-- **`radius.scale`** (one scalar) scales the corner ramp — `1` is NB's sharp
-  `2/4/6`; `2` gives aurora's soft `4/8/12`; `0` collapses everything except the
-  pill to zero.
+- **`space`** — *reference* tier, **numbered-multiplier** scale on an **8px
+  rhythm**: `space.100`=8px (1×), `.200`=16 (2×) … `.1200`=96 (12×), plus
+  `.025/.050/.075` sub-steps. The number means "n× base" invariantly across
+  brands — the white-label-honest encoding. Density-free.
+- **`radius`** — a small bounded, genuinely-semantic set, so t-shirt naming
+  holds: `none/sm/md/lg/round`. One scalar `radius.scale` drives it (`1` = sharp
+  `2/4/6`; `2` = soft `4/8/12`; `0` collapses all but the pill).
+- **`size`** — *component* tier, t-shirt (`xs…xl`). Each size is a **contract**
+  binding a control height **and** paired padding drawn from the shared scales,
+  so a `md` button/input/select agree. This is the layer **`density`** acts on:
+  `compact` resolves `size.md` to smaller metrics while the name stays `md`.
 
-Because these are integer px, the NB regression bar is **exact equality**, not
-ΔE — and the engine hits **15/15** (10 space + 5 radius) from `baseUnit=4` /
-`comfortable` / `scale=1`. Aurora runs a different form factor (compact / soft)
-through the identical code path.
+Two bases by design: a **4px fine grid** backs radius/borders; an **8px rhythm**
+backs spacing (Prism2's split). NB is a *fidelity test*, not the taxonomy
+authority — so `space` validates against **Prism2** (the numbered scale we
+adopted) and `radius` against **NB** (t-shirt in both). Integer px → exact
+equality, not ΔE: **21/21** (16 space + 5 radius) from `spaceBase=8` /
+`radius.scale=1`. Aurora runs a different form factor (compact / soft) through
+the identical code path.
 
 ## What it currently does / doesn't
 
 **Does:** exact anchor preservation; anchor-pinned L interpolation; chroma arc;
 gamut-aware chroma; **contrast-role-targeted placement** (Mid-Tone 500 pinned to
 the dual-side AA luminance pivot so all band contracts pass); band classification;
-WCAG contract checks; **the dimension axis** (grid + density-driven space +
-scale-driven radius, 15/15 exact vs NB); two-brand emit in two dialects.
+WCAG contract checks; **the dimension axis** (grid + numbered space + radius +
+density-driven component sizes, 21/21 exact vs Prism2 space + NB radius);
+two-brand emit in two dialects.
 
 **Deliberately not reproduced:**
 - *NB's per-step hue kinks* (amber.600, red.300). Following them would require

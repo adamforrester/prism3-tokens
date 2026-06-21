@@ -27,6 +27,10 @@
   .rcell{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;color:#cbd1db}
   .rbox{width:56px;height:56px;background:linear-gradient(135deg,#4f8cff,#9b6bff)}
   .rcell small{color:#6b7280}
+  .sizes{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-end}
+  .scell{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;color:#6b7280}
+  .control{box-sizing:border-box;min-width:64px;background:#2a2e37;border:1px solid #3a3f4a;border-radius:6px;display:flex;align-items:center;justify-content:center}
+  .ctext{background:#4f8cff33;border:1px solid #4f8cff;color:#cdd9ff;border-radius:3px;font-size:11px;font-weight:600;padding:1px 8px;height:100%;display:flex;align-items:center}
 </style></head><body>
 <h1>Prism3 — generated token taxonomy</h1>
 <p class="lead">Every value below is engine-generated from a small theme input and read back from the emitted DTCG files (<code>out/*.tokens.json</code>). ★ marks the exact brand anchor. Regenerate with <code>npx tsx Prism3/engine/visualize.ts</code>.</p>
@@ -228,17 +232,23 @@
 <div class="barrow"><span class="bk">128</span><div class="bar" style="width:128px"></div></div>
 <div class="barrow"><span class="bk">720</span><div class="bar" style="width:200px"></div></div>
 </div>
-<h3>Space <span class="muted">density: comfortable</span></h3><div class="bars">
-<div class="barrow"><span class="bk">4xs</span><div class="bar sp" style="width:4px"></div><span class="bv">4px</span></div>
-<div class="barrow"><span class="bk">3xs</span><div class="bar sp" style="width:8px"></div><span class="bv">8px</span></div>
-<div class="barrow"><span class="bk">2xs</span><div class="bar sp" style="width:12px"></div><span class="bv">12px</span></div>
-<div class="barrow"><span class="bk">xs</span><div class="bar sp" style="width:16px"></div><span class="bv">16px</span></div>
-<div class="barrow"><span class="bk">sm</span><div class="bar sp" style="width:24px"></div><span class="bv">24px</span></div>
-<div class="barrow"><span class="bk">md</span><div class="bar sp" style="width:32px"></div><span class="bv">32px</span></div>
-<div class="barrow"><span class="bk">lg</span><div class="bar sp" style="width:48px"></div><span class="bv">48px</span></div>
-<div class="barrow"><span class="bk">xl</span><div class="bar sp" style="width:64px"></div><span class="bv">64px</span></div>
-<div class="barrow"><span class="bk">2xl</span><div class="bar sp" style="width:96px"></div><span class="bv">96px</span></div>
-<div class="barrow"><span class="bk">3xl</span><div class="bar sp" style="width:128px"></div><span class="bv">128px</span></div>
+<h3>Space <span class="muted">numbered multiplier · reference tier</span></h3><div class="bars">
+<div class="barrow"><span class="bk">0</span><div class="bar sp" style="width:0px"></div><span class="bv">0px · 0×</span></div>
+<div class="barrow"><span class="bk">100</span><div class="bar sp" style="width:8px"></div><span class="bv">8px · 1×</span></div>
+<div class="barrow"><span class="bk">200</span><div class="bar sp" style="width:16px"></div><span class="bv">16px · 2×</span></div>
+<div class="barrow"><span class="bk">300</span><div class="bar sp" style="width:24px"></div><span class="bv">24px · 3×</span></div>
+<div class="barrow"><span class="bk">400</span><div class="bar sp" style="width:32px"></div><span class="bv">32px · 4×</span></div>
+<div class="barrow"><span class="bk">500</span><div class="bar sp" style="width:40px"></div><span class="bv">40px · 5×</span></div>
+<div class="barrow"><span class="bk">600</span><div class="bar sp" style="width:48px"></div><span class="bv">48px · 6×</span></div>
+<div class="barrow"><span class="bk">700</span><div class="bar sp" style="width:56px"></div><span class="bv">56px · 7×</span></div>
+<div class="barrow"><span class="bk">800</span><div class="bar sp" style="width:64px"></div><span class="bv">64px · 8×</span></div>
+<div class="barrow"><span class="bk">900</span><div class="bar sp" style="width:72px"></div><span class="bv">72px · 9×</span></div>
+<div class="barrow"><span class="bk">1000</span><div class="bar sp" style="width:80px"></div><span class="bv">80px · 10×</span></div>
+<div class="barrow"><span class="bk">1100</span><div class="bar sp" style="width:88px"></div><span class="bv">88px · 11×</span></div>
+<div class="barrow"><span class="bk">1200</span><div class="bar sp" style="width:96px"></div><span class="bv">96px · 12×</span></div>
+<div class="barrow"><span class="bk">025</span><div class="bar sp" style="width:2px"></div><span class="bv">2px · 0.25×</span></div>
+<div class="barrow"><span class="bk">050</span><div class="bar sp" style="width:4px"></div><span class="bv">4px · 0.5×</span></div>
+<div class="barrow"><span class="bk">075</span><div class="bar sp" style="width:6px"></div><span class="bv">6px · 0.75×</span></div>
 </div>
 <h3>Radius <span class="muted">scale: 1</span></h3><div class="radii">
 <div class="rcell"><div class="rbox" style="border-radius:0px"></div><span>none</span><small>0px</small></div>
@@ -246,6 +256,13 @@
 <div class="rcell"><div class="rbox" style="border-radius:4px"></div><span>md</span><small>4px</small></div>
 <div class="rcell"><div class="rbox" style="border-radius:6px"></div><span>lg</span><small>6px</small></div>
 <div class="rcell"><div class="rbox" style="border-radius:48px"></div><span>round</span><small>128px</small></div>
+</div>
+<h3>Component sizes <span class="muted">density: comfortable · height + paired padding</span></h3><div class="sizes">
+<div class="scell"><div class="control" style="height:32px;padding:4px 8px"><div class="ctext">xs</div></div><small>32h · 8×4</small></div>
+<div class="scell"><div class="control" style="height:40px;padding:6px 16px"><div class="ctext">sm</div></div><small>40h · 16×6</small></div>
+<div class="scell"><div class="control" style="height:48px;padding:8px 16px"><div class="ctext">md</div></div><small>48h · 16×8</small></div>
+<div class="scell"><div class="control" style="height:56px;padding:8px 24px"><div class="ctext">lg</div></div><small>56h · 24×8</small></div>
+<div class="scell"><div class="control" style="height:64px;padding:16px 24px"><div class="ctext">xl</div></div><small>64h · 24×16</small></div>
 </div>
 </section>
 <section><h2>aurora <span class="muted">prism.* / hex</span></h2>
@@ -467,17 +484,23 @@
 <div class="barrow"><span class="bk">124</span><div class="bar" style="width:124px"></div></div>
 <div class="barrow"><span class="bk">128</span><div class="bar" style="width:128px"></div></div>
 </div>
-<h3>Space <span class="muted">density: compact</span></h3><div class="bars">
-<div class="barrow"><span class="bk">4xs</span><div class="bar sp" style="width:2px"></div><span class="bv">2px</span></div>
-<div class="barrow"><span class="bk">3xs</span><div class="bar sp" style="width:6px"></div><span class="bv">6px</span></div>
-<div class="barrow"><span class="bk">2xs</span><div class="bar sp" style="width:8px"></div><span class="bv">8px</span></div>
-<div class="barrow"><span class="bk">xs</span><div class="bar sp" style="width:12px"></div><span class="bv">12px</span></div>
-<div class="barrow"><span class="bk">sm</span><div class="bar sp" style="width:20px"></div><span class="bv">20px</span></div>
-<div class="barrow"><span class="bk">md</span><div class="bar sp" style="width:28px"></div><span class="bv">28px</span></div>
-<div class="barrow"><span class="bk">lg</span><div class="bar sp" style="width:44px"></div><span class="bv">44px</span></div>
-<div class="barrow"><span class="bk">xl</span><div class="bar sp" style="width:60px"></div><span class="bv">60px</span></div>
-<div class="barrow"><span class="bk">2xl</span><div class="bar sp" style="width:92px"></div><span class="bv">92px</span></div>
-<div class="barrow"><span class="bk">3xl</span><div class="bar sp" style="width:124px"></div><span class="bv">124px</span></div>
+<h3>Space <span class="muted">numbered multiplier · reference tier</span></h3><div class="bars">
+<div class="barrow"><span class="bk">0</span><div class="bar sp" style="width:0px"></div><span class="bv">0px · 0×</span></div>
+<div class="barrow"><span class="bk">100</span><div class="bar sp" style="width:8px"></div><span class="bv">8px · 1×</span></div>
+<div class="barrow"><span class="bk">200</span><div class="bar sp" style="width:16px"></div><span class="bv">16px · 2×</span></div>
+<div class="barrow"><span class="bk">300</span><div class="bar sp" style="width:24px"></div><span class="bv">24px · 3×</span></div>
+<div class="barrow"><span class="bk">400</span><div class="bar sp" style="width:32px"></div><span class="bv">32px · 4×</span></div>
+<div class="barrow"><span class="bk">500</span><div class="bar sp" style="width:40px"></div><span class="bv">40px · 5×</span></div>
+<div class="barrow"><span class="bk">600</span><div class="bar sp" style="width:48px"></div><span class="bv">48px · 6×</span></div>
+<div class="barrow"><span class="bk">700</span><div class="bar sp" style="width:56px"></div><span class="bv">56px · 7×</span></div>
+<div class="barrow"><span class="bk">800</span><div class="bar sp" style="width:64px"></div><span class="bv">64px · 8×</span></div>
+<div class="barrow"><span class="bk">900</span><div class="bar sp" style="width:72px"></div><span class="bv">72px · 9×</span></div>
+<div class="barrow"><span class="bk">1000</span><div class="bar sp" style="width:80px"></div><span class="bv">80px · 10×</span></div>
+<div class="barrow"><span class="bk">1100</span><div class="bar sp" style="width:88px"></div><span class="bv">88px · 11×</span></div>
+<div class="barrow"><span class="bk">1200</span><div class="bar sp" style="width:96px"></div><span class="bv">96px · 12×</span></div>
+<div class="barrow"><span class="bk">025</span><div class="bar sp" style="width:2px"></div><span class="bv">2px · 0.25×</span></div>
+<div class="barrow"><span class="bk">050</span><div class="bar sp" style="width:4px"></div><span class="bv">4px · 0.5×</span></div>
+<div class="barrow"><span class="bk">075</span><div class="bar sp" style="width:6px"></div><span class="bv">6px · 0.75×</span></div>
 </div>
 <h3>Radius <span class="muted">scale: 2</span></h3><div class="radii">
 <div class="rcell"><div class="rbox" style="border-radius:0px"></div><span>none</span><small>0px</small></div>
@@ -485,6 +508,13 @@
 <div class="rcell"><div class="rbox" style="border-radius:8px"></div><span>md</span><small>8px</small></div>
 <div class="rcell"><div class="rbox" style="border-radius:12px"></div><span>lg</span><small>12px</small></div>
 <div class="rcell"><div class="rbox" style="border-radius:48px"></div><span>round</span><small>128px</small></div>
+</div>
+<h3>Component sizes <span class="muted">density: compact · height + paired padding</span></h3><div class="sizes">
+<div class="scell"><div class="control" style="height:32px;padding:4px 8px"><div class="ctext">xs</div></div><small>32h · 8×4</small></div>
+<div class="scell"><div class="control" style="height:32px;padding:4px 8px"><div class="ctext">sm</div></div><small>32h · 8×4</small></div>
+<div class="scell"><div class="control" style="height:40px;padding:6px 16px"><div class="ctext">md</div></div><small>40h · 16×6</small></div>
+<div class="scell"><div class="control" style="height:48px;padding:8px 16px"><div class="ctext">lg</div></div><small>48h · 16×8</small></div>
+<div class="scell"><div class="control" style="height:56px;padding:8px 24px"><div class="ctext">xl</div></div><small>56h · 24×8</small></div>
 </div>
 </section>
 </body></html>

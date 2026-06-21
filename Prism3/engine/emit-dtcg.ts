@@ -65,7 +65,7 @@ const dimAlias = (path: string, description: string, extra: Record<string, unkno
 });
 
 type Stats = {
-  colorLeaves: number; dimLeaves: number; spaceTokens: number; radiusTokens: number;
+  colorLeaves: number; dimLeaves: number; spaceTokens: number; radiusTokens: number; sizeSteps: number;
   aliases: number; resolved: number; modeChecks: number; modePass: number; broken: { path: string; ref: string }[];
 };
 
@@ -97,21 +97,41 @@ const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats: Stats
     semantic[mr.mode] = modeTree;
   }
 
-  // ---- dimension axis (grid primitives + space/radius semantics) ----
+  // ---- dimension axis ----
   const gridSet = new Set(theme.dims.grid);
+  // reference: fine grid primitives
   const dimension: Record<string, Token> = {};
   for (const px of theme.dims.grid) dimension[String(px)] = dimLeaf(px);
+  // reference: numbered-multiplier space scale (density-free)
   const space: Record<string, Token> = {};
-  for (const s of theme.dims.space) space[s.name] = dimAlias(`${root}.dimension.${s.px}`, `space ${s.name} — ${s.px}px (density: ${theme.dims.density})`, { px: s.px, density: theme.dims.density });
+  const spaceKeyOf = new Map<number, string>(theme.dims.space.map((s) => [s.px, s.key]));
+  for (const s of theme.dims.space) space[s.key] = dimAlias(`${root}.dimension.${s.px}`, `space.${s.key} — ${s.px}px (${s.mult}× ${theme.dims.spaceBase}px base)`, { px: s.px, mult: s.mult });
+  // radius ramp (t-shirt)
   const radius: Record<string, Token> = {};
   for (const r of theme.dims.radius) {
     radius[r.name] = gridSet.has(r.px)
       ? dimAlias(`${root}.dimension.${r.px}`, `radius ${r.name} — ${r.px}px${r.pill ? ' (pill)' : ''}`, { px: r.px, radiusScale: theme.dims.radiusScaleValue })
       : dimLeaf(r.px, `radius ${r.name} — ${r.px}px (off-grid literal)`);
   }
+  // component tier: each size binds a height + paired padding from the shared
+  // scales, so a `md` control is identical across components. DENSITY acts here.
+  const spacePad = (px: number, name: string): Token => {
+    const key = spaceKeyOf.get(px);
+    return key ? dimAlias(`${root}.space.${key}`, name, { px }) : dimLeaf(px, name);
+  };
+  const size: Record<string, any> = {};
+  for (const z of theme.dims.sizes) {
+    size[z.name] = {
+      height: gridSet.has(z.height)
+        ? dimAlias(`${root}.dimension.${z.height}`, `size.${z.name} control height — ${z.height}px (density: ${theme.dims.density})`, { px: z.height, density: theme.dims.density })
+        : dimLeaf(z.height, `size.${z.name} control height — ${z.height}px`),
+      'padding-x': spacePad(z.padX, `size.${z.name} horizontal inset — ${z.padX}px (density: ${theme.dims.density})`),
+      'padding-y': spacePad(z.padY, `size.${z.name} vertical inset — ${z.padY}px (density: ${theme.dims.density})`),
+    };
+  }
 
   // ---- assemble under the brand root ----
-  const brand = { color, semantic, dimension, space, radius };
+  const brand = { color, semantic, dimension, space, radius, size };
   const tree = {
     [root]: brand,
     $extensions: {
@@ -144,7 +164,7 @@ const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats: Stats
   for (const mr of modes) for (const r of Object.values(mr.roles)) if (r.min > 0) { modeChecks++; if (r.ratio >= r.min) modePass++; }
 
   const colorLeaves = 2 + theme.palettes.reduce((n, p) => n + p.steps.length, 0);
-  return { tree, modes, stats: { colorLeaves, dimLeaves: theme.dims.grid.length, spaceTokens: theme.dims.space.length, radiusTokens: theme.dims.radius.length, aliases: aliases.length, resolved: aliases.length - broken.length, broken, modeChecks, modePass } };
+  return { tree, modes, stats: { colorLeaves, dimLeaves: theme.dims.grid.length, spaceTokens: theme.dims.space.length, radiusTokens: theme.dims.radius.length, sizeSteps: theme.dims.sizes.length, aliases: aliases.length, resolved: aliases.length - broken.length, broken, modeChecks, modePass } };
 };
 
 // ---------------------------------------------------------------------------
@@ -171,9 +191,10 @@ for (const theme of themes) {
   console.log(`\n[${theme.id}] ${theme.root}.* / ${theme.colorFormat}`);
   for (const n of theme.notes) console.log(`   · ${n}`);
   console.log(`  colour: ${stats.colorLeaves} leaves, palettes ${theme.palettes.map((p) => p.palette).join(', ')} (danger ← ${theme.roleToPalette.danger})`);
-  console.log(`  dimension: ${stats.dimLeaves} grid primitives, ${stats.spaceTokens} space + ${stats.radiusTokens} radius semantics`);
-  console.log(`    space (${theme.dims.density}): ${theme.dims.space.map((s) => `${s.name}=${s.px}`).join(' ')}`);
+  console.log(`  dimension: ${stats.dimLeaves} grid primitives, ${stats.spaceTokens} space + ${stats.radiusTokens} radius + ${stats.sizeSteps} component sizes`);
+  console.log(`    space (${theme.dims.spaceBase}px rhythm): ${theme.dims.space.filter((s) => s.key !== '0').map((s) => `${s.key}=${s.px}`).join(' ')}`);
   console.log(`    radius (scale ${theme.dims.radiusScaleValue}): ${theme.dims.radius.map((r) => `${r.name}=${r.px}`).join(' ')}`);
+  console.log(`    sizes (${theme.dims.density}): ${theme.dims.sizes.map((z) => `${z.name}=${z.height}h/${z.padX}×${z.padY}pad`).join(' ')}`);
   console.log(`  aliases: ${stats.resolved}/${stats.aliases} resolve | mode contracts: ${stats.modePass}/${stats.modeChecks} pass`);
   console.log(`  [written] ${outPath}`);
   if (stats.broken.length) { ok = false; stats.broken.forEach((b) => console.log(`   ❌ ${b.path} -> {${b.ref}}`)); }
@@ -191,10 +212,12 @@ for (const theme of themes) {
     md.push('');
   }
   md.push(`## ${theme.id} — dimension axis`, '', `Grid (${stats.dimLeaves} primitives, px): ${theme.dims.grid.join(', ')}`, '');
-  md.push(`Space — density \`${theme.dims.density}\`:`, '', '| token | px | × base |', '|---|---|---|');
-  for (const s of theme.dims.space) md.push(`| space.${s.name} | ${s.px} | ${s.mult} |`);
+  md.push(`Space — numbered multiplier, \`${theme.dims.spaceBase}px\` rhythm (reference tier, density-free):`, '', '| token | px | × base |', '|---|---|---|');
+  for (const s of theme.dims.space) md.push(`| space.${s.key} | ${s.px} | ${s.mult}× |`);
   md.push('', `Radius — scale \`${theme.dims.radiusScaleValue}\`:`, '', '| token | px |', '|---|---|');
   for (const r of theme.dims.radius) md.push(`| radius.${r.name} | ${r.px}${r.pill ? ' (pill)' : ''} |`);
+  md.push('', `Component sizes — t-shirt, density \`${theme.dims.density}\` (height + paired padding from the shared scales):`, '', '| size | height | padding-x | padding-y |', '|---|---|---|---|');
+  for (const z of theme.dims.sizes) md.push(`| size.${z.name} | ${z.height}px | ${z.padX}px | ${z.padY}px |`);
   md.push('');
 }
 
