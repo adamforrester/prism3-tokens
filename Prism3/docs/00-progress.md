@@ -25,9 +25,9 @@ Headline numbers (regenerate with the commands below):
 |---|---|---|
 | Aggregate ΔE00 vs real NB (color) | **1.95** | n/a |
 | Tonal-band contrast contracts | **11/11** | (same engine) |
-| Cross-mode contrast contracts | **108/108** | **108/108** |
+| Cross-mode contrast contracts | **248/248** | **248/248** |
 | **Dimension axis, exact** (Prism2 space + NB radius) | **21/21** | n/a |
-| DTCG semantic aliases resolve (color + dim + size) | **208/208** | **208/208** |
+| DTCG semantic aliases resolve (color + dim + size) | **384/384** | **384/384** |
 | Color primitives / dim grid emitted | 102 / 37 | 142 / 36 |
 | Brand palettes / action source | red / **action = brand** (red) | primary+accent+… / **action = accent ≠ brand** |
 | Form factor | comfortable / radius 1 (sharp) | compact / radius 2 (soft) |
@@ -99,22 +99,30 @@ npx tsx Prism3/engine/emit-dtcg.ts       # emit DTCG + modes, validate
   the mode's surface. The brand anchor is preserved where it can be and
   auto-adjusted where it can't (a dark-mode action lightens when the anchor can't
   clear AA on a near-black surface).
-- **Semantic vocabulary: `background` / `foreground` / `action` / `border`,
-  states-on-roles.** Decided against a 7-system field survey + the practice KB.
-  `background.*` = non-interactive container fills (default/raised/overlay/sunken/
-  subtle/inverse + semantic tints); `foreground.*` = content incl. text tiers,
-  vivid semantic text, links, and `on-*` pair tokens; `action.*` = the
-  interactive fill role as states (default/hover/pressed/focus/inactive) — NOT a
-  dedicated `interactive/` tree; `border.*` = edges incl. focus ring + validation.
-  `status` is folded into background/foreground/border by role (success/warning/
-  danger/**info**, info newly synthesised). 36 semantic roles × 4 modes. Field
-  evidence: background-vs-surface split ~5:3 (tie-broken toward the brand's NB
-  vocabulary), `on-*` pairing universal (7/7), states-on-roles 6/7 (only Carbon
-  ships a dedicated interactive namespace). *Rationale:* user decision after
-  research — keep NB's background/foreground words, drop NB's interactive bucket
-  in favour of the field-standard states-on-roles. Text on a vivid fill targets
-  AA (gamut-bounded — 7:1 is unreachable on a saturated mid), everything else
-  escalates in HC.
+- **Semantic vocabulary: PROPERTY-LED — `background` / `foreground`(fill) /
+  `text` / `icon` / `border`, with per-property interactive states.** Decided
+  against a nine-system field survey (M3, Carbon, Atlassian, Fluent, Polaris,
+  Primer, Spectrum, Radix, Tailwind/shadcn) cross-referenced with the practice KB,
+  and aligned to New Balance's actual taxonomy. Top level is the *property* you're
+  colouring; `foreground` is the element **FILL** (NB's meaning — not text).
+  Interactivity is a per-property `interactive` variant carrying STATES (the
+  applicable subset of default/hover/pressed/focused/visited/selected/disabled),
+  not a parallel duplicated tree. `background.*` = inert container surfaces (+
+  semantic tints); `foreground.*` = fills (neutral tiers + semantic + `interactive`
+  + stateful `danger`); `text.*` = text (tiers + semantic + `on-*` pairs + `link`
+  via `interactive`); `icon.*` = a full peer group that for now MIRRORS `text`
+  (a future toggle relaxes icons to the 3:1 non-text floor so they diverge — see
+  03-open-questions); `border.*` = neutral + semantic validation + `interactive`
+  (focus ring = `.focused`). `info` palette newly synthesised. ~96 semantic roles
+  × 4 modes. Field evidence: property-led is the field *majority* (Atlassian,
+  Polaris, Primer, Carbon, NB all split text/bg/border/icon as peers); `on-*`
+  pairing universal. *Rationale:* user decision after research — match NB's real
+  structure (foreground=fill; text/icon/border as peers) rather than the
+  role-led/content-grab-bag shape an earlier pass shipped. Semantic intents are
+  static except `danger` (destructive fills carry states); inverse is modest
+  (one `inverse` per property, leaning on per-mode resolution). Text on a vivid
+  fill targets AA (gamut-bounded — 7:1 unreachable on a saturated mid), everything
+  else escalates in HC.
 - **Contrast is validated against the floor surface, not the pure extreme.**
   Saturated, contract-bearing foregrounds (action + states, vivid semantic text,
   secondary/tertiary text) clear
@@ -136,7 +144,7 @@ npx tsx Prism3/engine/emit-dtcg.ts       # emit DTCG + modes, validate
   **flags a non-default surface in notes for confirmation**. Defaults reproduce
   the white/`neutral.950` behaviour exactly, so brands that don't set it are
   unaffected. Proof: aurora declares its light page as `neutral.50`, the floor
-  auto-moves to `neutral.100`, and `action.default` resolves to `accent.600`
+  auto-moves to `neutral.100`, and `foreground.interactive.default` resolves to `accent.600`
   (4.95:1 on the tinted page) — two steps off the naive white-only pick.
   *Rationale:* user direction — "we may need to allow a user to confirm the
   primary surface colour that's not white, and that would change the floor."
@@ -155,7 +163,7 @@ npx tsx Prism3/engine/emit-dtcg.ts       # emit DTCG + modes, validate
   reserved interactive colour, so `actionPalette` points action wherever the
   brand needs; it defaults to `primary` but the engine **emits a note flagging
   the decision** so it's confirmed, never silently assumed. Proven on aurora: a
-  violet hero brand whose `action.default` resolves to a separate azure
+  violet hero brand whose `foreground.interactive.default` resolves to a separate azure
   `accent.500`, while NB keeps `action = brand` (red) by design. *Rationale:*
   user direction — "action is not always the primary brand colour; needs
   flexibility built in, and the system should confirm which colour drives

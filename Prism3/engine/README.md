@@ -42,23 +42,30 @@ Node ≥ 20. No `npm install` needed — the color math is self-contained
 Modes do **not** regenerate primitives — the ramps are shared. What changes per
 mode is which primitive step each semantic role resolves to, and the engine
 *derives* that by contrast target against the mode's own surface rather than
-hand-mapping it. So `foreground.primary` is the definition "the strongest neutral
-on this surface" and `action.default` is "the step of the *action palette*
-nearest its anchor that clears AA on this surface" — both resolve correctly in
-any mode for free. The action palette is whatever `roleToPalette.action` points
-at (NB: `red`, decoupled-by-default but here same as brand; aurora: `accent`, a
-different palette from the violet brand). The run verifies every mode's contrast
-contracts (currently 108/108).
+hand-mapping it. So `text.primary` is the definition "the strongest neutral
+on this surface" and `foreground.interactive.default` is "the step of the *action
+palette* nearest its anchor that clears AA on this surface" — both resolve
+correctly in any mode for free. The action palette is whatever
+`roleToPalette.action` points at (NB: `red`, decoupled-by-default but here same as
+brand; aurora: `accent`, a different palette from the violet brand). The run
+verifies every mode's contrast contracts (currently 248/248).
 
-**Semantic vocabulary.** Decided against a 7-system field survey + the practice
-KB: `background.*` (non-interactive containers — default/raised/overlay/sunken/
-subtle/inverse + semantic tints), `foreground.*` (content — text tiers, vivid
-semantic text, links, and `on-*` pair tokens), `action.*` (the interactive fill
-role as states — default/hover/pressed/focus/inactive, *not* a dedicated
-`interactive/` tree), and `border.*` (incl. focus ring + validation). `status` is
-folded into background/foreground/border by role (success/warning/danger/info).
-Two-level keys throughout; states/qualifiers live in the name (`action.hover`,
-`background.brand-subtle`, `foreground.on-action`).
+**Semantic vocabulary — PROPERTY-LED** (`color / <property> / <variant> [ /
+<state> ]`), decided against a nine-system field survey + the practice KB, aligned
+to New Balance's real taxonomy. Top level is the *property* you're colouring;
+`foreground` is the element **FILL** (NB's meaning — not text):
+- `background.*` — inert container surfaces (+ semantic `*-subtle` tints).
+- `foreground.*` — element fills: neutral tiers, static semantics, plus the
+  stateful `interactive` (action) and `danger` (destructive) fills.
+- `text.*` — text: tiers, semantic, `on-*` pair labels, and `interactive` (links).
+- `icon.*` — a full peer group; for now it MIRRORS `text` (a future toggle relaxes
+  icons to the 3:1 non-text floor so they diverge).
+- `border.*` — neutral, semantic validation, and `interactive` (focus = `.focused`).
+
+Interactivity is a per-property `interactive` variant carrying STATES (the
+applicable subset of default/hover/pressed/focused/visited/selected/disabled), not
+a duplicated parallel tree. Role keys nest (`foreground.interactive.hover`,
+`foreground.danger.pressed`, `text.on-interactive`).
 
 **Contrast is measured against the floor surface, not the pure extreme.** The
 saturated, contract-bearing foregrounds (action + states, vivid semantic text,
@@ -73,7 +80,7 @@ The base surface is configurable: a brand can declare a non-white/black page via
 `surfaces` (e.g. `{ light: { base: 50 } }`), and the floor moves with it — a
 tinted base floors one step further toward mid, and the engine flags the choice
 in notes for confirmation. Aurora exercises this: its light page is `neutral.50`,
-so the floor is `neutral.100` and `action.default` resolves to `accent.600`
+so the floor is `neutral.100` and `foreground.interactive.default` resolves to `accent.600`
 (4.95:1 on that page) — two steps off the naive white-only pick. NB sets no
 surface override, so it keeps the white/`neutral.950` defaults unchanged.
 
@@ -89,9 +96,9 @@ Two emit profiles prove the same engine serves both regression and product:
   declared a primary + neutral + an azure `accent`. The engine added
   `success`/`warning` from canonical hues and a `danger` red carved at hue 27
   (because violet is not red), and — because the brand named `accent` as its
-  `actionPalette` — `action.default` → `{prism.color.accent.600}` while the
+  `actionPalette` — `foreground.interactive.default` → `{prism.color.accent.600}` while the
   brand hue lives at `foreground.brand` → `{prism.color.primary.*}` and
-  `foreground.danger` → `{prism.color.danger.*}`. Action, brand, and danger are
+  `foreground.danger.default` → `{prism.color.danger.*}`. Action, brand, and danger are
   three distinct palettes: the white-label requirement, with action decoupled
   from brand.
 

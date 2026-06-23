@@ -88,16 +88,24 @@ for (const b of brands) {
   txt.push('\n— SEMANTIC COLOUR (per mode) —');
   html.push('<h3>Semantic roles <span class="muted">(resolved per mode)</span></h3>');
   const modes = Object.keys(data.semantic);
+  // Role keys are property-led and nest (group / variant / state); flatten to
+  // dotted paths that point at leaves (`$value`-bearing nodes).
   const roleKeys: string[] = [];
-  for (const g of Object.keys(data.semantic[modes[0]])) for (const n of Object.keys(data.semantic[modes[0]][g])) roleKeys.push(`${g}.${n}`);
+  const flatten = (o: any, prefix: string) => {
+    for (const k of Object.keys(o)) {
+      const node = o[k]; const path = prefix ? `${prefix}.${k}` : k;
+      if (node && typeof node === 'object' && '$value' in node) roleKeys.push(path);
+      else if (node && typeof node === 'object') flatten(node, path);
+    }
+  };
+  flatten(data.semantic[modes[0]], '');
   // text table
   html.push('<table class="sem"><thead><tr><th>role</th>' + modes.map((m) => `<th>${m}</th>`).join('') + '</tr></thead><tbody>');
   for (const rk of roleKeys) {
-    const [g, n] = rk.split('.');
     txt.push(`\n  ${rk}`);
     html.push(`<tr><td class="rk">${rk}</td>`);
     for (const m of modes) {
-      const node = data.semantic[m][g][n];
+      const node = rk.split('.').reduce((acc: any, s) => acc?.[s], data.semantic[m]);
       const hex = hexOf(tree, node);
       const tgt = aliasTarget(node).replace(`${root}.color.`, '');
       const ratio = node.$extensions?.prism3?.contrast;

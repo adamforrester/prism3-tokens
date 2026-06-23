@@ -72,6 +72,20 @@ So "elevation" is a **shadow** decision; "which fill" is a **surface ladder** de
 
 ---
 
+## Item 5 — Icon contrast floor (3:1 toggle)  ·  **OPEN (parked by decision)**
+
+The property-led model ships `icon.*` as a full peer group, but for now icons
+**mirror `text` values** (same 4.5:1 resolution) — a deliberate starting point.
+Icons are *non-text* under WCAG (graphical objects, SC 1.4.11), so their floor is
+**3:1**, not 4.5:1; relaxing icons to 3:1 would let them use lighter/more-saturated
+steps than text and legitimately diverge. **Decision needed:** is the 3:1 floor a
+global default, or a per-engagement/user-selected toggle (some brands prefer
+icon=text for simplicity)? Until decided, `icon` = `text` byte-for-byte. Wiring is
+a one-line floor swap in `modes.ts` (resolve `icon.*` against `nonTextMin` instead
+of reusing the text picks).
+
+---
+
 ## Item 3 — Disabled colouring  ·  **OPEN (live contradiction to resolve)**
 
 **The question.** How is disabled coloured — global opacity, dedicated tokens, or a contrast-preserved neutral? And what's our accessibility position?
@@ -82,7 +96,7 @@ So "elevation" is a **shadow** decision; "which fill" is a **surface ladder** de
 - The rigorous/enterprise systems lean **dedicated tokens**; M3 is the notable opacity holdout. Opacity-based compounds badly (disabled-on-disabled, fails over images) — the main reason the dedicated camp exists.
 - **Accessibility:** all lean on WCAG 1.4.3 *exempting* disabled controls from contrast minima; none of the surveyed docs state it explicitly (verified absence, not oversight).
 
-**Current Prism3 state.** Dedicated tokens — `foreground.disabled` (a low-contrast neutral, ~`neutral.300`, intentionally sub-AA) and `action.inactive` (neutral fill). This matches the *majority* (dedicated) camp. **But** KB `28-web-accessibility-implementation §3` stakes out "the practice's harder line": disabled should be **contrast-preserved**. Those two positions can't both stand.
+**Current Prism3 state.** Dedicated tokens per property — `text.disabled` / `icon.disabled` (low-contrast neutral, ~`neutral.300`, intentionally sub-AA), the `*.disabled` state on every interactive variant (`foreground.interactive.disabled`, `foreground.danger.disabled`, `border.interactive.disabled` → a neutral low fill). This matches the *majority* (dedicated) camp. **But** KB `28-web-accessibility-implementation §3` stakes out "the practice's harder line": disabled should be **contrast-preserved**. Those two positions can't both stand.
 
 **Recommendation — resolve toward a documented floor (option c).** Keep dedicated tokens (correct, and field-aligned), but reconcile the contradiction by giving disabled an **explicit, documented contrast floor** (~2.5–3:1 perceptible) rather than either "exempt, anything goes" (M3's 38% can fall below that) or "full AA" (almost nobody does this, and it makes disabled indistinguishable from enabled). This honours the KB's spirit — don't make disabled *invisible* — while staying realistic and matching how the field actually ships. **Action:** pick the floor, then either soften KB §3's wording to match, or hold the stricter line and re-tune the engine. Needs your call.
 

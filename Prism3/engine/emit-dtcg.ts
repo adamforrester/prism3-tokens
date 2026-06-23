@@ -91,8 +91,11 @@ const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats: Stats
   for (const mr of modes) {
     const modeTree: Record<string, any> = {};
     for (const [roleKey, r] of Object.entries(mr.roles)) {
-      const [group, name] = roleKey.split('.');
-      (modeTree[group] ??= {})[name] = aliasLeaf(r.path, r.description, { mode: mr.mode, contrast: r.ratio, against: r.against, ...(r.min > 0 ? { min: r.min } : {}) });
+      // Role keys are property-led and may nest (group / variant / state).
+      const parts = roleKey.split('.');
+      let node = modeTree;
+      for (let i = 0; i < parts.length - 1; i++) node = (node[parts[i]] ??= {});
+      node[parts[parts.length - 1]] = aliasLeaf(r.path, r.description, { mode: mr.mode, contrast: r.ratio, against: r.against, ...(r.min > 0 ? { min: r.min } : {}) });
     }
     semantic[mr.mode] = modeTree;
   }
