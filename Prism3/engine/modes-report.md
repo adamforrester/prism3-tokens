@@ -48,8 +48,8 @@ Palettes: red, green, amber, neutral, info. Danger draws from `red`.
 | icon.secondary | neutral.550 | 4.52 | 4.5 | ✅ |
 | text.tertiary | neutral.450 | 3.16 | 3 | ✅ |
 | icon.tertiary | neutral.450 | 3.16 | 3 | ✅ |
-| text.disabled | neutral.250 | — | — | · |
-| icon.disabled | neutral.250 | — | — | · |
+| text.disabled | neutral.450 | 3.16 | 3 | ✅ |
+| icon.disabled | neutral.450 | 3.16 | 3 | ✅ |
 | text.inverse | neutral.025 | 19.57 | 4.5 | ✅ |
 | icon.inverse | neutral.025 | 19.57 | 4.5 | ✅ |
 | text.brand | red.550 | 4.62 | 4.5 | ✅ |
@@ -84,8 +84,8 @@ Palettes: red, green, amber, neutral, info. Danger draws from `red`.
 | icon.interactive.visited | red.650 | 6.82 | 4.5 | ✅ |
 | text.interactive.focused | red.550 | 4.62 | 4.5 | ✅ |
 | icon.interactive.focused | red.550 | 4.62 | 4.5 | ✅ |
-| text.interactive.disabled | neutral.200 | — | — | · |
-| icon.interactive.disabled | neutral.200 | — | — | · |
+| text.interactive.disabled | neutral.450 | 3.16 | 3 | ✅ |
+| icon.interactive.disabled | neutral.450 | 3.16 | 3 | ✅ |
 | border.default | neutral.100 | — | — | · |
 | border.strong | neutral.400 | — | — | · |
 | border.inverse | neutral.850 | — | — | · |
@@ -97,7 +97,7 @@ Palettes: red, green, amber, neutral, info. Danger draws from `red`.
 | border.interactive.default | neutral.400 | 3.27 | 3 | ✅ |
 | border.interactive.hover | neutral.500 | 4.59 | 3 | ✅ |
 | border.interactive.focused | red.550 | 5.62 | 3 | ✅ |
-| border.interactive.disabled | neutral.200 | — | — | · |
+| border.interactive.disabled | neutral.400 | 3.27 | 3 | ✅ |
 
 ## nb — colour mode: dark
 
@@ -140,8 +140,8 @@ Palettes: red, green, amber, neutral, info. Danger draws from `red`.
 | icon.secondary | neutral.450 | 4.68 | 4.5 | ✅ |
 | text.tertiary | neutral.550 | 3.27 | 3 | ✅ |
 | icon.tertiary | neutral.550 | 3.27 | 3 | ✅ |
-| text.disabled | neutral.700 | — | — | · |
-| icon.disabled | neutral.700 | — | — | · |
+| text.disabled | neutral.550 | 3.27 | 3 | ✅ |
+| icon.disabled | neutral.550 | 3.27 | 3 | ✅ |
 | text.inverse | neutral.950 | 19.44 | 4.5 | ✅ |
 | icon.inverse | neutral.950 | 19.44 | 4.5 | ✅ |
 | text.brand | red.450 | 4.66 | 4.5 | ✅ |
@@ -176,8 +176,8 @@ Palettes: red, green, amber, neutral, info. Danger draws from `red`.
 | icon.interactive.visited | red.350 | 6.44 | 4.5 | ✅ |
 | text.interactive.focused | red.450 | 4.66 | 4.5 | ✅ |
 | icon.interactive.focused | red.450 | 4.66 | 4.5 | ✅ |
-| text.interactive.disabled | neutral.750 | — | — | · |
-| icon.interactive.disabled | neutral.750 | — | — | · |
+| text.interactive.disabled | neutral.550 | 3.27 | 3 | ✅ |
+| icon.interactive.disabled | neutral.550 | 3.27 | 3 | ✅ |
 | border.default | neutral.750 | — | — | · |
 | border.strong | neutral.500 | — | — | · |
 | border.inverse | neutral.200 | — | — | · |
@@ -189,7 +189,7 @@ Palettes: red, green, amber, neutral, info. Danger draws from `red`.
 | border.interactive.default | neutral.550 | 3.54 | 3 | ✅ |
 | border.interactive.hover | neutral.450 | 5.06 | 3 | ✅ |
 | border.interactive.focused | red.450 | 5.05 | 3 | ✅ |
-| border.interactive.disabled | neutral.750 | — | — | · |
+| border.interactive.disabled | neutral.550 | 3.54 | 3 | ✅ |
 
 ## nb — colour mode: hc-light
 
@@ -232,8 +232,8 @@ Palettes: red, green, amber, neutral, info. Danger draws from `red`.
 | icon.secondary | neutral.700 | 8.09 | 7 | ✅ |
 | text.tertiary | neutral.550 | 4.52 | 4.5 | ✅ |
 | icon.tertiary | neutral.550 | 4.52 | 4.5 | ✅ |
-| text.disabled | neutral.250 | — | — | · |
-| icon.disabled | neutral.250 | — | — | · |
+| text.disabled | neutral.550 | 4.52 | 4.5 | ✅ |
+| icon.disabled | neutral.550 | 4.52 | 4.5 | ✅ |
 | text.inverse | white | 21.00 | 7 | ✅ |
 | icon.inverse | white | 21.00 | 7 | ✅ |
 | text.brand | red.700 | 8.25 | 7 | ✅ |
@@ -268,8 +268,8 @@ Palettes: red, green, amber, neutral, info. Danger draws from `red`.
 | icon.interactive.visited | red.800 | 11.66 | 7 | ✅ |
 | text.interactive.focused | red.700 | 8.25 | 7 | ✅ |
 | icon.interactive.focused | red.700 | 8.25 | 7 | ✅ |
-| text.interactive.disabled | neutral.200 | — | — | · |
-| icon.interactive.disabled | neutral.200 | — | — | · |
+| text.interactive.disabled | neutral.550 | 4.52 | 4.5 | ✅ |
+| icon.interactive.disabled | neutral.550 | 4.52 | 4.5 | ✅ |
 | border.default | neutral.500 | — | — | · |
 | border.strong | neutral.700 | — | — | · |
 | border.inverse | neutral.500 | — | — | · |
@@ -281,7 +281,7 @@ Palettes: red, green, amber, neutral, info. Danger draws from `red`.
 | border.interactive.default | neutral.500 | 4.59 | 4.5 | ✅ |
 | border.interactive.hover | neutral.600 | 6.69 | 4.5 | ✅ |
 | border.interactive.focused | red.700 | 10.03 | 4.5 | ✅ |
-| border.interactive.disabled | neutral.200 | — | — | · |
+| border.interactive.disabled | neutral.500 | 4.59 | 4.5 | ✅ |
 
 ## nb — colour mode: hc-dark
 
@@ -324,8 +324,8 @@ Palettes: red, green, amber, neutral, info. Danger draws from `red`.
 | icon.secondary | neutral.300 | 7.49 | 7 | ✅ |
 | text.tertiary | neutral.450 | 4.68 | 4.5 | ✅ |
 | icon.tertiary | neutral.450 | 4.68 | 4.5 | ✅ |
-| text.disabled | neutral.700 | — | — | · |
-| icon.disabled | neutral.700 | — | — | · |
+| text.disabled | neutral.450 | 4.68 | 4.5 | ✅ |
+| icon.disabled | neutral.450 | 4.68 | 4.5 | ✅ |
 | text.inverse | black | 21.00 | 7 | ✅ |
 | icon.inverse | black | 21.00 | 7 | ✅ |
 | text.brand | red.300 | 7.50 | 7 | ✅ |
@@ -360,8 +360,8 @@ Palettes: red, green, amber, neutral, info. Danger draws from `red`.
 | icon.interactive.visited | red.200 | 10.01 | 7 | ✅ |
 | text.interactive.focused | red.300 | 7.50 | 7 | ✅ |
 | icon.interactive.focused | red.300 | 7.50 | 7 | ✅ |
-| text.interactive.disabled | neutral.750 | — | — | · |
-| icon.interactive.disabled | neutral.750 | — | — | · |
+| text.interactive.disabled | neutral.450 | 4.68 | 4.5 | ✅ |
+| icon.interactive.disabled | neutral.450 | 4.68 | 4.5 | ✅ |
 | border.default | neutral.500 | — | — | · |
 | border.strong | neutral.250 | — | — | · |
 | border.inverse | neutral.500 | — | — | · |
@@ -373,7 +373,7 @@ Palettes: red, green, amber, neutral, info. Danger draws from `red`.
 | border.interactive.default | neutral.500 | 4.57 | 4.5 | ✅ |
 | border.interactive.hover | neutral.350 | 7.49 | 4.5 | ✅ |
 | border.interactive.focused | red.300 | 8.77 | 4.5 | ✅ |
-| border.interactive.disabled | neutral.750 | — | — | · |
+| border.interactive.disabled | neutral.500 | 4.57 | 4.5 | ✅ |
 
 ## nb — dimension axis
 
@@ -430,6 +430,7 @@ Component sizes — t-shirt, density `comfortable` (height + paired padding from
 - action colour is decoupled: uses palette 'accent', NOT the primary brand palette — explicit brand decision
 - danger: primary hue 285 is NOT red → carved a dedicated danger red at hue 27
 - dimension axis: 4px grid, 8px space rhythm, density 'compact' (drives component sizes), radius scale 2 (baseMd 4px)
+- disabled: 'accessible' — disabled text/icon/border clears 3:1 on the floor (legible, contrast-preserving; the field-rare default). Set disabledStrategy:'conventional' for the sub-AA exempt look.
 - light primary surface is NON-default (neutral.50) — CONFIRM this is the page colour; the contrast floor moves with it
 
 Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws from `danger`.
@@ -475,8 +476,8 @@ Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws
 | icon.secondary | neutral.600 | 4.81 | 4.5 | ✅ |
 | text.tertiary | neutral.500 | 3.28 | 3 | ✅ |
 | icon.tertiary | neutral.500 | 3.28 | 3 | ✅ |
-| text.disabled | neutral.300 | — | — | · |
-| icon.disabled | neutral.300 | — | — | · |
+| text.disabled | neutral.500 | 3.28 | 3 | ✅ |
+| icon.disabled | neutral.500 | 3.28 | 3 | ✅ |
 | text.inverse | neutral.025 | 19.60 | 4.5 | ✅ |
 | icon.inverse | neutral.025 | 19.60 | 4.5 | ✅ |
 | text.brand | primary.550 | 4.64 | 4.5 | ✅ |
@@ -511,8 +512,8 @@ Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws
 | icon.interactive.visited | accent.700 | 7.26 | 4.5 | ✅ |
 | text.interactive.focused | accent.600 | 4.95 | 4.5 | ✅ |
 | icon.interactive.focused | accent.600 | 4.95 | 4.5 | ✅ |
-| text.interactive.disabled | neutral.200 | — | — | · |
-| icon.interactive.disabled | neutral.200 | — | — | · |
+| text.interactive.disabled | neutral.500 | 3.28 | 3 | ✅ |
+| icon.interactive.disabled | neutral.500 | 3.28 | 3 | ✅ |
 | border.default | neutral.200 | — | — | · |
 | border.strong | neutral.450 | — | — | · |
 | border.inverse | neutral.850 | — | — | · |
@@ -524,7 +525,7 @@ Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws
 | border.interactive.default | neutral.450 | 3.16 | 3 | ✅ |
 | border.interactive.hover | neutral.550 | 4.57 | 3 | ✅ |
 | border.interactive.focused | accent.600 | 5.65 | 3 | ✅ |
-| border.interactive.disabled | neutral.200 | — | — | · |
+| border.interactive.disabled | neutral.450 | 3.16 | 3 | ✅ |
 
 ## aurora — colour mode: dark
 
@@ -567,8 +568,8 @@ Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws
 | icon.secondary | neutral.450 | 4.66 | 4.5 | ✅ |
 | text.tertiary | neutral.550 | 3.23 | 3 | ✅ |
 | icon.tertiary | neutral.550 | 3.23 | 3 | ✅ |
-| text.disabled | neutral.700 | — | — | · |
-| icon.disabled | neutral.700 | — | — | · |
+| text.disabled | neutral.550 | 3.23 | 3 | ✅ |
+| icon.disabled | neutral.550 | 3.23 | 3 | ✅ |
 | text.inverse | neutral.950 | 19.43 | 4.5 | ✅ |
 | icon.inverse | neutral.950 | 19.43 | 4.5 | ✅ |
 | text.brand | primary.450 | 4.61 | 4.5 | ✅ |
@@ -603,8 +604,8 @@ Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws
 | icon.interactive.visited | accent.300 | 7.32 | 4.5 | ✅ |
 | text.interactive.focused | accent.400 | 5.34 | 4.5 | ✅ |
 | icon.interactive.focused | accent.400 | 5.34 | 4.5 | ✅ |
-| text.interactive.disabled | neutral.750 | — | — | · |
-| icon.interactive.disabled | neutral.750 | — | — | · |
+| text.interactive.disabled | neutral.550 | 3.23 | 3 | ✅ |
+| icon.interactive.disabled | neutral.550 | 3.23 | 3 | ✅ |
 | border.default | neutral.750 | — | — | · |
 | border.strong | neutral.500 | — | — | · |
 | border.inverse | neutral.200 | — | — | · |
@@ -616,7 +617,7 @@ Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws
 | border.interactive.default | neutral.550 | 3.51 | 3 | ✅ |
 | border.interactive.hover | neutral.450 | 5.06 | 3 | ✅ |
 | border.interactive.focused | accent.400 | 5.80 | 3 | ✅ |
-| border.interactive.disabled | neutral.750 | — | — | · |
+| border.interactive.disabled | neutral.550 | 3.51 | 3 | ✅ |
 
 ## aurora — colour mode: hc-light
 
@@ -659,8 +660,8 @@ Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws
 | icon.secondary | neutral.700 | 7.12 | 7 | ✅ |
 | text.tertiary | neutral.600 | 4.81 | 4.5 | ✅ |
 | icon.tertiary | neutral.600 | 4.81 | 4.5 | ✅ |
-| text.disabled | neutral.250 | — | — | · |
-| icon.disabled | neutral.250 | — | — | · |
+| text.disabled | neutral.600 | 4.81 | 4.5 | ✅ |
+| icon.disabled | neutral.600 | 4.81 | 4.5 | ✅ |
 | text.inverse | white | 21.00 | 7 | ✅ |
 | icon.inverse | white | 21.00 | 7 | ✅ |
 | text.brand | primary.700 | 7.90 | 7 | ✅ |
@@ -695,8 +696,8 @@ Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws
 | icon.interactive.visited | accent.800 | 10.07 | 7 | ✅ |
 | text.interactive.focused | accent.700 | 7.26 | 7 | ✅ |
 | icon.interactive.focused | accent.700 | 7.26 | 7 | ✅ |
-| text.interactive.disabled | neutral.200 | — | — | · |
-| icon.interactive.disabled | neutral.200 | — | — | · |
+| text.interactive.disabled | neutral.600 | 4.81 | 4.5 | ✅ |
+| icon.interactive.disabled | neutral.600 | 4.81 | 4.5 | ✅ |
 | border.default | neutral.500 | — | — | · |
 | border.strong | neutral.700 | — | — | · |
 | border.inverse | neutral.500 | — | — | · |
@@ -708,7 +709,7 @@ Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws
 | border.interactive.default | neutral.500 | 4.54 | 4.5 | ✅ |
 | border.interactive.hover | neutral.600 | 6.65 | 4.5 | ✅ |
 | border.interactive.focused | accent.700 | 10.03 | 4.5 | ✅ |
-| border.interactive.disabled | neutral.200 | — | — | · |
+| border.interactive.disabled | neutral.500 | 4.54 | 4.5 | ✅ |
 
 ## aurora — colour mode: hc-dark
 
@@ -751,8 +752,8 @@ Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws
 | icon.secondary | neutral.300 | 7.46 | 7 | ✅ |
 | text.tertiary | neutral.450 | 4.66 | 4.5 | ✅ |
 | icon.tertiary | neutral.450 | 4.66 | 4.5 | ✅ |
-| text.disabled | neutral.700 | — | — | · |
-| icon.disabled | neutral.700 | — | — | · |
+| text.disabled | neutral.450 | 4.66 | 4.5 | ✅ |
+| icon.disabled | neutral.450 | 4.66 | 4.5 | ✅ |
 | text.inverse | black | 21.00 | 7 | ✅ |
 | icon.inverse | black | 21.00 | 7 | ✅ |
 | text.brand | primary.300 | 7.45 | 7 | ✅ |
@@ -787,8 +788,8 @@ Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws
 | icon.interactive.visited | accent.200 | 9.82 | 7 | ✅ |
 | text.interactive.focused | accent.300 | 7.32 | 7 | ✅ |
 | icon.interactive.focused | accent.300 | 7.32 | 7 | ✅ |
-| text.interactive.disabled | neutral.750 | — | — | · |
-| icon.interactive.disabled | neutral.750 | — | — | · |
+| text.interactive.disabled | neutral.450 | 4.66 | 4.5 | ✅ |
+| icon.interactive.disabled | neutral.450 | 4.66 | 4.5 | ✅ |
 | border.default | neutral.500 | — | — | · |
 | border.strong | neutral.250 | — | — | · |
 | border.inverse | neutral.500 | — | — | · |
@@ -800,7 +801,7 @@ Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws
 | border.interactive.default | neutral.500 | 4.63 | 4.5 | ✅ |
 | border.interactive.hover | neutral.350 | 7.49 | 4.5 | ✅ |
 | border.interactive.focused | accent.300 | 8.59 | 4.5 | ✅ |
-| border.interactive.disabled | neutral.750 | — | — | · |
+| border.interactive.disabled | neutral.500 | 4.63 | 4.5 | ✅ |
 
 ## aurora — dimension axis
 

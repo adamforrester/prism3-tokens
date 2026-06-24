@@ -123,6 +123,18 @@
       }
     },
 
+    "disabledStrategy": {
+      "type": "string",
+      "enum": ["accessible", "conventional"],
+      "default": "accessible",
+      "description": "OPTIONAL. How disabled states are coloured. 'accessible' (default): disabled text/icon/border clears `disabledMin` on the contrast floor, staying legible (the practice's contrast-preserving stance; field-rare — 0/12 surveyed systems guarantee it). 'conventional': intentionally sub-AA, leaning on the WCAG 1.4.3/1.4.11 inactive-component exemption (the field-standard dimmed look) — choose for legacy/brand-driven engagements."
+    },
+    "disabledMin": {
+      "type": "number",
+      "default": 3,
+      "description": "OPTIONAL. Contrast floor for the 'accessible' disabled strategy (default 3:1 — visibly dimmed but legible, where Primer/USWDS sit; escalates to 4.5:1 in high-contrast modes). Ignored when disabledStrategy is 'conventional'."
+    },
+
     "displayP3": {
       "type": "boolean",
       "default": false,

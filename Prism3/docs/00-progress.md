@@ -25,7 +25,7 @@ Headline numbers (regenerate with the commands below):
 |---|---|---|
 | Aggregate ΔE00 vs real NB (color) | **1.95** | n/a |
 | Tonal-band contrast contracts | **11/11** | (same engine) |
-| Cross-mode contrast contracts | **248/248** | **248/248** |
+| Cross-mode contrast contracts | **268/268** | **268/268** |
 | **Dimension axis, exact** (Prism2 space + NB radius) | **21/21** | n/a |
 | DTCG semantic aliases resolve (color + dim + size) | **384/384** | **384/384** |
 | Color primitives / dim grid emitted | 102 / 37 | 142 / 36 |
@@ -148,6 +148,24 @@ npx tsx Prism3/engine/emit-dtcg.ts       # emit DTCG + modes, validate
   (4.95:1 on the tinted page) — two steps off the naive white-only pick.
   *Rationale:* user direction — "we may need to allow a user to confirm the
   primary surface colour that's not white, and that would change the floor."
+- **Disabled is a selectable strategy; default is contrast-preserving.** A
+  `disabledStrategy` input chooses `accessible` (default — disabled text/icon/
+  border clears `disabledMin`, default **3:1**, on the floor; escalates to 4.5:1
+  in HC) or `conventional` (intentionally sub-AA, leaning on the WCAG 1.4.3/1.4.11
+  inactive-component exemption). `disabledMin` is tunable per engagement. Disabled
+  *fills* stay a muted neutral (non-text, uncontracted) under both. Decided
+  against a 12-system field survey: **0/12 meet 4.5:1 on disabled text**, only
+  Primer (~3.45) / USWDS / Tailwind-opacity-50 (~3.5) clear ~3:1, and **none ship
+  a selectable accessible-vs-conventional toggle** — so this is a genuine
+  differentiator and matches the usability literature (NN/g, Adam Silver, Adrian
+  Roselli, GOV.UK: *exempt ≠ unreadable*). Mechanism is flat resolved values, not
+  opacity — opacity can't guarantee a floor (it stacks and is non-deterministic
+  over colored fills) and would break the engine's computed-contract model.
+  Reconciles the KB (`31-color-systems §3`), which already prescribed shipping
+  both `inactive` (preserved) and `disabled` (exempt) and defaulting to the
+  former — the engine just hadn't implemented it. *Rationale:* user decision after
+  research — "an option where disabled just barely meets contrast minimums," as a
+  user selection.
 - **Status palettes are engine-supplied; danger is carved (white-label).** A
   brand supplies primary + neutral; the engine synthesises success/warning from
   canonical hues. If the primary is in red territory the brand red *is* the

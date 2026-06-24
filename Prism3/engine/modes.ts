@@ -156,6 +156,22 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
   const walk = (palette: string, fromNum: number, steps: number): Cand => pStep(palette, fromNum + dir * 50 * steps);
   const neutralLow = (): Cand => pStep(r2p.neutral, cfg.family === 'light' ? 200 : 750);
 
+  // Disabled-state strategy (theme-level). 'accessible' clears a floor so disabled
+  // stays legible (KB's `inactive`); 'conventional' is the sub-AA exempt look.
+  // The accessible floor escalates to 4.5 in HC so disabled holds for HC users.
+  const accessibleDisabled = theme.disabledStrategy === 'accessible';
+  const disabledTarget = hc ? Math.max(theme.disabledMin, 4.5) : theme.disabledMin;
+  // A disabled text/icon pick + its contract (against the floor when accessible).
+  const disabledText = (): { r: Rated; against: string; min: number } =>
+    accessibleDisabled
+      ? { r: pickMinPass(textCands, floorRgb, disabledTarget), against: cfg.floorName, min: disabledTarget }
+      : { r: pickClosest(textCands, baseRgb, 2), against: 'background.default', min: 0 };
+  // A disabled border pick (non-text floor when accessible).
+  const disabledBorder = (): { r: Rated; against: string; min: number } =>
+    accessibleDisabled
+      ? { r: pickMinPass(ramp, baseRgb, Math.min(disabledTarget, cfg.nonTextMin)), against: 'background.default', min: Math.min(disabledTarget, cfg.nonTextMin) }
+      : { r: rated(neutralLow(), baseRgb), against: 'background.default', min: 0 };
+
   // ---------------------------------------------------------------- backgrounds
   const bg = cfg.bg;
   putSurf('background.default', bg.default, 'Default page surface');
@@ -210,7 +226,7 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
   T('primary', pickMostExtreme(textCands, baseRgb), 'Primary text — strongest neutral', 'background.default', cfg.primaryMin);
   T('secondary', pickMinPass(textCands, floorRgb, cfg.secondaryMin), `Secondary text — ${cfg.secondaryMin}:1 on the floor`, cfg.floorName, cfg.secondaryMin);
   T('tertiary', pickMinPass(textCands, floorRgb, cfg.tertiaryMin), `Tertiary text — ${cfg.tertiaryMin}:1 on the floor`, cfg.floorName, cfg.tertiaryMin);
-  T('disabled', pickClosest(textCands, baseRgb, 2), 'Disabled text — low-contrast (WCAG-exempt)', 'background.default', 0);
+  { const d = disabledText(); T('disabled', d.r, accessibleDisabled ? `Disabled text — clears ${disabledTarget}:1 on the floor (accessible)` : 'Disabled text — sub-AA (WCAG-exempt, conventional)', d.against, d.min); }
   T('inverse', pickMostExtreme(textCands, invRgb), 'Inverse text — on the opposite surface', 'background.inverse', cfg.secondaryMin);
   for (const r of ['brand', 'success', 'warning', 'danger', 'info'] as const)
     T(r, paletteRole(r, floorRgb, cfg.actionMin), `${r} text — ${cfg.actionMin}:1 on the floor`, cfg.floorName, cfg.actionMin);
@@ -226,9 +242,10 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
     : st === 'hover' ? walk(r2p.action, linkRest.num, 1)
     : st === 'visited' ? walk(r2p.action, linkRest.num, 2)
     : neutralLow(); // disabled
-  for (const st of TEXT_STATES)
-    T(`interactive.${st}`, rated(linkStateCand(st), st === 'disabled' ? baseRgb : floorRgb),
-      `Link (interactive text) — ${st}`, st === 'disabled' ? 'background.default' : cfg.floorName, st === 'disabled' ? 0 : cfg.actionMin);
+  for (const st of TEXT_STATES) {
+    if (st === 'disabled') { const d = disabledText(); T('interactive.disabled', d.r, 'Link (interactive text) — disabled', d.against, d.min); continue; }
+    T(`interactive.${st}`, rated(linkStateCand(st), floorRgb), `Link (interactive text) — ${st}`, cfg.floorName, cfg.actionMin);
+  }
 
   for (const s of textSpecs) {
     put(`text.${s.key}`, s.r, s.desc, s.against, s.min);
@@ -250,9 +267,8 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
     : st === 'focused' ? intRest
     : neutralLow(); // disabled
   for (const st of BORDER_STATES) {
-    const c = borderStateCand(st);
-    const min = st === 'disabled' ? 0 : cfg.nonTextMin;
-    put(`border.interactive.${st}`, rated(c, baseRgb), `Form-field / control border — ${st}`, 'background.default', min);
+    if (st === 'disabled') { const d = disabledBorder(); put('border.interactive.disabled', d.r, 'Form-field / control border — disabled', d.against, d.min); continue; }
+    put(`border.interactive.${st}`, rated(borderStateCand(st), baseRgb), `Form-field / control border — ${st}`, 'background.default', cfg.nonTextMin);
   }
 
   return { mode, surface: baseRgb, roles };

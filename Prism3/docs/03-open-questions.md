@@ -86,7 +86,22 @@ of reusing the text picks).
 
 ---
 
-## Item 3 — Disabled colouring  ·  **OPEN (live contradiction to resolve)**
+## Item 3 — Disabled colouring  ·  **RESOLVED (2026-06-24)**
+
+> **Decision (implemented).** Disabled is a **selectable `disabledStrategy`**:
+> `accessible` (default) clears `disabledMin` (default **3:1**, tunable; escalates
+> to 4.5:1 in HC) on the floor for disabled text/icon/border — the KB's
+> contrast-preserving `inactive`; `conventional` is the field-standard sub-AA
+> exempt look. Single switch (no opacity axis — flat resolved values keep the
+> floor guaranteed). Disabled *fills* stay a muted neutral (non-text). Backed by
+> the 12-system survey below — **0/12 meet 4.5:1, none offer a toggle**, so this
+> is a differentiator. There was no contradiction in the KB POV (it already
+> prescribed both tokens, defaulting to preserved); the engine simply hadn't built
+> it. The deeper KB stance — *prefer `aria-disabled` + a visible reason over a
+> greyed control* — remains a component-layer concern, out of the engine's scope.
+> *The field research below is retained as the evidence base.*
+
+---
 
 **The question.** How is disabled coloured — global opacity, dedicated tokens, or a contrast-preserved neutral? And what's our accessibility position?
 

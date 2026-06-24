@@ -2544,15 +2544,16 @@
           },
           "disabled": {
             "$type": "color",
-            "$value": "{nbds.color.neutral.250}",
-            "$description": "Disabled text — low-contrast (WCAG-exempt)",
+            "$value": "{nbds.color.neutral.450}",
+            "$description": "Disabled text — clears 3:1 on the floor (accessible)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.neutral.250",
+                "aliasOf": "nbds.color.neutral.450",
                 "mode": "light",
-                "contrast": 2.08,
-                "against": "background.default"
+                "contrast": 3.16,
+                "against": "neutral.050",
+                "min": 3
               }
             }
           },
@@ -2814,15 +2815,16 @@
             },
             "disabled": {
               "$type": "color",
-              "$value": "{nbds.color.neutral.200}",
+              "$value": "{nbds.color.neutral.450}",
               "$description": "Link (interactive text) — disabled",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.200",
+                  "aliasOf": "nbds.color.neutral.450",
                   "mode": "light",
-                  "contrast": 1.81,
-                  "against": "background.default"
+                  "contrast": 3.16,
+                  "against": "neutral.050",
+                  "min": 3
                 }
               }
             }
@@ -2876,15 +2878,16 @@
           },
           "disabled": {
             "$type": "color",
-            "$value": "{nbds.color.neutral.250}",
-            "$description": "Disabled icon — low-contrast (WCAG-exempt)",
+            "$value": "{nbds.color.neutral.450}",
+            "$description": "Disabled icon — clears 3:1 on the floor (accessible)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.neutral.250",
+                "aliasOf": "nbds.color.neutral.450",
                 "mode": "light",
-                "contrast": 2.08,
-                "against": "background.default"
+                "contrast": 3.16,
+                "against": "neutral.050",
+                "min": 3
               }
             }
           },
@@ -3146,15 +3149,16 @@
             },
             "disabled": {
               "$type": "color",
-              "$value": "{nbds.color.neutral.200}",
+              "$value": "{nbds.color.neutral.450}",
               "$description": "Link (interactive icon) — disabled",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.200",
+                  "aliasOf": "nbds.color.neutral.450",
                   "mode": "light",
-                  "contrast": 1.81,
-                  "against": "background.default"
+                  "contrast": 3.16,
+                  "against": "neutral.050",
+                  "min": 3
                 }
               }
             }
@@ -3326,15 +3330,16 @@
             },
             "disabled": {
               "$type": "color",
-              "$value": "{nbds.color.neutral.200}",
+              "$value": "{nbds.color.neutral.400}",
               "$description": "Form-field / control border — disabled",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.200",
+                  "aliasOf": "nbds.color.neutral.400",
                   "mode": "light",
-                  "contrast": 1.81,
-                  "against": "background.default"
+                  "contrast": 3.27,
+                  "against": "background.default",
+                  "min": 3
                 }
               }
             }
@@ -3846,15 +3851,16 @@
           },
           "disabled": {
             "$type": "color",
-            "$value": "{nbds.color.neutral.700}",
-            "$description": "Disabled text — low-contrast (WCAG-exempt)",
+            "$value": "{nbds.color.neutral.550}",
+            "$description": "Disabled text — clears 3:1 on the floor (accessible)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.neutral.700",
+                "aliasOf": "nbds.color.neutral.550",
                 "mode": "dark",
-                "contrast": 1.98,
-                "against": "background.default"
+                "contrast": 3.27,
+                "against": "neutral.900",
+                "min": 3
               }
             }
           },
@@ -4116,15 +4122,16 @@
             },
             "disabled": {
               "$type": "color",
-              "$value": "{nbds.color.neutral.750}",
+              "$value": "{nbds.color.neutral.550}",
               "$description": "Link (interactive text) — disabled",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.750",
+                  "aliasOf": "nbds.color.neutral.550",
                   "mode": "dark",
-                  "contrast": 1.65,
-                  "against": "background.default"
+                  "contrast": 3.27,
+                  "against": "neutral.900",
+                  "min": 3
                 }
               }
             }
@@ -4178,15 +4185,16 @@
           },
           "disabled": {
             "$type": "color",
-            "$value": "{nbds.color.neutral.700}",
-            "$description": "Disabled icon — low-contrast (WCAG-exempt)",
+            "$value": "{nbds.color.neutral.550}",
+            "$description": "Disabled icon — clears 3:1 on the floor (accessible)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.neutral.700",
+                "aliasOf": "nbds.color.neutral.550",
                 "mode": "dark",
-                "contrast": 1.98,
-                "against": "background.default"
+                "contrast": 3.27,
+                "against": "neutral.900",
+                "min": 3
               }
             }
           },
@@ -4448,15 +4456,16 @@
             },
             "disabled": {
               "$type": "color",
-              "$value": "{nbds.color.neutral.750}",
+              "$value": "{nbds.color.neutral.550}",
               "$description": "Link (interactive icon) — disabled",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.750",
+                  "aliasOf": "nbds.color.neutral.550",
                   "mode": "dark",
-                  "contrast": 1.65,
-                  "against": "background.default"
+                  "contrast": 3.27,
+                  "against": "neutral.900",
+                  "min": 3
                 }
               }
             }
@@ -4628,15 +4637,16 @@
             },
             "disabled": {
               "$type": "color",
-              "$value": "{nbds.color.neutral.750}",
+              "$value": "{nbds.color.neutral.550}",
               "$description": "Form-field / control border — disabled",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.750",
+                  "aliasOf": "nbds.color.neutral.550",
                   "mode": "dark",
-                  "contrast": 1.65,
-                  "against": "background.default"
+                  "contrast": 3.54,
+                  "against": "background.default",
+                  "min": 3
                 }
               }
             }
@@ -5148,15 +5158,16 @@
           },
           "disabled": {
             "$type": "color",
-            "$value": "{nbds.color.neutral.250}",
-            "$description": "Disabled text — low-contrast (WCAG-exempt)",
+            "$value": "{nbds.color.neutral.550}",
+            "$description": "Disabled text — clears 4.5:1 on the floor (accessible)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.neutral.250",
+                "aliasOf": "nbds.color.neutral.550",
                 "mode": "hc-light",
-                "contrast": 2.08,
-                "against": "background.default"
+                "contrast": 4.52,
+                "against": "neutral.050",
+                "min": 4.5
               }
             }
           },
@@ -5418,15 +5429,16 @@
             },
             "disabled": {
               "$type": "color",
-              "$value": "{nbds.color.neutral.200}",
+              "$value": "{nbds.color.neutral.550}",
               "$description": "Link (interactive text) — disabled",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.200",
+                  "aliasOf": "nbds.color.neutral.550",
                   "mode": "hc-light",
-                  "contrast": 1.81,
-                  "against": "background.default"
+                  "contrast": 4.52,
+                  "against": "neutral.050",
+                  "min": 4.5
                 }
               }
             }
@@ -5480,15 +5492,16 @@
           },
           "disabled": {
             "$type": "color",
-            "$value": "{nbds.color.neutral.250}",
-            "$description": "Disabled icon — low-contrast (WCAG-exempt)",
+            "$value": "{nbds.color.neutral.550}",
+            "$description": "Disabled icon — clears 4.5:1 on the floor (accessible)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.neutral.250",
+                "aliasOf": "nbds.color.neutral.550",
                 "mode": "hc-light",
-                "contrast": 2.08,
-                "against": "background.default"
+                "contrast": 4.52,
+                "against": "neutral.050",
+                "min": 4.5
               }
             }
           },
@@ -5750,15 +5763,16 @@
             },
             "disabled": {
               "$type": "color",
-              "$value": "{nbds.color.neutral.200}",
+              "$value": "{nbds.color.neutral.550}",
               "$description": "Link (interactive icon) — disabled",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.200",
+                  "aliasOf": "nbds.color.neutral.550",
                   "mode": "hc-light",
-                  "contrast": 1.81,
-                  "against": "background.default"
+                  "contrast": 4.52,
+                  "against": "neutral.050",
+                  "min": 4.5
                 }
               }
             }
@@ -5930,15 +5944,16 @@
             },
             "disabled": {
               "$type": "color",
-              "$value": "{nbds.color.neutral.200}",
+              "$value": "{nbds.color.neutral.500}",
               "$description": "Form-field / control border — disabled",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.200",
+                  "aliasOf": "nbds.color.neutral.500",
                   "mode": "hc-light",
-                  "contrast": 1.81,
-                  "against": "background.default"
+                  "contrast": 4.59,
+                  "against": "background.default",
+                  "min": 4.5
                 }
               }
             }
@@ -6450,15 +6465,16 @@
           },
           "disabled": {
             "$type": "color",
-            "$value": "{nbds.color.neutral.700}",
-            "$description": "Disabled text — low-contrast (WCAG-exempt)",
+            "$value": "{nbds.color.neutral.450}",
+            "$description": "Disabled text — clears 4.5:1 on the floor (accessible)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.neutral.700",
+                "aliasOf": "nbds.color.neutral.450",
                 "mode": "hc-dark",
-                "contrast": 2.13,
-                "against": "background.default"
+                "contrast": 4.68,
+                "against": "neutral.900",
+                "min": 4.5
               }
             }
           },
@@ -6720,15 +6736,16 @@
             },
             "disabled": {
               "$type": "color",
-              "$value": "{nbds.color.neutral.750}",
+              "$value": "{nbds.color.neutral.450}",
               "$description": "Link (interactive text) — disabled",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.750",
+                  "aliasOf": "nbds.color.neutral.450",
                   "mode": "hc-dark",
-                  "contrast": 1.78,
-                  "against": "background.default"
+                  "contrast": 4.68,
+                  "against": "neutral.900",
+                  "min": 4.5
                 }
               }
             }
@@ -6782,15 +6799,16 @@
           },
           "disabled": {
             "$type": "color",
-            "$value": "{nbds.color.neutral.700}",
-            "$description": "Disabled icon — low-contrast (WCAG-exempt)",
+            "$value": "{nbds.color.neutral.450}",
+            "$description": "Disabled icon — clears 4.5:1 on the floor (accessible)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.neutral.700",
+                "aliasOf": "nbds.color.neutral.450",
                 "mode": "hc-dark",
-                "contrast": 2.13,
-                "against": "background.default"
+                "contrast": 4.68,
+                "against": "neutral.900",
+                "min": 4.5
               }
             }
           },
@@ -7052,15 +7070,16 @@
             },
             "disabled": {
               "$type": "color",
-              "$value": "{nbds.color.neutral.750}",
+              "$value": "{nbds.color.neutral.450}",
               "$description": "Link (interactive icon) — disabled",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.750",
+                  "aliasOf": "nbds.color.neutral.450",
                   "mode": "hc-dark",
-                  "contrast": 1.78,
-                  "against": "background.default"
+                  "contrast": 4.68,
+                  "against": "neutral.900",
+                  "min": 4.5
                 }
               }
             }
@@ -7232,15 +7251,16 @@
             },
             "disabled": {
               "$type": "color",
-              "$value": "{nbds.color.neutral.750}",
+              "$value": "{nbds.color.neutral.500}",
               "$description": "Form-field / control border — disabled",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.750",
+                  "aliasOf": "nbds.color.neutral.500",
                   "mode": "hc-dark",
-                  "contrast": 1.78,
-                  "against": "background.default"
+                  "contrast": 4.57,
+                  "against": "background.default",
+                  "min": 4.5
                 }
               }
             }

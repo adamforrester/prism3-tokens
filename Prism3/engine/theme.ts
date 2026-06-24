@@ -52,6 +52,12 @@ export type Theme = {
   roleToPalette: Record<Role, string>;
   roleAnchorStep: Record<Role, number>;
   surfaces?: SurfacesConfig;         // optional non-default surfaces (drives the contrast floor)
+  // Disabled-state strategy. 'accessible' (default): disabled text/icon/border
+  // clears `disabledMin` on the floor, so it stays legible (the KB's `inactive`).
+  // 'conventional': intentionally sub-AA, leaning on the WCAG 1.4.3/1.4.11
+  // inactive-component exemption (the field-standard dimmed look).
+  disabledStrategy: 'accessible' | 'conventional';
+  disabledMin: number;               // accessible floor (default 3:1; bumped in HC)
   dims: Dims;
   notes: string[];                   // human-readable record of engine decisions
 };
@@ -109,6 +115,11 @@ export type BrandInput = {
   surfaces?: SurfacesConfig;
   /** Optional measured status overrides; omit to let the engine synthesise. */
   status?: Partial<Record<'success' | 'warning' | 'danger', OKLCH & { chroma: number }>>;
+  /** Disabled-state policy. Default 'accessible' (disabled clears `disabledMin`,
+   *  the KB's contrast-preserving `inactive`); 'conventional' for the field's
+   *  sub-AA exempt look. `disabledMin` is the accessible floor (default 3). */
+  disabledStrategy?: 'accessible' | 'conventional';
+  disabledMin?: number;
   /** Dimension axis levers (schema-required #4/#5). Defaults reproduce a
    *  conventional 4px-grid / 8px-rhythm, sharp-corner system. */
   baseUnit?: number;                 // fine dimension grid base (px), default 4
@@ -185,6 +196,10 @@ export const brandTheme = (input: BrandInput): Theme => {
   const rScale = input.radiusScale ?? 1;
   const baseMd = input.baseMd ?? 4;
   notes.push(`dimension axis: ${baseUnit}px grid, ${spaceBase}px space rhythm, density '${density}' (drives component sizes), radius scale ${rScale} (baseMd ${baseMd}px)`);
+  const dStrat = input.disabledStrategy ?? 'accessible';
+  notes.push(dStrat === 'accessible'
+    ? `disabled: 'accessible' — disabled text/icon/border clears ${input.disabledMin ?? 3}:1 on the floor (legible, contrast-preserving; the field-rare default). Set disabledStrategy:'conventional' for the sub-AA exempt look.`
+    : `disabled: 'conventional' — disabled is intentionally sub-AA (WCAG 1.4.3/1.4.11 inactive-component exemption); CONFIRM this engagement accepts the reduced legibility`);
 
   // ---- surface confirmation ----
   for (const [mode, sf] of Object.entries(input.surfaces ?? {})) {
@@ -199,6 +214,8 @@ export const brandTheme = (input: BrandInput): Theme => {
     id: input.id, root: 'prism', namespace: 'prism.color', colorFormat: 'hex', palettes, roleToPalette, notes,
     roleAnchorStep: { brand: anchorStep, neutral: 500, success: 500, warning: 500, danger: 500, info: 500, action: actionPalette === 'primary' ? anchorStep : 500 },
     surfaces: input.surfaces,
+    disabledStrategy: input.disabledStrategy ?? 'accessible',
+    disabledMin: input.disabledMin ?? 3,
     dims: buildDims(baseUnit, spaceBase, density, rScale, baseMd),
   };
 };
@@ -245,6 +262,7 @@ export const nbTheme = (): Theme => {
     id: 'nb', root: 'nbds', namespace: 'nbds.color', colorFormat: 'rgb', palettes,
     roleToPalette: { brand: 'red', neutral: 'neutral', success: 'green', warning: 'amber', danger: 'red', info: 'info', action: 'red' },
     roleAnchorStep: { brand: 550, neutral: 500, success: 500, warning: 500, danger: 550, info: 500, action: 550 },
+    disabledStrategy: 'accessible', disabledMin: 3,
     dims,
     notes: [
       'NB regression: measured anchors; brand red also serves as danger (NB brand hue is its danger hue).',
