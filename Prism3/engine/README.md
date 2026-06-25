@@ -54,7 +54,13 @@ verifies every mode's contrast contracts (currently 248/248).
 <state> ]`), decided against a nine-system field survey + the practice KB, aligned
 to New Balance's real taxonomy. Top level is the *property* you're colouring;
 `foreground` is the element **FILL** (NB's meaning — not text):
-- `background.*` — inert container surfaces (+ semantic `*-subtle` tints).
+- `background.*` — inert container surfaces: an ordinal elevation ladder
+  `primary`/`secondary`/`tertiary`/`quaternary` (page→floating, use-case-neutral)
+  + `subtle`/`sunken`/`inverse` + semantic `*-subtle` tints. Light tiers converge
+  in colour (elevation = shadow, deferred); dark tiers step lighter (M3 lift).
+- `scrim.default` — semi-transparent modal/drawer backdrop (alpha-based, heavier
+  in dark). Backed by new primitives: an `opacity.*` scale and `black-alpha`/
+  `white-alpha` ramps that composite correctly over any surface.
 - `foreground.*` — element fills: neutral tiers, static semantics, plus the
   stateful `interactive` (action) and `danger` (destructive) fills.
 - `text.*` — text: tiers, semantic, `on-*` pair labels, and `interactive` (links).

@@ -28,13 +28,18 @@ const BLACK: RGB = { r: 0, g: 0, b: 0 };
 const round = (n: number, d = 4) => Math.round(n * 10 ** d) / 10 ** d;
 const rgbStr = ({ r, g, b }: RGB) => `rgb(${r}, ${g}, ${b})`;
 const colorValue = (rgb: RGB, fmt: 'rgb' | 'hex') => (fmt === 'hex' ? hex(rgb) : rgbStr(rgb));
+const alphaHex = (a: number) => Math.round(a * 255).toString(16).padStart(2, '0');
+const alphaColorValue = (rgb: RGB, a: number, fmt: 'rgb' | 'hex') =>
+  fmt === 'hex' ? `${hex(rgb)}${alphaHex(a)}` : `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${round(a, 2)})`;
+// Shared opacity/alpha step set (percent). Ramps use 5–90; the opacity scale full.
+const ALPHA_STEPS = [0, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 
 const bandName: Record<string, string> = {
   Highlights: 'Highlight', Quarter: 'Quarter-Tone', Mid: 'Mid-Tone',
   ThreeQuarter: 'Three-Quarter-Tone', Shadows: 'Shadow',
 };
 
-type Token = { $type: 'color' | 'dimension'; $value: string; $description: string; $extensions: { prism3: Record<string, unknown> } };
+type Token = { $type: 'color' | 'dimension' | 'number'; $value: string | number; $description: string; $extensions: { prism3: Record<string, unknown> } };
 
 // ---- colour leaves ----
 const primitiveLeaf = (theme: Theme, paletteDesc: string, s: Step, isAnchor: boolean): Token => {
@@ -52,6 +57,16 @@ const baseLeaf = (theme: Theme, rgb: RGB, description: string, band: string): To
 const aliasLeaf = (path: string, description: string, extra: Record<string, unknown>): Token => ({
   $type: 'color', $value: `{${path}}`, $description: description,
   $extensions: { prism3: { role: 'semantic', aliasOf: path, ...extra } },
+});
+// Alpha colour (composites over any surface — scrims, overlays, shadows).
+const alphaLeaf = (theme: Theme, rgb: RGB, a: number, description: string): Token => ({
+  $type: 'color', $value: alphaColorValue(rgb, a, theme.colorFormat), $description: description,
+  $extensions: { prism3: { generated: true, alpha: a, note: 'composites over any surface' } },
+});
+// Dimensionless opacity primitive.
+const numLeaf = (value: number, description: string): Token => ({
+  $type: 'number', $value: value, $description: description,
+  $extensions: { prism3: { generated: true } },
 });
 
 // ---- dimension leaves ----
@@ -84,6 +99,19 @@ const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats: Stats
     for (const s of p.steps) node[s.key] = primitiveLeaf(theme, p.description, s, p.palette === brandPalette && s.num === brandAnchorStep);
     color[p.palette] = node;
   }
+  // alpha colour ramps — black/white at increasing opacity, for scrims/overlays
+  // that must composite correctly over ANY surface (the Radix/Fluent pattern).
+  const alphaRamp = (rgb: RGB, label: string) => {
+    const node: Record<string, Token> = {};
+    for (const s of ALPHA_STEPS) if (s > 0 && s < 100) node[String(s)] = alphaLeaf(theme, rgb, s / 100, `${label} ${s}% — alpha, composites over any surface`);
+    return node;
+  };
+  color['black-alpha'] = alphaRamp(BLACK, 'Black alpha');
+  color['white-alpha'] = alphaRamp(WHITE, 'White alpha');
+
+  // ---- opacity primitive scale (dimensionless 0..1) ----
+  const opacity: Record<string, Token> = {};
+  for (const s of ALPHA_STEPS) opacity[String(s)] = numLeaf(round(s / 100, 2), `opacity ${s}% (${round(s / 100, 2)})`);
 
   // ---- colour semantic layer (per mode) ----
   const modes = resolveAllModes(theme);
@@ -134,7 +162,7 @@ const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats: Stats
   }
 
   // ---- assemble under the brand root ----
-  const brand = { color, semantic, dimension, space, radius, size };
+  const brand = { color, semantic, opacity, dimension, space, radius, size };
   const tree = {
     [root]: brand,
     $extensions: {
@@ -166,7 +194,8 @@ const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats: Stats
   let modeChecks = 0, modePass = 0;
   for (const mr of modes) for (const r of Object.values(mr.roles)) if (r.min > 0) { modeChecks++; if (r.ratio >= r.min) modePass++; }
 
-  const colorLeaves = 2 + theme.palettes.reduce((n, p) => n + p.steps.length, 0);
+  const alphaLeaves = 2 * ALPHA_STEPS.filter((s) => s > 0 && s < 100).length;
+  const colorLeaves = 2 + theme.palettes.reduce((n, p) => n + p.steps.length, 0) + alphaLeaves;
   return { tree, modes, stats: { colorLeaves, dimLeaves: theme.dims.grid.length, spaceTokens: theme.dims.space.length, radiusTokens: theme.dims.radius.length, sizeSteps: theme.dims.sizes.length, aliases: aliases.length, resolved: aliases.length - broken.length, broken, modeChecks, modePass } };
 };
 

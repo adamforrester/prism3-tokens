@@ -11,17 +11,19 @@ Palettes: red, green, amber, neutral, info. Danger draws from `red`.
 
 | role | → step | contrast | floor | result |
 |---|---|---|---|---|
-| background.default | white | — | — | · |
-| background.raised | white | — | — | · |
-| background.overlay | white | — | — | · |
-| background.sunken | neutral.200 | — | — | · |
+| background.primary | white | — | — | · |
+| background.secondary | white | — | — | · |
+| background.tertiary | white | — | — | · |
+| background.quaternary | white | — | — | · |
 | background.subtle | neutral.050 | — | — | · |
+| background.sunken | neutral.200 | — | — | · |
 | background.inverse | neutral.850 | — | — | · |
 | background.brand-subtle | red.100 | — | — | · |
 | background.success-subtle | green.100 | — | — | · |
 | background.warning-subtle | amber.100 | — | — | · |
 | background.danger-subtle | red.100 | — | — | · |
 | background.info-subtle | info.100 | — | — | · |
+| scrim.default | black-alpha.40 | — | — | · |
 | foreground.primary | neutral.950 | — | — | · |
 | foreground.secondary | neutral.200 | — | — | · |
 | foreground.tertiary | neutral.100 | — | — | · |
@@ -103,17 +105,19 @@ Palettes: red, green, amber, neutral, info. Danger draws from `red`.
 
 | role | → step | contrast | floor | result |
 |---|---|---|---|---|
-| background.default | neutral.950 | — | — | · |
-| background.raised | neutral.900 | — | — | · |
-| background.overlay | neutral.850 | — | — | · |
-| background.sunken | black | — | — | · |
+| background.primary | neutral.950 | — | — | · |
+| background.secondary | neutral.900 | — | — | · |
+| background.tertiary | neutral.850 | — | — | · |
+| background.quaternary | neutral.800 | — | — | · |
 | background.subtle | neutral.900 | — | — | · |
+| background.sunken | black | — | — | · |
 | background.inverse | neutral.100 | — | — | · |
 | background.brand-subtle | red.900 | — | — | · |
 | background.success-subtle | green.900 | — | — | · |
 | background.warning-subtle | amber.900 | — | — | · |
 | background.danger-subtle | red.900 | — | — | · |
 | background.info-subtle | info.900 | — | — | · |
+| scrim.default | black-alpha.60 | — | — | · |
 | foreground.primary | neutral.025 | — | — | · |
 | foreground.secondary | neutral.700 | — | — | · |
 | foreground.tertiary | neutral.800 | — | — | · |
@@ -195,17 +199,19 @@ Palettes: red, green, amber, neutral, info. Danger draws from `red`.
 
 | role | → step | contrast | floor | result |
 |---|---|---|---|---|
-| background.default | white | — | — | · |
-| background.raised | white | — | — | · |
-| background.overlay | white | — | — | · |
-| background.sunken | neutral.200 | — | — | · |
+| background.primary | white | — | — | · |
+| background.secondary | white | — | — | · |
+| background.tertiary | white | — | — | · |
+| background.quaternary | white | — | — | · |
 | background.subtle | neutral.050 | — | — | · |
+| background.sunken | neutral.200 | — | — | · |
 | background.inverse | neutral.850 | — | — | · |
 | background.brand-subtle | red.100 | — | — | · |
 | background.success-subtle | green.100 | — | — | · |
 | background.warning-subtle | amber.100 | — | — | · |
 | background.danger-subtle | red.100 | — | — | · |
 | background.info-subtle | info.100 | — | — | · |
+| scrim.default | black-alpha.60 | — | — | · |
 | foreground.primary | neutral.950 | — | — | · |
 | foreground.secondary | neutral.200 | — | — | · |
 | foreground.tertiary | neutral.100 | — | — | · |
@@ -287,17 +293,19 @@ Palettes: red, green, amber, neutral, info. Danger draws from `red`.
 
 | role | → step | contrast | floor | result |
 |---|---|---|---|---|
-| background.default | black | — | — | · |
-| background.raised | neutral.900 | — | — | · |
-| background.overlay | neutral.850 | — | — | · |
-| background.sunken | black | — | — | · |
+| background.primary | black | — | — | · |
+| background.secondary | neutral.900 | — | — | · |
+| background.tertiary | neutral.850 | — | — | · |
+| background.quaternary | neutral.800 | — | — | · |
 | background.subtle | neutral.900 | — | — | · |
+| background.sunken | black | — | — | · |
 | background.inverse | neutral.100 | — | — | · |
 | background.brand-subtle | red.900 | — | — | · |
 | background.success-subtle | green.900 | — | — | · |
 | background.warning-subtle | amber.900 | — | — | · |
 | background.danger-subtle | red.900 | — | — | · |
 | background.info-subtle | info.900 | — | — | · |
+| scrim.default | black-alpha.70 | — | — | · |
 | foreground.primary | neutral.025 | — | — | · |
 | foreground.secondary | neutral.700 | — | — | · |
 | foreground.tertiary | neutral.800 | — | — | · |
@@ -439,17 +447,19 @@ Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws
 
 | role | → step | contrast | floor | result |
 |---|---|---|---|---|
-| background.default | neutral.050 | — | — | · |
-| background.raised | white | — | — | · |
-| background.overlay | white | — | — | · |
-| background.sunken | neutral.250 | — | — | · |
+| background.primary | neutral.050 | — | — | · |
+| background.secondary | white | — | — | · |
+| background.tertiary | white | — | — | · |
+| background.quaternary | white | — | — | · |
 | background.subtle | neutral.100 | — | — | · |
+| background.sunken | neutral.250 | — | — | · |
 | background.inverse | neutral.850 | — | — | · |
 | background.brand-subtle | primary.100 | — | — | · |
 | background.success-subtle | success.100 | — | — | · |
 | background.warning-subtle | warning.100 | — | — | · |
 | background.danger-subtle | danger.100 | — | — | · |
 | background.info-subtle | info.100 | — | — | · |
+| scrim.default | black-alpha.40 | — | — | · |
 | foreground.primary | neutral.950 | — | — | · |
 | foreground.secondary | neutral.200 | — | — | · |
 | foreground.tertiary | neutral.100 | — | — | · |
@@ -531,17 +541,19 @@ Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws
 
 | role | → step | contrast | floor | result |
 |---|---|---|---|---|
-| background.default | neutral.950 | — | — | · |
-| background.raised | neutral.900 | — | — | · |
-| background.overlay | neutral.850 | — | — | · |
-| background.sunken | black | — | — | · |
+| background.primary | neutral.950 | — | — | · |
+| background.secondary | neutral.900 | — | — | · |
+| background.tertiary | neutral.850 | — | — | · |
+| background.quaternary | neutral.800 | — | — | · |
 | background.subtle | neutral.900 | — | — | · |
+| background.sunken | black | — | — | · |
 | background.inverse | neutral.100 | — | — | · |
 | background.brand-subtle | primary.900 | — | — | · |
 | background.success-subtle | success.900 | — | — | · |
 | background.warning-subtle | warning.900 | — | — | · |
 | background.danger-subtle | danger.900 | — | — | · |
 | background.info-subtle | info.900 | — | — | · |
+| scrim.default | black-alpha.60 | — | — | · |
 | foreground.primary | neutral.025 | — | — | · |
 | foreground.secondary | neutral.700 | — | — | · |
 | foreground.tertiary | neutral.800 | — | — | · |
@@ -623,17 +635,19 @@ Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws
 
 | role | → step | contrast | floor | result |
 |---|---|---|---|---|
-| background.default | white | — | — | · |
-| background.raised | white | — | — | · |
-| background.overlay | white | — | — | · |
-| background.sunken | neutral.250 | — | — | · |
+| background.primary | white | — | — | · |
+| background.secondary | white | — | — | · |
+| background.tertiary | white | — | — | · |
+| background.quaternary | white | — | — | · |
 | background.subtle | neutral.100 | — | — | · |
+| background.sunken | neutral.250 | — | — | · |
 | background.inverse | neutral.850 | — | — | · |
 | background.brand-subtle | primary.100 | — | — | · |
 | background.success-subtle | success.100 | — | — | · |
 | background.warning-subtle | warning.100 | — | — | · |
 | background.danger-subtle | danger.100 | — | — | · |
 | background.info-subtle | info.100 | — | — | · |
+| scrim.default | black-alpha.60 | — | — | · |
 | foreground.primary | neutral.950 | — | — | · |
 | foreground.secondary | neutral.200 | — | — | · |
 | foreground.tertiary | neutral.100 | — | — | · |
@@ -715,17 +729,19 @@ Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws
 
 | role | → step | contrast | floor | result |
 |---|---|---|---|---|
-| background.default | black | — | — | · |
-| background.raised | neutral.900 | — | — | · |
-| background.overlay | neutral.850 | — | — | · |
-| background.sunken | black | — | — | · |
+| background.primary | black | — | — | · |
+| background.secondary | neutral.900 | — | — | · |
+| background.tertiary | neutral.850 | — | — | · |
+| background.quaternary | neutral.800 | — | — | · |
 | background.subtle | neutral.900 | — | — | · |
+| background.sunken | black | — | — | · |
 | background.inverse | neutral.100 | — | — | · |
 | background.brand-subtle | primary.900 | — | — | · |
 | background.success-subtle | success.900 | — | — | · |
 | background.warning-subtle | warning.900 | — | — | · |
 | background.danger-subtle | danger.900 | — | — | · |
 | background.info-subtle | info.900 | — | — | · |
+| scrim.default | black-alpha.70 | — | — | · |
 | foreground.primary | neutral.025 | — | — | · |
 | foreground.secondary | neutral.700 | — | — | · |
 | foreground.tertiary | neutral.800 | — | — | · |

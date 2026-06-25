@@ -63,8 +63,11 @@ const pickBrand = (steps: Step[], ns: string, palette: string, anchorNum: number
   return passing[0] ?? { ...anchor, ratio: contrast(anchor.rgb, surface) };
 };
 
-/** Elevation set for a mode: the non-interactive container fills. */
-type BgSet = { default: Cand; raised: Cand; overlay: Cand; sunken: Cand; subtle: Cand; inverse: Cand };
+/** Elevation set for a mode: the non-interactive container fills. An ordinal,
+ * use-case-neutral ladder (primary=page … quaternary=floating). In LIGHT the
+ * raised tiers converge in colour (elevation is carried by shadow — a deferred
+ * effects axis); in DARK they step lighter (the M3 lift pattern). */
+type BgSet = { primary: Cand; secondary: Cand; tertiary: Cand; quaternary: Cand; subtle: Cand; sunken: Cand; inverse: Cand };
 
 export type ModeCfg = {
   surface: Cand;            // base page surface
@@ -99,8 +102,8 @@ const modeConfigs = (ns: string, neutralPalette: string, neutral: Step[], surfac
     const base = spec(baseSpec);
     const floor = n(floorStep);
     const bg: BgSet = family === 'light'
-      ? { default: base, raised: white, overlay: white, subtle: floor, sunken: n(floorStep + 150), inverse: n(875) }
-      : { default: base, raised: n(baseNum - 50), overlay: n(baseNum - 100), subtle: n(baseNum - 50), sunken: black, inverse: n(125) };
+      ? { primary: base, secondary: white, tertiary: white, quaternary: white, subtle: floor, sunken: n(floorStep + 150), inverse: n(875) }
+      : { primary: base, secondary: n(baseNum - 50), tertiary: n(baseNum - 100), quaternary: n(baseNum - 150), subtle: n(baseNum - 50), sunken: black, inverse: n(125) };
     return { base, floor, bg };
   };
 
@@ -112,8 +115,8 @@ const modeConfigs = (ns: string, neutralPalette: string, neutral: Step[], surfac
   return {
     light:      mk(light, 'light', BLACK, { primaryMin: 7,  secondaryMin: 4.5, tertiaryMin: 3, actionMin: 4.5, borderTarget: 1.4, nonTextMin: 3 }),
     dark:       mk(dark,  'dark',  WHITE, { primaryMin: 7,  secondaryMin: 4.5, tertiaryMin: 3, actionMin: 4.5, borderTarget: 1.8, nonTextMin: 3 }),
-    'hc-light': mk({ base: cand(`${ns}.white`, WHITE), floor: light.floor, bg: { ...light.bg, default: cand(`${ns}.white`, WHITE) } }, 'light', BLACK, { primaryMin: 15, secondaryMin: 7, tertiaryMin: 4.5, actionMin: 7, borderTarget: 4.5, nonTextMin: 4.5 }),
-    'hc-dark':  mk({ base: cand(`${ns}.black`, BLACK), floor: dark.floor, bg: { ...dark.bg, default: cand(`${ns}.black`, BLACK), sunken: cand(`${ns}.black`, BLACK) } }, 'dark', WHITE, { primaryMin: 15, secondaryMin: 7, tertiaryMin: 4.5, actionMin: 7, borderTarget: 4.5, nonTextMin: 4.5 }),
+    'hc-light': mk({ base: cand(`${ns}.white`, WHITE), floor: light.floor, bg: { ...light.bg, primary: cand(`${ns}.white`, WHITE) } }, 'light', BLACK, { primaryMin: 15, secondaryMin: 7, tertiaryMin: 4.5, actionMin: 7, borderTarget: 4.5, nonTextMin: 4.5 }),
+    'hc-dark':  mk({ base: cand(`${ns}.black`, BLACK), floor: dark.floor, bg: { ...dark.bg, primary: cand(`${ns}.black`, BLACK), sunken: cand(`${ns}.black`, BLACK) } }, 'dark', WHITE, { primaryMin: 15, secondaryMin: 7, tertiaryMin: 4.5, actionMin: 7, borderTarget: 4.5, nonTextMin: 4.5 }),
   };
 };
 
@@ -165,29 +168,40 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
   const disabledText = (): { r: Rated; against: string; min: number } =>
     accessibleDisabled
       ? { r: pickMinPass(textCands, floorRgb, disabledTarget), against: cfg.floorName, min: disabledTarget }
-      : { r: pickClosest(textCands, baseRgb, 2), against: 'background.default', min: 0 };
+      : { r: pickClosest(textCands, baseRgb, 2), against: 'background.primary', min: 0 };
   // A disabled border pick (non-text floor when accessible).
   const disabledBorder = (): { r: Rated; against: string; min: number } =>
     accessibleDisabled
-      ? { r: pickMinPass(ramp, baseRgb, Math.min(disabledTarget, cfg.nonTextMin)), against: 'background.default', min: Math.min(disabledTarget, cfg.nonTextMin) }
-      : { r: rated(neutralLow(), baseRgb), against: 'background.default', min: 0 };
+      ? { r: pickMinPass(ramp, baseRgb, Math.min(disabledTarget, cfg.nonTextMin)), against: 'background.primary', min: Math.min(disabledTarget, cfg.nonTextMin) }
+      : { r: rated(neutralLow(), baseRgb), against: 'background.primary', min: 0 };
 
   // ---------------------------------------------------------------- backgrounds
   const bg = cfg.bg;
-  putSurf('background.default', bg.default, 'Default page surface');
-  putSurf('background.raised', bg.raised, 'Raised surface — cards / panels');
-  putSurf('background.overlay', bg.overlay, 'Overlay surface — menus / dialogs / popovers');
-  putSurf('background.sunken', bg.sunken, 'Sunken surface — wells / insets');
-  putSurf('background.subtle', bg.subtle, 'Subtle surface — secondary muted fill');
+  // Elevation ladder — ordinal, use-case-neutral (primary=page … quaternary=floating).
+  // Light tiers converge in colour (shadow carries elevation — deferred effects axis);
+  // dark tiers step lighter. Component→tier mapping (card→secondary, dialog→quaternary)
+  // is documentation, not baked into the token name.
+  putSurf('background.primary', bg.primary, 'Page surface (elevation 1 — base)');
+  putSurf('background.secondary', bg.secondary, 'Raised surface (elevation 2 — cards / panels)');
+  putSurf('background.tertiary', bg.tertiary, 'Higher surface (elevation 3 — nested / menus)');
+  putSurf('background.quaternary', bg.quaternary, 'Floating surface (elevation 4 — dialogs / popovers)');
+  putSurf('background.subtle', bg.subtle, 'Subtle surface — muted grouped fill (off the ladder)');
+  putSurf('background.sunken', bg.sunken, 'Sunken surface — wells / insets (below the page)');
   putSurf('background.inverse', bg.inverse, 'Inverse surface');
   for (const r of ['brand', 'success', 'warning', 'danger', 'info'] as const)
     putSurf(`background.${r}-subtle`, pStep(r2p[r], tintStep), `Subtle ${r} tint`);
+  // scrim — semi-transparent backdrop behind modals/drawers. Alpha-based
+  // (aliases the black-alpha primitive ramp), heavier in dark per the field
+  // (Spectrum/Fluent/Radix). Not a contrast contract.
+  const scrimStep = hc ? (cfg.family === 'light' ? 60 : 70) : (cfg.family === 'light' ? 40 : 60);
+  put('scrim.default', { path: `${ns}.black-alpha.${scrimStep}`, rgb: BLACK, ratio: 1 },
+    `Scrim — ${scrimStep}% black backdrop (modals / drawers)`, 'self', 0);
 
   // ----------------------------------------------------------- foreground FILLS
   // Neutral fills (emphasis tiers used as element fills — e.g. neutral buttons).
-  put('foreground.primary', pickMostExtreme(ramp, baseRgb), 'Strong neutral fill — high-emphasis neutral element', 'background.default', 0);
-  put('foreground.secondary', rated(pStep(r2p.neutral, cfg.family === 'light' ? 200 : 700), baseRgb), 'Medium neutral fill', 'background.default', 0);
-  put('foreground.tertiary', rated(pStep(r2p.neutral, cfg.family === 'light' ? 100 : 800), baseRgb), 'Subtle neutral fill', 'background.default', 0);
+  put('foreground.primary', pickMostExtreme(ramp, baseRgb), 'Strong neutral fill — high-emphasis neutral element', 'background.primary', 0);
+  put('foreground.secondary', rated(pStep(r2p.neutral, cfg.family === 'light' ? 200 : 700), baseRgb), 'Medium neutral fill', 'background.primary', 0);
+  put('foreground.tertiary', rated(pStep(r2p.neutral, cfg.family === 'light' ? 100 : 800), baseRgb), 'Subtle neutral fill', 'background.primary', 0);
   put('foreground.inverse', rated(pStep(r2p.neutral, cfg.family === 'light' ? 50 : 900), baseRgb), 'Inverse neutral fill — for inverse contexts', 'background.inverse', 0);
   // Static semantic fills (filled badges/banners/buttons at rest).
   const fills: Partial<Record<Role, RatedNum>> = {};
@@ -210,10 +224,10 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
   for (const st of FILL_STATES) {
     const c = fillStateCand(intRest, r2p.action, st);
     put(`foreground.interactive.${st}`, rated(c, st === 'disabled' ? baseRgb : floorRgb),
-      `Interactive fill (action) — ${st}`, st === 'disabled' ? 'background.default' : cfg.floorName, st === 'disabled' ? 0 : cfg.actionMin);
+      `Interactive fill (action) — ${st}`, st === 'disabled' ? 'background.primary' : cfg.floorName, st === 'disabled' ? 0 : cfg.actionMin);
     const d = fillStateCand(dangerRest, r2p.danger, st);
     put(`foreground.danger.${st}`, rated(d, st === 'disabled' ? baseRgb : floorRgb),
-      `Danger / destructive fill — ${st}`, st === 'disabled' ? 'background.default' : cfg.floorName, st === 'disabled' ? 0 : cfg.actionMin);
+      `Danger / destructive fill — ${st}`, st === 'disabled' ? 'background.primary' : cfg.floorName, st === 'disabled' ? 0 : cfg.actionMin);
   }
 
   // -------------------------------------------------------------- text (+ icon)
@@ -223,7 +237,7 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
   const textSpecs: Spec[] = [];
   const T = (key: string, r: Rated, desc: string, against: string, min: number) => textSpecs.push({ key, r, desc, against, min });
 
-  T('primary', pickMostExtreme(textCands, baseRgb), 'Primary text — strongest neutral', 'background.default', cfg.primaryMin);
+  T('primary', pickMostExtreme(textCands, baseRgb), 'Primary text — strongest neutral', 'background.primary', cfg.primaryMin);
   T('secondary', pickMinPass(textCands, floorRgb, cfg.secondaryMin), `Secondary text — ${cfg.secondaryMin}:1 on the floor`, cfg.floorName, cfg.secondaryMin);
   T('tertiary', pickMinPass(textCands, floorRgb, cfg.tertiaryMin), `Tertiary text — ${cfg.tertiaryMin}:1 on the floor`, cfg.floorName, cfg.tertiaryMin);
   { const d = disabledText(); T('disabled', d.r, accessibleDisabled ? `Disabled text — clears ${disabledTarget}:1 on the floor (accessible)` : 'Disabled text — sub-AA (WCAG-exempt, conventional)', d.against, d.min); }
@@ -254,11 +268,11 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
   }
 
   // ------------------------------------------------------------------- borders
-  put('border.default', pickClosest(ramp, baseRgb, cfg.borderTarget), `Default border — decorative, ~${cfg.borderTarget}:1`, 'background.default', 0);
-  put('border.strong', pickClosest(ramp, baseRgb, cfg.borderTarget * 2.2), 'Stronger border / divider', 'background.default', 0);
+  put('border.default', pickClosest(ramp, baseRgb, cfg.borderTarget), `Default border — decorative, ~${cfg.borderTarget}:1`, 'background.primary', 0);
+  put('border.strong', pickClosest(ramp, baseRgb, cfg.borderTarget * 2.2), 'Stronger border / divider', 'background.primary', 0);
   put('border.inverse', pickClosest(ramp, invRgb, cfg.borderTarget), 'Inverse border', 'background.inverse', 0);
   for (const r of ['brand', 'success', 'warning', 'danger', 'info'] as const)
-    put(`border.${r}`, rated(pickBrand(ramps.get(r2p[r])!, ns, r2p[r], 500, baseRgb, cfg.nonTextMin), baseRgb), `${r} border — ${cfg.nonTextMin}:1 (SC 1.4.11)`, 'background.default', cfg.nonTextMin);
+    put(`border.${r}`, rated(pickBrand(ramps.get(r2p[r])!, ns, r2p[r], 500, baseRgb, cfg.nonTextMin), baseRgb), `${r} border — ${cfg.nonTextMin}:1 (SC 1.4.11)`, 'background.primary', cfg.nonTextMin);
   // interactive (input/control) border + states; focus ring = .focused.
   const borderRest = pickMinPass(ramp, baseRgb, cfg.nonTextMin);
   const borderStateCand = (st: typeof BORDER_STATES[number]): Cand =>
@@ -268,7 +282,7 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
     : neutralLow(); // disabled
   for (const st of BORDER_STATES) {
     if (st === 'disabled') { const d = disabledBorder(); put('border.interactive.disabled', d.r, 'Form-field / control border — disabled', d.against, d.min); continue; }
-    put(`border.interactive.${st}`, rated(borderStateCand(st), baseRgb), `Form-field / control border — ${st}`, 'background.default', cfg.nonTextMin);
+    put(`border.interactive.${st}`, rated(borderStateCand(st), baseRgb), `Form-field / control border — ${st}`, 'background.primary', cfg.nonTextMin);
   }
 
   return { mode, surface: baseRgb, roles };

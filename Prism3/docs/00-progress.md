@@ -27,8 +27,8 @@ Headline numbers (regenerate with the commands below):
 | Tonal-band contrast contracts | **11/11** | (same engine) |
 | Cross-mode contrast contracts | **268/268** | **268/268** |
 | **Dimension axis, exact** (Prism2 space + NB radius) | **21/21** | n/a |
-| DTCG semantic aliases resolve (color + dim + size) | **384/384** | **384/384** |
-| Color primitives / dim grid emitted | 102 / 37 | 142 / 36 |
+| DTCG semantic aliases resolve (color + dim + size) | **392/392** | **392/392** |
+| Color primitives / dim grid emitted | 122 / 37 | 162 / 36 |
 | Brand palettes / action source | red / **action = brand** (red) | primary+accent+… / **action = accent ≠ brand** |
 | Form factor | comfortable / radius 1 (sharp) | compact / radius 2 (soft) |
 | Emit profile | `nbds.*` / rgb | `prism.*` / hex |
@@ -123,6 +123,21 @@ npx tsx Prism3/engine/emit-dtcg.ts       # emit DTCG + modes, validate
   (one `inverse` per property, leaning on per-mode resolution). Text on a vivid
   fill targets AA (gamut-bounded — 7:1 unreachable on a saturated mid), everything
   else escalates in HC.
+- **Surface ladder + scrim/opacity primitives (backlog Items 1/2/4).** Decided
+  against a 10-system field survey + KB §4. Elevation tiers renamed to an ordinal,
+  use-case-neutral ladder `background.{primary,secondary,tertiary,quaternary}`
+  (page→floating), plus `subtle`/`sunken`/`inverse` + semantic tints. The
+  `overlay` tier name is GONE (it's overloaded across the field — floating surface
+  vs scrim); component→tier mapping is documentation, not baked into the name.
+  Light tiers converge in colour (elevation = shadow, a deferred effects axis);
+  dark tiers step lighter (M3 lift). New primitives: an `opacity.*` scale and
+  `black-alpha`/`white-alpha` ramps (composite over any surface — Radix/Fluent),
+  and a `scrim.default` semantic token (alpha-based, heavier in dark per
+  Spectrum/Fluent/Radix). White/black policy: pure primitives kept, surfaces route
+  through the tinted neutral; a white page converges (shadow-carried), a tinted
+  page (aurora `neutral.50`) lets cards step to white. *Rationale:* user decision
+  after research — numbered ladder honours prior practice + the field's
+  use-case-neutral camp; shadows deferred to an effects pass (KB lift pattern).
 - **Contrast is validated against the floor surface, not the pure extreme.**
   Saturated, contract-bearing foregrounds (action + states, vivid semantic text,
   secondary/tertiary text) clear
@@ -252,12 +267,13 @@ stack) before pipeline plumbing — it tests the white-label thesis harder.
    warning 75, danger 27) are plausible but not evidence-derived; functionally
    safe (placed by luminance) but worth grounding. Overrides already wired via
    `BrandInput.status` / schema `statusColors`.
-6. **Semantic-layer decision backlog (`03-open-questions.md`).** Four open
-   questions raised in review — elevation/surface naming (numbered vs role; drop
-   the overloaded `overlay`), scrim + opacity primitives (a genuine gap — no
-   alpha layer exists), disabled colouring (resolve the engine-vs-KB §3
-   contradiction), and white/black token policy. Researched (nine-system survey)
-   with recommendations; awaiting decisions before any `background.*` rework.
+6. **Semantic-layer decision backlog (`03-open-questions.md`).** Items 1–4
+   RESOLVED and shipped — elevation/surface naming (ordinal ladder, `overlay`
+   dropped), scrim + opacity/alpha primitives, disabled strategy (accessible
+   default, 3:1 floor), white/black policy. Remaining: **Item 5** (icon 3:1
+   toggle — parked by decision; icons currently mirror text, one-line floor swap
+   when wanted). Next non-backlog frontiers: shadows/effects axis (deferred from
+   Item 1), typography + motion (item 1 above), downstream consumption (item 2).
 
 ---
 

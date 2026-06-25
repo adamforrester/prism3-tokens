@@ -16,7 +16,9 @@ So "elevation" is a **shadow** decision; "which fill" is a **surface ladder** de
 
 ---
 
-## Item 1 — Elevation / surface naming  ·  **OPEN**
+## Item 1 — Elevation / surface naming  ·  **RESOLVED (2026-06-25)**
+
+> **Resolved:** ordinal ladder `background.{primary,secondary,tertiary,quaternary}` (page→floating) + `subtle`/`sunken`/`inverse` + tints; `overlay` tier name dropped (overloaded); component→tier mapping is documentation; light tiers shadow-carried, dark tiers lift. Shadows deferred to a future effects pass. Shipped.
 
 **The question.** How do we name non-interactive container fills? Numbered depth (`primary/secondary/tertiary/quaternary`, the shape you've used before) vs semantic-role (`raised/overlay/sunken`) vs component-specific (`card`, `popover`)? How many tiers? And is `overlay` a surface at all?
 
@@ -40,7 +42,9 @@ So "elevation" is a **shadow** decision; "which fill" is a **surface ladder** de
 
 ---
 
-## Item 2 — Scrim / backdrop + opacity primitives  ·  **OPEN**
+## Item 2 — Scrim / backdrop + opacity primitives  ·  **RESOLVED (2026-06-25)**
+
+> **Resolved (full scope):** added an `opacity.*` primitive scale, `black-alpha`/`white-alpha` ramps (composite over any surface), and a `scrim.default` semantic token (alpha-based, heavier in dark: 40% light / 60% dark, escalating in HC). Shipped.
 
 **The question.** The dim layer behind modals/drawers is a distinct concept from the dialog surface (you flagged this correctly). How do we tokenise it, and does it need light/dark variants? And do we need an opacity/alpha primitive layer to express it (plus state layers, disabled)?
 
@@ -117,7 +121,9 @@ of reusing the text picks).
 
 ---
 
-## Item 4 — White / black token policy  ·  **OPEN**
+## Item 4 — White / black token policy  ·  **RESOLVED (2026-06-25)**
+
+> **Resolved:** pure `.white`/`.black` primitives kept; surfaces route through the tinted neutral ramp; a white page converges (shadow-carried elevation), a tinted page (aurora `neutral.50`) lets cards step to white. Pure white/black reserved for the page base, scrim/alpha ramps, and on-colour text. Shipped.
 
 **The question.** Do we expose pure `white`/`black` to consumers, and where (if ever) should surfaces resolve to them vs the tinted neutral ramp ends?
 

@@ -2036,15 +2036,259 @@
             }
           }
         }
+      },
+      "black-alpha": {
+        "5": {
+          "$type": "color",
+          "$value": "rgba(0, 0, 0, 0.05)",
+          "$description": "Black alpha 5% — alpha, composites over any surface",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "alpha": 0.05,
+              "note": "composites over any surface"
+            }
+          }
+        },
+        "10": {
+          "$type": "color",
+          "$value": "rgba(0, 0, 0, 0.1)",
+          "$description": "Black alpha 10% — alpha, composites over any surface",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "alpha": 0.1,
+              "note": "composites over any surface"
+            }
+          }
+        },
+        "20": {
+          "$type": "color",
+          "$value": "rgba(0, 0, 0, 0.2)",
+          "$description": "Black alpha 20% — alpha, composites over any surface",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "alpha": 0.2,
+              "note": "composites over any surface"
+            }
+          }
+        },
+        "30": {
+          "$type": "color",
+          "$value": "rgba(0, 0, 0, 0.3)",
+          "$description": "Black alpha 30% — alpha, composites over any surface",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "alpha": 0.3,
+              "note": "composites over any surface"
+            }
+          }
+        },
+        "40": {
+          "$type": "color",
+          "$value": "rgba(0, 0, 0, 0.4)",
+          "$description": "Black alpha 40% — alpha, composites over any surface",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "alpha": 0.4,
+              "note": "composites over any surface"
+            }
+          }
+        },
+        "50": {
+          "$type": "color",
+          "$value": "rgba(0, 0, 0, 0.5)",
+          "$description": "Black alpha 50% — alpha, composites over any surface",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "alpha": 0.5,
+              "note": "composites over any surface"
+            }
+          }
+        },
+        "60": {
+          "$type": "color",
+          "$value": "rgba(0, 0, 0, 0.6)",
+          "$description": "Black alpha 60% — alpha, composites over any surface",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "alpha": 0.6,
+              "note": "composites over any surface"
+            }
+          }
+        },
+        "70": {
+          "$type": "color",
+          "$value": "rgba(0, 0, 0, 0.7)",
+          "$description": "Black alpha 70% — alpha, composites over any surface",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "alpha": 0.7,
+              "note": "composites over any surface"
+            }
+          }
+        },
+        "80": {
+          "$type": "color",
+          "$value": "rgba(0, 0, 0, 0.8)",
+          "$description": "Black alpha 80% — alpha, composites over any surface",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "alpha": 0.8,
+              "note": "composites over any surface"
+            }
+          }
+        },
+        "90": {
+          "$type": "color",
+          "$value": "rgba(0, 0, 0, 0.9)",
+          "$description": "Black alpha 90% — alpha, composites over any surface",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "alpha": 0.9,
+              "note": "composites over any surface"
+            }
+          }
+        }
+      },
+      "white-alpha": {
+        "5": {
+          "$type": "color",
+          "$value": "rgba(255, 255, 255, 0.05)",
+          "$description": "White alpha 5% — alpha, composites over any surface",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "alpha": 0.05,
+              "note": "composites over any surface"
+            }
+          }
+        },
+        "10": {
+          "$type": "color",
+          "$value": "rgba(255, 255, 255, 0.1)",
+          "$description": "White alpha 10% — alpha, composites over any surface",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "alpha": 0.1,
+              "note": "composites over any surface"
+            }
+          }
+        },
+        "20": {
+          "$type": "color",
+          "$value": "rgba(255, 255, 255, 0.2)",
+          "$description": "White alpha 20% — alpha, composites over any surface",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "alpha": 0.2,
+              "note": "composites over any surface"
+            }
+          }
+        },
+        "30": {
+          "$type": "color",
+          "$value": "rgba(255, 255, 255, 0.3)",
+          "$description": "White alpha 30% — alpha, composites over any surface",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "alpha": 0.3,
+              "note": "composites over any surface"
+            }
+          }
+        },
+        "40": {
+          "$type": "color",
+          "$value": "rgba(255, 255, 255, 0.4)",
+          "$description": "White alpha 40% — alpha, composites over any surface",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "alpha": 0.4,
+              "note": "composites over any surface"
+            }
+          }
+        },
+        "50": {
+          "$type": "color",
+          "$value": "rgba(255, 255, 255, 0.5)",
+          "$description": "White alpha 50% — alpha, composites over any surface",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "alpha": 0.5,
+              "note": "composites over any surface"
+            }
+          }
+        },
+        "60": {
+          "$type": "color",
+          "$value": "rgba(255, 255, 255, 0.6)",
+          "$description": "White alpha 60% — alpha, composites over any surface",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "alpha": 0.6,
+              "note": "composites over any surface"
+            }
+          }
+        },
+        "70": {
+          "$type": "color",
+          "$value": "rgba(255, 255, 255, 0.7)",
+          "$description": "White alpha 70% — alpha, composites over any surface",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "alpha": 0.7,
+              "note": "composites over any surface"
+            }
+          }
+        },
+        "80": {
+          "$type": "color",
+          "$value": "rgba(255, 255, 255, 0.8)",
+          "$description": "White alpha 80% — alpha, composites over any surface",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "alpha": 0.8,
+              "note": "composites over any surface"
+            }
+          }
+        },
+        "90": {
+          "$type": "color",
+          "$value": "rgba(255, 255, 255, 0.9)",
+          "$description": "White alpha 90% — alpha, composites over any surface",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "alpha": 0.9,
+              "note": "composites over any surface"
+            }
+          }
+        }
       }
     },
     "semantic": {
       "light": {
         "background": {
-          "default": {
+          "primary": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Default page surface",
+            "$description": "Page surface (elevation 1 — base)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -2055,10 +2299,10 @@
               }
             }
           },
-          "raised": {
+          "secondary": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Raised surface — cards / panels",
+            "$description": "Raised surface (elevation 2 — cards / panels)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -2069,10 +2313,10 @@
               }
             }
           },
-          "overlay": {
+          "tertiary": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Overlay surface — menus / dialogs / popovers",
+            "$description": "Higher surface (elevation 3 — nested / menus)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -2083,14 +2327,14 @@
               }
             }
           },
-          "sunken": {
+          "quaternary": {
             "$type": "color",
-            "$value": "{nbds.color.neutral.200}",
-            "$description": "Sunken surface — wells / insets",
+            "$value": "{nbds.color.white}",
+            "$description": "Floating surface (elevation 4 — dialogs / popovers)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.neutral.200",
+                "aliasOf": "nbds.color.white",
                 "mode": "light",
                 "contrast": 1,
                 "against": "self"
@@ -2100,11 +2344,25 @@
           "subtle": {
             "$type": "color",
             "$value": "{nbds.color.neutral.050}",
-            "$description": "Subtle surface — secondary muted fill",
+            "$description": "Subtle surface — muted grouped fill (off the ladder)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
                 "aliasOf": "nbds.color.neutral.050",
+                "mode": "light",
+                "contrast": 1,
+                "against": "self"
+              }
+            }
+          },
+          "sunken": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.200}",
+            "$description": "Sunken surface — wells / insets (below the page)",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.neutral.200",
                 "mode": "light",
                 "contrast": 1,
                 "against": "self"
@@ -2196,6 +2454,22 @@
             }
           }
         },
+        "scrim": {
+          "default": {
+            "$type": "color",
+            "$value": "{nbds.color.black-alpha.40}",
+            "$description": "Scrim — 40% black backdrop (modals / drawers)",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.black-alpha.40",
+                "mode": "light",
+                "contrast": 1,
+                "against": "self"
+              }
+            }
+          }
+        },
         "foreground": {
           "primary": {
             "$type": "color",
@@ -2207,7 +2481,7 @@
                 "aliasOf": "nbds.color.neutral.950",
                 "mode": "light",
                 "contrast": 19.44,
-                "against": "background.default"
+                "against": "background.primary"
               }
             }
           },
@@ -2221,7 +2495,7 @@
                 "aliasOf": "nbds.color.neutral.200",
                 "mode": "light",
                 "contrast": 1.81,
-                "against": "background.default"
+                "against": "background.primary"
               }
             }
           },
@@ -2235,7 +2509,7 @@
                 "aliasOf": "nbds.color.neutral.100",
                 "mode": "light",
                 "contrast": 1.38,
-                "against": "background.default"
+                "against": "background.primary"
               }
             }
           },
@@ -2399,7 +2673,7 @@
                   "aliasOf": "nbds.color.neutral.200",
                   "mode": "light",
                   "contrast": 1.81,
-                  "against": "background.default"
+                  "against": "background.primary"
                 }
               }
             }
@@ -2490,7 +2764,7 @@
                   "aliasOf": "nbds.color.neutral.200",
                   "mode": "light",
                   "contrast": 1.81,
-                  "against": "background.default"
+                  "against": "background.primary"
                 }
               }
             }
@@ -2507,7 +2781,7 @@
                 "aliasOf": "nbds.color.neutral.950",
                 "mode": "light",
                 "contrast": 19.44,
-                "against": "background.default",
+                "against": "background.primary",
                 "min": 7
               }
             }
@@ -2841,7 +3115,7 @@
                 "aliasOf": "nbds.color.neutral.950",
                 "mode": "light",
                 "contrast": 19.44,
-                "against": "background.default",
+                "against": "background.primary",
                 "min": 7
               }
             }
@@ -3175,7 +3449,7 @@
                 "aliasOf": "nbds.color.neutral.100",
                 "mode": "light",
                 "contrast": 1.38,
-                "against": "background.default"
+                "against": "background.primary"
               }
             }
           },
@@ -3189,7 +3463,7 @@
                 "aliasOf": "nbds.color.neutral.400",
                 "mode": "light",
                 "contrast": 3.27,
-                "against": "background.default"
+                "against": "background.primary"
               }
             }
           },
@@ -3217,7 +3491,7 @@
                 "aliasOf": "nbds.color.red.500",
                 "mode": "light",
                 "contrast": 4.58,
-                "against": "background.default",
+                "against": "background.primary",
                 "min": 3
               }
             }
@@ -3232,7 +3506,7 @@
                 "aliasOf": "nbds.color.green.500",
                 "mode": "light",
                 "contrast": 4.89,
-                "against": "background.default",
+                "against": "background.primary",
                 "min": 3
               }
             }
@@ -3247,7 +3521,7 @@
                 "aliasOf": "nbds.color.amber.500",
                 "mode": "light",
                 "contrast": 4.5,
-                "against": "background.default",
+                "against": "background.primary",
                 "min": 3
               }
             }
@@ -3262,7 +3536,7 @@
                 "aliasOf": "nbds.color.red.500",
                 "mode": "light",
                 "contrast": 4.58,
-                "against": "background.default",
+                "against": "background.primary",
                 "min": 3
               }
             }
@@ -3277,7 +3551,7 @@
                 "aliasOf": "nbds.color.info.500",
                 "mode": "light",
                 "contrast": 4.56,
-                "against": "background.default",
+                "against": "background.primary",
                 "min": 3
               }
             }
@@ -3293,7 +3567,7 @@
                   "aliasOf": "nbds.color.neutral.400",
                   "mode": "light",
                   "contrast": 3.27,
-                  "against": "background.default",
+                  "against": "background.primary",
                   "min": 3
                 }
               }
@@ -3308,7 +3582,7 @@
                   "aliasOf": "nbds.color.neutral.500",
                   "mode": "light",
                   "contrast": 4.59,
-                  "against": "background.default",
+                  "against": "background.primary",
                   "min": 3
                 }
               }
@@ -3323,7 +3597,7 @@
                   "aliasOf": "nbds.color.red.550",
                   "mode": "light",
                   "contrast": 5.62,
-                  "against": "background.default",
+                  "against": "background.primary",
                   "min": 3
                 }
               }
@@ -3338,7 +3612,7 @@
                   "aliasOf": "nbds.color.neutral.400",
                   "mode": "light",
                   "contrast": 3.27,
-                  "against": "background.default",
+                  "against": "background.primary",
                   "min": 3
                 }
               }
@@ -3348,10 +3622,10 @@
       },
       "dark": {
         "background": {
-          "default": {
+          "primary": {
             "$type": "color",
             "$value": "{nbds.color.neutral.950}",
-            "$description": "Default page surface",
+            "$description": "Page surface (elevation 1 — base)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -3362,10 +3636,10 @@
               }
             }
           },
-          "raised": {
+          "secondary": {
             "$type": "color",
             "$value": "{nbds.color.neutral.900}",
-            "$description": "Raised surface — cards / panels",
+            "$description": "Raised surface (elevation 2 — cards / panels)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -3376,10 +3650,10 @@
               }
             }
           },
-          "overlay": {
+          "tertiary": {
             "$type": "color",
             "$value": "{nbds.color.neutral.850}",
-            "$description": "Overlay surface — menus / dialogs / popovers",
+            "$description": "Higher surface (elevation 3 — nested / menus)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -3390,14 +3664,14 @@
               }
             }
           },
-          "sunken": {
+          "quaternary": {
             "$type": "color",
-            "$value": "{nbds.color.black}",
-            "$description": "Sunken surface — wells / insets",
+            "$value": "{nbds.color.neutral.800}",
+            "$description": "Floating surface (elevation 4 — dialogs / popovers)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.black",
+                "aliasOf": "nbds.color.neutral.800",
                 "mode": "dark",
                 "contrast": 1,
                 "against": "self"
@@ -3407,11 +3681,25 @@
           "subtle": {
             "$type": "color",
             "$value": "{nbds.color.neutral.900}",
-            "$description": "Subtle surface — secondary muted fill",
+            "$description": "Subtle surface — muted grouped fill (off the ladder)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
                 "aliasOf": "nbds.color.neutral.900",
+                "mode": "dark",
+                "contrast": 1,
+                "against": "self"
+              }
+            }
+          },
+          "sunken": {
+            "$type": "color",
+            "$value": "{nbds.color.black}",
+            "$description": "Sunken surface — wells / insets (below the page)",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.black",
                 "mode": "dark",
                 "contrast": 1,
                 "against": "self"
@@ -3503,6 +3791,22 @@
             }
           }
         },
+        "scrim": {
+          "default": {
+            "$type": "color",
+            "$value": "{nbds.color.black-alpha.60}",
+            "$description": "Scrim — 60% black backdrop (modals / drawers)",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.black-alpha.60",
+                "mode": "dark",
+                "contrast": 1,
+                "against": "self"
+              }
+            }
+          }
+        },
         "foreground": {
           "primary": {
             "$type": "color",
@@ -3514,7 +3818,7 @@
                 "aliasOf": "nbds.color.neutral.025",
                 "mode": "dark",
                 "contrast": 18.11,
-                "against": "background.default"
+                "against": "background.primary"
               }
             }
           },
@@ -3528,7 +3832,7 @@
                 "aliasOf": "nbds.color.neutral.700",
                 "mode": "dark",
                 "contrast": 1.98,
-                "against": "background.default"
+                "against": "background.primary"
               }
             }
           },
@@ -3542,7 +3846,7 @@
                 "aliasOf": "nbds.color.neutral.800",
                 "mode": "dark",
                 "contrast": 1.4,
-                "against": "background.default"
+                "against": "background.primary"
               }
             }
           },
@@ -3706,7 +4010,7 @@
                   "aliasOf": "nbds.color.neutral.750",
                   "mode": "dark",
                   "contrast": 1.65,
-                  "against": "background.default"
+                  "against": "background.primary"
                 }
               }
             }
@@ -3797,7 +4101,7 @@
                   "aliasOf": "nbds.color.neutral.750",
                   "mode": "dark",
                   "contrast": 1.65,
-                  "against": "background.default"
+                  "against": "background.primary"
                 }
               }
             }
@@ -3814,7 +4118,7 @@
                 "aliasOf": "nbds.color.neutral.025",
                 "mode": "dark",
                 "contrast": 18.11,
-                "against": "background.default",
+                "against": "background.primary",
                 "min": 7
               }
             }
@@ -4148,7 +4452,7 @@
                 "aliasOf": "nbds.color.neutral.025",
                 "mode": "dark",
                 "contrast": 18.11,
-                "against": "background.default",
+                "against": "background.primary",
                 "min": 7
               }
             }
@@ -4482,7 +4786,7 @@
                 "aliasOf": "nbds.color.neutral.750",
                 "mode": "dark",
                 "contrast": 1.65,
-                "against": "background.default"
+                "against": "background.primary"
               }
             }
           },
@@ -4496,7 +4800,7 @@
                 "aliasOf": "nbds.color.neutral.500",
                 "mode": "dark",
                 "contrast": 4.23,
-                "against": "background.default"
+                "against": "background.primary"
               }
             }
           },
@@ -4524,7 +4828,7 @@
                 "aliasOf": "nbds.color.red.500",
                 "mode": "dark",
                 "contrast": 4.24,
-                "against": "background.default",
+                "against": "background.primary",
                 "min": 3
               }
             }
@@ -4539,7 +4843,7 @@
                 "aliasOf": "nbds.color.green.500",
                 "mode": "dark",
                 "contrast": 3.97,
-                "against": "background.default",
+                "against": "background.primary",
                 "min": 3
               }
             }
@@ -4554,7 +4858,7 @@
                 "aliasOf": "nbds.color.amber.500",
                 "mode": "dark",
                 "contrast": 4.32,
-                "against": "background.default",
+                "against": "background.primary",
                 "min": 3
               }
             }
@@ -4569,7 +4873,7 @@
                 "aliasOf": "nbds.color.red.500",
                 "mode": "dark",
                 "contrast": 4.24,
-                "against": "background.default",
+                "against": "background.primary",
                 "min": 3
               }
             }
@@ -4584,7 +4888,7 @@
                 "aliasOf": "nbds.color.info.500",
                 "mode": "dark",
                 "contrast": 4.27,
-                "against": "background.default",
+                "against": "background.primary",
                 "min": 3
               }
             }
@@ -4600,7 +4904,7 @@
                   "aliasOf": "nbds.color.neutral.550",
                   "mode": "dark",
                   "contrast": 3.54,
-                  "against": "background.default",
+                  "against": "background.primary",
                   "min": 3
                 }
               }
@@ -4615,7 +4919,7 @@
                   "aliasOf": "nbds.color.neutral.450",
                   "mode": "dark",
                   "contrast": 5.06,
-                  "against": "background.default",
+                  "against": "background.primary",
                   "min": 3
                 }
               }
@@ -4630,7 +4934,7 @@
                   "aliasOf": "nbds.color.red.450",
                   "mode": "dark",
                   "contrast": 5.05,
-                  "against": "background.default",
+                  "against": "background.primary",
                   "min": 3
                 }
               }
@@ -4645,7 +4949,7 @@
                   "aliasOf": "nbds.color.neutral.550",
                   "mode": "dark",
                   "contrast": 3.54,
-                  "against": "background.default",
+                  "against": "background.primary",
                   "min": 3
                 }
               }
@@ -4655,10 +4959,10 @@
       },
       "hc-light": {
         "background": {
-          "default": {
+          "primary": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Default page surface",
+            "$description": "Page surface (elevation 1 — base)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -4669,10 +4973,10 @@
               }
             }
           },
-          "raised": {
+          "secondary": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Raised surface — cards / panels",
+            "$description": "Raised surface (elevation 2 — cards / panels)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -4683,10 +4987,10 @@
               }
             }
           },
-          "overlay": {
+          "tertiary": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Overlay surface — menus / dialogs / popovers",
+            "$description": "Higher surface (elevation 3 — nested / menus)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -4697,14 +5001,14 @@
               }
             }
           },
-          "sunken": {
+          "quaternary": {
             "$type": "color",
-            "$value": "{nbds.color.neutral.200}",
-            "$description": "Sunken surface — wells / insets",
+            "$value": "{nbds.color.white}",
+            "$description": "Floating surface (elevation 4 — dialogs / popovers)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.neutral.200",
+                "aliasOf": "nbds.color.white",
                 "mode": "hc-light",
                 "contrast": 1,
                 "against": "self"
@@ -4714,11 +5018,25 @@
           "subtle": {
             "$type": "color",
             "$value": "{nbds.color.neutral.050}",
-            "$description": "Subtle surface — secondary muted fill",
+            "$description": "Subtle surface — muted grouped fill (off the ladder)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
                 "aliasOf": "nbds.color.neutral.050",
+                "mode": "hc-light",
+                "contrast": 1,
+                "against": "self"
+              }
+            }
+          },
+          "sunken": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.200}",
+            "$description": "Sunken surface — wells / insets (below the page)",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.neutral.200",
                 "mode": "hc-light",
                 "contrast": 1,
                 "against": "self"
@@ -4810,6 +5128,22 @@
             }
           }
         },
+        "scrim": {
+          "default": {
+            "$type": "color",
+            "$value": "{nbds.color.black-alpha.60}",
+            "$description": "Scrim — 60% black backdrop (modals / drawers)",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.black-alpha.60",
+                "mode": "hc-light",
+                "contrast": 1,
+                "against": "self"
+              }
+            }
+          }
+        },
         "foreground": {
           "primary": {
             "$type": "color",
@@ -4821,7 +5155,7 @@
                 "aliasOf": "nbds.color.neutral.950",
                 "mode": "hc-light",
                 "contrast": 19.44,
-                "against": "background.default"
+                "against": "background.primary"
               }
             }
           },
@@ -4835,7 +5169,7 @@
                 "aliasOf": "nbds.color.neutral.200",
                 "mode": "hc-light",
                 "contrast": 1.81,
-                "against": "background.default"
+                "against": "background.primary"
               }
             }
           },
@@ -4849,7 +5183,7 @@
                 "aliasOf": "nbds.color.neutral.100",
                 "mode": "hc-light",
                 "contrast": 1.38,
-                "against": "background.default"
+                "against": "background.primary"
               }
             }
           },
@@ -5013,7 +5347,7 @@
                   "aliasOf": "nbds.color.neutral.200",
                   "mode": "hc-light",
                   "contrast": 1.81,
-                  "against": "background.default"
+                  "against": "background.primary"
                 }
               }
             }
@@ -5104,7 +5438,7 @@
                   "aliasOf": "nbds.color.neutral.200",
                   "mode": "hc-light",
                   "contrast": 1.81,
-                  "against": "background.default"
+                  "against": "background.primary"
                 }
               }
             }
@@ -5121,7 +5455,7 @@
                 "aliasOf": "nbds.color.black",
                 "mode": "hc-light",
                 "contrast": 21,
-                "against": "background.default",
+                "against": "background.primary",
                 "min": 15
               }
             }
@@ -5455,7 +5789,7 @@
                 "aliasOf": "nbds.color.black",
                 "mode": "hc-light",
                 "contrast": 21,
-                "against": "background.default",
+                "against": "background.primary",
                 "min": 15
               }
             }
@@ -5789,7 +6123,7 @@
                 "aliasOf": "nbds.color.neutral.500",
                 "mode": "hc-light",
                 "contrast": 4.59,
-                "against": "background.default"
+                "against": "background.primary"
               }
             }
           },
@@ -5803,7 +6137,7 @@
                 "aliasOf": "nbds.color.neutral.700",
                 "mode": "hc-light",
                 "contrast": 9.84,
-                "against": "background.default"
+                "against": "background.primary"
               }
             }
           },
@@ -5831,7 +6165,7 @@
                 "aliasOf": "nbds.color.red.500",
                 "mode": "hc-light",
                 "contrast": 4.58,
-                "against": "background.default",
+                "against": "background.primary",
                 "min": 4.5
               }
             }
@@ -5846,7 +6180,7 @@
                 "aliasOf": "nbds.color.green.500",
                 "mode": "hc-light",
                 "contrast": 4.89,
-                "against": "background.default",
+                "against": "background.primary",
                 "min": 4.5
               }
             }
@@ -5861,7 +6195,7 @@
                 "aliasOf": "nbds.color.amber.500",
                 "mode": "hc-light",
                 "contrast": 4.5,
-                "against": "background.default",
+                "against": "background.primary",
                 "min": 4.5
               }
             }
@@ -5876,7 +6210,7 @@
                 "aliasOf": "nbds.color.red.500",
                 "mode": "hc-light",
                 "contrast": 4.58,
-                "against": "background.default",
+                "against": "background.primary",
                 "min": 4.5
               }
             }
@@ -5891,7 +6225,7 @@
                 "aliasOf": "nbds.color.info.500",
                 "mode": "hc-light",
                 "contrast": 4.56,
-                "against": "background.default",
+                "against": "background.primary",
                 "min": 4.5
               }
             }
@@ -5907,7 +6241,7 @@
                   "aliasOf": "nbds.color.neutral.500",
                   "mode": "hc-light",
                   "contrast": 4.59,
-                  "against": "background.default",
+                  "against": "background.primary",
                   "min": 4.5
                 }
               }
@@ -5922,7 +6256,7 @@
                   "aliasOf": "nbds.color.neutral.600",
                   "mode": "hc-light",
                   "contrast": 6.69,
-                  "against": "background.default",
+                  "against": "background.primary",
                   "min": 4.5
                 }
               }
@@ -5937,7 +6271,7 @@
                   "aliasOf": "nbds.color.red.700",
                   "mode": "hc-light",
                   "contrast": 10.03,
-                  "against": "background.default",
+                  "against": "background.primary",
                   "min": 4.5
                 }
               }
@@ -5952,7 +6286,7 @@
                   "aliasOf": "nbds.color.neutral.500",
                   "mode": "hc-light",
                   "contrast": 4.59,
-                  "against": "background.default",
+                  "against": "background.primary",
                   "min": 4.5
                 }
               }
@@ -5962,10 +6296,10 @@
       },
       "hc-dark": {
         "background": {
-          "default": {
+          "primary": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "Default page surface",
+            "$description": "Page surface (elevation 1 — base)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -5976,10 +6310,10 @@
               }
             }
           },
-          "raised": {
+          "secondary": {
             "$type": "color",
             "$value": "{nbds.color.neutral.900}",
-            "$description": "Raised surface — cards / panels",
+            "$description": "Raised surface (elevation 2 — cards / panels)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -5990,10 +6324,10 @@
               }
             }
           },
-          "overlay": {
+          "tertiary": {
             "$type": "color",
             "$value": "{nbds.color.neutral.850}",
-            "$description": "Overlay surface — menus / dialogs / popovers",
+            "$description": "Higher surface (elevation 3 — nested / menus)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -6004,14 +6338,14 @@
               }
             }
           },
-          "sunken": {
+          "quaternary": {
             "$type": "color",
-            "$value": "{nbds.color.black}",
-            "$description": "Sunken surface — wells / insets",
+            "$value": "{nbds.color.neutral.800}",
+            "$description": "Floating surface (elevation 4 — dialogs / popovers)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.black",
+                "aliasOf": "nbds.color.neutral.800",
                 "mode": "hc-dark",
                 "contrast": 1,
                 "against": "self"
@@ -6021,11 +6355,25 @@
           "subtle": {
             "$type": "color",
             "$value": "{nbds.color.neutral.900}",
-            "$description": "Subtle surface — secondary muted fill",
+            "$description": "Subtle surface — muted grouped fill (off the ladder)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
                 "aliasOf": "nbds.color.neutral.900",
+                "mode": "hc-dark",
+                "contrast": 1,
+                "against": "self"
+              }
+            }
+          },
+          "sunken": {
+            "$type": "color",
+            "$value": "{nbds.color.black}",
+            "$description": "Sunken surface — wells / insets (below the page)",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.black",
                 "mode": "hc-dark",
                 "contrast": 1,
                 "against": "self"
@@ -6117,6 +6465,22 @@
             }
           }
         },
+        "scrim": {
+          "default": {
+            "$type": "color",
+            "$value": "{nbds.color.black-alpha.70}",
+            "$description": "Scrim — 70% black backdrop (modals / drawers)",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.black-alpha.70",
+                "mode": "hc-dark",
+                "contrast": 1,
+                "against": "self"
+              }
+            }
+          }
+        },
         "foreground": {
           "primary": {
             "$type": "color",
@@ -6128,7 +6492,7 @@
                 "aliasOf": "nbds.color.neutral.025",
                 "mode": "hc-dark",
                 "contrast": 19.57,
-                "against": "background.default"
+                "against": "background.primary"
               }
             }
           },
@@ -6142,7 +6506,7 @@
                 "aliasOf": "nbds.color.neutral.700",
                 "mode": "hc-dark",
                 "contrast": 2.13,
-                "against": "background.default"
+                "against": "background.primary"
               }
             }
           },
@@ -6156,7 +6520,7 @@
                 "aliasOf": "nbds.color.neutral.800",
                 "mode": "hc-dark",
                 "contrast": 1.51,
-                "against": "background.default"
+                "against": "background.primary"
               }
             }
           },
@@ -6320,7 +6684,7 @@
                   "aliasOf": "nbds.color.neutral.750",
                   "mode": "hc-dark",
                   "contrast": 1.78,
-                  "against": "background.default"
+                  "against": "background.primary"
                 }
               }
             }
@@ -6411,7 +6775,7 @@
                   "aliasOf": "nbds.color.neutral.750",
                   "mode": "hc-dark",
                   "contrast": 1.78,
-                  "against": "background.default"
+                  "against": "background.primary"
                 }
               }
             }
@@ -6428,7 +6792,7 @@
                 "aliasOf": "nbds.color.white",
                 "mode": "hc-dark",
                 "contrast": 21,
-                "against": "background.default",
+                "against": "background.primary",
                 "min": 15
               }
             }
@@ -6762,7 +7126,7 @@
                 "aliasOf": "nbds.color.white",
                 "mode": "hc-dark",
                 "contrast": 21,
-                "against": "background.default",
+                "against": "background.primary",
                 "min": 15
               }
             }
@@ -7096,7 +7460,7 @@
                 "aliasOf": "nbds.color.neutral.500",
                 "mode": "hc-dark",
                 "contrast": 4.57,
-                "against": "background.default"
+                "against": "background.primary"
               }
             }
           },
@@ -7110,7 +7474,7 @@
                 "aliasOf": "nbds.color.neutral.250",
                 "mode": "hc-dark",
                 "contrast": 10.09,
-                "against": "background.default"
+                "against": "background.primary"
               }
             }
           },
@@ -7138,7 +7502,7 @@
                 "aliasOf": "nbds.color.red.500",
                 "mode": "hc-dark",
                 "contrast": 4.58,
-                "against": "background.default",
+                "against": "background.primary",
                 "min": 4.5
               }
             }
@@ -7153,7 +7517,7 @@
                 "aliasOf": "nbds.color.green.450",
                 "mode": "hc-dark",
                 "contrast": 5.11,
-                "against": "background.default",
+                "against": "background.primary",
                 "min": 4.5
               }
             }
@@ -7168,7 +7532,7 @@
                 "aliasOf": "nbds.color.amber.500",
                 "mode": "hc-dark",
                 "contrast": 4.67,
-                "against": "background.default",
+                "against": "background.primary",
                 "min": 4.5
               }
             }
@@ -7183,7 +7547,7 @@
                 "aliasOf": "nbds.color.red.500",
                 "mode": "hc-dark",
                 "contrast": 4.58,
-                "against": "background.default",
+                "against": "background.primary",
                 "min": 4.5
               }
             }
@@ -7198,7 +7562,7 @@
                 "aliasOf": "nbds.color.info.500",
                 "mode": "hc-dark",
                 "contrast": 4.61,
-                "against": "background.default",
+                "against": "background.primary",
                 "min": 4.5
               }
             }
@@ -7214,7 +7578,7 @@
                   "aliasOf": "nbds.color.neutral.500",
                   "mode": "hc-dark",
                   "contrast": 4.57,
-                  "against": "background.default",
+                  "against": "background.primary",
                   "min": 4.5
                 }
               }
@@ -7229,7 +7593,7 @@
                   "aliasOf": "nbds.color.neutral.350",
                   "mode": "hc-dark",
                   "contrast": 7.49,
-                  "against": "background.default",
+                  "against": "background.primary",
                   "min": 4.5
                 }
               }
@@ -7244,7 +7608,7 @@
                   "aliasOf": "nbds.color.red.300",
                   "mode": "hc-dark",
                   "contrast": 8.77,
-                  "against": "background.default",
+                  "against": "background.primary",
                   "min": 4.5
                 }
               }
@@ -7259,11 +7623,133 @@
                   "aliasOf": "nbds.color.neutral.500",
                   "mode": "hc-dark",
                   "contrast": 4.57,
-                  "against": "background.default",
+                  "against": "background.primary",
                   "min": 4.5
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "opacity": {
+      "0": {
+        "$type": "number",
+        "$value": 0,
+        "$description": "opacity 0% (0)",
+        "$extensions": {
+          "prism3": {
+            "generated": true
+          }
+        }
+      },
+      "5": {
+        "$type": "number",
+        "$value": 0.05,
+        "$description": "opacity 5% (0.05)",
+        "$extensions": {
+          "prism3": {
+            "generated": true
+          }
+        }
+      },
+      "10": {
+        "$type": "number",
+        "$value": 0.1,
+        "$description": "opacity 10% (0.1)",
+        "$extensions": {
+          "prism3": {
+            "generated": true
+          }
+        }
+      },
+      "20": {
+        "$type": "number",
+        "$value": 0.2,
+        "$description": "opacity 20% (0.2)",
+        "$extensions": {
+          "prism3": {
+            "generated": true
+          }
+        }
+      },
+      "30": {
+        "$type": "number",
+        "$value": 0.3,
+        "$description": "opacity 30% (0.3)",
+        "$extensions": {
+          "prism3": {
+            "generated": true
+          }
+        }
+      },
+      "40": {
+        "$type": "number",
+        "$value": 0.4,
+        "$description": "opacity 40% (0.4)",
+        "$extensions": {
+          "prism3": {
+            "generated": true
+          }
+        }
+      },
+      "50": {
+        "$type": "number",
+        "$value": 0.5,
+        "$description": "opacity 50% (0.5)",
+        "$extensions": {
+          "prism3": {
+            "generated": true
+          }
+        }
+      },
+      "60": {
+        "$type": "number",
+        "$value": 0.6,
+        "$description": "opacity 60% (0.6)",
+        "$extensions": {
+          "prism3": {
+            "generated": true
+          }
+        }
+      },
+      "70": {
+        "$type": "number",
+        "$value": 0.7,
+        "$description": "opacity 70% (0.7)",
+        "$extensions": {
+          "prism3": {
+            "generated": true
+          }
+        }
+      },
+      "80": {
+        "$type": "number",
+        "$value": 0.8,
+        "$description": "opacity 80% (0.8)",
+        "$extensions": {
+          "prism3": {
+            "generated": true
+          }
+        }
+      },
+      "90": {
+        "$type": "number",
+        "$value": 0.9,
+        "$description": "opacity 90% (0.9)",
+        "$extensions": {
+          "prism3": {
+            "generated": true
+          }
+        }
+      },
+      "100": {
+        "$type": "number",
+        "$value": 1,
+        "$description": "opacity 100% (1)",
+        "$extensions": {
+          "prism3": {
+            "generated": true
           }
         }
       }
