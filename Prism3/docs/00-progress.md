@@ -46,7 +46,8 @@ Prism3/
 │   ├── 00-progress.md              ← this file (status + decisions + next steps)
 │   ├── 01-token-architecture.md    ← the architecture spec / Theme Schema contract
 │   ├── 02-nb-regression-pass.md    ← the NB regression: method + measured results
-│   └── 03-open-questions.md         ← semantic-layer decision backlog (elevation, scrim/opacity, disabled, white/black)
+│   ├── 03-open-questions.md         ← semantic-layer decision backlog (elevation, scrim/opacity, disabled, white/black)
+│   └── 04-theming-playground.md     ← direction note: live theming dashboard / preview surface (web + Figma)
 ├── schema/
 │   ├── theme-schema.json           ← brand input contract (JSON Schema)
 │   └── theme-schema.example.json   ← worked NB input (anchors, hues, etc.)
@@ -274,6 +275,11 @@ stack) before pipeline plumbing — it tests the white-label thesis harder.
    toggle — parked by decision; icons currently mirror text, one-line floor swap
    when wanted). Next non-backlog frontiers: shadows/effects axis (deferred from
    Item 1), typography + motion (item 1 above), downstream consumption (item 2).
+7. **Theming playground / dashboard (`04-theming-playground.md`).** Direction
+   note only — a live theming dashboard that reskins real components + composed
+   pages as tokens change (web app lead; Figma plugin as a second surface). The
+   interactive successor to `visualize.ts`; differentiator is a live
+   contrast-contract overlay. Not slated for build; documented for direction.
 
 ---
 
