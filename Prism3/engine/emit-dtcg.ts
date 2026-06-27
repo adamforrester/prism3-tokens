@@ -39,7 +39,7 @@ const bandName: Record<string, string> = {
   ThreeQuarter: 'Three-Quarter-Tone', Shadows: 'Shadow',
 };
 
-type Token = { $type: 'color' | 'dimension' | 'number' | 'string'; $value: string | number; $description: string; $extensions: { prism3: Record<string, unknown> } };
+type Token = { $type: 'color' | 'dimension' | 'number' | 'string' | 'duration' | 'cubicBezier' | 'transition' | 'spring'; $value: string | number | number[] | Record<string, unknown>; $description: string; $extensions: { prism3: Record<string, unknown> } };
 
 // ---- colour leaves ----
 const primitiveLeaf = (theme: Theme, paletteDesc: string, s: Step, isAnchor: boolean): Token => {
@@ -71,6 +71,24 @@ const numLeaf = (value: number, description: string): Token => ({
 const strLeaf = (value: string, description: string): Token => ({
   $type: 'string', $value: value, $description: description,
   $extensions: { prism3: { generated: true } },
+});
+// ---- motion leaves ----
+const durLeaf = (ms: number, description: string): Token => ({
+  $type: 'duration', $value: `${ms}ms`, $description: description,
+  $extensions: { prism3: { generated: true, ms } },
+});
+const bezierLeaf = (b: number[], description: string): Token => ({
+  $type: 'cubicBezier', $value: b, $description: description,
+  $extensions: { prism3: { generated: true } },
+});
+const springLeaf = (p: { damping: number; stiffness: number }, description: string): Token => ({
+  $type: 'spring', $value: p, $description: description,
+  $extensions: { prism3: { generated: true, note: 'non-standard DTCG type; web → linear()/CSS, native → stiffness/damping/mass' } },
+});
+// Composite (DTCG transition): bundles duration + easing by intent.
+const transitionLeaf = (durPath: string, easePath: string, description: string): Token => ({
+  $type: 'transition', $value: { duration: `{${durPath}}`, timingFunction: `{${easePath}}`, delay: '0ms' },
+  $description: description, $extensions: { prism3: { role: 'composite' } },
 });
 
 // ---- dimension leaves ----
@@ -190,8 +208,18 @@ const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats: Stats
     },
   };
 
+  // ---- motion axis — generated from the `tempo` personality lever ----
+  const m = theme.motion;
+  const motion: Record<string, any> = { duration: {}, 'duration-reduced': {}, easing: {}, spring: {}, transition: {} };
+  for (const [k, v] of Object.entries(m.duration)) motion.duration[k] = durLeaf(v, `motion duration ${k} — ${v}ms (tempo: ${m.tempo})`);
+  for (const [k, v] of Object.entries(m.durationReduced)) motion['duration-reduced'][k] = durLeaf(v, `reduce-motion ${k} — ${v}ms${v === 0 ? ' (eliminated — substitute a cross-fade)' : ''}`);
+  for (const [k, v] of Object.entries(m.easing)) motion.easing[k] = bezierLeaf(v, `easing ${k}${k === 'calm' ? ' — accessibility: soft onset for long/involuntary motion' : ''}`);
+  for (const [k, v] of Object.entries(m.spring)) motion.spring[k] = springLeaf(v, `spring ${k} — damping ${v.damping}, stiffness ${v.stiffness}`);
+  for (const t of m.transitions) motion.transition[t.name] = transitionLeaf(`${root}.motion.duration.${t.duration}`, `${root}.motion.easing.${t.easing}`, `motion ${t.name} — ${t.desc} (${t.duration} + ${t.easing})`);
+  motion.stagger = durLeaf(m.stagger, `stagger standard — ${m.stagger}ms between siblings`);
+
   // ---- assemble under the brand root ----
-  const brand = { color, semantic, opacity, dimension, space, radius, 'border-width': borderWidth, focus, size };
+  const brand = { color, semantic, opacity, motion, dimension, space, radius, 'border-width': borderWidth, focus, size };
   const tree = {
     [root]: brand,
     $extensions: {
@@ -210,8 +238,17 @@ const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats: Stats
   const walk = (node: any, path: string[]) => {
     if (node && typeof node === 'object') {
       if (node.$type !== undefined) {
-        const m = typeof node.$value === 'string' && node.$value.match(/^\{(.+)\}$/);
-        if (m) aliases.push({ path: path.join('.'), ref: m[1] });
+        const v = node.$value;
+        if (typeof v === 'string') {
+          const m = v.match(/^\{(.+)\}$/);
+          if (m) aliases.push({ path: path.join('.'), ref: m[1] });
+        } else if (v && typeof v === 'object' && !Array.isArray(v)) {
+          // composite token (e.g. transition): validate aliases in sub-values
+          for (const sv of Object.values(v)) if (typeof sv === 'string') {
+            const m = sv.match(/^\{(.+)\}$/);
+            if (m) aliases.push({ path: path.join('.'), ref: m[1] });
+          }
+        }
         return;
       }
       for (const [k, v] of Object.entries(node)) if (!k.startsWith('$')) walk(v, [...path, k]);
@@ -248,6 +285,8 @@ const aurora: BrandInput = {
   // Exercise the icon-contrast lever: aurora's icons use the WCAG 1.4.11 non-text
   // floor (3:1), so secondary/semantic icons run lighter than the matching text.
   iconContrast: '3:1',
+  // Exercise the motion lever: a snappy tempo compresses the duration ramp vs NB's standard.
+  motionPersonality: { tempo: 'snappy' },
 };
 
 const themes: Theme[] = [nbTheme(), brandTheme(aurora)];

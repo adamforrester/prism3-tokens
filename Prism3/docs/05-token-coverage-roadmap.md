@@ -18,7 +18,7 @@
 | **Focus** | NB `focus` | ✅ Done | ring width/offset/offset-field/style; colour = `border.interactive.focused` | — |
 | **Icon 3:1 toggle** | (colour sub-item) | ✅ Done | `iconContrast: 'text' \| '3:1'` theme input | — |
 | **Breakpoints** | NB `core-breakpoint` | ⏸ Parked for discussion | fluid vs fixed + grid coupling — needs a decision | **low** |
-| **Motion** | NB `core-motion`, `motion` | ❌ Missing | `motionPersonality` (schema stub) → duration + easing | **low–med** |
+| **Motion** | NB `core-motion`, `motion` | ✅ Done | `motionPersonality.tempo` → duration ramp; easing roles + springs + composites + derived reduce-motion | — |
 | **Layout** | NB `layout` | ❌ Missing | grid columns/gutter/margin per breakpoint | **low–med** |
 | **Shadow / elevation** | NB `shadows` | ❌ Missing | elevation lever → ramp, mode-aware | **medium** |
 | **Typography** | NB `core-typography`, `typography` | ❌ Missing | families + modular ratio + base (schema stub) | **large** |
@@ -97,7 +97,10 @@
 
 1. ~~**Quick-win batch** — border width + focus dims + icon toggle~~ ✅ done
    (2026-06-27). Breakpoints split out — parked for discussion (fluid vs fixed).
-2. **Motion** — wire the `motionPersonality` lever (quick, schema stub exists).
+2. ~~**Motion** — wire the `motionPersonality` lever~~ ✅ done (2026-06-27):
+   `tempo`-scaled duration ramp, easing roles (+ `calm` a11y curve), M3 springs,
+   Atlassian-style composite transitions, derived informational/vestibular
+   reduce-motion. Aurora demos `snappy`.
 3. **Typography** — the headline lever (largest value).
 4. **Shadow** — completes elevation; reuses alpha primitives + the surface ladder.
 5. **Layout** — responsive grid on top of breakpoints.

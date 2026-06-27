@@ -27,7 +27,7 @@ Headline numbers (regenerate with the commands below):
 | Tonal-band contrast contracts | **11/11** | (same engine) |
 | Cross-mode contrast contracts | **268/268** | **268/268** |
 | **Dimension axis, exact** (Prism2 space + NB radius) | **21/21** | n/a |
-| DTCG semantic aliases resolve (color + dim + size) | **399/399** | **399/399** |
+| DTCG semantic aliases resolve (color + dim + size) | **407/407** | **407/407** |
 | Color primitives / dim grid emitted | 122 / 37 | 162 / 36 |
 | Brand palettes / action source | red / **action = brand** (red) | primary+accent+… / **action = accent ≠ brand** |
 | Form factor | comfortable / radius 1 (sharp) | compact / radius 2 (soft) |
@@ -140,6 +140,19 @@ npx tsx Prism3/engine/emit-dtcg.ts       # emit DTCG + modes, validate
   page (aurora `neutral.50`) lets cards step to white. *Rationale:* user decision
   after research — numbered ladder honours prior practice + the field's
   use-case-neutral camp; shadows deferred to an effects pass (KB lift pattern).
+- **Motion axis — generated from a `tempo` personality lever (backlog roadmap §motion).**
+  Decided against a 7-system survey + KB `18-motion-foundations`. The motion analog
+  of the density/radius levers: `motionPersonality.tempo` (snappy/standard/relaxed)
+  scales a non-linear duration ramp; easing roles (`standard`/`enter`=decelerate/
+  `exit`=accelerate/`emphasized` + a `calm` accessibility curve) ship field-verified
+  beziers (Carbon/M3); springs (`snappy`/`gentle`/`bouncy`) carry M3 spatial params
+  by perceptual outcome; **composite `transition.*` tokens** bundle duration+easing
+  (Atlassian model — the AI-trustworthy layer); reduce-motion is a **derived**
+  output (Apple "substitute, don't delete": informational preserved/floored,
+  vestibular → 0), not a hand list. Where we beat NB's fixed ramp: the personality
+  lever, composites, the `calm` a11y curve, and derived reduce-motion. Aurora demos
+  `snappy` (ramp compresses 50/100/200… → 40/80/160…). Motion is mode-invariant
+  (sibling of the dimension axis), not per-mode colour.
 - **Contrast is validated against the floor surface, not the pure extreme.**
   Saturated, contract-bearing foregrounds (action + states, vivid semantic text,
   secondary/tertiary text) clear

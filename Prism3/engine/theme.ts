@@ -64,6 +64,7 @@ export type Theme = {
   // than text. `icon.primary` stays strong either way.
   iconContrast: 'text' | '3:1';
   dims: Dims;
+  motion: MotionAxis;
   notes: string[];                   // human-readable record of engine decisions
 };
 
@@ -128,6 +129,10 @@ export type BrandInput = {
   /** Icon contrast floor. Default 'text' (icons mirror text, 4.5:1). '3:1'
    *  resolves icons against the WCAG 1.4.11 non-text floor so they may diverge. */
   iconContrast?: 'text' | '3:1';
+  /** Motion personality (schema-optional #6). `tempo` scales the duration ramp;
+   *  `easingEmphasized` overrides the expressive curve. Reduce-motion variants are
+   *  always derived. Omit for the 'standard' tempo. */
+  motionPersonality?: MotionPersonality;
   /** Dimension axis levers (schema-required #4/#5). Defaults reproduce a
    *  conventional 4px-grid / 8px-rhythm, sharp-corner system. */
   baseUnit?: number;                 // fine dimension grid base (px), default 4
@@ -146,6 +151,67 @@ const buildDims = (baseUnit: number, spaceBase: number, density: Density, rScale
   radiusScaleValue: rScale,
   spaceBase,
 });
+
+// ---------------------------------------------------------------------------
+// Motion axis — generated from a single personality lever (`tempo`), the motion
+// analog of the density/radius levers. Grounded in 18-motion-foundations + a
+// 7-system field survey: a non-linear duration ramp scaled by tempo; the
+// convergent easing roles (standard/enter=decelerate/exit=accelerate/emphasized)
+// + a `calm` accessibility curve; M3-sourced springs by perceptual outcome;
+// Atlassian-style composite transitions; and reduce-motion as a DERIVED output
+// (Apple "substitute, don't delete": small informational motion preserved/floored,
+// large/vestibular motion eliminated) — not a hand-maintained second list.
+export type Bezier = [number, number, number, number];
+export type MotionPersonality = {
+  tempo?: 'snappy' | 'standard' | 'relaxed';   // scales the base duration ramp
+  easingEmphasized?: Bezier;                    // optional override for the expressive curve
+};
+export type MotionAxis = {
+  tempo: 'snappy' | 'standard' | 'relaxed';
+  duration: Record<string, number>;            // ms, semantic roles (tempo-scaled)
+  durationReduced: Record<string, number>;     // ms, reduce-motion variants (derived)
+  easing: Record<string, Bezier>;
+  spring: Record<string, { damping: number; stiffness: number }>;
+  stagger: number;                             // ms between staggered siblings
+  transitions: { name: string; duration: string; easing: string; desc: string }[];
+};
+
+const DURATION_BASE: Record<string, number> = { instant: 50, fast: 100, normal: 200, moderate: 300, slow: 500, slower: 800 };
+const TEMPO_FACTOR = { snappy: 0.8, standard: 1, relaxed: 1.3 } as const;
+const round5 = (n: number) => Math.round(n / 5) * 5;
+
+const buildMotion = (p: MotionPersonality = {}): MotionAxis => {
+  const tempo = p.tempo ?? 'standard';
+  const f = TEMPO_FACTOR[tempo];
+  const duration: Record<string, number> = {};
+  for (const [k, v] of Object.entries(DURATION_BASE)) duration[k] = round5(v * f);
+  // reduce-motion: ≤100ms (informational) preserved; ≤200ms floored to 50; larger
+  // (vestibular/decorative) → 0 (substituted by an instant cross-fade downstream).
+  const durationReduced: Record<string, number> = {};
+  for (const [k, v] of Object.entries(duration)) durationReduced[k] = v <= 100 ? v : v <= 200 ? 50 : 0;
+  const easing: Record<string, Bezier> = {
+    linear: [0, 0, 1, 1],
+    standard: [0.2, 0, 0, 1],          // symmetric in-place (M3 standard)
+    enter: [0, 0, 0.2, 1],             // decelerate — settles into place
+    exit: [0.4, 0, 1, 1],              // accelerate — gets out of the way
+    emphasized: p.easingEmphasized ?? [0.4, 0.14, 0.3, 1],  // expressive (Carbon expressive-standard)
+    calm: [0.4, 0, 0.6, 1],            // a11y: soft onset for long/involuntary motion
+  };
+  const spring = {
+    snappy: { damping: 0.9, stiffness: 700 },   // M3 standard spatial — fast settle, no overshoot
+    gentle: { damping: 0.8, stiffness: 380 },   // M3 expressive spatial — natural settle
+    bouncy: { damping: 0.6, stiffness: 800 },   // M3 expressive fast — overshoot (expressive layer)
+  };
+  return {
+    tempo, duration, durationReduced, easing, spring, stagger: round5(40 * f),
+    transitions: [
+      { name: 'default', duration: 'normal', easing: 'standard', desc: 'standard in-place transition' },
+      { name: 'enter', duration: 'normal', easing: 'enter', desc: 'entrance — element settles in' },
+      { name: 'exit', duration: 'fast', easing: 'exit', desc: 'exit — element accelerates out' },
+      { name: 'emphasized', duration: 'moderate', easing: 'emphasized', desc: 'expressive / hero moment' },
+    ],
+  };
+};
 
 export const brandTheme = (input: BrandInput): Theme => {
   const notes: string[] = [];
@@ -204,6 +270,7 @@ export const brandTheme = (input: BrandInput): Theme => {
   const rScale = input.radiusScale ?? 1;
   const baseMd = input.baseMd ?? 4;
   notes.push(`dimension axis: ${baseUnit}px grid, ${spaceBase}px space rhythm, density '${density}' (drives component sizes), radius scale ${rScale} (baseMd ${baseMd}px)`);
+  notes.push(`motion: tempo '${input.motionPersonality?.tempo ?? 'standard'}' scales the duration ramp; easing roles + springs + composite transitions generated; reduce-motion variants derived (informational preserved, vestibular → 0)`);
   const dStrat = input.disabledStrategy ?? 'accessible';
   notes.push(dStrat === 'accessible'
     ? `disabled: 'accessible' — disabled text/icon/border clears ${input.disabledMin ?? 3}:1 on the floor (legible, contrast-preserving; the field-rare default). Set disabledStrategy:'conventional' for the sub-AA exempt look.`
@@ -226,6 +293,7 @@ export const brandTheme = (input: BrandInput): Theme => {
     disabledMin: input.disabledMin ?? 3,
     iconContrast: input.iconContrast ?? 'text',
     dims: buildDims(baseUnit, spaceBase, density, rScale, baseMd),
+    motion: buildMotion(input.motionPersonality),
   };
 };
 
@@ -272,7 +340,7 @@ export const nbTheme = (): Theme => {
     roleToPalette: { brand: 'red', neutral: 'neutral', success: 'green', warning: 'amber', danger: 'red', info: 'info', action: 'red' },
     roleAnchorStep: { brand: 550, neutral: 500, success: 500, warning: 500, danger: 550, info: 500, action: 550 },
     disabledStrategy: 'accessible', disabledMin: 3, iconContrast: 'text',
-    dims,
+    dims, motion: buildMotion(),
     notes: [
       'NB regression: measured anchors; brand red also serves as danger (NB brand hue is its danger hue).',
       `dimension axis: ${baseUnit}px grid, 8px space rhythm (Prism2 numbered scale), comfortable density, radius scale 1 (baseMd ${baseMd}px).`,

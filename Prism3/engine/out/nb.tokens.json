@@ -7754,6 +7754,349 @@
         }
       }
     },
+    "motion": {
+      "duration": {
+        "instant": {
+          "$type": "duration",
+          "$value": "50ms",
+          "$description": "motion duration instant — 50ms (tempo: standard)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "ms": 50
+            }
+          }
+        },
+        "fast": {
+          "$type": "duration",
+          "$value": "100ms",
+          "$description": "motion duration fast — 100ms (tempo: standard)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "ms": 100
+            }
+          }
+        },
+        "normal": {
+          "$type": "duration",
+          "$value": "200ms",
+          "$description": "motion duration normal — 200ms (tempo: standard)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "ms": 200
+            }
+          }
+        },
+        "moderate": {
+          "$type": "duration",
+          "$value": "300ms",
+          "$description": "motion duration moderate — 300ms (tempo: standard)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "ms": 300
+            }
+          }
+        },
+        "slow": {
+          "$type": "duration",
+          "$value": "500ms",
+          "$description": "motion duration slow — 500ms (tempo: standard)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "ms": 500
+            }
+          }
+        },
+        "slower": {
+          "$type": "duration",
+          "$value": "800ms",
+          "$description": "motion duration slower — 800ms (tempo: standard)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "ms": 800
+            }
+          }
+        }
+      },
+      "duration-reduced": {
+        "instant": {
+          "$type": "duration",
+          "$value": "50ms",
+          "$description": "reduce-motion instant — 50ms",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "ms": 50
+            }
+          }
+        },
+        "fast": {
+          "$type": "duration",
+          "$value": "100ms",
+          "$description": "reduce-motion fast — 100ms",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "ms": 100
+            }
+          }
+        },
+        "normal": {
+          "$type": "duration",
+          "$value": "50ms",
+          "$description": "reduce-motion normal — 50ms",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "ms": 50
+            }
+          }
+        },
+        "moderate": {
+          "$type": "duration",
+          "$value": "0ms",
+          "$description": "reduce-motion moderate — 0ms (eliminated — substitute a cross-fade)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "ms": 0
+            }
+          }
+        },
+        "slow": {
+          "$type": "duration",
+          "$value": "0ms",
+          "$description": "reduce-motion slow — 0ms (eliminated — substitute a cross-fade)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "ms": 0
+            }
+          }
+        },
+        "slower": {
+          "$type": "duration",
+          "$value": "0ms",
+          "$description": "reduce-motion slower — 0ms (eliminated — substitute a cross-fade)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "ms": 0
+            }
+          }
+        }
+      },
+      "easing": {
+        "linear": {
+          "$type": "cubicBezier",
+          "$value": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "$description": "easing linear",
+          "$extensions": {
+            "prism3": {
+              "generated": true
+            }
+          }
+        },
+        "standard": {
+          "$type": "cubicBezier",
+          "$value": [
+            0.2,
+            0,
+            0,
+            1
+          ],
+          "$description": "easing standard",
+          "$extensions": {
+            "prism3": {
+              "generated": true
+            }
+          }
+        },
+        "enter": {
+          "$type": "cubicBezier",
+          "$value": [
+            0,
+            0,
+            0.2,
+            1
+          ],
+          "$description": "easing enter",
+          "$extensions": {
+            "prism3": {
+              "generated": true
+            }
+          }
+        },
+        "exit": {
+          "$type": "cubicBezier",
+          "$value": [
+            0.4,
+            0,
+            1,
+            1
+          ],
+          "$description": "easing exit",
+          "$extensions": {
+            "prism3": {
+              "generated": true
+            }
+          }
+        },
+        "emphasized": {
+          "$type": "cubicBezier",
+          "$value": [
+            0.4,
+            0.14,
+            0.3,
+            1
+          ],
+          "$description": "easing emphasized",
+          "$extensions": {
+            "prism3": {
+              "generated": true
+            }
+          }
+        },
+        "calm": {
+          "$type": "cubicBezier",
+          "$value": [
+            0.4,
+            0,
+            0.6,
+            1
+          ],
+          "$description": "easing calm — accessibility: soft onset for long/involuntary motion",
+          "$extensions": {
+            "prism3": {
+              "generated": true
+            }
+          }
+        }
+      },
+      "spring": {
+        "snappy": {
+          "$type": "spring",
+          "$value": {
+            "damping": 0.9,
+            "stiffness": 700
+          },
+          "$description": "spring snappy — damping 0.9, stiffness 700",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "note": "non-standard DTCG type; web → linear()/CSS, native → stiffness/damping/mass"
+            }
+          }
+        },
+        "gentle": {
+          "$type": "spring",
+          "$value": {
+            "damping": 0.8,
+            "stiffness": 380
+          },
+          "$description": "spring gentle — damping 0.8, stiffness 380",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "note": "non-standard DTCG type; web → linear()/CSS, native → stiffness/damping/mass"
+            }
+          }
+        },
+        "bouncy": {
+          "$type": "spring",
+          "$value": {
+            "damping": 0.6,
+            "stiffness": 800
+          },
+          "$description": "spring bouncy — damping 0.6, stiffness 800",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "note": "non-standard DTCG type; web → linear()/CSS, native → stiffness/damping/mass"
+            }
+          }
+        }
+      },
+      "transition": {
+        "default": {
+          "$type": "transition",
+          "$value": {
+            "duration": "{nbds.motion.duration.normal}",
+            "timingFunction": "{nbds.motion.easing.standard}",
+            "delay": "0ms"
+          },
+          "$description": "motion default — standard in-place transition (normal + standard)",
+          "$extensions": {
+            "prism3": {
+              "role": "composite"
+            }
+          }
+        },
+        "enter": {
+          "$type": "transition",
+          "$value": {
+            "duration": "{nbds.motion.duration.normal}",
+            "timingFunction": "{nbds.motion.easing.enter}",
+            "delay": "0ms"
+          },
+          "$description": "motion enter — entrance — element settles in (normal + enter)",
+          "$extensions": {
+            "prism3": {
+              "role": "composite"
+            }
+          }
+        },
+        "exit": {
+          "$type": "transition",
+          "$value": {
+            "duration": "{nbds.motion.duration.fast}",
+            "timingFunction": "{nbds.motion.easing.exit}",
+            "delay": "0ms"
+          },
+          "$description": "motion exit — exit — element accelerates out (fast + exit)",
+          "$extensions": {
+            "prism3": {
+              "role": "composite"
+            }
+          }
+        },
+        "emphasized": {
+          "$type": "transition",
+          "$value": {
+            "duration": "{nbds.motion.duration.moderate}",
+            "timingFunction": "{nbds.motion.easing.emphasized}",
+            "delay": "0ms"
+          },
+          "$description": "motion emphasized — expressive / hero moment (moderate + emphasized)",
+          "$extensions": {
+            "prism3": {
+              "role": "composite"
+            }
+          }
+        }
+      },
+      "stagger": {
+        "$type": "duration",
+        "$value": "40ms",
+        "$description": "stagger standard — 40ms between siblings",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "ms": 40
+          }
+        }
+      }
+    },
     "dimension": {
       "0": {
         "$type": "dimension",

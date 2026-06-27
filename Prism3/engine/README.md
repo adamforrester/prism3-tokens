@@ -147,13 +147,28 @@ equality, not ΔE: **21/21** (16 space + 5 radius) from `spaceBase=8` /
 `radius.scale=1`. Aurora runs a different form factor (compact / soft) through
 the identical code path.
 
+## Motion axis (duration · easing · spring · transition)
+
+Mode-invariant, generated from one personality lever — `motionPersonality.tempo`
+(snappy/standard/relaxed) scales a non-linear **duration** ramp; **easing** ships
+field-verified beziers by role (`standard`/`enter`=decelerate/`exit`=accelerate/
+`emphasized`, plus a `calm` accessibility curve); **spring** tokens
+(`snappy`/`gentle`/`bouncy`) carry M3 spatial params by perceptual outcome;
+**composite `transition.*`** tokens bundle a duration + easing (the Atlassian
+"intent" layer); and **reduce-motion is derived** (`duration-reduced`: informational
+motion preserved/floored, vestibular → 0 — Apple "substitute, don't delete").
+Beats a fixed single-brand ramp via the lever, composites, the `calm` curve, and
+derived reduce-motion. Grounded in KB `18-motion-foundations` + a 7-system survey.
+
 ## What it currently does / doesn't
 
 **Does:** exact anchor preservation; anchor-pinned L interpolation; chroma arc;
 gamut-aware chroma; **contrast-role-targeted placement** (Mid-Tone 500 pinned to
 the dual-side AA luminance pivot so all band contracts pass); band classification;
 WCAG contract checks; **the dimension axis** (grid + numbered space + radius +
-density-driven component sizes, 21/21 exact vs Prism2 space + NB radius);
+density-driven component sizes, 21/21 exact vs Prism2 space + NB radius); **the
+motion axis** (tempo-generated durations + easing/spring/composite-transition +
+derived reduce-motion); border-width, focus, opacity/alpha + scrim primitives;
 two-brand emit in two dialects.
 
 **Deliberately not reproduced:**
