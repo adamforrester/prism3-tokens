@@ -47,7 +47,8 @@ Prism3/
 │   ├── 01-token-architecture.md    ← the architecture spec / Theme Schema contract
 │   ├── 02-nb-regression-pass.md    ← the NB regression: method + measured results
 │   ├── 03-open-questions.md         ← semantic-layer decision backlog (elevation, scrim/opacity, disabled, white/black)
-│   └── 04-theming-playground.md     ← direction note: live theming dashboard / preview surface (web + Figma)
+│   ├── 04-theming-playground.md     ← direction note: live theming dashboard / preview surface (web + Figma)
+│   └── 05-token-coverage-roadmap.md ← build backlog: remaining token categories (type, motion, shadow, layout, …)
 ├── schema/
 │   ├── theme-schema.json           ← brand input contract (JSON Schema)
 │   └── theme-schema.example.json   ← worked NB input (anchors, hues, etc.)
@@ -248,14 +249,15 @@ npx tsx Prism3/engine/emit-dtcg.ts       # emit DTCG + modes, validate
 Reordered per external review: prove breadth (a second brand through the full
 stack) before pipeline plumbing — it tests the white-label thesis harder.
 
-1. **Finish "beyond color": typography + motion.** Space, radius, and a first
-   component-size layer are DONE (the dimension axis above). Still to do: the
-   modular type scale / weight ladder / fluid triplets from `typography`, and the
-   motion duration/easing ramp from `motionPersonality`. Typography is the bigger
-   lever (the font-swap white-label claim) and the larger remaining gap.
-   Component sizing is a prototype — the height/padding *values* are sensible
-   defaults, not yet validated against a real component set; revisit when the
-   component layer is real.
+1. **Finish "beyond color" — see the full build backlog in `05-token-coverage-roadmap.md`.**
+   Colour + the dimension axis (grid/space/radius/sizes) are DONE. Remaining token
+   categories mapped against what NB + Prism2 actually ship: **typography** (the
+   headline font-swap lever), **shadow** (mode-aware; reuses the alpha primitives +
+   surface ladder), **motion** (`motionPersonality` lever), **layout/breakpoints**,
+   plus quick wins (**border-width**, **focus** ring dims, **icon 3:1 toggle**,
+   breakpoints) and brand-artistic **gradients** (Prism2). Component sizing is a
+   prototype — values are sensible defaults, not yet validated against a real
+   component set; revisit when the component layer is real.
 2. **Prove downstream consumption.** Feed `out/*.tokens.json` through Style
    Dictionary and/or the Figma MCP — confirm a real tool ingests it and the four
    modes map to Figma variable modes. Turns "generation" into "pipeline".
