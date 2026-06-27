@@ -36,7 +36,7 @@ Node ≥ 20. No `npm install` needed — the color math is self-contained
 - `modes.ts` — appearance modes (light / dark / hc-light / hc-dark). Resolves each semantic role to a primitive step by contrast target against the mode's surface. Brand-agnostic — paths/palette names come from the `Theme`.
 - `nb-regression.ts` — diffs generated NB ramps against the real NB tokens (ΔE00 per step), checks the contrast contracts, writes `nb-regression-report.md`.
 - `emit-dtcg.ts` — emits a DTCG tree per theme (`out/<id>.tokens.json`), generates the per-mode semantic layer, validates every alias resolves, every mode contrast contract holds, and the BrandInput conforms to the schema; writes `modes-report.md` + the `.ai.json` sidecar.
-- `ai-metadata.ts` — generates `out/<id>.ai.json`, the agent-readable metadata sidecar for the semantic layer (`meaning`, `when_to_use`, `avoid_when`, `paired_with`, `contrast_with`, `mode_overrides`), per KB 31-color-systems §9. All fields generated/contract-true; keeps `tokens.json` DTCG-pure.
+- `ai-metadata.ts` — generates `out/<id>.ai.json`, the agent-readable metadata sidecar. Two tiers: **semantic** (full schema — `meaning`, `when_to_use`, `avoid_when`, `paired_with`, `contrast_with`, `mode_overrides`, per KB 31-color-systems §9) and **primitive** (simplified — `meaning`, `tier`, `consume`, and `aliased_by`, the reverse index of which tokens resolve to it → a bidirectional graph for impact analysis). All fields generated/contract-true; keeps `tokens.json` DTCG-pure.
 - `test.ts` — colour-math invariants + extreme-brand contract smoke tests (65 checks).
 - generated outputs (committed so results are reviewable without running): `nb-regression-report.md`, `modes-report.md`, `out/nb.tokens.json`, `out/aurora.tokens.json`.
 

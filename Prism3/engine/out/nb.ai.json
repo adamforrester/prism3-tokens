@@ -2,8 +2,8 @@
   "$schema": "prism3-ai-metadata/0.1",
   "brand": "nb",
   "generated": true,
-  "note": "Agent-readable metadata for the semantic token layer; companion to nb.tokens.json (DTCG tokens). Fields per knowledge-base 31-color-systems §9. All fields generated from the role model + computed contracts — contract-true and regenerated each build.",
-  "fields": [
+  "note": "Agent-readable metadata, companion to nb.tokens.json. The semantic tier carries the full schema (knowledge-base 31-color-systems §9); the primitive tier a simplified set + `aliased_by` (the reverse index — which tokens resolve to it). All generated and contract-true; regenerated each build.",
+  "semantic_fields": [
     "$description",
     "meaning",
     "when_to_use",
@@ -12,7 +12,14 @@
     "contrast_with",
     "mode_overrides"
   ],
-  "tokens": {
+  "primitive_fields": [
+    "$description",
+    "meaning",
+    "tier",
+    "consume",
+    "aliased_by"
+  ],
+  "semantic": {
     "background.primary": {
       "$description": "Elevation 1 container surface (page → floating).",
       "meaning": "Container elevation / depth",
@@ -219,7 +226,7 @@
     "foreground.primary": {
       "$description": "Primary (highest-emphasis) neutral element fill.",
       "meaning": "Neutral element emphasis",
-      "when_to_use": "Solid neutral fill for chips, neutral buttons, controls.",
+      "when_to_use": "High-emphasis neutral elements — neutral/secondary buttons, strong chips.",
       "avoid_when": "Do not use for text/icons (use text.*/icon.*) or page surfaces (use background.*).",
       "mode_overrides": {
         "light": "{nbds.color.neutral.950}",
@@ -231,7 +238,7 @@
     "foreground.secondary": {
       "$description": "Secondary neutral element fill.",
       "meaning": "Neutral element emphasis",
-      "when_to_use": "Solid neutral fill for chips, neutral buttons, controls.",
+      "when_to_use": "Medium-emphasis neutral fills — subtle buttons, chips.",
       "avoid_when": "Do not use for text/icons (use text.*/icon.*) or page surfaces (use background.*).",
       "mode_overrides": {
         "light": "{nbds.color.neutral.200}",
@@ -243,7 +250,7 @@
     "foreground.tertiary": {
       "$description": "Tertiary (subtle) neutral element fill.",
       "meaning": "Neutral element emphasis",
-      "when_to_use": "Solid neutral fill for chips, neutral buttons, controls.",
+      "when_to_use": "Low-emphasis neutral fills — ghost buttons, hover wells.",
       "avoid_when": "Do not use for text/icons (use text.*/icon.*) or page surfaces (use background.*).",
       "mode_overrides": {
         "light": "{nbds.color.neutral.100}",
@@ -359,7 +366,7 @@
     "foreground.interactive.default": {
       "$description": "Interactive (action) fill (default state).",
       "meaning": "Interactivity / actions",
-      "when_to_use": "Primary interactive surfaces — buttons, toggles, selected controls in the default state.",
+      "when_to_use": "Primary interactive surfaces — buttons, toggles, controls.",
       "avoid_when": "Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background.*).",
       "mode_overrides": {
         "light": "{nbds.color.red.550}",
@@ -382,7 +389,7 @@
     "foreground.danger.default": {
       "$description": "Destructive / error fill (default state).",
       "meaning": "Destructive / error signalling",
-      "when_to_use": "Destructive actions — delete/remove buttons, error fills in the default state.",
+      "when_to_use": "Destructive actions — delete/remove buttons, error fills.",
       "avoid_when": "Do not use for non-destructive actions (use foreground.interactive) or warnings (use foreground.warning).",
       "mode_overrides": {
         "light": "{nbds.color.red.550}",
@@ -405,7 +412,7 @@
     "foreground.interactive.hover": {
       "$description": "Interactive (action) fill (hover state).",
       "meaning": "Interactivity / actions",
-      "when_to_use": "Primary interactive surfaces — buttons, toggles, selected controls in the hover state.",
+      "when_to_use": "Primary interactive surfaces — buttons, toggles, controls on pointer hover.",
       "avoid_when": "Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background.*).",
       "mode_overrides": {
         "light": "{nbds.color.red.600}",
@@ -428,7 +435,7 @@
     "foreground.danger.hover": {
       "$description": "Destructive / error fill (hover state).",
       "meaning": "Destructive / error signalling",
-      "when_to_use": "Destructive actions — delete/remove buttons, error fills in the hover state.",
+      "when_to_use": "Destructive actions — delete/remove buttons, error fills on pointer hover.",
       "avoid_when": "Do not use for non-destructive actions (use foreground.interactive) or warnings (use foreground.warning).",
       "mode_overrides": {
         "light": "{nbds.color.red.600}",
@@ -451,7 +458,7 @@
     "foreground.interactive.pressed": {
       "$description": "Interactive (action) fill (pressed state).",
       "meaning": "Interactivity / actions",
-      "when_to_use": "Primary interactive surfaces — buttons, toggles, selected controls in the pressed state.",
+      "when_to_use": "Primary interactive surfaces — buttons, toggles, controls while pressed.",
       "avoid_when": "Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background.*).",
       "mode_overrides": {
         "light": "{nbds.color.red.650}",
@@ -474,7 +481,7 @@
     "foreground.danger.pressed": {
       "$description": "Destructive / error fill (pressed state).",
       "meaning": "Destructive / error signalling",
-      "when_to_use": "Destructive actions — delete/remove buttons, error fills in the pressed state.",
+      "when_to_use": "Destructive actions — delete/remove buttons, error fills while pressed.",
       "avoid_when": "Do not use for non-destructive actions (use foreground.interactive) or warnings (use foreground.warning).",
       "mode_overrides": {
         "light": "{nbds.color.red.650}",
@@ -497,7 +504,7 @@
     "foreground.interactive.focused": {
       "$description": "Interactive (action) fill (focused state).",
       "meaning": "Interactivity / actions",
-      "when_to_use": "Primary interactive surfaces — buttons, toggles, selected controls in the focused state.",
+      "when_to_use": "Primary interactive surfaces — buttons, toggles, controls when keyboard-focused.",
       "avoid_when": "Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background.*).",
       "mode_overrides": {
         "light": "{nbds.color.red.600}",
@@ -520,7 +527,7 @@
     "foreground.danger.focused": {
       "$description": "Destructive / error fill (focused state).",
       "meaning": "Destructive / error signalling",
-      "when_to_use": "Destructive actions — delete/remove buttons, error fills in the focused state.",
+      "when_to_use": "Destructive actions — delete/remove buttons, error fills when keyboard-focused.",
       "avoid_when": "Do not use for non-destructive actions (use foreground.interactive) or warnings (use foreground.warning).",
       "mode_overrides": {
         "light": "{nbds.color.red.600}",
@@ -543,7 +550,7 @@
     "foreground.interactive.selected": {
       "$description": "Interactive (action) fill (selected state).",
       "meaning": "Interactivity / actions",
-      "when_to_use": "Primary interactive surfaces — buttons, toggles, selected controls in the selected state.",
+      "when_to_use": "Primary interactive surfaces — buttons, toggles, controls when selected / active.",
       "avoid_when": "Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background.*).",
       "mode_overrides": {
         "light": "{nbds.color.red.650}",
@@ -566,7 +573,7 @@
     "foreground.danger.selected": {
       "$description": "Destructive / error fill (selected state).",
       "meaning": "Destructive / error signalling",
-      "when_to_use": "Destructive actions — delete/remove buttons, error fills in the selected state.",
+      "when_to_use": "Destructive actions — delete/remove buttons, error fills when selected / active.",
       "avoid_when": "Do not use for non-destructive actions (use foreground.interactive) or warnings (use foreground.warning).",
       "mode_overrides": {
         "light": "{nbds.color.red.650}",
@@ -589,7 +596,7 @@
     "foreground.interactive.disabled": {
       "$description": "Interactive (action) fill (disabled state).",
       "meaning": "Interactivity / actions",
-      "when_to_use": "Primary interactive surfaces — buttons, toggles, selected controls in the disabled state.",
+      "when_to_use": "Primary interactive surfaces — buttons, toggles, controls when disabled / unavailable.",
       "avoid_when": "Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background.*).",
       "mode_overrides": {
         "light": "{nbds.color.neutral.200}",
@@ -605,7 +612,7 @@
     "foreground.danger.disabled": {
       "$description": "Destructive / error fill (disabled state).",
       "meaning": "Destructive / error signalling",
-      "when_to_use": "Destructive actions — delete/remove buttons, error fills in the disabled state.",
+      "when_to_use": "Destructive actions — delete/remove buttons, error fills when disabled / unavailable.",
       "avoid_when": "Do not use for non-destructive actions (use foreground.interactive) or warnings (use foreground.warning).",
       "mode_overrides": {
         "light": "{nbds.color.neutral.200}",
@@ -998,7 +1005,7 @@
     "text.interactive.default": {
       "$description": "Link (interactive text) (default state).",
       "meaning": "Interactivity / actions",
-      "when_to_use": "Hyperlinks and interactive text in the default state.",
+      "when_to_use": "Hyperlinks and interactive text.",
       "avoid_when": "Do not use for non-interactive text (use text.primary).",
       "mode_overrides": {
         "light": "{nbds.color.red.550}",
@@ -1017,7 +1024,7 @@
     "text.interactive.hover": {
       "$description": "Link (interactive text) (hover state).",
       "meaning": "Interactivity / actions",
-      "when_to_use": "Hyperlinks and interactive text in the hover state.",
+      "when_to_use": "Hyperlinks and interactive text on pointer hover.",
       "avoid_when": "Do not use for non-interactive text (use text.primary).",
       "mode_overrides": {
         "light": "{nbds.color.red.600}",
@@ -1036,7 +1043,7 @@
     "text.interactive.visited": {
       "$description": "Link (interactive text) (visited state).",
       "meaning": "Interactivity / actions",
-      "when_to_use": "Hyperlinks and interactive text in the visited state.",
+      "when_to_use": "Hyperlinks and interactive text after it has been visited.",
       "avoid_when": "Do not use for non-interactive text (use text.primary).",
       "mode_overrides": {
         "light": "{nbds.color.red.650}",
@@ -1055,7 +1062,7 @@
     "text.interactive.focused": {
       "$description": "Link (interactive text) (focused state).",
       "meaning": "Interactivity / actions",
-      "when_to_use": "Hyperlinks and interactive text in the focused state.",
+      "when_to_use": "Hyperlinks and interactive text when keyboard-focused.",
       "avoid_when": "Do not use for non-interactive text (use text.primary).",
       "mode_overrides": {
         "light": "{nbds.color.red.550}",
@@ -1074,7 +1081,7 @@
     "text.interactive.disabled": {
       "$description": "Link (interactive text) (disabled state).",
       "meaning": "Interactivity / actions",
-      "when_to_use": "Hyperlinks and interactive text in the disabled state.",
+      "when_to_use": "Hyperlinks and interactive text when disabled / unavailable.",
       "avoid_when": "Do not use for non-interactive text (use text.primary).",
       "mode_overrides": {
         "light": "{nbds.color.neutral.450}",
@@ -1470,7 +1477,7 @@
     "icon.interactive.default": {
       "$description": "Link (interactive icon) (default state).",
       "meaning": "Interactivity / actions",
-      "when_to_use": "Hyperlinks and interactive icon in the default state.",
+      "when_to_use": "Hyperlinks and interactive icon.",
       "avoid_when": "Do not use for non-interactive icon (use icon.primary).",
       "mode_overrides": {
         "light": "{nbds.color.red.550}",
@@ -1489,7 +1496,7 @@
     "icon.interactive.hover": {
       "$description": "Link (interactive icon) (hover state).",
       "meaning": "Interactivity / actions",
-      "when_to_use": "Hyperlinks and interactive icon in the hover state.",
+      "when_to_use": "Hyperlinks and interactive icon on pointer hover.",
       "avoid_when": "Do not use for non-interactive icon (use icon.primary).",
       "mode_overrides": {
         "light": "{nbds.color.red.600}",
@@ -1508,7 +1515,7 @@
     "icon.interactive.visited": {
       "$description": "Link (interactive icon) (visited state).",
       "meaning": "Interactivity / actions",
-      "when_to_use": "Hyperlinks and interactive icon in the visited state.",
+      "when_to_use": "Hyperlinks and interactive icon after it has been visited.",
       "avoid_when": "Do not use for non-interactive icon (use icon.primary).",
       "mode_overrides": {
         "light": "{nbds.color.red.650}",
@@ -1527,7 +1534,7 @@
     "icon.interactive.focused": {
       "$description": "Link (interactive icon) (focused state).",
       "meaning": "Interactivity / actions",
-      "when_to_use": "Hyperlinks and interactive icon in the focused state.",
+      "when_to_use": "Hyperlinks and interactive icon when keyboard-focused.",
       "avoid_when": "Do not use for non-interactive icon (use icon.primary).",
       "mode_overrides": {
         "light": "{nbds.color.red.550}",
@@ -1546,7 +1553,7 @@
     "icon.interactive.disabled": {
       "$description": "Link (interactive icon) (disabled state).",
       "meaning": "Interactivity / actions",
-      "when_to_use": "Hyperlinks and interactive icon in the disabled state.",
+      "when_to_use": "Hyperlinks and interactive icon when disabled / unavailable.",
       "avoid_when": "Do not use for non-interactive icon (use icon.primary).",
       "mode_overrides": {
         "light": "{nbds.color.neutral.450}",
@@ -1699,7 +1706,7 @@
     "border.interactive.default": {
       "$description": "Form-field / control border (default state).",
       "meaning": "Interactivity / actions",
-      "when_to_use": "Borders on inputs and controls in the default state.",
+      "when_to_use": "Borders on inputs and controls.",
       "avoid_when": "Do not use as a decorative divider (use border.default).",
       "mode_overrides": {
         "light": "{nbds.color.neutral.400}",
@@ -1721,7 +1728,7 @@
     "border.interactive.hover": {
       "$description": "Form-field / control border (hover state).",
       "meaning": "Interactivity / actions",
-      "when_to_use": "Borders on inputs and controls in the hover state.",
+      "when_to_use": "Borders on inputs and controls on pointer hover.",
       "avoid_when": "Do not use as a decorative divider (use border.default).",
       "mode_overrides": {
         "light": "{nbds.color.neutral.500}",
@@ -1743,7 +1750,7 @@
     "border.interactive.focused": {
       "$description": "Form-field / control border (focused state).",
       "meaning": "Interactivity / actions",
-      "when_to_use": "The focus ring on interactive elements.",
+      "when_to_use": "The focus ring on interactive elements (keyboard focus).",
       "avoid_when": "Do not use as a decorative divider (use border.default).",
       "mode_overrides": {
         "light": "{nbds.color.red.550}",
@@ -1765,7 +1772,7 @@
     "border.interactive.disabled": {
       "$description": "Form-field / control border (disabled state).",
       "meaning": "Interactivity / actions",
-      "when_to_use": "Borders on inputs and controls in the disabled state.",
+      "when_to_use": "Borders on inputs and controls when disabled / unavailable.",
       "avoid_when": "Do not use as a decorative divider (use border.default).",
       "mode_overrides": {
         "light": "{nbds.color.neutral.400}",
@@ -1783,6 +1790,1739 @@
           "ratio": 3.27
         }
       ]
+    }
+  },
+  "primitives": {
+    "color.white": {
+      "$description": "Pure white — Highlight base / default surface",
+      "meaning": "Pure white primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.hc-dark.icon.primary",
+        "semantic.hc-dark.text.primary",
+        "semantic.hc-light.background.primary",
+        "semantic.hc-light.background.quaternary",
+        "semantic.hc-light.background.secondary",
+        "semantic.hc-light.background.tertiary",
+        "semantic.hc-light.icon.inverse",
+        "semantic.hc-light.icon.on-brand",
+        "semantic.hc-light.icon.on-danger",
+        "semantic.hc-light.icon.on-emphasis",
+        "semantic.hc-light.icon.on-info",
+        "semantic.hc-light.icon.on-interactive",
+        "semantic.hc-light.icon.on-success",
+        "semantic.hc-light.icon.on-warning",
+        "semantic.hc-light.text.inverse",
+        "semantic.hc-light.text.on-brand",
+        "semantic.hc-light.text.on-danger",
+        "semantic.hc-light.text.on-emphasis",
+        "semantic.hc-light.text.on-info",
+        "semantic.hc-light.text.on-interactive",
+        "semantic.hc-light.text.on-success",
+        "semantic.hc-light.text.on-warning",
+        "semantic.light.background.primary",
+        "semantic.light.background.quaternary",
+        "semantic.light.background.secondary",
+        "semantic.light.background.tertiary",
+        "semantic.light.icon.on-brand",
+        "semantic.light.icon.on-danger",
+        "semantic.light.icon.on-emphasis",
+        "semantic.light.icon.on-info",
+        "semantic.light.icon.on-interactive",
+        "semantic.light.icon.on-success",
+        "semantic.light.icon.on-warning",
+        "semantic.light.text.on-brand",
+        "semantic.light.text.on-danger",
+        "semantic.light.text.on-emphasis",
+        "semantic.light.text.on-info",
+        "semantic.light.text.on-interactive",
+        "semantic.light.text.on-success",
+        "semantic.light.text.on-warning"
+      ]
+    },
+    "color.black": {
+      "$description": "Pure black — Shadow base",
+      "meaning": "Pure black primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.dark.background.sunken",
+        "semantic.dark.icon.on-brand",
+        "semantic.dark.icon.on-danger",
+        "semantic.dark.icon.on-emphasis",
+        "semantic.dark.icon.on-info",
+        "semantic.dark.icon.on-interactive",
+        "semantic.dark.icon.on-success",
+        "semantic.dark.icon.on-warning",
+        "semantic.dark.text.on-brand",
+        "semantic.dark.text.on-danger",
+        "semantic.dark.text.on-emphasis",
+        "semantic.dark.text.on-info",
+        "semantic.dark.text.on-interactive",
+        "semantic.dark.text.on-success",
+        "semantic.dark.text.on-warning",
+        "semantic.hc-dark.background.primary",
+        "semantic.hc-dark.background.sunken",
+        "semantic.hc-dark.icon.inverse",
+        "semantic.hc-dark.icon.on-brand",
+        "semantic.hc-dark.icon.on-danger",
+        "semantic.hc-dark.icon.on-emphasis",
+        "semantic.hc-dark.icon.on-info",
+        "semantic.hc-dark.icon.on-interactive",
+        "semantic.hc-dark.icon.on-success",
+        "semantic.hc-dark.icon.on-warning",
+        "semantic.hc-dark.text.inverse",
+        "semantic.hc-dark.text.on-brand",
+        "semantic.hc-dark.text.on-danger",
+        "semantic.hc-dark.text.on-emphasis",
+        "semantic.hc-dark.text.on-info",
+        "semantic.hc-dark.text.on-interactive",
+        "semantic.hc-dark.text.on-success",
+        "semantic.hc-dark.text.on-warning",
+        "semantic.hc-light.icon.primary",
+        "semantic.hc-light.text.primary"
+      ]
+    },
+    "color.red.100": {
+      "$description": "brand (red) 100 — Quarter-Tone band",
+      "meaning": "red ramp — raw step 100",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.hc-light.background.brand-subtle",
+        "semantic.hc-light.background.danger-subtle",
+        "semantic.light.background.brand-subtle",
+        "semantic.light.background.danger-subtle"
+      ]
+    },
+    "color.red.150": {
+      "$description": "brand (red) 150 — Quarter-Tone band",
+      "meaning": "red ramp — raw step 150",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.red.200": {
+      "$description": "brand (red) 200 — Quarter-Tone band",
+      "meaning": "red ramp — raw step 200",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.hc-dark.foreground.danger.pressed",
+        "semantic.hc-dark.foreground.danger.selected",
+        "semantic.hc-dark.foreground.interactive.pressed",
+        "semantic.hc-dark.foreground.interactive.selected",
+        "semantic.hc-dark.icon.interactive.visited",
+        "semantic.hc-dark.text.interactive.visited"
+      ]
+    },
+    "color.red.250": {
+      "$description": "brand (red) 250 — Quarter-Tone band",
+      "meaning": "red ramp — raw step 250",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.hc-dark.foreground.danger.focused",
+        "semantic.hc-dark.foreground.danger.hover",
+        "semantic.hc-dark.foreground.interactive.focused",
+        "semantic.hc-dark.foreground.interactive.hover",
+        "semantic.hc-dark.icon.interactive.hover",
+        "semantic.hc-dark.text.interactive.hover"
+      ]
+    },
+    "color.red.300": {
+      "$description": "brand (red) 300 — Quarter-Tone band",
+      "meaning": "red ramp — raw step 300",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.hc-dark.border.interactive.focused",
+        "semantic.hc-dark.foreground.brand",
+        "semantic.hc-dark.foreground.danger.default",
+        "semantic.hc-dark.foreground.interactive.default",
+        "semantic.hc-dark.icon.brand",
+        "semantic.hc-dark.icon.danger",
+        "semantic.hc-dark.icon.interactive.default",
+        "semantic.hc-dark.icon.interactive.focused",
+        "semantic.hc-dark.text.brand",
+        "semantic.hc-dark.text.danger",
+        "semantic.hc-dark.text.interactive.default",
+        "semantic.hc-dark.text.interactive.focused"
+      ]
+    },
+    "color.red.350": {
+      "$description": "brand (red) 350 — Quarter-Tone band",
+      "meaning": "red ramp — raw step 350",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.dark.foreground.danger.pressed",
+        "semantic.dark.foreground.danger.selected",
+        "semantic.dark.foreground.interactive.pressed",
+        "semantic.dark.foreground.interactive.selected",
+        "semantic.dark.icon.interactive.visited",
+        "semantic.dark.text.interactive.visited"
+      ]
+    },
+    "color.red.400": {
+      "$description": "brand (red) 400 — Mid-Tone band",
+      "meaning": "red ramp — raw step 400",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.dark.foreground.danger.focused",
+        "semantic.dark.foreground.danger.hover",
+        "semantic.dark.foreground.interactive.focused",
+        "semantic.dark.foreground.interactive.hover",
+        "semantic.dark.icon.interactive.hover",
+        "semantic.dark.text.interactive.hover"
+      ]
+    },
+    "color.red.450": {
+      "$description": "brand (red) 450 — Mid-Tone band",
+      "meaning": "red ramp — raw step 450",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.dark.border.interactive.focused",
+        "semantic.dark.foreground.brand",
+        "semantic.dark.foreground.danger.default",
+        "semantic.dark.foreground.interactive.default",
+        "semantic.dark.icon.brand",
+        "semantic.dark.icon.danger",
+        "semantic.dark.icon.interactive.default",
+        "semantic.dark.icon.interactive.focused",
+        "semantic.dark.text.brand",
+        "semantic.dark.text.danger",
+        "semantic.dark.text.interactive.default",
+        "semantic.dark.text.interactive.focused"
+      ]
+    },
+    "color.red.500": {
+      "$description": "brand (red) 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
+      "meaning": "red ramp — raw step 500",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.dark.border.brand",
+        "semantic.dark.border.danger",
+        "semantic.hc-dark.border.brand",
+        "semantic.hc-dark.border.danger",
+        "semantic.hc-light.border.brand",
+        "semantic.hc-light.border.danger",
+        "semantic.light.border.brand",
+        "semantic.light.border.danger"
+      ]
+    },
+    "color.red.550": {
+      "$description": "brand (red) 550 — Mid-Tone band — brand anchor (exact, pinned)",
+      "meaning": "red ramp — raw step 550",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.light.border.interactive.focused",
+        "semantic.light.foreground.brand",
+        "semantic.light.foreground.danger.default",
+        "semantic.light.foreground.interactive.default",
+        "semantic.light.icon.brand",
+        "semantic.light.icon.danger",
+        "semantic.light.icon.interactive.default",
+        "semantic.light.icon.interactive.focused",
+        "semantic.light.text.brand",
+        "semantic.light.text.danger",
+        "semantic.light.text.interactive.default",
+        "semantic.light.text.interactive.focused"
+      ]
+    },
+    "color.red.600": {
+      "$description": "brand (red) 600 — Mid-Tone band",
+      "meaning": "red ramp — raw step 600",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.light.foreground.danger.focused",
+        "semantic.light.foreground.danger.hover",
+        "semantic.light.foreground.interactive.focused",
+        "semantic.light.foreground.interactive.hover",
+        "semantic.light.icon.interactive.hover",
+        "semantic.light.text.interactive.hover"
+      ]
+    },
+    "color.red.650": {
+      "$description": "brand (red) 650 — Three-Quarter-Tone band",
+      "meaning": "red ramp — raw step 650",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.light.foreground.danger.pressed",
+        "semantic.light.foreground.danger.selected",
+        "semantic.light.foreground.interactive.pressed",
+        "semantic.light.foreground.interactive.selected",
+        "semantic.light.icon.interactive.visited",
+        "semantic.light.text.interactive.visited"
+      ]
+    },
+    "color.red.700": {
+      "$description": "brand (red) 700 — Three-Quarter-Tone band",
+      "meaning": "red ramp — raw step 700",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.hc-light.border.interactive.focused",
+        "semantic.hc-light.foreground.brand",
+        "semantic.hc-light.foreground.danger.default",
+        "semantic.hc-light.foreground.interactive.default",
+        "semantic.hc-light.icon.brand",
+        "semantic.hc-light.icon.danger",
+        "semantic.hc-light.icon.interactive.default",
+        "semantic.hc-light.icon.interactive.focused",
+        "semantic.hc-light.text.brand",
+        "semantic.hc-light.text.danger",
+        "semantic.hc-light.text.interactive.default",
+        "semantic.hc-light.text.interactive.focused"
+      ]
+    },
+    "color.red.750": {
+      "$description": "brand (red) 750 — Three-Quarter-Tone band",
+      "meaning": "red ramp — raw step 750",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.hc-light.foreground.danger.focused",
+        "semantic.hc-light.foreground.danger.hover",
+        "semantic.hc-light.foreground.interactive.focused",
+        "semantic.hc-light.foreground.interactive.hover",
+        "semantic.hc-light.icon.interactive.hover",
+        "semantic.hc-light.text.interactive.hover"
+      ]
+    },
+    "color.red.800": {
+      "$description": "brand (red) 800 — Three-Quarter-Tone band",
+      "meaning": "red ramp — raw step 800",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.hc-light.foreground.danger.pressed",
+        "semantic.hc-light.foreground.danger.selected",
+        "semantic.hc-light.foreground.interactive.pressed",
+        "semantic.hc-light.foreground.interactive.selected",
+        "semantic.hc-light.icon.interactive.visited",
+        "semantic.hc-light.text.interactive.visited"
+      ]
+    },
+    "color.red.850": {
+      "$description": "brand (red) 850 — Three-Quarter-Tone band",
+      "meaning": "red ramp — raw step 850",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.red.900": {
+      "$description": "brand (red) 900 — Three-Quarter-Tone band",
+      "meaning": "red ramp — raw step 900",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.dark.background.brand-subtle",
+        "semantic.dark.background.danger-subtle",
+        "semantic.hc-dark.background.brand-subtle",
+        "semantic.hc-dark.background.danger-subtle"
+      ]
+    },
+    "color.red.950": {
+      "$description": "brand (red) 950 — Shadow band",
+      "meaning": "red ramp — raw step 950",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.red.025": {
+      "$description": "brand (red) 025 — Highlight band",
+      "meaning": "red ramp — raw step 025",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.red.050": {
+      "$description": "brand (red) 050 — Highlight band",
+      "meaning": "red ramp — raw step 050",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.green.100": {
+      "$description": "success (green) 100 — Quarter-Tone band",
+      "meaning": "green ramp — raw step 100",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.hc-light.background.success-subtle",
+        "semantic.light.background.success-subtle"
+      ]
+    },
+    "color.green.150": {
+      "$description": "success (green) 150 — Quarter-Tone band",
+      "meaning": "green ramp — raw step 150",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.green.200": {
+      "$description": "success (green) 200 — Quarter-Tone band",
+      "meaning": "green ramp — raw step 200",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.green.250": {
+      "$description": "success (green) 250 — Quarter-Tone band",
+      "meaning": "green ramp — raw step 250",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.green.300": {
+      "$description": "success (green) 300 — Quarter-Tone band",
+      "meaning": "green ramp — raw step 300",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.hc-dark.foreground.success",
+        "semantic.hc-dark.icon.success",
+        "semantic.hc-dark.text.success"
+      ]
+    },
+    "color.green.350": {
+      "$description": "success (green) 350 — Quarter-Tone band",
+      "meaning": "green ramp — raw step 350",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.green.400": {
+      "$description": "success (green) 400 — Mid-Tone band",
+      "meaning": "green ramp — raw step 400",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.dark.foreground.success",
+        "semantic.dark.icon.success",
+        "semantic.dark.text.success"
+      ]
+    },
+    "color.green.450": {
+      "$description": "success (green) 450 — Mid-Tone band",
+      "meaning": "green ramp — raw step 450",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.hc-dark.border.success"
+      ]
+    },
+    "color.green.500": {
+      "$description": "success (green) 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
+      "meaning": "green ramp — raw step 500",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.dark.border.success",
+        "semantic.hc-light.border.success",
+        "semantic.light.border.success"
+      ]
+    },
+    "color.green.550": {
+      "$description": "success (green) 550 — Mid-Tone band",
+      "meaning": "green ramp — raw step 550",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.light.foreground.success",
+        "semantic.light.icon.success",
+        "semantic.light.text.success"
+      ]
+    },
+    "color.green.600": {
+      "$description": "success (green) 600 — Mid-Tone band",
+      "meaning": "green ramp — raw step 600",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.green.650": {
+      "$description": "success (green) 650 — Three-Quarter-Tone band",
+      "meaning": "green ramp — raw step 650",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.green.700": {
+      "$description": "success (green) 700 — Three-Quarter-Tone band",
+      "meaning": "green ramp — raw step 700",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.hc-light.foreground.success",
+        "semantic.hc-light.icon.success",
+        "semantic.hc-light.text.success"
+      ]
+    },
+    "color.green.750": {
+      "$description": "success (green) 750 — Three-Quarter-Tone band",
+      "meaning": "green ramp — raw step 750",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.green.800": {
+      "$description": "success (green) 800 — Three-Quarter-Tone band",
+      "meaning": "green ramp — raw step 800",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.green.850": {
+      "$description": "success (green) 850 — Three-Quarter-Tone band",
+      "meaning": "green ramp — raw step 850",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.green.900": {
+      "$description": "success (green) 900 — Three-Quarter-Tone band",
+      "meaning": "green ramp — raw step 900",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.dark.background.success-subtle",
+        "semantic.hc-dark.background.success-subtle"
+      ]
+    },
+    "color.green.950": {
+      "$description": "success (green) 950 — Shadow band",
+      "meaning": "green ramp — raw step 950",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.green.025": {
+      "$description": "success (green) 025 — Highlight band",
+      "meaning": "green ramp — raw step 025",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.green.050": {
+      "$description": "success (green) 050 — Highlight band",
+      "meaning": "green ramp — raw step 050",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.amber.100": {
+      "$description": "warning (amber) 100 — Quarter-Tone band",
+      "meaning": "amber ramp — raw step 100",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.hc-light.background.warning-subtle",
+        "semantic.light.background.warning-subtle"
+      ]
+    },
+    "color.amber.150": {
+      "$description": "warning (amber) 150 — Quarter-Tone band",
+      "meaning": "amber ramp — raw step 150",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.amber.200": {
+      "$description": "warning (amber) 200 — Quarter-Tone band",
+      "meaning": "amber ramp — raw step 200",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.amber.250": {
+      "$description": "warning (amber) 250 — Quarter-Tone band",
+      "meaning": "amber ramp — raw step 250",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.amber.300": {
+      "$description": "warning (amber) 300 — Quarter-Tone band",
+      "meaning": "amber ramp — raw step 300",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.hc-dark.foreground.warning",
+        "semantic.hc-dark.icon.warning",
+        "semantic.hc-dark.text.warning"
+      ]
+    },
+    "color.amber.350": {
+      "$description": "warning (amber) 350 — Quarter-Tone band",
+      "meaning": "amber ramp — raw step 350",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.amber.400": {
+      "$description": "warning (amber) 400 — Mid-Tone band",
+      "meaning": "amber ramp — raw step 400",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.amber.450": {
+      "$description": "warning (amber) 450 — Mid-Tone band",
+      "meaning": "amber ramp — raw step 450",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.dark.foreground.warning",
+        "semantic.dark.icon.warning",
+        "semantic.dark.text.warning"
+      ]
+    },
+    "color.amber.500": {
+      "$description": "warning (amber) 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
+      "meaning": "amber ramp — raw step 500",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.dark.border.warning",
+        "semantic.hc-dark.border.warning",
+        "semantic.hc-light.border.warning",
+        "semantic.light.border.warning"
+      ]
+    },
+    "color.amber.550": {
+      "$description": "warning (amber) 550 — Mid-Tone band",
+      "meaning": "amber ramp — raw step 550",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.amber.600": {
+      "$description": "warning (amber) 600 — Mid-Tone band",
+      "meaning": "amber ramp — raw step 600",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.light.foreground.warning",
+        "semantic.light.icon.warning",
+        "semantic.light.text.warning"
+      ]
+    },
+    "color.amber.650": {
+      "$description": "warning (amber) 650 — Three-Quarter-Tone band",
+      "meaning": "amber ramp — raw step 650",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.amber.700": {
+      "$description": "warning (amber) 700 — Three-Quarter-Tone band",
+      "meaning": "amber ramp — raw step 700",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.hc-light.foreground.warning",
+        "semantic.hc-light.icon.warning",
+        "semantic.hc-light.text.warning"
+      ]
+    },
+    "color.amber.750": {
+      "$description": "warning (amber) 750 — Three-Quarter-Tone band",
+      "meaning": "amber ramp — raw step 750",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.amber.800": {
+      "$description": "warning (amber) 800 — Three-Quarter-Tone band",
+      "meaning": "amber ramp — raw step 800",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.amber.850": {
+      "$description": "warning (amber) 850 — Three-Quarter-Tone band",
+      "meaning": "amber ramp — raw step 850",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.amber.900": {
+      "$description": "warning (amber) 900 — Three-Quarter-Tone band",
+      "meaning": "amber ramp — raw step 900",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.dark.background.warning-subtle",
+        "semantic.hc-dark.background.warning-subtle"
+      ]
+    },
+    "color.amber.950": {
+      "$description": "warning (amber) 950 — Shadow band",
+      "meaning": "amber ramp — raw step 950",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.amber.025": {
+      "$description": "warning (amber) 025 — Highlight band",
+      "meaning": "amber ramp — raw step 025",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.amber.050": {
+      "$description": "warning (amber) 050 — Highlight band",
+      "meaning": "amber ramp — raw step 050",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.neutral.100": {
+      "$description": "neutral 100 — Quarter-Tone band",
+      "meaning": "neutral ramp — raw step 100",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.dark.background.inverse",
+        "semantic.hc-dark.background.inverse",
+        "semantic.hc-light.foreground.tertiary",
+        "semantic.light.border.default",
+        "semantic.light.foreground.tertiary"
+      ]
+    },
+    "color.neutral.150": {
+      "$description": "neutral 150 — Quarter-Tone band",
+      "meaning": "neutral ramp — raw step 150",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.neutral.200": {
+      "$description": "neutral 200 — Quarter-Tone band",
+      "meaning": "neutral ramp — raw step 200",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.dark.border.inverse",
+        "semantic.hc-light.background.sunken",
+        "semantic.hc-light.foreground.danger.disabled",
+        "semantic.hc-light.foreground.interactive.disabled",
+        "semantic.hc-light.foreground.secondary",
+        "semantic.light.background.sunken",
+        "semantic.light.foreground.danger.disabled",
+        "semantic.light.foreground.interactive.disabled",
+        "semantic.light.foreground.secondary"
+      ]
+    },
+    "color.neutral.250": {
+      "$description": "neutral 250 — Quarter-Tone band",
+      "meaning": "neutral ramp — raw step 250",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.hc-dark.border.strong"
+      ]
+    },
+    "color.neutral.300": {
+      "$description": "neutral 300 — Quarter-Tone band",
+      "meaning": "neutral ramp — raw step 300",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.hc-dark.icon.secondary",
+        "semantic.hc-dark.text.secondary"
+      ]
+    },
+    "color.neutral.350": {
+      "$description": "neutral 350 — Quarter-Tone band",
+      "meaning": "neutral ramp — raw step 350",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.hc-dark.border.interactive.hover"
+      ]
+    },
+    "color.neutral.400": {
+      "$description": "neutral 400 — Mid-Tone band",
+      "meaning": "neutral ramp — raw step 400",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.light.border.interactive.default",
+        "semantic.light.border.interactive.disabled",
+        "semantic.light.border.strong"
+      ]
+    },
+    "color.neutral.450": {
+      "$description": "neutral 450 — Mid-Tone band",
+      "meaning": "neutral ramp — raw step 450",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.dark.border.interactive.hover",
+        "semantic.dark.icon.secondary",
+        "semantic.dark.text.secondary",
+        "semantic.hc-dark.icon.disabled",
+        "semantic.hc-dark.icon.interactive.disabled",
+        "semantic.hc-dark.icon.tertiary",
+        "semantic.hc-dark.text.disabled",
+        "semantic.hc-dark.text.interactive.disabled",
+        "semantic.hc-dark.text.tertiary",
+        "semantic.light.icon.disabled",
+        "semantic.light.icon.interactive.disabled",
+        "semantic.light.icon.tertiary",
+        "semantic.light.text.disabled",
+        "semantic.light.text.interactive.disabled",
+        "semantic.light.text.tertiary"
+      ]
+    },
+    "color.neutral.500": {
+      "$description": "neutral 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
+      "meaning": "neutral ramp — raw step 500",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.dark.border.strong",
+        "semantic.hc-dark.border.default",
+        "semantic.hc-dark.border.interactive.default",
+        "semantic.hc-dark.border.interactive.disabled",
+        "semantic.hc-dark.border.inverse",
+        "semantic.hc-light.border.default",
+        "semantic.hc-light.border.interactive.default",
+        "semantic.hc-light.border.interactive.disabled",
+        "semantic.hc-light.border.inverse",
+        "semantic.light.border.interactive.hover"
+      ]
+    },
+    "color.neutral.550": {
+      "$description": "neutral 550 — Mid-Tone band",
+      "meaning": "neutral ramp — raw step 550",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.dark.border.interactive.default",
+        "semantic.dark.border.interactive.disabled",
+        "semantic.dark.icon.disabled",
+        "semantic.dark.icon.interactive.disabled",
+        "semantic.dark.icon.tertiary",
+        "semantic.dark.text.disabled",
+        "semantic.dark.text.interactive.disabled",
+        "semantic.dark.text.tertiary",
+        "semantic.hc-light.icon.disabled",
+        "semantic.hc-light.icon.interactive.disabled",
+        "semantic.hc-light.icon.tertiary",
+        "semantic.hc-light.text.disabled",
+        "semantic.hc-light.text.interactive.disabled",
+        "semantic.hc-light.text.tertiary",
+        "semantic.light.icon.secondary",
+        "semantic.light.text.secondary"
+      ]
+    },
+    "color.neutral.600": {
+      "$description": "neutral 600 — Mid-Tone band",
+      "meaning": "neutral ramp — raw step 600",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.hc-light.border.interactive.hover"
+      ]
+    },
+    "color.neutral.650": {
+      "$description": "neutral 650 — Three-Quarter-Tone band",
+      "meaning": "neutral ramp — raw step 650",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.neutral.700": {
+      "$description": "neutral 700 — Three-Quarter-Tone band",
+      "meaning": "neutral ramp — raw step 700",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.dark.foreground.secondary",
+        "semantic.hc-dark.foreground.secondary",
+        "semantic.hc-light.border.strong",
+        "semantic.hc-light.icon.secondary",
+        "semantic.hc-light.text.secondary"
+      ]
+    },
+    "color.neutral.750": {
+      "$description": "neutral 750 — Three-Quarter-Tone band",
+      "meaning": "neutral ramp — raw step 750",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.dark.border.default",
+        "semantic.dark.foreground.danger.disabled",
+        "semantic.dark.foreground.interactive.disabled",
+        "semantic.hc-dark.foreground.danger.disabled",
+        "semantic.hc-dark.foreground.interactive.disabled"
+      ]
+    },
+    "color.neutral.800": {
+      "$description": "neutral 800 — Three-Quarter-Tone band",
+      "meaning": "neutral ramp — raw step 800",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.dark.background.quaternary",
+        "semantic.dark.foreground.tertiary",
+        "semantic.hc-dark.background.quaternary",
+        "semantic.hc-dark.foreground.tertiary"
+      ]
+    },
+    "color.neutral.850": {
+      "$description": "neutral 850 — Three-Quarter-Tone band",
+      "meaning": "neutral ramp — raw step 850",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.dark.background.tertiary",
+        "semantic.hc-dark.background.tertiary",
+        "semantic.hc-light.background.inverse",
+        "semantic.light.background.inverse",
+        "semantic.light.border.inverse"
+      ]
+    },
+    "color.neutral.900": {
+      "$description": "neutral 900 — Three-Quarter-Tone band",
+      "meaning": "neutral ramp — raw step 900",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.dark.background.secondary",
+        "semantic.dark.background.subtle",
+        "semantic.dark.foreground.inverse",
+        "semantic.hc-dark.background.secondary",
+        "semantic.hc-dark.background.subtle",
+        "semantic.hc-dark.foreground.inverse"
+      ]
+    },
+    "color.neutral.950": {
+      "$description": "neutral 950 — Shadow band",
+      "meaning": "neutral ramp — raw step 950",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.dark.background.primary",
+        "semantic.dark.icon.inverse",
+        "semantic.dark.text.inverse",
+        "semantic.hc-light.foreground.primary",
+        "semantic.light.foreground.primary",
+        "semantic.light.icon.primary",
+        "semantic.light.text.primary"
+      ]
+    },
+    "color.neutral.025": {
+      "$description": "neutral 025 — Highlight band",
+      "meaning": "neutral ramp — raw step 025",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.dark.foreground.primary",
+        "semantic.dark.icon.primary",
+        "semantic.dark.text.primary",
+        "semantic.hc-dark.foreground.primary",
+        "semantic.light.icon.inverse",
+        "semantic.light.text.inverse"
+      ]
+    },
+    "color.neutral.050": {
+      "$description": "neutral 050 — Highlight band",
+      "meaning": "neutral ramp — raw step 050",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.hc-light.background.subtle",
+        "semantic.hc-light.foreground.inverse",
+        "semantic.light.background.subtle",
+        "semantic.light.foreground.inverse"
+      ]
+    },
+    "color.info.100": {
+      "$description": "info status (engine-synthesised — NB has no blue) 100 — Quarter-Tone band",
+      "meaning": "info ramp — raw step 100",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.hc-light.background.info-subtle",
+        "semantic.light.background.info-subtle"
+      ]
+    },
+    "color.info.150": {
+      "$description": "info status (engine-synthesised — NB has no blue) 150 — Quarter-Tone band",
+      "meaning": "info ramp — raw step 150",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.info.200": {
+      "$description": "info status (engine-synthesised — NB has no blue) 200 — Quarter-Tone band",
+      "meaning": "info ramp — raw step 200",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.info.250": {
+      "$description": "info status (engine-synthesised — NB has no blue) 250 — Quarter-Tone band",
+      "meaning": "info ramp — raw step 250",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.info.300": {
+      "$description": "info status (engine-synthesised — NB has no blue) 300 — Quarter-Tone band",
+      "meaning": "info ramp — raw step 300",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.hc-dark.foreground.info",
+        "semantic.hc-dark.icon.info",
+        "semantic.hc-dark.text.info"
+      ]
+    },
+    "color.info.350": {
+      "$description": "info status (engine-synthesised — NB has no blue) 350 — Quarter-Tone band",
+      "meaning": "info ramp — raw step 350",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.info.400": {
+      "$description": "info status (engine-synthesised — NB has no blue) 400 — Mid-Tone band",
+      "meaning": "info ramp — raw step 400",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.info.450": {
+      "$description": "info status (engine-synthesised — NB has no blue) 450 — Mid-Tone band",
+      "meaning": "info ramp — raw step 450",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.dark.foreground.info",
+        "semantic.dark.icon.info",
+        "semantic.dark.text.info"
+      ]
+    },
+    "color.info.500": {
+      "$description": "info status (engine-synthesised — NB has no blue) 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
+      "meaning": "info ramp — raw step 500",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.dark.border.info",
+        "semantic.hc-dark.border.info",
+        "semantic.hc-light.border.info",
+        "semantic.light.border.info"
+      ]
+    },
+    "color.info.550": {
+      "$description": "info status (engine-synthesised — NB has no blue) 550 — Mid-Tone band",
+      "meaning": "info ramp — raw step 550",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.light.foreground.info",
+        "semantic.light.icon.info",
+        "semantic.light.text.info"
+      ]
+    },
+    "color.info.600": {
+      "$description": "info status (engine-synthesised — NB has no blue) 600 — Mid-Tone band",
+      "meaning": "info ramp — raw step 600",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.info.650": {
+      "$description": "info status (engine-synthesised — NB has no blue) 650 — Three-Quarter-Tone band",
+      "meaning": "info ramp — raw step 650",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.info.700": {
+      "$description": "info status (engine-synthesised — NB has no blue) 700 — Three-Quarter-Tone band",
+      "meaning": "info ramp — raw step 700",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.hc-light.foreground.info",
+        "semantic.hc-light.icon.info",
+        "semantic.hc-light.text.info"
+      ]
+    },
+    "color.info.750": {
+      "$description": "info status (engine-synthesised — NB has no blue) 750 — Three-Quarter-Tone band",
+      "meaning": "info ramp — raw step 750",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.info.800": {
+      "$description": "info status (engine-synthesised — NB has no blue) 800 — Three-Quarter-Tone band",
+      "meaning": "info ramp — raw step 800",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.info.850": {
+      "$description": "info status (engine-synthesised — NB has no blue) 850 — Three-Quarter-Tone band",
+      "meaning": "info ramp — raw step 850",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.info.900": {
+      "$description": "info status (engine-synthesised — NB has no blue) 900 — Three-Quarter-Tone band",
+      "meaning": "info ramp — raw step 900",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.dark.background.info-subtle",
+        "semantic.hc-dark.background.info-subtle"
+      ]
+    },
+    "color.info.950": {
+      "$description": "info status (engine-synthesised — NB has no blue) 950 — Shadow band",
+      "meaning": "info ramp — raw step 950",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.info.025": {
+      "$description": "info status (engine-synthesised — NB has no blue) 025 — Highlight band",
+      "meaning": "info ramp — raw step 025",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.info.050": {
+      "$description": "info status (engine-synthesised — NB has no blue) 050 — Highlight band",
+      "meaning": "info ramp — raw step 050",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.black-alpha.5": {
+      "$description": "Black alpha 5% — alpha, composites over any surface",
+      "meaning": "Black at 5% alpha (composites over any surface)",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.black-alpha.10": {
+      "$description": "Black alpha 10% — alpha, composites over any surface",
+      "meaning": "Black at 10% alpha (composites over any surface)",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.black-alpha.20": {
+      "$description": "Black alpha 20% — alpha, composites over any surface",
+      "meaning": "Black at 20% alpha (composites over any surface)",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.black-alpha.30": {
+      "$description": "Black alpha 30% — alpha, composites over any surface",
+      "meaning": "Black at 30% alpha (composites over any surface)",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.black-alpha.40": {
+      "$description": "Black alpha 40% — alpha, composites over any surface",
+      "meaning": "Black at 40% alpha (composites over any surface)",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.light.scrim.default"
+      ]
+    },
+    "color.black-alpha.50": {
+      "$description": "Black alpha 50% — alpha, composites over any surface",
+      "meaning": "Black at 50% alpha (composites over any surface)",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.black-alpha.60": {
+      "$description": "Black alpha 60% — alpha, composites over any surface",
+      "meaning": "Black at 60% alpha (composites over any surface)",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.dark.scrim.default",
+        "semantic.hc-light.scrim.default"
+      ]
+    },
+    "color.black-alpha.70": {
+      "$description": "Black alpha 70% — alpha, composites over any surface",
+      "meaning": "Black at 70% alpha (composites over any surface)",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.hc-dark.scrim.default"
+      ]
+    },
+    "color.black-alpha.80": {
+      "$description": "Black alpha 80% — alpha, composites over any surface",
+      "meaning": "Black at 80% alpha (composites over any surface)",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.black-alpha.90": {
+      "$description": "Black alpha 90% — alpha, composites over any surface",
+      "meaning": "Black at 90% alpha (composites over any surface)",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.white-alpha.5": {
+      "$description": "White alpha 5% — alpha, composites over any surface",
+      "meaning": "White at 5% alpha (composites over any surface)",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.white-alpha.10": {
+      "$description": "White alpha 10% — alpha, composites over any surface",
+      "meaning": "White at 10% alpha (composites over any surface)",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.white-alpha.20": {
+      "$description": "White alpha 20% — alpha, composites over any surface",
+      "meaning": "White at 20% alpha (composites over any surface)",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.white-alpha.30": {
+      "$description": "White alpha 30% — alpha, composites over any surface",
+      "meaning": "White at 30% alpha (composites over any surface)",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.white-alpha.40": {
+      "$description": "White alpha 40% — alpha, composites over any surface",
+      "meaning": "White at 40% alpha (composites over any surface)",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.white-alpha.50": {
+      "$description": "White alpha 50% — alpha, composites over any surface",
+      "meaning": "White at 50% alpha (composites over any surface)",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.white-alpha.60": {
+      "$description": "White alpha 60% — alpha, composites over any surface",
+      "meaning": "White at 60% alpha (composites over any surface)",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.white-alpha.70": {
+      "$description": "White alpha 70% — alpha, composites over any surface",
+      "meaning": "White at 70% alpha (composites over any surface)",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.white-alpha.80": {
+      "$description": "White alpha 80% — alpha, composites over any surface",
+      "meaning": "White at 80% alpha (composites over any surface)",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "color.white-alpha.90": {
+      "$description": "White alpha 90% — alpha, composites over any surface",
+      "meaning": "White at 90% alpha (composites over any surface)",
+      "tier": "primitive",
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+    },
+    "opacity.0": {
+      "$description": "opacity 0% (0)",
+      "meaning": "Opacity scale primitive",
+      "tier": "primitive",
+      "consume": "Consumable — reference directly for custom alpha (or use the scrim / disabled tokens)."
+    },
+    "opacity.5": {
+      "$description": "opacity 5% (0.05)",
+      "meaning": "Opacity scale primitive",
+      "tier": "primitive",
+      "consume": "Consumable — reference directly for custom alpha (or use the scrim / disabled tokens)."
+    },
+    "opacity.10": {
+      "$description": "opacity 10% (0.1)",
+      "meaning": "Opacity scale primitive",
+      "tier": "primitive",
+      "consume": "Consumable — reference directly for custom alpha (or use the scrim / disabled tokens)."
+    },
+    "opacity.20": {
+      "$description": "opacity 20% (0.2)",
+      "meaning": "Opacity scale primitive",
+      "tier": "primitive",
+      "consume": "Consumable — reference directly for custom alpha (or use the scrim / disabled tokens)."
+    },
+    "opacity.30": {
+      "$description": "opacity 30% (0.3)",
+      "meaning": "Opacity scale primitive",
+      "tier": "primitive",
+      "consume": "Consumable — reference directly for custom alpha (or use the scrim / disabled tokens)."
+    },
+    "opacity.40": {
+      "$description": "opacity 40% (0.4)",
+      "meaning": "Opacity scale primitive",
+      "tier": "primitive",
+      "consume": "Consumable — reference directly for custom alpha (or use the scrim / disabled tokens)."
+    },
+    "opacity.50": {
+      "$description": "opacity 50% (0.5)",
+      "meaning": "Opacity scale primitive",
+      "tier": "primitive",
+      "consume": "Consumable — reference directly for custom alpha (or use the scrim / disabled tokens)."
+    },
+    "opacity.60": {
+      "$description": "opacity 60% (0.6)",
+      "meaning": "Opacity scale primitive",
+      "tier": "primitive",
+      "consume": "Consumable — reference directly for custom alpha (or use the scrim / disabled tokens)."
+    },
+    "opacity.70": {
+      "$description": "opacity 70% (0.7)",
+      "meaning": "Opacity scale primitive",
+      "tier": "primitive",
+      "consume": "Consumable — reference directly for custom alpha (or use the scrim / disabled tokens)."
+    },
+    "opacity.80": {
+      "$description": "opacity 80% (0.8)",
+      "meaning": "Opacity scale primitive",
+      "tier": "primitive",
+      "consume": "Consumable — reference directly for custom alpha (or use the scrim / disabled tokens)."
+    },
+    "opacity.90": {
+      "$description": "opacity 90% (0.9)",
+      "meaning": "Opacity scale primitive",
+      "tier": "primitive",
+      "consume": "Consumable — reference directly for custom alpha (or use the scrim / disabled tokens)."
+    },
+    "opacity.100": {
+      "$description": "opacity 100% (1)",
+      "meaning": "Opacity scale primitive",
+      "tier": "primitive",
+      "consume": "Consumable — reference directly for custom alpha (or use the scrim / disabled tokens)."
+    },
+    "motion.duration.instant": {
+      "$description": "motion duration instant — 50ms (tempo: standard)",
+      "meaning": "Motion duration primitive",
+      "tier": "primitive",
+      "consume": "Consumable — motion durations/easings/springs are used directly; transitions compose them."
+    },
+    "motion.duration.fast": {
+      "$description": "motion duration fast — 100ms (tempo: standard)",
+      "meaning": "Motion duration primitive",
+      "tier": "primitive",
+      "consume": "Consumable — motion durations/easings/springs are used directly; transitions compose them.",
+      "aliased_by": [
+        "motion.transition.exit"
+      ]
+    },
+    "motion.duration.normal": {
+      "$description": "motion duration normal — 200ms (tempo: standard)",
+      "meaning": "Motion duration primitive",
+      "tier": "primitive",
+      "consume": "Consumable — motion durations/easings/springs are used directly; transitions compose them.",
+      "aliased_by": [
+        "motion.transition.default",
+        "motion.transition.enter"
+      ]
+    },
+    "motion.duration.moderate": {
+      "$description": "motion duration moderate — 300ms (tempo: standard)",
+      "meaning": "Motion duration primitive",
+      "tier": "primitive",
+      "consume": "Consumable — motion durations/easings/springs are used directly; transitions compose them.",
+      "aliased_by": [
+        "motion.transition.emphasized"
+      ]
+    },
+    "motion.duration.slow": {
+      "$description": "motion duration slow — 500ms (tempo: standard)",
+      "meaning": "Motion duration primitive",
+      "tier": "primitive",
+      "consume": "Consumable — motion durations/easings/springs are used directly; transitions compose them."
+    },
+    "motion.duration.slower": {
+      "$description": "motion duration slower — 800ms (tempo: standard)",
+      "meaning": "Motion duration primitive",
+      "tier": "primitive",
+      "consume": "Consumable — motion durations/easings/springs are used directly; transitions compose them."
+    },
+    "motion.duration-reduced.instant": {
+      "$description": "reduce-motion instant — 50ms",
+      "meaning": "Motion duration primitive",
+      "tier": "primitive",
+      "consume": "Consumable — motion durations/easings/springs are used directly; transitions compose them."
+    },
+    "motion.duration-reduced.fast": {
+      "$description": "reduce-motion fast — 100ms",
+      "meaning": "Motion duration primitive",
+      "tier": "primitive",
+      "consume": "Consumable — motion durations/easings/springs are used directly; transitions compose them."
+    },
+    "motion.duration-reduced.normal": {
+      "$description": "reduce-motion normal — 50ms",
+      "meaning": "Motion duration primitive",
+      "tier": "primitive",
+      "consume": "Consumable — motion durations/easings/springs are used directly; transitions compose them."
+    },
+    "motion.duration-reduced.moderate": {
+      "$description": "reduce-motion moderate — 0ms (eliminated — substitute a cross-fade)",
+      "meaning": "Motion duration primitive",
+      "tier": "primitive",
+      "consume": "Consumable — motion durations/easings/springs are used directly; transitions compose them."
+    },
+    "motion.duration-reduced.slow": {
+      "$description": "reduce-motion slow — 0ms (eliminated — substitute a cross-fade)",
+      "meaning": "Motion duration primitive",
+      "tier": "primitive",
+      "consume": "Consumable — motion durations/easings/springs are used directly; transitions compose them."
+    },
+    "motion.duration-reduced.slower": {
+      "$description": "reduce-motion slower — 0ms (eliminated — substitute a cross-fade)",
+      "meaning": "Motion duration primitive",
+      "tier": "primitive",
+      "consume": "Consumable — motion durations/easings/springs are used directly; transitions compose them."
+    },
+    "motion.easing.linear": {
+      "$description": "easing linear",
+      "meaning": "Easing curve primitive (cubic-bezier)",
+      "tier": "primitive",
+      "consume": "Consumable — motion durations/easings/springs are used directly; transitions compose them."
+    },
+    "motion.easing.standard": {
+      "$description": "easing standard",
+      "meaning": "Easing curve primitive (cubic-bezier)",
+      "tier": "primitive",
+      "consume": "Consumable — motion durations/easings/springs are used directly; transitions compose them.",
+      "aliased_by": [
+        "motion.transition.default"
+      ]
+    },
+    "motion.easing.enter": {
+      "$description": "easing enter",
+      "meaning": "Easing curve primitive (cubic-bezier)",
+      "tier": "primitive",
+      "consume": "Consumable — motion durations/easings/springs are used directly; transitions compose them.",
+      "aliased_by": [
+        "motion.transition.enter"
+      ]
+    },
+    "motion.easing.exit": {
+      "$description": "easing exit",
+      "meaning": "Easing curve primitive (cubic-bezier)",
+      "tier": "primitive",
+      "consume": "Consumable — motion durations/easings/springs are used directly; transitions compose them.",
+      "aliased_by": [
+        "motion.transition.exit"
+      ]
+    },
+    "motion.easing.emphasized": {
+      "$description": "easing emphasized",
+      "meaning": "Easing curve primitive (cubic-bezier)",
+      "tier": "primitive",
+      "consume": "Consumable — motion durations/easings/springs are used directly; transitions compose them.",
+      "aliased_by": [
+        "motion.transition.emphasized"
+      ]
+    },
+    "motion.easing.calm": {
+      "$description": "easing calm — accessibility: soft onset for long/involuntary motion",
+      "meaning": "Easing curve primitive (cubic-bezier)",
+      "tier": "primitive",
+      "consume": "Consumable — motion durations/easings/springs are used directly; transitions compose them."
+    },
+    "motion.spring.snappy": {
+      "$description": "spring snappy — damping 0.9, stiffness 700",
+      "meaning": "Spring primitive (damping / stiffness)",
+      "tier": "primitive",
+      "consume": "Consumable — motion durations/easings/springs are used directly; transitions compose them."
+    },
+    "motion.spring.gentle": {
+      "$description": "spring gentle — damping 0.8, stiffness 380",
+      "meaning": "Spring primitive (damping / stiffness)",
+      "tier": "primitive",
+      "consume": "Consumable — motion durations/easings/springs are used directly; transitions compose them."
+    },
+    "motion.spring.bouncy": {
+      "$description": "spring bouncy — damping 0.6, stiffness 800",
+      "meaning": "Spring primitive (damping / stiffness)",
+      "tier": "primitive",
+      "consume": "Consumable — motion durations/easings/springs are used directly; transitions compose them."
+    },
+    "motion.stagger": {
+      "$description": "stagger standard — 40ms between siblings",
+      "meaning": "Stagger delay primitive",
+      "tier": "primitive",
+      "consume": "Consumable — motion durations/easings/springs are used directly; transitions compose them."
+    },
+    "dimension.0": {
+      "$description": "0px — dimension primitive",
+      "meaning": "0px grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus.",
+      "aliased_by": [
+        "border-width.none",
+        "focus.ring.offset-field",
+        "radius.none",
+        "space.0"
+      ]
+    },
+    "dimension.1": {
+      "$description": "1px — dimension primitive",
+      "meaning": "1px grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus.",
+      "aliased_by": [
+        "border-width.hairline"
+      ]
+    },
+    "dimension.2": {
+      "$description": "2px — dimension primitive",
+      "meaning": "2px grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus.",
+      "aliased_by": [
+        "border-width.thick",
+        "focus.ring.offset",
+        "focus.ring.width",
+        "radius.sm",
+        "space.025"
+      ]
+    },
+    "dimension.4": {
+      "$description": "4px — dimension primitive",
+      "meaning": "4px grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus.",
+      "aliased_by": [
+        "border-width.heavy",
+        "radius.md",
+        "space.050"
+      ]
+    },
+    "dimension.6": {
+      "$description": "6px — dimension primitive",
+      "meaning": "6px grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus.",
+      "aliased_by": [
+        "radius.lg",
+        "space.075"
+      ]
+    },
+    "dimension.8": {
+      "$description": "8px — dimension primitive",
+      "meaning": "8px grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus.",
+      "aliased_by": [
+        "space.100"
+      ]
+    },
+    "dimension.12": {
+      "$description": "12px — dimension primitive",
+      "meaning": "12px grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus."
+    },
+    "dimension.16": {
+      "$description": "16px — dimension primitive",
+      "meaning": "16px grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus.",
+      "aliased_by": [
+        "space.200"
+      ]
+    },
+    "dimension.20": {
+      "$description": "20px — dimension primitive",
+      "meaning": "20px grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus."
+    },
+    "dimension.24": {
+      "$description": "24px — dimension primitive",
+      "meaning": "24px grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus.",
+      "aliased_by": [
+        "space.300"
+      ]
+    },
+    "dimension.28": {
+      "$description": "28px — dimension primitive",
+      "meaning": "28px grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus."
+    },
+    "dimension.32": {
+      "$description": "32px — dimension primitive",
+      "meaning": "32px grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus.",
+      "aliased_by": [
+        "size.xs.height",
+        "space.400"
+      ]
+    },
+    "dimension.36": {
+      "$description": "36px — dimension primitive",
+      "meaning": "36px grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus."
+    },
+    "dimension.40": {
+      "$description": "40px — dimension primitive",
+      "meaning": "40px grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus.",
+      "aliased_by": [
+        "size.sm.height",
+        "space.500"
+      ]
+    },
+    "dimension.44": {
+      "$description": "44px — dimension primitive",
+      "meaning": "44px grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus."
+    },
+    "dimension.48": {
+      "$description": "48px — dimension primitive",
+      "meaning": "48px grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus.",
+      "aliased_by": [
+        "size.md.height",
+        "space.600"
+      ]
+    },
+    "dimension.52": {
+      "$description": "52px — dimension primitive",
+      "meaning": "52px grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus."
+    },
+    "dimension.56": {
+      "$description": "56px — dimension primitive",
+      "meaning": "56px grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus.",
+      "aliased_by": [
+        "size.lg.height",
+        "space.700"
+      ]
+    },
+    "dimension.60": {
+      "$description": "60px — dimension primitive",
+      "meaning": "60px grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus."
+    },
+    "dimension.64": {
+      "$description": "64px — dimension primitive",
+      "meaning": "64px grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus.",
+      "aliased_by": [
+        "size.xl.height",
+        "space.800"
+      ]
+    },
+    "dimension.68": {
+      "$description": "68px — dimension primitive",
+      "meaning": "68px grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus."
+    },
+    "dimension.72": {
+      "$description": "72px — dimension primitive",
+      "meaning": "72px grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus.",
+      "aliased_by": [
+        "space.900"
+      ]
+    },
+    "dimension.76": {
+      "$description": "76px — dimension primitive",
+      "meaning": "76px grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus."
+    },
+    "dimension.80": {
+      "$description": "80px — dimension primitive",
+      "meaning": "80px grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus.",
+      "aliased_by": [
+        "space.1000"
+      ]
+    },
+    "dimension.84": {
+      "$description": "84px — dimension primitive",
+      "meaning": "84px grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus."
+    },
+    "dimension.88": {
+      "$description": "88px — dimension primitive",
+      "meaning": "88px grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus.",
+      "aliased_by": [
+        "space.1100"
+      ]
+    },
+    "dimension.92": {
+      "$description": "92px — dimension primitive",
+      "meaning": "92px grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus."
+    },
+    "dimension.96": {
+      "$description": "96px — dimension primitive",
+      "meaning": "96px grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus.",
+      "aliased_by": [
+        "space.1200"
+      ]
+    },
+    "dimension.100": {
+      "$description": "100px — dimension primitive",
+      "meaning": "100px grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus."
+    },
+    "dimension.104": {
+      "$description": "104px — dimension primitive",
+      "meaning": "104px grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus."
+    },
+    "dimension.108": {
+      "$description": "108px — dimension primitive",
+      "meaning": "108px grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus."
+    },
+    "dimension.112": {
+      "$description": "112px — dimension primitive",
+      "meaning": "112px grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus."
+    },
+    "dimension.116": {
+      "$description": "116px — dimension primitive",
+      "meaning": "116px grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus."
+    },
+    "dimension.120": {
+      "$description": "120px — dimension primitive",
+      "meaning": "120px grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus."
+    },
+    "dimension.124": {
+      "$description": "124px — dimension primitive",
+      "meaning": "124px grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus."
+    },
+    "dimension.128": {
+      "$description": "128px — dimension primitive",
+      "meaning": "128px grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus.",
+      "aliased_by": [
+        "radius.round"
+      ]
+    },
+    "dimension.720": {
+      "$description": "720px — dimension primitive",
+      "meaning": "720px grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus."
+    },
+    "focus.ring.style": {
+      "$description": "focus ring style — solid (dashed/dotted fail at small sizes)",
+      "meaning": "focus primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — prefer a semantic token."
     }
   }
 }

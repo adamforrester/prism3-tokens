@@ -30,6 +30,14 @@ const INTENT: Record<string, string> = {
   danger: 'destructive / error', info: 'informational',
 };
 const EMPHASIS: Record<string, string> = { primary: 'primary (highest-emphasis)', secondary: 'secondary', tertiary: 'tertiary (subtle)' };
+// state → the interaction moment it applies to (makes state variants informative)
+const STATE_WHEN: Record<string, string> = { hover: 'on pointer hover', pressed: 'while pressed', focused: 'when keyboard-focused', disabled: 'when disabled / unavailable', selected: 'when selected / active', visited: 'after it has been visited' };
+const sc = (state?: string) => (state && STATE_WHEN[state] ? ` ${STATE_WHEN[state]}` : '');
+const NEUTRAL_FILL: Record<string, string> = {
+  primary: 'High-emphasis neutral elements — neutral/secondary buttons, strong chips.',
+  secondary: 'Medium-emphasis neutral fills — subtle buttons, chips.',
+  tertiary: 'Low-emphasis neutral fills — ghost buttons, hover wells.',
+};
 // `meaning` answers "what does this SIGNIFY / what is it for" (vs `$description`,
 // which is "what it is"). Semantic signal per intent; structural purpose otherwise.
 const SIGNAL: Record<string, string> = {
@@ -71,10 +79,10 @@ const describe = (group: string, variant: string, state: string | undefined): { 
   }
 
   if (group === 'foreground') { // fills
-    if (['primary', 'secondary', 'tertiary'].includes(variant)) return { desc: `${EMPHASIS[variant]} neutral element fill`, when_to_use: 'Solid neutral fill for chips, neutral buttons, controls.', avoid_when: 'Do not use for text/icons (use text.*/icon.*) or page surfaces (use background.*).' };
+    if (['primary', 'secondary', 'tertiary'].includes(variant)) return { desc: `${EMPHASIS[variant]} neutral element fill`, when_to_use: NEUTRAL_FILL[variant], avoid_when: 'Do not use for text/icons (use text.*/icon.*) or page surfaces (use background.*).' };
     if (variant === 'inverse') return { desc: 'Neutral element fill for inverse contexts', when_to_use: 'Neutral fills placed on inverse surfaces.', avoid_when: 'Do not use on default surfaces (use foreground.primary).' };
-    if (variant === 'interactive') return { desc: `Interactive (action) fill${st}`, when_to_use: `Primary interactive surfaces — buttons, toggles, selected controls${state ? ` in the ${state} state` : ''}.`, avoid_when: 'Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background.*).', paired_with: ['text.on-interactive', 'icon.on-interactive'] };
-    if (variant === 'danger') return { desc: `Destructive / error fill${st}`, when_to_use: `Destructive actions — delete/remove buttons, error fills${state ? ` in the ${state} state` : ''}.`, avoid_when: 'Do not use for non-destructive actions (use foreground.interactive) or warnings (use foreground.warning).', paired_with: ['text.on-danger', 'icon.on-danger'] };
+    if (variant === 'interactive') return { desc: `Interactive (action) fill${st}`, when_to_use: `Primary interactive surfaces — buttons, toggles, controls${sc(state)}.`, avoid_when: 'Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background.*).', paired_with: ['text.on-interactive', 'icon.on-interactive'] };
+    if (variant === 'danger') return { desc: `Destructive / error fill${st}`, when_to_use: `Destructive actions — delete/remove buttons, error fills${sc(state)}.`, avoid_when: 'Do not use for non-destructive actions (use foreground.interactive) or warnings (use foreground.warning).', paired_with: ['text.on-danger', 'icon.on-danger'] };
     if (intent) return { desc: `Solid ${intent} fill`, when_to_use: `Filled ${variant} elements — badges, banners, status chips.`, avoid_when: `Do not use for ${variant} text (use text.${variant}) or as a subtle tint (use background.${variant}-subtle).`, paired_with: [`text.on-${variant}`, `icon.on-${variant}`] };
   }
 
@@ -83,7 +91,7 @@ const describe = (group: string, variant: string, state: string | undefined): { 
     if (['primary', 'secondary', 'tertiary'].includes(variant)) return { desc: `${EMPHASIS[variant]} ${k}`, when_to_use: `${cap(variant)} ${k} on any standard surface (holds across the elevation ladder).`, avoid_when: `Do not use on solid/vivid fills — use ${k}.on-*.`, paired_with: ['background.primary', 'background.secondary', 'background.tertiary'] };
     if (variant === 'disabled') return { desc: `Disabled / inactive ${k}`, when_to_use: `${cap(k)} for disabled or inactive elements.`, avoid_when: 'Do not use for active content.' };
     if (variant === 'inverse') return { desc: `${cap(k)} on inverse surfaces`, when_to_use: `${cap(k)} on background.inverse / dark callouts.`, avoid_when: 'Do not use on default surfaces.', paired_with: ['background.inverse'] };
-    if (variant === 'link' || variant === 'interactive') return { desc: `Link (interactive ${k})${st}`, when_to_use: `Hyperlinks and interactive ${k}${state ? ` in the ${state} state` : ''}.`, avoid_when: `Do not use for non-interactive ${k} (use ${k}.primary).` };
+    if (variant === 'link' || variant === 'interactive') return { desc: `Link (interactive ${k})${st}`, when_to_use: `Hyperlinks and interactive ${k}${sc(state)}.`, avoid_when: `Do not use for non-interactive ${k} (use ${k}.primary).` };
     if (variant.startsWith('on-')) { const x = variant.slice(3); return { desc: `${cap(k)} on a solid ${INTENT[x] ?? x} fill`, when_to_use: `${cap(k)} placed on the ${x} fill it is paired with.`, avoid_when: `Do not use on standard surfaces — use ${k}.primary/secondary.`, paired_with: [onTarget(x)] }; }
     if (intent) return { desc: `${cap(intent)} ${k}`, when_to_use: `${cap(variant)} ${k} on standard surfaces (e.g. inline error/success text).`, avoid_when: `Do not use on a solid ${variant} fill — use ${k}.on-${variant}.`, paired_with: ['background.primary'] };
   }
@@ -92,7 +100,7 @@ const describe = (group: string, variant: string, state: string | undefined): { 
     if (variant === 'default') return { desc: 'Subtle / decorative border', when_to_use: 'Dividers, card outlines, low-emphasis separation.', avoid_when: 'Do not use where a 3:1 non-text contrast is required (use border.strong / border.interactive).' };
     if (variant === 'strong') return { desc: 'Stronger divider border', when_to_use: 'Higher-emphasis dividers and separators.', avoid_when: 'Do not use for form-field borders (use border.interactive).' };
     if (variant === 'inverse') return { desc: 'Border on inverse surfaces', when_to_use: 'Borders on background.inverse.', avoid_when: 'Do not use on default surfaces.', paired_with: ['background.inverse'] };
-    if (variant === 'interactive') return { desc: `Form-field / control border${st}`, when_to_use: state === 'focused' ? 'The focus ring on interactive elements.' : `Borders on inputs and controls${state ? ` in the ${state} state` : ''}.`, avoid_when: 'Do not use as a decorative divider (use border.default).', paired_with: ['background.primary'] };
+    if (variant === 'interactive') return { desc: `Form-field / control border${st}`, when_to_use: state === 'focused' ? 'The focus ring on interactive elements (keyboard focus).' : `Borders on inputs and controls${sc(state)}.`, avoid_when: 'Do not use as a decorative divider (use border.default).', paired_with: ['background.primary'] };
     if (intent) return { desc: `${cap(intent)} validation border`, when_to_use: `Validation/state borders for ${variant} (e.g. invalid fields).`, avoid_when: `Do not use as ${variant} text or fill — use text.${variant} / foreground.${variant}.` };
   }
 
@@ -102,12 +110,47 @@ const describe = (group: string, variant: string, state: string | undefined): { 
   return { desc: `${group} ${variant}${st}`, when_to_use: `Use as the ${group} ${variant} role.`, avoid_when: `Do not use outside the ${group} role.` };
 };
 
-export const buildAiMetadata = (theme: Theme) => {
+// ---- primitive tier (simplified) -------------------------------------------
+type AiPrimitive = { $description: string; meaning: string; tier: 'primitive'; consume: string; aliased_by?: string[] };
+
+// `consume` differs by family: colour/dimension are PRIVATE (reach them through a
+// semantic alias); opacity/motion are consumable directly (their semantic layer is thin).
+const CONSUME: Record<string, string> = {
+  color: 'Private primitive — reference a semantic token that aliases this, not the raw step.',
+  dimension: 'Private primitive — reference via space / radius / size / border-width / focus.',
+  opacity: 'Consumable — reference directly for custom alpha (or use the scrim / disabled tokens).',
+  motion: 'Consumable — motion durations/easings/springs are used directly; transitions compose them.',
+};
+const primMeaning = (seg: string[]): string => {
+  if (seg[0] === 'color') {
+    if (seg[1] === 'white' || seg[1] === undefined) return 'Pure white primitive';
+    if (seg.length === 2) return `Pure ${seg[1]} primitive`;
+    if (seg[1] === 'black-alpha' || seg[1] === 'white-alpha') return `${seg[1].startsWith('black') ? 'Black' : 'White'} at ${seg[2]}% alpha (composites over any surface)`;
+    return `${seg[1]} ramp — raw step ${seg[2]}`;
+  }
+  if (seg[0] === 'opacity') return 'Opacity scale primitive';
+  if (seg[0] === 'dimension') return `${seg[1]}px grid primitive`;
+  if (seg[0] === 'motion') return seg[1] === 'easing' ? 'Easing curve primitive (cubic-bezier)' : seg[1] === 'spring' ? 'Spring primitive (damping / stiffness)' : seg[1] === 'stagger' ? 'Stagger delay primitive' : 'Motion duration primitive';
+  return `${seg[0]} primitive`;
+};
+
+/** Refs inside a $value — a `{alias}` string, or alias strings in a composite object. */
+const refsIn = (v: any): string[] => {
+  if (typeof v === 'string') { const m = v.match(/^\{(.+)\}$/); return m ? [m[1]] : []; }
+  if (v && typeof v === 'object') return Object.values(v).flatMap(refsIn);
+  return [];
+};
+
+export const buildAiMetadata = (theme: Theme, tree: any) => {
+  const root = theme.root;
+  const brand = tree?.[root] ?? {};
+
+  // ---- semantic tier (rich) ----
   const modes = resolveAllModes(theme);
   const byRole: Record<string, Record<string, any>> = {};
   for (const m of modes) for (const [k, r] of Object.entries(m.roles)) (byRole[k] ??= {})[m.mode] = r;
 
-  const tokens: Record<string, AiToken> = {};
+  const semantic: Record<string, AiToken> = {};
   for (const [roleKey, perMode] of Object.entries(byRole)) {
     const [group, variant, state] = roleKey.split('.');
     const light = perMode.light;
@@ -123,17 +166,50 @@ export const buildAiMetadata = (theme: Theme) => {
     };
     if (d.paired_with) ai.paired_with = d.paired_with;
     if (light.min > 0) ai.contrast_with = [{ token: light.against, min: `${light.min}:1`, ratio: light.ratio }];
-    tokens[roleKey] = ai;
+    semantic[roleKey] = ai;
+  }
+
+  // ---- primitive tier (simplified) + the reverse alias index (aliased_by) ----
+  // Walk the whole tree once: collect leaves, and build path → [referrers] from
+  // every alias (colour semantics, dimension semantics, transitions, scrim, …) so
+  // each primitive carries the bidirectional graph for impact analysis.
+  const leaves: { path: string; node: any }[] = [];
+  const walk = (o: any, p: string[]) => {
+    if (o && typeof o === 'object') {
+      if (o.$type !== undefined) { leaves.push({ path: p.join('.'), node: o }); return; }
+      for (const [k, v] of Object.entries(o)) if (!k.startsWith('$')) walk(v, [...p, k]);
+    }
+  };
+  walk(brand, []);
+  const strip = (ref: string) => (ref.startsWith(root + '.') ? ref.slice(root.length + 1) : ref);
+  const aliasedBy: Record<string, string[]> = {};
+  for (const { path, node } of leaves) for (const ref of refsIn(node.$value)) (aliasedBy[strip(ref)] ??= []).push(path);
+
+  const primitives: Record<string, AiPrimitive> = {};
+  for (const { path, node } of leaves) {
+    if (refsIn(node.$value).length > 0) continue;       // skip aliases/composites — primitives only
+    const seg = path.split('.');
+    const p: AiPrimitive = {
+      $description: node.$description,
+      meaning: primMeaning(seg),
+      tier: 'primitive',
+      consume: CONSUME[seg[0]] ?? 'Private primitive — prefer a semantic token.',
+    };
+    const by = aliasedBy[path];
+    if (by && by.length) p.aliased_by = [...new Set(by)].sort();
+    primitives[path] = p;
   }
 
   return {
     $schema: 'prism3-ai-metadata/0.1',
     brand: theme.id,
     generated: true,
-    note: 'Agent-readable metadata for the semantic token layer; companion to ' +
-      `${theme.id}.tokens.json (DTCG tokens). Fields per knowledge-base 31-color-systems §9. ` +
-      'All fields generated from the role model + computed contracts — contract-true and regenerated each build.',
-    fields: ['$description', 'meaning', 'when_to_use', 'avoid_when', 'paired_with', 'contrast_with', 'mode_overrides'],
-    tokens,
+    note: 'Agent-readable metadata, companion to ' + `${theme.id}.tokens.json` + '. The semantic tier carries ' +
+      'the full schema (knowledge-base 31-color-systems §9); the primitive tier a simplified set + `aliased_by` ' +
+      '(the reverse index — which tokens resolve to it). All generated and contract-true; regenerated each build.',
+    semantic_fields: ['$description', 'meaning', 'when_to_use', 'avoid_when', 'paired_with', 'contrast_with', 'mode_overrides'],
+    primitive_fields: ['$description', 'meaning', 'tier', 'consume', 'aliased_by'],
+    semantic,
+    primitives,
   };
 };

@@ -310,7 +310,7 @@ for (const theme of themes) {
   const outPath = resolve(outDir, `${theme.id}.tokens.json`);
   writeFileSync(outPath, JSON.stringify(tree, null, 2) + '\n');
   // AI-readable metadata sidecar (agent surface for the semantic layer).
-  const ai = buildAiMetadata(theme);
+  const ai = buildAiMetadata(theme, tree);
   writeFileSync(resolve(outDir, `${theme.id}.ai.json`), JSON.stringify(ai, null, 2) + '\n');
 
   console.log(`\n[${theme.id}] ${theme.root}.* / ${theme.colorFormat}`);

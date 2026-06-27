@@ -174,7 +174,16 @@ npx tsx Prism3/engine/test.ts            # unit tests: colour math + extreme-bra
   foreground.danger for destructive"). Also fixed a `$description` redundancy bug
   ("…band — Mid-Tone"). `$description` ("what it is") and `meaning` ("what it
   signifies / is for") are distinct — e.g. `text.danger` → "Destructive / error
-  text." vs "Destructive / error signalling."
+  text." vs "Destructive / error signalling." A refinement pass made state variants
+  informative ("…on pointer hover") and differentiated the neutral-fill tiers.
+  **Primitive tier added** (planned-for, not assumed away): every primitive
+  (colour ramps, white/black, alpha, opacity, dimension grid, motion) gets a
+  simplified set — `$description`, `meaning`, `tier`, `consume` (private vs
+  consumable per family), and **`aliased_by`**, the reverse index of *which tokens
+  resolve to it*. `aliased_by` makes the sidecar a bidirectional graph for impact
+  analysis across all families (e.g. `dimension.8` ← `radius.md` + `space.100`;
+  `color.accent.600` ← the interactive/link roles). Sidecar now `{ semantic, primitives }`
+  (~89 + ~194–233 entries/brand).
 - **Contrast is validated against the floor surface, not the pure extreme.**
   Saturated, contract-bearing foregrounds (action + states, vivid semantic text,
   secondary/tertiary text) clear
