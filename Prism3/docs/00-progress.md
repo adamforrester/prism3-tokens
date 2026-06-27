@@ -178,12 +178,16 @@ npx tsx Prism3/engine/test.ts            # unit tests: colour math + extreme-bra
   informative ("…on pointer hover") and differentiated the neutral-fill tiers.
   **Primitive tier added** (planned-for, not assumed away): every primitive
   (colour ramps, white/black, alpha, opacity, dimension grid, motion) gets a
-  simplified set — `$description`, `meaning`, `tier`, `consume` (private vs
+  simplified set — `$description`, `meaning`, colour-scale **`intent`** (the
+  Univers/NB contrast-role of each ramp step, from its band — e.g. 500 = "the
+  dual-side AA pivot", anchor steps flagged), `tier`, `consume` (private vs
   consumable per family), and **`aliased_by`**, the reverse index of *which tokens
   resolve to it*. `aliased_by` makes the sidecar a bidirectional graph for impact
   analysis across all families (e.g. `dimension.8` ← `radius.md` + `space.100`;
-  `color.accent.600` ← the interactive/link roles). Sidecar now `{ semantic, primitives }`
-  (~89 + ~194–233 entries/brand).
+  `color.accent.600` ← the interactive/link roles) — and it **cannot drift**: it's
+  recomputed from the token tree on every build (authoritative at build time, never
+  hand-maintained), and re-aliasing in this engine is a recompute, not a manual
+  edit. Sidecar now `{ semantic, primitives }` (~89 + ~194–233 entries/brand).
 - **Contrast is validated against the floor surface, not the pure extreme.**
   Saturated, contract-bearing foregrounds (action + states, vivid semantic text,
   secondary/tertiary text) clear

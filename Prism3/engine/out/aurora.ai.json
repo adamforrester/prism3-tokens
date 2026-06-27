@@ -2,7 +2,7 @@
   "$schema": "prism3-ai-metadata/0.1",
   "brand": "aurora",
   "generated": true,
-  "note": "Agent-readable metadata, companion to aurora.tokens.json. The semantic tier carries the full schema (knowledge-base 31-color-systems §9); the primitive tier a simplified set + `aliased_by` (the reverse index — which tokens resolve to it). All generated and contract-true; regenerated each build.",
+  "note": "Agent-readable metadata, companion to aurora.tokens.json. The semantic tier carries the full schema (knowledge-base 31-color-systems §9); the primitive tier a simplified set + colour-scale `intent` and `aliased_by` (the reverse index — which tokens resolve to it). `aliased_by` is recomputed from the token tree on every build (authoritative at build time, never hand-maintained — it cannot drift as roles re-resolve). All fields generated and contract-true.",
   "semantic_fields": [
     "$description",
     "meaning",
@@ -15,6 +15,7 @@
   "primitive_fields": [
     "$description",
     "meaning",
+    "intent",
     "tier",
     "consume",
     "aliased_by"
@@ -1796,6 +1797,7 @@
     "color.white": {
       "$description": "Pure white — Highlight base / default surface",
       "meaning": "Pure white primitive",
+      "intent": "Pure highlight base — default light surface / on-colour text",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -1843,6 +1845,7 @@
     "color.black": {
       "$description": "Pure black — Shadow base",
       "meaning": "Pure black primitive",
+      "intent": "Shadow base — scrim & shadow source / on-colour text",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -1886,6 +1889,7 @@
     "color.primary.100": {
       "$description": "Brand primary 100 — Quarter-Tone band",
       "meaning": "primary ramp — raw step 100",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -1896,24 +1900,28 @@
     "color.primary.150": {
       "$description": "Brand primary 150 — Quarter-Tone band",
       "meaning": "primary ramp — raw step 150",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.primary.200": {
       "$description": "Brand primary 200 — Quarter-Tone band",
       "meaning": "primary ramp — raw step 200",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.primary.250": {
       "$description": "Brand primary 250 — Quarter-Tone band",
       "meaning": "primary ramp — raw step 250",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.primary.300": {
       "$description": "Brand primary 300 — Quarter-Tone band",
       "meaning": "primary ramp — raw step 300",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -1924,18 +1932,21 @@
     "color.primary.350": {
       "$description": "Brand primary 350 — Quarter-Tone band",
       "meaning": "primary ramp — raw step 350",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.primary.400": {
       "$description": "Brand primary 400 — Mid-Tone band",
       "meaning": "primary ramp — raw step 400",
+      "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.primary.450": {
       "$description": "Brand primary 450 — Mid-Tone band",
       "meaning": "primary ramp — raw step 450",
+      "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -1947,6 +1958,7 @@
     "color.primary.500": {
       "$description": "Brand primary 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
       "meaning": "primary ramp — raw step 500",
+      "intent": "Solid fills & UI-element backgrounds — the dual-side AA pivot (clears 4.5:1 on both white and black)",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -1960,6 +1972,7 @@
     "color.primary.550": {
       "$description": "Brand primary 550 — Mid-Tone band — brand anchor (exact, pinned)",
       "meaning": "primary ramp — raw step 550",
+      "intent": "Solid fills & UI-element backgrounds — brand anchor (pinned exact value)",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -1972,18 +1985,21 @@
     "color.primary.600": {
       "$description": "Brand primary 600 — Mid-Tone band",
       "meaning": "primary ramp — raw step 600",
+      "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.primary.650": {
       "$description": "Brand primary 650 — Three-Quarter-Tone band",
       "meaning": "primary ramp — raw step 650",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.primary.700": {
       "$description": "Brand primary 700 — Three-Quarter-Tone band",
       "meaning": "primary ramp — raw step 700",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -1994,24 +2010,28 @@
     "color.primary.750": {
       "$description": "Brand primary 750 — Three-Quarter-Tone band",
       "meaning": "primary ramp — raw step 750",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.primary.800": {
       "$description": "Brand primary 800 — Three-Quarter-Tone band",
       "meaning": "primary ramp — raw step 800",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.primary.850": {
       "$description": "Brand primary 850 — Three-Quarter-Tone band",
       "meaning": "primary ramp — raw step 850",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.primary.900": {
       "$description": "Brand primary 900 — Three-Quarter-Tone band",
       "meaning": "primary ramp — raw step 900",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2022,24 +2042,28 @@
     "color.primary.950": {
       "$description": "Brand primary 950 — Shadow band",
       "meaning": "primary ramp — raw step 950",
+      "intent": "Highest-contrast text and strong foreground",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.primary.025": {
       "$description": "Brand primary 025 — Highlight band",
       "meaning": "primary ramp — raw step 025",
+      "intent": "Lightest tints — app / subtle backgrounds, hover & selected fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.primary.050": {
       "$description": "Brand primary 050 — Highlight band",
       "meaning": "primary ramp — raw step 050",
+      "intent": "Lightest tints — app / subtle backgrounds, hover & selected fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.neutral.100": {
       "$description": "Neutral 100 — Quarter-Tone band",
       "meaning": "neutral ramp — raw step 100",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2054,12 +2078,14 @@
     "color.neutral.150": {
       "$description": "Neutral 150 — Quarter-Tone band",
       "meaning": "neutral ramp — raw step 150",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.neutral.200": {
       "$description": "Neutral 200 — Quarter-Tone band",
       "meaning": "neutral ramp — raw step 200",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2076,6 +2102,7 @@
     "color.neutral.250": {
       "$description": "Neutral 250 — Quarter-Tone band",
       "meaning": "neutral ramp — raw step 250",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2087,6 +2114,7 @@
     "color.neutral.300": {
       "$description": "Neutral 300 — Quarter-Tone band",
       "meaning": "neutral ramp — raw step 300",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2096,6 +2124,7 @@
     "color.neutral.350": {
       "$description": "Neutral 350 — Quarter-Tone band",
       "meaning": "neutral ramp — raw step 350",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2105,12 +2134,14 @@
     "color.neutral.400": {
       "$description": "Neutral 400 — Mid-Tone band",
       "meaning": "neutral ramp — raw step 400",
+      "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.neutral.450": {
       "$description": "Neutral 450 — Mid-Tone band",
       "meaning": "neutral ramp — raw step 450",
+      "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2131,6 +2162,7 @@
     "color.neutral.500": {
       "$description": "Neutral 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
       "meaning": "neutral ramp — raw step 500",
+      "intent": "Solid fills & UI-element backgrounds — the dual-side AA pivot (clears 4.5:1 on both white and black)",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2155,6 +2187,7 @@
     "color.neutral.550": {
       "$description": "Neutral 550 — Mid-Tone band",
       "meaning": "neutral ramp — raw step 550",
+      "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2173,6 +2206,7 @@
     "color.neutral.600": {
       "$description": "Neutral 600 — Mid-Tone band",
       "meaning": "neutral ramp — raw step 600",
+      "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2190,12 +2224,14 @@
     "color.neutral.650": {
       "$description": "Neutral 650 — Three-Quarter-Tone band",
       "meaning": "neutral ramp — raw step 650",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.neutral.700": {
       "$description": "Neutral 700 — Three-Quarter-Tone band",
       "meaning": "neutral ramp — raw step 700",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2208,6 +2244,7 @@
     "color.neutral.750": {
       "$description": "Neutral 750 — Three-Quarter-Tone band",
       "meaning": "neutral ramp — raw step 750",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2221,6 +2258,7 @@
     "color.neutral.800": {
       "$description": "Neutral 800 — Three-Quarter-Tone band",
       "meaning": "neutral ramp — raw step 800",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2233,6 +2271,7 @@
     "color.neutral.850": {
       "$description": "Neutral 850 — Three-Quarter-Tone band",
       "meaning": "neutral ramp — raw step 850",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2246,6 +2285,7 @@
     "color.neutral.900": {
       "$description": "Neutral 900 — Three-Quarter-Tone band",
       "meaning": "neutral ramp — raw step 900",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2260,6 +2300,7 @@
     "color.neutral.950": {
       "$description": "Neutral 950 — Shadow band",
       "meaning": "neutral ramp — raw step 950",
+      "intent": "Highest-contrast text and strong foreground",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2275,6 +2316,7 @@
     "color.neutral.025": {
       "$description": "Neutral 025 — Highlight band",
       "meaning": "neutral ramp — raw step 025",
+      "intent": "Lightest tints — app / subtle backgrounds, hover & selected fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2289,6 +2331,7 @@
     "color.neutral.050": {
       "$description": "Neutral 050 — Highlight band",
       "meaning": "neutral ramp — raw step 050",
+      "intent": "Lightest tints — app / subtle backgrounds, hover & selected fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2300,18 +2343,21 @@
     "color.accent.100": {
       "$description": "Brand accent 100 — Quarter-Tone band",
       "meaning": "accent ramp — raw step 100",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.accent.150": {
       "$description": "Brand accent 150 — Quarter-Tone band",
       "meaning": "accent ramp — raw step 150",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.accent.200": {
       "$description": "Brand accent 200 — Quarter-Tone band",
       "meaning": "accent ramp — raw step 200",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2323,6 +2369,7 @@
     "color.accent.250": {
       "$description": "Brand accent 250 — Quarter-Tone band",
       "meaning": "accent ramp — raw step 250",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2334,6 +2381,7 @@
     "color.accent.300": {
       "$description": "Brand accent 300 — Quarter-Tone band",
       "meaning": "accent ramp — raw step 300",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2350,6 +2398,7 @@
     "color.accent.350": {
       "$description": "Brand accent 350 — Quarter-Tone band",
       "meaning": "accent ramp — raw step 350",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2362,6 +2411,7 @@
     "color.accent.400": {
       "$description": "Brand accent 400 — Mid-Tone band",
       "meaning": "accent ramp — raw step 400",
+      "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2377,6 +2427,7 @@
     "color.accent.450": {
       "$description": "Brand accent 450 — Mid-Tone band",
       "meaning": "accent ramp — raw step 450",
+      "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2386,6 +2437,7 @@
     "color.accent.500": {
       "$description": "Brand accent 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
       "meaning": "accent ramp — raw step 500",
+      "intent": "Solid fills & UI-element backgrounds — the dual-side AA pivot (clears 4.5:1 on both white and black)",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2398,6 +2450,7 @@
     "color.accent.550": {
       "$description": "Brand accent 550 — Mid-Tone band",
       "meaning": "accent ramp — raw step 550",
+      "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2407,6 +2460,7 @@
     "color.accent.600": {
       "$description": "Brand accent 600 — Mid-Tone band",
       "meaning": "accent ramp — raw step 600",
+      "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2422,6 +2476,7 @@
     "color.accent.650": {
       "$description": "Brand accent 650 — Three-Quarter-Tone band",
       "meaning": "accent ramp — raw step 650",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2434,6 +2489,7 @@
     "color.accent.700": {
       "$description": "Brand accent 700 — Three-Quarter-Tone band",
       "meaning": "accent ramp — raw step 700",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2450,6 +2506,7 @@
     "color.accent.750": {
       "$description": "Brand accent 750 — Three-Quarter-Tone band",
       "meaning": "accent ramp — raw step 750",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2461,6 +2518,7 @@
     "color.accent.800": {
       "$description": "Brand accent 800 — Three-Quarter-Tone band",
       "meaning": "accent ramp — raw step 800",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2472,36 +2530,42 @@
     "color.accent.850": {
       "$description": "Brand accent 850 — Three-Quarter-Tone band",
       "meaning": "accent ramp — raw step 850",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.accent.900": {
       "$description": "Brand accent 900 — Three-Quarter-Tone band",
       "meaning": "accent ramp — raw step 900",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.accent.950": {
       "$description": "Brand accent 950 — Shadow band",
       "meaning": "accent ramp — raw step 950",
+      "intent": "Highest-contrast text and strong foreground",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.accent.025": {
       "$description": "Brand accent 025 — Highlight band",
       "meaning": "accent ramp — raw step 025",
+      "intent": "Lightest tints — app / subtle backgrounds, hover & selected fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.accent.050": {
       "$description": "Brand accent 050 — Highlight band",
       "meaning": "accent ramp — raw step 050",
+      "intent": "Lightest tints — app / subtle backgrounds, hover & selected fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.success.100": {
       "$description": "success status 100 — Quarter-Tone band",
       "meaning": "success ramp — raw step 100",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2512,24 +2576,28 @@
     "color.success.150": {
       "$description": "success status 150 — Quarter-Tone band",
       "meaning": "success ramp — raw step 150",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.success.200": {
       "$description": "success status 200 — Quarter-Tone band",
       "meaning": "success ramp — raw step 200",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.success.250": {
       "$description": "success status 250 — Quarter-Tone band",
       "meaning": "success ramp — raw step 250",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.success.300": {
       "$description": "success status 300 — Quarter-Tone band",
       "meaning": "success ramp — raw step 300",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2540,18 +2608,21 @@
     "color.success.350": {
       "$description": "success status 350 — Quarter-Tone band",
       "meaning": "success ramp — raw step 350",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.success.400": {
       "$description": "success status 400 — Mid-Tone band",
       "meaning": "success ramp — raw step 400",
+      "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.success.450": {
       "$description": "success status 450 — Mid-Tone band",
       "meaning": "success ramp — raw step 450",
+      "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2563,6 +2634,7 @@
     "color.success.500": {
       "$description": "success status 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
       "meaning": "success ramp — raw step 500",
+      "intent": "Solid fills & UI-element backgrounds — the dual-side AA pivot (clears 4.5:1 on both white and black)",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2577,12 +2649,14 @@
     "color.success.550": {
       "$description": "success status 550 — Mid-Tone band",
       "meaning": "success ramp — raw step 550",
+      "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.success.600": {
       "$description": "success status 600 — Mid-Tone band",
       "meaning": "success ramp — raw step 600",
+      "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2594,12 +2668,14 @@
     "color.success.650": {
       "$description": "success status 650 — Three-Quarter-Tone band",
       "meaning": "success ramp — raw step 650",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.success.700": {
       "$description": "success status 700 — Three-Quarter-Tone band",
       "meaning": "success ramp — raw step 700",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2610,24 +2686,28 @@
     "color.success.750": {
       "$description": "success status 750 — Three-Quarter-Tone band",
       "meaning": "success ramp — raw step 750",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.success.800": {
       "$description": "success status 800 — Three-Quarter-Tone band",
       "meaning": "success ramp — raw step 800",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.success.850": {
       "$description": "success status 850 — Three-Quarter-Tone band",
       "meaning": "success ramp — raw step 850",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.success.900": {
       "$description": "success status 900 — Three-Quarter-Tone band",
       "meaning": "success ramp — raw step 900",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2638,24 +2718,28 @@
     "color.success.950": {
       "$description": "success status 950 — Shadow band",
       "meaning": "success ramp — raw step 950",
+      "intent": "Highest-contrast text and strong foreground",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.success.025": {
       "$description": "success status 025 — Highlight band",
       "meaning": "success ramp — raw step 025",
+      "intent": "Lightest tints — app / subtle backgrounds, hover & selected fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.success.050": {
       "$description": "success status 050 — Highlight band",
       "meaning": "success ramp — raw step 050",
+      "intent": "Lightest tints — app / subtle backgrounds, hover & selected fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.warning.100": {
       "$description": "warning status 100 — Quarter-Tone band",
       "meaning": "warning ramp — raw step 100",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2666,24 +2750,28 @@
     "color.warning.150": {
       "$description": "warning status 150 — Quarter-Tone band",
       "meaning": "warning ramp — raw step 150",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.warning.200": {
       "$description": "warning status 200 — Quarter-Tone band",
       "meaning": "warning ramp — raw step 200",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.warning.250": {
       "$description": "warning status 250 — Quarter-Tone band",
       "meaning": "warning ramp — raw step 250",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.warning.300": {
       "$description": "warning status 300 — Quarter-Tone band",
       "meaning": "warning ramp — raw step 300",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2694,18 +2782,21 @@
     "color.warning.350": {
       "$description": "warning status 350 — Quarter-Tone band",
       "meaning": "warning ramp — raw step 350",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.warning.400": {
       "$description": "warning status 400 — Mid-Tone band",
       "meaning": "warning ramp — raw step 400",
+      "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.warning.450": {
       "$description": "warning status 450 — Mid-Tone band",
       "meaning": "warning ramp — raw step 450",
+      "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2717,6 +2808,7 @@
     "color.warning.500": {
       "$description": "warning status 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
       "meaning": "warning ramp — raw step 500",
+      "intent": "Solid fills & UI-element backgrounds — the dual-side AA pivot (clears 4.5:1 on both white and black)",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2731,12 +2823,14 @@
     "color.warning.550": {
       "$description": "warning status 550 — Mid-Tone band",
       "meaning": "warning ramp — raw step 550",
+      "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.warning.600": {
       "$description": "warning status 600 — Mid-Tone band",
       "meaning": "warning ramp — raw step 600",
+      "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2748,12 +2842,14 @@
     "color.warning.650": {
       "$description": "warning status 650 — Three-Quarter-Tone band",
       "meaning": "warning ramp — raw step 650",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.warning.700": {
       "$description": "warning status 700 — Three-Quarter-Tone band",
       "meaning": "warning ramp — raw step 700",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2764,24 +2860,28 @@
     "color.warning.750": {
       "$description": "warning status 750 — Three-Quarter-Tone band",
       "meaning": "warning ramp — raw step 750",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.warning.800": {
       "$description": "warning status 800 — Three-Quarter-Tone band",
       "meaning": "warning ramp — raw step 800",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.warning.850": {
       "$description": "warning status 850 — Three-Quarter-Tone band",
       "meaning": "warning ramp — raw step 850",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.warning.900": {
       "$description": "warning status 900 — Three-Quarter-Tone band",
       "meaning": "warning ramp — raw step 900",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2792,24 +2892,28 @@
     "color.warning.950": {
       "$description": "warning status 950 — Shadow band",
       "meaning": "warning ramp — raw step 950",
+      "intent": "Highest-contrast text and strong foreground",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.warning.025": {
       "$description": "warning status 025 — Highlight band",
       "meaning": "warning ramp — raw step 025",
+      "intent": "Lightest tints — app / subtle backgrounds, hover & selected fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.warning.050": {
       "$description": "warning status 050 — Highlight band",
       "meaning": "warning ramp — raw step 050",
+      "intent": "Lightest tints — app / subtle backgrounds, hover & selected fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.info.100": {
       "$description": "info status 100 — Quarter-Tone band",
       "meaning": "info ramp — raw step 100",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2820,24 +2924,28 @@
     "color.info.150": {
       "$description": "info status 150 — Quarter-Tone band",
       "meaning": "info ramp — raw step 150",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.info.200": {
       "$description": "info status 200 — Quarter-Tone band",
       "meaning": "info ramp — raw step 200",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.info.250": {
       "$description": "info status 250 — Quarter-Tone band",
       "meaning": "info ramp — raw step 250",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.info.300": {
       "$description": "info status 300 — Quarter-Tone band",
       "meaning": "info ramp — raw step 300",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2848,18 +2956,21 @@
     "color.info.350": {
       "$description": "info status 350 — Quarter-Tone band",
       "meaning": "info ramp — raw step 350",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.info.400": {
       "$description": "info status 400 — Mid-Tone band",
       "meaning": "info ramp — raw step 400",
+      "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.info.450": {
       "$description": "info status 450 — Mid-Tone band",
       "meaning": "info ramp — raw step 450",
+      "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2871,6 +2982,7 @@
     "color.info.500": {
       "$description": "info status 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
       "meaning": "info ramp — raw step 500",
+      "intent": "Solid fills & UI-element backgrounds — the dual-side AA pivot (clears 4.5:1 on both white and black)",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2885,12 +2997,14 @@
     "color.info.550": {
       "$description": "info status 550 — Mid-Tone band",
       "meaning": "info ramp — raw step 550",
+      "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.info.600": {
       "$description": "info status 600 — Mid-Tone band",
       "meaning": "info ramp — raw step 600",
+      "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2902,12 +3016,14 @@
     "color.info.650": {
       "$description": "info status 650 — Three-Quarter-Tone band",
       "meaning": "info ramp — raw step 650",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.info.700": {
       "$description": "info status 700 — Three-Quarter-Tone band",
       "meaning": "info ramp — raw step 700",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2918,24 +3034,28 @@
     "color.info.750": {
       "$description": "info status 750 — Three-Quarter-Tone band",
       "meaning": "info ramp — raw step 750",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.info.800": {
       "$description": "info status 800 — Three-Quarter-Tone band",
       "meaning": "info ramp — raw step 800",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.info.850": {
       "$description": "info status 850 — Three-Quarter-Tone band",
       "meaning": "info ramp — raw step 850",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.info.900": {
       "$description": "info status 900 — Three-Quarter-Tone band",
       "meaning": "info ramp — raw step 900",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2946,24 +3066,28 @@
     "color.info.950": {
       "$description": "info status 950 — Shadow band",
       "meaning": "info ramp — raw step 950",
+      "intent": "Highest-contrast text and strong foreground",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.info.025": {
       "$description": "info status 025 — Highlight band",
       "meaning": "info ramp — raw step 025",
+      "intent": "Lightest tints — app / subtle backgrounds, hover & selected fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.info.050": {
       "$description": "info status 050 — Highlight band",
       "meaning": "info ramp — raw step 050",
+      "intent": "Lightest tints — app / subtle backgrounds, hover & selected fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.danger.100": {
       "$description": "danger status (engine-carved red — primary is not red) 100 — Quarter-Tone band",
       "meaning": "danger ramp — raw step 100",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2974,12 +3098,14 @@
     "color.danger.150": {
       "$description": "danger status (engine-carved red — primary is not red) 150 — Quarter-Tone band",
       "meaning": "danger ramp — raw step 150",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.danger.200": {
       "$description": "danger status (engine-carved red — primary is not red) 200 — Quarter-Tone band",
       "meaning": "danger ramp — raw step 200",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2990,6 +3116,7 @@
     "color.danger.250": {
       "$description": "danger status (engine-carved red — primary is not red) 250 — Quarter-Tone band",
       "meaning": "danger ramp — raw step 250",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -3000,6 +3127,7 @@
     "color.danger.300": {
       "$description": "danger status (engine-carved red — primary is not red) 300 — Quarter-Tone band",
       "meaning": "danger ramp — raw step 300",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -3010,6 +3138,7 @@
     "color.danger.350": {
       "$description": "danger status (engine-carved red — primary is not red) 350 — Quarter-Tone band",
       "meaning": "danger ramp — raw step 350",
+      "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -3020,6 +3149,7 @@
     "color.danger.400": {
       "$description": "danger status (engine-carved red — primary is not red) 400 — Mid-Tone band",
       "meaning": "danger ramp — raw step 400",
+      "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -3030,6 +3160,7 @@
     "color.danger.450": {
       "$description": "danger status (engine-carved red — primary is not red) 450 — Mid-Tone band",
       "meaning": "danger ramp — raw step 450",
+      "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -3041,6 +3172,7 @@
     "color.danger.500": {
       "$description": "danger status (engine-carved red — primary is not red) 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
       "meaning": "danger ramp — raw step 500",
+      "intent": "Solid fills & UI-element backgrounds — the dual-side AA pivot (clears 4.5:1 on both white and black)",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -3055,12 +3187,14 @@
     "color.danger.550": {
       "$description": "danger status (engine-carved red — primary is not red) 550 — Mid-Tone band",
       "meaning": "danger ramp — raw step 550",
+      "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.danger.600": {
       "$description": "danger status (engine-carved red — primary is not red) 600 — Mid-Tone band",
       "meaning": "danger ramp — raw step 600",
+      "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -3072,6 +3206,7 @@
     "color.danger.650": {
       "$description": "danger status (engine-carved red — primary is not red) 650 — Three-Quarter-Tone band",
       "meaning": "danger ramp — raw step 650",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -3082,6 +3217,7 @@
     "color.danger.700": {
       "$description": "danger status (engine-carved red — primary is not red) 700 — Three-Quarter-Tone band",
       "meaning": "danger ramp — raw step 700",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -3094,6 +3230,7 @@
     "color.danger.750": {
       "$description": "danger status (engine-carved red — primary is not red) 750 — Three-Quarter-Tone band",
       "meaning": "danger ramp — raw step 750",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -3104,6 +3241,7 @@
     "color.danger.800": {
       "$description": "danger status (engine-carved red — primary is not red) 800 — Three-Quarter-Tone band",
       "meaning": "danger ramp — raw step 800",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -3114,12 +3252,14 @@
     "color.danger.850": {
       "$description": "danger status (engine-carved red — primary is not red) 850 — Three-Quarter-Tone band",
       "meaning": "danger ramp — raw step 850",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.danger.900": {
       "$description": "danger status (engine-carved red — primary is not red) 900 — Three-Quarter-Tone band",
       "meaning": "danger ramp — raw step 900",
+      "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -3130,48 +3270,56 @@
     "color.danger.950": {
       "$description": "danger status (engine-carved red — primary is not red) 950 — Shadow band",
       "meaning": "danger ramp — raw step 950",
+      "intent": "Highest-contrast text and strong foreground",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.danger.025": {
       "$description": "danger status (engine-carved red — primary is not red) 025 — Highlight band",
       "meaning": "danger ramp — raw step 025",
+      "intent": "Lightest tints — app / subtle backgrounds, hover & selected fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.danger.050": {
       "$description": "danger status (engine-carved red — primary is not red) 050 — Highlight band",
       "meaning": "danger ramp — raw step 050",
+      "intent": "Lightest tints — app / subtle backgrounds, hover & selected fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.black-alpha.5": {
       "$description": "Black alpha 5% — alpha, composites over any surface",
       "meaning": "Black at 5% alpha (composites over any surface)",
+      "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.black-alpha.10": {
       "$description": "Black alpha 10% — alpha, composites over any surface",
       "meaning": "Black at 10% alpha (composites over any surface)",
+      "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.black-alpha.20": {
       "$description": "Black alpha 20% — alpha, composites over any surface",
       "meaning": "Black at 20% alpha (composites over any surface)",
+      "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.black-alpha.30": {
       "$description": "Black alpha 30% — alpha, composites over any surface",
       "meaning": "Black at 30% alpha (composites over any surface)",
+      "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.black-alpha.40": {
       "$description": "Black alpha 40% — alpha, composites over any surface",
       "meaning": "Black at 40% alpha (composites over any surface)",
+      "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -3181,12 +3329,14 @@
     "color.black-alpha.50": {
       "$description": "Black alpha 50% — alpha, composites over any surface",
       "meaning": "Black at 50% alpha (composites over any surface)",
+      "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.black-alpha.60": {
       "$description": "Black alpha 60% — alpha, composites over any surface",
       "meaning": "Black at 60% alpha (composites over any surface)",
+      "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -3197,6 +3347,7 @@
     "color.black-alpha.70": {
       "$description": "Black alpha 70% — alpha, composites over any surface",
       "meaning": "Black at 70% alpha (composites over any surface)",
+      "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -3206,72 +3357,84 @@
     "color.black-alpha.80": {
       "$description": "Black alpha 80% — alpha, composites over any surface",
       "meaning": "Black at 80% alpha (composites over any surface)",
+      "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.black-alpha.90": {
       "$description": "Black alpha 90% — alpha, composites over any surface",
       "meaning": "Black at 90% alpha (composites over any surface)",
+      "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.white-alpha.5": {
       "$description": "White alpha 5% — alpha, composites over any surface",
       "meaning": "White at 5% alpha (composites over any surface)",
+      "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.white-alpha.10": {
       "$description": "White alpha 10% — alpha, composites over any surface",
       "meaning": "White at 10% alpha (composites over any surface)",
+      "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.white-alpha.20": {
       "$description": "White alpha 20% — alpha, composites over any surface",
       "meaning": "White at 20% alpha (composites over any surface)",
+      "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.white-alpha.30": {
       "$description": "White alpha 30% — alpha, composites over any surface",
       "meaning": "White at 30% alpha (composites over any surface)",
+      "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.white-alpha.40": {
       "$description": "White alpha 40% — alpha, composites over any surface",
       "meaning": "White at 40% alpha (composites over any surface)",
+      "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.white-alpha.50": {
       "$description": "White alpha 50% — alpha, composites over any surface",
       "meaning": "White at 50% alpha (composites over any surface)",
+      "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.white-alpha.60": {
       "$description": "White alpha 60% — alpha, composites over any surface",
       "meaning": "White at 60% alpha (composites over any surface)",
+      "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.white-alpha.70": {
       "$description": "White alpha 70% — alpha, composites over any surface",
       "meaning": "White at 70% alpha (composites over any surface)",
+      "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.white-alpha.80": {
       "$description": "White alpha 80% — alpha, composites over any surface",
       "meaning": "White at 80% alpha (composites over any surface)",
+      "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.white-alpha.90": {
       "$description": "White alpha 90% — alpha, composites over any surface",
       "meaning": "White at 90% alpha (composites over any surface)",
+      "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },

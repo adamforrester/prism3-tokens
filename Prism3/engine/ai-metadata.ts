@@ -111,7 +111,27 @@ const describe = (group: string, variant: string, state: string | undefined): { 
 };
 
 // ---- primitive tier (simplified) -------------------------------------------
-type AiPrimitive = { $description: string; meaning: string; tier: 'primitive'; consume: string; aliased_by?: string[] };
+type AiPrimitive = { $description: string; meaning: string; intent?: string; tier: 'primitive'; consume: string; aliased_by?: string[] };
+
+// The contrast-role intent of each ramp band (the Univers/NB placement method:
+// steps are placed at the luminance their role needs, not on an even-L curve).
+const BAND_INTENT: Record<string, string> = {
+  Highlights: 'Lightest tints — app / subtle backgrounds, hover & selected fills',
+  Quarter: 'Subtle borders, dividers, and disabled / secondary fills',
+  Mid: 'Solid fills & UI-element backgrounds',
+  ThreeQuarter: 'Strong borders, secondary text, and hover/active states of solid fills',
+  Shadows: 'Highest-contrast text and strong foreground',
+};
+const colorIntent = (seg: string[], node: any): string | undefined => {
+  if (seg[0] !== 'color') return undefined;                       // scale-role intent is colour-specific
+  if (seg[1] === 'white') return 'Pure highlight base — default light surface / on-colour text';
+  if (seg[1] === 'black') return 'Shadow base — scrim & shadow source / on-colour text';
+  if (seg[1] === 'black-alpha' || seg[1] === 'white-alpha') return 'Overlay / scrim / shadow compositing (alpha — composites over any surface)';
+  const ext = node.$extensions?.prism3 ?? {};
+  if (!ext.band) return undefined;
+  const pivot = seg[2] === '500' ? ' — the dual-side AA pivot (clears 4.5:1 on both white and black)' : '';
+  return BAND_INTENT[ext.band] + pivot + (ext.anchor ? ' — brand anchor (pinned exact value)' : '');
+};
 
 // `consume` differs by family: colour/dimension are PRIVATE (reach them through a
 // semantic alias); opacity/motion are consumable directly (their semantic layer is thin).
@@ -189,9 +209,11 @@ export const buildAiMetadata = (theme: Theme, tree: any) => {
   for (const { path, node } of leaves) {
     if (refsIn(node.$value).length > 0) continue;       // skip aliases/composites — primitives only
     const seg = path.split('.');
+    const intent = colorIntent(seg, node);
     const p: AiPrimitive = {
       $description: node.$description,
       meaning: primMeaning(seg),
+      ...(intent ? { intent } : {}),
       tier: 'primitive',
       consume: CONSUME[seg[0]] ?? 'Private primitive — prefer a semantic token.',
     };
@@ -205,10 +227,12 @@ export const buildAiMetadata = (theme: Theme, tree: any) => {
     brand: theme.id,
     generated: true,
     note: 'Agent-readable metadata, companion to ' + `${theme.id}.tokens.json` + '. The semantic tier carries ' +
-      'the full schema (knowledge-base 31-color-systems §9); the primitive tier a simplified set + `aliased_by` ' +
-      '(the reverse index — which tokens resolve to it). All generated and contract-true; regenerated each build.',
+      'the full schema (knowledge-base 31-color-systems §9); the primitive tier a simplified set + colour-scale `intent` ' +
+      'and `aliased_by` (the reverse index — which tokens resolve to it). `aliased_by` is recomputed from the token ' +
+      'tree on every build (authoritative at build time, never hand-maintained — it cannot drift as roles re-resolve). ' +
+      'All fields generated and contract-true.',
     semantic_fields: ['$description', 'meaning', 'when_to_use', 'avoid_when', 'paired_with', 'contrast_with', 'mode_overrides'],
-    primitive_fields: ['$description', 'meaning', 'tier', 'consume', 'aliased_by'],
+    primitive_fields: ['$description', 'meaning', 'intent', 'tier', 'consume', 'aliased_by'],
     semantic,
     primitives,
   };
