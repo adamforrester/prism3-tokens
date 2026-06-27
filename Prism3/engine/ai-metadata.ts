@@ -129,8 +129,10 @@ const colorIntent = (seg: string[], node: any): string | undefined => {
   if (seg[1] === 'black-alpha' || seg[1] === 'white-alpha') return 'Overlay / scrim / shadow compositing (alpha — composites over any surface)';
   const ext = node.$extensions?.prism3 ?? {};
   if (!ext.band) return undefined;
-  const pivot = seg[2] === '500' ? ' — the dual-side AA pivot (clears 4.5:1 on both white and black)' : '';
-  return BAND_INTENT[ext.band] + pivot + (ext.anchor ? ' — brand anchor (pinned exact value)' : '');
+  // Usage-framed tails (what the step UNLOCKS) — distinct from the identity the
+  // leaf $description states (the measured property / provenance). No paraphrase.
+  const pivot = seg[2] === '500' ? ' — the one mid step that reads as text or icons over both light and dark fills' : '';
+  return BAND_INTENT[ext.band] + pivot + (ext.anchor ? ' — reach for this when fidelity to the source brand colour matters' : '');
 };
 
 // `consume` differs by family: colour/dimension are PRIVATE (reach them through a

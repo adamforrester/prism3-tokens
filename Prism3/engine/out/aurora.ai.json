@@ -1958,7 +1958,7 @@
     "color.primary.500": {
       "$description": "Brand primary 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
       "meaning": "primary ramp — raw step 500",
-      "intent": "Solid fills & UI-element backgrounds — the dual-side AA pivot (clears 4.5:1 on both white and black)",
+      "intent": "Solid fills & UI-element backgrounds — the one mid step that reads as text or icons over both light and dark fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -1972,7 +1972,7 @@
     "color.primary.550": {
       "$description": "Brand primary 550 — Mid-Tone band — brand anchor (exact, pinned)",
       "meaning": "primary ramp — raw step 550",
-      "intent": "Solid fills & UI-element backgrounds — brand anchor (pinned exact value)",
+      "intent": "Solid fills & UI-element backgrounds — reach for this when fidelity to the source brand colour matters",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2162,7 +2162,7 @@
     "color.neutral.500": {
       "$description": "Neutral 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
       "meaning": "neutral ramp — raw step 500",
-      "intent": "Solid fills & UI-element backgrounds — the dual-side AA pivot (clears 4.5:1 on both white and black)",
+      "intent": "Solid fills & UI-element backgrounds — the one mid step that reads as text or icons over both light and dark fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2437,7 +2437,7 @@
     "color.accent.500": {
       "$description": "Brand accent 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
       "meaning": "accent ramp — raw step 500",
-      "intent": "Solid fills & UI-element backgrounds — the dual-side AA pivot (clears 4.5:1 on both white and black)",
+      "intent": "Solid fills & UI-element backgrounds — the one mid step that reads as text or icons over both light and dark fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2634,7 +2634,7 @@
     "color.success.500": {
       "$description": "success status 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
       "meaning": "success ramp — raw step 500",
-      "intent": "Solid fills & UI-element backgrounds — the dual-side AA pivot (clears 4.5:1 on both white and black)",
+      "intent": "Solid fills & UI-element backgrounds — the one mid step that reads as text or icons over both light and dark fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2808,7 +2808,7 @@
     "color.warning.500": {
       "$description": "warning status 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
       "meaning": "warning ramp — raw step 500",
-      "intent": "Solid fills & UI-element backgrounds — the dual-side AA pivot (clears 4.5:1 on both white and black)",
+      "intent": "Solid fills & UI-element backgrounds — the one mid step that reads as text or icons over both light and dark fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2982,7 +2982,7 @@
     "color.info.500": {
       "$description": "info status 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
       "meaning": "info ramp — raw step 500",
-      "intent": "Solid fills & UI-element backgrounds — the dual-side AA pivot (clears 4.5:1 on both white and black)",
+      "intent": "Solid fills & UI-element backgrounds — the one mid step that reads as text or icons over both light and dark fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -3172,7 +3172,7 @@
     "color.danger.500": {
       "$description": "danger status (engine-carved red — primary is not red) 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
       "meaning": "danger ramp — raw step 500",
-      "intent": "Solid fills & UI-element backgrounds — the dual-side AA pivot (clears 4.5:1 on both white and black)",
+      "intent": "Solid fills & UI-element backgrounds — the one mid step that reads as text or icons over both light and dark fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
