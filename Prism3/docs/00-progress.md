@@ -50,8 +50,9 @@ Prism3/
 │   ├── 04-theming-playground.md     ← direction note: live theming dashboard / preview surface (web + Figma)
 │   └── 05-token-coverage-roadmap.md ← build backlog: remaining token categories (type, motion, shadow, layout, …)
 ├── schema/
-│   ├── theme-schema.json           ← brand input contract (JSON Schema)
-│   └── theme-schema.example.json   ← worked NB input (anchors, hues, etc.)
+│   ├── theme-schema.json           ← the white-label BrandInput contract (JSON Schema; validated on every emit)
+│   ├── theme-schema.example.json   ← a worked BrandInput (aurora) that conforms to the contract
+│   └── nb-measured.json            ← NB regression measurement fixture (reverse-engineered anchors; a DIFFERENT shape, consumed only by nbTheme)
 └── engine/                         ← dependency-free TypeScript prototype
     ├── color.ts                    ← sRGB↔OKLCH, CIELAB, CIEDE2000, WCAG contrast, gamut-aware max chroma
     ├── ramp.ts                     ← color ramp generation: exact anchor, 20 steps, chroma arc, 5 bands, contrast-role placement

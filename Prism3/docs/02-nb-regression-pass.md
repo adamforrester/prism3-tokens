@@ -1,7 +1,7 @@
 # Prism3 — New Balance Regression Pass (first sketch)
 
 > **Status:** v0.1 working analysis · **Date:** 2026-06-19
-> Before the engine is trusted to *invent* brands, it must be able to *reproduce* one we already hand-built. New Balance is the natural target: it carries a real, shipped token set, including the `brand.primary` role slots and the literal status palettes (see architecture spec §0.1). This document reverse-engineers NB's existing tokens into a Prism3 schema, measures what the current ramps actually are in OKLCH, and defines what "the engine reproduced NB" has to mean. The companion input is `../schema/theme-schema.example.json`.
+> Before the engine is trusted to *invent* brands, it must be able to *reproduce* one we already hand-built. New Balance is the natural target: it carries a real, shipped token set, including the `brand.primary` role slots and the literal status palettes (see architecture spec §0.1). This document reverse-engineers NB's existing tokens into a Prism3 schema, measures what the current ramps actually are in OKLCH, and defines what "the engine reproduced NB" has to mean. The companion input is `../schema/nb-measured.json`.
 
 ---
 
@@ -51,7 +51,7 @@ Sizes 12·14·16·18·20·24·28·32·40·48·60·76·96·120. The step ratio is
 
 ## 3. The reverse-engineered schema
 
-Captured in `../schema/theme-schema.example.json` with `$source` notes on every measured field. Headline inputs:
+Captured in `../schema/nb-measured.json` with `$source` notes on every measured field. Headline inputs:
 
 - **primary** NB Red — OKLCH(0.542, 0.215, 23)
 - **neutral** cool — hue 243, chroma ~0.013
@@ -132,4 +132,4 @@ Net: the spine of the architecture — exact-anchor preservation, ~20-step bands
 
 ---
 
-*Companion files: `../schema/theme-schema.example.json` (the measured NB input), `01-token-architecture.md` (the architecture this tests). Source data: `Tokens/New Balance/tokens/tokens/shared/core-color.json` and siblings.*
+*Companion files: `../schema/nb-measured.json` (the measured NB input), `01-token-architecture.md` (the architecture this tests). Source data: `Tokens/New Balance/tokens/tokens/shared/core-color.json` and siblings.*

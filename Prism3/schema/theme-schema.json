@@ -1,133 +1,71 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://prism.design/schema/theme-schema-0.1.json",
-  "title": "Prism3 Theme Schema",
-  "description": "The brand-defining input contract for the Prism3 generation engine. A brand is a small validated input set; the engine expands it into the full token tree, AI metadata, and platform outputs. Discipline: start at the five required inputs, expand to six on a strong need, resist the seventh — fewer than five causes visual collapse, more than six grows engine surface non-linearly.",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://prism3.dev/schema/theme-schema.json",
+  "title": "Prism3 BrandInput",
+  "description": "The white-label brand-input contract: the small, validated input set the engine expands into a complete token layer. This schema is the canonical, faithful description of the engine's `BrandInput` type (engine/theme.ts) — it is validated against on every emit. The New Balance REGRESSION uses a different, richer measurement fixture (schema/nb-measured.json), not this contract.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schemaVersion", "primaryColor", "neutralHue", "typography", "radius", "density"],
+  "required": ["id", "primary", "neutral"],
   "properties": {
-    "schemaVersion": {
+    "id": {
       "type": "string",
-      "const": "0.1",
-      "description": "Version of this contract the input targets. Used for cascade analysis and deprecation windows."
+      "description": "Brand identifier; becomes the emit root/namespace seed (e.g. 'aurora' → prism.*)."
     },
-
-    "primaryColor": {
+    "primary": {
+      "$ref": "#/$defs/oklch",
+      "description": "The exact brand anchor (palette 'primary'). Pinned, never shifted; the engine auto-places it on the step ramp by its lightness."
+    },
+    "neutral": {
       "type": "object",
-      "description": "REQUIRED #1. The brand's primary color as an OKLCH seed. The engine treats this as a fixed anchor and generates the full contrast-anchored ramp AROUND it (not from a hue). The supplied value is PRESERVED EXACTLY — it appears verbatim as a ramp step, never normalized to the generator's nearest lightness target (the Univers lesson: most tools omit the real brand value and force manual re-insertion). The default ramp is ~20 steps (025..950); step count is an engine constant, not a schema input. The engine also derives contrast-pinned text-on-primary pairs and accent semantics by formula.",
       "additionalProperties": false,
-      "required": ["oklch"],
+      "required": ["hue", "chroma"],
       "properties": {
-        "oklch": { "$ref": "#/$defs/oklch" },
-        "name": { "type": "string", "description": "Human label, e.g. 'Acme Blue'. Flows to docs and .ai.json." },
-        "chromaCeiling": {
-          "type": "number",
-          "minimum": 0,
-          "maximum": 0.4,
-          "description": "Optional per-brand override of the generated hue's max chroma, to keep vivid steps in-gamut. Defaults to the engine's per-hue ceiling."
-        }
-      }
+        "hue": { "type": "number", "description": "Neutral ramp hue (deg). A small chroma tints the greys toward the brand for cohesion." },
+        "chroma": { "type": "number", "minimum": 0, "description": "Peak neutral chroma (~0.004–0.02); tapers to near-0 at the ramp ends." }
+      },
+      "description": "The neutral ramp generator (hue + peak chroma)."
     },
-
     "brandColors": {
       "type": "array",
-      "description": "OPTIONAL. Additional brand colors beyond primaryColor, for brands with more than one brand hue (e.g. a couple of brand blues). Each value is PINNED EXACTLY (per primaryColor). The engine groups colors of a compatible hue (deltaH within ~15-20deg) that sit at distinct lightness positions into a SINGLE multi-anchor ramp that passes through all of them; colors that diverge in hue, collide at the same lightness, or conflict in chroma each get their OWN named scale. The grouping is automatic; set `scale` on an item to force it. Fit-or-split changes how many ramps carry the values, never the values.",
-      "items": { "$ref": "#/$defs/brandColor" }
-    },
-
-    "neutralHue": {
-      "type": "object",
-      "description": "REQUIRED #2. Seed for the gray ramp. Carries the brand's temperature (cool/warm/neutral). The engine generates a full neutral ramp tinted toward this hue.",
-      "additionalProperties": false,
-      "required": ["hue"],
-      "properties": {
-        "hue": { "type": "number", "minimum": 0, "maximum": 360, "description": "OKLCH hue angle the neutrals are tinted toward." },
-        "chroma": { "type": "number", "minimum": 0, "maximum": 0.05, "default": 0.005, "description": "How saturated the neutrals are. Near 0 = true gray; higher = visibly tinted." }
-      }
-    },
-
-    "typography": {
-      "type": "object",
-      "description": "REQUIRED #3. Typeface stack by ROLE. Family-role indirection is the white-label type lever: a font swap is a single primitive change, no composite rewritten. The engine fills core.font.family.{display,text,mono} from these and generates the modular scale, weight ladder, and fluid triplets.",
-      "additionalProperties": false,
-      "required": ["text"],
-      "properties": {
-        "display": { "$ref": "#/$defs/fontStack", "description": "Headlines / expressive tier. Defaults to the text stack if omitted." },
-        "text": { "$ref": "#/$defs/fontStack", "description": "Body / UI tier. The one required stack." },
-        "mono": { "$ref": "#/$defs/fontStack", "description": "Code / tabular tier. Defaults to a system mono stack if omitted." },
-        "scaleRatioText": { "type": "number", "default": 1.2, "description": "Modular scale ratio for the text tier (e.g. 1.200 Minor Third)." },
-        "scaleRatioDisplay": { "type": "number", "default": 1.414, "description": "Display pivot: separate (larger) ratio for the display tier. A single uniform ratio fails at the extremes." },
-        "scriptFallbacks": {
-          "type": "object",
-          "description": "Optional per-script family overrides (cyrillic, cjk, arabic, …). Latin pairing harmony does not transfer across scripts; each is re-validated. Emitted as DTCG modes / @font-face unicode-range.",
-          "additionalProperties": { "$ref": "#/$defs/fontStack" }
+      "description": "OPTIONAL. Additional brand colours (secondary / tertiary / accents) — any number. Each becomes its own ramp and can be named by `actionPalette`. This is what makes the palette set open-ended.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "oklch"],
+        "properties": {
+          "name": { "type": "string", "description": "Palette name (e.g. 'accent')." },
+          "oklch": { "$ref": "#/$defs/oklch" }
         }
       }
     },
-
-    "radius": {
+    "actionPalette": {
+      "type": "string",
+      "description": "OPTIONAL. Which palette drives the interactive/action colour. Defaults to 'primary'. Brands whose hero colour is unsuitable for actions name another palette here (an accent, or even neutral). The engine FLAGS this in notes so it is an explicit, confirmable choice."
+    },
+    "surfaces": {
       "type": "object",
-      "description": "REQUIRED #4. The form-factor distinguisher (sharp = industrial, soft = consumer). A single scalar that scales the whole corner system from none to full.",
       "additionalProperties": false,
-      "required": ["scale"],
+      "description": "OPTIONAL. Non-default primary surfaces per mode (e.g. a warm off-white page). The contrast FLOOR moves with the declared base; the engine flags it in notes. Omit for white/black defaults.",
       "properties": {
-        "scale": {
-          "type": "number",
-          "minimum": 0,
-          "maximum": 2,
-          "description": "Multiplier on the base radius ramp. 0 = fully sharp (all corners collapse to 0 except pill/full); 1 = system default; up to 2 = very soft."
-        },
-        "baseMd": { "type": "number", "default": 4, "description": "Optional anchor (px) for radius.md before scaling. The rest of the ramp is derived." }
+        "light": { "$ref": "#/$defs/surfaceMode" },
+        "dark": { "$ref": "#/$defs/surfaceMode" }
       }
     },
-
-    "density": {
+    "status": {
       "type": "object",
-      "description": "REQUIRED #5. The spacing-rhythm step. Parameterizes the spacing scale; generated and committed as literals per density mode (never a runtime expression). Application-default with modality-as-signal — not a runtime contract.",
       "additionalProperties": false,
-      "required": ["default"],
+      "description": "OPTIONAL. Measured status hue overrides; omit any to let the engine synthesise from canonical hues (and carve a dedicated danger red when the primary isn't red).",
       "properties": {
-        "default": {
-          "type": "string",
-          "enum": ["comfortable", "compact"],
-          "description": "The brand's default density. 'compact' maps each semantic spacing step one dimension-step tighter."
-        },
-        "steps": {
-          "type": "array",
-          "items": { "type": "string", "enum": ["comfortable", "compact", "spacious"] },
-          "default": ["comfortable", "compact"],
-          "description": "Which density modes to generate. Two by default; add a third only with analytics justification."
-        }
+        "success": { "$ref": "#/$defs/statusHue" },
+        "warning": { "$ref": "#/$defs/statusHue" },
+        "danger": { "$ref": "#/$defs/statusHue" }
       }
     },
-
-    "secondaryColor": {
-      "$ref": "#/$defs/brandColor",
-      "description": "OPTIONAL. A second brand hue. Generated as its own contrast-anchored ramp."
-    },
-    "accentColor": {
-      "$ref": "#/$defs/brandColor",
-      "description": "OPTIONAL. An accent/highlight hue, distinct from primary action color."
-    },
-
-    "statusColors": {
-      "type": "object",
-      "description": "OPTIONAL and DISCOURAGED. Status colors are infrastructure, not brand assets — they stay perceptually stable across brands so 'error' always reads as error. Override only with a deliberate reason. Omitted = engine defaults. When the brand primary sits in red territory, the engine carves a separate destructive red regardless of this field.",
-      "additionalProperties": false,
-      "properties": {
-        "success": { "$ref": "#/$defs/oklch" },
-        "warning": { "$ref": "#/$defs/oklch" },
-        "danger":  { "$ref": "#/$defs/oklch" },
-        "info":    { "$ref": "#/$defs/oklch" }
-      }
-    },
-
     "disabledStrategy": {
       "type": "string",
       "enum": ["accessible", "conventional"],
       "default": "accessible",
-      "description": "OPTIONAL. How disabled states are coloured. 'accessible' (default): disabled text/icon/border clears `disabledMin` on the contrast floor, staying legible (the practice's contrast-preserving stance; field-rare — 0/12 surveyed systems guarantee it). 'conventional': intentionally sub-AA, leaning on the WCAG 1.4.3/1.4.11 inactive-component exemption (the field-standard dimmed look) — choose for legacy/brand-driven engagements."
+      "description": "OPTIONAL. How disabled states are coloured. 'accessible' (default): disabled text/icon/border clears `disabledMin` on the contrast floor, staying legible (the practice's contrast-preserving stance; field-rare — 0/12 surveyed systems guarantee it). 'conventional': intentionally sub-AA, leaning on the WCAG 1.4.3/1.4.11 inactive-component exemption (the field-standard dimmed look)."
     },
     "disabledMin": {
       "type": "number",
@@ -138,79 +76,73 @@
       "type": "string",
       "enum": ["text", "3:1"],
       "default": "text",
-      "description": "OPTIONAL. Icon contrast floor. 'text' (default): icons mirror text at 4.5:1. '3:1': icons resolve against the WCAG SC 1.4.11 non-text floor (graphical objects), letting secondary/semantic icons run lighter than text; icon.primary stays strong. Standards-correct (1.4.11 is a separate, lower floor than 1.4.3's 4.5:1)."
+      "description": "OPTIONAL. Icon contrast floor. 'text' (default): icons mirror text at 4.5:1. '3:1': icons resolve against the WCAG SC 1.4.11 non-text floor (graphical objects), letting secondary/semantic icons run lighter than text; icon.primary stays strong."
     },
-
-    "displayP3": {
-      "type": "boolean",
-      "default": false,
-      "description": "OPTIONAL. Emit Display-P3 render targets (alongside sRGB hex fallback) for brand-critical surfaces such as heroes and accents."
-    },
-
     "motionPersonality": {
       "type": "object",
-      "description": "OPTIONAL — the disciplined 6th input. Brand easing/duration character. Reduced-motion variants are always generated regardless (vestibular durations drop to 0).",
       "additionalProperties": false,
+      "description": "OPTIONAL — the disciplined 6th input. Brand motion character. `tempo` scales the generated duration ramp; reduce-motion variants are always derived (informational preserved, vestibular → 0).",
       "properties": {
-        "tempo": { "type": "string", "enum": ["snappy", "standard", "relaxed"], "default": "standard", "description": "Scales the base duration ramp." },
-        "easingEmphasized": { "type": "array", "items": { "type": "number" }, "minItems": 4, "maxItems": 4, "description": "Optional cubic-bezier override for the emphasized easing curve." }
+        "tempo": {
+          "type": "string",
+          "enum": ["snappy", "standard", "relaxed"],
+          "default": "standard",
+          "description": "Scales the base duration ramp (snappy ×0.8, standard ×1.0, relaxed ×1.3)."
+        },
+        "easingEmphasized": {
+          "type": "array",
+          "items": { "type": "number" },
+          "minItems": 4,
+          "maxItems": 4,
+          "description": "Optional cubic-bezier override for the expressive 'emphasized' easing curve."
+        }
       }
     },
-
-    "brand": {
-      "type": "object",
-      "description": "OPTIONAL metadata. Drives docs, .ai.json, and the per-brand MCP surface. Does NOT produce token values.",
-      "additionalProperties": false,
-      "required": ["id"],
-      "properties": {
-        "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$", "description": "Stable slug, used for output package naming and the data-brand attribute." },
-        "name": { "type": "string" },
-        "logo": { "type": "string", "format": "uri" },
-        "voice": { "type": "string", "description": "Short tone-of-voice note; informs $description / when_to_use in .ai.json." }
-      }
-    }
+    "baseUnit": { "type": "number", "default": 4, "description": "OPTIONAL. Fine dimension-grid base (px). Default 4." },
+    "spaceBase": { "type": "number", "default": 8, "description": "OPTIONAL. Spacing rhythm (px) for the numbered-multiplier space scale. Default 8." },
+    "density": {
+      "type": "string",
+      "enum": ["comfortable", "compact", "spacious"],
+      "default": "comfortable",
+      "description": "OPTIONAL. Drives component sizes (height/padding). Default 'comfortable'."
+    },
+    "radiusScale": { "type": "number", "default": 1, "description": "OPTIONAL. Corner softness: 0 = sharp, 1 = default, 2 = soft. Default 1." },
+    "baseMd": { "type": "number", "default": 4, "description": "OPTIONAL. The radius.md anchor (px) at scale 1. Default 4." }
   },
-
   "$defs": {
     "oklch": {
       "type": "object",
-      "description": "A color in OKLCH — the authoring space for Prism3. L 0-1, C 0+ (per-hue ceilings apply), H 0-360.",
       "additionalProperties": false,
       "required": ["l", "c", "h"],
       "properties": {
-        "l": { "type": "number", "minimum": 0, "maximum": 1, "description": "Perceptual lightness." },
-        "c": { "type": "number", "minimum": 0, "maximum": 0.4, "description": "Chroma." },
-        "h": { "type": "number", "minimum": 0, "maximum": 360, "description": "Hue angle." }
+        "l": { "type": "number", "minimum": 0, "maximum": 1, "description": "Lightness 0..1." },
+        "c": { "type": "number", "minimum": 0, "description": "Chroma 0+." },
+        "h": { "type": "number", "description": "Hue (deg)." }
       }
     },
-    "brandColor": {
+    "statusHue": {
       "type": "object",
-      "description": "A brand color seed. The oklch value is preserved exactly as a ramp step (anchor). Optionally controls how it groups into ramps.",
       "additionalProperties": false,
-      "required": ["oklch"],
+      "required": ["l", "c", "h", "chroma"],
       "properties": {
-        "oklch": { "$ref": "#/$defs/oklch" },
-        "name": { "type": "string", "description": "Human label, flows to the generated scale name, docs and .ai.json." },
-        "chromaCeiling": { "type": "number", "minimum": 0, "maximum": 0.4 },
-        "scale": {
-          "type": "string",
-          "description": "OPTIONAL grouping control, overriding the engine's automatic fit-or-split. A named scale id (e.g. 'brand-blue') forces this color onto/into that ramp as an additional anchor; 'separate' forces its own standalone scale. Omit to let the engine decide by hue/lightness distance."
-        }
+        "l": { "type": "number", "minimum": 0, "maximum": 1 },
+        "c": { "type": "number", "minimum": 0 },
+        "h": { "type": "number" },
+        "chroma": { "type": "number", "minimum": 0, "description": "Peak ramp chroma for this status hue." }
       }
     },
-    "fontStack": {
+    "surfaceMode": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["family"],
       "properties": {
-        "family": { "type": "string", "description": "Primary family name, e.g. 'Proxima Nova'." },
-        "fallbacks": { "type": "array", "items": { "type": "string" }, "description": "Ordered fallback families; the full stack lives in the token, never in consumer CSS." },
-        "variable": { "type": "boolean", "default": false, "description": "Is this a variable font? If true the engine freezes named weight instances at the token layer." },
-        "axes": {
-          "type": "object",
-          "description": "Optional declared variable axes (wght, wdth, opsz, slnt, GRAD). When opsz is present the engine sets font-optical-sizing: auto by default.",
-          "additionalProperties": { "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2 }
-        }
+        "base": {
+          "oneOf": [
+            { "type": "string", "enum": ["white", "black"] },
+            { "type": "number", "description": "A neutral step number (e.g. 50)." }
+          ],
+          "description": "The page surface for this mode."
+        },
+        "floorStep": { "type": "number", "description": "The neutral step used as the contrast floor; defaults follow `base`." }
       }
     }
   }

@@ -13,8 +13,9 @@ Prism3/
 │   ├── 01-token-architecture.md   ← the architecture spec (start here for the design)
 │   └── 02-nb-regression-pass.md   ← the NB regression: method + measured results
 ├── schema/
-│   ├── theme-schema.json          ← the brand input contract (JSON Schema)
-│   └── theme-schema.example.json  ← a worked brand input (New Balance)
+│   ├── theme-schema.json          ← the white-label BrandInput contract (JSON Schema; validated on every emit)
+│   ├── theme-schema.example.json  ← a worked BrandInput (aurora) that conforms to the contract
+│   └── nb-measured.json           ← NB regression measurement fixture (a different shape; consumed only by nbTheme)
 └── engine/                        ← dependency-free TypeScript prototype (see engine/README.md)
     ├── color.ts ramp.ts theme.ts modes.ts
     ├── nb-regression.ts  emit-dtcg.ts

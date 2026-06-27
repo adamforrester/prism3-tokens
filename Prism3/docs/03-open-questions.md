@@ -19,7 +19,17 @@ semantic role sets across NB and aurora (a real white-label signal), no stubs/TO
 clean renames, regression stable (ΔE00 1.95, 11/11, 21/21) across all the churn.
 Three findings left to decide:
 
-### Item 6 — Schema ↔ BrandInput drift  ·  **OPEN (highest-priority)**
+### Item 6 — Schema ↔ BrandInput drift  ·  **RESOLVED (2026-06-27)**
+
+> **Resolved:** `theme-schema.json` rewritten to faithfully describe the actual
+> `BrandInput` (the documented "brand input contract" is now true); the NB
+> measurement fixture renamed `theme-schema.example.json` → `nb-measured.json`
+> (it's a different shape, consumed only by `nbTheme`); a new
+> `theme-schema.example.json` is a worked BrandInput (aurora). A dependency-free
+> conformance validator now runs on every emit — both the aurora input and the
+> example file are validated against the contract, so the schema and the input
+> type can't silently drift again (verified: the validator catches unknown
+> properties, missing required fields, and bad enums). Original finding below.
 
 `theme-schema.json` (labelled "brand input contract" in `00-progress`) and the
 engine's actual `BrandInput` type have diverged. The schema uses `primaryColor` /

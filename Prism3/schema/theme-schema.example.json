@@ -1,70 +1,14 @@
 {
-  "$comment": "Worked example: New Balance re-expressed as a Prism3 brand schema. Generating this and diffing against the existing hand-built NB token set is the engine regression test (see docs/02-nb-regression-pass.md). Every OKLCH value below is MEASURED from the current NB core-color.json, not guessed — see the regression doc for the conversion. Where a field is the engine's own default (NB never declared it) it is marked $default.",
-
-  "schemaVersion": "0.1",
-
-  "primaryColor": {
-    "name": "NB Red",
-    "$source": "measured from nbds.color.red.550 (rgb 207,10,44)",
-    "oklch": { "l": 0.542, "c": 0.215, "h": 23 }
-  },
-
-  "neutralHue": {
-    "$source": "measured: NB neutral is COOL (blue-leaning ~243deg), not warm. Chroma peaks ~0.013 mid-ramp and tapers to <0.004 at the ends.",
-    "hue": 243,
-    "chroma": 0.013
-  },
-
-  "statusColors": {
-    "$comment": "NB declares success/warning/danger only. There is NO info palette in the source — left null so the engine either omits info or supplies its default. Note: danger shares the brand hue (~23deg); the .ai.json must disambiguate promo-red from error-red.",
-    "success": { "name": "green",  "oklch": { "l": 0.533, "c": 0.136, "h": 152 } },
-    "warning": { "name": "amber",  "oklch": { "l": 0.578, "c": 0.136, "h": 59 } },
-    "danger":  { "name": "red",    "oklch": { "l": 0.542, "c": 0.215, "h": 23 } },
-    "info":    null
-  },
-
-  "accentColor": {
-    "name": "NB Amber",
-    "$source": "measured from nbds.color.amber.600 (text.accent.default)",
-    "oklch": { "l": 0.476, "c": 0.141, "h": 42 }
-  },
-
-  "typography": {
-    "$source": "measured from core-typography.json. NB is NOT a variable-font setup: discrete cuts only.",
-    "display": { "family": "ITC Garamond Std", "fallbacks": ["Georgia", "serif"], "weights": [400] },
-    "text":    { "family": "Proxima Nova", "fallbacks": ["Helvetica Neue", "Arial", "sans-serif"], "variable": false, "weights": [400, 500] },
-    "condensed": { "family": "Proxima Nova Condensed", "weights": [400] },
-    "mono":    { "$default": true, "family": "ui-monospace", "fallbacks": ["SFMono-Regular", "Menlo", "monospace"] },
-    "$comment": "Measured step ratios are NOT a single constant: ~1.15 at body sizes (12->14->16), climbing to ~1.25 at display (60->76->96->120). This is the display-pivot pattern the spec predicts (4.2), so the engine needs two ratios, not one.",
-    "scaleRatioText": 1.15,
-    "scaleRatioDisplay": 1.25
-  },
-
-  "radius": {
-    "$source": "measured: sm=2 md=4 lg=6 (near-linear, 2px increment) + round=128 (pill). NB is a low-radius / sharp brand.",
-    "baseMd": 4,
-    "scale": "linear-2px",
-    "pill": 128
-  },
-
-  "density": {
-    "$source": "measured: 4px base grid (dimension scale 0,1,2,4,6,8,12,16,20,24...).",
-    "default": "comfortable",
-    "steps": ["comfortable", "compact"],
-    "baseUnit": 4
-  },
-
-  "motion": {
-    "$source": "measured from core-motion.json",
-    "durations": [0, 50, 100, 150, 200, 300, 500, 800],
-    "signatureEasing": { "name": "fast-out-slow-in", "cubicBezier": [0.2, 0, 0, 1] }
-  },
-
-  "displayP3": true,
-
-  "brand": {
-    "id": "new-balance",
-    "name": "New Balance",
-    "voice": "Athletic, confident, heritage-modern. Serif display (Garamond), restrained sans UI (Proxima), sharp corners, signature NB Red."
-  }
+  "id": "aurora",
+  "primary": { "l": 0.5, "c": 0.18, "h": 285 },
+  "neutral": { "hue": 285, "chroma": 0.008 },
+  "brandColors": [
+    { "name": "accent", "oklch": { "l": 0.55, "c": 0.15, "h": 235 } }
+  ],
+  "actionPalette": "accent",
+  "surfaces": { "light": { "base": 50 } },
+  "iconContrast": "3:1",
+  "motionPersonality": { "tempo": "snappy" },
+  "radiusScale": 2,
+  "density": "compact"
 }
