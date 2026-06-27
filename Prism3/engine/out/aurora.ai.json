@@ -15,7 +15,7 @@
   "tokens": {
     "background.primary": {
       "$description": "Elevation 1 container surface (page → floating).",
-      "meaning": "Elevation 1 container surface (page → floating)",
+      "meaning": "Container elevation / depth",
       "when_to_use": "Fill for the page / base.",
       "avoid_when": "Do not use for text, icons, or interactive fills. For interactive elements use foreground.interactive.",
       "mode_overrides": {
@@ -32,7 +32,7 @@
     },
     "background.secondary": {
       "$description": "Elevation 2 container surface (page → floating).",
-      "meaning": "Elevation 2 container surface (page → floating)",
+      "meaning": "Container elevation / depth",
       "when_to_use": "Fill for raised cards & panels.",
       "avoid_when": "Do not use for text, icons, or interactive fills. For interactive elements use foreground.interactive.",
       "mode_overrides": {
@@ -49,7 +49,7 @@
     },
     "background.tertiary": {
       "$description": "Elevation 3 container surface (page → floating).",
-      "meaning": "Elevation 3 container surface (page → floating)",
+      "meaning": "Container elevation / depth",
       "when_to_use": "Fill for nested / higher-elevation containers.",
       "avoid_when": "Do not use for text, icons, or interactive fills. For interactive elements use foreground.interactive.",
       "mode_overrides": {
@@ -66,7 +66,7 @@
     },
     "background.quaternary": {
       "$description": "Elevation 4 container surface (page → floating).",
-      "meaning": "Elevation 4 container surface (page → floating)",
+      "meaning": "Container elevation / depth",
       "when_to_use": "Fill for floating UI (dialogs, popovers, menus).",
       "avoid_when": "Do not use for text, icons, or interactive fills. For interactive elements use foreground.interactive.",
       "mode_overrides": {
@@ -83,7 +83,7 @@
     },
     "background.subtle": {
       "$description": "Muted / grouped container surface.",
-      "meaning": "Muted / grouped container surface",
+      "meaning": "Low-emphasis grouping",
       "when_to_use": "Secondary background for grouped or low-emphasis regions.",
       "avoid_when": "Do not use as the primary page surface (use background.primary).",
       "mode_overrides": {
@@ -95,7 +95,7 @@
     },
     "background.sunken": {
       "$description": "Sunken / inset container surface.",
-      "meaning": "Sunken / inset container surface",
+      "meaning": "Recessed depth",
       "when_to_use": "Wells, insets, tracks — areas that read as below the page.",
       "avoid_when": "Do not use for raised elements (use background.secondary+).",
       "mode_overrides": {
@@ -107,7 +107,7 @@
     },
     "background.inverse": {
       "$description": "Inverse container surface.",
-      "meaning": "Inverse container surface",
+      "meaning": "Inverted-surface emphasis",
       "when_to_use": "High-contrast inverted sections (e.g. a dark callout in light mode).",
       "avoid_when": "Do not place mode-default text on it — use text.inverse / text.on-emphasis.",
       "mode_overrides": {
@@ -123,7 +123,7 @@
     },
     "background.brand-subtle": {
       "$description": "Subtle brand identity tint surface.",
-      "meaning": "Subtle brand identity tint surface",
+      "meaning": "Brand identity (low-emphasis)",
       "when_to_use": "Low-emphasis brand backgrounds — badges, banners, selected rows.",
       "avoid_when": "Do not use as a solid brand fill (use foreground.brand) or for brand text (use text.brand).",
       "mode_overrides": {
@@ -139,7 +139,7 @@
     },
     "background.success-subtle": {
       "$description": "Subtle success / positive tint surface.",
-      "meaning": "Subtle success / positive tint surface",
+      "meaning": "Success / positive signalling (low-emphasis)",
       "when_to_use": "Low-emphasis success backgrounds — badges, banners, selected rows.",
       "avoid_when": "Do not use as a solid success fill (use foreground.success) or for success text (use text.success).",
       "mode_overrides": {
@@ -155,7 +155,7 @@
     },
     "background.warning-subtle": {
       "$description": "Subtle warning / caution tint surface.",
-      "meaning": "Subtle warning / caution tint surface",
+      "meaning": "Warning / caution signalling (low-emphasis)",
       "when_to_use": "Low-emphasis warning backgrounds — badges, banners, selected rows.",
       "avoid_when": "Do not use as a solid warning fill (use foreground.warning) or for warning text (use text.warning).",
       "mode_overrides": {
@@ -171,7 +171,7 @@
     },
     "background.danger-subtle": {
       "$description": "Subtle destructive / error tint surface.",
-      "meaning": "Subtle destructive / error tint surface",
+      "meaning": "Destructive / error signalling (low-emphasis)",
       "when_to_use": "Low-emphasis danger backgrounds — badges, banners, selected rows.",
       "avoid_when": "Do not use as a solid danger fill (use foreground.danger) or for danger text (use text.danger).",
       "mode_overrides": {
@@ -187,7 +187,7 @@
     },
     "background.info-subtle": {
       "$description": "Subtle informational tint surface.",
-      "meaning": "Subtle informational tint surface",
+      "meaning": "Informational signalling (low-emphasis)",
       "when_to_use": "Low-emphasis info backgrounds — badges, banners, selected rows.",
       "avoid_when": "Do not use as a solid info fill (use foreground.info) or for info text (use text.info).",
       "mode_overrides": {
@@ -203,7 +203,7 @@
     },
     "scrim.default": {
       "$description": "Semi-transparent backdrop behind modals / drawers.",
-      "meaning": "Semi-transparent backdrop behind modals / drawers",
+      "meaning": "Background dimming / modal focus",
       "when_to_use": "The dimming layer behind a modal, dialog, or drawer.",
       "avoid_when": "Do not use as a solid surface or for any opaque element.",
       "mode_overrides": {
@@ -218,7 +218,7 @@
     },
     "foreground.primary": {
       "$description": "Primary (highest-emphasis) neutral element fill.",
-      "meaning": "primary (highest-emphasis) neutral element fill",
+      "meaning": "Neutral element emphasis",
       "when_to_use": "Solid neutral fill for chips, neutral buttons, controls.",
       "avoid_when": "Do not use for text/icons (use text.*/icon.*) or page surfaces (use background.*).",
       "mode_overrides": {
@@ -230,7 +230,7 @@
     },
     "foreground.secondary": {
       "$description": "Secondary neutral element fill.",
-      "meaning": "secondary neutral element fill",
+      "meaning": "Neutral element emphasis",
       "when_to_use": "Solid neutral fill for chips, neutral buttons, controls.",
       "avoid_when": "Do not use for text/icons (use text.*/icon.*) or page surfaces (use background.*).",
       "mode_overrides": {
@@ -242,7 +242,7 @@
     },
     "foreground.tertiary": {
       "$description": "Tertiary (subtle) neutral element fill.",
-      "meaning": "tertiary (subtle) neutral element fill",
+      "meaning": "Neutral element emphasis",
       "when_to_use": "Solid neutral fill for chips, neutral buttons, controls.",
       "avoid_when": "Do not use for text/icons (use text.*/icon.*) or page surfaces (use background.*).",
       "mode_overrides": {
@@ -254,7 +254,7 @@
     },
     "foreground.inverse": {
       "$description": "Neutral element fill for inverse contexts.",
-      "meaning": "Neutral element fill for inverse contexts",
+      "meaning": "Inverted-surface contrast",
       "when_to_use": "Neutral fills placed on inverse surfaces.",
       "avoid_when": "Do not use on default surfaces (use foreground.primary).",
       "mode_overrides": {
@@ -266,7 +266,7 @@
     },
     "foreground.brand": {
       "$description": "Solid brand identity fill.",
-      "meaning": "Solid brand identity fill",
+      "meaning": "Brand identity",
       "when_to_use": "Filled brand elements — badges, banners, status chips.",
       "avoid_when": "Do not use for brand text (use text.brand) or as a subtle tint (use background.brand-subtle).",
       "mode_overrides": {
@@ -289,7 +289,7 @@
     },
     "foreground.success": {
       "$description": "Solid success / positive fill.",
-      "meaning": "Solid success / positive fill",
+      "meaning": "Success / positive signalling",
       "when_to_use": "Filled success elements — badges, banners, status chips.",
       "avoid_when": "Do not use for success text (use text.success) or as a subtle tint (use background.success-subtle).",
       "mode_overrides": {
@@ -312,7 +312,7 @@
     },
     "foreground.warning": {
       "$description": "Solid warning / caution fill.",
-      "meaning": "Solid warning / caution fill",
+      "meaning": "Warning / caution signalling",
       "when_to_use": "Filled warning elements — badges, banners, status chips.",
       "avoid_when": "Do not use for warning text (use text.warning) or as a subtle tint (use background.warning-subtle).",
       "mode_overrides": {
@@ -335,7 +335,7 @@
     },
     "foreground.info": {
       "$description": "Solid informational fill.",
-      "meaning": "Solid informational fill",
+      "meaning": "Informational signalling",
       "when_to_use": "Filled info elements — badges, banners, status chips.",
       "avoid_when": "Do not use for info text (use text.info) or as a subtle tint (use background.info-subtle).",
       "mode_overrides": {
@@ -358,7 +358,7 @@
     },
     "foreground.interactive.default": {
       "$description": "Interactive (action) fill (default state).",
-      "meaning": "Interactive (action) fill (default state)",
+      "meaning": "Interactivity / actions",
       "when_to_use": "Primary interactive surfaces — buttons, toggles, selected controls in the default state.",
       "avoid_when": "Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background.*).",
       "mode_overrides": {
@@ -381,7 +381,7 @@
     },
     "foreground.danger.default": {
       "$description": "Destructive / error fill (default state).",
-      "meaning": "Destructive / error fill (default state)",
+      "meaning": "Destructive / error signalling",
       "when_to_use": "Destructive actions — delete/remove buttons, error fills in the default state.",
       "avoid_when": "Do not use for non-destructive actions (use foreground.interactive) or warnings (use foreground.warning).",
       "mode_overrides": {
@@ -404,7 +404,7 @@
     },
     "foreground.interactive.hover": {
       "$description": "Interactive (action) fill (hover state).",
-      "meaning": "Interactive (action) fill (hover state)",
+      "meaning": "Interactivity / actions",
       "when_to_use": "Primary interactive surfaces — buttons, toggles, selected controls in the hover state.",
       "avoid_when": "Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background.*).",
       "mode_overrides": {
@@ -427,7 +427,7 @@
     },
     "foreground.danger.hover": {
       "$description": "Destructive / error fill (hover state).",
-      "meaning": "Destructive / error fill (hover state)",
+      "meaning": "Destructive / error signalling",
       "when_to_use": "Destructive actions — delete/remove buttons, error fills in the hover state.",
       "avoid_when": "Do not use for non-destructive actions (use foreground.interactive) or warnings (use foreground.warning).",
       "mode_overrides": {
@@ -450,7 +450,7 @@
     },
     "foreground.interactive.pressed": {
       "$description": "Interactive (action) fill (pressed state).",
-      "meaning": "Interactive (action) fill (pressed state)",
+      "meaning": "Interactivity / actions",
       "when_to_use": "Primary interactive surfaces — buttons, toggles, selected controls in the pressed state.",
       "avoid_when": "Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background.*).",
       "mode_overrides": {
@@ -473,7 +473,7 @@
     },
     "foreground.danger.pressed": {
       "$description": "Destructive / error fill (pressed state).",
-      "meaning": "Destructive / error fill (pressed state)",
+      "meaning": "Destructive / error signalling",
       "when_to_use": "Destructive actions — delete/remove buttons, error fills in the pressed state.",
       "avoid_when": "Do not use for non-destructive actions (use foreground.interactive) or warnings (use foreground.warning).",
       "mode_overrides": {
@@ -496,7 +496,7 @@
     },
     "foreground.interactive.focused": {
       "$description": "Interactive (action) fill (focused state).",
-      "meaning": "Interactive (action) fill (focused state)",
+      "meaning": "Interactivity / actions",
       "when_to_use": "Primary interactive surfaces — buttons, toggles, selected controls in the focused state.",
       "avoid_when": "Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background.*).",
       "mode_overrides": {
@@ -519,7 +519,7 @@
     },
     "foreground.danger.focused": {
       "$description": "Destructive / error fill (focused state).",
-      "meaning": "Destructive / error fill (focused state)",
+      "meaning": "Destructive / error signalling",
       "when_to_use": "Destructive actions — delete/remove buttons, error fills in the focused state.",
       "avoid_when": "Do not use for non-destructive actions (use foreground.interactive) or warnings (use foreground.warning).",
       "mode_overrides": {
@@ -542,7 +542,7 @@
     },
     "foreground.interactive.selected": {
       "$description": "Interactive (action) fill (selected state).",
-      "meaning": "Interactive (action) fill (selected state)",
+      "meaning": "Interactivity / actions",
       "when_to_use": "Primary interactive surfaces — buttons, toggles, selected controls in the selected state.",
       "avoid_when": "Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background.*).",
       "mode_overrides": {
@@ -565,7 +565,7 @@
     },
     "foreground.danger.selected": {
       "$description": "Destructive / error fill (selected state).",
-      "meaning": "Destructive / error fill (selected state)",
+      "meaning": "Destructive / error signalling",
       "when_to_use": "Destructive actions — delete/remove buttons, error fills in the selected state.",
       "avoid_when": "Do not use for non-destructive actions (use foreground.interactive) or warnings (use foreground.warning).",
       "mode_overrides": {
@@ -588,7 +588,7 @@
     },
     "foreground.interactive.disabled": {
       "$description": "Interactive (action) fill (disabled state).",
-      "meaning": "Interactive (action) fill (disabled state)",
+      "meaning": "Interactivity / actions",
       "when_to_use": "Primary interactive surfaces — buttons, toggles, selected controls in the disabled state.",
       "avoid_when": "Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background.*).",
       "mode_overrides": {
@@ -604,7 +604,7 @@
     },
     "foreground.danger.disabled": {
       "$description": "Destructive / error fill (disabled state).",
-      "meaning": "Destructive / error fill (disabled state)",
+      "meaning": "Destructive / error signalling",
       "when_to_use": "Destructive actions — delete/remove buttons, error fills in the disabled state.",
       "avoid_when": "Do not use for non-destructive actions (use foreground.interactive) or warnings (use foreground.warning).",
       "mode_overrides": {
@@ -620,7 +620,7 @@
     },
     "text.primary": {
       "$description": "Primary (highest-emphasis) text.",
-      "meaning": "primary (highest-emphasis) text",
+      "meaning": "Content hierarchy / reading emphasis",
       "when_to_use": "Primary text on any standard surface (holds across the elevation ladder).",
       "avoid_when": "Do not use on solid/vivid fills — use text.on-*.",
       "mode_overrides": {
@@ -644,7 +644,7 @@
     },
     "text.secondary": {
       "$description": "Secondary text.",
-      "meaning": "secondary text",
+      "meaning": "Content hierarchy / reading emphasis",
       "when_to_use": "Secondary text on any standard surface (holds across the elevation ladder).",
       "avoid_when": "Do not use on solid/vivid fills — use text.on-*.",
       "mode_overrides": {
@@ -668,7 +668,7 @@
     },
     "text.tertiary": {
       "$description": "Tertiary (subtle) text.",
-      "meaning": "tertiary (subtle) text",
+      "meaning": "Content hierarchy / reading emphasis",
       "when_to_use": "Tertiary text on any standard surface (holds across the elevation ladder).",
       "avoid_when": "Do not use on solid/vivid fills — use text.on-*.",
       "mode_overrides": {
@@ -692,7 +692,7 @@
     },
     "text.disabled": {
       "$description": "Disabled / inactive text.",
-      "meaning": "Disabled / inactive text",
+      "meaning": "Unavailable / inactive state",
       "when_to_use": "Text for disabled or inactive elements.",
       "avoid_when": "Do not use for active content.",
       "mode_overrides": {
@@ -711,7 +711,7 @@
     },
     "text.inverse": {
       "$description": "Text on inverse surfaces.",
-      "meaning": "Text on inverse surfaces",
+      "meaning": "Inverted-surface contrast",
       "when_to_use": "Text on background.inverse / dark callouts.",
       "avoid_when": "Do not use on default surfaces.",
       "mode_overrides": {
@@ -733,7 +733,7 @@
     },
     "text.brand": {
       "$description": "Brand identity text.",
-      "meaning": "Brand identity text",
+      "meaning": "Brand identity",
       "when_to_use": "Brand text on standard surfaces (e.g. inline error/success text).",
       "avoid_when": "Do not use on a solid brand fill — use text.on-brand.",
       "mode_overrides": {
@@ -755,7 +755,7 @@
     },
     "text.success": {
       "$description": "Success / positive text.",
-      "meaning": "Success / positive text",
+      "meaning": "Success / positive signalling",
       "when_to_use": "Success text on standard surfaces (e.g. inline error/success text).",
       "avoid_when": "Do not use on a solid success fill — use text.on-success.",
       "mode_overrides": {
@@ -777,7 +777,7 @@
     },
     "text.warning": {
       "$description": "Warning / caution text.",
-      "meaning": "Warning / caution text",
+      "meaning": "Warning / caution signalling",
       "when_to_use": "Warning text on standard surfaces (e.g. inline error/success text).",
       "avoid_when": "Do not use on a solid warning fill — use text.on-warning.",
       "mode_overrides": {
@@ -799,7 +799,7 @@
     },
     "text.danger": {
       "$description": "Destructive / error text.",
-      "meaning": "Destructive / error text",
+      "meaning": "Destructive / error signalling",
       "when_to_use": "Danger text on standard surfaces (e.g. inline error/success text).",
       "avoid_when": "Do not use on a solid danger fill — use text.on-danger.",
       "mode_overrides": {
@@ -821,7 +821,7 @@
     },
     "text.info": {
       "$description": "Informational text.",
-      "meaning": "Informational text",
+      "meaning": "Informational signalling",
       "when_to_use": "Info text on standard surfaces (e.g. inline error/success text).",
       "avoid_when": "Do not use on a solid info fill — use text.on-info.",
       "mode_overrides": {
@@ -843,7 +843,7 @@
     },
     "text.on-interactive": {
       "$description": "Text on a solid interactive fill.",
-      "meaning": "Text on a solid interactive fill",
+      "meaning": "Legible content on interactive fills",
       "when_to_use": "Text placed on the interactive fill it is paired with.",
       "avoid_when": "Do not use on standard surfaces — use text.primary/secondary.",
       "mode_overrides": {
@@ -865,7 +865,7 @@
     },
     "text.on-brand": {
       "$description": "Text on a solid brand identity fill.",
-      "meaning": "Text on a solid brand identity fill",
+      "meaning": "Legible content on brand identity fills",
       "when_to_use": "Text placed on the brand fill it is paired with.",
       "avoid_when": "Do not use on standard surfaces — use text.primary/secondary.",
       "mode_overrides": {
@@ -887,7 +887,7 @@
     },
     "text.on-success": {
       "$description": "Text on a solid success / positive fill.",
-      "meaning": "Text on a solid success / positive fill",
+      "meaning": "Legible content on success / positive fills",
       "when_to_use": "Text placed on the success fill it is paired with.",
       "avoid_when": "Do not use on standard surfaces — use text.primary/secondary.",
       "mode_overrides": {
@@ -909,7 +909,7 @@
     },
     "text.on-warning": {
       "$description": "Text on a solid warning / caution fill.",
-      "meaning": "Text on a solid warning / caution fill",
+      "meaning": "Legible content on warning / caution fills",
       "when_to_use": "Text placed on the warning fill it is paired with.",
       "avoid_when": "Do not use on standard surfaces — use text.primary/secondary.",
       "mode_overrides": {
@@ -931,7 +931,7 @@
     },
     "text.on-danger": {
       "$description": "Text on a solid destructive / error fill.",
-      "meaning": "Text on a solid destructive / error fill",
+      "meaning": "Legible content on destructive / error fills",
       "when_to_use": "Text placed on the danger fill it is paired with.",
       "avoid_when": "Do not use on standard surfaces — use text.primary/secondary.",
       "mode_overrides": {
@@ -953,7 +953,7 @@
     },
     "text.on-info": {
       "$description": "Text on a solid informational fill.",
-      "meaning": "Text on a solid informational fill",
+      "meaning": "Legible content on informational fills",
       "when_to_use": "Text placed on the info fill it is paired with.",
       "avoid_when": "Do not use on standard surfaces — use text.primary/secondary.",
       "mode_overrides": {
@@ -975,7 +975,7 @@
     },
     "text.on-emphasis": {
       "$description": "Text on a solid emphasis fill.",
-      "meaning": "Text on a solid emphasis fill",
+      "meaning": "Legible content on emphasis / inverse fills",
       "when_to_use": "Text placed on the emphasis fill it is paired with.",
       "avoid_when": "Do not use on standard surfaces — use text.primary/secondary.",
       "mode_overrides": {
@@ -997,7 +997,7 @@
     },
     "text.interactive.default": {
       "$description": "Link (interactive text) (default state).",
-      "meaning": "Link (interactive text) (default state)",
+      "meaning": "Interactivity / actions",
       "when_to_use": "Hyperlinks and interactive text in the default state.",
       "avoid_when": "Do not use for non-interactive text (use text.primary).",
       "mode_overrides": {
@@ -1016,7 +1016,7 @@
     },
     "text.interactive.hover": {
       "$description": "Link (interactive text) (hover state).",
-      "meaning": "Link (interactive text) (hover state)",
+      "meaning": "Interactivity / actions",
       "when_to_use": "Hyperlinks and interactive text in the hover state.",
       "avoid_when": "Do not use for non-interactive text (use text.primary).",
       "mode_overrides": {
@@ -1035,7 +1035,7 @@
     },
     "text.interactive.visited": {
       "$description": "Link (interactive text) (visited state).",
-      "meaning": "Link (interactive text) (visited state)",
+      "meaning": "Interactivity / actions",
       "when_to_use": "Hyperlinks and interactive text in the visited state.",
       "avoid_when": "Do not use for non-interactive text (use text.primary).",
       "mode_overrides": {
@@ -1054,7 +1054,7 @@
     },
     "text.interactive.focused": {
       "$description": "Link (interactive text) (focused state).",
-      "meaning": "Link (interactive text) (focused state)",
+      "meaning": "Interactivity / actions",
       "when_to_use": "Hyperlinks and interactive text in the focused state.",
       "avoid_when": "Do not use for non-interactive text (use text.primary).",
       "mode_overrides": {
@@ -1073,7 +1073,7 @@
     },
     "text.interactive.disabled": {
       "$description": "Link (interactive text) (disabled state).",
-      "meaning": "Link (interactive text) (disabled state)",
+      "meaning": "Interactivity / actions",
       "when_to_use": "Hyperlinks and interactive text in the disabled state.",
       "avoid_when": "Do not use for non-interactive text (use text.primary).",
       "mode_overrides": {
@@ -1092,7 +1092,7 @@
     },
     "icon.primary": {
       "$description": "Primary (highest-emphasis) icon.",
-      "meaning": "primary (highest-emphasis) icon",
+      "meaning": "Content hierarchy / reading emphasis",
       "when_to_use": "Primary icon on any standard surface (holds across the elevation ladder).",
       "avoid_when": "Do not use on solid/vivid fills — use icon.on-*.",
       "mode_overrides": {
@@ -1116,7 +1116,7 @@
     },
     "icon.secondary": {
       "$description": "Secondary icon.",
-      "meaning": "secondary icon",
+      "meaning": "Content hierarchy / reading emphasis",
       "when_to_use": "Secondary icon on any standard surface (holds across the elevation ladder).",
       "avoid_when": "Do not use on solid/vivid fills — use icon.on-*.",
       "mode_overrides": {
@@ -1140,7 +1140,7 @@
     },
     "icon.tertiary": {
       "$description": "Tertiary (subtle) icon.",
-      "meaning": "tertiary (subtle) icon",
+      "meaning": "Content hierarchy / reading emphasis",
       "when_to_use": "Tertiary icon on any standard surface (holds across the elevation ladder).",
       "avoid_when": "Do not use on solid/vivid fills — use icon.on-*.",
       "mode_overrides": {
@@ -1164,7 +1164,7 @@
     },
     "icon.disabled": {
       "$description": "Disabled / inactive icon.",
-      "meaning": "Disabled / inactive icon",
+      "meaning": "Unavailable / inactive state",
       "when_to_use": "Icon for disabled or inactive elements.",
       "avoid_when": "Do not use for active content.",
       "mode_overrides": {
@@ -1183,7 +1183,7 @@
     },
     "icon.inverse": {
       "$description": "Icon on inverse surfaces.",
-      "meaning": "Icon on inverse surfaces",
+      "meaning": "Inverted-surface contrast",
       "when_to_use": "Icon on background.inverse / dark callouts.",
       "avoid_when": "Do not use on default surfaces.",
       "mode_overrides": {
@@ -1205,7 +1205,7 @@
     },
     "icon.brand": {
       "$description": "Brand identity icon.",
-      "meaning": "Brand identity icon",
+      "meaning": "Brand identity",
       "when_to_use": "Brand icon on standard surfaces (e.g. inline error/success text).",
       "avoid_when": "Do not use on a solid brand fill — use icon.on-brand.",
       "mode_overrides": {
@@ -1227,7 +1227,7 @@
     },
     "icon.success": {
       "$description": "Success / positive icon.",
-      "meaning": "Success / positive icon",
+      "meaning": "Success / positive signalling",
       "when_to_use": "Success icon on standard surfaces (e.g. inline error/success text).",
       "avoid_when": "Do not use on a solid success fill — use icon.on-success.",
       "mode_overrides": {
@@ -1249,7 +1249,7 @@
     },
     "icon.warning": {
       "$description": "Warning / caution icon.",
-      "meaning": "Warning / caution icon",
+      "meaning": "Warning / caution signalling",
       "when_to_use": "Warning icon on standard surfaces (e.g. inline error/success text).",
       "avoid_when": "Do not use on a solid warning fill — use icon.on-warning.",
       "mode_overrides": {
@@ -1271,7 +1271,7 @@
     },
     "icon.danger": {
       "$description": "Destructive / error icon.",
-      "meaning": "Destructive / error icon",
+      "meaning": "Destructive / error signalling",
       "when_to_use": "Danger icon on standard surfaces (e.g. inline error/success text).",
       "avoid_when": "Do not use on a solid danger fill — use icon.on-danger.",
       "mode_overrides": {
@@ -1293,7 +1293,7 @@
     },
     "icon.info": {
       "$description": "Informational icon.",
-      "meaning": "Informational icon",
+      "meaning": "Informational signalling",
       "when_to_use": "Info icon on standard surfaces (e.g. inline error/success text).",
       "avoid_when": "Do not use on a solid info fill — use icon.on-info.",
       "mode_overrides": {
@@ -1315,7 +1315,7 @@
     },
     "icon.on-interactive": {
       "$description": "Icon on a solid interactive fill.",
-      "meaning": "Icon on a solid interactive fill",
+      "meaning": "Legible content on interactive fills",
       "when_to_use": "Icon placed on the interactive fill it is paired with.",
       "avoid_when": "Do not use on standard surfaces — use icon.primary/secondary.",
       "mode_overrides": {
@@ -1337,7 +1337,7 @@
     },
     "icon.on-brand": {
       "$description": "Icon on a solid brand identity fill.",
-      "meaning": "Icon on a solid brand identity fill",
+      "meaning": "Legible content on brand identity fills",
       "when_to_use": "Icon placed on the brand fill it is paired with.",
       "avoid_when": "Do not use on standard surfaces — use icon.primary/secondary.",
       "mode_overrides": {
@@ -1359,7 +1359,7 @@
     },
     "icon.on-success": {
       "$description": "Icon on a solid success / positive fill.",
-      "meaning": "Icon on a solid success / positive fill",
+      "meaning": "Legible content on success / positive fills",
       "when_to_use": "Icon placed on the success fill it is paired with.",
       "avoid_when": "Do not use on standard surfaces — use icon.primary/secondary.",
       "mode_overrides": {
@@ -1381,7 +1381,7 @@
     },
     "icon.on-warning": {
       "$description": "Icon on a solid warning / caution fill.",
-      "meaning": "Icon on a solid warning / caution fill",
+      "meaning": "Legible content on warning / caution fills",
       "when_to_use": "Icon placed on the warning fill it is paired with.",
       "avoid_when": "Do not use on standard surfaces — use icon.primary/secondary.",
       "mode_overrides": {
@@ -1403,7 +1403,7 @@
     },
     "icon.on-danger": {
       "$description": "Icon on a solid destructive / error fill.",
-      "meaning": "Icon on a solid destructive / error fill",
+      "meaning": "Legible content on destructive / error fills",
       "when_to_use": "Icon placed on the danger fill it is paired with.",
       "avoid_when": "Do not use on standard surfaces — use icon.primary/secondary.",
       "mode_overrides": {
@@ -1425,7 +1425,7 @@
     },
     "icon.on-info": {
       "$description": "Icon on a solid informational fill.",
-      "meaning": "Icon on a solid informational fill",
+      "meaning": "Legible content on informational fills",
       "when_to_use": "Icon placed on the info fill it is paired with.",
       "avoid_when": "Do not use on standard surfaces — use icon.primary/secondary.",
       "mode_overrides": {
@@ -1447,7 +1447,7 @@
     },
     "icon.on-emphasis": {
       "$description": "Icon on a solid emphasis fill.",
-      "meaning": "Icon on a solid emphasis fill",
+      "meaning": "Legible content on emphasis / inverse fills",
       "when_to_use": "Icon placed on the emphasis fill it is paired with.",
       "avoid_when": "Do not use on standard surfaces — use icon.primary/secondary.",
       "mode_overrides": {
@@ -1469,7 +1469,7 @@
     },
     "icon.interactive.default": {
       "$description": "Link (interactive icon) (default state).",
-      "meaning": "Link (interactive icon) (default state)",
+      "meaning": "Interactivity / actions",
       "when_to_use": "Hyperlinks and interactive icon in the default state.",
       "avoid_when": "Do not use for non-interactive icon (use icon.primary).",
       "mode_overrides": {
@@ -1488,7 +1488,7 @@
     },
     "icon.interactive.hover": {
       "$description": "Link (interactive icon) (hover state).",
-      "meaning": "Link (interactive icon) (hover state)",
+      "meaning": "Interactivity / actions",
       "when_to_use": "Hyperlinks and interactive icon in the hover state.",
       "avoid_when": "Do not use for non-interactive icon (use icon.primary).",
       "mode_overrides": {
@@ -1507,7 +1507,7 @@
     },
     "icon.interactive.visited": {
       "$description": "Link (interactive icon) (visited state).",
-      "meaning": "Link (interactive icon) (visited state)",
+      "meaning": "Interactivity / actions",
       "when_to_use": "Hyperlinks and interactive icon in the visited state.",
       "avoid_when": "Do not use for non-interactive icon (use icon.primary).",
       "mode_overrides": {
@@ -1526,7 +1526,7 @@
     },
     "icon.interactive.focused": {
       "$description": "Link (interactive icon) (focused state).",
-      "meaning": "Link (interactive icon) (focused state)",
+      "meaning": "Interactivity / actions",
       "when_to_use": "Hyperlinks and interactive icon in the focused state.",
       "avoid_when": "Do not use for non-interactive icon (use icon.primary).",
       "mode_overrides": {
@@ -1545,7 +1545,7 @@
     },
     "icon.interactive.disabled": {
       "$description": "Link (interactive icon) (disabled state).",
-      "meaning": "Link (interactive icon) (disabled state)",
+      "meaning": "Interactivity / actions",
       "when_to_use": "Hyperlinks and interactive icon in the disabled state.",
       "avoid_when": "Do not use for non-interactive icon (use icon.primary).",
       "mode_overrides": {
@@ -1564,7 +1564,7 @@
     },
     "border.default": {
       "$description": "Subtle / decorative border.",
-      "meaning": "Subtle / decorative border",
+      "meaning": "Separation / structure",
       "when_to_use": "Dividers, card outlines, low-emphasis separation.",
       "avoid_when": "Do not use where a 3:1 non-text contrast is required (use border.strong / border.interactive).",
       "mode_overrides": {
@@ -1576,7 +1576,7 @@
     },
     "border.strong": {
       "$description": "Stronger divider border.",
-      "meaning": "Stronger divider border",
+      "meaning": "Separation / structure",
       "when_to_use": "Higher-emphasis dividers and separators.",
       "avoid_when": "Do not use for form-field borders (use border.interactive).",
       "mode_overrides": {
@@ -1588,7 +1588,7 @@
     },
     "border.inverse": {
       "$description": "Border on inverse surfaces.",
-      "meaning": "Border on inverse surfaces",
+      "meaning": "Inverted-surface separation",
       "when_to_use": "Borders on background.inverse.",
       "avoid_when": "Do not use on default surfaces.",
       "mode_overrides": {
@@ -1603,7 +1603,7 @@
     },
     "border.brand": {
       "$description": "Brand identity validation border.",
-      "meaning": "Brand identity validation border",
+      "meaning": "Brand identity",
       "when_to_use": "Validation/state borders for brand (e.g. invalid fields).",
       "avoid_when": "Do not use as brand text or fill — use text.brand / foreground.brand.",
       "mode_overrides": {
@@ -1622,7 +1622,7 @@
     },
     "border.success": {
       "$description": "Success / positive validation border.",
-      "meaning": "Success / positive validation border",
+      "meaning": "Success / positive signalling",
       "when_to_use": "Validation/state borders for success (e.g. invalid fields).",
       "avoid_when": "Do not use as success text or fill — use text.success / foreground.success.",
       "mode_overrides": {
@@ -1641,7 +1641,7 @@
     },
     "border.warning": {
       "$description": "Warning / caution validation border.",
-      "meaning": "Warning / caution validation border",
+      "meaning": "Warning / caution signalling",
       "when_to_use": "Validation/state borders for warning (e.g. invalid fields).",
       "avoid_when": "Do not use as warning text or fill — use text.warning / foreground.warning.",
       "mode_overrides": {
@@ -1660,7 +1660,7 @@
     },
     "border.danger": {
       "$description": "Destructive / error validation border.",
-      "meaning": "Destructive / error validation border",
+      "meaning": "Destructive / error signalling",
       "when_to_use": "Validation/state borders for danger (e.g. invalid fields).",
       "avoid_when": "Do not use as danger text or fill — use text.danger / foreground.danger.",
       "mode_overrides": {
@@ -1679,7 +1679,7 @@
     },
     "border.info": {
       "$description": "Informational validation border.",
-      "meaning": "Informational validation border",
+      "meaning": "Informational signalling",
       "when_to_use": "Validation/state borders for info (e.g. invalid fields).",
       "avoid_when": "Do not use as info text or fill — use text.info / foreground.info.",
       "mode_overrides": {
@@ -1698,7 +1698,7 @@
     },
     "border.interactive.default": {
       "$description": "Form-field / control border (default state).",
-      "meaning": "Form-field / control border (default state)",
+      "meaning": "Interactivity / actions",
       "when_to_use": "Borders on inputs and controls in the default state.",
       "avoid_when": "Do not use as a decorative divider (use border.default).",
       "mode_overrides": {
@@ -1720,7 +1720,7 @@
     },
     "border.interactive.hover": {
       "$description": "Form-field / control border (hover state).",
-      "meaning": "Form-field / control border (hover state)",
+      "meaning": "Interactivity / actions",
       "when_to_use": "Borders on inputs and controls in the hover state.",
       "avoid_when": "Do not use as a decorative divider (use border.default).",
       "mode_overrides": {
@@ -1742,7 +1742,7 @@
     },
     "border.interactive.focused": {
       "$description": "Form-field / control border (focused state).",
-      "meaning": "Form-field / control border (focused state)",
+      "meaning": "Interactivity / actions",
       "when_to_use": "The focus ring on interactive elements.",
       "avoid_when": "Do not use as a decorative divider (use border.default).",
       "mode_overrides": {
@@ -1764,7 +1764,7 @@
     },
     "border.interactive.disabled": {
       "$description": "Form-field / control border (disabled state).",
-      "meaning": "Form-field / control border (disabled state)",
+      "meaning": "Interactivity / actions",
       "when_to_use": "Borders on inputs and controls in the disabled state.",
       "avoid_when": "Do not use as a decorative divider (use border.default).",
       "mode_overrides": {

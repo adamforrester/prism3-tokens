@@ -172,8 +172,9 @@ npx tsx Prism3/engine/test.ts            # unit tests: colour math + extreme-bra
   the sidecar is the natural input for the planned MCP server + theming playground.
   `avoid_when` correctly redirects (e.g. `foreground.interactive` → "use
   foreground.danger for destructive"). Also fixed a `$description` redundancy bug
-  ("…band — Mid-Tone"). *Open refinement:* `$description` and `meaning` are currently
-  the same string — could differentiate ("what it is" vs "what it signifies").
+  ("…band — Mid-Tone"). `$description` ("what it is") and `meaning` ("what it
+  signifies / is for") are distinct — e.g. `text.danger` → "Destructive / error
+  text." vs "Destructive / error signalling."
 - **Contrast is validated against the floor surface, not the pure extreme.**
   Saturated, contract-bearing foregrounds (action + states, vivid semantic text,
   secondary/tertiary text) clear
