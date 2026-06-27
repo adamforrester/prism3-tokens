@@ -9665,7 +9665,7 @@
           }
         },
         "style": {
-          "$type": "string",
+          "$type": "strokeStyle",
           "$value": "solid",
           "$description": "focus ring style — solid (dashed/dotted fail at small sizes)",
           "$extensions": {

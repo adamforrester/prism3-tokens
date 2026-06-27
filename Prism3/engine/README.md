@@ -48,7 +48,7 @@ palette* nearest its anchor that clears AA on this surface" — both resolve
 correctly in any mode for free. The action palette is whatever
 `roleToPalette.action` points at (NB: `red`, decoupled-by-default but here same as
 brand; aurora: `accent`, a different palette from the violet brand). The run
-verifies every mode's contrast contracts (currently 248/248).
+verifies every mode's contrast contracts (currently 268/268).
 
 **Semantic vocabulary — PROPERTY-LED** (`color / <property> / <variant> [ /
 <state> ]`), decided against a nine-system field survey + the practice KB, aligned

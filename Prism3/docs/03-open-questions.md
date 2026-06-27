@@ -8,6 +8,67 @@
 
 ---
 
+## Audit findings (2026-06-27)
+
+A consistency/accuracy/quality pass over everything built so far. **Fixed in
+place:** a stale contract count in the README (248→268), and `focus.ring.style`
+emitting a non-standard `$type:"string"` → now DTCG `strokeStyle` (Style-Dictionary
+-supported, confirmed via the Style Dictionary docs). **Strong:** cross-mode role
+parity 89/89 in both brands, 0 contract failures, *identical* top-level groups and
+semantic role sets across NB and aurora (a real white-label signal), no stubs/TODOs,
+clean renames, regression stable (ΔE00 1.95, 11/11, 21/21) across all the churn.
+Three findings left to decide:
+
+### Item 6 — Schema ↔ BrandInput drift  ·  **OPEN (highest-priority)**
+
+`theme-schema.json` (labelled "brand input contract" in `00-progress`) and the
+engine's actual `BrandInput` type have diverged. The schema uses `primaryColor` /
+`neutralHue` / `statusColors` / `brand` / `accentColor` / `secondaryColor` /
+`displayP3` / `typography`; `BrandInput` uses `primary` / `neutral` / `status` /
+open `brandColors[]` / `actionPalette` / `surfaces` / `baseUnit…`. Only the newest
+fields (`disabledStrategy`, `disabledMin`, `iconContrast`, `motionPersonality`) and
+`density` are shared by name. The schema is in fact only consumed for NB's
+*measured anchors* (`loadSpecs`); the white-label path (aurora) is hand-authored as
+`BrandInput` and never validated against the schema. So the documented contract and
+the real contract are two different shapes. **Why it matters:** the engine's whole
+thesis is "a brand is a small input set" — that set needs ONE canonical definition.
+**Options:** (a) regenerate the schema from `BrandInput` so it's the faithful
+contract + validate the white-label path against it; (b) keep them as two named
+artifacts (NB-measurement vs engine API) with an explicit mapping + corrected doc
+labels. Lean: (a).
+
+### Item 7 — `spring` is a non-standard DTCG type  ·  **OPEN (low–med)**
+
+The motion axis emits 3 `spring` tokens with `$type:"spring"`, which is *not* in
+the DTCG spec or Style Dictionary's type map (verified). SD won't error (unknown
+types pass through untransformed), but the aurora emit header still claims
+*"DTCG-standard, Style-Dictionary-safe."* **Options:** (a) keep `spring` as a
+documented custom extension and soften the header to "DTCG-aligned (one custom
+type: `spring` — springs have no DTCG type yet)"; (b) drop the spring `$value` to a
+`cubicBezier` approximation, keep params in `$extensions`. Lean: (a) — springs are
+the right cross-platform contract (KB `18-motion-foundations`); just be honest.
+
+### Item 8 — No unit tests / single white-label fixture  ·  **OPEN (med)**
+
+Validation today is functional and strong (alias resolution, mode contracts, ΔE
+regression, dimension exactness) but there are **no unit tests** for the colour
+math in `color.ts` (OKLCH round-trips, contrast, gamut clamping) and only **one**
+synthetic white-label brand (aurora). A near-black primary, an extreme-chroma
+brand, or an action-palette = neutral could expose edge cases the two current
+brands don't. **Recommend:** a minimal test file (colour round-trip + contract
+invariants) + a second synthetic brand fixture as a smoke test.
+
+### Minor (noted, not blocking)
+- Light elevation tiers (`background.secondary/tertiary/quaternary`) converge to
+  one value in light (shadow-carried) — honest + documented; gains distinction
+  when the shadow axis lands. Keep.
+- `icon.*` mirrors `text.*` when `iconContrast:"text"` (aliases to the same
+  primitives) — intended peer namespace, low cost. Keep.
+- Survey-size wording varies across docs ("nine-system" vs "7-system") — accurate
+  per each survey but reads inconsistent; cosmetic.
+
+---
+
 ## The one reframe that cuts across most of these
 
 **Surface colour and elevation are two different axes, and the rigorous systems keep them as separate token families.** M3 explicitly decoupled tone-based surfaces from elevation (`surface-container-*` for fill, a separate `level0–5` for depth; the old "+1..+5 elevation overlay" was retired). Atlassian splits `elevation.surface.*` (fill) from `elevation.shadow.*` (depth) and tells you to pair them. Fluent ships `neutralBackground1–6` *and* a parallel `shadow2–64`. Carbon's layers carry no tonal overlay — shadow carries depth. Spectrum pairs surface aliases with a separate `drop-shadow-*` family.

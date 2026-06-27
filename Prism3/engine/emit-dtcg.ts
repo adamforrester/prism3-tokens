@@ -39,7 +39,7 @@ const bandName: Record<string, string> = {
   ThreeQuarter: 'Three-Quarter-Tone', Shadows: 'Shadow',
 };
 
-type Token = { $type: 'color' | 'dimension' | 'number' | 'string' | 'duration' | 'cubicBezier' | 'transition' | 'spring'; $value: string | number | number[] | Record<string, unknown>; $description: string; $extensions: { prism3: Record<string, unknown> } };
+type Token = { $type: 'color' | 'dimension' | 'number' | 'strokeStyle' | 'duration' | 'cubicBezier' | 'transition' | 'spring'; $value: string | number | number[] | Record<string, unknown>; $description: string; $extensions: { prism3: Record<string, unknown> } };
 
 // ---- colour leaves ----
 const primitiveLeaf = (theme: Theme, paletteDesc: string, s: Step, isAnchor: boolean): Token => {
@@ -68,8 +68,10 @@ const numLeaf = (value: number, description: string): Token => ({
   $type: 'number', $value: value, $description: description,
   $extensions: { prism3: { generated: true } },
 });
-const strLeaf = (value: string, description: string): Token => ({
-  $type: 'string', $value: value, $description: description,
+// strokeStyle is a first-class DTCG type (Style-Dictionary-supported) — used for
+// the focus ring style ('solid'), not a generic 'string'.
+const strokeStyleLeaf = (value: string, description: string): Token => ({
+  $type: 'strokeStyle', $value: value, $description: description,
   $extensions: { prism3: { generated: true } },
 });
 // ---- motion leaves ----
@@ -204,7 +206,7 @@ const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats: Stats
       width: bwAlias(2, 'focus ring width — 2px (WCAG 2.4.13 floor; 3px for extra clarity)'),
       offset: bwAlias(2, 'focus ring offset — 2px (separates ring from the element edge)'),
       'offset-field': bwAlias(0, 'focus ring offset, form fields — 0px (ring hugs the field; Primer)'),
-      style: strLeaf('solid', 'focus ring style — solid (dashed/dotted fail at small sizes)'),
+      style: strokeStyleLeaf('solid', 'focus ring style — solid (dashed/dotted fail at small sizes)'),
     },
   };
 
