@@ -20,7 +20,8 @@ generates two brands (NB + a synthetic violet brand) end-to-end.
 
 ```bash
 npx tsx Prism3/engine/nb-regression.ts   # regression: generated vs real NB
-npx tsx Prism3/engine/emit-dtcg.ts       # emit a DTCG token tree + validate aliases
+npx tsx Prism3/engine/emit-dtcg.ts       # emit a DTCG token tree + validate aliases + schema
+npx tsx Prism3/engine/test.ts            # unit tests: colour math + extreme-brand contracts
 ```
 
 Node ≥ 20. No `npm install` needed — the color math is self-contained

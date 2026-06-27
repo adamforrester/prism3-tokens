@@ -28,6 +28,7 @@ Headline numbers (regenerate with the commands below):
 | Cross-mode contrast contracts | **268/268** | **268/268** |
 | **Dimension axis, exact** (Prism2 space + NB radius) | **21/21** | n/a |
 | DTCG semantic aliases resolve (color + dim + size) | **407/407** | **407/407** |
+| Engine unit tests (colour math + 5 extreme brands) | **65/65** | (same engine) |
 | Color primitives / dim grid emitted | 122 / 37 | 162 / 36 |
 | Brand palettes / action source | red / **action = brand** (red) | primary+accent+… / **action = accent ≠ brand** |
 | Form factor | comfortable / radius 1 (sharp) | compact / radius 2 (soft) |
@@ -60,7 +61,8 @@ Prism3/
     ├── theme.ts                    ← Theme builder: nbTheme() (measured) + brandTheme() (white-label: open brandColors[], action role decoupled from brand, status synthesis + danger carve + form factor)
     ├── modes.ts                    ← light/dark/hc-light/hc-dark, roles resolved by contrast target, brand-agnostic
     ├── nb-regression.ts            ← diffs generated vs real NB, checks contracts → nb-regression-report.md
-    ├── emit-dtcg.ts                ← emits out/<id>.tokens.json per theme (NB + aurora) + modes-report.md, validates aliases & mode contracts
+    ├── emit-dtcg.ts                ← emits out/<id>.tokens.json per theme (NB + aurora) + modes-report.md, validates aliases, mode contracts & BrandInput schema conformance
+    ├── test.ts                     ← unit tests: colour-math invariants + 5 extreme-brand contract smoke tests (65 checks)
     ├── README.md                   ← how the engine works / how to run
     ├── nb-regression-report.md     ← generated (committed for review)
     ├── modes-report.md             ← generated, covers both themes (committed for review)
@@ -72,7 +74,8 @@ Prism3/
 ```bash
 # Node ≥ 20. No npm install — color math is self-contained.
 npx tsx Prism3/engine/nb-regression.ts   # regression vs real NB
-npx tsx Prism3/engine/emit-dtcg.ts       # emit DTCG + modes, validate
+npx tsx Prism3/engine/emit-dtcg.ts       # emit DTCG + modes, validate (+ schema conformance)
+npx tsx Prism3/engine/test.ts            # unit tests: colour math + extreme-brand contracts
 ```
 
 ---

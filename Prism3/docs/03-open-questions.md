@@ -70,7 +70,17 @@ type: `spring` — springs have no DTCG type yet)"; (b) drop the spring `$value`
 `cubicBezier` approximation, keep params in `$extensions`. Lean: (a) — springs are
 the right cross-platform contract (KB `18-motion-foundations`); just be honest.
 
-### Item 8 — No unit tests / single white-label fixture  ·  **OPEN (med)**
+### Item 8 — No unit tests / single white-label fixture  ·  **RESOLVED (2026-06-27)**
+
+> **Resolved:** added `engine/test.ts` (dependency-free, run via tsx) — 65 checks
+> covering the previously-untested `color.ts` math (OKLCH↔sRGB round-trips, hex,
+> WCAG contrast incl. white/black=21 + symmetry, relative luminance bounds,
+> gamut-aware maxChroma boundary, ΔE2000 identity/symmetry, autoPlaceStep, and
+> anchor preservation) PLUS **five extreme synthetic brands** run end-to-end
+> (near-black primary, red primary w/ action decoupled to neutral, light
+> high-chroma yellow, bare-minimum, and an all-levers brand). Every brand clears
+> EVERY mode contract — real evidence the engine generalises beyond the two
+> hand-checked brands. Wired into the run commands + headline (65/65). Original below.
 
 Validation today is functional and strong (alias resolution, mode contracts, ΔE
 regression, dimension exactness) but there are **no unit tests** for the colour
