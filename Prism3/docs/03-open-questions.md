@@ -183,6 +183,28 @@ of reusing the text picks).
 
 ---
 
+## Item 9 — Code → Figma: update a template vs build from scratch  ·  **OPEN (later)**
+
+When the engine eventually writes generated tokens back into Figma (the round-trip
+build in `05-token-coverage-roadmap` → *Cross-cutting: Figma round-trip*), there are
+two target modes, and they're not the same job:
+
+- **Update an existing Figma template** — patch the variables/styles in a prepared file,
+  **preserving and matching existing `VariableID`s** so aliases and component bindings
+  survive. Lower disruption; needs a stable id-reconciliation strategy (our
+  `$extensions.figma.variableId` linkage is the hook). The harder correctness problem.
+- **Build from scratch** — create the collection/modes/variables (and styles) new each
+  time. Simpler to generate, but throws away ids → breaks anything already bound in
+  Figma, and re-importing becomes a replace, not a merge.
+
+**Why it matters:** it changes the writer's contract (idempotent patch vs generate) and
+whether we must round-trip ids at all. **Not deciding now** — flagged so the writer is
+designed for the chosen mode rather than retrofitted. Lean (unverified): support
+*update-in-place* as the primary path (it's what a living design system needs), with
+from-scratch as the bootstrap case.
+
+---
+
 ## Item 3 — Disabled colouring  ·  **RESOLVED (2026-06-24)**
 
 > **Decision (implemented).** Disabled is a **selectable `disabledStrategy`**:

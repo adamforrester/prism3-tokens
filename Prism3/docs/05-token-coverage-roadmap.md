@@ -81,6 +81,63 @@
 
 ---
 
+## Cross-cutting: Figma round-trip (code → Figma export)  ·  backlog
+
+> Not a token category — an **export target**. The engine emits DTCG today; getting
+> generated tokens *back into Figma* is unbuilt, and composites don't survive a naive
+> export. Captured here so the contract can shape composite design as we add more of
+> them (typography, shadow). **Build deferred; analysis recorded.**
+
+**The pipeline (as it actually is in the example packages).** Raw Figma variable
+export → **a custom plugin (Adam's)** that preps it into DTCG / SD-ready JSON →
+*(Style Dictionary downstream — has **not** run on these examples yet)*. So the DTCG
+files in `Tokens/*/tokens/` are the **plugin's** output, not SD output; the composites
+are assembled by that plugin, not by SD.
+
+**Why composites don't map 1:1 (proven from the raw Figma JSON).** Figma variables
+have only three resolved types — `COLOR` / `FLOAT` / `STRING` — plus a fixed `scopes`
+vocabulary (the NB export uses 17: `FONT_SIZE`, `LINE_HEIGHT`, `LETTER_SPACING`,
+`FONT_FAMILY`, `CORNER_RADIUS`, `GAP`, `OPACITY`, `STROKE_FLOAT`, `TEXT_FILL`, …).
+There is **no composite variable type**. The composites only exist on the DTCG side:
+
+| concept | raw Figma (native) | DTCG (post-plugin) |
+|---|---|---|
+| typography | atoms only — FLOAT `font/size`, `lineheight`; STRING `family` | composite `typography` ×120 |
+| shadow | **absent** — it's an Effect *Style*, not a variable | composite `shadow` ×24 |
+| transition | **absent** — no Figma type | composite `transition` ×15 |
+| easing | STRING `"cubic-bezier(…)"` (binds to nothing) | `cubicBezier` ×15 |
+| duration | FLOAT ms | `duration` ×56 |
+| color / dims / opacity | variables 1:1 | same |
+
+**The three-tier mapping contract** (each engine leaf gets a Figma disposition):
+
+| disposition | meaning | examples |
+|---|---|---|
+| `variable` + `scope` | 1:1 Figma variable | color, radius, spacing, size, border-width, opacity |
+| `style-part` + `scope` + style ref | atom a Figma **Style** binds | typography atoms → Text Style; shadow color/offsets → Effect Style |
+| `code-only` | no Figma home; one-way from code | transition, spring, strokeStyle, easing |
+
+**Two ways to beat the example packages, not copy them:** (1) **no dead variables** —
+NB ships easing/duration as STRING/FLOAT "tokens" that bind to nothing; we tag those
+`code-only` honestly. (2) **a generated style manifest** — NB's text/effect styles are
+reassembled by hand in Figma (drifts); we'd emit the composite *and* its decomposition
+*and* a manifest telling a companion plugin how to rebuild the Style, so the composite
+survives the trip instead of silently dropping (shadow/transition have **no** variable
+representation at all — without the manifest they vanish on the way back).
+
+**Split of work.** *Now-step (cheap, deferred by decision):* tag every leaf with its
+`$extensions.prism3.figma` disposition + scope, so composites are born knowing how they
+decompose. *Backlog (large):* the `emit-figma.ts` writer producing `variables[]` (Tier A
++ Tier B atoms) **and** a style manifest, plus the companion Figma plugin to apply it.
+Open decision (update-in-place vs build-from-scratch) tracked in `03-open-questions` Item 9.
+
+**KB write-up (backlog).** No POV in the vault yet on composite tokens surviving the
+Figma round-trip (closest: `05-development-support`, `22-token-architecture-extensions`).
+Worth a practice note — styles-vs-variables, decompose-to-atoms, the manifest pattern —
+when this graduates from analysis to build.
+
+---
+
 ## Also considered — *not* shipped by either brand (optional / future)
 
 - **Blur / backdrop-filter** (frosted overlays/glassmorphism) — niche; not in NB

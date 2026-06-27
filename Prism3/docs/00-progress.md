@@ -330,6 +330,17 @@ stack) before pipeline plumbing — it tests the white-label thesis harder.
    pages as tokens change (web app lead; Figma plugin as a second surface). The
    interactive successor to `visualize.ts`; differentiator is a live
    contrast-contract overlay. Not slated for build; documented for direction.
+8. **Figma round-trip (code → Figma) (`05-token-coverage-roadmap.md` →
+   *Cross-cutting*).** Analysis recorded, build deferred. Figma variables are
+   only `COLOR`/`FLOAT`/`STRING` + scopes — no composite type — so typography
+   exports as atoms (→ a Text Style binds them) and shadow/transition have **no**
+   variable representation (Effect Style / code-only). Pipeline clarified: raw
+   Figma → **Adam's custom plugin** → SD-ready DTCG (SD has *not* run on the
+   example packages yet). Backlog: a three-tier disposition contract
+   (`variable`/`style-part`/`code-only` + scope) as the cheap now-step, then an
+   `emit-figma.ts` writer + style manifest + companion plugin. Open decision —
+   update an existing template (preserve `VariableID`s) vs build from scratch —
+   tracked as `03-open-questions` Item 9. KB POV write-up also backlogged.
 
 ---
 
