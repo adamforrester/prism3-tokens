@@ -31,7 +31,7 @@
         "100": {
           "$type": "color",
           "$value": "rgb(242, 213, 211)",
-          "$description": "brand (red) 100 — Quarter-Tone band — Quarter-Tone",
+          "$description": "brand (red) 100 — Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -51,7 +51,7 @@
         "150": {
           "$type": "color",
           "$value": "rgb(239, 197, 194)",
-          "$description": "brand (red) 150 — Quarter-Tone band — Quarter-Tone",
+          "$description": "brand (red) 150 — Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -71,7 +71,7 @@
         "200": {
           "$type": "color",
           "$value": "rgb(235, 180, 177)",
-          "$description": "brand (red) 200 — Quarter-Tone band — Quarter-Tone",
+          "$description": "brand (red) 200 — Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -91,7 +91,7 @@
         "250": {
           "$type": "color",
           "$value": "rgb(232, 163, 159)",
-          "$description": "brand (red) 250 — Quarter-Tone band — Quarter-Tone",
+          "$description": "brand (red) 250 — Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -111,7 +111,7 @@
         "300": {
           "$type": "color",
           "$value": "rgb(229, 145, 141)",
-          "$description": "brand (red) 300 — Quarter-Tone band — Quarter-Tone",
+          "$description": "brand (red) 300 — Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -131,7 +131,7 @@
         "350": {
           "$type": "color",
           "$value": "rgb(225, 127, 123)",
-          "$description": "brand (red) 350 — Quarter-Tone band — Quarter-Tone",
+          "$description": "brand (red) 350 — Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -151,7 +151,7 @@
         "400": {
           "$type": "color",
           "$value": "rgb(222, 108, 105)",
-          "$description": "brand (red) 400 — Mid-Tone band — Mid-Tone",
+          "$description": "brand (red) 400 — Mid-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -171,7 +171,7 @@
         "450": {
           "$type": "color",
           "$value": "rgb(218, 86, 87)",
-          "$description": "brand (red) 450 — Mid-Tone band — Mid-Tone",
+          "$description": "brand (red) 450 — Mid-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -231,7 +231,7 @@
         "600": {
           "$type": "color",
           "$value": "rgb(184, 0, 36)",
-          "$description": "brand (red) 600 — Mid-Tone band — Mid-Tone",
+          "$description": "brand (red) 600 — Mid-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -251,7 +251,7 @@
         "650": {
           "$type": "color",
           "$value": "rgb(161, 0, 30)",
-          "$description": "brand (red) 650 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$description": "brand (red) 650 — Three-Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -271,7 +271,7 @@
         "700": {
           "$type": "color",
           "$value": "rgb(138, 0, 24)",
-          "$description": "brand (red) 700 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$description": "brand (red) 700 — Three-Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -291,7 +291,7 @@
         "750": {
           "$type": "color",
           "$value": "rgb(115, 0, 19)",
-          "$description": "brand (red) 750 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$description": "brand (red) 750 — Three-Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -311,7 +311,7 @@
         "800": {
           "$type": "color",
           "$value": "rgb(94, 0, 13)",
-          "$description": "brand (red) 800 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$description": "brand (red) 800 — Three-Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -331,7 +331,7 @@
         "850": {
           "$type": "color",
           "$value": "rgb(73, 0, 8)",
-          "$description": "brand (red) 850 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$description": "brand (red) 850 — Three-Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -351,7 +351,7 @@
         "900": {
           "$type": "color",
           "$value": "rgb(53, 0, 4)",
-          "$description": "brand (red) 900 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$description": "brand (red) 900 — Three-Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -371,7 +371,7 @@
         "950": {
           "$type": "color",
           "$value": "rgb(35, 0, 2)",
-          "$description": "brand (red) 950 — Shadow band — Shadow",
+          "$description": "brand (red) 950 — Shadow band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -391,7 +391,7 @@
         "025": {
           "$type": "color",
           "$value": "rgb(254, 244, 243)",
-          "$description": "brand (red) 025 — Highlight band — Highlight",
+          "$description": "brand (red) 025 — Highlight band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -411,7 +411,7 @@
         "050": {
           "$type": "color",
           "$value": "rgb(247, 229, 228)",
-          "$description": "brand (red) 050 — Highlight band — Highlight",
+          "$description": "brand (red) 050 — Highlight band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -433,7 +433,7 @@
         "100": {
           "$type": "color",
           "$value": "rgb(207, 222, 210)",
-          "$description": "success (green) 100 — Quarter-Tone band — Quarter-Tone",
+          "$description": "success (green) 100 — Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -453,7 +453,7 @@
         "150": {
           "$type": "color",
           "$value": "rgb(188, 210, 193)",
-          "$description": "success (green) 150 — Quarter-Tone band — Quarter-Tone",
+          "$description": "success (green) 150 — Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -473,7 +473,7 @@
         "200": {
           "$type": "color",
           "$value": "rgb(168, 198, 175)",
-          "$description": "success (green) 200 — Quarter-Tone band — Quarter-Tone",
+          "$description": "success (green) 200 — Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -493,7 +493,7 @@
         "250": {
           "$type": "color",
           "$value": "rgb(148, 187, 157)",
-          "$description": "success (green) 250 — Quarter-Tone band — Quarter-Tone",
+          "$description": "success (green) 250 — Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -513,7 +513,7 @@
         "300": {
           "$type": "color",
           "$value": "rgb(127, 175, 139)",
-          "$description": "success (green) 300 — Quarter-Tone band — Quarter-Tone",
+          "$description": "success (green) 300 — Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -533,7 +533,7 @@
         "350": {
           "$type": "color",
           "$value": "rgb(105, 164, 121)",
-          "$description": "success (green) 350 — Quarter-Tone band — Quarter-Tone",
+          "$description": "success (green) 350 — Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -553,7 +553,7 @@
         "400": {
           "$type": "color",
           "$value": "rgb(82, 152, 103)",
-          "$description": "success (green) 400 — Mid-Tone band — Mid-Tone",
+          "$description": "success (green) 400 — Mid-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -573,7 +573,7 @@
         "450": {
           "$type": "color",
           "$value": "rgb(56, 141, 85)",
-          "$description": "success (green) 450 — Mid-Tone band — Mid-Tone",
+          "$description": "success (green) 450 — Mid-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -613,7 +613,7 @@
         "550": {
           "$type": "color",
           "$value": "rgb(5, 116, 58)",
-          "$description": "success (green) 550 — Mid-Tone band — Mid-Tone",
+          "$description": "success (green) 550 — Mid-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -633,7 +633,7 @@
         "600": {
           "$type": "color",
           "$value": "rgb(0, 103, 50)",
-          "$description": "success (green) 600 — Mid-Tone band — Mid-Tone",
+          "$description": "success (green) 600 — Mid-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -653,7 +653,7 @@
         "650": {
           "$type": "color",
           "$value": "rgb(0, 90, 43)",
-          "$description": "success (green) 650 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$description": "success (green) 650 — Three-Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -673,7 +673,7 @@
         "700": {
           "$type": "color",
           "$value": "rgb(0, 77, 35)",
-          "$description": "success (green) 700 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$description": "success (green) 700 — Three-Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -693,7 +693,7 @@
         "750": {
           "$type": "color",
           "$value": "rgb(0, 64, 29)",
-          "$description": "success (green) 750 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$description": "success (green) 750 — Three-Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -713,7 +713,7 @@
         "800": {
           "$type": "color",
           "$value": "rgb(0, 52, 22)",
-          "$description": "success (green) 800 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$description": "success (green) 800 — Three-Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -733,7 +733,7 @@
         "850": {
           "$type": "color",
           "$value": "rgb(0, 40, 15)",
-          "$description": "success (green) 850 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$description": "success (green) 850 — Three-Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -753,7 +753,7 @@
         "900": {
           "$type": "color",
           "$value": "rgb(0, 29, 9)",
-          "$description": "success (green) 900 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$description": "success (green) 900 — Three-Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -773,7 +773,7 @@
         "950": {
           "$type": "color",
           "$value": "rgb(0, 18, 5)",
-          "$description": "success (green) 950 — Shadow band — Shadow",
+          "$description": "success (green) 950 — Shadow band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -793,7 +793,7 @@
         "025": {
           "$type": "color",
           "$value": "rgb(244, 248, 244)",
-          "$description": "success (green) 025 — Highlight band — Highlight",
+          "$description": "success (green) 025 — Highlight band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -813,7 +813,7 @@
         "050": {
           "$type": "color",
           "$value": "rgb(226, 235, 228)",
-          "$description": "success (green) 050 — Highlight band — Highlight",
+          "$description": "success (green) 050 — Highlight band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -835,7 +835,7 @@
         "100": {
           "$type": "color",
           "$value": "rgb(233, 217, 206)",
-          "$description": "warning (amber) 100 — Quarter-Tone band — Quarter-Tone",
+          "$description": "warning (amber) 100 — Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -855,7 +855,7 @@
         "150": {
           "$type": "color",
           "$value": "rgb(225, 203, 186)",
-          "$description": "warning (amber) 150 — Quarter-Tone band — Quarter-Tone",
+          "$description": "warning (amber) 150 — Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -875,7 +875,7 @@
         "200": {
           "$type": "color",
           "$value": "rgb(218, 188, 166)",
-          "$description": "warning (amber) 200 — Quarter-Tone band — Quarter-Tone",
+          "$description": "warning (amber) 200 — Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -895,7 +895,7 @@
         "250": {
           "$type": "color",
           "$value": "rgb(212, 174, 145)",
-          "$description": "warning (amber) 250 — Quarter-Tone band — Quarter-Tone",
+          "$description": "warning (amber) 250 — Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -915,7 +915,7 @@
         "300": {
           "$type": "color",
           "$value": "rgb(205, 159, 123)",
-          "$description": "warning (amber) 300 — Quarter-Tone band — Quarter-Tone",
+          "$description": "warning (amber) 300 — Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -935,7 +935,7 @@
         "350": {
           "$type": "color",
           "$value": "rgb(199, 144, 101)",
-          "$description": "warning (amber) 350 — Quarter-Tone band — Quarter-Tone",
+          "$description": "warning (amber) 350 — Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -955,7 +955,7 @@
         "400": {
           "$type": "color",
           "$value": "rgb(192, 129, 77)",
-          "$description": "warning (amber) 400 — Mid-Tone band — Mid-Tone",
+          "$description": "warning (amber) 400 — Mid-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -975,7 +975,7 @@
         "450": {
           "$type": "color",
           "$value": "rgb(186, 114, 50)",
-          "$description": "warning (amber) 450 — Mid-Tone band — Mid-Tone",
+          "$description": "warning (amber) 450 — Mid-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1015,7 +1015,7 @@
         "550": {
           "$type": "color",
           "$value": "rgb(160, 87, 0)",
-          "$description": "warning (amber) 550 — Mid-Tone band — Mid-Tone",
+          "$description": "warning (amber) 550 — Mid-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1035,7 +1035,7 @@
         "600": {
           "$type": "color",
           "$value": "rgb(141, 76, 0)",
-          "$description": "warning (amber) 600 — Mid-Tone band — Mid-Tone",
+          "$description": "warning (amber) 600 — Mid-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1055,7 +1055,7 @@
         "650": {
           "$type": "color",
           "$value": "rgb(123, 65, 0)",
-          "$description": "warning (amber) 650 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$description": "warning (amber) 650 — Three-Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1075,7 +1075,7 @@
         "700": {
           "$type": "color",
           "$value": "rgb(105, 55, 0)",
-          "$description": "warning (amber) 700 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$description": "warning (amber) 700 — Three-Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1095,7 +1095,7 @@
         "750": {
           "$type": "color",
           "$value": "rgb(88, 45, 0)",
-          "$description": "warning (amber) 750 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$description": "warning (amber) 750 — Three-Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1115,7 +1115,7 @@
         "800": {
           "$type": "color",
           "$value": "rgb(71, 35, 0)",
-          "$description": "warning (amber) 800 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$description": "warning (amber) 800 — Three-Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1135,7 +1135,7 @@
         "850": {
           "$type": "color",
           "$value": "rgb(55, 26, 0)",
-          "$description": "warning (amber) 850 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$description": "warning (amber) 850 — Three-Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1155,7 +1155,7 @@
         "900": {
           "$type": "color",
           "$value": "rgb(40, 17, 0)",
-          "$description": "warning (amber) 900 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$description": "warning (amber) 900 — Three-Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1175,7 +1175,7 @@
         "950": {
           "$type": "color",
           "$value": "rgb(25, 8, 0)",
-          "$description": "warning (amber) 950 — Shadow band — Shadow",
+          "$description": "warning (amber) 950 — Shadow band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1195,7 +1195,7 @@
         "025": {
           "$type": "color",
           "$value": "rgb(250, 246, 242)",
-          "$description": "warning (amber) 025 — Highlight band — Highlight",
+          "$description": "warning (amber) 025 — Highlight band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1215,7 +1215,7 @@
         "050": {
           "$type": "color",
           "$value": "rgb(241, 232, 225)",
-          "$description": "warning (amber) 050 — Highlight band — Highlight",
+          "$description": "warning (amber) 050 — Highlight band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1237,7 +1237,7 @@
         "100": {
           "$type": "color",
           "$value": "rgb(218, 220, 221)",
-          "$description": "neutral 100 — Quarter-Tone band — Quarter-Tone",
+          "$description": "neutral 100 — Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1257,7 +1257,7 @@
         "150": {
           "$type": "color",
           "$value": "rgb(204, 206, 209)",
-          "$description": "neutral 150 — Quarter-Tone band — Quarter-Tone",
+          "$description": "neutral 150 — Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1277,7 +1277,7 @@
         "200": {
           "$type": "color",
           "$value": "rgb(190, 193, 196)",
-          "$description": "neutral 200 — Quarter-Tone band — Quarter-Tone",
+          "$description": "neutral 200 — Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1297,7 +1297,7 @@
         "250": {
           "$type": "color",
           "$value": "rgb(177, 180, 184)",
-          "$description": "neutral 250 — Quarter-Tone band — Quarter-Tone",
+          "$description": "neutral 250 — Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1317,7 +1317,7 @@
         "300": {
           "$type": "color",
           "$value": "rgb(163, 168, 171)",
-          "$description": "neutral 300 — Quarter-Tone band — Quarter-Tone",
+          "$description": "neutral 300 — Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1337,7 +1337,7 @@
         "350": {
           "$type": "color",
           "$value": "rgb(150, 155, 159)",
-          "$description": "neutral 350 — Quarter-Tone band — Quarter-Tone",
+          "$description": "neutral 350 — Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1357,7 +1357,7 @@
         "400": {
           "$type": "color",
           "$value": "rgb(137, 143, 147)",
-          "$description": "neutral 400 — Mid-Tone band — Mid-Tone",
+          "$description": "neutral 400 — Mid-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1377,7 +1377,7 @@
         "450": {
           "$type": "color",
           "$value": "rgb(125, 131, 135)",
-          "$description": "neutral 450 — Mid-Tone band — Mid-Tone",
+          "$description": "neutral 450 — Mid-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1417,7 +1417,7 @@
         "550": {
           "$type": "color",
           "$value": "rgb(99, 106, 111)",
-          "$description": "neutral 550 — Mid-Tone band — Mid-Tone",
+          "$description": "neutral 550 — Mid-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1437,7 +1437,7 @@
         "600": {
           "$type": "color",
           "$value": "rgb(86, 93, 98)",
-          "$description": "neutral 600 — Mid-Tone band — Mid-Tone",
+          "$description": "neutral 600 — Mid-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1457,7 +1457,7 @@
         "650": {
           "$type": "color",
           "$value": "rgb(75, 80, 85)",
-          "$description": "neutral 650 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$description": "neutral 650 — Three-Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1477,7 +1477,7 @@
         "700": {
           "$type": "color",
           "$value": "rgb(63, 68, 73)",
-          "$description": "neutral 700 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$description": "neutral 700 — Three-Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1497,7 +1497,7 @@
         "750": {
           "$type": "color",
           "$value": "rgb(52, 56, 60)",
-          "$description": "neutral 750 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$description": "neutral 750 — Three-Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1517,7 +1517,7 @@
         "800": {
           "$type": "color",
           "$value": "rgb(41, 45, 48)",
-          "$description": "neutral 800 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$description": "neutral 800 — Three-Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1537,7 +1537,7 @@
         "850": {
           "$type": "color",
           "$value": "rgb(31, 34, 36)",
-          "$description": "neutral 850 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$description": "neutral 850 — Three-Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1557,7 +1557,7 @@
         "900": {
           "$type": "color",
           "$value": "rgb(21, 23, 25)",
-          "$description": "neutral 900 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$description": "neutral 900 — Three-Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1577,7 +1577,7 @@
         "950": {
           "$type": "color",
           "$value": "rgb(12, 13, 15)",
-          "$description": "neutral 950 — Shadow band — Shadow",
+          "$description": "neutral 950 — Shadow band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1597,7 +1597,7 @@
         "025": {
           "$type": "color",
           "$value": "rgb(246, 247, 247)",
-          "$description": "neutral 025 — Highlight band — Highlight",
+          "$description": "neutral 025 — Highlight band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1617,7 +1617,7 @@
         "050": {
           "$type": "color",
           "$value": "rgb(232, 233, 234)",
-          "$description": "neutral 050 — Highlight band — Highlight",
+          "$description": "neutral 050 — Highlight band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1639,7 +1639,7 @@
         "100": {
           "$type": "color",
           "$value": "rgb(203, 222, 239)",
-          "$description": "info status (engine-synthesised — NB has no blue) 100 — Quarter-Tone band — Quarter-Tone",
+          "$description": "info status (engine-synthesised — NB has no blue) 100 — Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1659,7 +1659,7 @@
         "150": {
           "$type": "color",
           "$value": "rgb(181, 210, 236)",
-          "$description": "info status (engine-synthesised — NB has no blue) 150 — Quarter-Tone band — Quarter-Tone",
+          "$description": "info status (engine-synthesised — NB has no blue) 150 — Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1679,7 +1679,7 @@
         "200": {
           "$type": "color",
           "$value": "rgb(157, 198, 234)",
-          "$description": "info status (engine-synthesised — NB has no blue) 200 — Quarter-Tone band — Quarter-Tone",
+          "$description": "info status (engine-synthesised — NB has no blue) 200 — Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1699,7 +1699,7 @@
         "250": {
           "$type": "color",
           "$value": "rgb(132, 186, 232)",
-          "$description": "info status (engine-synthesised — NB has no blue) 250 — Quarter-Tone band — Quarter-Tone",
+          "$description": "info status (engine-synthesised — NB has no blue) 250 — Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1719,7 +1719,7 @@
         "300": {
           "$type": "color",
           "$value": "rgb(104, 174, 231)",
-          "$description": "info status (engine-synthesised — NB has no blue) 300 — Quarter-Tone band — Quarter-Tone",
+          "$description": "info status (engine-synthesised — NB has no blue) 300 — Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1739,7 +1739,7 @@
         "350": {
           "$type": "color",
           "$value": "rgb(75, 161, 228)",
-          "$description": "info status (engine-synthesised — NB has no blue) 350 — Quarter-Tone band — Quarter-Tone",
+          "$description": "info status (engine-synthesised — NB has no blue) 350 — Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1759,7 +1759,7 @@
         "400": {
           "$type": "color",
           "$value": "rgb(66, 148, 211)",
-          "$description": "info status (engine-synthesised — NB has no blue) 400 — Mid-Tone band — Mid-Tone",
+          "$description": "info status (engine-synthesised — NB has no blue) 400 — Mid-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1779,7 +1779,7 @@
         "450": {
           "$type": "color",
           "$value": "rgb(58, 135, 195)",
-          "$description": "info status (engine-synthesised — NB has no blue) 450 — Mid-Tone band — Mid-Tone",
+          "$description": "info status (engine-synthesised — NB has no blue) 450 — Mid-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1819,7 +1819,7 @@
         "550": {
           "$type": "color",
           "$value": "rgb(40, 109, 161)",
-          "$description": "info status (engine-synthesised — NB has no blue) 550 — Mid-Tone band — Mid-Tone",
+          "$description": "info status (engine-synthesised — NB has no blue) 550 — Mid-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1839,7 +1839,7 @@
         "600": {
           "$type": "color",
           "$value": "rgb(31, 96, 144)",
-          "$description": "info status (engine-synthesised — NB has no blue) 600 — Mid-Tone band — Mid-Tone",
+          "$description": "info status (engine-synthesised — NB has no blue) 600 — Mid-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1859,7 +1859,7 @@
         "650": {
           "$type": "color",
           "$value": "rgb(22, 83, 127)",
-          "$description": "info status (engine-synthesised — NB has no blue) 650 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$description": "info status (engine-synthesised — NB has no blue) 650 — Three-Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1879,7 +1879,7 @@
         "700": {
           "$type": "color",
           "$value": "rgb(13, 71, 111)",
-          "$description": "info status (engine-synthesised — NB has no blue) 700 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$description": "info status (engine-synthesised — NB has no blue) 700 — Three-Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1899,7 +1899,7 @@
         "750": {
           "$type": "color",
           "$value": "rgb(3, 58, 95)",
-          "$description": "info status (engine-synthesised — NB has no blue) 750 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$description": "info status (engine-synthesised — NB has no blue) 750 — Three-Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1919,7 +1919,7 @@
         "800": {
           "$type": "color",
           "$value": "rgb(0, 47, 78)",
-          "$description": "info status (engine-synthesised — NB has no blue) 800 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$description": "info status (engine-synthesised — NB has no blue) 800 — Three-Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1939,7 +1939,7 @@
         "850": {
           "$type": "color",
           "$value": "rgb(0, 35, 61)",
-          "$description": "info status (engine-synthesised — NB has no blue) 850 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$description": "info status (engine-synthesised — NB has no blue) 850 — Three-Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1959,7 +1959,7 @@
         "900": {
           "$type": "color",
           "$value": "rgb(0, 25, 45)",
-          "$description": "info status (engine-synthesised — NB has no blue) 900 — Three-Quarter-Tone band — Three-Quarter-Tone",
+          "$description": "info status (engine-synthesised — NB has no blue) 900 — Three-Quarter-Tone band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1979,7 +1979,7 @@
         "950": {
           "$type": "color",
           "$value": "rgb(0, 14, 30)",
-          "$description": "info status (engine-synthesised — NB has no blue) 950 — Shadow band — Shadow",
+          "$description": "info status (engine-synthesised — NB has no blue) 950 — Shadow band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -1999,7 +1999,7 @@
         "025": {
           "$type": "color",
           "$value": "rgb(243, 247, 251)",
-          "$description": "info status (engine-synthesised — NB has no blue) 025 — Highlight band — Highlight",
+          "$description": "info status (engine-synthesised — NB has no blue) 025 — Highlight band",
           "$extensions": {
             "prism3": {
               "generated": true,
@@ -2019,7 +2019,7 @@
         "050": {
           "$type": "color",
           "$value": "rgb(224, 235, 244)",
-          "$description": "info status (engine-synthesised — NB has no blue) 050 — Highlight band — Highlight",
+          "$description": "info status (engine-synthesised — NB has no blue) 050 — Highlight band",
           "$extensions": {
             "prism3": {
               "generated": true,

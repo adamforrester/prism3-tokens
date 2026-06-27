@@ -63,10 +63,12 @@ Prism3/
     ├── nb-regression.ts            ← diffs generated vs real NB, checks contracts → nb-regression-report.md
     ├── emit-dtcg.ts                ← emits out/<id>.tokens.json per theme (NB + aurora) + modes-report.md, validates aliases, mode contracts & BrandInput schema conformance
     ├── test.ts                     ← unit tests: colour-math invariants + 5 extreme-brand contract smoke tests (65 checks)
+    ├── ai-metadata.ts              ← generates the AI-readable metadata sidecar (meaning/when/avoid/paired_with/contrast_with/mode_overrides) for the semantic layer
     ├── README.md                   ← how the engine works / how to run
     ├── nb-regression-report.md     ← generated (committed for review)
     ├── modes-report.md             ← generated, covers both themes (committed for review)
-    └── out/{nb,aurora}.tokens.json ← generated DTCG output per theme (committed for review)
+    ├── out/{nb,aurora}.tokens.json ← generated DTCG output per theme (committed for review)
+    └── out/{nb,aurora}.ai.json     ← generated AI-readable metadata sidecar per theme (the agent surface)
 ```
 
 ### How to run
@@ -157,6 +159,21 @@ npx tsx Prism3/engine/test.ts            # unit tests: colour math + extreme-bra
   lever, composites, the `calm` a11y curve, and derived reduce-motion. Aurora demos
   `snappy` (ramp compresses 50/100/200… → 40/80/160…). Motion is mode-invariant
   (sibling of the dimension axis), not per-mode colour.
+- **AI-readable metadata sidecar — `out/<id>.ai.json` (prototype).** Per KB
+  `31-color-systems §9` + `00-principles` ("descriptions = highest-ROI; avoid_when
+  > when_to_use"): a generated agent surface for the semantic layer, peer to the
+  DTCG `tokens.json`. Each of the 89 semantic roles gets `$description`, `meaning`,
+  `when_to_use`, `avoid_when`, `paired_with`, `contrast_with`, and `mode_overrides`
+  — all **generated** (prose from a deterministic role→intent model; the relational
+  fields reshaped from data the engine already computes: the on-* pairings, the
+  floor contract `against`/`min`/`ratio`, and the per-mode resolution). The point:
+  *contract-true* metadata that regenerates every build, vs the field's hand-authored
+  metadata that rots. `tokens.json` stays DTCG-pure (no non-standard sibling keys);
+  the sidecar is the natural input for the planned MCP server + theming playground.
+  `avoid_when` correctly redirects (e.g. `foreground.interactive` → "use
+  foreground.danger for destructive"). Also fixed a `$description` redundancy bug
+  ("…band — Mid-Tone"). *Open refinement:* `$description` and `meaning` are currently
+  the same string — could differentiate ("what it is" vs "what it signifies").
 - **Contrast is validated against the floor surface, not the pure extreme.**
   Saturated, contract-bearing foregrounds (action + states, vivid semantic text,
   secondary/tertiary text) clear

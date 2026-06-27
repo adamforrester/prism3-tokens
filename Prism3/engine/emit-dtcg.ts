@@ -22,6 +22,7 @@ import { RGB, contrast, hex } from './color';
 import { Step } from './ramp';
 import { Theme, nbTheme, brandTheme, BrandInput } from './theme';
 import { resolveAllModes, ModeResult } from './modes';
+import { buildAiMetadata } from './ai-metadata';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const outDir = resolve(here, 'out');
@@ -47,10 +48,10 @@ type Token = { $type: 'color' | 'dimension' | 'number' | 'strokeStyle' | 'durati
 
 // ---- colour leaves ----
 const primitiveLeaf = (theme: Theme, paletteDesc: string, s: Step, isAnchor: boolean): Token => {
-  const role = isAnchor ? 'brand anchor (exact, pinned)' : s.num === 500 ? 'mid-tone AA pivot (≥4.5:1 on white & black)' : bandName[s.band];
+  const role = isAnchor ? 'brand anchor (exact, pinned)' : s.num === 500 ? 'mid-tone AA pivot (≥4.5:1 on white & black)' : '';
   return {
     $type: 'color', $value: colorValue(s.rgb, theme.colorFormat),
-    $description: `${paletteDesc} ${s.key} — ${bandName[s.band]} band — ${role}`,
+    $description: `${paletteDesc} ${s.key} — ${bandName[s.band]} band${role ? ` — ${role}` : ''}`,
     $extensions: { prism3: { generated: true, source: 'oklch', oklch: { l: round(s.oklch.l), c: round(s.oklch.c), h: round(s.oklch.h, 2) }, hex: s.hex, band: s.band, anchor: isAnchor, contrastOnWhite: contrast(s.rgb, WHITE) } },
   };
 };
@@ -308,6 +309,9 @@ for (const theme of themes) {
   const { tree, modes, stats } = buildTree(theme);
   const outPath = resolve(outDir, `${theme.id}.tokens.json`);
   writeFileSync(outPath, JSON.stringify(tree, null, 2) + '\n');
+  // AI-readable metadata sidecar (agent surface for the semantic layer).
+  const ai = buildAiMetadata(theme);
+  writeFileSync(resolve(outDir, `${theme.id}.ai.json`), JSON.stringify(ai, null, 2) + '\n');
 
   console.log(`\n[${theme.id}] ${theme.root}.* / ${theme.colorFormat}`);
   for (const n of theme.notes) console.log(`   · ${n}`);
