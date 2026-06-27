@@ -7994,7 +7994,8 @@
           "$extensions": {
             "prism3": {
               "generated": true,
-              "note": "non-standard DTCG type; web → linear()/CSS, native → stiffness/damping/mass"
+              "customType": "spring",
+              "note": "no DTCG type for springs yet; provide a platform transform downstream"
             }
           }
         },
@@ -8008,7 +8009,8 @@
           "$extensions": {
             "prism3": {
               "generated": true,
-              "note": "non-standard DTCG type; web → linear()/CSS, native → stiffness/damping/mass"
+              "customType": "spring",
+              "note": "no DTCG type for springs yet; provide a platform transform downstream"
             }
           }
         },
@@ -8022,7 +8024,8 @@
           "$extensions": {
             "prism3": {
               "generated": true,
-              "note": "non-standard DTCG type; web → linear()/CSS, native → stiffness/damping/mass"
+              "customType": "spring",
+              "note": "no DTCG type for springs yet; provide a platform transform downstream"
             }
           }
         }

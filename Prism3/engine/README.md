@@ -106,7 +106,7 @@ Two emit profiles prove the same engine serves both regression and product:
   `rgb(r, g, b)`, padded steps) so it is byte-comparable with the hand-built NB
   tokens.
 - **`out/aurora.tokens.json`** — the product dialect (`prism.color.*`, hex,
-  DTCG-standard, Style-Dictionary-safe) for a synthetic violet brand that
+  DTCG-aligned, Style-Dictionary-ingestible) for a synthetic violet brand that
   declared a primary + neutral + an azure `accent`. The engine added
   `success`/`warning` from canonical hues and a `danger` red carved at hue 27
   (because violet is not red), and — because the brand named `accent` as its

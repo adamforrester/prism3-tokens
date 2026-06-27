@@ -219,7 +219,7 @@ npx tsx Prism3/engine/emit-dtcg.ts       # emit DTCG + modes, validate
   actions."
 - **Two emit profiles, one engine.** `nbds.color`/rgb for the NB regression
   (byte-comparable to real NB) and `prism.color`/hex for product output
-  (DTCG-standard, Style-Dictionary-safe). Resolves the namespace + value-format
+  (DTCG-aligned, Style-Dictionary-ingestible). Resolves the namespace + value-format
   review notes without losing NB comparability.
 - **NB's per-step hue kinks are NOT reproduced, by design.** Per-step hue drift
   would be a brand input the schema deliberately resists ("resist the seventh").

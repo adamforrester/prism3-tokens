@@ -47,7 +47,19 @@ contract + validate the white-label path against it; (b) keep them as two named
 artifacts (NB-measurement vs engine API) with an explicit mapping + corrected doc
 labels. Lean: (a).
 
-### Item 7 — `spring` is a non-standard DTCG type  ·  **OPEN (low–med)**
+### Item 7 — `spring` is a non-standard DTCG type  ·  **RESOLVED (2026-06-27)**
+
+> **Resolved (kept `spring`, corrected the claim):** we did NOT remove it —
+> springs are the KB-endorsed default for interactive motion, and Style Dictionary
+> *ingests* unknown types without error (they pass through; only a custom transform
+> to render is needed, which is unavoidable for spring physics anyway). Fix: the
+> "DTCG-standard" header is now "DTCG-aligned, Style-Dictionary-ingestible," each
+> `spring` token is explicitly flagged (`$extensions.prism3.customType`) with a
+> note that DTCG has no spring type yet, and the emit header states `spring` is the
+> one intentional custom type. *(Alternative not taken — re-typing springs to an
+> overshoot `cubicBezier` with params in `$extensions` for 100% standard types +
+> out-of-box SD rendering — remains available if zero-custom-types is ever required;
+> rejected for now as a lossy approximation of a distinct concept.)* Original below.
 
 The motion axis emits 3 `spring` tokens with `$type:"spring"`, which is *not* in
 the DTCG spec or Style Dictionary's type map (verified). SD won't error (unknown

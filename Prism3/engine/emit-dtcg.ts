@@ -3,7 +3,11 @@
  *
  * Emits a W3C Design Tokens tree per theme, in that theme's dialect:
  *  - NB regression  -> nbds.* / rgb()  (byte-comparable to the real NB tokens)
- *  - Prism product  -> prism.* / hex    (DTCG-standard, Style-Dictionary-safe)
+ *  - Prism product  -> prism.* / hex    (DTCG-aligned, Style-Dictionary-ingestible)
+ *
+ * Every emitted $type is a standard DTCG type EXCEPT `spring` (3 tokens) — an
+ * intentional custom type, since DTCG has no spring type yet. SD ingests it
+ * (unknown types pass through) but it needs a downstream platform transform.
  *
  * Two axes: colour (primitive ramps + per-mode semantic aliases) and dimension
  * (a primitive grid + space/radius semantics that alias into it). Each primitive
@@ -85,7 +89,12 @@ const bezierLeaf = (b: number[], description: string): Token => ({
 });
 const springLeaf = (p: { damping: number; stiffness: number }, description: string): Token => ({
   $type: 'spring', $value: p, $description: description,
-  $extensions: { prism3: { generated: true, note: 'non-standard DTCG type; web → linear()/CSS, native → stiffness/damping/mass' } },
+  // `spring` is an INTENTIONAL custom type — springs have no DTCG type yet
+  // (design-tokens CG open issue). Style Dictionary ingests it without error
+  // (unknown types pass through) but needs a custom transform to render it; that
+  // is expected, since spring → platform (web linear()/CSS, native
+  // stiffness/damping/mass) is inherently a per-platform step.
+  $extensions: { prism3: { generated: true, customType: 'spring', note: 'no DTCG type for springs yet; provide a platform transform downstream' } },
 });
 // Composite (DTCG transition): bundles duration + easing by intent.
 const transitionLeaf = (durPath: string, easePath: string, description: string): Token => ({
