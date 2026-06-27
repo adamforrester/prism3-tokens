@@ -2819,7 +2819,7 @@
           "disabled": {
             "$type": "color",
             "$value": "{nbds.color.neutral.450}",
-            "$description": "Disabled text — clears 3:1 on the floor (accessible)",
+            "$description": "Disabled text — clears 3:1 (accessible)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -2924,7 +2924,7 @@
           "on-interactive": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Label on the interactive fill",
+            "$description": "text on the interactive fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -2939,7 +2939,7 @@
           "on-brand": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Content on a solid brand fill",
+            "$description": "text on a solid brand fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -2954,7 +2954,7 @@
           "on-success": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Content on a solid success fill",
+            "$description": "text on a solid success fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -2969,7 +2969,7 @@
           "on-warning": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Content on a solid warning fill",
+            "$description": "text on a solid warning fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -2984,7 +2984,7 @@
           "on-danger": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Content on a solid danger fill",
+            "$description": "text on a solid danger fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -2999,7 +2999,7 @@
           "on-info": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Content on a solid info fill",
+            "$description": "text on a solid info fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -3014,7 +3014,7 @@
           "on-emphasis": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Content on an emphasis / inverse fill",
+            "$description": "text on an emphasis / inverse fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -3030,7 +3030,7 @@
             "default": {
               "$type": "color",
               "$value": "{nbds.color.red.550}",
-              "$description": "Link (interactive text) — default",
+              "$description": "Link text — default",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -3045,7 +3045,7 @@
             "hover": {
               "$type": "color",
               "$value": "{nbds.color.red.600}",
-              "$description": "Link (interactive text) — hover",
+              "$description": "Link text — hover",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -3060,7 +3060,7 @@
             "visited": {
               "$type": "color",
               "$value": "{nbds.color.red.650}",
-              "$description": "Link (interactive text) — visited",
+              "$description": "Link text — visited",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -3075,7 +3075,7 @@
             "focused": {
               "$type": "color",
               "$value": "{nbds.color.red.550}",
-              "$description": "Link (interactive text) — focused",
+              "$description": "Link text — focused",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -3090,7 +3090,7 @@
             "disabled": {
               "$type": "color",
               "$value": "{nbds.color.neutral.450}",
-              "$description": "Link (interactive text) — disabled",
+              "$description": "Link text — disabled",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -3153,7 +3153,7 @@
           "disabled": {
             "$type": "color",
             "$value": "{nbds.color.neutral.450}",
-            "$description": "Disabled icon — clears 3:1 on the floor (accessible)",
+            "$description": "Disabled icon — clears 3:1 (accessible)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -3258,7 +3258,7 @@
           "on-interactive": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Icon — Label on the interactive fill",
+            "$description": "icon on the interactive fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -3273,7 +3273,7 @@
           "on-brand": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Icon — Content on a solid brand fill",
+            "$description": "icon on a solid brand fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -3288,7 +3288,7 @@
           "on-success": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Icon — Content on a solid success fill",
+            "$description": "icon on a solid success fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -3303,7 +3303,7 @@
           "on-warning": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Icon — Content on a solid warning fill",
+            "$description": "icon on a solid warning fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -3318,7 +3318,7 @@
           "on-danger": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Icon — Content on a solid danger fill",
+            "$description": "icon on a solid danger fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -3333,7 +3333,7 @@
           "on-info": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Icon — Content on a solid info fill",
+            "$description": "icon on a solid info fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -3348,7 +3348,7 @@
           "on-emphasis": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Icon — Content on an emphasis / inverse fill",
+            "$description": "icon on an emphasis / inverse fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -3364,7 +3364,7 @@
             "default": {
               "$type": "color",
               "$value": "{nbds.color.red.550}",
-              "$description": "Link (interactive icon) — default",
+              "$description": "Link icon — default",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -3379,7 +3379,7 @@
             "hover": {
               "$type": "color",
               "$value": "{nbds.color.red.600}",
-              "$description": "Link (interactive icon) — hover",
+              "$description": "Link icon — hover",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -3394,7 +3394,7 @@
             "visited": {
               "$type": "color",
               "$value": "{nbds.color.red.650}",
-              "$description": "Link (interactive icon) — visited",
+              "$description": "Link icon — visited",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -3409,7 +3409,7 @@
             "focused": {
               "$type": "color",
               "$value": "{nbds.color.red.550}",
-              "$description": "Link (interactive icon) — focused",
+              "$description": "Link icon — focused",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -3424,7 +3424,7 @@
             "disabled": {
               "$type": "color",
               "$value": "{nbds.color.neutral.450}",
-              "$description": "Link (interactive icon) — disabled",
+              "$description": "Link icon — disabled",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -4156,7 +4156,7 @@
           "disabled": {
             "$type": "color",
             "$value": "{nbds.color.neutral.550}",
-            "$description": "Disabled text — clears 3:1 on the floor (accessible)",
+            "$description": "Disabled text — clears 3:1 (accessible)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -4261,7 +4261,7 @@
           "on-interactive": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "Label on the interactive fill",
+            "$description": "text on the interactive fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -4276,7 +4276,7 @@
           "on-brand": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "Content on a solid brand fill",
+            "$description": "text on a solid brand fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -4291,7 +4291,7 @@
           "on-success": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "Content on a solid success fill",
+            "$description": "text on a solid success fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -4306,7 +4306,7 @@
           "on-warning": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "Content on a solid warning fill",
+            "$description": "text on a solid warning fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -4321,7 +4321,7 @@
           "on-danger": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "Content on a solid danger fill",
+            "$description": "text on a solid danger fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -4336,7 +4336,7 @@
           "on-info": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "Content on a solid info fill",
+            "$description": "text on a solid info fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -4351,7 +4351,7 @@
           "on-emphasis": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "Content on an emphasis / inverse fill",
+            "$description": "text on an emphasis / inverse fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -4367,7 +4367,7 @@
             "default": {
               "$type": "color",
               "$value": "{nbds.color.red.450}",
-              "$description": "Link (interactive text) — default",
+              "$description": "Link text — default",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -4382,7 +4382,7 @@
             "hover": {
               "$type": "color",
               "$value": "{nbds.color.red.400}",
-              "$description": "Link (interactive text) — hover",
+              "$description": "Link text — hover",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -4397,7 +4397,7 @@
             "visited": {
               "$type": "color",
               "$value": "{nbds.color.red.350}",
-              "$description": "Link (interactive text) — visited",
+              "$description": "Link text — visited",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -4412,7 +4412,7 @@
             "focused": {
               "$type": "color",
               "$value": "{nbds.color.red.450}",
-              "$description": "Link (interactive text) — focused",
+              "$description": "Link text — focused",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -4427,7 +4427,7 @@
             "disabled": {
               "$type": "color",
               "$value": "{nbds.color.neutral.550}",
-              "$description": "Link (interactive text) — disabled",
+              "$description": "Link text — disabled",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -4490,7 +4490,7 @@
           "disabled": {
             "$type": "color",
             "$value": "{nbds.color.neutral.550}",
-            "$description": "Disabled icon — clears 3:1 on the floor (accessible)",
+            "$description": "Disabled icon — clears 3:1 (accessible)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -4595,7 +4595,7 @@
           "on-interactive": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "Icon — Label on the interactive fill",
+            "$description": "icon on the interactive fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -4610,7 +4610,7 @@
           "on-brand": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "Icon — Content on a solid brand fill",
+            "$description": "icon on a solid brand fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -4625,7 +4625,7 @@
           "on-success": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "Icon — Content on a solid success fill",
+            "$description": "icon on a solid success fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -4640,7 +4640,7 @@
           "on-warning": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "Icon — Content on a solid warning fill",
+            "$description": "icon on a solid warning fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -4655,7 +4655,7 @@
           "on-danger": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "Icon — Content on a solid danger fill",
+            "$description": "icon on a solid danger fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -4670,7 +4670,7 @@
           "on-info": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "Icon — Content on a solid info fill",
+            "$description": "icon on a solid info fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -4685,7 +4685,7 @@
           "on-emphasis": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "Icon — Content on an emphasis / inverse fill",
+            "$description": "icon on an emphasis / inverse fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -4701,7 +4701,7 @@
             "default": {
               "$type": "color",
               "$value": "{nbds.color.red.450}",
-              "$description": "Link (interactive icon) — default",
+              "$description": "Link icon — default",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -4716,7 +4716,7 @@
             "hover": {
               "$type": "color",
               "$value": "{nbds.color.red.400}",
-              "$description": "Link (interactive icon) — hover",
+              "$description": "Link icon — hover",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -4731,7 +4731,7 @@
             "visited": {
               "$type": "color",
               "$value": "{nbds.color.red.350}",
-              "$description": "Link (interactive icon) — visited",
+              "$description": "Link icon — visited",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -4746,7 +4746,7 @@
             "focused": {
               "$type": "color",
               "$value": "{nbds.color.red.450}",
-              "$description": "Link (interactive icon) — focused",
+              "$description": "Link icon — focused",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -4761,7 +4761,7 @@
             "disabled": {
               "$type": "color",
               "$value": "{nbds.color.neutral.550}",
-              "$description": "Link (interactive icon) — disabled",
+              "$description": "Link icon — disabled",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -5493,7 +5493,7 @@
           "disabled": {
             "$type": "color",
             "$value": "{nbds.color.neutral.550}",
-            "$description": "Disabled text — clears 4.5:1 on the floor (accessible)",
+            "$description": "Disabled text — clears 4.5:1 (accessible)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -5598,7 +5598,7 @@
           "on-interactive": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Label on the interactive fill",
+            "$description": "text on the interactive fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -5613,7 +5613,7 @@
           "on-brand": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Content on a solid brand fill",
+            "$description": "text on a solid brand fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -5628,7 +5628,7 @@
           "on-success": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Content on a solid success fill",
+            "$description": "text on a solid success fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -5643,7 +5643,7 @@
           "on-warning": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Content on a solid warning fill",
+            "$description": "text on a solid warning fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -5658,7 +5658,7 @@
           "on-danger": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Content on a solid danger fill",
+            "$description": "text on a solid danger fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -5673,7 +5673,7 @@
           "on-info": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Content on a solid info fill",
+            "$description": "text on a solid info fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -5688,7 +5688,7 @@
           "on-emphasis": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Content on an emphasis / inverse fill",
+            "$description": "text on an emphasis / inverse fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -5704,7 +5704,7 @@
             "default": {
               "$type": "color",
               "$value": "{nbds.color.red.700}",
-              "$description": "Link (interactive text) — default",
+              "$description": "Link text — default",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -5719,7 +5719,7 @@
             "hover": {
               "$type": "color",
               "$value": "{nbds.color.red.750}",
-              "$description": "Link (interactive text) — hover",
+              "$description": "Link text — hover",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -5734,7 +5734,7 @@
             "visited": {
               "$type": "color",
               "$value": "{nbds.color.red.800}",
-              "$description": "Link (interactive text) — visited",
+              "$description": "Link text — visited",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -5749,7 +5749,7 @@
             "focused": {
               "$type": "color",
               "$value": "{nbds.color.red.700}",
-              "$description": "Link (interactive text) — focused",
+              "$description": "Link text — focused",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -5764,7 +5764,7 @@
             "disabled": {
               "$type": "color",
               "$value": "{nbds.color.neutral.550}",
-              "$description": "Link (interactive text) — disabled",
+              "$description": "Link text — disabled",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -5827,7 +5827,7 @@
           "disabled": {
             "$type": "color",
             "$value": "{nbds.color.neutral.550}",
-            "$description": "Disabled icon — clears 4.5:1 on the floor (accessible)",
+            "$description": "Disabled icon — clears 4.5:1 (accessible)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -5932,7 +5932,7 @@
           "on-interactive": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Icon — Label on the interactive fill",
+            "$description": "icon on the interactive fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -5947,7 +5947,7 @@
           "on-brand": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Icon — Content on a solid brand fill",
+            "$description": "icon on a solid brand fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -5962,7 +5962,7 @@
           "on-success": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Icon — Content on a solid success fill",
+            "$description": "icon on a solid success fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -5977,7 +5977,7 @@
           "on-warning": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Icon — Content on a solid warning fill",
+            "$description": "icon on a solid warning fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -5992,7 +5992,7 @@
           "on-danger": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Icon — Content on a solid danger fill",
+            "$description": "icon on a solid danger fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -6007,7 +6007,7 @@
           "on-info": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Icon — Content on a solid info fill",
+            "$description": "icon on a solid info fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -6022,7 +6022,7 @@
           "on-emphasis": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Icon — Content on an emphasis / inverse fill",
+            "$description": "icon on an emphasis / inverse fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -6038,7 +6038,7 @@
             "default": {
               "$type": "color",
               "$value": "{nbds.color.red.700}",
-              "$description": "Link (interactive icon) — default",
+              "$description": "Link icon — default",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -6053,7 +6053,7 @@
             "hover": {
               "$type": "color",
               "$value": "{nbds.color.red.750}",
-              "$description": "Link (interactive icon) — hover",
+              "$description": "Link icon — hover",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -6068,7 +6068,7 @@
             "visited": {
               "$type": "color",
               "$value": "{nbds.color.red.800}",
-              "$description": "Link (interactive icon) — visited",
+              "$description": "Link icon — visited",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -6083,7 +6083,7 @@
             "focused": {
               "$type": "color",
               "$value": "{nbds.color.red.700}",
-              "$description": "Link (interactive icon) — focused",
+              "$description": "Link icon — focused",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -6098,7 +6098,7 @@
             "disabled": {
               "$type": "color",
               "$value": "{nbds.color.neutral.550}",
-              "$description": "Link (interactive icon) — disabled",
+              "$description": "Link icon — disabled",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -6830,7 +6830,7 @@
           "disabled": {
             "$type": "color",
             "$value": "{nbds.color.neutral.450}",
-            "$description": "Disabled text — clears 4.5:1 on the floor (accessible)",
+            "$description": "Disabled text — clears 4.5:1 (accessible)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -6935,7 +6935,7 @@
           "on-interactive": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "Label on the interactive fill",
+            "$description": "text on the interactive fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -6950,7 +6950,7 @@
           "on-brand": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "Content on a solid brand fill",
+            "$description": "text on a solid brand fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -6965,7 +6965,7 @@
           "on-success": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "Content on a solid success fill",
+            "$description": "text on a solid success fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -6980,7 +6980,7 @@
           "on-warning": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "Content on a solid warning fill",
+            "$description": "text on a solid warning fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -6995,7 +6995,7 @@
           "on-danger": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "Content on a solid danger fill",
+            "$description": "text on a solid danger fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -7010,7 +7010,7 @@
           "on-info": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "Content on a solid info fill",
+            "$description": "text on a solid info fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -7025,7 +7025,7 @@
           "on-emphasis": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "Content on an emphasis / inverse fill",
+            "$description": "text on an emphasis / inverse fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -7041,7 +7041,7 @@
             "default": {
               "$type": "color",
               "$value": "{nbds.color.red.300}",
-              "$description": "Link (interactive text) — default",
+              "$description": "Link text — default",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -7056,7 +7056,7 @@
             "hover": {
               "$type": "color",
               "$value": "{nbds.color.red.250}",
-              "$description": "Link (interactive text) — hover",
+              "$description": "Link text — hover",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -7071,7 +7071,7 @@
             "visited": {
               "$type": "color",
               "$value": "{nbds.color.red.200}",
-              "$description": "Link (interactive text) — visited",
+              "$description": "Link text — visited",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -7086,7 +7086,7 @@
             "focused": {
               "$type": "color",
               "$value": "{nbds.color.red.300}",
-              "$description": "Link (interactive text) — focused",
+              "$description": "Link text — focused",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -7101,7 +7101,7 @@
             "disabled": {
               "$type": "color",
               "$value": "{nbds.color.neutral.450}",
-              "$description": "Link (interactive text) — disabled",
+              "$description": "Link text — disabled",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -7164,7 +7164,7 @@
           "disabled": {
             "$type": "color",
             "$value": "{nbds.color.neutral.450}",
-            "$description": "Disabled icon — clears 4.5:1 on the floor (accessible)",
+            "$description": "Disabled icon — clears 4.5:1 (accessible)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -7269,7 +7269,7 @@
           "on-interactive": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "Icon — Label on the interactive fill",
+            "$description": "icon on the interactive fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -7284,7 +7284,7 @@
           "on-brand": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "Icon — Content on a solid brand fill",
+            "$description": "icon on a solid brand fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -7299,7 +7299,7 @@
           "on-success": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "Icon — Content on a solid success fill",
+            "$description": "icon on a solid success fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -7314,7 +7314,7 @@
           "on-warning": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "Icon — Content on a solid warning fill",
+            "$description": "icon on a solid warning fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -7329,7 +7329,7 @@
           "on-danger": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "Icon — Content on a solid danger fill",
+            "$description": "icon on a solid danger fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -7344,7 +7344,7 @@
           "on-info": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "Icon — Content on a solid info fill",
+            "$description": "icon on a solid info fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -7359,7 +7359,7 @@
           "on-emphasis": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "Icon — Content on an emphasis / inverse fill",
+            "$description": "icon on an emphasis / inverse fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -7375,7 +7375,7 @@
             "default": {
               "$type": "color",
               "$value": "{nbds.color.red.300}",
-              "$description": "Link (interactive icon) — default",
+              "$description": "Link icon — default",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -7390,7 +7390,7 @@
             "hover": {
               "$type": "color",
               "$value": "{nbds.color.red.250}",
-              "$description": "Link (interactive icon) — hover",
+              "$description": "Link icon — hover",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -7405,7 +7405,7 @@
             "visited": {
               "$type": "color",
               "$value": "{nbds.color.red.200}",
-              "$description": "Link (interactive icon) — visited",
+              "$description": "Link icon — visited",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -7420,7 +7420,7 @@
             "focused": {
               "$type": "color",
               "$value": "{nbds.color.red.300}",
-              "$description": "Link (interactive icon) — focused",
+              "$description": "Link icon — focused",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -7435,7 +7435,7 @@
             "disabled": {
               "$type": "color",
               "$value": "{nbds.color.neutral.450}",
-              "$description": "Link (interactive icon) — disabled",
+              "$description": "Link icon — disabled",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -8436,6 +8436,106 @@
             "aliasOf": "nbds.dimension.128",
             "px": 128,
             "radiusScale": 1
+          }
+        }
+      }
+    },
+    "border-width": {
+      "none": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.0}",
+        "$description": "border-width none — 0px",
+        "$extensions": {
+          "prism3": {
+            "role": "semantic",
+            "aliasOf": "nbds.dimension.0",
+            "px": 0
+          }
+        }
+      },
+      "hairline": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.1}",
+        "$description": "border-width hairline — 1px (default border floor)",
+        "$extensions": {
+          "prism3": {
+            "role": "semantic",
+            "aliasOf": "nbds.dimension.1",
+            "px": 1
+          }
+        }
+      },
+      "thick": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.2}",
+        "$description": "border-width thick — 2px (emphasis / selected)",
+        "$extensions": {
+          "prism3": {
+            "role": "semantic",
+            "aliasOf": "nbds.dimension.2",
+            "px": 2
+          }
+        }
+      },
+      "heavy": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.4}",
+        "$description": "border-width heavy — 4px",
+        "$extensions": {
+          "prism3": {
+            "role": "semantic",
+            "aliasOf": "nbds.dimension.4",
+            "px": 4
+          }
+        }
+      }
+    },
+    "focus": {
+      "ring": {
+        "width": {
+          "$type": "dimension",
+          "$value": "{nbds.dimension.2}",
+          "$description": "focus ring width — 2px (WCAG 2.4.13 floor; 3px for extra clarity)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.dimension.2",
+              "px": 2
+            }
+          }
+        },
+        "offset": {
+          "$type": "dimension",
+          "$value": "{nbds.dimension.2}",
+          "$description": "focus ring offset — 2px (separates ring from the element edge)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.dimension.2",
+              "px": 2
+            }
+          }
+        },
+        "offset-field": {
+          "$type": "dimension",
+          "$value": "{nbds.dimension.0}",
+          "$description": "focus ring offset, form fields — 0px (ring hugs the field; Primer)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.dimension.0",
+              "px": 0
+            }
+          }
+        },
+        "style": {
+          "$type": "string",
+          "$value": "solid",
+          "$description": "focus ring style — solid (dashed/dotted fail at small sizes)",
+          "$extensions": {
+            "prism3": {
+              "generated": true
+            }
           }
         }
       }

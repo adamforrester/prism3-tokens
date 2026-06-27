@@ -58,6 +58,11 @@ export type Theme = {
   // inactive-component exemption (the field-standard dimmed look).
   disabledStrategy: 'accessible' | 'conventional';
   disabledMin: number;               // accessible floor (default 3:1; bumped in HC)
+  // Icon contrast floor. 'text' (default): icons mirror text (4.5:1). '3:1':
+  // icons resolve against the WCAG SC 1.4.11 non-text floor (3:1) — standards-
+  // correct (graphical objects), letting secondary/semantic icons run lighter
+  // than text. `icon.primary` stays strong either way.
+  iconContrast: 'text' | '3:1';
   dims: Dims;
   notes: string[];                   // human-readable record of engine decisions
 };
@@ -120,6 +125,9 @@ export type BrandInput = {
    *  sub-AA exempt look. `disabledMin` is the accessible floor (default 3). */
   disabledStrategy?: 'accessible' | 'conventional';
   disabledMin?: number;
+  /** Icon contrast floor. Default 'text' (icons mirror text, 4.5:1). '3:1'
+   *  resolves icons against the WCAG 1.4.11 non-text floor so they may diverge. */
+  iconContrast?: 'text' | '3:1';
   /** Dimension axis levers (schema-required #4/#5). Defaults reproduce a
    *  conventional 4px-grid / 8px-rhythm, sharp-corner system. */
   baseUnit?: number;                 // fine dimension grid base (px), default 4
@@ -216,6 +224,7 @@ export const brandTheme = (input: BrandInput): Theme => {
     surfaces: input.surfaces,
     disabledStrategy: input.disabledStrategy ?? 'accessible',
     disabledMin: input.disabledMin ?? 3,
+    iconContrast: input.iconContrast ?? 'text',
     dims: buildDims(baseUnit, spaceBase, density, rScale, baseMd),
   };
 };
@@ -262,7 +271,7 @@ export const nbTheme = (): Theme => {
     id: 'nb', root: 'nbds', namespace: 'nbds.color', colorFormat: 'rgb', palettes,
     roleToPalette: { brand: 'red', neutral: 'neutral', success: 'green', warning: 'amber', danger: 'red', info: 'info', action: 'red' },
     roleAnchorStep: { brand: 550, neutral: 500, success: 500, warning: 500, danger: 550, info: 500, action: 550 },
-    disabledStrategy: 'accessible', disabledMin: 3,
+    disabledStrategy: 'accessible', disabledMin: 3, iconContrast: 'text',
     dims,
     notes: [
       'NB regression: measured anchors; brand red also serves as danger (NB brand hue is its danger hue).',

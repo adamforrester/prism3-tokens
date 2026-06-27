@@ -134,6 +134,12 @@
       "default": 3,
       "description": "OPTIONAL. Contrast floor for the 'accessible' disabled strategy (default 3:1 — visibly dimmed but legible, where Primer/USWDS sit; escalates to 4.5:1 in high-contrast modes). Ignored when disabledStrategy is 'conventional'."
     },
+    "iconContrast": {
+      "type": "string",
+      "enum": ["text", "3:1"],
+      "default": "text",
+      "description": "OPTIONAL. Icon contrast floor. 'text' (default): icons mirror text at 4.5:1. '3:1': icons resolve against the WCAG SC 1.4.11 non-text floor (graphical objects), letting secondary/semantic icons run lighter than text; icon.primary stays strong. Standards-correct (1.4.11 is a separate, lower floor than 1.4.3's 4.5:1)."
+    },
 
     "displayP3": {
       "type": "boolean",

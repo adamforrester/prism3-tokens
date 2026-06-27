@@ -231,41 +231,48 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
   }
 
   // -------------------------------------------------------------- text (+ icon)
-  // Built once, then mirrored into `icon` (icons share text values for now; a
-  // future 3:1-floor toggle would let them diverge — see 03-open-questions).
+  // Content specs built from a floor PROFILE so `text` (4.5:1) and `icon` can
+  // diverge: with iconContrast '3:1' icons resolve against the WCAG 1.4.11
+  // non-text floor (3:1) for secondary/tertiary/semantic/link — `primary` stays
+  // strong either way. With 'text' (default) icons mirror text exactly.
   type Spec = { key: string; r: Rated; desc: string; against: string; min: number };
-  const textSpecs: Spec[] = [];
-  const T = (key: string, r: Rated, desc: string, against: string, min: number) => textSpecs.push({ key, r, desc, against, min });
+  type Profile = { label: string; secondaryMin: number; tertiaryMin: number; semanticMin: number };
+  const buildContent = (p: Profile): Spec[] => {
+    const out: Spec[] = [];
+    const T = (key: string, r: Rated, desc: string, against: string, min: number) => out.push({ key, r, desc, against, min });
+    T('primary', pickMostExtreme(textCands, baseRgb), `Primary ${p.label} — strongest neutral`, 'background.primary', cfg.primaryMin);
+    T('secondary', pickMinPass(textCands, floorRgb, p.secondaryMin), `Secondary ${p.label} — ${p.secondaryMin}:1 on the floor`, cfg.floorName, p.secondaryMin);
+    T('tertiary', pickMinPass(textCands, floorRgb, p.tertiaryMin), `Tertiary ${p.label} — ${p.tertiaryMin}:1 on the floor`, cfg.floorName, p.tertiaryMin);
+    { const d = disabledText(); T('disabled', d.r, accessibleDisabled ? `Disabled ${p.label} — clears ${disabledTarget}:1 (accessible)` : `Disabled ${p.label} — sub-AA (WCAG-exempt)`, d.against, d.min); }
+    T('inverse', pickMostExtreme(textCands, invRgb), `Inverse ${p.label} — on the opposite surface`, 'background.inverse', cfg.secondaryMin);
+    for (const r of ['brand', 'success', 'warning', 'danger', 'info'] as const)
+      T(r, paletteRole(r, floorRgb, p.semanticMin), `${r} ${p.label} — ${p.semanticMin}:1 on the floor`, cfg.floorName, p.semanticMin);
+    // on-* pair labels (content on a solid fill) — AA on a vivid fill.
+    T('on-interactive', onColor(intRest.rgb), `${p.label} on the interactive fill`, 'foreground.interactive.default', onMin);
+    for (const r of ['brand', 'success', 'warning', 'danger', 'info'] as const)
+      T(`on-${r}`, onColor(fills[r]!.rgb), `${p.label} on a solid ${r} fill`, `foreground.${r}`, onMin);
+    T('on-emphasis', onColor(invRgb), `${p.label} on an emphasis / inverse fill`, 'background.inverse', cfg.secondaryMin);
+    // interactive (links) + states.
+    const linkRest = paletteRole('action', floorRgb, p.semanticMin);
+    const linkStateCand = (st: typeof TEXT_STATES[number]): Cand =>
+      st === 'default' || st === 'focused' ? linkRest
+      : st === 'hover' ? walk(r2p.action, linkRest.num, 1)
+      : st === 'visited' ? walk(r2p.action, linkRest.num, 2)
+      : neutralLow();
+    for (const st of TEXT_STATES) {
+      if (st === 'disabled') { const d = disabledText(); T('interactive.disabled', d.r, `Link ${p.label} — disabled`, d.against, d.min); continue; }
+      T(`interactive.${st}`, rated(linkStateCand(st), floorRgb), `Link ${p.label} — ${st}`, cfg.floorName, p.semanticMin);
+    }
+    return out;
+  };
 
-  T('primary', pickMostExtreme(textCands, baseRgb), 'Primary text — strongest neutral', 'background.primary', cfg.primaryMin);
-  T('secondary', pickMinPass(textCands, floorRgb, cfg.secondaryMin), `Secondary text — ${cfg.secondaryMin}:1 on the floor`, cfg.floorName, cfg.secondaryMin);
-  T('tertiary', pickMinPass(textCands, floorRgb, cfg.tertiaryMin), `Tertiary text — ${cfg.tertiaryMin}:1 on the floor`, cfg.floorName, cfg.tertiaryMin);
-  { const d = disabledText(); T('disabled', d.r, accessibleDisabled ? `Disabled text — clears ${disabledTarget}:1 on the floor (accessible)` : 'Disabled text — sub-AA (WCAG-exempt, conventional)', d.against, d.min); }
-  T('inverse', pickMostExtreme(textCands, invRgb), 'Inverse text — on the opposite surface', 'background.inverse', cfg.secondaryMin);
-  for (const r of ['brand', 'success', 'warning', 'danger', 'info'] as const)
-    T(r, paletteRole(r, floorRgb, cfg.actionMin), `${r} text — ${cfg.actionMin}:1 on the floor`, cfg.floorName, cfg.actionMin);
-  // on-* pair labels (content on a solid fill) — AA on a vivid fill.
-  T('on-interactive', onColor(intRest.rgb), 'Label on the interactive fill', 'foreground.interactive.default', onMin);
-  for (const r of ['brand', 'success', 'warning', 'danger', 'info'] as const)
-    T(`on-${r}`, onColor(fills[r]!.rgb), `Content on a solid ${r} fill`, `foreground.${r}`, onMin);
-  T('on-emphasis', onColor(invRgb), 'Content on an emphasis / inverse fill', 'background.inverse', cfg.secondaryMin);
-  // interactive text (links) + states.
-  const linkRest = paletteRole('action', floorRgb, cfg.actionMin);
-  const linkStateCand = (st: typeof TEXT_STATES[number]): Cand =>
-    st === 'default' || st === 'focused' ? linkRest
-    : st === 'hover' ? walk(r2p.action, linkRest.num, 1)
-    : st === 'visited' ? walk(r2p.action, linkRest.num, 2)
-    : neutralLow(); // disabled
-  for (const st of TEXT_STATES) {
-    if (st === 'disabled') { const d = disabledText(); T('interactive.disabled', d.r, 'Link (interactive text) — disabled', d.against, d.min); continue; }
-    T(`interactive.${st}`, rated(linkStateCand(st), floorRgb), `Link (interactive text) — ${st}`, cfg.floorName, cfg.actionMin);
-  }
-
-  for (const s of textSpecs) {
-    put(`text.${s.key}`, s.r, s.desc, s.against, s.min);
-    const iconDesc = s.desc.includes('text') ? s.desc.replace(/text/g, 'icon') : `Icon — ${s.desc}`;
-    put(`icon.${s.key}`, s.r, iconDesc, s.against, s.min);
-  }
+  const textProfile: Profile = { label: 'text', secondaryMin: cfg.secondaryMin, tertiaryMin: cfg.tertiaryMin, semanticMin: cfg.actionMin };
+  for (const s of buildContent(textProfile)) put(`text.${s.key}`, s.r, s.desc, s.against, s.min);
+  // icon: mirror text, or (iconContrast '3:1') resolve against the non-text floor.
+  const iconSpecs = theme.iconContrast === '3:1'
+    ? buildContent({ label: 'icon', secondaryMin: cfg.nonTextMin, tertiaryMin: cfg.nonTextMin, semanticMin: cfg.nonTextMin })
+    : buildContent({ ...textProfile, label: 'icon' });
+  for (const s of iconSpecs) put(`icon.${s.key}`, s.r, s.desc, s.against, s.min);
 
   // ------------------------------------------------------------------- borders
   put('border.default', pickClosest(ramp, baseRgb, cfg.borderTarget), `Default border — decorative, ~${cfg.borderTarget}:1`, 'background.primary', 0);

@@ -14,10 +14,10 @@
 |---|---|---|---|---|
 | Colour (primitives + property-led semantic + alpha/scrim/opacity) | NB `color`, Prism2 | ✅ Done | OKLCH ramps + contrast roles | — |
 | Dimension grid · space · radius · sizes | NB `core-dimension`, `space-size`, `radius` | ✅ Done | 4px grid + density + radius scale | — |
-| **Border width** | NB `border-width` (in `space-size`) | ❌ Missing | aliases to the dimension grid | **trivial** |
-| **Focus** | NB `focus` | 🟡 Partial — colour done | ring width/offset = dimension aliases | **trivial** |
-| **Icon 3:1 toggle** | (colour sub-item) | ❌ Parked | resolve `icon.*` against 3:1 vs mirror text | **trivial** |
-| **Breakpoints** | NB `core-breakpoint` | ❌ Missing | a small fixed/declared scale | **low** |
+| **Border width** | NB `border-width` (in `space-size`) | ✅ Done | `none/hairline/thick/heavy` → dim 0/1/2/4 | — |
+| **Focus** | NB `focus` | ✅ Done | ring width/offset/offset-field/style; colour = `border.interactive.focused` | — |
+| **Icon 3:1 toggle** | (colour sub-item) | ✅ Done | `iconContrast: 'text' \| '3:1'` theme input | — |
+| **Breakpoints** | NB `core-breakpoint` | ⏸ Parked for discussion | fluid vs fixed + grid coupling — needs a decision | **low** |
 | **Motion** | NB `core-motion`, `motion` | ❌ Missing | `motionPersonality` (schema stub) → duration + easing | **low–med** |
 | **Layout** | NB `layout` | ❌ Missing | grid columns/gutter/margin per breakpoint | **low–med** |
 | **Shadow / elevation** | NB `shadows` | ❌ Missing | elevation lever → ramp, mode-aware | **medium** |
@@ -29,6 +29,12 @@
 ## Backlog items (detail)
 
 ### Quick wins (trivial → low)
+
+> **Shipped (2026-06-27):** border-width, focus ring dims, and the icon 3:1 toggle
+> — all research-grounded (WCAG 2.2 SC 2.4.13/2.4.11, SC 1.4.11), beating the NB
+> single-brand defaults (offset-field=0 for inputs, dual-outline guidance, a
+> separate non-text icon floor). **Breakpoints parked** for the fluid-vs-fixed +
+> grid-coupling discussion. Detail below kept for the record.
 
 - **Border width.** NB ships `border-width/{none,hairline,thin,thick}`. Emit a
   small semantic set aliasing the dimension grid (e.g. hairline→`dimension.1`,
@@ -89,8 +95,8 @@
 
 ## Suggested sequence
 
-1. **Quick-win batch** — border width + focus dims + icon toggle + breakpoints
-   (all trivial→low, clears four backlog rows fast).
+1. ~~**Quick-win batch** — border width + focus dims + icon toggle~~ ✅ done
+   (2026-06-27). Breakpoints split out — parked for discussion (fluid vs fixed).
 2. **Motion** — wire the `motionPersonality` lever (quick, schema stub exists).
 3. **Typography** — the headline lever (largest value).
 4. **Shadow** — completes elevation; reuses alpha primitives + the surface ladder.

@@ -68,6 +68,14 @@ to New Balance's real taxonomy. Top level is the *property* you're colouring;
   icons to the 3:1 non-text floor so they diverge).
 - `border.*` — neutral, semantic validation, and `interactive` (focus = `.focused`).
 
+Mode-invariant siblings of the dimension axis: **`border-width`** (`none/hairline/
+thick/heavy` → dim 0/1/2/4, 1px hairline floor) and **`focus.ring`** (width 2px /
+offset 2px / `offset-field` 0px / `style` solid; colour is the per-mode
+`border.interactive.focused`) — grounded in WCAG 2.2 SC 2.4.13/2.4.11, with the
+dual-outline (C40) technique documented for any-background 3:1. Icons can take a
+separate **3:1 non-text floor** (SC 1.4.11) via the `iconContrast` theme input
+(`'text'` default mirrors text; `'3:1'` lets secondary/semantic icons run lighter).
+
 Interactivity is a per-property `interactive` variant carrying STATES (the
 applicable subset of default/hover/pressed/focused/visited/selected/disabled), not
 a duplicated parallel tree. Role keys nest (`foreground.interactive.hover`,

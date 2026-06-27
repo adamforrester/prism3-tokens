@@ -39,7 +39,7 @@ const bandName: Record<string, string> = {
   ThreeQuarter: 'Three-Quarter-Tone', Shadows: 'Shadow',
 };
 
-type Token = { $type: 'color' | 'dimension' | 'number'; $value: string | number; $description: string; $extensions: { prism3: Record<string, unknown> } };
+type Token = { $type: 'color' | 'dimension' | 'number' | 'string'; $value: string | number; $description: string; $extensions: { prism3: Record<string, unknown> } };
 
 // ---- colour leaves ----
 const primitiveLeaf = (theme: Theme, paletteDesc: string, s: Step, isAnchor: boolean): Token => {
@@ -66,6 +66,10 @@ const alphaLeaf = (theme: Theme, rgb: RGB, a: number, description: string): Toke
 // Dimensionless opacity primitive.
 const numLeaf = (value: number, description: string): Token => ({
   $type: 'number', $value: value, $description: description,
+  $extensions: { prism3: { generated: true } },
+});
+const strLeaf = (value: string, description: string): Token => ({
+  $type: 'string', $value: value, $description: description,
   $extensions: { prism3: { generated: true } },
 });
 
@@ -161,8 +165,33 @@ const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats: Stats
     };
   }
 
+  // ---- border-width — numeric primitives via the dimension grid (0/1/2/4) ----
+  // 1px hairline floor; no sub-px tokens (unreliable on hi-dpi). Field consensus
+  // clusters here (Tailwind 0/1/2/4/8, Atlassian 1/2, Fluent thin/thick).
+  const bwAlias = (px: number, name: string): Token =>
+    gridSet.has(px) ? dimAlias(`${root}.dimension.${px}`, name, { px }) : dimLeaf(px, name);
+  const borderWidth: Record<string, Token> = {
+    none: bwAlias(0, 'border-width none — 0px'),
+    hairline: bwAlias(1, 'border-width hairline — 1px (default border floor)'),
+    thick: bwAlias(2, 'border-width thick — 2px (emphasis / selected)'),
+    heavy: bwAlias(4, 'border-width heavy — 4px'),
+  };
+  // ---- focus ring — WCAG 2.2 SC 2.4.13 (AAA) / 2.4.11 (AA) ----
+  // width ≥2px floor (bump to 3 for clarity); offset separates the ring from the
+  // element edge (0 for form fields, per Primer); style solid. Ring COLOUR is the
+  // per-mode `semantic.<mode>.border.interactive.focused` (surface-aware). For an
+  // any-background 3:1 guarantee, pair with a ≥9:1-contrasting outer band (W3C C40).
+  const focus = {
+    ring: {
+      width: bwAlias(2, 'focus ring width — 2px (WCAG 2.4.13 floor; 3px for extra clarity)'),
+      offset: bwAlias(2, 'focus ring offset — 2px (separates ring from the element edge)'),
+      'offset-field': bwAlias(0, 'focus ring offset, form fields — 0px (ring hugs the field; Primer)'),
+      style: strLeaf('solid', 'focus ring style — solid (dashed/dotted fail at small sizes)'),
+    },
+  };
+
   // ---- assemble under the brand root ----
-  const brand = { color, semantic, opacity, dimension, space, radius, size };
+  const brand = { color, semantic, opacity, dimension, space, radius, 'border-width': borderWidth, focus, size };
   const tree = {
     [root]: brand,
     $extensions: {
@@ -216,6 +245,9 @@ const aurora: BrandInput = {
   surfaces: { light: { base: 50 } },
   radiusScale: 2,
   density: 'compact',
+  // Exercise the icon-contrast lever: aurora's icons use the WCAG 1.4.11 non-text
+  // floor (3:1), so secondary/semantic icons run lighter than the matching text.
+  iconContrast: '3:1',
 };
 
 const themes: Theme[] = [nbTheme(), brandTheme(aurora)];
