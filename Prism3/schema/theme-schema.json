@@ -168,6 +168,23 @@
         }
       }
     },
+    "shadow": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "OPTIONAL. Shadow / elevation axis. A 6-step ramp (xs–2xl) + inset, 2-layer (key+ambient), mode-aware (full in light; reduced in dark — the surface ladder carries dark elevation, the lift-primary model).",
+      "properties": {
+        "softness": { "type": "number", "default": 1, "description": "Blur:offset personality dial. Low → crisp/product; high → soft/marketing. Scales blur across the ramp." },
+        "tint": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Hue-shifts the shadow base off pure black. Default a subtle neutral tint; set a brand hue + higher amount for brand-hued marketing shadows.",
+          "properties": {
+            "hue": { "type": "number", "description": "Shadow tint hue (deg). Defaults to the neutral ramp hue." },
+            "amount": { "type": "number", "minimum": 0, "description": "Tint strength (0 ≈ pure black; ~1 ≈ clearly hue-tinted). Default 0.15." }
+          }
+        }
+      }
+    },
     "baseUnit": { "type": "number", "default": 4, "description": "OPTIONAL. Fine dimension-grid base (px). Default 4." },
     "spaceBase": { "type": "number", "default": 8, "description": "OPTIONAL. Spacing rhythm (px) for the numbered-multiplier space scale. Default 8." },
     "density": {

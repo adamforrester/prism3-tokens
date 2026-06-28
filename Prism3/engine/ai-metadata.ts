@@ -143,6 +143,7 @@ const CONSUME: Record<string, string> = {
   opacity: 'Consumable — reference directly for custom alpha (or use the scrim / disabled tokens).',
   motion: 'Consumable — motion durations/easings/springs are used directly; transitions compose them.',
   font: 'Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.',
+  shadow: 'Consumable — apply the elevation step directly (mode-aware: light shadow / reduced in dark, surface lift carries dark elevation).',
 };
 const primMeaning = (seg: string[]): string => {
   if (seg[0] === 'color') {
@@ -162,6 +163,7 @@ const primMeaning = (seg: string[]): string => {
     if (seg[1] === 'letter-spacing') return `Letter-spacing primitive — ${seg[2]} (em)`;
     return 'Typography primitive';
   }
+  if (seg[0] === 'shadow') return `Shadow / elevation composite — ${seg[1]} (2-layer, mode-aware)`;
   return `${seg[0]} primitive`;
 };
 

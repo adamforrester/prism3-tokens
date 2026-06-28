@@ -28,7 +28,7 @@ Headline numbers (regenerate with the commands below):
 | Cross-mode contrast contracts | **268/268** | **268/268** |
 | **Dimension axis, exact** (Prism2 space + NB radius) | **21/21** | n/a |
 | DTCG semantic aliases resolve (color + dim + size + type) | **511/511** | **506/506** |
-| Engine unit tests (colour math + 5 extreme brands + typography + fluid invariants) | **103/103** | (same engine) |
+| Engine unit tests (colour math + extreme brands + typography + fluid + shadow invariants) | **112/112** | (same engine) |
 | Color primitives / dim grid emitted | 122 / 37 | 162 / 36 |
 | Brand palettes / action source | red / **action = brand** (red) | primary+accent+… / **action = accent ≠ brand** |
 | Form factor | comfortable / radius 1 (sharp) | compact / radius 2 (soft) |

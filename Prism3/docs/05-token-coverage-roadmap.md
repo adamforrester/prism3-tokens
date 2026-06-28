@@ -20,7 +20,7 @@
 | **Breakpoints** | NB `core-breakpoint` | ⏸ Parked for discussion | fluid vs fixed + grid coupling — needs a decision | **low** |
 | **Motion** | NB `core-motion`, `motion` | ✅ Done | `motionPersonality.tempo` → duration ramp; easing roles + springs + composites + derived reduce-motion | — |
 | **Layout** | NB `layout` | ❌ Missing | grid columns/gutter/margin per breakpoint | **low–med** |
-| **Shadow / elevation** | NB `shadows` | ❌ Missing | elevation lever → ramp, mode-aware | **medium** |
+| **Shadow / elevation** | NB `shadows` | 🟡 Phase A done (shadow ramp) | 6-step 2-layer ramp + inset; `softness`+`tint` levers; mode-aware lift-primary (reduced dark); Figma Effect Style. Phase B: semantic `elevation.*` pairing surface-lift + shadow | **medium** |
 | **Typography** | NB `core-typography`, `typography` | ✅ Done (primitives + composites + fluid) | curated rem ladder + weight roles + family triad; semantic composites (display/title/body/label/caption/eyebrow/code); levers typeScale/displayCeiling/titleFloor/familyMap/responsive; fluid clamp() + Figma desktop/mobile modes from one min/max pair | — |
 | **Gradients** | Prism2 `color/gradient/*` | ❌ Missing | brand-artistic (stops/angle) — not a clean lever | **medium** |
 
@@ -127,13 +127,22 @@
     mode), and any other case where the DTCG-canonical value ≠ the Figma-bindable
     value. See the materialization directive under *Cross-cutting: Figma
     round-trip*.
-- **Shadow / elevation** — composite, **mode-aware**. NB ships
-  `shadow/{xs..xl}/{default,inverse}`, and that `default`/`inverse` split *is* the
-  light/dark variant (KB §4 lift pattern). Two synergies: it **reuses the
-  `black-alpha` primitives** (shadow colours are rgba-black) and **pairs with the
-  surface ladder** to complete the elevation story (light = shadow, dark = lift +
-  fainter shadow). Lever: an elevation/personality scalar → a shadow ramp keyed to
-  the ladder tiers.
+- **Shadow / elevation** — composite, **mode-aware**. **Phase A SHIPPED
+  (2026-06-28):** `shadow.{xs..2xl}` + `shadow.inset`, each a **2-layer (key +
+  ambient)** DTCG `shadow` composite; **tinted near-black** base (Polaris/Comeau —
+  not pure black; `tint` hue+amount lever, amount 0 = pure black for the NB
+  dialect); **`softness`** = the blur:offset personality dial (crisp product → soft
+  marketing); offsetX 0, spread negative-and-growing. **Mode-aware, lift-primary**
+  (field-validated, 10-system survey): full shadow in light (canonical `$value`),
+  **reduced** shadow in dark (`$extensions.prism3.modes.dark`, top-weighted) — the
+  surface ladder carries dark elevation; rejected NB's heavier-`inverse` as the
+  default. Materializes as a Figma **Effect Style** (colour + numerics bindable).
+  112/112 tests (incl. shadow invariants). **Phase B remains:** the semantic
+  `elevation.*` token pairing surface-lift + shadow per mode + component aliases
+  (`card`/`dropdown`/`dialog`) — the Atlassian split, completing the elevation
+  story against the surface ladder. *Research:* KB `_research/_inbound` (10-system
+  shadow survey, pending filing) + 31-color-systems §lift pattern. Original note:
+  NB ships `shadow/{xs..xl}/{default,inverse}`; the split is the light/dark variant.
 - **Layout** — `container/{max,narrow}` + `grid/{mobile,desktop}/{columns,
   gutter,margin}`. Builds on breakpoints + the dimension grid (the 720 container
   outlier is already in the grid). A small responsive-grid lever.

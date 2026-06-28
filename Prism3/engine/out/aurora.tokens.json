@@ -10671,6 +10671,393 @@
         }
       }
     },
+    "shadow": {
+      "xs": {
+        "$type": "shadow",
+        "$value": [
+          {
+            "color": "#0606111a",
+            "offsetX": "0px",
+            "offsetY": "1px",
+            "blur": "3px",
+            "spread": "0px"
+          },
+          {
+            "color": "#0606110f",
+            "offsetX": "0px",
+            "offsetY": "1px",
+            "blur": "4px",
+            "spread": "0px"
+          }
+        ],
+        "$description": "shadow xs — elevation 1 of 6, 2-layer (key+ambient)",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "role": "composite",
+            "layers": 2,
+            "modes": {
+              "dark": [
+                {
+                  "color": "#06061108",
+                  "offsetX": "0px",
+                  "offsetY": "1px",
+                  "blur": "3px",
+                  "spread": "0px"
+                },
+                {
+                  "color": "#06061105",
+                  "offsetX": "0px",
+                  "offsetY": "1px",
+                  "blur": "4px",
+                  "spread": "0px"
+                }
+              ]
+            },
+            "figma": {
+              "kind": "effect-style",
+              "styleType": "EFFECT",
+              "binds": [
+                "color",
+                "radius",
+                "spread",
+                "offsetX",
+                "offsetY"
+              ],
+              "note": "Figma Effect Style (drop-shadow layers); colour + numerics bindable per layer; mode-aware — dark shadow is reduced (surface lift carries dark elevation), see modes.dark"
+            }
+          }
+        }
+      },
+      "sm": {
+        "$type": "shadow",
+        "$value": [
+          {
+            "color": "#0606111a",
+            "offsetX": "0px",
+            "offsetY": "1px",
+            "blur": "3px",
+            "spread": "-1px"
+          },
+          {
+            "color": "#06061112",
+            "offsetX": "0px",
+            "offsetY": "2px",
+            "blur": "8px",
+            "spread": "-1px"
+          }
+        ],
+        "$description": "shadow sm — elevation 2 of 6, 2-layer (key+ambient)",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "role": "composite",
+            "layers": 2,
+            "modes": {
+              "dark": [
+                {
+                  "color": "#0606110a",
+                  "offsetX": "0px",
+                  "offsetY": "1px",
+                  "blur": "3px",
+                  "spread": "-1px"
+                },
+                {
+                  "color": "#06061108",
+                  "offsetX": "0px",
+                  "offsetY": "2px",
+                  "blur": "8px",
+                  "spread": "-1px"
+                }
+              ]
+            },
+            "figma": {
+              "kind": "effect-style",
+              "styleType": "EFFECT",
+              "binds": [
+                "color",
+                "radius",
+                "spread",
+                "offsetX",
+                "offsetY"
+              ],
+              "note": "Figma Effect Style (drop-shadow layers); colour + numerics bindable per layer; mode-aware — dark shadow is reduced (surface lift carries dark elevation), see modes.dark"
+            }
+          }
+        }
+      },
+      "md": {
+        "$type": "shadow",
+        "$value": [
+          {
+            "color": "#0606111f",
+            "offsetX": "0px",
+            "offsetY": "2px",
+            "blur": "5px",
+            "spread": "-2px"
+          },
+          {
+            "color": "#06061114",
+            "offsetX": "0px",
+            "offsetY": "4px",
+            "blur": "16px",
+            "spread": "-3px"
+          }
+        ],
+        "$description": "shadow md — elevation 3 of 6, 2-layer (key+ambient)",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "role": "composite",
+            "layers": 2,
+            "modes": {
+              "dark": [
+                {
+                  "color": "#0606110f",
+                  "offsetX": "0px",
+                  "offsetY": "2px",
+                  "blur": "5px",
+                  "spread": "-2px"
+                },
+                {
+                  "color": "#0606110a",
+                  "offsetX": "0px",
+                  "offsetY": "4px",
+                  "blur": "16px",
+                  "spread": "-3px"
+                }
+              ]
+            },
+            "figma": {
+              "kind": "effect-style",
+              "styleType": "EFFECT",
+              "binds": [
+                "color",
+                "radius",
+                "spread",
+                "offsetX",
+                "offsetY"
+              ],
+              "note": "Figma Effect Style (drop-shadow layers); colour + numerics bindable per layer; mode-aware — dark shadow is reduced (surface lift carries dark elevation), see modes.dark"
+            }
+          }
+        }
+      },
+      "lg": {
+        "$type": "shadow",
+        "$value": [
+          {
+            "color": "#0606111f",
+            "offsetX": "0px",
+            "offsetY": "3px",
+            "blur": "8px",
+            "spread": "-3px"
+          },
+          {
+            "color": "#06061114",
+            "offsetX": "0px",
+            "offsetY": "8px",
+            "blur": "26px",
+            "spread": "-5px"
+          }
+        ],
+        "$description": "shadow lg — elevation 4 of 6, 2-layer (key+ambient)",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "role": "composite",
+            "layers": 2,
+            "modes": {
+              "dark": [
+                {
+                  "color": "#06061112",
+                  "offsetX": "0px",
+                  "offsetY": "3px",
+                  "blur": "8px",
+                  "spread": "-3px"
+                },
+                {
+                  "color": "#0606110d",
+                  "offsetX": "0px",
+                  "offsetY": "8px",
+                  "blur": "26px",
+                  "spread": "-5px"
+                }
+              ]
+            },
+            "figma": {
+              "kind": "effect-style",
+              "styleType": "EFFECT",
+              "binds": [
+                "color",
+                "radius",
+                "spread",
+                "offsetX",
+                "offsetY"
+              ],
+              "note": "Figma Effect Style (drop-shadow layers); colour + numerics bindable per layer; mode-aware — dark shadow is reduced (surface lift carries dark elevation), see modes.dark"
+            }
+          }
+        }
+      },
+      "xl": {
+        "$type": "shadow",
+        "$value": [
+          {
+            "color": "#06061124",
+            "offsetX": "0px",
+            "offsetY": "4px",
+            "blur": "10px",
+            "spread": "-4px"
+          },
+          {
+            "color": "#0606111a",
+            "offsetX": "0px",
+            "offsetY": "14px",
+            "blur": "42px",
+            "spread": "-8px"
+          }
+        ],
+        "$description": "shadow xl — elevation 5 of 6, 2-layer (key+ambient)",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "role": "composite",
+            "layers": 2,
+            "modes": {
+              "dark": [
+                {
+                  "color": "#06061117",
+                  "offsetX": "0px",
+                  "offsetY": "4px",
+                  "blur": "10px",
+                  "spread": "-4px"
+                },
+                {
+                  "color": "#06061112",
+                  "offsetX": "0px",
+                  "offsetY": "14px",
+                  "blur": "42px",
+                  "spread": "-8px"
+                }
+              ]
+            },
+            "figma": {
+              "kind": "effect-style",
+              "styleType": "EFFECT",
+              "binds": [
+                "color",
+                "radius",
+                "spread",
+                "offsetX",
+                "offsetY"
+              ],
+              "note": "Figma Effect Style (drop-shadow layers); colour + numerics bindable per layer; mode-aware — dark shadow is reduced (surface lift carries dark elevation), see modes.dark"
+            }
+          }
+        }
+      },
+      "2xl": {
+        "$type": "shadow",
+        "$value": [
+          {
+            "color": "#06061124",
+            "offsetX": "0px",
+            "offsetY": "6px",
+            "blur": "16px",
+            "spread": "-6px"
+          },
+          {
+            "color": "#0606111f",
+            "offsetX": "0px",
+            "offsetY": "22px",
+            "blur": "68px",
+            "spread": "-12px"
+          }
+        ],
+        "$description": "shadow 2xl — elevation 6 of 6, 2-layer (key+ambient)",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "role": "composite",
+            "layers": 2,
+            "modes": {
+              "dark": [
+                {
+                  "color": "#0606111c",
+                  "offsetX": "0px",
+                  "offsetY": "6px",
+                  "blur": "16px",
+                  "spread": "-6px"
+                },
+                {
+                  "color": "#06061117",
+                  "offsetX": "0px",
+                  "offsetY": "22px",
+                  "blur": "68px",
+                  "spread": "-12px"
+                }
+              ]
+            },
+            "figma": {
+              "kind": "effect-style",
+              "styleType": "EFFECT",
+              "binds": [
+                "color",
+                "radius",
+                "spread",
+                "offsetX",
+                "offsetY"
+              ],
+              "note": "Figma Effect Style (drop-shadow layers); colour + numerics bindable per layer; mode-aware — dark shadow is reduced (surface lift carries dark elevation), see modes.dark"
+            }
+          }
+        }
+      },
+      "inset": {
+        "$type": "shadow",
+        "$value": [
+          {
+            "color": "#06061114",
+            "offsetX": "0px",
+            "offsetY": "2px",
+            "blur": "5px",
+            "spread": "0px"
+          }
+        ],
+        "$description": "shadow inset — inner shadow for wells / pressed states / inputs",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "role": "composite",
+            "layers": 1,
+            "modes": {
+              "dark": [
+                {
+                  "color": "#0606114d",
+                  "offsetX": "0px",
+                  "offsetY": "2px",
+                  "blur": "5px",
+                  "spread": "0px"
+                }
+              ]
+            },
+            "figma": {
+              "kind": "effect-style",
+              "styleType": "EFFECT",
+              "binds": [
+                "color",
+                "radius",
+                "spread",
+                "offsetX",
+                "offsetY"
+              ],
+              "note": "Figma Effect Style (drop-shadow layers); colour + numerics bindable per layer; mode-aware — dark shadow is reduced (surface lift carries dark elevation), see modes.dark"
+            }
+          }
+        }
+      }
+    },
     "dimension": {
       "0": {
         "$type": "dimension",
@@ -11663,6 +12050,7 @@
         "danger: primary hue 285 is NOT red → carved a dedicated danger red at hue 27",
         "dimension axis: 4px grid, 8px space rhythm, density 'compact' (drives component sizes), radius scale 2 (baseMd 4px)",
         "motion: tempo 'snappy' scales the duration ramp; easing roles + springs + composite transitions generated; reduce-motion variants derived (informational preserved, vestibular → 0)",
+        "shadow: 6-step ramp (xs–2xl) + inset, 2-layer (key+ambient), softness 1.3; tinted base (hue 285, amount 0.5). Mode-aware, LIFT-primary: full shadow in light; reduced (faded, top-weighted) in dark — the surface ladder carries dark elevation. Composite shadow → Figma Effect Style.",
         "typography: curated rem size ladder (22 steps, 10–160px — NOT ratio-derived; covers all bases, clean values); weight roles subtle/default/emphasis/strong → 300/400/500/700; families display=Clash Display, text=Inter, mono=JetBrains Mono (variable: display/text); typeScale 'expressive'. 19 semantic composites (title/display sizes shifted by typeScale; display capped at 128px; title floor 16px) — NOTE: requested ceiling 128px; effective top display is 112px (typeScale shifts sizes off the exact ladder rung). responsive: 9 fluid composites (size-dependent mobile shrink — research-validated, Carbon fluid-display curve: body static, titles ~1 rung, display converges to ~40–48px; one min/max pair → web clamp() 360–1440px + Figma desktop/mobile modes). Line-height unitless multiplier in $value; px-from-ratio materialization for Figma in $extensions.",
         "disabled: 'accessible' — disabled text/icon/border clears 3:1 on the floor (legible, contrast-preserving; the field-rare default). Set disabledStrategy:'conventional' for the sub-AA exempt look.",
         "light primary surface is NON-default (neutral.50) — CONFIRM this is the page colour; the contrast floor moves with it"

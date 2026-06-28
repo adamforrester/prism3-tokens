@@ -4410,6 +4410,48 @@
         "type.eyebrow"
       ]
     },
+    "shadow.xs": {
+      "$description": "shadow xs — elevation 1 of 6, 2-layer (key+ambient)",
+      "meaning": "Shadow / elevation composite — xs (2-layer, mode-aware)",
+      "tier": "primitive",
+      "consume": "Consumable — apply the elevation step directly (mode-aware: light shadow / reduced in dark, surface lift carries dark elevation)."
+    },
+    "shadow.sm": {
+      "$description": "shadow sm — elevation 2 of 6, 2-layer (key+ambient)",
+      "meaning": "Shadow / elevation composite — sm (2-layer, mode-aware)",
+      "tier": "primitive",
+      "consume": "Consumable — apply the elevation step directly (mode-aware: light shadow / reduced in dark, surface lift carries dark elevation)."
+    },
+    "shadow.md": {
+      "$description": "shadow md — elevation 3 of 6, 2-layer (key+ambient)",
+      "meaning": "Shadow / elevation composite — md (2-layer, mode-aware)",
+      "tier": "primitive",
+      "consume": "Consumable — apply the elevation step directly (mode-aware: light shadow / reduced in dark, surface lift carries dark elevation)."
+    },
+    "shadow.lg": {
+      "$description": "shadow lg — elevation 4 of 6, 2-layer (key+ambient)",
+      "meaning": "Shadow / elevation composite — lg (2-layer, mode-aware)",
+      "tier": "primitive",
+      "consume": "Consumable — apply the elevation step directly (mode-aware: light shadow / reduced in dark, surface lift carries dark elevation)."
+    },
+    "shadow.xl": {
+      "$description": "shadow xl — elevation 5 of 6, 2-layer (key+ambient)",
+      "meaning": "Shadow / elevation composite — xl (2-layer, mode-aware)",
+      "tier": "primitive",
+      "consume": "Consumable — apply the elevation step directly (mode-aware: light shadow / reduced in dark, surface lift carries dark elevation)."
+    },
+    "shadow.2xl": {
+      "$description": "shadow 2xl — elevation 6 of 6, 2-layer (key+ambient)",
+      "meaning": "Shadow / elevation composite — 2xl (2-layer, mode-aware)",
+      "tier": "primitive",
+      "consume": "Consumable — apply the elevation step directly (mode-aware: light shadow / reduced in dark, surface lift carries dark elevation)."
+    },
+    "shadow.inset": {
+      "$description": "shadow inset — inner shadow for wells / pressed states / inputs",
+      "meaning": "Shadow / elevation composite — inset (2-layer, mode-aware)",
+      "tier": "primitive",
+      "consume": "Consumable — apply the elevation step directly (mode-aware: light shadow / reduced in dark, surface lift carries dark elevation)."
+    },
     "dimension.0": {
       "$description": "0px — dimension primitive",
       "meaning": "0px grid primitive",

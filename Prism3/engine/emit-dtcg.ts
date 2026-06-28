@@ -20,7 +20,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 import { RGB, contrast, hex } from './color';
 import { Step } from './ramp';
-import { Theme, nbTheme, brandTheme, BrandInput } from './theme';
+import { Theme, nbTheme, brandTheme, BrandInput, ShadowStep, ShadowLayer } from './theme';
 import { resolveAllModes, ModeResult } from './modes';
 import { buildAiMetadata } from './ai-metadata';
 
@@ -44,7 +44,7 @@ const bandName: Record<string, string> = {
   ThreeQuarter: 'Three-Quarter-Tone', Shadows: 'Shadow',
 };
 
-type Token = { $type: 'color' | 'dimension' | 'number' | 'strokeStyle' | 'duration' | 'cubicBezier' | 'transition' | 'spring' | 'fontFamily' | 'fontWeight' | 'typography'; $value: string | number | number[] | string[] | Record<string, unknown>; $description: string; $extensions: { prism3: Record<string, unknown> } };
+type Token = { $type: 'color' | 'dimension' | 'number' | 'strokeStyle' | 'duration' | 'cubicBezier' | 'transition' | 'spring' | 'fontFamily' | 'fontWeight' | 'typography' | 'shadow'; $value: string | number | number[] | string[] | Record<string, unknown> | Record<string, unknown>[]; $description: string; $extensions: { prism3: Record<string, unknown> } };
 
 // ---- colour leaves ----
 const primitiveLeaf = (theme: Theme, paletteDesc: string, s: Step, isAnchor: boolean): Token => {
@@ -101,6 +101,25 @@ const springLeaf = (p: { damping: number; stiffness: number }, description: stri
 const transitionLeaf = (durPath: string, easePath: string, description: string): Token => ({
   $type: 'transition', $value: { duration: `{${durPath}}`, timingFunction: `{${easePath}}`, delay: '0ms' },
   $description: description, $extensions: { prism3: { role: 'composite' } },
+});
+
+// ---- shadow leaves (Phase A) ----
+// DTCG `shadow` composite — an array of layers (key + ambient). Mode-aware via the
+// locked materialization pattern: $value carries the LIGHT shadow (canonical);
+// $extensions.prism3.modes.dark carries the REDUCED dark shadow (lift-primary — the
+// surface ladder does dark elevation). Materializes as a Figma Effect Style (colour
+// + numerics bindable per layer; verified in the Figma round-trip research).
+const shadowLayerValue = (theme: Theme, l: ShadowLayer) => ({
+  color: alphaColorValue(theme.shadow.colorRgb, l.alpha, theme.colorFormat),
+  offsetX: `${l.offsetX}px`, offsetY: `${l.offsetY}px`, blur: `${l.blur}px`, spread: `${l.spread}px`,
+});
+const shadowLeaf = (theme: Theme, step: ShadowStep, description: string): Token => ({
+  $type: 'shadow',
+  $value: step.light.map((l) => shadowLayerValue(theme, l)),
+  $description: description,
+  $extensions: { prism3: { generated: true, role: 'composite', layers: step.light.length,
+    modes: { dark: step.dark.map((l) => shadowLayerValue(theme, l)) },
+    figma: { kind: 'effect-style', styleType: 'EFFECT', binds: ['color', 'radius', 'spread', 'offsetX', 'offsetY'], note: 'Figma Effect Style (drop-shadow layers); colour + numerics bindable per layer; mode-aware — dark shadow is reduced (surface lift carries dark elevation), see modes.dark' } } },
 });
 
 // ---- dimension leaves ----
@@ -350,8 +369,14 @@ const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats: Stats
     else typeGroup[c.group] = leaf;
   }
 
+  // ---- shadow / elevation axis (Phase A) ----
+  const sh = theme.shadow;
+  const shadow: Record<string, any> = {};
+  sh.steps.forEach((s, i) => { shadow[s.name] = shadowLeaf(theme, s, `shadow ${s.name} — elevation ${i + 1} of ${sh.steps.length}, ${s.light.length}-layer (key+ambient)`); });
+  shadow.inset = shadowLeaf(theme, sh.inset, 'shadow inset — inner shadow for wells / pressed states / inputs');
+
   // ---- assemble under the brand root ----
-  const brand = { color, semantic, opacity, motion, font, type: typeGroup, dimension, space, radius, 'border-width': borderWidth, focus, size };
+  const brand = { color, semantic, opacity, motion, font, type: typeGroup, shadow, dimension, space, radius, 'border-width': borderWidth, focus, size };
   const tree = {
     [root]: brand,
     $extensions: {
@@ -433,6 +458,8 @@ const aurora: BrandInput = {
     // Exercise the responsive lever: a wider clamp window than the 375–1280 default.
     responsive: { fluid: true, minViewport: 360, maxViewport: 1440 },
   },
+  // Exercise the shadow lever: softer (marketing) shadows, tinted toward the violet brand hue.
+  shadow: { softness: 1.3, tint: { hue: 285, amount: 0.5 } },
 };
 
 const themes: Theme[] = [nbTheme(), brandTheme(aurora)];
@@ -463,6 +490,7 @@ for (const theme of themes) {
     const fl = theme.typography.composites.filter((c) => c.sizeMinPx !== c.sizePx);
     console.log(`  fluid: ${theme.typography.fluid ? `${fl.length} composites ${theme.typography.minViewport}–${theme.typography.maxViewport}px (e.g. ${fl.slice(0, 3).map((c) => `${c.path} ${c.sizeMinPx}→${c.sizePx}`).join(', ')})` : 'OFF (static)'}`);
   }
+  console.log(`  shadow: ${theme.shadow.steps.length}-step ramp + inset, ${theme.shadow.steps[0].light.length}-layer, softness ${theme.shadow.softness}, tint(hue ${theme.shadow.tint.hue}, amount ${theme.shadow.tint.amount}) — mode-aware (lift-primary, reduced dark)`);
   console.log(`  aliases: ${stats.resolved}/${stats.aliases} resolve | mode contracts: ${stats.modePass}/${stats.modeChecks} pass`);
   console.log(`  [written] ${outPath}`);
   if (stats.broken.length) { ok = false; stats.broken.forEach((b) => console.log(`   ❌ ${b.path} -> {${b.ref}}`)); }

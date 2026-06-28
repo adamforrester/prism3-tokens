@@ -161,6 +161,31 @@ for (const scale of ['compact', 'default', 'expressive'] as const) {
 ok(tBrand('dc', { displayCeiling: 96 }).typography.composites.filter((c) => c.group === 'display').every((c) => c.sizePx <= 96), 'displayCeiling 96 → no display composite above 96px');
 ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.textCase === 'uppercase', 'eyebrow carries uppercase textCase');
 
+// ------------------------------------------------- shadow / elevation invariants
+{
+  const shBrand = (id: string, shadow: any) => brandTheme({ id, primary: { l: 0.5, c: 0.15, h: 250 }, neutral: { hue: 250, chroma: 0.01 }, shadow });
+  const sh = shBrand('sh', undefined).shadow;
+  ok(sh.steps.length === 6, `shadow ramp is 6 steps (got ${sh.steps.length})`);
+  ok(!!sh.inset, 'shadow ramp has an inset step');
+  ok(sh.steps.every((s) => s.light.length === 2 && s.dark.length === 2), 'every shadow step is 2-layer (key+ambient), light+dark');
+  ok(sh.steps.every((s) => [...s.light, ...s.dark].every((l) => l.offsetX === 0)), 'all shadow layers have offsetX 0 (light from above)');
+  // monotonic ambient offsetY/blur across steps (elevation grows)
+  let mono = true;
+  for (let i = 1; i < sh.steps.length; i++) { const a = sh.steps[i].light[1], b = sh.steps[i - 1].light[1]; if (a.offsetY < b.offsetY || a.blur < b.blur) mono = false; }
+  ok(mono, 'shadow ambient layer offsetY + blur grow monotonically with elevation');
+  // dark is REDUCED vs light (lift-primary), never heavier
+  ok(sh.steps.every((s) => s.light.every((l, j) => s.dark[j].alpha <= l.alpha)), 'dark shadow alpha ≤ light (reduced, lift-primary — not NB-heavier)');
+  // softness scales blur
+  const soft = shBrand('sh-soft', { softness: 2 }).shadow;
+  ok(soft.steps[3].light[1].blur > sh.steps[3].light[1].blur, 'higher softness → larger blur');
+  // tint amount 0 → pure black base
+  const black = shBrand('sh-blk', { tint: { amount: 0 } }).shadow;
+  ok(black.colorRgb.r === 0 && black.colorRgb.g === 0 && black.colorRgb.b === 0, 'tint amount 0 → pure-black shadow base');
+  // tinted base is non-black
+  const tinted = shBrand('sh-tint', { tint: { hue: 285, amount: 0.6 } }).shadow;
+  ok(tinted.colorRgb.r + tinted.colorRgb.g + tinted.colorRgb.b > 0, 'tinted shadow base is not pure black');
+}
+
 // ------------------------------------------------------------------- report
 console.log(`\nPrism3 engine tests: ${pass} passed, ${fails.length} failed`);
 if (fails.length) { fails.forEach((f) => console.log(`  ❌ ${f}`)); process.exitCode = 1; }
