@@ -140,8 +140,10 @@
   112/112 tests (incl. shadow invariants). **Phase B remains:** the semantic
   `elevation.*` token pairing surface-lift + shadow per mode + component aliases
   (`card`/`dropdown`/`dialog`) — the Atlassian split, completing the elevation
-  story against the surface ladder. *Research:* KB `_research/_inbound` (10-system
-  shadow survey, pending filing) + 31-color-systems §lift pattern. Original note:
+  story against the surface ladder. *Research:* KB
+  `_research/_inbound/2026-06-28-shadow-elevation-tokens` (10-system survey) +
+  31-color-systems §"Shadow tokens — shape, colour, and the elevation lever".
+  Original note:
   NB ships `shadow/{xs..xl}/{default,inverse}`; the split is the light/dark variant.
 - **Layout** — `container/{max,narrow}` + `grid/{mobile,desktop}/{columns,
   gutter,margin}`. Builds on breakpoints + the dimension grid (the 720 container
