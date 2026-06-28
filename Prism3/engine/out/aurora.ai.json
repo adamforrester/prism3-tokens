@@ -2,7 +2,7 @@
   "$schema": "prism3-ai-metadata/0.1",
   "brand": "aurora",
   "generated": true,
-  "note": "Agent-readable metadata, companion to aurora.tokens.json. The semantic tier carries the full schema (knowledge-base 31-color-systems §9); the primitive tier a simplified set + colour-scale `intent` and `aliased_by` (the reverse index — which tokens resolve to it). `aliased_by` is recomputed from the token tree on every build (authoritative at build time, never hand-maintained — it cannot drift as roles re-resolve). All fields generated and contract-true.",
+  "note": "Agent-readable metadata, companion to aurora.tokens.json. The semantic (colour) tier and the typography tier (type composites + weight roles) carry the rich schema; the primitive tier a simplified set + colour-scale `intent` and `aliased_by` (the reverse index — which tokens resolve to it, TRANSITIVELY, so the two-hop weight chain composite→role→numeric is visible). `aliased_by` is recomputed from the token tree on every build (authoritative at build time, never hand-maintained — it cannot drift). All fields generated and contract-true.",
   "semantic_fields": [
     "$description",
     "meaning",
@@ -11,6 +11,14 @@
     "paired_with",
     "contrast_with",
     "mode_overrides"
+  ],
+  "typography_fields": [
+    "$description",
+    "meaning",
+    "when_to_use",
+    "avoid_when",
+    "resolves_to",
+    "used_by"
   ],
   "primitive_fields": [
     "$description",
@@ -1790,6 +1798,309 @@
           "min": "3:1",
           "ratio": 3.16
         }
+      ]
+    }
+  },
+  "typography": {
+    "type.display.sm": {
+      "$description": "Hero / marketing display type.",
+      "meaning": "Type style — display sm (56px, display face)",
+      "when_to_use": "Large expressive headlines and hero moments.",
+      "avoid_when": "Do not use for product-UI headings (use title) or running text (use body).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.display}",
+        "fontSize": "{prism.font.size.56}",
+        "fontWeight": "{prism.font.weight-role.strong}",
+        "lineHeight": "{prism.font.line-height.tight}",
+        "letterSpacing": "{prism.font.letter-spacing.tight}"
+      }
+    },
+    "type.display.md": {
+      "$description": "Hero / marketing display type.",
+      "meaning": "Type style — display md (72px, display face)",
+      "when_to_use": "Large expressive headlines and hero moments.",
+      "avoid_when": "Do not use for product-UI headings (use title) or running text (use body).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.display}",
+        "fontSize": "{prism.font.size.72}",
+        "fontWeight": "{prism.font.weight-role.strong}",
+        "lineHeight": "{prism.font.line-height.tight}",
+        "letterSpacing": "{prism.font.letter-spacing.tight}"
+      }
+    },
+    "type.display.lg": {
+      "$description": "Hero / marketing display type.",
+      "meaning": "Type style — display lg (96px, display face)",
+      "when_to_use": "Large expressive headlines and hero moments.",
+      "avoid_when": "Do not use for product-UI headings (use title) or running text (use body).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.display}",
+        "fontSize": "{prism.font.size.96}",
+        "fontWeight": "{prism.font.weight-role.strong}",
+        "lineHeight": "{prism.font.line-height.tight}",
+        "letterSpacing": "{prism.font.letter-spacing.tighter}"
+      }
+    },
+    "type.display.xl": {
+      "$description": "Hero / marketing display type.",
+      "meaning": "Type style — display xl (112px, display face)",
+      "when_to_use": "Large expressive headlines and hero moments.",
+      "avoid_when": "Do not use for product-UI headings (use title) or running text (use body).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.display}",
+        "fontSize": "{prism.font.size.112}",
+        "fontWeight": "{prism.font.weight-role.strong}",
+        "lineHeight": "{prism.font.line-height.tight}",
+        "letterSpacing": "{prism.font.letter-spacing.tighter}"
+      }
+    },
+    "type.title.2xs": {
+      "$description": "Heading type — visual hierarchy, decoupled from DOM level.",
+      "meaning": "Type style — title 2xs (16px, display face)",
+      "when_to_use": "Section and page headings; pick the size for visual prominence and set the DOM level (h1–h6) by document structure independently.",
+      "avoid_when": "Do not bind the size to a heading level; do not use for running text (use body).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.display}",
+        "fontSize": "{prism.font.size.16}",
+        "fontWeight": "{prism.font.weight-role.strong}",
+        "lineHeight": "{prism.font.line-height.compact}",
+        "letterSpacing": "{prism.font.letter-spacing.snug}"
+      }
+    },
+    "type.title.xs": {
+      "$description": "Heading type — visual hierarchy, decoupled from DOM level.",
+      "meaning": "Type style — title xs (20px, display face)",
+      "when_to_use": "Section and page headings; pick the size for visual prominence and set the DOM level (h1–h6) by document structure independently.",
+      "avoid_when": "Do not bind the size to a heading level; do not use for running text (use body).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.display}",
+        "fontSize": "{prism.font.size.20}",
+        "fontWeight": "{prism.font.weight-role.strong}",
+        "lineHeight": "{prism.font.line-height.compact}",
+        "letterSpacing": "{prism.font.letter-spacing.snug}"
+      }
+    },
+    "type.title.sm": {
+      "$description": "Heading type — visual hierarchy, decoupled from DOM level.",
+      "meaning": "Type style — title sm (24px, display face)",
+      "when_to_use": "Section and page headings; pick the size for visual prominence and set the DOM level (h1–h6) by document structure independently.",
+      "avoid_when": "Do not bind the size to a heading level; do not use for running text (use body).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.display}",
+        "fontSize": "{prism.font.size.24}",
+        "fontWeight": "{prism.font.weight-role.strong}",
+        "lineHeight": "{prism.font.line-height.compact}",
+        "letterSpacing": "{prism.font.letter-spacing.snug}"
+      }
+    },
+    "type.title.md": {
+      "$description": "Heading type — visual hierarchy, decoupled from DOM level.",
+      "meaning": "Type style — title md (28px, display face)",
+      "when_to_use": "Section and page headings; pick the size for visual prominence and set the DOM level (h1–h6) by document structure independently.",
+      "avoid_when": "Do not bind the size to a heading level; do not use for running text (use body).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.display}",
+        "fontSize": "{prism.font.size.28}",
+        "fontWeight": "{prism.font.weight-role.strong}",
+        "lineHeight": "{prism.font.line-height.snug}",
+        "letterSpacing": "{prism.font.letter-spacing.snug}"
+      }
+    },
+    "type.title.lg": {
+      "$description": "Heading type — visual hierarchy, decoupled from DOM level.",
+      "meaning": "Type style — title lg (32px, display face)",
+      "when_to_use": "Section and page headings; pick the size for visual prominence and set the DOM level (h1–h6) by document structure independently.",
+      "avoid_when": "Do not bind the size to a heading level; do not use for running text (use body).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.display}",
+        "fontSize": "{prism.font.size.32}",
+        "fontWeight": "{prism.font.weight-role.strong}",
+        "lineHeight": "{prism.font.line-height.snug}",
+        "letterSpacing": "{prism.font.letter-spacing.snug}"
+      }
+    },
+    "type.title.xl": {
+      "$description": "Heading type — visual hierarchy, decoupled from DOM level.",
+      "meaning": "Type style — title xl (36px, display face)",
+      "when_to_use": "Section and page headings; pick the size for visual prominence and set the DOM level (h1–h6) by document structure independently.",
+      "avoid_when": "Do not bind the size to a heading level; do not use for running text (use body).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.display}",
+        "fontSize": "{prism.font.size.36}",
+        "fontWeight": "{prism.font.weight-role.strong}",
+        "lineHeight": "{prism.font.line-height.snug}",
+        "letterSpacing": "{prism.font.letter-spacing.snug}"
+      }
+    },
+    "type.title.2xl": {
+      "$description": "Heading type — visual hierarchy, decoupled from DOM level.",
+      "meaning": "Type style — title 2xl (48px, display face)",
+      "when_to_use": "Section and page headings; pick the size for visual prominence and set the DOM level (h1–h6) by document structure independently.",
+      "avoid_when": "Do not bind the size to a heading level; do not use for running text (use body).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.display}",
+        "fontSize": "{prism.font.size.48}",
+        "fontWeight": "{prism.font.weight-role.strong}",
+        "lineHeight": "{prism.font.line-height.snug}",
+        "letterSpacing": "{prism.font.letter-spacing.snug}"
+      }
+    },
+    "type.body.sm": {
+      "$description": "Running text / default UI copy.",
+      "meaning": "Type style — body sm (14px, text face)",
+      "when_to_use": "Paragraphs, descriptions, and default interface text.",
+      "avoid_when": "Do not use for headings (use title/display) or dense control labels (use label).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.text}",
+        "fontSize": "{prism.font.size.14}",
+        "fontWeight": "{prism.font.weight-role.default}",
+        "lineHeight": "{prism.font.line-height.normal}",
+        "letterSpacing": "{prism.font.letter-spacing.normal}"
+      }
+    },
+    "type.body.md": {
+      "$description": "Running text / default UI copy.",
+      "meaning": "Type style — body md (16px, text face)",
+      "when_to_use": "Paragraphs, descriptions, and default interface text.",
+      "avoid_when": "Do not use for headings (use title/display) or dense control labels (use label).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.text}",
+        "fontSize": "{prism.font.size.16}",
+        "fontWeight": "{prism.font.weight-role.default}",
+        "lineHeight": "{prism.font.line-height.normal}",
+        "letterSpacing": "{prism.font.letter-spacing.normal}"
+      }
+    },
+    "type.body.lg": {
+      "$description": "Running text / default UI copy.",
+      "meaning": "Type style — body lg (18px, text face)",
+      "when_to_use": "Paragraphs, descriptions, and default interface text.",
+      "avoid_when": "Do not use for headings (use title/display) or dense control labels (use label).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.text}",
+        "fontSize": "{prism.font.size.18}",
+        "fontWeight": "{prism.font.weight-role.default}",
+        "lineHeight": "{prism.font.line-height.normal}",
+        "letterSpacing": "{prism.font.letter-spacing.normal}"
+      }
+    },
+    "type.label.sm": {
+      "$description": "UI label type — buttons, form labels, tabs, chips.",
+      "meaning": "Type style — label sm (12px, text face)",
+      "when_to_use": "Control and form labels, button text, tabs, chips, badges.",
+      "avoid_when": "Do not use for running text (use body).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.text}",
+        "fontSize": "{prism.font.size.12}",
+        "fontWeight": "{prism.font.weight-role.emphasis}",
+        "lineHeight": "{prism.font.line-height.snug}",
+        "letterSpacing": "{prism.font.letter-spacing.normal}"
+      }
+    },
+    "type.label.md": {
+      "$description": "UI label type — buttons, form labels, tabs, chips.",
+      "meaning": "Type style — label md (14px, text face)",
+      "when_to_use": "Control and form labels, button text, tabs, chips, badges.",
+      "avoid_when": "Do not use for running text (use body).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.text}",
+        "fontSize": "{prism.font.size.14}",
+        "fontWeight": "{prism.font.weight-role.emphasis}",
+        "lineHeight": "{prism.font.line-height.snug}",
+        "letterSpacing": "{prism.font.letter-spacing.normal}"
+      }
+    },
+    "type.caption": {
+      "$description": "Caption / secondary small text.",
+      "meaning": "Type style — caption (12px, text face)",
+      "when_to_use": "Image captions, helper text, metadata, footnotes.",
+      "avoid_when": "Do not use for primary reading text (use body).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.text}",
+        "fontSize": "{prism.font.size.12}",
+        "fontWeight": "{prism.font.weight-role.default}",
+        "lineHeight": "{prism.font.line-height.normal}",
+        "letterSpacing": "{prism.font.letter-spacing.normal}"
+      }
+    },
+    "type.eyebrow": {
+      "$description": "Eyebrow / kicker — small uppercase label above a heading.",
+      "meaning": "Type style — eyebrow (12px, display face, uppercase)",
+      "when_to_use": "A short label sitting above a title or hero (a \"kicker\").",
+      "avoid_when": "Do not use as the heading itself (use title) or for body copy.",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.display}",
+        "fontSize": "{prism.font.size.12}",
+        "fontWeight": "{prism.font.weight-role.emphasis}",
+        "lineHeight": "{prism.font.line-height.snug}",
+        "letterSpacing": "{prism.font.letter-spacing.wider}",
+        "textCase": "uppercase"
+      }
+    },
+    "type.code.inline": {
+      "$description": "Monospace / code type.",
+      "meaning": "Type style — code inline (14px, mono face)",
+      "when_to_use": "Inline code, code blocks, and column-aligned values.",
+      "avoid_when": "Do not use for prose (use body).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.mono}",
+        "fontSize": "{prism.font.size.14}",
+        "fontWeight": "{prism.font.weight-role.default}",
+        "lineHeight": "{prism.font.line-height.normal}",
+        "letterSpacing": "{prism.font.letter-spacing.normal}"
+      }
+    },
+    "font.weight-role.subtle": {
+      "$description": "The subtle font-weight role.",
+      "meaning": "Function-named weight → 300 — white-label-stable (the role is the contract; each brand maps the numeric).",
+      "when_to_use": "Reference font.weight-role.subtle (not the numeric) so a brand weight re-map reflows every consumer at once.",
+      "avoid_when": "Do not hard-code the numeric (300); reference the role.",
+      "resolves_to": "{prism.font.weight.300}"
+    },
+    "font.weight-role.default": {
+      "$description": "The default font-weight role.",
+      "meaning": "Function-named weight → 400 — white-label-stable (the role is the contract; each brand maps the numeric).",
+      "when_to_use": "Reference font.weight-role.default (not the numeric) so a brand weight re-map reflows every consumer at once.",
+      "avoid_when": "Do not hard-code the numeric (400); reference the role.",
+      "resolves_to": "{prism.font.weight.400}",
+      "used_by": [
+        "type.body.lg",
+        "type.body.md",
+        "type.body.sm",
+        "type.caption",
+        "type.code.inline"
+      ]
+    },
+    "font.weight-role.emphasis": {
+      "$description": "The emphasis font-weight role.",
+      "meaning": "Function-named weight → 500 — white-label-stable (the role is the contract; each brand maps the numeric).",
+      "when_to_use": "Reference font.weight-role.emphasis (not the numeric) so a brand weight re-map reflows every consumer at once.",
+      "avoid_when": "Do not hard-code the numeric (500); reference the role.",
+      "resolves_to": "{prism.font.weight.500}",
+      "used_by": [
+        "type.eyebrow",
+        "type.label.md",
+        "type.label.sm"
+      ]
+    },
+    "font.weight-role.strong": {
+      "$description": "The strong font-weight role.",
+      "meaning": "Function-named weight → 700 — white-label-stable (the role is the contract; each brand maps the numeric).",
+      "when_to_use": "Reference font.weight-role.strong (not the numeric) so a brand weight re-map reflows every consumer at once.",
+      "avoid_when": "Do not hard-code the numeric (700); reference the role.",
+      "resolves_to": "{prism.font.weight.700}",
+      "used_by": [
+        "type.display.lg",
+        "type.display.md",
+        "type.display.sm",
+        "type.display.xl",
+        "type.title.2xl",
+        "type.title.2xs",
+        "type.title.lg",
+        "type.title.md",
+        "type.title.sm",
+        "type.title.xl",
+        "type.title.xs"
       ]
     }
   },
@@ -3699,7 +4010,7 @@
       ]
     },
     "font.family.mono": {
-      "$description": "font family — mono (JetBrains Mono) [variable font]",
+      "$description": "font family — mono (JetBrains Mono)",
       "meaning": "Font family stack — mono role",
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
@@ -3747,7 +4058,8 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "type.body.md"
+        "type.body.md",
+        "type.title.2xs"
       ]
     },
     "font.size.18": {
@@ -3756,8 +4068,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "type.body.lg",
-        "type.title.2xs"
+        "type.body.lg"
       ]
     },
     "font.size.20": {
@@ -3913,7 +4224,12 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "font.weight-role.default"
+        "font.weight-role.default",
+        "type.body.lg",
+        "type.body.md",
+        "type.body.sm",
+        "type.caption",
+        "type.code.inline"
       ]
     },
     "font.weight.500": {
@@ -3922,7 +4238,10 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "font.weight-role.emphasis"
+        "font.weight-role.emphasis",
+        "type.eyebrow",
+        "type.label.md",
+        "type.label.sm"
       ]
     },
     "font.weight.600": {
@@ -3937,7 +4256,18 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "font.weight-role.strong"
+        "font.weight-role.strong",
+        "type.display.lg",
+        "type.display.md",
+        "type.display.sm",
+        "type.display.xl",
+        "type.title.2xl",
+        "type.title.2xs",
+        "type.title.lg",
+        "type.title.md",
+        "type.title.sm",
+        "type.title.xl",
+        "type.title.xs"
       ]
     },
     "font.weight.800": {
@@ -4121,6 +4451,8 @@
       "aliased_by": [
         "border-width.heavy",
         "radius.sm",
+        "size.sm.padding-y",
+        "size.xs.padding-y",
         "space.050"
       ]
     },
@@ -4130,6 +4462,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reference via space / radius / size / border-width / focus.",
       "aliased_by": [
+        "size.md.padding-y",
         "space.075"
       ]
     },
@@ -4140,6 +4473,10 @@
       "consume": "Private primitive — reference via space / radius / size / border-width / focus.",
       "aliased_by": [
         "radius.md",
+        "size.lg.padding-y",
+        "size.sm.padding-x",
+        "size.xl.padding-y",
+        "size.xs.padding-x",
         "space.100"
       ]
     },
@@ -4158,6 +4495,8 @@
       "tier": "primitive",
       "consume": "Private primitive — reference via space / radius / size / border-width / focus.",
       "aliased_by": [
+        "size.lg.padding-x",
+        "size.md.padding-x",
         "space.200"
       ]
     },
@@ -4173,6 +4512,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reference via space / radius / size / border-width / focus.",
       "aliased_by": [
+        "size.xl.padding-x",
         "space.300"
       ]
     },

@@ -151,22 +151,30 @@ const letterSpacingLeaf = (em: number, description: string): Token => ({
 });
 // Composite (DTCG typography): bundles family/size/weight-role/line-height/tracking
 // by intent. Sub-properties alias the primitives (weight via the role → numeric, so
-// re-mapping a brand's weights reflows every composite). Materializes as a Figma
-// Text Style binding those variables (line-height px = size × multiplier); underline/
-// all-caps variants are SEPARATE styles (textDecoration/textCase aren't bindable).
-const typographyLeaf = (root: string, c: { group: string; variant: string; sizePx: number; family: string; weightRole: string; lineHeight: string; tracking: string }): Token => {
+// re-mapping a brand's weights reflows every composite). `textCase` is a literal
+// (uppercase for eyebrow) — a baked style property, NOT a variable (textCase isn't
+// Figma-bindable; verified in the KB Figma round-trip research). Materializes as a
+// Figma Text Style binding the variable sub-properties; the case treatment and any
+// underline variant are baked into the style (separate styles), not bound.
+//   NOTE on aliasing: DTCG 2025.10 mandates JSON-Pointer ($ref) for property-level
+//   aliases inside a composite, not brace syntax; we use brace syntax (our own
+//   validator resolves it, and the Figma round-trip plan FLATTENS composites at
+//   build — see 05 roadmap). A downstream SD/Tokens-Studio consumer may not honor
+//   brace property-level aliases; flatten-at-build is the mitigation.
+const typographyLeaf = (root: string, c: { group: string; variant: string; sizePx: number; family: string; weightRole: string; lineHeight: string; tracking: string; textCase: string }, face: string): Token => {
   const a = (seg: string) => `{${root}.font.${seg}}`;
+  const value: Record<string, unknown> = {
+    fontFamily: a(`family.${c.family}`),
+    fontSize: a(`size.${c.sizePx}`),
+    fontWeight: a(`weight-role.${c.weightRole}`),
+    lineHeight: a(`line-height.${c.lineHeight}`),
+    letterSpacing: a(`letter-spacing.${c.tracking}`),
+  };
+  if (c.textCase !== 'none') value.textCase = c.textCase;          // literal, baked (not a variable)
   return {
-    $type: 'typography',
-    $value: {
-      fontFamily: a(`family.${c.family}`),
-      fontSize: a(`size.${c.sizePx}`),
-      fontWeight: a(`weight-role.${c.weightRole}`),
-      lineHeight: a(`line-height.${c.lineHeight}`),
-      letterSpacing: a(`letter-spacing.${c.tracking}`),
-    },
-    $description: `${c.group}${c.variant ? ' ' + c.variant : ''} — ${c.sizePx}px, ${c.family} family, ${c.lineHeight} line-height, ${c.weightRole} weight, ${c.tracking} tracking`,
-    $extensions: { prism3: { role: 'composite', group: c.group, variant: c.variant, sizePx: c.sizePx, figma: { kind: 'text-style', styleType: 'TEXT', binds: ['fontFamily', 'fontSize', 'fontWeight', 'lineHeight', 'letterSpacing'], note: 'Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)' } } },
+    $type: 'typography', $value: value,
+    $description: `${c.group}${c.variant ? ' ' + c.variant : ''} — ${c.sizePx}px ${face} (${c.family} role), ${c.lineHeight} line-height, ${c.weightRole} weight, ${c.tracking} tracking${c.textCase !== 'none' ? `, ${c.textCase}` : ''} — consumer-facing type style`,
+    $extensions: { prism3: { role: 'composite', group: c.group, variant: c.variant, sizePx: c.sizePx, ...(c.textCase !== 'none' ? { textCase: c.textCase } : {}), figma: { kind: 'text-style', styleType: 'TEXT', binds: ['fontFamily', 'fontSize', 'fontWeight', 'lineHeight', 'letterSpacing'], baked: c.textCase !== 'none' ? ['textCase'] : [], note: 'Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles' } } },
   };
 };
 
@@ -312,9 +320,10 @@ const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats: Stats
   // primitive (title.xs and body.lg at 18px) — distinct by family/line-height/
   // weight, resolved via the composite, not the size. The shared ladder stays
   // single-source; font.size.* aliased_by then shows the overlap explicitly.
+  const faceOf: Record<string, string> = Object.fromEntries(ty.families.map((f) => [f.role, f.stack[0]]));
   const typeGroup: Record<string, any> = {};
   for (const c of ty.composites) {
-    const leaf = typographyLeaf(root, c);
+    const leaf = typographyLeaf(root, c, faceOf[c.family]);
     if (c.variant) (typeGroup[c.group] ??= {})[c.variant] = leaf;
     else typeGroup[c.group] = leaf;
   }
@@ -391,7 +400,7 @@ const aurora: BrandInput = {
   // Exercise the typography lever: a distinct variable display face, a remapped
   // emphasis weight (500, not the default 600), and the expressive type scale.
   typography: {
-    families: { display: 'Clash Display', text: 'Inter', mono: 'JetBrains Mono', variable: true },
+    families: { display: 'Clash Display', text: 'Inter', mono: 'JetBrains Mono', variable: { display: true, text: true } },
     weightRoles: { subtle: 300, default: 400, emphasis: 500, strong: 700 },
     typeScale: 'expressive',
     // Exercise the Phase 2 levers: cap heroes at 128px (no mega tier), include the

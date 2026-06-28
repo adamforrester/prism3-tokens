@@ -140,8 +140,13 @@ for (const [label, ty] of typeCases) {
   ok(!mono, `[type/${label}] sizes monotonic within group${mono ? ` — ${mono}` : ''}`);
 }
 ok(!tBrand('tf-d', {}).typography.composites.some((c) => c.path === 'title.2xs'), 'titleFloor default 18 → no title.2xs');
-ok(tBrand('tf-16', { titleFloor: 16 }).typography.composites.some((c) => c.path === 'title.2xs' && c.sizePx === 16), 'titleFloor 16 → title.2xs at 16px (default scale)');
+// C1: titleFloor 16 delivers a LITERAL 16px title.2xs under EVERY typeScale (pinned, exempt from the shift).
+for (const scale of ['compact', 'default', 'expressive'] as const) {
+  const c = tBrand('tf16-' + scale, { titleFloor: 16, typeScale: scale }).typography.composites.find((x) => x.path === 'title.2xs');
+  ok(!!c && c.sizePx === 16, `titleFloor 16 + ${scale} → title.2xs pinned at 16px (got ${c?.sizePx})`);
+}
 ok(tBrand('dc', { displayCeiling: 96 }).typography.composites.filter((c) => c.group === 'display').every((c) => c.sizePx <= 96), 'displayCeiling 96 → no display composite above 96px');
+ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.textCase === 'uppercase', 'eyebrow carries uppercase textCase');
 
 // ------------------------------------------------------------------- report
 console.log(`\nPrism3 engine tests: ${pass} passed, ${fails.length} failed`);

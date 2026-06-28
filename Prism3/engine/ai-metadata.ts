@@ -213,8 +213,21 @@ export const buildAiMetadata = (theme: Theme, tree: any) => {
   };
   walk(brand, []);
   const strip = (ref: string) => (ref.startsWith(root + '.') ? ref.slice(root.length + 1) : ref);
+  // Direct reverse edges (target → tokens that reference it directly).
+  const directBy: Record<string, string[]> = {};
+  for (const { path, node } of leaves) for (const ref of refsIn(node.$value)) (directBy[strip(ref)] ??= []).push(path);
+  // TRANSITIVE closure: a primitive's referrers include indirect ones too, so the
+  // two-hop weight chain (composite → weight-role → numeric) is visible — the KB's
+  // "re-map a brand's weights, every composite reflows" payoff is now provable from
+  // the index. Without this, font.weight.700 would list only weight-role.strong and
+  // hide the 15 composites that actually consume it.
   const aliasedBy: Record<string, string[]> = {};
-  for (const { path, node } of leaves) for (const ref of refsIn(node.$value)) (aliasedBy[strip(ref)] ??= []).push(path);
+  for (const target of Object.keys(directBy)) {
+    const acc = new Set<string>();
+    const visit = (t: string) => { for (const r of directBy[t] ?? []) if (!acc.has(r)) { acc.add(r); visit(r); } };
+    visit(target);
+    aliasedBy[target] = [...acc].sort();
+  }
 
   const primitives: Record<string, AiPrimitive> = {};
   for (const { path, node } of leaves) {
@@ -233,18 +246,67 @@ export const buildAiMetadata = (theme: Theme, tree: any) => {
     primitives[path] = p;
   }
 
+  // ---- typography tier (composites + weight roles) ----
+  // The consumer-facing type styles + the function-named weight roles. Without
+  // this the agent surface would omit the entire typography semantic layer (and
+  // aliased_by would dangle references at entries that don't exist in the file).
+  const TYPE_DESC: Record<string, { desc: string; when: string; avoid: string }> = {
+    display: { desc: 'hero / marketing display type', when: 'Large expressive headlines and hero moments.', avoid: 'Do not use for product-UI headings (use title) or running text (use body).' },
+    title: { desc: 'heading type — visual hierarchy, decoupled from DOM level', when: 'Section and page headings; pick the size for visual prominence and set the DOM level (h1–h6) by document structure independently.', avoid: 'Do not bind the size to a heading level; do not use for running text (use body).' },
+    body: { desc: 'running text / default UI copy', when: 'Paragraphs, descriptions, and default interface text.', avoid: 'Do not use for headings (use title/display) or dense control labels (use label).' },
+    label: { desc: 'UI label type — buttons, form labels, tabs, chips', when: 'Control and form labels, button text, tabs, chips, badges.', avoid: 'Do not use for running text (use body).' },
+    caption: { desc: 'caption / secondary small text', when: 'Image captions, helper text, metadata, footnotes.', avoid: 'Do not use for primary reading text (use body).' },
+    eyebrow: { desc: 'eyebrow / kicker — small uppercase label above a heading', when: 'A short label sitting above a title or hero (a "kicker").', avoid: 'Do not use as the heading itself (use title) or for body copy.' },
+    code: { desc: 'monospace / code type', when: 'Inline code, code blocks, and column-aligned values.', avoid: 'Do not use for prose (use body).' },
+  };
+  const typography: Record<string, any> = {};
+  for (const c of theme.typography.composites) {
+    const d = TYPE_DESC[c.group];
+    const resolves: Record<string, string> = {
+      fontFamily: `{${root}.font.family.${c.family}}`,
+      fontSize: `{${root}.font.size.${c.sizePx}}`,
+      fontWeight: `{${root}.font.weight-role.${c.weightRole}}`,
+      lineHeight: `{${root}.font.line-height.${c.lineHeight}}`,
+      letterSpacing: `{${root}.font.letter-spacing.${c.tracking}}`,
+    };
+    if (c.textCase !== 'none') resolves.textCase = c.textCase;
+    // Key by the real tree path (`type.<path>`) so aliased_by references resolve.
+    typography[`type.${c.path}`] = {
+      $description: `${cap(d.desc)}.`,
+      meaning: `Type style — ${c.group}${c.variant ? ' ' + c.variant : ''} (${c.sizePx}px, ${c.family} face${c.textCase !== 'none' ? `, ${c.textCase}` : ''})`,
+      when_to_use: d.when,
+      avoid_when: d.avoid,
+      resolves_to: resolves,
+    };
+  }
+  for (const w of theme.typography.weightRoles) {
+    const key = `font.weight-role.${w.role}`;
+    const entry: any = {
+      $description: `The ${w.role} font-weight role.`,
+      meaning: `Function-named weight → ${w.value} — white-label-stable (the role is the contract; each brand maps the numeric).`,
+      when_to_use: `Reference ${key} (not the numeric) so a brand weight re-map reflows every consumer at once.`,
+      avoid_when: `Do not hard-code the numeric (${w.value}); reference the role.`,
+      resolves_to: `{${root}.font.weight.${w.value}}`,
+    };
+    const usedBy = (aliasedBy[key] ?? []).filter((p) => p.startsWith('type.'));
+    if (usedBy.length) entry.used_by = usedBy;                      // which composites carry this role
+    typography[key] = entry;
+  }
+
   return {
     $schema: 'prism3-ai-metadata/0.1',
     brand: theme.id,
     generated: true,
-    note: 'Agent-readable metadata, companion to ' + `${theme.id}.tokens.json` + '. The semantic tier carries ' +
-      'the full schema (knowledge-base 31-color-systems §9); the primitive tier a simplified set + colour-scale `intent` ' +
-      'and `aliased_by` (the reverse index — which tokens resolve to it). `aliased_by` is recomputed from the token ' +
-      'tree on every build (authoritative at build time, never hand-maintained — it cannot drift as roles re-resolve). ' +
-      'All fields generated and contract-true.',
+    note: 'Agent-readable metadata, companion to ' + `${theme.id}.tokens.json` + '. The semantic (colour) tier and the ' +
+      'typography tier (type composites + weight roles) carry the rich schema; the primitive tier a simplified set + ' +
+      'colour-scale `intent` and `aliased_by` (the reverse index — which tokens resolve to it, TRANSITIVELY, so the ' +
+      'two-hop weight chain composite→role→numeric is visible). `aliased_by` is recomputed from the token tree on every ' +
+      'build (authoritative at build time, never hand-maintained — it cannot drift). All fields generated and contract-true.',
     semantic_fields: ['$description', 'meaning', 'when_to_use', 'avoid_when', 'paired_with', 'contrast_with', 'mode_overrides'],
+    typography_fields: ['$description', 'meaning', 'when_to_use', 'avoid_when', 'resolves_to', 'used_by'],
     primitive_fields: ['$description', 'meaning', 'intent', 'tier', 'consume', 'aliased_by'],
     semantic,
+    typography,
     primitives,
   };
 };

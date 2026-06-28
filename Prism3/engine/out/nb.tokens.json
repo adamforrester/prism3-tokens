@@ -9016,7 +9016,7 @@
             "lineHeight": "{nbds.font.line-height.tight}",
             "letterSpacing": "{nbds.font.letter-spacing.tight}"
           },
-          "$description": "display sm — 48px, display family, tight line-height, strong weight, tight tracking",
+          "$description": "display sm — 48px Inter (display role), tight line-height, strong weight, tight tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
@@ -9033,7 +9033,8 @@
                   "lineHeight",
                   "letterSpacing"
                 ],
-                "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+                "baked": [],
+                "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
               }
             }
           }
@@ -9047,7 +9048,7 @@
             "lineHeight": "{nbds.font.line-height.tight}",
             "letterSpacing": "{nbds.font.letter-spacing.tight}"
           },
-          "$description": "display md — 64px, display family, tight line-height, strong weight, tight tracking",
+          "$description": "display md — 64px Inter (display role), tight line-height, strong weight, tight tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
@@ -9064,7 +9065,8 @@
                   "lineHeight",
                   "letterSpacing"
                 ],
-                "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+                "baked": [],
+                "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
               }
             }
           }
@@ -9078,7 +9080,7 @@
             "lineHeight": "{nbds.font.line-height.tight}",
             "letterSpacing": "{nbds.font.letter-spacing.tight}"
           },
-          "$description": "display lg — 80px, display family, tight line-height, strong weight, tight tracking",
+          "$description": "display lg — 80px Inter (display role), tight line-height, strong weight, tight tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
@@ -9095,7 +9097,8 @@
                   "lineHeight",
                   "letterSpacing"
                 ],
-                "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+                "baked": [],
+                "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
               }
             }
           }
@@ -9109,7 +9112,7 @@
             "lineHeight": "{nbds.font.line-height.tight}",
             "letterSpacing": "{nbds.font.letter-spacing.tighter}"
           },
-          "$description": "display xl — 96px, display family, tight line-height, strong weight, tighter tracking",
+          "$description": "display xl — 96px Inter (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
@@ -9126,7 +9129,8 @@
                   "lineHeight",
                   "letterSpacing"
                 ],
-                "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+                "baked": [],
+                "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
               }
             }
           }
@@ -9140,7 +9144,7 @@
             "lineHeight": "{nbds.font.line-height.tight}",
             "letterSpacing": "{nbds.font.letter-spacing.tighter}"
           },
-          "$description": "display 2xl — 128px, display family, tight line-height, strong weight, tighter tracking",
+          "$description": "display 2xl — 128px Inter (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
@@ -9157,7 +9161,8 @@
                   "lineHeight",
                   "letterSpacing"
                 ],
-                "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+                "baked": [],
+                "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
               }
             }
           }
@@ -9171,7 +9176,7 @@
             "lineHeight": "{nbds.font.line-height.tight}",
             "letterSpacing": "{nbds.font.letter-spacing.tighter}"
           },
-          "$description": "display 3xl — 160px, display family, tight line-height, strong weight, tighter tracking",
+          "$description": "display 3xl — 160px Inter (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
@@ -9188,7 +9193,8 @@
                   "lineHeight",
                   "letterSpacing"
                 ],
-                "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+                "baked": [],
+                "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
               }
             }
           }
@@ -9204,7 +9210,7 @@
             "lineHeight": "{nbds.font.line-height.compact}",
             "letterSpacing": "{nbds.font.letter-spacing.snug}"
           },
-          "$description": "title xs — 18px, display family, compact line-height, strong weight, snug tracking",
+          "$description": "title xs — 18px Inter (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
@@ -9221,7 +9227,8 @@
                   "lineHeight",
                   "letterSpacing"
                 ],
-                "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+                "baked": [],
+                "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
               }
             }
           }
@@ -9235,7 +9242,7 @@
             "lineHeight": "{nbds.font.line-height.compact}",
             "letterSpacing": "{nbds.font.letter-spacing.snug}"
           },
-          "$description": "title sm — 20px, display family, compact line-height, strong weight, snug tracking",
+          "$description": "title sm — 20px Inter (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
@@ -9252,7 +9259,8 @@
                   "lineHeight",
                   "letterSpacing"
                 ],
-                "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+                "baked": [],
+                "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
               }
             }
           }
@@ -9266,7 +9274,7 @@
             "lineHeight": "{nbds.font.line-height.compact}",
             "letterSpacing": "{nbds.font.letter-spacing.snug}"
           },
-          "$description": "title md — 24px, display family, compact line-height, strong weight, snug tracking",
+          "$description": "title md — 24px Inter (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
@@ -9283,7 +9291,8 @@
                   "lineHeight",
                   "letterSpacing"
                 ],
-                "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+                "baked": [],
+                "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
               }
             }
           }
@@ -9297,7 +9306,7 @@
             "lineHeight": "{nbds.font.line-height.snug}",
             "letterSpacing": "{nbds.font.letter-spacing.snug}"
           },
-          "$description": "title lg — 28px, display family, snug line-height, strong weight, snug tracking",
+          "$description": "title lg — 28px Inter (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
@@ -9314,7 +9323,8 @@
                   "lineHeight",
                   "letterSpacing"
                 ],
-                "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+                "baked": [],
+                "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
               }
             }
           }
@@ -9328,7 +9338,7 @@
             "lineHeight": "{nbds.font.line-height.snug}",
             "letterSpacing": "{nbds.font.letter-spacing.snug}"
           },
-          "$description": "title xl — 32px, display family, snug line-height, strong weight, snug tracking",
+          "$description": "title xl — 32px Inter (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
@@ -9345,7 +9355,8 @@
                   "lineHeight",
                   "letterSpacing"
                 ],
-                "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+                "baked": [],
+                "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
               }
             }
           }
@@ -9359,7 +9370,7 @@
             "lineHeight": "{nbds.font.line-height.snug}",
             "letterSpacing": "{nbds.font.letter-spacing.snug}"
           },
-          "$description": "title 2xl — 40px, display family, snug line-height, strong weight, snug tracking",
+          "$description": "title 2xl — 40px Inter (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
@@ -9376,7 +9387,8 @@
                   "lineHeight",
                   "letterSpacing"
                 ],
-                "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+                "baked": [],
+                "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
               }
             }
           }
@@ -9392,7 +9404,7 @@
             "lineHeight": "{nbds.font.line-height.normal}",
             "letterSpacing": "{nbds.font.letter-spacing.normal}"
           },
-          "$description": "body sm — 14px, text family, normal line-height, default weight, normal tracking",
+          "$description": "body sm — 14px Inter (text role), normal line-height, default weight, normal tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
@@ -9409,7 +9421,8 @@
                   "lineHeight",
                   "letterSpacing"
                 ],
-                "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+                "baked": [],
+                "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
               }
             }
           }
@@ -9423,7 +9436,7 @@
             "lineHeight": "{nbds.font.line-height.normal}",
             "letterSpacing": "{nbds.font.letter-spacing.normal}"
           },
-          "$description": "body md — 16px, text family, normal line-height, default weight, normal tracking",
+          "$description": "body md — 16px Inter (text role), normal line-height, default weight, normal tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
@@ -9440,7 +9453,8 @@
                   "lineHeight",
                   "letterSpacing"
                 ],
-                "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+                "baked": [],
+                "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
               }
             }
           }
@@ -9454,7 +9468,7 @@
             "lineHeight": "{nbds.font.line-height.normal}",
             "letterSpacing": "{nbds.font.letter-spacing.normal}"
           },
-          "$description": "body lg — 18px, text family, normal line-height, default weight, normal tracking",
+          "$description": "body lg — 18px Inter (text role), normal line-height, default weight, normal tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
@@ -9471,7 +9485,8 @@
                   "lineHeight",
                   "letterSpacing"
                 ],
-                "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+                "baked": [],
+                "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
               }
             }
           }
@@ -9487,7 +9502,7 @@
             "lineHeight": "{nbds.font.line-height.snug}",
             "letterSpacing": "{nbds.font.letter-spacing.normal}"
           },
-          "$description": "label sm — 12px, display family, snug line-height, emphasis weight, normal tracking",
+          "$description": "label sm — 12px Inter (display role), snug line-height, emphasis weight, normal tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
@@ -9504,7 +9519,8 @@
                   "lineHeight",
                   "letterSpacing"
                 ],
-                "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+                "baked": [],
+                "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
               }
             }
           }
@@ -9518,7 +9534,7 @@
             "lineHeight": "{nbds.font.line-height.snug}",
             "letterSpacing": "{nbds.font.letter-spacing.normal}"
           },
-          "$description": "label md — 14px, display family, snug line-height, emphasis weight, normal tracking",
+          "$description": "label md — 14px Inter (display role), snug line-height, emphasis weight, normal tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
@@ -9535,7 +9551,8 @@
                   "lineHeight",
                   "letterSpacing"
                 ],
-                "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+                "baked": [],
+                "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
               }
             }
           }
@@ -9550,7 +9567,7 @@
           "lineHeight": "{nbds.font.line-height.normal}",
           "letterSpacing": "{nbds.font.letter-spacing.normal}"
         },
-        "$description": "caption — 12px, text family, normal line-height, default weight, normal tracking",
+        "$description": "caption — 12px Inter (text role), normal line-height, default weight, normal tracking — consumer-facing type style",
         "$extensions": {
           "prism3": {
             "role": "composite",
@@ -9567,7 +9584,8 @@
                 "lineHeight",
                 "letterSpacing"
               ],
-              "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+              "baked": [],
+              "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
             }
           }
         }
@@ -9579,15 +9597,17 @@
           "fontSize": "{nbds.font.size.12}",
           "fontWeight": "{nbds.font.weight-role.emphasis}",
           "lineHeight": "{nbds.font.line-height.snug}",
-          "letterSpacing": "{nbds.font.letter-spacing.wider}"
+          "letterSpacing": "{nbds.font.letter-spacing.wider}",
+          "textCase": "uppercase"
         },
-        "$description": "eyebrow — 12px, display family, snug line-height, emphasis weight, wider tracking",
+        "$description": "eyebrow — 12px Inter (display role), snug line-height, emphasis weight, wider tracking, uppercase — consumer-facing type style",
         "$extensions": {
           "prism3": {
             "role": "composite",
             "group": "eyebrow",
             "variant": "",
             "sizePx": 12,
+            "textCase": "uppercase",
             "figma": {
               "kind": "text-style",
               "styleType": "TEXT",
@@ -9598,7 +9618,10 @@
                 "lineHeight",
                 "letterSpacing"
               ],
-              "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+              "baked": [
+                "textCase"
+              ],
+              "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
             }
           }
         }
@@ -9613,7 +9636,7 @@
             "lineHeight": "{nbds.font.line-height.normal}",
             "letterSpacing": "{nbds.font.letter-spacing.normal}"
           },
-          "$description": "code inline — 14px, mono family, normal line-height, default weight, normal tracking",
+          "$description": "code inline — 14px JetBrains Mono (mono role), normal line-height, default weight, normal tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
@@ -9630,7 +9653,8 @@
                   "lineHeight",
                   "letterSpacing"
                 ],
-                "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+                "baked": [],
+                "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
               }
             }
           }
