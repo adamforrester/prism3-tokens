@@ -4015,16 +4015,24 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight."
     },
+    "font.letter-spacing.tighter": {
+      "$description": "letter spacing tighter — -0.03em",
+      "meaning": "Letter-spacing primitive — tighter (em)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
+      "aliased_by": [
+        "type.display.lg",
+        "type.display.xl"
+      ]
+    },
     "font.letter-spacing.tight": {
       "$description": "letter spacing tight — -0.02em",
       "meaning": "Letter-spacing primitive — tight (em)",
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "type.display.lg",
         "type.display.md",
-        "type.display.sm",
-        "type.display.xl"
+        "type.display.sm"
       ]
     },
     "font.letter-spacing.snug": {

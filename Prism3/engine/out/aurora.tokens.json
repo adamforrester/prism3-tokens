@@ -9699,6 +9699,24 @@
         }
       },
       "letter-spacing": {
+        "tighter": {
+          "$type": "dimension",
+          "$value": "-0.03em",
+          "$description": "letter spacing tighter — -0.03em",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "em": -0.03,
+              "figma": {
+                "kind": "style-part",
+                "field": "letterSpacing",
+                "unit": "px-from-em",
+                "basis": "fontSize",
+                "note": "Figma binds letter-spacing as px; multiply em by the bound fontSize"
+              }
+            }
+          }
+        },
         "tight": {
           "$type": "dimension",
           "$value": "-0.02em",
@@ -9862,9 +9880,9 @@
             "fontSize": "{prism.font.size.96}",
             "fontWeight": "{prism.font.weight-role.strong}",
             "lineHeight": "{prism.font.line-height.tight}",
-            "letterSpacing": "{prism.font.letter-spacing.tight}"
+            "letterSpacing": "{prism.font.letter-spacing.tighter}"
           },
-          "$description": "display lg — 96px, display family, tight line-height, strong weight, tight tracking",
+          "$description": "display lg — 96px, display family, tight line-height, strong weight, tighter tracking",
           "$extensions": {
             "prism3": {
               "role": "composite",
@@ -9893,9 +9911,9 @@
             "fontSize": "{prism.font.size.112}",
             "fontWeight": "{prism.font.weight-role.strong}",
             "lineHeight": "{prism.font.line-height.tight}",
-            "letterSpacing": "{prism.font.letter-spacing.tight}"
+            "letterSpacing": "{prism.font.letter-spacing.tighter}"
           },
-          "$description": "display xl — 112px, display family, tight line-height, strong weight, tight tracking",
+          "$description": "display xl — 112px, display family, tight line-height, strong weight, tighter tracking",
           "$extensions": {
             "prism3": {
               "role": "composite",
@@ -10332,11 +10350,11 @@
         "$value": {
           "fontFamily": "{prism.font.family.display}",
           "fontSize": "{prism.font.size.12}",
-          "fontWeight": "{prism.font.weight-role.strong}",
+          "fontWeight": "{prism.font.weight-role.emphasis}",
           "lineHeight": "{prism.font.line-height.snug}",
           "letterSpacing": "{prism.font.letter-spacing.wider}"
         },
-        "$description": "eyebrow — 12px, display family, snug line-height, strong weight, wider tracking",
+        "$description": "eyebrow — 12px, display family, snug line-height, emphasis weight, wider tracking",
         "$extensions": {
           "prism3": {
             "role": "composite",

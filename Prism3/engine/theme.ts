@@ -270,7 +270,7 @@ const LINE_HEIGHTS = [
   { key: 'normal', value: 1.5 }, { key: 'relaxed', value: 1.65 }, { key: 'loose', value: 1.75 },
 ];
 const LETTER_SPACINGS = [
-  { key: 'tight', em: -0.02 }, { key: 'snug', em: -0.01 }, { key: 'normal', em: 0 },
+  { key: 'tighter', em: -0.03 }, { key: 'tight', em: -0.02 }, { key: 'snug', em: -0.01 }, { key: 'normal', em: 0 },
   { key: 'wide', em: 0.02 }, { key: 'wider', em: 0.05 },
 ];
 const WEIGHT_ROLE_DEFAULT = { subtle: 300, default: 400, emphasis: 600, strong: 700 } as const;
@@ -317,13 +317,16 @@ const TYPE_FAMILY_DEFAULT: Record<TypeGroup, FamilyRoleName> = {
   body: 'text', caption: 'text', code: 'mono',
 };
 const TYPE_WEIGHT_DEFAULT: Record<TypeGroup, WeightRoleName> = {
-  display: 'strong', title: 'strong', label: 'emphasis', eyebrow: 'strong',
+  display: 'strong', title: 'strong', label: 'emphasis', eyebrow: 'emphasis',
   body: 'default', caption: 'default', code: 'default',
 };
 const TYPE_TRACK_DEFAULT: Record<TypeGroup, string> = {
   display: 'tight', title: 'snug', label: 'normal', eyebrow: 'wider',
   body: 'normal', caption: 'normal', code: 'normal',
 };
+// Mega display tightens further (-0.03em): large type needs tighter tracking.
+const trackingFor = (group: TypeGroup, px: number): string =>
+  group === 'display' && px >= 96 ? 'tighter' : TYPE_TRACK_DEFAULT[group];
 // base variant → px (default scale). title floor 18; 16 (title.2xs) is opt-in.
 const TYPE_VARIANTS: Record<TypeGroup, [string, number][]> = {
   display: [['sm', 48], ['md', 64], ['lg', 80], ['xl', 96], ['2xl', 128], ['3xl', 160]],
@@ -364,7 +367,7 @@ const buildComposites = (ladder: number[], t: TypographyInput): TypeComposite[] 
       out.push({
         group, variant, path: variant ? `${group}.${variant}` : group, sizePx,
         family: familyMap[group], lineHeight: lineHeightFor(group, sizePx),
-        weightRole: TYPE_WEIGHT_DEFAULT[group], tracking: TYPE_TRACK_DEFAULT[group],
+        weightRole: TYPE_WEIGHT_DEFAULT[group], tracking: trackingFor(group, sizePx),
       });
     }
   }

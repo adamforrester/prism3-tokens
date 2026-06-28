@@ -8895,6 +8895,24 @@
         }
       },
       "letter-spacing": {
+        "tighter": {
+          "$type": "dimension",
+          "$value": "-0.03em",
+          "$description": "letter spacing tighter — -0.03em",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "em": -0.03,
+              "figma": {
+                "kind": "style-part",
+                "field": "letterSpacing",
+                "unit": "px-from-em",
+                "basis": "fontSize",
+                "note": "Figma binds letter-spacing as px; multiply em by the bound fontSize"
+              }
+            }
+          }
+        },
         "tight": {
           "$type": "dimension",
           "$value": "-0.02em",
@@ -9089,9 +9107,9 @@
             "fontSize": "{nbds.font.size.96}",
             "fontWeight": "{nbds.font.weight-role.strong}",
             "lineHeight": "{nbds.font.line-height.tight}",
-            "letterSpacing": "{nbds.font.letter-spacing.tight}"
+            "letterSpacing": "{nbds.font.letter-spacing.tighter}"
           },
-          "$description": "display xl — 96px, display family, tight line-height, strong weight, tight tracking",
+          "$description": "display xl — 96px, display family, tight line-height, strong weight, tighter tracking",
           "$extensions": {
             "prism3": {
               "role": "composite",
@@ -9120,9 +9138,9 @@
             "fontSize": "{nbds.font.size.128}",
             "fontWeight": "{nbds.font.weight-role.strong}",
             "lineHeight": "{nbds.font.line-height.tight}",
-            "letterSpacing": "{nbds.font.letter-spacing.tight}"
+            "letterSpacing": "{nbds.font.letter-spacing.tighter}"
           },
-          "$description": "display 2xl — 128px, display family, tight line-height, strong weight, tight tracking",
+          "$description": "display 2xl — 128px, display family, tight line-height, strong weight, tighter tracking",
           "$extensions": {
             "prism3": {
               "role": "composite",
@@ -9151,9 +9169,9 @@
             "fontSize": "{nbds.font.size.160}",
             "fontWeight": "{nbds.font.weight-role.strong}",
             "lineHeight": "{nbds.font.line-height.tight}",
-            "letterSpacing": "{nbds.font.letter-spacing.tight}"
+            "letterSpacing": "{nbds.font.letter-spacing.tighter}"
           },
-          "$description": "display 3xl — 160px, display family, tight line-height, strong weight, tight tracking",
+          "$description": "display 3xl — 160px, display family, tight line-height, strong weight, tighter tracking",
           "$extensions": {
             "prism3": {
               "role": "composite",
@@ -9559,11 +9577,11 @@
         "$value": {
           "fontFamily": "{nbds.font.family.display}",
           "fontSize": "{nbds.font.size.12}",
-          "fontWeight": "{nbds.font.weight-role.strong}",
+          "fontWeight": "{nbds.font.weight-role.emphasis}",
           "lineHeight": "{nbds.font.line-height.snug}",
           "letterSpacing": "{nbds.font.letter-spacing.wider}"
         },
-        "$description": "eyebrow — 12px, display family, snug line-height, strong weight, wider tracking",
+        "$description": "eyebrow — 12px, display family, snug line-height, emphasis weight, wider tracking",
         "$extensions": {
           "prism3": {
             "role": "composite",

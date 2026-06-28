@@ -97,6 +97,52 @@ for (const b of brands) {
   ok(broken.length === 0, 'nbTheme all contracts pass' + (broken.length ? ` — FAILED: ${broken.join(', ')}` : ''));
 }
 
+// ------------------------------------------- typography composite invariants
+// Guard the composite generator across lever combos: every sub-reference must
+// resolve to a real primitive, sizes stay on the ladder, no duplicate size within
+// a group, monotonic per group, count inside the KB's 15–25 (12 floor when a brand
+// caps display), and the floor/ceiling levers behave.
+const FAM = new Set(['display', 'text', 'mono']);
+const tBrand = (id: string, ty: any) => brandTheme({ id, primary: { l: 0.5, c: 0.15, h: 250 }, neutral: { hue: 250, chroma: 0.01 }, typography: ty });
+const typeCases: [string, any][] = [
+  ['default', {}],
+  ['expressive', { typeScale: 'expressive' }],
+  ['compact+floor16', { typeScale: 'compact', titleFloor: 16 }],
+  ['ceiling96', { displayCeiling: 96 }],
+  ['ceiling18-kills-display', { displayCeiling: 18 }],
+  ['familyMap+singleface', { families: { text: 'Foo' }, familyMap: { label: 'text', title: 'text' } }],
+];
+for (const [label, ty] of typeCases) {
+  const t = tBrand('ty-' + label, ty);
+  const comps = t.typography.composites;
+  const ladder = new Set(t.typography.sizesPx);
+  const lh = new Set(t.typography.lineHeights.map((x) => x.key));
+  const ls = new Set(t.typography.letterSpacings.map((x) => x.key));
+  const wr = new Set(t.typography.weightRoles.map((x) => x.role));
+  ok(comps.length >= 12 && comps.length <= 25, `[type/${label}] composite count ${comps.length} in 12..25`);
+  let bad = '', dup = '', mono = '';
+  const byGroup: Record<string, number[]> = {};
+  for (const c of comps) {
+    (byGroup[c.group] ??= []).push(c.sizePx);
+    if (!ladder.has(c.sizePx)) bad ||= `${c.path} off-ladder ${c.sizePx}`;
+    if (!FAM.has(c.family)) bad ||= `${c.path} bad family ${c.family}`;
+    if (!wr.has(c.weightRole)) bad ||= `${c.path} bad weight ${c.weightRole}`;
+    if (!lh.has(c.lineHeight)) bad ||= `${c.path} bad line-height ${c.lineHeight}`;
+    if (!ls.has(c.tracking)) bad ||= `${c.path} bad tracking ${c.tracking}`;
+  }
+  for (const [g, sizes] of Object.entries(byGroup)) {
+    const seen = new Set<number>();
+    for (const s of sizes) { if (seen.has(s)) dup ||= `${g}:${s}`; seen.add(s); }
+    for (let i = 1; i < sizes.length; i++) if (sizes[i] <= sizes[i - 1]) mono ||= `${g}:${sizes[i - 1]}->${sizes[i]}`;
+  }
+  ok(!bad, `[type/${label}] all composite refs resolve${bad ? ` — ${bad}` : ''}`);
+  ok(!dup, `[type/${label}] no duplicate size within a group${dup ? ` — ${dup}` : ''}`);
+  ok(!mono, `[type/${label}] sizes monotonic within group${mono ? ` — ${mono}` : ''}`);
+}
+ok(!tBrand('tf-d', {}).typography.composites.some((c) => c.path === 'title.2xs'), 'titleFloor default 18 → no title.2xs');
+ok(tBrand('tf-16', { titleFloor: 16 }).typography.composites.some((c) => c.path === 'title.2xs' && c.sizePx === 16), 'titleFloor 16 → title.2xs at 16px (default scale)');
+ok(tBrand('dc', { displayCeiling: 96 }).typography.composites.filter((c) => c.group === 'display').every((c) => c.sizePx <= 96), 'displayCeiling 96 → no display composite above 96px');
+
 // ------------------------------------------------------------------- report
 console.log(`\nPrism3 engine tests: ${pass} passed, ${fails.length} failed`);
 if (fails.length) { fails.forEach((f) => console.log(`  ❌ ${f}`)); process.exitCode = 1; }
