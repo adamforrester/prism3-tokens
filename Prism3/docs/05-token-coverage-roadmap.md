@@ -80,9 +80,14 @@
   size, so `title.xs`@18 and `body.lg`@18 share a size primitive but stay distinct
   tokens; the overlap is visible in `font.size.18.aliased_by`). 511/511 aliases,
   268/268 contracts. **Phase 3 (responsive) SHIPPED (2026-06-28):** each heading
-  composite (display + title) gets a **mobile endpoint** = desktop × a per-group
-  factor (display 0.75, title 0.875) snapped to the ladder; reading/UI text stays
-  static. The **one min/max pair drives both outputs** — `$extensions.prism3.
+  composite (display + title) gets a **mobile endpoint**
+  via a **research-validated size-dependent curve** (not a flat factor): body/UI
+  static, titles ~1 rung down (floored at 20px), display shrinking *progressively*
+  — converging to a ~40–48px mobile "hero band" no matter how large desktop goes
+  (`160→48`, ≈Carbon fluid-display-04 `40→176`). A flat factor was the first cut;
+  field research (Carbon fluid-display, Utopia, the body-stays-constant consensus)
+  showed bigger sizes must shrink *more*. The **one min/max pair drives both
+  outputs** — `$extensions.prism3.
   responsive` carries the web `clamp(min, preferred, max)` (rem-floored per WCAG
   1.4.4) **and** the Figma `figma.modes.{mobile,desktop}` for desktop/mobile
   collection modes — while `$value.fontSize` stays the desktop canonical/fallback

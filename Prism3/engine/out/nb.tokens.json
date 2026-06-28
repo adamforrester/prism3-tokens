@@ -9070,7 +9070,7 @@
             "lineHeight": "{nbds.font.line-height.tight}",
             "letterSpacing": "{nbds.font.letter-spacing.tight}"
           },
-          "$description": "display md — 48→64px fluid Inter (display role), tight line-height, strong weight, tight tracking — consumer-facing type style",
+          "$description": "display md — 40→64px fluid Inter (display role), tight line-height, strong weight, tight tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
@@ -9080,21 +9080,21 @@
               "responsive": {
                 "fluid": true,
                 "min": {
-                  "px": 48,
-                  "rem": 3,
-                  "ref": "{nbds.font.size.48}"
+                  "px": 40,
+                  "rem": 2.5,
+                  "ref": "{nbds.font.size.40}"
                 },
                 "max": {
                   "px": 64,
                   "rem": 4,
                   "ref": "{nbds.font.size.64}"
                 },
-                "web": "clamp(3rem, 2.5856rem + 1.768vw, 4rem)",
+                "web": "clamp(2.5rem, 1.8785rem + 2.6519vw, 4rem)",
                 "figma": {
                   "field": "fontSize",
                   "scope": "FONT_SIZE",
                   "modes": {
-                    "mobile": 48,
+                    "mobile": 40,
                     "desktop": 64
                   }
                 }
@@ -9124,7 +9124,7 @@
             "lineHeight": "{nbds.font.line-height.tight}",
             "letterSpacing": "{nbds.font.letter-spacing.tight}"
           },
-          "$description": "display lg — 56→80px fluid Inter (display role), tight line-height, strong weight, tight tracking — consumer-facing type style",
+          "$description": "display lg — 40→80px fluid Inter (display role), tight line-height, strong weight, tight tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
@@ -9134,21 +9134,21 @@
               "responsive": {
                 "fluid": true,
                 "min": {
-                  "px": 56,
-                  "rem": 3.5,
-                  "ref": "{nbds.font.size.56}"
+                  "px": 40,
+                  "rem": 2.5,
+                  "ref": "{nbds.font.size.40}"
                 },
                 "max": {
                   "px": 80,
                   "rem": 5,
                   "ref": "{nbds.font.size.80}"
                 },
-                "web": "clamp(3.5rem, 2.8785rem + 2.6519vw, 5rem)",
+                "web": "clamp(2.5rem, 1.4641rem + 4.4199vw, 5rem)",
                 "figma": {
                   "field": "fontSize",
                   "scope": "FONT_SIZE",
                   "modes": {
-                    "mobile": 56,
+                    "mobile": 40,
                     "desktop": 80
                   }
                 }
@@ -9178,7 +9178,7 @@
             "lineHeight": "{nbds.font.line-height.tight}",
             "letterSpacing": "{nbds.font.letter-spacing.tighter}"
           },
-          "$description": "display xl — 72→96px fluid Inter (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
+          "$description": "display xl — 48→96px fluid Inter (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
@@ -9188,21 +9188,21 @@
               "responsive": {
                 "fluid": true,
                 "min": {
-                  "px": 72,
-                  "rem": 4.5,
-                  "ref": "{nbds.font.size.72}"
+                  "px": 48,
+                  "rem": 3,
+                  "ref": "{nbds.font.size.48}"
                 },
                 "max": {
                   "px": 96,
                   "rem": 6,
                   "ref": "{nbds.font.size.96}"
                 },
-                "web": "clamp(4.5rem, 3.8785rem + 2.6519vw, 6rem)",
+                "web": "clamp(3rem, 1.7569rem + 5.3039vw, 6rem)",
                 "figma": {
                   "field": "fontSize",
                   "scope": "FONT_SIZE",
                   "modes": {
-                    "mobile": 72,
+                    "mobile": 48,
                     "desktop": 96
                   }
                 }
@@ -9232,7 +9232,7 @@
             "lineHeight": "{nbds.font.line-height.tight}",
             "letterSpacing": "{nbds.font.letter-spacing.tighter}"
           },
-          "$description": "display 2xl — 96→128px fluid Inter (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
+          "$description": "display 2xl — 48→128px fluid Inter (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
@@ -9242,21 +9242,21 @@
               "responsive": {
                 "fluid": true,
                 "min": {
-                  "px": 96,
-                  "rem": 6,
-                  "ref": "{nbds.font.size.96}"
+                  "px": 48,
+                  "rem": 3,
+                  "ref": "{nbds.font.size.48}"
                 },
                 "max": {
                   "px": 128,
                   "rem": 8,
                   "ref": "{nbds.font.size.128}"
                 },
-                "web": "clamp(6rem, 5.1713rem + 3.5359vw, 8rem)",
+                "web": "clamp(3rem, 0.9282rem + 8.8398vw, 8rem)",
                 "figma": {
                   "field": "fontSize",
                   "scope": "FONT_SIZE",
                   "modes": {
-                    "mobile": 96,
+                    "mobile": 48,
                     "desktop": 128
                   }
                 }
@@ -9286,7 +9286,7 @@
             "lineHeight": "{nbds.font.line-height.tight}",
             "letterSpacing": "{nbds.font.letter-spacing.tighter}"
           },
-          "$description": "display 3xl — 112→160px fluid Inter (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
+          "$description": "display 3xl — 48→160px fluid Inter (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
@@ -9296,21 +9296,21 @@
               "responsive": {
                 "fluid": true,
                 "min": {
-                  "px": 112,
-                  "rem": 7,
-                  "ref": "{nbds.font.size.112}"
+                  "px": 48,
+                  "rem": 3,
+                  "ref": "{nbds.font.size.48}"
                 },
                 "max": {
                   "px": 160,
                   "rem": 10,
                   "ref": "{nbds.font.size.160}"
                 },
-                "web": "clamp(7rem, 5.7569rem + 5.3039vw, 10rem)",
+                "web": "clamp(3rem, 0.0994rem + 12.3757vw, 10rem)",
                 "figma": {
                   "field": "fontSize",
                   "scope": "FONT_SIZE",
                   "modes": {
-                    "mobile": 112,
+                    "mobile": 48,
                     "desktop": 160
                   }
                 }
@@ -9342,7 +9342,7 @@
             "lineHeight": "{nbds.font.line-height.compact}",
             "letterSpacing": "{nbds.font.letter-spacing.snug}"
           },
-          "$description": "title xs — 16→18px fluid Inter (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
+          "$description": "title xs — 18px Inter (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
@@ -9350,26 +9350,8 @@
               "variant": "xs",
               "sizePx": 18,
               "responsive": {
-                "fluid": true,
-                "min": {
-                  "px": 16,
-                  "rem": 1,
-                  "ref": "{nbds.font.size.16}"
-                },
-                "max": {
-                  "px": 18,
-                  "rem": 1.125,
-                  "ref": "{nbds.font.size.18}"
-                },
-                "web": "clamp(1rem, 0.9482rem + 0.221vw, 1.125rem)",
-                "figma": {
-                  "field": "fontSize",
-                  "scope": "FONT_SIZE",
-                  "modes": {
-                    "mobile": 16,
-                    "desktop": 18
-                  }
-                }
+                "fluid": false,
+                "px": 18
               },
               "figma": {
                 "kind": "text-style",
@@ -9396,7 +9378,7 @@
             "lineHeight": "{nbds.font.line-height.compact}",
             "letterSpacing": "{nbds.font.letter-spacing.snug}"
           },
-          "$description": "title sm — 18→20px fluid Inter (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
+          "$description": "title sm — 20px Inter (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
@@ -9404,26 +9386,8 @@
               "variant": "sm",
               "sizePx": 20,
               "responsive": {
-                "fluid": true,
-                "min": {
-                  "px": 18,
-                  "rem": 1.125,
-                  "ref": "{nbds.font.size.18}"
-                },
-                "max": {
-                  "px": 20,
-                  "rem": 1.25,
-                  "ref": "{nbds.font.size.20}"
-                },
-                "web": "clamp(1.125rem, 1.0732rem + 0.221vw, 1.25rem)",
-                "figma": {
-                  "field": "fontSize",
-                  "scope": "FONT_SIZE",
-                  "modes": {
-                    "mobile": 18,
-                    "desktop": 20
-                  }
-                }
+                "fluid": false,
+                "px": 20
               },
               "figma": {
                 "kind": "text-style",

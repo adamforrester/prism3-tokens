@@ -349,14 +349,28 @@ const TYPE_VARIANTS: Record<TypeGroup, [string, number][]> = {
   code: [['inline', 14]],
 };
 const TYPE_SCALE_SHIFT = { compact: -1, default: 0, expressive: 1 } as const;
-// Mobile endpoint = desktop × factor, snapped to the ladder. Headings shrink on
-// mobile (heroes most); reading/UI text stays static (factor absent → min==max).
-const FLUID_FACTOR: Partial<Record<TypeGroup, number>> = { display: 0.75, title: 0.875 };
-const snapToLadder = (ladder: number[], px: number): number =>
-  ladder.reduce((best, v) => {
-    const dv = Math.abs(v - px), db = Math.abs(best - px);
-    return dv < db || (dv === db && v < best) ? v : best;   // ties → smaller (more shrink)
-  }, ladder[0]);
+// Desktop → mobile endpoint — RESEARCH-VALIDATED (not a flat factor). The field
+// (IBM Carbon fluid-display, Utopia, practitioner consensus) shrinks BIGGER sizes
+// MORE: body/UI static, titles ~1 rung, display converging to a ~40–48px mobile
+// "hero band" no matter how large desktop goes (Carbon fluid-display-04 is
+// 40→176px ≈ 23%). A flat factor shrank a 96px hero and a 28px heading by the same
+// proportion — the opposite of how systems behave, and it left a 160px hero at
+// 120px (≈3 chars/line on a 360px phone) instead of ~48px (≈9–11 chars/line).
+const oneRungDown = (ladder: number[], px: number): number => {
+  const i = ladder.indexOf(px);
+  return i > 0 ? ladder[i - 1] : px;
+};
+// Display mobile endpoints, anchored to Carbon's fluid-display curve (floor ~40–48px).
+// Keyed by desktop px (always a ladder value); fallback ≈ one rung down.
+const DISPLAY_MOBILE: Record<number, number> = {
+  36: 32, 40: 32, 48: 36, 56: 40, 64: 40, 72: 40, 80: 40,
+  96: 48, 112: 48, 128: 48, 144: 48, 160: 48,
+};
+const mobileEndpoint = (ladder: number[], group: TypeGroup, desktopPx: number): number => {
+  if (group === 'display') return Math.min(desktopPx, DISPLAY_MOBILE[desktopPx] ?? Math.max(oneRungDown(ladder, desktopPx), 32));
+  if (group === 'title') return desktopPx <= 20 ? desktopPx : Math.min(desktopPx, Math.max(oneRungDown(ladder, desktopPx), 20));
+  return desktopPx;   // body / label / caption / eyebrow / code — static (field consensus)
+};
 // Bigger heading → tighter line-height (display tightest; small titles open up).
 const lineHeightFor = (group: TypeGroup, px: number): string => {
   if (group === 'display') return 'tight';
@@ -377,8 +391,7 @@ const buildComposites = (ladder: number[], t: TypographyInput, fluid: boolean): 
   };
   const out: TypeComposite[] = [];
   const push = (group: TypeGroup, variant: string, sizePx: number) => {
-    const factor = FLUID_FACTOR[group];
-    const sizeMinPx = fluid && factor ? Math.min(snapToLadder(ladder, sizePx * factor), sizePx) : sizePx;
+    const sizeMinPx = fluid ? mobileEndpoint(ladder, group, sizePx) : sizePx;
     out.push({
       group, variant, path: variant ? `${group}.${variant}` : group, sizePx, sizeMinPx,
       family: familyMap[group], lineHeight: lineHeightFor(group, sizePx),
@@ -503,7 +516,7 @@ export const brandTheme = (input: BrandInput): Theme => {
       ? ` — NOTE: requested ceiling ${reqCeiling}px; effective top display is ${effCap}px (typeScale shifts sizes off the exact ladder rung)`
       : '';
   const varFams = typography.families.filter((f) => f.variable).map((f) => f.role);
-  notes.push(`typography: curated rem size ladder (${typography.sizesPx.length} steps, ${typography.sizesPx[0]}–${typography.sizesPx[typography.sizesPx.length - 1]}px — NOT ratio-derived; covers all bases, clean values); weight roles subtle/default/emphasis/strong → ${typography.weightRoles.map((w) => w.value).join('/')}; families ${typography.families.map((f) => `${f.role}=${f.stack[0]}`).join(', ')}${varFams.length ? ` (variable: ${varFams.join('/')})` : ''}; typeScale '${typography.typeScale}'. ${typography.composites.length} semantic composites (title/display sizes shifted by typeScale; display capped at ${reqCeiling}px; title floor ${input.typography?.titleFloor ?? 18}px)${capNote}. ${typography.fluid ? `responsive: ${typography.composites.filter((c) => c.sizeMinPx !== c.sizePx).length} fluid composites (display+title shrink on mobile via per-group factor, snapped to the ladder; one min/max pair → web clamp() ${typography.minViewport}–${typography.maxViewport}px + Figma desktop/mobile modes)` : 'responsive: OFF (all sizes static)'}. Line-height unitless multiplier in \$value; px-from-ratio materialization for Figma in \$extensions.`);
+  notes.push(`typography: curated rem size ladder (${typography.sizesPx.length} steps, ${typography.sizesPx[0]}–${typography.sizesPx[typography.sizesPx.length - 1]}px — NOT ratio-derived; covers all bases, clean values); weight roles subtle/default/emphasis/strong → ${typography.weightRoles.map((w) => w.value).join('/')}; families ${typography.families.map((f) => `${f.role}=${f.stack[0]}`).join(', ')}${varFams.length ? ` (variable: ${varFams.join('/')})` : ''}; typeScale '${typography.typeScale}'. ${typography.composites.length} semantic composites (title/display sizes shifted by typeScale; display capped at ${reqCeiling}px; title floor ${input.typography?.titleFloor ?? 18}px)${capNote}. ${typography.fluid ? `responsive: ${typography.composites.filter((c) => c.sizeMinPx !== c.sizePx).length} fluid composites (size-dependent mobile shrink — research-validated, Carbon fluid-display curve: body static, titles ~1 rung, display converges to ~40–48px; one min/max pair → web clamp() ${typography.minViewport}–${typography.maxViewport}px + Figma desktop/mobile modes)` : 'responsive: OFF (all sizes static)'}. Line-height unitless multiplier in \$value; px-from-ratio materialization for Figma in \$extensions.`);
   const dStrat = input.disabledStrategy ?? 'accessible';
   notes.push(dStrat === 'accessible'
     ? `disabled: 'accessible' — disabled text/icon/border clears ${input.disabledMin ?? 3}:1 on the floor (legible, contrast-preserving; the field-rare default). Set disabledStrategy:'conventional' for the sub-AA exempt look.`

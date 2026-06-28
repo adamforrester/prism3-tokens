@@ -9874,7 +9874,7 @@
             "lineHeight": "{prism.font.line-height.tight}",
             "letterSpacing": "{prism.font.letter-spacing.tight}"
           },
-          "$description": "display md — 56→72px fluid Clash Display (display role), tight line-height, strong weight, tight tracking — consumer-facing type style",
+          "$description": "display md — 40→72px fluid Clash Display (display role), tight line-height, strong weight, tight tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
@@ -9884,21 +9884,21 @@
               "responsive": {
                 "fluid": true,
                 "min": {
-                  "px": 56,
-                  "rem": 3.5,
-                  "ref": "{prism.font.size.56}"
+                  "px": 40,
+                  "rem": 2.5,
+                  "ref": "{prism.font.size.40}"
                 },
                 "max": {
                   "px": 72,
                   "rem": 4.5,
                   "ref": "{prism.font.size.72}"
                 },
-                "web": "clamp(3.5rem, 3.1667rem + 1.4815vw, 4.5rem)",
+                "web": "clamp(2.5rem, 1.8333rem + 2.963vw, 4.5rem)",
                 "figma": {
                   "field": "fontSize",
                   "scope": "FONT_SIZE",
                   "modes": {
-                    "mobile": 56,
+                    "mobile": 40,
                     "desktop": 72
                   }
                 }
@@ -9928,7 +9928,7 @@
             "lineHeight": "{prism.font.line-height.tight}",
             "letterSpacing": "{prism.font.letter-spacing.tighter}"
           },
-          "$description": "display lg — 72→96px fluid Clash Display (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
+          "$description": "display lg — 48→96px fluid Clash Display (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
@@ -9938,21 +9938,21 @@
               "responsive": {
                 "fluid": true,
                 "min": {
-                  "px": 72,
-                  "rem": 4.5,
-                  "ref": "{prism.font.size.72}"
+                  "px": 48,
+                  "rem": 3,
+                  "ref": "{prism.font.size.48}"
                 },
                 "max": {
                   "px": 96,
                   "rem": 6,
                   "ref": "{prism.font.size.96}"
                 },
-                "web": "clamp(4.5rem, 4rem + 2.2222vw, 6rem)",
+                "web": "clamp(3rem, 2rem + 4.4444vw, 6rem)",
                 "figma": {
                   "field": "fontSize",
                   "scope": "FONT_SIZE",
                   "modes": {
-                    "mobile": 72,
+                    "mobile": 48,
                     "desktop": 96
                   }
                 }
@@ -9982,7 +9982,7 @@
             "lineHeight": "{prism.font.line-height.tight}",
             "letterSpacing": "{prism.font.letter-spacing.tighter}"
           },
-          "$description": "display xl — 80→112px fluid Clash Display (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
+          "$description": "display xl — 48→112px fluid Clash Display (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
@@ -9992,21 +9992,21 @@
               "responsive": {
                 "fluid": true,
                 "min": {
-                  "px": 80,
-                  "rem": 5,
-                  "ref": "{prism.font.size.80}"
+                  "px": 48,
+                  "rem": 3,
+                  "ref": "{prism.font.size.48}"
                 },
                 "max": {
                   "px": 112,
                   "rem": 7,
                   "ref": "{prism.font.size.112}"
                 },
-                "web": "clamp(5rem, 4.3333rem + 2.963vw, 7rem)",
+                "web": "clamp(3rem, 1.6667rem + 5.9259vw, 7rem)",
                 "figma": {
                   "field": "fontSize",
                   "scope": "FONT_SIZE",
                   "modes": {
-                    "mobile": 80,
+                    "mobile": 48,
                     "desktop": 112
                   }
                 }
@@ -10038,7 +10038,7 @@
             "lineHeight": "{prism.font.line-height.compact}",
             "letterSpacing": "{prism.font.letter-spacing.snug}"
           },
-          "$description": "title 2xs — 14→16px fluid Clash Display (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
+          "$description": "title 2xs — 16px Clash Display (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
@@ -10046,26 +10046,8 @@
               "variant": "2xs",
               "sizePx": 16,
               "responsive": {
-                "fluid": true,
-                "min": {
-                  "px": 14,
-                  "rem": 0.875,
-                  "ref": "{prism.font.size.14}"
-                },
-                "max": {
-                  "px": 16,
-                  "rem": 1,
-                  "ref": "{prism.font.size.16}"
-                },
-                "web": "clamp(0.875rem, 0.8333rem + 0.1852vw, 1rem)",
-                "figma": {
-                  "field": "fontSize",
-                  "scope": "FONT_SIZE",
-                  "modes": {
-                    "mobile": 14,
-                    "desktop": 16
-                  }
-                }
+                "fluid": false,
+                "px": 16
               },
               "figma": {
                 "kind": "text-style",
@@ -10092,7 +10074,7 @@
             "lineHeight": "{prism.font.line-height.compact}",
             "letterSpacing": "{prism.font.letter-spacing.snug}"
           },
-          "$description": "title xs — 18→20px fluid Clash Display (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
+          "$description": "title xs — 20px Clash Display (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
@@ -10100,26 +10082,8 @@
               "variant": "xs",
               "sizePx": 20,
               "responsive": {
-                "fluid": true,
-                "min": {
-                  "px": 18,
-                  "rem": 1.125,
-                  "ref": "{prism.font.size.18}"
-                },
-                "max": {
-                  "px": 20,
-                  "rem": 1.25,
-                  "ref": "{prism.font.size.20}"
-                },
-                "web": "clamp(1.125rem, 1.0833rem + 0.1852vw, 1.25rem)",
-                "figma": {
-                  "field": "fontSize",
-                  "scope": "FONT_SIZE",
-                  "modes": {
-                    "mobile": 18,
-                    "desktop": 20
-                  }
-                }
+                "fluid": false,
+                "px": 20
               },
               "figma": {
                 "kind": "text-style",
@@ -11699,7 +11663,7 @@
         "danger: primary hue 285 is NOT red → carved a dedicated danger red at hue 27",
         "dimension axis: 4px grid, 8px space rhythm, density 'compact' (drives component sizes), radius scale 2 (baseMd 4px)",
         "motion: tempo 'snappy' scales the duration ramp; easing roles + springs + composite transitions generated; reduce-motion variants derived (informational preserved, vestibular → 0)",
-        "typography: curated rem size ladder (22 steps, 10–160px — NOT ratio-derived; covers all bases, clean values); weight roles subtle/default/emphasis/strong → 300/400/500/700; families display=Clash Display, text=Inter, mono=JetBrains Mono (variable: display/text); typeScale 'expressive'. 19 semantic composites (title/display sizes shifted by typeScale; display capped at 128px; title floor 16px) — NOTE: requested ceiling 128px; effective top display is 112px (typeScale shifts sizes off the exact ladder rung). responsive: 11 fluid composites (display+title shrink on mobile via per-group factor, snapped to the ladder; one min/max pair → web clamp() 360–1440px + Figma desktop/mobile modes). Line-height unitless multiplier in $value; px-from-ratio materialization for Figma in $extensions.",
+        "typography: curated rem size ladder (22 steps, 10–160px — NOT ratio-derived; covers all bases, clean values); weight roles subtle/default/emphasis/strong → 300/400/500/700; families display=Clash Display, text=Inter, mono=JetBrains Mono (variable: display/text); typeScale 'expressive'. 19 semantic composites (title/display sizes shifted by typeScale; display capped at 128px; title floor 16px) — NOTE: requested ceiling 128px; effective top display is 112px (typeScale shifts sizes off the exact ladder rung). responsive: 9 fluid composites (size-dependent mobile shrink — research-validated, Carbon fluid-display curve: body static, titles ~1 rung, display converges to ~40–48px; one min/max pair → web clamp() 360–1440px + Figma desktop/mobile modes). Line-height unitless multiplier in $value; px-from-ratio materialization for Figma in $extensions.",
         "disabled: 'accessible' — disabled text/icon/border clears 3:1 on the floor (legible, contrast-preserving; the field-rare default). Set disabledStrategy:'conventional' for the sub-AA exempt look.",
         "light primary surface is NON-default (neutral.50) — CONFIRM this is the page colour; the contrast floor moves with it"
       ]
