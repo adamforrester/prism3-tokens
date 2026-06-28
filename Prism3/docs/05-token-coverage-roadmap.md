@@ -20,7 +20,7 @@
 | **Breakpoints** | NB `core-breakpoint` | ⏸ Parked for discussion | fluid vs fixed + grid coupling — needs a decision | **low** |
 | **Motion** | NB `core-motion`, `motion` | ✅ Done | `motionPersonality.tempo` → duration ramp; easing roles + springs + composites + derived reduce-motion | — |
 | **Layout** | NB `layout` | ❌ Missing | grid columns/gutter/margin per breakpoint | **low–med** |
-| **Shadow / elevation** | NB `shadows` | 🟡 Phase A done (shadow ramp) | 6-step 2-layer ramp + inset; `softness`+`tint` levers; mode-aware lift-primary (reduced dark); Figma Effect Style. Phase B: semantic `elevation.*` pairing surface-lift + shadow | **medium** |
+| **Shadow / elevation** | NB `shadows` | ✅ Done (shadow ramp + elevation) | 6-step 2-layer shadow ramp + inset (`softness`+`tint` levers, mode-aware lift-primary, Figma Effect Style) + semantic `elevation.*` (sunken/flat/raised/overlay/floating) pairing surface-lift + shadow per mode + component aliases (Atlassian split) | — |
 | **Typography** | NB `core-typography`, `typography` | ✅ Done (primitives + composites + fluid) | curated rem ladder + weight roles + family triad; semantic composites (display/title/body/label/caption/eyebrow/code); levers typeScale/displayCeiling/titleFloor/familyMap/responsive; fluid clamp() + Figma desktop/mobile modes from one min/max pair | — |
 | **Gradients** | Prism2 `color/gradient/*` | ❌ Missing | brand-artistic (stops/angle) — not a clean lever | **medium** |
 
@@ -137,10 +137,16 @@
   **reduced** shadow in dark (`$extensions.prism3.modes.dark`, top-weighted) — the
   surface ladder carries dark elevation; rejected NB's heavier-`inverse` as the
   default. Materializes as a Figma **Effect Style** (colour + numerics bindable).
-  112/112 tests (incl. shadow invariants). **Phase B remains:** the semantic
-  `elevation.*` token pairing surface-lift + shadow per mode + component aliases
-  (`card`/`dropdown`/`dialog`) — the Atlassian split, completing the elevation
-  story against the surface ladder. *Research:* KB
+  112/112 tests (incl. shadow invariants). **Phase B SHIPPED (2026-06-28):** the
+  semantic `elevation.*` ladder — `sunken/flat/raised/overlay/floating` — emitted
+  **per mode**, each level pairing a **surface alias** (this mode's background
+  tier) with a **shadow alias** (a shadow step); `flat` carries no shadow. The
+  mode-awareness needs no conditional: in light the surface tiers converge so the
+  shadow carries elevation, in dark they lift and the shadow token is reduced —
+  one mapping, correct in both. **Component aliases** (`card→raised`,
+  `dropdown/popover/menu→overlay`, `dialog/modal/tooltip→floating`, `well→sunken`)
+  reference the level, never the raw surface/shadow (Atlassian/Primer). 611/611
+  (nb) / 606/606 (aurora) aliases. **Elevation complete.** *Research:* KB
   `_research/_inbound/2026-06-28-shadow-elevation-tokens` (10-system survey) +
   31-color-systems §"Shadow tokens — shape, colour, and the elevation lever".
   Original note:

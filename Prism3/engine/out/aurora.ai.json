@@ -2118,6 +2118,17 @@
         "semantic.hc-light.background.quaternary",
         "semantic.hc-light.background.secondary",
         "semantic.hc-light.background.tertiary",
+        "semantic.hc-light.elevation.card.surface",
+        "semantic.hc-light.elevation.dialog.surface",
+        "semantic.hc-light.elevation.dropdown.surface",
+        "semantic.hc-light.elevation.flat.surface",
+        "semantic.hc-light.elevation.floating.surface",
+        "semantic.hc-light.elevation.menu.surface",
+        "semantic.hc-light.elevation.modal.surface",
+        "semantic.hc-light.elevation.overlay.surface",
+        "semantic.hc-light.elevation.popover.surface",
+        "semantic.hc-light.elevation.raised.surface",
+        "semantic.hc-light.elevation.tooltip.surface",
         "semantic.hc-light.icon.inverse",
         "semantic.hc-light.icon.on-brand",
         "semantic.hc-light.icon.on-danger",
@@ -2137,6 +2148,16 @@
         "semantic.light.background.quaternary",
         "semantic.light.background.secondary",
         "semantic.light.background.tertiary",
+        "semantic.light.elevation.card.surface",
+        "semantic.light.elevation.dialog.surface",
+        "semantic.light.elevation.dropdown.surface",
+        "semantic.light.elevation.floating.surface",
+        "semantic.light.elevation.menu.surface",
+        "semantic.light.elevation.modal.surface",
+        "semantic.light.elevation.overlay.surface",
+        "semantic.light.elevation.popover.surface",
+        "semantic.light.elevation.raised.surface",
+        "semantic.light.elevation.tooltip.surface",
         "semantic.light.icon.on-brand",
         "semantic.light.icon.on-danger",
         "semantic.light.icon.on-emphasis",
@@ -2161,6 +2182,8 @@
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
         "semantic.dark.background.sunken",
+        "semantic.dark.elevation.sunken.surface",
+        "semantic.dark.elevation.well.surface",
         "semantic.dark.icon.on-brand",
         "semantic.dark.icon.on-danger",
         "semantic.dark.icon.on-emphasis",
@@ -2177,6 +2200,9 @@
         "semantic.dark.text.on-warning",
         "semantic.hc-dark.background.primary",
         "semantic.hc-dark.background.sunken",
+        "semantic.hc-dark.elevation.flat.surface",
+        "semantic.hc-dark.elevation.sunken.surface",
+        "semantic.hc-dark.elevation.well.surface",
         "semantic.hc-dark.icon.inverse",
         "semantic.hc-dark.icon.on-brand",
         "semantic.hc-dark.icon.on-danger",
@@ -2419,7 +2445,11 @@
       "aliased_by": [
         "semantic.hc-dark.border.strong",
         "semantic.hc-light.background.sunken",
-        "semantic.light.background.sunken"
+        "semantic.hc-light.elevation.sunken.surface",
+        "semantic.hc-light.elevation.well.surface",
+        "semantic.light.background.sunken",
+        "semantic.light.elevation.sunken.surface",
+        "semantic.light.elevation.well.surface"
       ]
     },
     "color.neutral.300": {
@@ -2574,8 +2604,16 @@
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
         "semantic.dark.background.quaternary",
+        "semantic.dark.elevation.dialog.surface",
+        "semantic.dark.elevation.floating.surface",
+        "semantic.dark.elevation.modal.surface",
+        "semantic.dark.elevation.tooltip.surface",
         "semantic.dark.foreground.tertiary",
         "semantic.hc-dark.background.quaternary",
+        "semantic.hc-dark.elevation.dialog.surface",
+        "semantic.hc-dark.elevation.floating.surface",
+        "semantic.hc-dark.elevation.modal.surface",
+        "semantic.hc-dark.elevation.tooltip.surface",
         "semantic.hc-dark.foreground.tertiary"
       ]
     },
@@ -2587,7 +2625,15 @@
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
         "semantic.dark.background.tertiary",
+        "semantic.dark.elevation.dropdown.surface",
+        "semantic.dark.elevation.menu.surface",
+        "semantic.dark.elevation.overlay.surface",
+        "semantic.dark.elevation.popover.surface",
         "semantic.hc-dark.background.tertiary",
+        "semantic.hc-dark.elevation.dropdown.surface",
+        "semantic.hc-dark.elevation.menu.surface",
+        "semantic.hc-dark.elevation.overlay.surface",
+        "semantic.hc-dark.elevation.popover.surface",
         "semantic.hc-light.background.inverse",
         "semantic.light.background.inverse",
         "semantic.light.border.inverse"
@@ -2602,9 +2648,13 @@
       "aliased_by": [
         "semantic.dark.background.secondary",
         "semantic.dark.background.subtle",
+        "semantic.dark.elevation.card.surface",
+        "semantic.dark.elevation.raised.surface",
         "semantic.dark.foreground.inverse",
         "semantic.hc-dark.background.secondary",
         "semantic.hc-dark.background.subtle",
+        "semantic.hc-dark.elevation.card.surface",
+        "semantic.hc-dark.elevation.raised.surface",
         "semantic.hc-dark.foreground.inverse"
       ]
     },
@@ -2616,6 +2666,7 @@
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
         "semantic.dark.background.primary",
+        "semantic.dark.elevation.flat.surface",
         "semantic.dark.icon.inverse",
         "semantic.dark.text.inverse",
         "semantic.hc-light.foreground.primary",
@@ -2648,6 +2699,7 @@
       "aliased_by": [
         "semantic.hc-light.foreground.inverse",
         "semantic.light.background.primary",
+        "semantic.light.elevation.flat.surface",
         "semantic.light.foreground.inverse"
       ]
     },
@@ -4420,7 +4472,17 @@
       "$description": "shadow sm — elevation 2 of 6, 2-layer (key+ambient)",
       "meaning": "Shadow / elevation composite — sm (2-layer, mode-aware)",
       "tier": "primitive",
-      "consume": "Consumable — apply the elevation step directly (mode-aware: light shadow / reduced in dark, surface lift carries dark elevation)."
+      "consume": "Consumable — apply the elevation step directly (mode-aware: light shadow / reduced in dark, surface lift carries dark elevation).",
+      "aliased_by": [
+        "semantic.dark.elevation.card.shadow",
+        "semantic.dark.elevation.raised.shadow",
+        "semantic.hc-dark.elevation.card.shadow",
+        "semantic.hc-dark.elevation.raised.shadow",
+        "semantic.hc-light.elevation.card.shadow",
+        "semantic.hc-light.elevation.raised.shadow",
+        "semantic.light.elevation.card.shadow",
+        "semantic.light.elevation.raised.shadow"
+      ]
     },
     "shadow.md": {
       "$description": "shadow md — elevation 3 of 6, 2-layer (key+ambient)",
@@ -4432,13 +4494,49 @@
       "$description": "shadow lg — elevation 4 of 6, 2-layer (key+ambient)",
       "meaning": "Shadow / elevation composite — lg (2-layer, mode-aware)",
       "tier": "primitive",
-      "consume": "Consumable — apply the elevation step directly (mode-aware: light shadow / reduced in dark, surface lift carries dark elevation)."
+      "consume": "Consumable — apply the elevation step directly (mode-aware: light shadow / reduced in dark, surface lift carries dark elevation).",
+      "aliased_by": [
+        "semantic.dark.elevation.dropdown.shadow",
+        "semantic.dark.elevation.menu.shadow",
+        "semantic.dark.elevation.overlay.shadow",
+        "semantic.dark.elevation.popover.shadow",
+        "semantic.hc-dark.elevation.dropdown.shadow",
+        "semantic.hc-dark.elevation.menu.shadow",
+        "semantic.hc-dark.elevation.overlay.shadow",
+        "semantic.hc-dark.elevation.popover.shadow",
+        "semantic.hc-light.elevation.dropdown.shadow",
+        "semantic.hc-light.elevation.menu.shadow",
+        "semantic.hc-light.elevation.overlay.shadow",
+        "semantic.hc-light.elevation.popover.shadow",
+        "semantic.light.elevation.dropdown.shadow",
+        "semantic.light.elevation.menu.shadow",
+        "semantic.light.elevation.overlay.shadow",
+        "semantic.light.elevation.popover.shadow"
+      ]
     },
     "shadow.xl": {
       "$description": "shadow xl — elevation 5 of 6, 2-layer (key+ambient)",
       "meaning": "Shadow / elevation composite — xl (2-layer, mode-aware)",
       "tier": "primitive",
-      "consume": "Consumable — apply the elevation step directly (mode-aware: light shadow / reduced in dark, surface lift carries dark elevation)."
+      "consume": "Consumable — apply the elevation step directly (mode-aware: light shadow / reduced in dark, surface lift carries dark elevation).",
+      "aliased_by": [
+        "semantic.dark.elevation.dialog.shadow",
+        "semantic.dark.elevation.floating.shadow",
+        "semantic.dark.elevation.modal.shadow",
+        "semantic.dark.elevation.tooltip.shadow",
+        "semantic.hc-dark.elevation.dialog.shadow",
+        "semantic.hc-dark.elevation.floating.shadow",
+        "semantic.hc-dark.elevation.modal.shadow",
+        "semantic.hc-dark.elevation.tooltip.shadow",
+        "semantic.hc-light.elevation.dialog.shadow",
+        "semantic.hc-light.elevation.floating.shadow",
+        "semantic.hc-light.elevation.modal.shadow",
+        "semantic.hc-light.elevation.tooltip.shadow",
+        "semantic.light.elevation.dialog.shadow",
+        "semantic.light.elevation.floating.shadow",
+        "semantic.light.elevation.modal.shadow",
+        "semantic.light.elevation.tooltip.shadow"
+      ]
     },
     "shadow.2xl": {
       "$description": "shadow 2xl — elevation 6 of 6, 2-layer (key+ambient)",
@@ -4450,7 +4548,17 @@
       "$description": "shadow inset — inner shadow for wells / pressed states / inputs",
       "meaning": "Shadow / elevation composite — inset (2-layer, mode-aware)",
       "tier": "primitive",
-      "consume": "Consumable — apply the elevation step directly (mode-aware: light shadow / reduced in dark, surface lift carries dark elevation)."
+      "consume": "Consumable — apply the elevation step directly (mode-aware: light shadow / reduced in dark, surface lift carries dark elevation).",
+      "aliased_by": [
+        "semantic.dark.elevation.sunken.shadow",
+        "semantic.dark.elevation.well.shadow",
+        "semantic.hc-dark.elevation.sunken.shadow",
+        "semantic.hc-dark.elevation.well.shadow",
+        "semantic.hc-light.elevation.sunken.shadow",
+        "semantic.hc-light.elevation.well.shadow",
+        "semantic.light.elevation.sunken.shadow",
+        "semantic.light.elevation.well.shadow"
+      ]
     },
     "dimension.0": {
       "$description": "0px — dimension primitive",

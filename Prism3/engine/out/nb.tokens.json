@@ -3618,6 +3618,334 @@
               }
             }
           }
+        },
+        "elevation": {
+          "sunken": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.light.background.sunken}",
+              "$description": "elevation sunken surface — background.sunken (light)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.light.background.sunken",
+                  "elevation": "sunken"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.shadow.inset}",
+              "$description": "elevation sunken shadow — shadow.inset",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.shadow.inset",
+                  "elevation": "sunken"
+                }
+              }
+            }
+          },
+          "flat": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.light.background.primary}",
+              "$description": "elevation flat surface — background.primary (light)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.light.background.primary",
+                  "elevation": "flat"
+                }
+              }
+            }
+          },
+          "raised": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.light.background.secondary}",
+              "$description": "elevation raised surface — background.secondary (light)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.light.background.secondary",
+                  "elevation": "raised"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.shadow.sm}",
+              "$description": "elevation raised shadow — shadow.sm",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.shadow.sm",
+                  "elevation": "raised"
+                }
+              }
+            }
+          },
+          "overlay": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.light.background.tertiary}",
+              "$description": "elevation overlay surface — background.tertiary (light)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.light.background.tertiary",
+                  "elevation": "overlay"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.shadow.lg}",
+              "$description": "elevation overlay shadow — shadow.lg",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.shadow.lg",
+                  "elevation": "overlay"
+                }
+              }
+            }
+          },
+          "floating": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.light.background.quaternary}",
+              "$description": "elevation floating surface — background.quaternary (light)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.light.background.quaternary",
+                  "elevation": "floating"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.shadow.xl}",
+              "$description": "elevation floating shadow — shadow.xl",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.shadow.xl",
+                  "elevation": "floating"
+                }
+              }
+            }
+          },
+          "card": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.light.elevation.raised.surface}",
+              "$description": "card → elevation.raised surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.light.elevation.raised.surface",
+                  "component": "card"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.semantic.light.elevation.raised.shadow}",
+              "$description": "card → elevation.raised shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.light.elevation.raised.shadow",
+                  "component": "card"
+                }
+              }
+            }
+          },
+          "dropdown": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.light.elevation.overlay.surface}",
+              "$description": "dropdown → elevation.overlay surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.light.elevation.overlay.surface",
+                  "component": "dropdown"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.semantic.light.elevation.overlay.shadow}",
+              "$description": "dropdown → elevation.overlay shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.light.elevation.overlay.shadow",
+                  "component": "dropdown"
+                }
+              }
+            }
+          },
+          "popover": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.light.elevation.overlay.surface}",
+              "$description": "popover → elevation.overlay surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.light.elevation.overlay.surface",
+                  "component": "popover"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.semantic.light.elevation.overlay.shadow}",
+              "$description": "popover → elevation.overlay shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.light.elevation.overlay.shadow",
+                  "component": "popover"
+                }
+              }
+            }
+          },
+          "menu": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.light.elevation.overlay.surface}",
+              "$description": "menu → elevation.overlay surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.light.elevation.overlay.surface",
+                  "component": "menu"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.semantic.light.elevation.overlay.shadow}",
+              "$description": "menu → elevation.overlay shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.light.elevation.overlay.shadow",
+                  "component": "menu"
+                }
+              }
+            }
+          },
+          "dialog": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.light.elevation.floating.surface}",
+              "$description": "dialog → elevation.floating surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.light.elevation.floating.surface",
+                  "component": "dialog"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.semantic.light.elevation.floating.shadow}",
+              "$description": "dialog → elevation.floating shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.light.elevation.floating.shadow",
+                  "component": "dialog"
+                }
+              }
+            }
+          },
+          "modal": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.light.elevation.floating.surface}",
+              "$description": "modal → elevation.floating surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.light.elevation.floating.surface",
+                  "component": "modal"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.semantic.light.elevation.floating.shadow}",
+              "$description": "modal → elevation.floating shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.light.elevation.floating.shadow",
+                  "component": "modal"
+                }
+              }
+            }
+          },
+          "tooltip": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.light.elevation.floating.surface}",
+              "$description": "tooltip → elevation.floating surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.light.elevation.floating.surface",
+                  "component": "tooltip"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.semantic.light.elevation.floating.shadow}",
+              "$description": "tooltip → elevation.floating shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.light.elevation.floating.shadow",
+                  "component": "tooltip"
+                }
+              }
+            }
+          },
+          "well": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.light.elevation.sunken.surface}",
+              "$description": "well → elevation.sunken surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.light.elevation.sunken.surface",
+                  "component": "well"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.semantic.light.elevation.sunken.shadow}",
+              "$description": "well → elevation.sunken shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.light.elevation.sunken.shadow",
+                  "component": "well"
+                }
+              }
+            }
+          }
         }
       },
       "dark": {
@@ -4951,6 +5279,334 @@
                   "contrast": 3.54,
                   "against": "background.primary",
                   "min": 3
+                }
+              }
+            }
+          }
+        },
+        "elevation": {
+          "sunken": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.dark.background.sunken}",
+              "$description": "elevation sunken surface — background.sunken (dark)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.dark.background.sunken",
+                  "elevation": "sunken"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.shadow.inset}",
+              "$description": "elevation sunken shadow — shadow.inset",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.shadow.inset",
+                  "elevation": "sunken"
+                }
+              }
+            }
+          },
+          "flat": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.dark.background.primary}",
+              "$description": "elevation flat surface — background.primary (dark)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.dark.background.primary",
+                  "elevation": "flat"
+                }
+              }
+            }
+          },
+          "raised": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.dark.background.secondary}",
+              "$description": "elevation raised surface — background.secondary (dark)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.dark.background.secondary",
+                  "elevation": "raised"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.shadow.sm}",
+              "$description": "elevation raised shadow — shadow.sm",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.shadow.sm",
+                  "elevation": "raised"
+                }
+              }
+            }
+          },
+          "overlay": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.dark.background.tertiary}",
+              "$description": "elevation overlay surface — background.tertiary (dark)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.dark.background.tertiary",
+                  "elevation": "overlay"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.shadow.lg}",
+              "$description": "elevation overlay shadow — shadow.lg",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.shadow.lg",
+                  "elevation": "overlay"
+                }
+              }
+            }
+          },
+          "floating": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.dark.background.quaternary}",
+              "$description": "elevation floating surface — background.quaternary (dark)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.dark.background.quaternary",
+                  "elevation": "floating"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.shadow.xl}",
+              "$description": "elevation floating shadow — shadow.xl",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.shadow.xl",
+                  "elevation": "floating"
+                }
+              }
+            }
+          },
+          "card": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.dark.elevation.raised.surface}",
+              "$description": "card → elevation.raised surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.dark.elevation.raised.surface",
+                  "component": "card"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.semantic.dark.elevation.raised.shadow}",
+              "$description": "card → elevation.raised shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.dark.elevation.raised.shadow",
+                  "component": "card"
+                }
+              }
+            }
+          },
+          "dropdown": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.dark.elevation.overlay.surface}",
+              "$description": "dropdown → elevation.overlay surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.dark.elevation.overlay.surface",
+                  "component": "dropdown"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.semantic.dark.elevation.overlay.shadow}",
+              "$description": "dropdown → elevation.overlay shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.dark.elevation.overlay.shadow",
+                  "component": "dropdown"
+                }
+              }
+            }
+          },
+          "popover": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.dark.elevation.overlay.surface}",
+              "$description": "popover → elevation.overlay surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.dark.elevation.overlay.surface",
+                  "component": "popover"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.semantic.dark.elevation.overlay.shadow}",
+              "$description": "popover → elevation.overlay shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.dark.elevation.overlay.shadow",
+                  "component": "popover"
+                }
+              }
+            }
+          },
+          "menu": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.dark.elevation.overlay.surface}",
+              "$description": "menu → elevation.overlay surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.dark.elevation.overlay.surface",
+                  "component": "menu"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.semantic.dark.elevation.overlay.shadow}",
+              "$description": "menu → elevation.overlay shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.dark.elevation.overlay.shadow",
+                  "component": "menu"
+                }
+              }
+            }
+          },
+          "dialog": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.dark.elevation.floating.surface}",
+              "$description": "dialog → elevation.floating surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.dark.elevation.floating.surface",
+                  "component": "dialog"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.semantic.dark.elevation.floating.shadow}",
+              "$description": "dialog → elevation.floating shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.dark.elevation.floating.shadow",
+                  "component": "dialog"
+                }
+              }
+            }
+          },
+          "modal": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.dark.elevation.floating.surface}",
+              "$description": "modal → elevation.floating surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.dark.elevation.floating.surface",
+                  "component": "modal"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.semantic.dark.elevation.floating.shadow}",
+              "$description": "modal → elevation.floating shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.dark.elevation.floating.shadow",
+                  "component": "modal"
+                }
+              }
+            }
+          },
+          "tooltip": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.dark.elevation.floating.surface}",
+              "$description": "tooltip → elevation.floating surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.dark.elevation.floating.surface",
+                  "component": "tooltip"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.semantic.dark.elevation.floating.shadow}",
+              "$description": "tooltip → elevation.floating shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.dark.elevation.floating.shadow",
+                  "component": "tooltip"
+                }
+              }
+            }
+          },
+          "well": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.dark.elevation.sunken.surface}",
+              "$description": "well → elevation.sunken surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.dark.elevation.sunken.surface",
+                  "component": "well"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.semantic.dark.elevation.sunken.shadow}",
+              "$description": "well → elevation.sunken shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.dark.elevation.sunken.shadow",
+                  "component": "well"
                 }
               }
             }
@@ -6292,6 +6948,334 @@
               }
             }
           }
+        },
+        "elevation": {
+          "sunken": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.hc-light.background.sunken}",
+              "$description": "elevation sunken surface — background.sunken (hc-light)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-light.background.sunken",
+                  "elevation": "sunken"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.shadow.inset}",
+              "$description": "elevation sunken shadow — shadow.inset",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.shadow.inset",
+                  "elevation": "sunken"
+                }
+              }
+            }
+          },
+          "flat": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.hc-light.background.primary}",
+              "$description": "elevation flat surface — background.primary (hc-light)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-light.background.primary",
+                  "elevation": "flat"
+                }
+              }
+            }
+          },
+          "raised": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.hc-light.background.secondary}",
+              "$description": "elevation raised surface — background.secondary (hc-light)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-light.background.secondary",
+                  "elevation": "raised"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.shadow.sm}",
+              "$description": "elevation raised shadow — shadow.sm",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.shadow.sm",
+                  "elevation": "raised"
+                }
+              }
+            }
+          },
+          "overlay": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.hc-light.background.tertiary}",
+              "$description": "elevation overlay surface — background.tertiary (hc-light)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-light.background.tertiary",
+                  "elevation": "overlay"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.shadow.lg}",
+              "$description": "elevation overlay shadow — shadow.lg",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.shadow.lg",
+                  "elevation": "overlay"
+                }
+              }
+            }
+          },
+          "floating": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.hc-light.background.quaternary}",
+              "$description": "elevation floating surface — background.quaternary (hc-light)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-light.background.quaternary",
+                  "elevation": "floating"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.shadow.xl}",
+              "$description": "elevation floating shadow — shadow.xl",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.shadow.xl",
+                  "elevation": "floating"
+                }
+              }
+            }
+          },
+          "card": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.hc-light.elevation.raised.surface}",
+              "$description": "card → elevation.raised surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-light.elevation.raised.surface",
+                  "component": "card"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.semantic.hc-light.elevation.raised.shadow}",
+              "$description": "card → elevation.raised shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-light.elevation.raised.shadow",
+                  "component": "card"
+                }
+              }
+            }
+          },
+          "dropdown": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.hc-light.elevation.overlay.surface}",
+              "$description": "dropdown → elevation.overlay surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-light.elevation.overlay.surface",
+                  "component": "dropdown"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.semantic.hc-light.elevation.overlay.shadow}",
+              "$description": "dropdown → elevation.overlay shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-light.elevation.overlay.shadow",
+                  "component": "dropdown"
+                }
+              }
+            }
+          },
+          "popover": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.hc-light.elevation.overlay.surface}",
+              "$description": "popover → elevation.overlay surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-light.elevation.overlay.surface",
+                  "component": "popover"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.semantic.hc-light.elevation.overlay.shadow}",
+              "$description": "popover → elevation.overlay shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-light.elevation.overlay.shadow",
+                  "component": "popover"
+                }
+              }
+            }
+          },
+          "menu": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.hc-light.elevation.overlay.surface}",
+              "$description": "menu → elevation.overlay surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-light.elevation.overlay.surface",
+                  "component": "menu"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.semantic.hc-light.elevation.overlay.shadow}",
+              "$description": "menu → elevation.overlay shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-light.elevation.overlay.shadow",
+                  "component": "menu"
+                }
+              }
+            }
+          },
+          "dialog": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.hc-light.elevation.floating.surface}",
+              "$description": "dialog → elevation.floating surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-light.elevation.floating.surface",
+                  "component": "dialog"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.semantic.hc-light.elevation.floating.shadow}",
+              "$description": "dialog → elevation.floating shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-light.elevation.floating.shadow",
+                  "component": "dialog"
+                }
+              }
+            }
+          },
+          "modal": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.hc-light.elevation.floating.surface}",
+              "$description": "modal → elevation.floating surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-light.elevation.floating.surface",
+                  "component": "modal"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.semantic.hc-light.elevation.floating.shadow}",
+              "$description": "modal → elevation.floating shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-light.elevation.floating.shadow",
+                  "component": "modal"
+                }
+              }
+            }
+          },
+          "tooltip": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.hc-light.elevation.floating.surface}",
+              "$description": "tooltip → elevation.floating surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-light.elevation.floating.surface",
+                  "component": "tooltip"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.semantic.hc-light.elevation.floating.shadow}",
+              "$description": "tooltip → elevation.floating shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-light.elevation.floating.shadow",
+                  "component": "tooltip"
+                }
+              }
+            }
+          },
+          "well": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.hc-light.elevation.sunken.surface}",
+              "$description": "well → elevation.sunken surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-light.elevation.sunken.surface",
+                  "component": "well"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.semantic.hc-light.elevation.sunken.shadow}",
+              "$description": "well → elevation.sunken shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-light.elevation.sunken.shadow",
+                  "component": "well"
+                }
+              }
+            }
+          }
         }
       },
       "hc-dark": {
@@ -7625,6 +8609,334 @@
                   "contrast": 4.57,
                   "against": "background.primary",
                   "min": 4.5
+                }
+              }
+            }
+          }
+        },
+        "elevation": {
+          "sunken": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.hc-dark.background.sunken}",
+              "$description": "elevation sunken surface — background.sunken (hc-dark)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-dark.background.sunken",
+                  "elevation": "sunken"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.shadow.inset}",
+              "$description": "elevation sunken shadow — shadow.inset",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.shadow.inset",
+                  "elevation": "sunken"
+                }
+              }
+            }
+          },
+          "flat": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.hc-dark.background.primary}",
+              "$description": "elevation flat surface — background.primary (hc-dark)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-dark.background.primary",
+                  "elevation": "flat"
+                }
+              }
+            }
+          },
+          "raised": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.hc-dark.background.secondary}",
+              "$description": "elevation raised surface — background.secondary (hc-dark)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-dark.background.secondary",
+                  "elevation": "raised"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.shadow.sm}",
+              "$description": "elevation raised shadow — shadow.sm",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.shadow.sm",
+                  "elevation": "raised"
+                }
+              }
+            }
+          },
+          "overlay": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.hc-dark.background.tertiary}",
+              "$description": "elevation overlay surface — background.tertiary (hc-dark)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-dark.background.tertiary",
+                  "elevation": "overlay"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.shadow.lg}",
+              "$description": "elevation overlay shadow — shadow.lg",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.shadow.lg",
+                  "elevation": "overlay"
+                }
+              }
+            }
+          },
+          "floating": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.hc-dark.background.quaternary}",
+              "$description": "elevation floating surface — background.quaternary (hc-dark)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-dark.background.quaternary",
+                  "elevation": "floating"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.shadow.xl}",
+              "$description": "elevation floating shadow — shadow.xl",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.shadow.xl",
+                  "elevation": "floating"
+                }
+              }
+            }
+          },
+          "card": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.hc-dark.elevation.raised.surface}",
+              "$description": "card → elevation.raised surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-dark.elevation.raised.surface",
+                  "component": "card"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.semantic.hc-dark.elevation.raised.shadow}",
+              "$description": "card → elevation.raised shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-dark.elevation.raised.shadow",
+                  "component": "card"
+                }
+              }
+            }
+          },
+          "dropdown": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.hc-dark.elevation.overlay.surface}",
+              "$description": "dropdown → elevation.overlay surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-dark.elevation.overlay.surface",
+                  "component": "dropdown"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.semantic.hc-dark.elevation.overlay.shadow}",
+              "$description": "dropdown → elevation.overlay shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-dark.elevation.overlay.shadow",
+                  "component": "dropdown"
+                }
+              }
+            }
+          },
+          "popover": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.hc-dark.elevation.overlay.surface}",
+              "$description": "popover → elevation.overlay surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-dark.elevation.overlay.surface",
+                  "component": "popover"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.semantic.hc-dark.elevation.overlay.shadow}",
+              "$description": "popover → elevation.overlay shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-dark.elevation.overlay.shadow",
+                  "component": "popover"
+                }
+              }
+            }
+          },
+          "menu": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.hc-dark.elevation.overlay.surface}",
+              "$description": "menu → elevation.overlay surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-dark.elevation.overlay.surface",
+                  "component": "menu"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.semantic.hc-dark.elevation.overlay.shadow}",
+              "$description": "menu → elevation.overlay shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-dark.elevation.overlay.shadow",
+                  "component": "menu"
+                }
+              }
+            }
+          },
+          "dialog": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.hc-dark.elevation.floating.surface}",
+              "$description": "dialog → elevation.floating surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-dark.elevation.floating.surface",
+                  "component": "dialog"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.semantic.hc-dark.elevation.floating.shadow}",
+              "$description": "dialog → elevation.floating shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-dark.elevation.floating.shadow",
+                  "component": "dialog"
+                }
+              }
+            }
+          },
+          "modal": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.hc-dark.elevation.floating.surface}",
+              "$description": "modal → elevation.floating surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-dark.elevation.floating.surface",
+                  "component": "modal"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.semantic.hc-dark.elevation.floating.shadow}",
+              "$description": "modal → elevation.floating shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-dark.elevation.floating.shadow",
+                  "component": "modal"
+                }
+              }
+            }
+          },
+          "tooltip": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.hc-dark.elevation.floating.surface}",
+              "$description": "tooltip → elevation.floating surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-dark.elevation.floating.surface",
+                  "component": "tooltip"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.semantic.hc-dark.elevation.floating.shadow}",
+              "$description": "tooltip → elevation.floating shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-dark.elevation.floating.shadow",
+                  "component": "tooltip"
+                }
+              }
+            }
+          },
+          "well": {
+            "surface": {
+              "$type": "color",
+              "$value": "{nbds.semantic.hc-dark.elevation.sunken.surface}",
+              "$description": "well → elevation.sunken surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-dark.elevation.sunken.surface",
+                  "component": "well"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{nbds.semantic.hc-dark.elevation.sunken.shadow}",
+              "$description": "well → elevation.sunken shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.semantic.hc-dark.elevation.sunken.shadow",
+                  "component": "well"
                 }
               }
             }
