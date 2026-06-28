@@ -142,6 +142,7 @@ const CONSUME: Record<string, string> = {
   dimension: 'Private primitive — reference via space / radius / size / border-width / focus.',
   opacity: 'Consumable — reference directly for custom alpha (or use the scrim / disabled tokens).',
   motion: 'Consumable — motion durations/easings/springs are used directly; transitions compose them.',
+  font: 'Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.',
 };
 const primMeaning = (seg: string[]): string => {
   if (seg[0] === 'color') {
@@ -153,6 +154,14 @@ const primMeaning = (seg: string[]): string => {
   if (seg[0] === 'opacity') return 'Opacity scale primitive';
   if (seg[0] === 'dimension') return `${seg[1]}px grid primitive`;
   if (seg[0] === 'motion') return seg[1] === 'easing' ? 'Easing curve primitive (cubic-bezier)' : seg[1] === 'spring' ? 'Spring primitive (damping / stiffness)' : seg[1] === 'stagger' ? 'Stagger delay primitive' : 'Motion duration primitive';
+  if (seg[0] === 'font') {
+    if (seg[1] === 'family') return `Font family stack — ${seg[2]} role`;
+    if (seg[1] === 'size') return `Font size primitive — ${seg[2]}px (rem)`;
+    if (seg[1] === 'weight') return `Font weight primitive — numeric ${seg[2]} (reference tier)`;
+    if (seg[1] === 'line-height') return `Line-height multiplier — ${seg[2]} (unitless)`;
+    if (seg[1] === 'letter-spacing') return `Letter-spacing primitive — ${seg[2]} (em)`;
+    return 'Typography primitive';
+  }
   return `${seg[0]} primitive`;
 };
 

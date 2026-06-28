@@ -8904,6 +8904,893 @@
         }
       }
     },
+    "font": {
+      "family": {
+        "display": {
+          "$type": "fontFamily",
+          "$value": [
+            "Clash Display",
+            "system-ui",
+            "-apple-system",
+            "Segoe UI",
+            "Roboto",
+            "Helvetica",
+            "Arial",
+            "sans-serif"
+          ],
+          "$description": "font family — display (Clash Display) [variable font]",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "variable": true,
+              "figma": {
+                "kind": "style-part",
+                "field": "fontFamily",
+                "scope": "FONT_FAMILY"
+              }
+            }
+          }
+        },
+        "text": {
+          "$type": "fontFamily",
+          "$value": [
+            "Inter",
+            "system-ui",
+            "-apple-system",
+            "Segoe UI",
+            "Roboto",
+            "Helvetica",
+            "Arial",
+            "sans-serif"
+          ],
+          "$description": "font family — text (Inter) [variable font]",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "variable": true,
+              "figma": {
+                "kind": "style-part",
+                "field": "fontFamily",
+                "scope": "FONT_FAMILY"
+              }
+            }
+          }
+        },
+        "mono": {
+          "$type": "fontFamily",
+          "$value": [
+            "JetBrains Mono",
+            "ui-monospace",
+            "SFMono-Regular",
+            "Menlo",
+            "Consolas",
+            "Liberation Mono",
+            "monospace"
+          ],
+          "$description": "font family — mono (JetBrains Mono) [variable font]",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "variable": true,
+              "figma": {
+                "kind": "style-part",
+                "field": "fontFamily",
+                "scope": "FONT_FAMILY"
+              }
+            }
+          }
+        }
+      },
+      "size": {
+        "10": {
+          "$type": "dimension",
+          "$value": "0.625rem",
+          "$description": "font size 10px (0.625rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 10,
+              "rem": 0.625,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 10
+              }
+            }
+          }
+        },
+        "11": {
+          "$type": "dimension",
+          "$value": "0.6875rem",
+          "$description": "font size 11px (0.6875rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 11,
+              "rem": 0.6875,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 11
+              }
+            }
+          }
+        },
+        "12": {
+          "$type": "dimension",
+          "$value": "0.75rem",
+          "$description": "font size 12px (0.75rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 12,
+              "rem": 0.75,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 12
+              }
+            }
+          }
+        },
+        "14": {
+          "$type": "dimension",
+          "$value": "0.875rem",
+          "$description": "font size 14px (0.875rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 14,
+              "rem": 0.875,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 14
+              }
+            }
+          }
+        },
+        "16": {
+          "$type": "dimension",
+          "$value": "1rem",
+          "$description": "font size 16px (1rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 16,
+              "rem": 1,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 16
+              }
+            }
+          }
+        },
+        "18": {
+          "$type": "dimension",
+          "$value": "1.125rem",
+          "$description": "font size 18px (1.125rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 18,
+              "rem": 1.125,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 18
+              }
+            }
+          }
+        },
+        "20": {
+          "$type": "dimension",
+          "$value": "1.25rem",
+          "$description": "font size 20px (1.25rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 20,
+              "rem": 1.25,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 20
+              }
+            }
+          }
+        },
+        "24": {
+          "$type": "dimension",
+          "$value": "1.5rem",
+          "$description": "font size 24px (1.5rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 24,
+              "rem": 1.5,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 24
+              }
+            }
+          }
+        },
+        "28": {
+          "$type": "dimension",
+          "$value": "1.75rem",
+          "$description": "font size 28px (1.75rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 28,
+              "rem": 1.75,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 28
+              }
+            }
+          }
+        },
+        "32": {
+          "$type": "dimension",
+          "$value": "2rem",
+          "$description": "font size 32px (2rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 32,
+              "rem": 2,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 32
+              }
+            }
+          }
+        },
+        "36": {
+          "$type": "dimension",
+          "$value": "2.25rem",
+          "$description": "font size 36px (2.25rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 36,
+              "rem": 2.25,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 36
+              }
+            }
+          }
+        },
+        "40": {
+          "$type": "dimension",
+          "$value": "2.5rem",
+          "$description": "font size 40px (2.5rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 40,
+              "rem": 2.5,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 40
+              }
+            }
+          }
+        },
+        "48": {
+          "$type": "dimension",
+          "$value": "3rem",
+          "$description": "font size 48px (3rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 48,
+              "rem": 3,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 48
+              }
+            }
+          }
+        },
+        "56": {
+          "$type": "dimension",
+          "$value": "3.5rem",
+          "$description": "font size 56px (3.5rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 56,
+              "rem": 3.5,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 56
+              }
+            }
+          }
+        },
+        "64": {
+          "$type": "dimension",
+          "$value": "4rem",
+          "$description": "font size 64px (4rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 64,
+              "rem": 4,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 64
+              }
+            }
+          }
+        },
+        "72": {
+          "$type": "dimension",
+          "$value": "4.5rem",
+          "$description": "font size 72px (4.5rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 72,
+              "rem": 4.5,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 72
+              }
+            }
+          }
+        },
+        "80": {
+          "$type": "dimension",
+          "$value": "5rem",
+          "$description": "font size 80px (5rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 80,
+              "rem": 5,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 80
+              }
+            }
+          }
+        },
+        "96": {
+          "$type": "dimension",
+          "$value": "6rem",
+          "$description": "font size 96px (6rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 96,
+              "rem": 6,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 96
+              }
+            }
+          }
+        },
+        "112": {
+          "$type": "dimension",
+          "$value": "7rem",
+          "$description": "font size 112px (7rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 112,
+              "rem": 7,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 112
+              }
+            }
+          }
+        },
+        "128": {
+          "$type": "dimension",
+          "$value": "8rem",
+          "$description": "font size 128px (8rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 128,
+              "rem": 8,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 128
+              }
+            }
+          }
+        },
+        "144": {
+          "$type": "dimension",
+          "$value": "9rem",
+          "$description": "font size 144px (9rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 144,
+              "rem": 9,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 144
+              }
+            }
+          }
+        },
+        "160": {
+          "$type": "dimension",
+          "$value": "10rem",
+          "$description": "font size 160px (10rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 160,
+              "rem": 10,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 160
+              }
+            }
+          }
+        }
+      },
+      "weight": {
+        "100": {
+          "$type": "fontWeight",
+          "$value": 100,
+          "$description": "font weight 100 — numeric reference (the brand's literal axis value)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "figma": {
+                "kind": "variable",
+                "field": "fontWeight",
+                "scope": "FONT_WEIGHT"
+              }
+            }
+          }
+        },
+        "200": {
+          "$type": "fontWeight",
+          "$value": 200,
+          "$description": "font weight 200 — numeric reference (the brand's literal axis value)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "figma": {
+                "kind": "variable",
+                "field": "fontWeight",
+                "scope": "FONT_WEIGHT"
+              }
+            }
+          }
+        },
+        "300": {
+          "$type": "fontWeight",
+          "$value": 300,
+          "$description": "font weight 300 — numeric reference (the brand's literal axis value)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "figma": {
+                "kind": "variable",
+                "field": "fontWeight",
+                "scope": "FONT_WEIGHT"
+              }
+            }
+          }
+        },
+        "400": {
+          "$type": "fontWeight",
+          "$value": 400,
+          "$description": "font weight 400 — numeric reference (the brand's literal axis value)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "figma": {
+                "kind": "variable",
+                "field": "fontWeight",
+                "scope": "FONT_WEIGHT"
+              }
+            }
+          }
+        },
+        "500": {
+          "$type": "fontWeight",
+          "$value": 500,
+          "$description": "font weight 500 — numeric reference (the brand's literal axis value)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "figma": {
+                "kind": "variable",
+                "field": "fontWeight",
+                "scope": "FONT_WEIGHT"
+              }
+            }
+          }
+        },
+        "600": {
+          "$type": "fontWeight",
+          "$value": 600,
+          "$description": "font weight 600 — numeric reference (the brand's literal axis value)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "figma": {
+                "kind": "variable",
+                "field": "fontWeight",
+                "scope": "FONT_WEIGHT"
+              }
+            }
+          }
+        },
+        "700": {
+          "$type": "fontWeight",
+          "$value": 700,
+          "$description": "font weight 700 — numeric reference (the brand's literal axis value)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "figma": {
+                "kind": "variable",
+                "field": "fontWeight",
+                "scope": "FONT_WEIGHT"
+              }
+            }
+          }
+        },
+        "800": {
+          "$type": "fontWeight",
+          "$value": 800,
+          "$description": "font weight 800 — numeric reference (the brand's literal axis value)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "figma": {
+                "kind": "variable",
+                "field": "fontWeight",
+                "scope": "FONT_WEIGHT"
+              }
+            }
+          }
+        },
+        "900": {
+          "$type": "fontWeight",
+          "$value": 900,
+          "$description": "font weight 900 — numeric reference (the brand's literal axis value)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "figma": {
+                "kind": "variable",
+                "field": "fontWeight",
+                "scope": "FONT_WEIGHT"
+              }
+            }
+          }
+        }
+      },
+      "weight-role": {
+        "subtle": {
+          "$type": "fontWeight",
+          "$value": "{prism.font.weight.300}",
+          "$description": "weight role 'subtle' → 300 — function-named, white-label-stable (the brand maps the numeric; a 2-weight brand collapses roles)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.font.weight.300",
+              "numeric": 300
+            }
+          }
+        },
+        "default": {
+          "$type": "fontWeight",
+          "$value": "{prism.font.weight.400}",
+          "$description": "weight role 'default' → 400 — function-named, white-label-stable (the brand maps the numeric; a 2-weight brand collapses roles)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.font.weight.400",
+              "numeric": 400
+            }
+          }
+        },
+        "emphasis": {
+          "$type": "fontWeight",
+          "$value": "{prism.font.weight.500}",
+          "$description": "weight role 'emphasis' → 500 — function-named, white-label-stable (the brand maps the numeric; a 2-weight brand collapses roles)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.font.weight.500",
+              "numeric": 500
+            }
+          }
+        },
+        "strong": {
+          "$type": "fontWeight",
+          "$value": "{prism.font.weight.700}",
+          "$description": "weight role 'strong' → 700 — function-named, white-label-stable (the brand maps the numeric; a 2-weight brand collapses roles)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.font.weight.700",
+              "numeric": 700
+            }
+          }
+        }
+      },
+      "line-height": {
+        "tight": {
+          "$type": "number",
+          "$value": 1.05,
+          "$description": "line height tight — 1.05× (unitless multiplier)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "unitless": true,
+              "figma": {
+                "kind": "style-part",
+                "field": "lineHeight",
+                "unit": "px-from-ratio",
+                "basis": "fontSize",
+                "note": "Figma binds line-height as px; multiply by the bound fontSize per mode"
+              }
+            }
+          }
+        },
+        "snug": {
+          "$type": "number",
+          "$value": 1.15,
+          "$description": "line height snug — 1.15× (unitless multiplier)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "unitless": true,
+              "figma": {
+                "kind": "style-part",
+                "field": "lineHeight",
+                "unit": "px-from-ratio",
+                "basis": "fontSize",
+                "note": "Figma binds line-height as px; multiply by the bound fontSize per mode"
+              }
+            }
+          }
+        },
+        "compact": {
+          "$type": "number",
+          "$value": 1.25,
+          "$description": "line height compact — 1.25× (unitless multiplier)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "unitless": true,
+              "figma": {
+                "kind": "style-part",
+                "field": "lineHeight",
+                "unit": "px-from-ratio",
+                "basis": "fontSize",
+                "note": "Figma binds line-height as px; multiply by the bound fontSize per mode"
+              }
+            }
+          }
+        },
+        "normal": {
+          "$type": "number",
+          "$value": 1.5,
+          "$description": "line height normal — 1.5× (unitless multiplier)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "unitless": true,
+              "figma": {
+                "kind": "style-part",
+                "field": "lineHeight",
+                "unit": "px-from-ratio",
+                "basis": "fontSize",
+                "note": "Figma binds line-height as px; multiply by the bound fontSize per mode"
+              }
+            }
+          }
+        },
+        "relaxed": {
+          "$type": "number",
+          "$value": 1.65,
+          "$description": "line height relaxed — 1.65× (unitless multiplier)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "unitless": true,
+              "figma": {
+                "kind": "style-part",
+                "field": "lineHeight",
+                "unit": "px-from-ratio",
+                "basis": "fontSize",
+                "note": "Figma binds line-height as px; multiply by the bound fontSize per mode"
+              }
+            }
+          }
+        },
+        "loose": {
+          "$type": "number",
+          "$value": 1.75,
+          "$description": "line height loose — 1.75× (unitless multiplier)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "unitless": true,
+              "figma": {
+                "kind": "style-part",
+                "field": "lineHeight",
+                "unit": "px-from-ratio",
+                "basis": "fontSize",
+                "note": "Figma binds line-height as px; multiply by the bound fontSize per mode"
+              }
+            }
+          }
+        }
+      },
+      "letter-spacing": {
+        "tight": {
+          "$type": "dimension",
+          "$value": "-0.02em",
+          "$description": "letter spacing tight — -0.02em",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "em": -0.02,
+              "figma": {
+                "kind": "style-part",
+                "field": "letterSpacing",
+                "unit": "px-from-em",
+                "basis": "fontSize",
+                "note": "Figma binds letter-spacing as px; multiply em by the bound fontSize"
+              }
+            }
+          }
+        },
+        "snug": {
+          "$type": "dimension",
+          "$value": "-0.01em",
+          "$description": "letter spacing snug — -0.01em",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "em": -0.01,
+              "figma": {
+                "kind": "style-part",
+                "field": "letterSpacing",
+                "unit": "px-from-em",
+                "basis": "fontSize",
+                "note": "Figma binds letter-spacing as px; multiply em by the bound fontSize"
+              }
+            }
+          }
+        },
+        "normal": {
+          "$type": "dimension",
+          "$value": "0em",
+          "$description": "letter spacing normal — 0em",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "em": 0,
+              "figma": {
+                "kind": "style-part",
+                "field": "letterSpacing",
+                "unit": "px-from-em",
+                "basis": "fontSize",
+                "note": "Figma binds letter-spacing as px; multiply em by the bound fontSize"
+              }
+            }
+          }
+        },
+        "wide": {
+          "$type": "dimension",
+          "$value": "0.02em",
+          "$description": "letter spacing wide — 0.02em",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "em": 0.02,
+              "figma": {
+                "kind": "style-part",
+                "field": "letterSpacing",
+                "unit": "px-from-em",
+                "basis": "fontSize",
+                "note": "Figma binds letter-spacing as px; multiply em by the bound fontSize"
+              }
+            }
+          }
+        },
+        "wider": {
+          "$type": "dimension",
+          "$value": "0.05em",
+          "$description": "letter spacing wider — 0.05em",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "em": 0.05,
+              "figma": {
+                "kind": "style-part",
+                "field": "letterSpacing",
+                "unit": "px-from-em",
+                "basis": "fontSize",
+                "note": "Figma binds letter-spacing as px; multiply em by the bound fontSize"
+              }
+            }
+          }
+        }
+      }
+    },
     "dimension": {
       "0": {
         "$type": "dimension",
@@ -9896,6 +10783,7 @@
         "danger: primary hue 285 is NOT red → carved a dedicated danger red at hue 27",
         "dimension axis: 4px grid, 8px space rhythm, density 'compact' (drives component sizes), radius scale 2 (baseMd 4px)",
         "motion: tempo 'snappy' scales the duration ramp; easing roles + springs + composite transitions generated; reduce-motion variants derived (informational preserved, vestibular → 0)",
+        "typography: curated rem size ladder (22 steps, 10–160px — NOT ratio-derived; covers all bases, clean values); weight roles subtle/default/emphasis/strong → 300/400/500/700; families display=Clash Display, text=Inter, mono=JetBrains Mono (variable); typeScale 'expressive'. Line-height unitless multiplier in $value; px-from-ratio materialization for Figma in $extensions.",
         "disabled: 'accessible' — disabled text/icon/border clears 3:1 on the floor (legible, contrast-preserving; the field-rare default). Set disabledStrategy:'conventional' for the sub-AA exempt look.",
         "light primary surface is NON-default (neutral.50) — CONFIRM this is the page colour; the contrast floor moves with it"
       ]

@@ -69,6 +69,7 @@ export type Theme = {
   iconContrast: 'text' | '3:1';
   dims: Dims;
   motion: MotionAxis;
+  typography: Typography;
   notes: string[];                   // human-readable record of engine decisions
 };
 
@@ -137,6 +138,12 @@ export type BrandInput = {
    *  `easingEmphasized` overrides the expressive curve. Reduce-motion variants are
    *  always derived. Omit for the 'standard' tempo. */
   motionPersonality?: MotionPersonality;
+  /** Typography axis lever. `families` supply the display/text/mono faces (a
+   *  single face is auto-padded with a system fallback stack; a full array is
+   *  trusted as-is) + a variable-font flag; `weightRoles` map the function-named
+   *  roles to the brand's numeric weights; `typeScale` shifts the semantic→
+   *  primitive mapping (Phase 2). The rem size ladder is brand-invariant. */
+  typography?: TypographyInput;
   /** Dimension axis levers (schema-required #4/#5). Defaults reproduce a
    *  conventional 4px-grid / 8px-rhythm, sharp-corner system. */
   baseUnit?: number;                 // fine dimension grid base (px), default 4
@@ -217,6 +224,87 @@ const buildMotion = (p: MotionPersonality = {}): MotionAxis => {
   };
 };
 
+// ---------------------------------------------------------------------------
+// Typography axis (Phase 1 — primitive tier). Grounded in 23-typography-
+// tokenisation + the Prism2 reference scale. Deliberate deviation from the KB's
+// modular-ratio recommendation: the size ladder is a CURATED rem scale, not a
+// ratio. A single ratio leaves gaps (1.25 off 16px skips 24/28/36 — the sizes
+// designers reach for) and yields non-round values; the curated ladder has
+// variable step density (fine for text, coarse for display) and covers all bases
+// with clean values. Font-size primitives are brand-INVARIANT (16px is 16px in
+// any brand, like the spacing scale); the white-label lever is the families, the
+// weight role→numeric map, and the `typeScale` preset (consumed at the semantic
+// tier in Phase 2). Weight roles are FUNCTION-named (subtle/default/emphasis/
+// strong over a numeric reference tier) — the white-label-safe answer to "one
+// brand's bold is 700, another's 600": the role is the stable contract, the
+// numeric is the brand-variable part (23 §"Naming the weight ladder").
+export type FontFamilyRole = { role: 'display' | 'text' | 'mono'; stack: string[]; variable: boolean };
+export type WeightRole = { role: 'subtle' | 'default' | 'emphasis' | 'strong'; value: number };
+export type Typography = {
+  families: FontFamilyRole[];
+  sizesPx: number[];                                  // curated ladder (px; rem = px/16)
+  weightsRef: number[];                               // 100..900 numeric reference tier
+  weightRoles: WeightRole[];                          // function-named roles → numeric
+  lineHeights: { key: string; value: number }[];      // unitless multipliers
+  letterSpacings: { key: string; em: number }[];      // em-relative tracking
+  typeScale: 'compact' | 'default' | 'expressive';    // semantic-tier lever (Phase 2)
+};
+
+const SANS_FALLBACK = ['system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'];
+const MONO_FALLBACK = ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Consolas', 'Liberation Mono', 'monospace'];
+const LINE_HEIGHTS = [
+  { key: 'tight', value: 1.05 }, { key: 'snug', value: 1.15 }, { key: 'compact', value: 1.25 },
+  { key: 'normal', value: 1.5 }, { key: 'relaxed', value: 1.65 }, { key: 'loose', value: 1.75 },
+];
+const LETTER_SPACINGS = [
+  { key: 'tight', em: -0.02 }, { key: 'snug', em: -0.01 }, { key: 'normal', em: 0 },
+  { key: 'wide', em: 0.02 }, { key: 'wider', em: 0.05 },
+];
+const WEIGHT_ROLE_DEFAULT = { subtle: 300, default: 400, emphasis: 600, strong: 700 } as const;
+
+// Curated rem ladder: text [10–18] in 1–2px steps; ¼rem (4px) 20→40; ½rem (8px)
+// 48→80; 1rem (16px) 96→160. 22 steps, all clean rem values (matches Prism2).
+const fontSizeLadder = (): number[] => {
+  const px = [10, 11, 12, 14, 16, 18];
+  for (let p = 20; p <= 40; p += 4) px.push(p);
+  for (let p = 48; p <= 80; p += 8) px.push(p);
+  for (let p = 96; p <= 160; p += 16) px.push(p);
+  return px;
+};
+
+const asStack = (fam: string | string[] | undefined, fallbackFace: string, fallback: string[]): string[] => {
+  if (!fam) return [fallbackFace, ...fallback];
+  const arr = Array.isArray(fam) ? fam : [fam];
+  return arr.length > 1 ? arr : [...arr, ...fallback];   // single face → append fallback; full stack → trust it
+};
+
+export type TypographyInput = {
+  families?: { display?: string | string[]; text?: string | string[]; mono?: string | string[]; variable?: boolean };
+  weightRoles?: Partial<Record<'subtle' | 'default' | 'emphasis' | 'strong', number>>;
+  typeScale?: 'compact' | 'default' | 'expressive';
+};
+
+const buildTypography = (t: TypographyInput = {}): Typography => {
+  const fam = t.families ?? {};
+  const variable = fam.variable ?? false;
+  const textFace = Array.isArray(fam.text) ? fam.text[0] : fam.text;
+  const families: FontFamilyRole[] = [
+    { role: 'display', stack: asStack(fam.display ?? textFace, 'Inter', SANS_FALLBACK), variable },
+    { role: 'text', stack: asStack(fam.text, 'Inter', SANS_FALLBACK), variable },
+    { role: 'mono', stack: asStack(fam.mono, 'JetBrains Mono', MONO_FALLBACK), variable },
+  ];
+  const wr = { ...WEIGHT_ROLE_DEFAULT, ...(t.weightRoles ?? {}) };
+  return {
+    families,
+    sizesPx: fontSizeLadder(),
+    weightsRef: [100, 200, 300, 400, 500, 600, 700, 800, 900],
+    weightRoles: (['subtle', 'default', 'emphasis', 'strong'] as const).map((role) => ({ role, value: wr[role] })),
+    lineHeights: LINE_HEIGHTS,
+    letterSpacings: LETTER_SPACINGS,
+    typeScale: t.typeScale ?? 'default',
+  };
+};
+
 export const brandTheme = (input: BrandInput): Theme => {
   const notes: string[] = [];
   const anchorStep = autoPlaceStep(input.primary.l);
@@ -275,6 +363,8 @@ export const brandTheme = (input: BrandInput): Theme => {
   const baseMd = input.baseMd ?? 4;
   notes.push(`dimension axis: ${baseUnit}px grid, ${spaceBase}px space rhythm, density '${density}' (drives component sizes), radius scale ${rScale} (baseMd ${baseMd}px)`);
   notes.push(`motion: tempo '${input.motionPersonality?.tempo ?? 'standard'}' scales the duration ramp; easing roles + springs + composite transitions generated; reduce-motion variants derived (informational preserved, vestibular → 0)`);
+  const typography = buildTypography(input.typography);
+  notes.push(`typography: curated rem size ladder (${typography.sizesPx.length} steps, ${typography.sizesPx[0]}–${typography.sizesPx[typography.sizesPx.length - 1]}px — NOT ratio-derived; covers all bases, clean values); weight roles subtle/default/emphasis/strong → ${typography.weightRoles.map((w) => w.value).join('/')}; families ${typography.families.map((f) => `${f.role}=${f.stack[0]}`).join(', ')}${typography.families[0].variable ? ' (variable)' : ''}; typeScale '${typography.typeScale}'. Line-height unitless multiplier in \$value; px-from-ratio materialization for Figma in \$extensions.`);
   const dStrat = input.disabledStrategy ?? 'accessible';
   notes.push(dStrat === 'accessible'
     ? `disabled: 'accessible' — disabled text/icon/border clears ${input.disabledMin ?? 3}:1 on the floor (legible, contrast-preserving; the field-rare default). Set disabledStrategy:'conventional' for the sub-AA exempt look.`
@@ -298,6 +388,7 @@ export const brandTheme = (input: BrandInput): Theme => {
     iconContrast: input.iconContrast ?? 'text',
     dims: buildDims(baseUnit, spaceBase, density, rScale, baseMd),
     motion: buildMotion(input.motionPersonality),
+    typography,
   };
 };
 
@@ -345,9 +436,11 @@ export const nbTheme = (): Theme => {
     roleAnchorStep: { brand: 550, neutral: 500, success: 500, warning: 500, danger: 550, info: 500, action: 550 },
     disabledStrategy: 'accessible', disabledMin: 3, iconContrast: 'text',
     dims, motion: buildMotion(),
+    typography: buildTypography(),
     notes: [
       'NB regression: measured anchors; brand red also serves as danger (NB brand hue is its danger hue).',
       `dimension axis: ${baseUnit}px grid, 8px space rhythm (Prism2 numbered scale), comfortable density, radius scale 1 (baseMd ${baseMd}px).`,
+      'typography: curated rem size ladder (22 steps, 10–160px) reproducing the Prism2 reference scale; weight roles subtle/default/emphasis/strong → 300/400/600/700.',
     ],
   };
 };

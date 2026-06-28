@@ -21,7 +21,7 @@
 | **Motion** | NB `core-motion`, `motion` | ✅ Done | `motionPersonality.tempo` → duration ramp; easing roles + springs + composites + derived reduce-motion | — |
 | **Layout** | NB `layout` | ❌ Missing | grid columns/gutter/margin per breakpoint | **low–med** |
 | **Shadow / elevation** | NB `shadows` | ❌ Missing | elevation lever → ramp, mode-aware | **medium** |
-| **Typography** | NB `core-typography`, `typography` | ❌ Missing | families + modular ratio + base (schema stub) | **large** |
+| **Typography** | NB `core-typography`, `typography` | 🟡 Phase 1 done (primitives) | curated rem ladder + weight roles + family triad + line-height/tracking; semantic composites + fluid next | **large** |
 | **Gradients** | Prism2 `color/gradient/*` | ❌ Missing | brand-artistic (stops/angle) — not a clean lever | **medium** |
 
 ---
@@ -53,7 +53,21 @@
 
 ### Larger builds
 
-- **Typography** — *the headline white-label lever.* Two layers like colour:
+- **Typography** — *the headline white-label lever.* **Phase 1 (primitive tier) SHIPPED (2026-06-28):**
+  a **curated rem size ladder** (22 steps 10–160px — deliberately NOT ratio-derived;
+  variable density, clean values, covers all bases, reproduces the Prism2 scale),
+  a numeric **weight reference tier** (100–900) + **function-named weight roles**
+  (`subtle/default/emphasis/strong` aliasing into it — the white-label-safe answer
+  to "one brand's bold is 700, another's 600"), **family triad** (display/text/mono
+  with auto-padded fallback stacks + variable-font flag), unitless **line-height**
+  multipliers, and **em letter-spacing**. Each leaf carries a Figma materialization
+  directive in `$extensions.prism3.figma` (line-height `px-from-ratio`, size px,
+  scopes). Lever wired into `BrandInput.typography` (families / weightRoles /
+  typeScale) + schema; aurora exercises it (Clash Display variable, emphasis→500,
+  expressive scale). 411/411 aliases, 268/268 contracts, 65/65 tests. **Phase 2
+  (semantic composites) and Phase 3 (fluid + Figma modes) remain** — see below and
+  the *Cross-cutting: Figma round-trip* materialization decision. Original plan:
+  Two layers like colour:
   primitives `font/{family,weight,size,lineheight}` → composite styles
   `typography/{display,heading,body,…}/* = {fontFamily, fontSize, fontWeight,
   letterSpacing, lineHeight}`. Lever: declared families + weights + a **modular

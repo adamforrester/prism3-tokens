@@ -44,7 +44,7 @@ const bandName: Record<string, string> = {
   ThreeQuarter: 'Three-Quarter-Tone', Shadows: 'Shadow',
 };
 
-type Token = { $type: 'color' | 'dimension' | 'number' | 'strokeStyle' | 'duration' | 'cubicBezier' | 'transition' | 'spring'; $value: string | number | number[] | Record<string, unknown>; $description: string; $extensions: { prism3: Record<string, unknown> } };
+type Token = { $type: 'color' | 'dimension' | 'number' | 'strokeStyle' | 'duration' | 'cubicBezier' | 'transition' | 'spring' | 'fontFamily' | 'fontWeight'; $value: string | number | number[] | string[] | Record<string, unknown>; $description: string; $extensions: { prism3: Record<string, unknown> } };
 
 // ---- colour leaves ----
 const primitiveLeaf = (theme: Theme, paletteDesc: string, s: Step, isAnchor: boolean): Token => {
@@ -113,8 +113,46 @@ const dimAlias = (path: string, description: string, extra: Record<string, unkno
   $extensions: { prism3: { role: 'semantic', aliasOf: path, ...extra } },
 });
 
+// ---- typography leaves (Phase 1 primitives) ----
+// Each leaf carries a `figma` materialization directive in $extensions.prism3:
+// the exporter reads it (never the .ai.json prose). DTCG-canonical value lives in
+// $value (rem / unitless multiplier / em); the bindable Figma form is derived.
+const fontFamilyLeaf = (stack: string[], variable: boolean, description: string): Token => ({
+  $type: 'fontFamily', $value: stack, $description: description,
+  $extensions: { prism3: { generated: true, variable, figma: { kind: 'style-part', field: 'fontFamily', scope: 'FONT_FAMILY' } } },
+});
+// Font size: $value in rem (accessibility — scales with the user base size, KB 23);
+// px carried for the Figma exporter (Figma binds FONT_SIZE as a px FLOAT variable).
+const fontSizeLeaf = (px: number, description: string): Token => {
+  const rem = round(px / 16, 4);
+  return {
+    $type: 'dimension', $value: `${rem}rem`, $description: description,
+    $extensions: { prism3: { generated: true, px, rem, figma: { kind: 'variable', field: 'fontSize', scope: 'FONT_SIZE', unit: 'px', value: px } } },
+  };
+};
+const fontWeightLeaf = (value: number, description: string): Token => ({
+  $type: 'fontWeight', $value: value, $description: description,
+  $extensions: { prism3: { generated: true, figma: { kind: 'variable', field: 'fontWeight', scope: 'FONT_WEIGHT' } } },
+});
+const weightRoleAlias = (path: string, numeric: number, description: string): Token => ({
+  $type: 'fontWeight', $value: `{${path}}`, $description: description,
+  $extensions: { prism3: { role: 'semantic', aliasOf: path, numeric } },
+});
+// Line height: unitless multiplier in $value (DTCG-correct, CSS-correct). Figma
+// can't bind a unitless line-height (a bound FLOAT is read as PIXELS), so the
+// directive tells the exporter to materialize px = fontSize × value per mode.
+const lineHeightLeaf = (value: number, description: string): Token => ({
+  $type: 'number', $value: value, $description: description,
+  $extensions: { prism3: { generated: true, unitless: true, figma: { kind: 'style-part', field: 'lineHeight', unit: 'px-from-ratio', basis: 'fontSize', note: 'Figma binds line-height as px; multiply by the bound fontSize per mode' } } },
+});
+const letterSpacingLeaf = (em: number, description: string): Token => ({
+  $type: 'dimension', $value: `${em}em`, $description: description,
+  $extensions: { prism3: { generated: true, em, figma: { kind: 'style-part', field: 'letterSpacing', unit: 'px-from-em', basis: 'fontSize', note: 'Figma binds letter-spacing as px; multiply em by the bound fontSize' } } },
+});
+
 type Stats = {
   colorLeaves: number; dimLeaves: number; spaceTokens: number; radiusTokens: number; sizeSteps: number;
+  fontSizes: number; fontWeights: number;
   aliases: number; resolved: number; modeChecks: number; modePass: number; broken: { path: string; ref: string }[];
 };
 
@@ -230,8 +268,27 @@ const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats: Stats
   for (const t of m.transitions) motion.transition[t.name] = transitionLeaf(`${root}.motion.duration.${t.duration}`, `${root}.motion.easing.${t.easing}`, `motion ${t.name} — ${t.desc} (${t.duration} + ${t.easing})`);
   motion.stagger = durLeaf(m.stagger, `stagger standard — ${m.stagger}ms between siblings`);
 
+  // ---- typography axis — primitive tier (Phase 1) ----
+  // Curated rem size ladder (brand-invariant, not ratio-derived); numeric weight
+  // reference tier + function-named weight roles aliasing into it (the white-
+  // label-safe weight model); unitless line-height multipliers; em letter-spacing.
+  const ty = theme.typography;
+  const family: Record<string, Token> = {};
+  for (const f of ty.families) family[f.role] = fontFamilyLeaf(f.stack, f.variable, `font family — ${f.role} (${f.stack[0]})${f.variable ? ' [variable font]' : ''}`);
+  const fsize: Record<string, Token> = {};
+  for (const px of ty.sizesPx) fsize[String(px)] = fontSizeLeaf(px, `font size ${px}px (${round(px / 16, 4)}rem) — curated ladder primitive`);
+  const fweight: Record<string, Token> = {};
+  for (const w of ty.weightsRef) fweight[String(w)] = fontWeightLeaf(w, `font weight ${w} — numeric reference (the brand's literal axis value)`);
+  const weightRole: Record<string, Token> = {};
+  for (const r of ty.weightRoles) weightRole[r.role] = weightRoleAlias(`${root}.font.weight.${r.value}`, r.value, `weight role '${r.role}' → ${r.value} — function-named, white-label-stable (the brand maps the numeric; a 2-weight brand collapses roles)`);
+  const lineHeight: Record<string, Token> = {};
+  for (const lh of ty.lineHeights) lineHeight[lh.key] = lineHeightLeaf(lh.value, `line height ${lh.key} — ${lh.value}× (unitless multiplier)`);
+  const letterSpacing: Record<string, Token> = {};
+  for (const ls of ty.letterSpacings) letterSpacing[ls.key] = letterSpacingLeaf(ls.em, `letter spacing ${ls.key} — ${ls.em}em`);
+  const font = { family, size: fsize, weight: fweight, 'weight-role': weightRole, 'line-height': lineHeight, 'letter-spacing': letterSpacing };
+
   // ---- assemble under the brand root ----
-  const brand = { color, semantic, opacity, motion, dimension, space, radius, 'border-width': borderWidth, focus, size };
+  const brand = { color, semantic, opacity, motion, font, dimension, space, radius, 'border-width': borderWidth, focus, size };
   const tree = {
     [root]: brand,
     $extensions: {
@@ -274,7 +331,7 @@ const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats: Stats
 
   const alphaLeaves = 2 * ALPHA_STEPS.filter((s) => s > 0 && s < 100).length;
   const colorLeaves = 2 + theme.palettes.reduce((n, p) => n + p.steps.length, 0) + alphaLeaves;
-  return { tree, modes, stats: { colorLeaves, dimLeaves: theme.dims.grid.length, spaceTokens: theme.dims.space.length, radiusTokens: theme.dims.radius.length, sizeSteps: theme.dims.sizes.length, aliases: aliases.length, resolved: aliases.length - broken.length, broken, modeChecks, modePass } };
+  return { tree, modes, stats: { colorLeaves, dimLeaves: theme.dims.grid.length, spaceTokens: theme.dims.space.length, radiusTokens: theme.dims.radius.length, sizeSteps: theme.dims.sizes.length, fontSizes: theme.typography.sizesPx.length, fontWeights: theme.typography.weightsRef.length, aliases: aliases.length, resolved: aliases.length - broken.length, broken, modeChecks, modePass } };
 };
 
 // ---------------------------------------------------------------------------
@@ -299,6 +356,13 @@ const aurora: BrandInput = {
   iconContrast: '3:1',
   // Exercise the motion lever: a snappy tempo compresses the duration ramp vs NB's standard.
   motionPersonality: { tempo: 'snappy' },
+  // Exercise the typography lever: a distinct variable display face, a remapped
+  // emphasis weight (500, not the default 600), and the expressive type scale.
+  typography: {
+    families: { display: 'Clash Display', text: 'Inter', mono: 'JetBrains Mono', variable: true },
+    weightRoles: { subtle: 300, default: 400, emphasis: 500, strong: 700 },
+    typeScale: 'expressive',
+  },
 };
 
 const themes: Theme[] = [nbTheme(), brandTheme(aurora)];
@@ -320,6 +384,8 @@ for (const theme of themes) {
   console.log(`    space (${theme.dims.spaceBase}px rhythm): ${theme.dims.space.filter((s) => s.key !== '0').map((s) => `${s.key}=${s.px}`).join(' ')}`);
   console.log(`    radius (scale ${theme.dims.radiusScaleValue}): ${theme.dims.radius.map((r) => `${r.name}=${r.px}`).join(' ')}`);
   console.log(`    sizes (${theme.dims.density}): ${theme.dims.sizes.map((z) => `${z.name}=${z.height}h/${z.padX}×${z.padY}pad`).join(' ')}`);
+  console.log(`  typography: ${stats.fontSizes} size primitives (${theme.typography.sizesPx[0]}–${theme.typography.sizesPx[theme.typography.sizesPx.length - 1]}px, rem), ${stats.fontWeights} weights + ${theme.typography.weightRoles.length} roles (${theme.typography.weightRoles.map((w) => `${w.role}=${w.value}`).join(' ')}), ${theme.typography.lineHeights.length} line-heights, ${theme.typography.letterSpacings.length} tracking`);
+  console.log(`    families: ${theme.typography.families.map((f) => `${f.role}=${f.stack[0]}`).join(' ')}${theme.typography.families[0].variable ? ' [variable]' : ''} · scale '${theme.typography.typeScale}'`);
   console.log(`  aliases: ${stats.resolved}/${stats.aliases} resolve | mode contracts: ${stats.modePass}/${stats.modeChecks} pass`);
   console.log(`  [written] ${outPath}`);
   if (stats.broken.length) { ok = false; stats.broken.forEach((b) => console.log(`   ❌ ${b.path} -> {${b.ref}}`)); }

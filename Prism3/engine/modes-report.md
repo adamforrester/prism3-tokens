@@ -4,6 +4,7 @@
 
 - NB regression: measured anchors; brand red also serves as danger (NB brand hue is its danger hue).
 - dimension axis: 4px grid, 8px space rhythm (Prism2 numbered scale), comfortable density, radius scale 1 (baseMd 4px).
+- typography: curated rem size ladder (22 steps, 10–160px) reproducing the Prism2 reference scale; weight roles subtle/default/emphasis/strong → 300/400/600/700.
 
 Palettes: red, green, amber, neutral, info. Danger draws from `red`.
 
@@ -439,6 +440,7 @@ Component sizes — t-shirt, density `comfortable` (height + paired padding from
 - danger: primary hue 285 is NOT red → carved a dedicated danger red at hue 27
 - dimension axis: 4px grid, 8px space rhythm, density 'compact' (drives component sizes), radius scale 2 (baseMd 4px)
 - motion: tempo 'snappy' scales the duration ramp; easing roles + springs + composite transitions generated; reduce-motion variants derived (informational preserved, vestibular → 0)
+- typography: curated rem size ladder (22 steps, 10–160px — NOT ratio-derived; covers all bases, clean values); weight roles subtle/default/emphasis/strong → 300/400/500/700; families display=Clash Display, text=Inter, mono=JetBrains Mono (variable); typeScale 'expressive'. Line-height unitless multiplier in $value; px-from-ratio materialization for Figma in $extensions.
 - disabled: 'accessible' — disabled text/icon/border clears 3:1 on the floor (legible, contrast-preserving; the field-rare default). Set disabledStrategy:'conventional' for the sub-AA exempt look.
 - light primary surface is NON-default (neutral.50) — CONFIRM this is the page colour; the contrast floor moves with it
 

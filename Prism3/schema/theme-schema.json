@@ -98,6 +98,41 @@
         }
       }
     },
+    "typography": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "OPTIONAL. Typography axis lever. The rem size ladder is brand-invariant (curated, not ratio-derived); the brand-variable parts are the families, the weight role→numeric map, and the `typeScale` preset (consumed at the semantic tier).",
+      "properties": {
+        "families": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Display / text / mono faces. A single face name is auto-padded with a system fallback stack; a full array is trusted as-is. `variable` flags variable-font usage.",
+          "properties": {
+            "display": { "oneOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }], "description": "Display/hero face (defaults to the text face if omitted)." },
+            "text": { "oneOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }], "description": "Body/UI workhorse face." },
+            "mono": { "oneOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }], "description": "Monospace/code face." },
+            "variable": { "type": "boolean", "default": false, "description": "Whether the faces are variable fonts." }
+          }
+        },
+        "weightRoles": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Function-named weight roles → the brand's numeric weights (the white-label-stable weight model). Omit any to use the defaults (subtle 300 / default 400 / emphasis 600 / strong 700).",
+          "properties": {
+            "subtle": { "type": "number", "description": "Lighter-than-body weight (optional use)." },
+            "default": { "type": "number", "description": "Resting body / UI weight." },
+            "emphasis": { "type": "number", "description": "Mild lift — strong inline text, active states." },
+            "strong": { "type": "number", "description": "Headings, primary actions." }
+          }
+        },
+        "typeScale": {
+          "type": "string",
+          "enum": ["compact", "default", "expressive"],
+          "default": "default",
+          "description": "Shifts the semantic→primitive mapping (Phase 2): expressive → headings reach higher up the ladder. The ladder itself is unchanged."
+        }
+      }
+    },
     "baseUnit": { "type": "number", "default": 4, "description": "OPTIONAL. Fine dimension-grid base (px). Default 4." },
     "spaceBase": { "type": "number", "default": 8, "description": "OPTIONAL. Spacing rhythm (px) for the numbered-multiplier space scale. Default 8." },
     "density": {
