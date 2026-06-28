@@ -341,6 +341,19 @@ stack) before pipeline plumbing — it tests the white-label thesis harder.
    `emit-figma.ts` writer + style manifest + companion plugin. Open decision —
    update an existing template (preserve `VariableID`s) vs build from scratch —
    tracked as `03-open-questions` Item 9. KB POV write-up also backlogged.
+   **Verified research** now lives in the knowledge-base repo, run
+   `_research/_inbound/2026-06-28-figma-variables-styles-roundtrip` (four
+   primary-source agents): the variable type ceiling + 8-field typography binding
+   surface, **lineHeight/letterSpacing bind as px only** (unitless `1.5` → 1.5px),
+   **text-decoration/case unbindable** (links = separate Text Styles), shadow
+   *numerics* bind, Figma Motion (Config 2026) adds timing/easing variables, REST
+   Variables API is **Enterprise-only** (styles can only be created via the Plugin
+   API). **Materialization decision (locked for the typography build):** canonical
+   value in `$value`; a machine-readable directive in `$extensions.prism3.figma`
+   for the exporter (e.g. lineHeight `px-from-ratio`); intent *echoed* into
+   `.ai.json` as derived narrative — the exporter reads `$extensions` data, never
+   the prose sidecar. Generalises to letter-spacing, fluid sizes, etc.
+   (`05-token-coverage-roadmap` → Typography + *Cross-cutting: Figma round-trip*).
 
 ---
 

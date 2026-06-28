@@ -60,6 +60,30 @@
   scale ratio** + base size → size ramp; line-heights bind per tier; optional
   fluid `clamp()` triplets. Schema input `typography` is stubbed. This is the
   "swap the font, regenerate the system" proof — highest value of the remaining set.
+  **Figma binding constraints to design for** (verified — see KB research run
+  `2026-06-28-figma-variables-styles-roundtrip`): the bindable text-style surface
+  is exactly **8 fields** (family, style, weight, size, lineHeight, letterSpacing,
+  paragraphSpacing, paragraphIndent). **`lineHeight`/`letterSpacing` bind as px
+  only** — a bound unitless FLOAT is read as pixels, so `1.5` → 1.5px, not 150%.
+  **`textDecoration`/`textCase` can't bind at all** → underlined links and all-caps
+  roles must be **separate Text Styles** with the property baked in (emit `body` +
+  `body-link`; handle `text-decoration` at generation, not as a variable toggle).
+  **`desktop`/`mobile` = collection modes** on the size *and* line-height
+  variables (line-height must be a moded px var to scale with size); note Figma's
+  styles picker doesn't reflect modes, so write per-mode values into the style
+  description.
+  - **Metadata / materialization decision (locked for the build):** the canonical
+    line-height stays a **unitless ratio in `$value`** (DTCG-correct, ships to
+    code as-is); a machine-readable **materialization directive** lives in
+    `$extensions.prism3.figma` for the exporter (e.g. `{kind:"style-part",
+    field:"lineHeight", unit:"px-from-ratio", basis:"fontSize"}`); the **intent is
+    *echoed* into `.ai.json`** as narrative, generated from the directive. The
+    exporter reads `$extensions` (data), never the prose sidecar — the sidecar
+    stays descriptive/regenerated and never becomes build input. Same pattern
+    applies to letter-spacing (% → px), fluid `clamp()` sizes (one fixed px per
+    mode), and any other case where the DTCG-canonical value ≠ the Figma-bindable
+    value. See the materialization directive under *Cross-cutting: Figma
+    round-trip*.
 - **Shadow / elevation** — composite, **mode-aware**. NB ships
   `shadow/{xs..xl}/{default,inverse}`, and that `default`/`inverse` split *is* the
   light/dark variant (KB §4 lift pattern). Two synergies: it **reuses the
@@ -116,6 +140,19 @@ There is **no composite variable type**. The composites only exist on the DTCG s
 | `variable` + `scope` | 1:1 Figma variable | color, radius, spacing, size, border-width, opacity |
 | `style-part` + `scope` + style ref | atom a Figma **Style** binds | typography atoms → Text Style; shadow color/offsets → Effect Style |
 | `code-only` | no Figma home; one-way from code | transition, spring, strokeStyle, easing |
+
+**The materialization directive (where DTCG-canonical ≠ Figma-bindable).** Some
+tokens can't bind their canonical value directly: Figma reads a bound unitless
+line-height as px (`1.5` → 1.5px), can't bind `%` line-height/letter-spacing,
+can't bind text-decoration/case at all, and needs a fixed px per mode where code
+uses a fluid `clamp()`. The locked decision: keep the **canonical value in
+`$value`** (code-correct), put a **machine-readable directive in
+`$extensions.prism3.figma`** that the exporter reads to materialize the bindable
+form (e.g. `{kind:"style-part", field:"lineHeight", unit:"px-from-ratio",
+basis:"fontSize"}`), and **echo the intent into `.ai.json`** as derived narrative.
+Rule of thumb: *if the exporter must read it to produce correct output, it's
+`$extensions` data; if it explains why to a reader, it's `.ai.json`.* The prose
+sidecar stays descriptive and regenerated — never build input, so it can't drift.
 
 **Two ways to beat the example packages, not copy them:** (1) **no dead variables** —
 NB ships easing/duration as STRING/FLOAT "tokens" that bind to nothing; we tag those
