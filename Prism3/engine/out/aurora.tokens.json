@@ -9791,6 +9791,607 @@
         }
       }
     },
+    "type": {
+      "display": {
+        "sm": {
+          "$type": "typography",
+          "$value": {
+            "fontFamily": "{prism.font.family.display}",
+            "fontSize": "{prism.font.size.56}",
+            "fontWeight": "{prism.font.weight-role.strong}",
+            "lineHeight": "{prism.font.line-height.tight}",
+            "letterSpacing": "{prism.font.letter-spacing.tight}"
+          },
+          "$description": "display sm — 56px, display family, tight line-height, strong weight, tight tracking",
+          "$extensions": {
+            "prism3": {
+              "role": "composite",
+              "group": "display",
+              "variant": "sm",
+              "sizePx": 56,
+              "figma": {
+                "kind": "text-style",
+                "styleType": "TEXT",
+                "binds": [
+                  "fontFamily",
+                  "fontSize",
+                  "fontWeight",
+                  "lineHeight",
+                  "letterSpacing"
+                ],
+                "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+              }
+            }
+          }
+        },
+        "md": {
+          "$type": "typography",
+          "$value": {
+            "fontFamily": "{prism.font.family.display}",
+            "fontSize": "{prism.font.size.72}",
+            "fontWeight": "{prism.font.weight-role.strong}",
+            "lineHeight": "{prism.font.line-height.tight}",
+            "letterSpacing": "{prism.font.letter-spacing.tight}"
+          },
+          "$description": "display md — 72px, display family, tight line-height, strong weight, tight tracking",
+          "$extensions": {
+            "prism3": {
+              "role": "composite",
+              "group": "display",
+              "variant": "md",
+              "sizePx": 72,
+              "figma": {
+                "kind": "text-style",
+                "styleType": "TEXT",
+                "binds": [
+                  "fontFamily",
+                  "fontSize",
+                  "fontWeight",
+                  "lineHeight",
+                  "letterSpacing"
+                ],
+                "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+              }
+            }
+          }
+        },
+        "lg": {
+          "$type": "typography",
+          "$value": {
+            "fontFamily": "{prism.font.family.display}",
+            "fontSize": "{prism.font.size.96}",
+            "fontWeight": "{prism.font.weight-role.strong}",
+            "lineHeight": "{prism.font.line-height.tight}",
+            "letterSpacing": "{prism.font.letter-spacing.tight}"
+          },
+          "$description": "display lg — 96px, display family, tight line-height, strong weight, tight tracking",
+          "$extensions": {
+            "prism3": {
+              "role": "composite",
+              "group": "display",
+              "variant": "lg",
+              "sizePx": 96,
+              "figma": {
+                "kind": "text-style",
+                "styleType": "TEXT",
+                "binds": [
+                  "fontFamily",
+                  "fontSize",
+                  "fontWeight",
+                  "lineHeight",
+                  "letterSpacing"
+                ],
+                "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+              }
+            }
+          }
+        },
+        "xl": {
+          "$type": "typography",
+          "$value": {
+            "fontFamily": "{prism.font.family.display}",
+            "fontSize": "{prism.font.size.112}",
+            "fontWeight": "{prism.font.weight-role.strong}",
+            "lineHeight": "{prism.font.line-height.tight}",
+            "letterSpacing": "{prism.font.letter-spacing.tight}"
+          },
+          "$description": "display xl — 112px, display family, tight line-height, strong weight, tight tracking",
+          "$extensions": {
+            "prism3": {
+              "role": "composite",
+              "group": "display",
+              "variant": "xl",
+              "sizePx": 112,
+              "figma": {
+                "kind": "text-style",
+                "styleType": "TEXT",
+                "binds": [
+                  "fontFamily",
+                  "fontSize",
+                  "fontWeight",
+                  "lineHeight",
+                  "letterSpacing"
+                ],
+                "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+              }
+            }
+          }
+        }
+      },
+      "title": {
+        "2xs": {
+          "$type": "typography",
+          "$value": {
+            "fontFamily": "{prism.font.family.display}",
+            "fontSize": "{prism.font.size.18}",
+            "fontWeight": "{prism.font.weight-role.strong}",
+            "lineHeight": "{prism.font.line-height.compact}",
+            "letterSpacing": "{prism.font.letter-spacing.snug}"
+          },
+          "$description": "title 2xs — 18px, display family, compact line-height, strong weight, snug tracking",
+          "$extensions": {
+            "prism3": {
+              "role": "composite",
+              "group": "title",
+              "variant": "2xs",
+              "sizePx": 18,
+              "figma": {
+                "kind": "text-style",
+                "styleType": "TEXT",
+                "binds": [
+                  "fontFamily",
+                  "fontSize",
+                  "fontWeight",
+                  "lineHeight",
+                  "letterSpacing"
+                ],
+                "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+              }
+            }
+          }
+        },
+        "xs": {
+          "$type": "typography",
+          "$value": {
+            "fontFamily": "{prism.font.family.display}",
+            "fontSize": "{prism.font.size.20}",
+            "fontWeight": "{prism.font.weight-role.strong}",
+            "lineHeight": "{prism.font.line-height.compact}",
+            "letterSpacing": "{prism.font.letter-spacing.snug}"
+          },
+          "$description": "title xs — 20px, display family, compact line-height, strong weight, snug tracking",
+          "$extensions": {
+            "prism3": {
+              "role": "composite",
+              "group": "title",
+              "variant": "xs",
+              "sizePx": 20,
+              "figma": {
+                "kind": "text-style",
+                "styleType": "TEXT",
+                "binds": [
+                  "fontFamily",
+                  "fontSize",
+                  "fontWeight",
+                  "lineHeight",
+                  "letterSpacing"
+                ],
+                "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+              }
+            }
+          }
+        },
+        "sm": {
+          "$type": "typography",
+          "$value": {
+            "fontFamily": "{prism.font.family.display}",
+            "fontSize": "{prism.font.size.24}",
+            "fontWeight": "{prism.font.weight-role.strong}",
+            "lineHeight": "{prism.font.line-height.compact}",
+            "letterSpacing": "{prism.font.letter-spacing.snug}"
+          },
+          "$description": "title sm — 24px, display family, compact line-height, strong weight, snug tracking",
+          "$extensions": {
+            "prism3": {
+              "role": "composite",
+              "group": "title",
+              "variant": "sm",
+              "sizePx": 24,
+              "figma": {
+                "kind": "text-style",
+                "styleType": "TEXT",
+                "binds": [
+                  "fontFamily",
+                  "fontSize",
+                  "fontWeight",
+                  "lineHeight",
+                  "letterSpacing"
+                ],
+                "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+              }
+            }
+          }
+        },
+        "md": {
+          "$type": "typography",
+          "$value": {
+            "fontFamily": "{prism.font.family.display}",
+            "fontSize": "{prism.font.size.28}",
+            "fontWeight": "{prism.font.weight-role.strong}",
+            "lineHeight": "{prism.font.line-height.snug}",
+            "letterSpacing": "{prism.font.letter-spacing.snug}"
+          },
+          "$description": "title md — 28px, display family, snug line-height, strong weight, snug tracking",
+          "$extensions": {
+            "prism3": {
+              "role": "composite",
+              "group": "title",
+              "variant": "md",
+              "sizePx": 28,
+              "figma": {
+                "kind": "text-style",
+                "styleType": "TEXT",
+                "binds": [
+                  "fontFamily",
+                  "fontSize",
+                  "fontWeight",
+                  "lineHeight",
+                  "letterSpacing"
+                ],
+                "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+              }
+            }
+          }
+        },
+        "lg": {
+          "$type": "typography",
+          "$value": {
+            "fontFamily": "{prism.font.family.display}",
+            "fontSize": "{prism.font.size.32}",
+            "fontWeight": "{prism.font.weight-role.strong}",
+            "lineHeight": "{prism.font.line-height.snug}",
+            "letterSpacing": "{prism.font.letter-spacing.snug}"
+          },
+          "$description": "title lg — 32px, display family, snug line-height, strong weight, snug tracking",
+          "$extensions": {
+            "prism3": {
+              "role": "composite",
+              "group": "title",
+              "variant": "lg",
+              "sizePx": 32,
+              "figma": {
+                "kind": "text-style",
+                "styleType": "TEXT",
+                "binds": [
+                  "fontFamily",
+                  "fontSize",
+                  "fontWeight",
+                  "lineHeight",
+                  "letterSpacing"
+                ],
+                "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+              }
+            }
+          }
+        },
+        "xl": {
+          "$type": "typography",
+          "$value": {
+            "fontFamily": "{prism.font.family.display}",
+            "fontSize": "{prism.font.size.36}",
+            "fontWeight": "{prism.font.weight-role.strong}",
+            "lineHeight": "{prism.font.line-height.snug}",
+            "letterSpacing": "{prism.font.letter-spacing.snug}"
+          },
+          "$description": "title xl — 36px, display family, snug line-height, strong weight, snug tracking",
+          "$extensions": {
+            "prism3": {
+              "role": "composite",
+              "group": "title",
+              "variant": "xl",
+              "sizePx": 36,
+              "figma": {
+                "kind": "text-style",
+                "styleType": "TEXT",
+                "binds": [
+                  "fontFamily",
+                  "fontSize",
+                  "fontWeight",
+                  "lineHeight",
+                  "letterSpacing"
+                ],
+                "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+              }
+            }
+          }
+        },
+        "2xl": {
+          "$type": "typography",
+          "$value": {
+            "fontFamily": "{prism.font.family.display}",
+            "fontSize": "{prism.font.size.48}",
+            "fontWeight": "{prism.font.weight-role.strong}",
+            "lineHeight": "{prism.font.line-height.snug}",
+            "letterSpacing": "{prism.font.letter-spacing.snug}"
+          },
+          "$description": "title 2xl — 48px, display family, snug line-height, strong weight, snug tracking",
+          "$extensions": {
+            "prism3": {
+              "role": "composite",
+              "group": "title",
+              "variant": "2xl",
+              "sizePx": 48,
+              "figma": {
+                "kind": "text-style",
+                "styleType": "TEXT",
+                "binds": [
+                  "fontFamily",
+                  "fontSize",
+                  "fontWeight",
+                  "lineHeight",
+                  "letterSpacing"
+                ],
+                "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+              }
+            }
+          }
+        }
+      },
+      "body": {
+        "sm": {
+          "$type": "typography",
+          "$value": {
+            "fontFamily": "{prism.font.family.text}",
+            "fontSize": "{prism.font.size.14}",
+            "fontWeight": "{prism.font.weight-role.default}",
+            "lineHeight": "{prism.font.line-height.normal}",
+            "letterSpacing": "{prism.font.letter-spacing.normal}"
+          },
+          "$description": "body sm — 14px, text family, normal line-height, default weight, normal tracking",
+          "$extensions": {
+            "prism3": {
+              "role": "composite",
+              "group": "body",
+              "variant": "sm",
+              "sizePx": 14,
+              "figma": {
+                "kind": "text-style",
+                "styleType": "TEXT",
+                "binds": [
+                  "fontFamily",
+                  "fontSize",
+                  "fontWeight",
+                  "lineHeight",
+                  "letterSpacing"
+                ],
+                "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+              }
+            }
+          }
+        },
+        "md": {
+          "$type": "typography",
+          "$value": {
+            "fontFamily": "{prism.font.family.text}",
+            "fontSize": "{prism.font.size.16}",
+            "fontWeight": "{prism.font.weight-role.default}",
+            "lineHeight": "{prism.font.line-height.normal}",
+            "letterSpacing": "{prism.font.letter-spacing.normal}"
+          },
+          "$description": "body md — 16px, text family, normal line-height, default weight, normal tracking",
+          "$extensions": {
+            "prism3": {
+              "role": "composite",
+              "group": "body",
+              "variant": "md",
+              "sizePx": 16,
+              "figma": {
+                "kind": "text-style",
+                "styleType": "TEXT",
+                "binds": [
+                  "fontFamily",
+                  "fontSize",
+                  "fontWeight",
+                  "lineHeight",
+                  "letterSpacing"
+                ],
+                "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+              }
+            }
+          }
+        },
+        "lg": {
+          "$type": "typography",
+          "$value": {
+            "fontFamily": "{prism.font.family.text}",
+            "fontSize": "{prism.font.size.18}",
+            "fontWeight": "{prism.font.weight-role.default}",
+            "lineHeight": "{prism.font.line-height.normal}",
+            "letterSpacing": "{prism.font.letter-spacing.normal}"
+          },
+          "$description": "body lg — 18px, text family, normal line-height, default weight, normal tracking",
+          "$extensions": {
+            "prism3": {
+              "role": "composite",
+              "group": "body",
+              "variant": "lg",
+              "sizePx": 18,
+              "figma": {
+                "kind": "text-style",
+                "styleType": "TEXT",
+                "binds": [
+                  "fontFamily",
+                  "fontSize",
+                  "fontWeight",
+                  "lineHeight",
+                  "letterSpacing"
+                ],
+                "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+              }
+            }
+          }
+        }
+      },
+      "label": {
+        "sm": {
+          "$type": "typography",
+          "$value": {
+            "fontFamily": "{prism.font.family.text}",
+            "fontSize": "{prism.font.size.12}",
+            "fontWeight": "{prism.font.weight-role.emphasis}",
+            "lineHeight": "{prism.font.line-height.snug}",
+            "letterSpacing": "{prism.font.letter-spacing.normal}"
+          },
+          "$description": "label sm — 12px, text family, snug line-height, emphasis weight, normal tracking",
+          "$extensions": {
+            "prism3": {
+              "role": "composite",
+              "group": "label",
+              "variant": "sm",
+              "sizePx": 12,
+              "figma": {
+                "kind": "text-style",
+                "styleType": "TEXT",
+                "binds": [
+                  "fontFamily",
+                  "fontSize",
+                  "fontWeight",
+                  "lineHeight",
+                  "letterSpacing"
+                ],
+                "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+              }
+            }
+          }
+        },
+        "md": {
+          "$type": "typography",
+          "$value": {
+            "fontFamily": "{prism.font.family.text}",
+            "fontSize": "{prism.font.size.14}",
+            "fontWeight": "{prism.font.weight-role.emphasis}",
+            "lineHeight": "{prism.font.line-height.snug}",
+            "letterSpacing": "{prism.font.letter-spacing.normal}"
+          },
+          "$description": "label md — 14px, text family, snug line-height, emphasis weight, normal tracking",
+          "$extensions": {
+            "prism3": {
+              "role": "composite",
+              "group": "label",
+              "variant": "md",
+              "sizePx": 14,
+              "figma": {
+                "kind": "text-style",
+                "styleType": "TEXT",
+                "binds": [
+                  "fontFamily",
+                  "fontSize",
+                  "fontWeight",
+                  "lineHeight",
+                  "letterSpacing"
+                ],
+                "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+              }
+            }
+          }
+        }
+      },
+      "caption": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{prism.font.family.text}",
+          "fontSize": "{prism.font.size.12}",
+          "fontWeight": "{prism.font.weight-role.default}",
+          "lineHeight": "{prism.font.line-height.normal}",
+          "letterSpacing": "{prism.font.letter-spacing.normal}"
+        },
+        "$description": "caption — 12px, text family, normal line-height, default weight, normal tracking",
+        "$extensions": {
+          "prism3": {
+            "role": "composite",
+            "group": "caption",
+            "variant": "",
+            "sizePx": 12,
+            "figma": {
+              "kind": "text-style",
+              "styleType": "TEXT",
+              "binds": [
+                "fontFamily",
+                "fontSize",
+                "fontWeight",
+                "lineHeight",
+                "letterSpacing"
+              ],
+              "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+            }
+          }
+        }
+      },
+      "eyebrow": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{prism.font.family.display}",
+          "fontSize": "{prism.font.size.12}",
+          "fontWeight": "{prism.font.weight-role.strong}",
+          "lineHeight": "{prism.font.line-height.snug}",
+          "letterSpacing": "{prism.font.letter-spacing.wider}"
+        },
+        "$description": "eyebrow — 12px, display family, snug line-height, strong weight, wider tracking",
+        "$extensions": {
+          "prism3": {
+            "role": "composite",
+            "group": "eyebrow",
+            "variant": "",
+            "sizePx": 12,
+            "figma": {
+              "kind": "text-style",
+              "styleType": "TEXT",
+              "binds": [
+                "fontFamily",
+                "fontSize",
+                "fontWeight",
+                "lineHeight",
+                "letterSpacing"
+              ],
+              "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+            }
+          }
+        }
+      },
+      "code": {
+        "inline": {
+          "$type": "typography",
+          "$value": {
+            "fontFamily": "{prism.font.family.mono}",
+            "fontSize": "{prism.font.size.14}",
+            "fontWeight": "{prism.font.weight-role.default}",
+            "lineHeight": "{prism.font.line-height.normal}",
+            "letterSpacing": "{prism.font.letter-spacing.normal}"
+          },
+          "$description": "code inline — 14px, mono family, normal line-height, default weight, normal tracking",
+          "$extensions": {
+            "prism3": {
+              "role": "composite",
+              "group": "code",
+              "variant": "inline",
+              "sizePx": 14,
+              "figma": {
+                "kind": "text-style",
+                "styleType": "TEXT",
+                "binds": [
+                  "fontFamily",
+                  "fontSize",
+                  "fontWeight",
+                  "lineHeight",
+                  "letterSpacing"
+                ],
+                "note": "Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)"
+              }
+            }
+          }
+        }
+      }
+    },
     "dimension": {
       "0": {
         "$type": "dimension",
@@ -10783,7 +11384,7 @@
         "danger: primary hue 285 is NOT red → carved a dedicated danger red at hue 27",
         "dimension axis: 4px grid, 8px space rhythm, density 'compact' (drives component sizes), radius scale 2 (baseMd 4px)",
         "motion: tempo 'snappy' scales the duration ramp; easing roles + springs + composite transitions generated; reduce-motion variants derived (informational preserved, vestibular → 0)",
-        "typography: curated rem size ladder (22 steps, 10–160px — NOT ratio-derived; covers all bases, clean values); weight roles subtle/default/emphasis/strong → 300/400/500/700; families display=Clash Display, text=Inter, mono=JetBrains Mono (variable); typeScale 'expressive'. Line-height unitless multiplier in $value; px-from-ratio materialization for Figma in $extensions.",
+        "typography: curated rem size ladder (22 steps, 10–160px — NOT ratio-derived; covers all bases, clean values); weight roles subtle/default/emphasis/strong → 300/400/500/700; families display=Clash Display, text=Inter, mono=JetBrains Mono (variable); typeScale 'expressive'. 19 semantic composites (title/display sizes shifted by typeScale; display capped at 128px; title floor 16px). Line-height unitless multiplier in $value; px-from-ratio materialization for Figma in $extensions.",
         "disabled: 'accessible' — disabled text/icon/border clears 3:1 on the floor (legible, contrast-preserving; the field-rare default). Set disabledStrategy:'conventional' for the sub-AA exempt look.",
         "light primary surface is NON-default (neutral.50) — CONFIRM this is the page colour; the contrast floor moves with it"
       ]

@@ -129,7 +129,32 @@
           "type": "string",
           "enum": ["compact", "default", "expressive"],
           "default": "default",
-          "description": "Shifts the semantic→primitive mapping (Phase 2): expressive → headings reach higher up the ladder. The ladder itself is unchanged."
+          "description": "Shifts heading sizes (display + title) up/down the ladder: expressive → one rung higher, compact → one lower. Body/label/caption stay put."
+        },
+        "familyMap": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Which family role each semantic group consumes. Defaults: display/title/label/eyebrow → display (brand); body/caption → text; code → mono. Override per group (e.g. neutral buttons: { label: 'text' }). Family is a property of the group, not the size.",
+          "properties": {
+            "display": { "type": "string", "enum": ["display", "text", "mono"] },
+            "title": { "type": "string", "enum": ["display", "text", "mono"] },
+            "body": { "type": "string", "enum": ["display", "text", "mono"] },
+            "label": { "type": "string", "enum": ["display", "text", "mono"] },
+            "caption": { "type": "string", "enum": ["display", "text", "mono"] },
+            "eyebrow": { "type": "string", "enum": ["display", "text", "mono"] },
+            "code": { "type": "string", "enum": ["display", "text", "mono"] }
+          }
+        },
+        "displayCeiling": {
+          "type": "number",
+          "default": 160,
+          "description": "Cap the display tier (px). Brands that don't need mega heroes stop lower (e.g. 96); the ladder is unchanged, the engine just omits display composites above the cap."
+        },
+        "titleFloor": {
+          "type": "number",
+          "enum": [16, 18],
+          "default": 18,
+          "description": "Smallest title size. Default 18 (title.xs). Set 16 to add title.2xs — a 16px brand-font heading that deliberately overlaps body.md."
         }
       }
     },

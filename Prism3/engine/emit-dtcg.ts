@@ -44,7 +44,7 @@ const bandName: Record<string, string> = {
   ThreeQuarter: 'Three-Quarter-Tone', Shadows: 'Shadow',
 };
 
-type Token = { $type: 'color' | 'dimension' | 'number' | 'strokeStyle' | 'duration' | 'cubicBezier' | 'transition' | 'spring' | 'fontFamily' | 'fontWeight'; $value: string | number | number[] | string[] | Record<string, unknown>; $description: string; $extensions: { prism3: Record<string, unknown> } };
+type Token = { $type: 'color' | 'dimension' | 'number' | 'strokeStyle' | 'duration' | 'cubicBezier' | 'transition' | 'spring' | 'fontFamily' | 'fontWeight' | 'typography'; $value: string | number | number[] | string[] | Record<string, unknown>; $description: string; $extensions: { prism3: Record<string, unknown> } };
 
 // ---- colour leaves ----
 const primitiveLeaf = (theme: Theme, paletteDesc: string, s: Step, isAnchor: boolean): Token => {
@@ -149,10 +149,30 @@ const letterSpacingLeaf = (em: number, description: string): Token => ({
   $type: 'dimension', $value: `${em}em`, $description: description,
   $extensions: { prism3: { generated: true, em, figma: { kind: 'style-part', field: 'letterSpacing', unit: 'px-from-em', basis: 'fontSize', note: 'Figma binds letter-spacing as px; multiply em by the bound fontSize' } } },
 });
+// Composite (DTCG typography): bundles family/size/weight-role/line-height/tracking
+// by intent. Sub-properties alias the primitives (weight via the role → numeric, so
+// re-mapping a brand's weights reflows every composite). Materializes as a Figma
+// Text Style binding those variables (line-height px = size × multiplier); underline/
+// all-caps variants are SEPARATE styles (textDecoration/textCase aren't bindable).
+const typographyLeaf = (root: string, c: { group: string; variant: string; sizePx: number; family: string; weightRole: string; lineHeight: string; tracking: string }): Token => {
+  const a = (seg: string) => `{${root}.font.${seg}}`;
+  return {
+    $type: 'typography',
+    $value: {
+      fontFamily: a(`family.${c.family}`),
+      fontSize: a(`size.${c.sizePx}`),
+      fontWeight: a(`weight-role.${c.weightRole}`),
+      lineHeight: a(`line-height.${c.lineHeight}`),
+      letterSpacing: a(`letter-spacing.${c.tracking}`),
+    },
+    $description: `${c.group}${c.variant ? ' ' + c.variant : ''} — ${c.sizePx}px, ${c.family} family, ${c.lineHeight} line-height, ${c.weightRole} weight, ${c.tracking} tracking`,
+    $extensions: { prism3: { role: 'composite', group: c.group, variant: c.variant, sizePx: c.sizePx, figma: { kind: 'text-style', styleType: 'TEXT', binds: ['fontFamily', 'fontSize', 'fontWeight', 'lineHeight', 'letterSpacing'], note: 'Figma Text Style binding these variables; lineHeight px = fontSize × multiplier; underline/all-caps would be separate styles (textDecoration/textCase not bindable)' } } },
+  };
+};
 
 type Stats = {
   colorLeaves: number; dimLeaves: number; spaceTokens: number; radiusTokens: number; sizeSteps: number;
-  fontSizes: number; fontWeights: number;
+  fontSizes: number; fontWeights: number; typeComposites: number;
   aliases: number; resolved: number; modeChecks: number; modePass: number; broken: { path: string; ref: string }[];
 };
 
@@ -287,8 +307,20 @@ const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats: Stats
   for (const ls of ty.letterSpacings) letterSpacing[ls.key] = letterSpacingLeaf(ls.em, `letter spacing ${ls.key} — ${ls.em}em`);
   const font = { family, size: fsize, weight: fweight, 'weight-role': weightRole, 'line-height': lineHeight, 'letter-spacing': letterSpacing };
 
+  // ---- typography semantic composites (Phase 2) ----
+  // Consumer-facing type styles under `type.*`. Two composites may share a size
+  // primitive (title.xs and body.lg at 18px) — distinct by family/line-height/
+  // weight, resolved via the composite, not the size. The shared ladder stays
+  // single-source; font.size.* aliased_by then shows the overlap explicitly.
+  const typeGroup: Record<string, any> = {};
+  for (const c of ty.composites) {
+    const leaf = typographyLeaf(root, c);
+    if (c.variant) (typeGroup[c.group] ??= {})[c.variant] = leaf;
+    else typeGroup[c.group] = leaf;
+  }
+
   // ---- assemble under the brand root ----
-  const brand = { color, semantic, opacity, motion, font, dimension, space, radius, 'border-width': borderWidth, focus, size };
+  const brand = { color, semantic, opacity, motion, font, type: typeGroup, dimension, space, radius, 'border-width': borderWidth, focus, size };
   const tree = {
     [root]: brand,
     $extensions: {
@@ -331,7 +363,7 @@ const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats: Stats
 
   const alphaLeaves = 2 * ALPHA_STEPS.filter((s) => s > 0 && s < 100).length;
   const colorLeaves = 2 + theme.palettes.reduce((n, p) => n + p.steps.length, 0) + alphaLeaves;
-  return { tree, modes, stats: { colorLeaves, dimLeaves: theme.dims.grid.length, spaceTokens: theme.dims.space.length, radiusTokens: theme.dims.radius.length, sizeSteps: theme.dims.sizes.length, fontSizes: theme.typography.sizesPx.length, fontWeights: theme.typography.weightsRef.length, aliases: aliases.length, resolved: aliases.length - broken.length, broken, modeChecks, modePass } };
+  return { tree, modes, stats: { colorLeaves, dimLeaves: theme.dims.grid.length, spaceTokens: theme.dims.space.length, radiusTokens: theme.dims.radius.length, sizeSteps: theme.dims.sizes.length, fontSizes: theme.typography.sizesPx.length, fontWeights: theme.typography.weightsRef.length, typeComposites: theme.typography.composites.length, aliases: aliases.length, resolved: aliases.length - broken.length, broken, modeChecks, modePass } };
 };
 
 // ---------------------------------------------------------------------------
@@ -362,6 +394,11 @@ const aurora: BrandInput = {
     families: { display: 'Clash Display', text: 'Inter', mono: 'JetBrains Mono', variable: true },
     weightRoles: { subtle: 300, default: 400, emphasis: 500, strong: 700 },
     typeScale: 'expressive',
+    // Exercise the Phase 2 levers: cap heroes at 128px (no mega tier), include the
+    // 16px brand-font title (overlaps body.md), and put labels on the text face.
+    displayCeiling: 128,
+    titleFloor: 16,
+    familyMap: { label: 'text' },
   },
 };
 
@@ -386,6 +423,11 @@ for (const theme of themes) {
   console.log(`    sizes (${theme.dims.density}): ${theme.dims.sizes.map((z) => `${z.name}=${z.height}h/${z.padX}×${z.padY}pad`).join(' ')}`);
   console.log(`  typography: ${stats.fontSizes} size primitives (${theme.typography.sizesPx[0]}–${theme.typography.sizesPx[theme.typography.sizesPx.length - 1]}px, rem), ${stats.fontWeights} weights + ${theme.typography.weightRoles.length} roles (${theme.typography.weightRoles.map((w) => `${w.role}=${w.value}`).join(' ')}), ${theme.typography.lineHeights.length} line-heights, ${theme.typography.letterSpacings.length} tracking`);
   console.log(`    families: ${theme.typography.families.map((f) => `${f.role}=${f.stack[0]}`).join(' ')}${theme.typography.families[0].variable ? ' [variable]' : ''} · scale '${theme.typography.typeScale}'`);
+  {
+    const byGroup: Record<string, string[]> = {};
+    for (const c of theme.typography.composites) (byGroup[c.group] ??= []).push(c.variant ? `${c.variant}=${c.sizePx}` : String(c.sizePx));
+    console.log(`  type: ${stats.typeComposites} composites — ${Object.entries(byGroup).map(([g, v]) => `${g}[${v.join(' ')}]`).join(' ')}`);
+  }
   console.log(`  aliases: ${stats.resolved}/${stats.aliases} resolve | mode contracts: ${stats.modePass}/${stats.modeChecks} pass`);
   console.log(`  [written] ${outPath}`);
   if (stats.broken.length) { ok = false; stats.broken.forEach((b) => console.log(`   ❌ ${b.path} -> {${b.ref}}`)); }

@@ -240,6 +240,18 @@ const buildMotion = (p: MotionPersonality = {}): MotionAxis => {
 // numeric is the brand-variable part (23 §"Naming the weight ladder").
 export type FontFamilyRole = { role: 'display' | 'text' | 'mono'; stack: string[]; variable: boolean };
 export type WeightRole = { role: 'subtle' | 'default' | 'emphasis' | 'strong'; value: number };
+export type FamilyRoleName = 'display' | 'text' | 'mono';
+export type WeightRoleName = 'subtle' | 'default' | 'emphasis' | 'strong';
+export type TypeGroup = 'display' | 'title' | 'body' | 'label' | 'caption' | 'eyebrow' | 'code';
+// A semantic composite: a (group, variant) bundling family + size + weight role +
+// line-height + tracking. Two composites may share a size primitive (e.g. title.xs
+// and body.lg both at 18px) — they differ on family/line-height/weight/intent;
+// family is a property of the GROUP, not the size. The size ladder underneath is
+// single-source.
+export type TypeComposite = {
+  group: TypeGroup; variant: string; path: string; sizePx: number;
+  family: FamilyRoleName; lineHeight: string; weightRole: WeightRoleName; tracking: string;
+};
 export type Typography = {
   families: FontFamilyRole[];
   sizesPx: number[];                                  // curated ladder (px; rem = px/16)
@@ -247,7 +259,8 @@ export type Typography = {
   weightRoles: WeightRole[];                          // function-named roles → numeric
   lineHeights: { key: string; value: number }[];      // unitless multipliers
   letterSpacings: { key: string; em: number }[];      // em-relative tracking
-  typeScale: 'compact' | 'default' | 'expressive';    // semantic-tier lever (Phase 2)
+  typeScale: 'compact' | 'default' | 'expressive';    // shifts heading sizes up/down the ladder
+  composites: TypeComposite[];                        // semantic tier (Phase 2)
 };
 
 const SANS_FALLBACK = ['system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'];
@@ -282,6 +295,80 @@ export type TypographyInput = {
   families?: { display?: string | string[]; text?: string | string[]; mono?: string | string[]; variable?: boolean };
   weightRoles?: Partial<Record<'subtle' | 'default' | 'emphasis' | 'strong', number>>;
   typeScale?: 'compact' | 'default' | 'expressive';
+  /** Which family role each semantic group consumes. Defaults: display/title/
+   *  label/eyebrow → display (brand); body/caption → text; code → mono. Override
+   *  per group (e.g. neutral buttons: `{ label: 'text' }`). Family is a property
+   *  of the GROUP, not the size — this is what lets a small brand-font title share
+   *  a size with body while staying a distinct token. */
+  familyMap?: Partial<Record<TypeGroup, FamilyRoleName>>;
+  /** Cap the display tier (px). Brands that don't need mega heroes stop lower
+   *  (e.g. 96); the ladder is unchanged, the engine just omits display composites
+   *  above the cap. Default 160 (full). */
+  displayCeiling?: number;
+  /** Smallest title size. Default 18 (`title.xs`). Set 16 to add `title.2xs` — a
+   *  16px brand-font heading that deliberately overlaps `body.md`. */
+  titleFloor?: 16 | 18;
+};
+
+// Semantic catalogue defaults (the 'default' typeScale, before levers). Family/
+// weight/tracking are per-GROUP; line-height is size-derived for headings.
+const TYPE_FAMILY_DEFAULT: Record<TypeGroup, FamilyRoleName> = {
+  display: 'display', title: 'display', label: 'display', eyebrow: 'display',
+  body: 'text', caption: 'text', code: 'mono',
+};
+const TYPE_WEIGHT_DEFAULT: Record<TypeGroup, WeightRoleName> = {
+  display: 'strong', title: 'strong', label: 'emphasis', eyebrow: 'strong',
+  body: 'default', caption: 'default', code: 'default',
+};
+const TYPE_TRACK_DEFAULT: Record<TypeGroup, string> = {
+  display: 'tight', title: 'snug', label: 'normal', eyebrow: 'wider',
+  body: 'normal', caption: 'normal', code: 'normal',
+};
+// base variant → px (default scale). title floor 18; 16 (title.2xs) is opt-in.
+const TYPE_VARIANTS: Record<TypeGroup, [string, number][]> = {
+  display: [['sm', 48], ['md', 64], ['lg', 80], ['xl', 96], ['2xl', 128], ['3xl', 160]],
+  title: [['xs', 18], ['sm', 20], ['md', 24], ['lg', 28], ['xl', 32], ['2xl', 40]],
+  body: [['sm', 14], ['md', 16], ['lg', 18]],
+  label: [['sm', 12], ['md', 14]],
+  caption: [['', 12]],
+  eyebrow: [['', 12]],
+  code: [['inline', 14]],
+};
+const TYPE_SCALE_SHIFT = { compact: -1, default: 0, expressive: 1 } as const;
+// Bigger heading → tighter line-height (display tightest; small titles open up).
+const lineHeightFor = (group: TypeGroup, px: number): string => {
+  if (group === 'display') return 'tight';
+  if (group === 'title') return px >= 56 ? 'tight' : px >= 28 ? 'snug' : 'compact';
+  if (group === 'label' || group === 'eyebrow') return 'snug';
+  return 'normal';                                       // body, caption, code
+};
+
+const buildComposites = (ladder: number[], t: TypographyInput): TypeComposite[] => {
+  const familyMap = { ...TYPE_FAMILY_DEFAULT, ...(t.familyMap ?? {}) };
+  const shift = TYPE_SCALE_SHIFT[t.typeScale ?? 'default'];
+  const ceiling = t.displayCeiling ?? 160;
+  const titleFloor = t.titleFloor ?? 18;
+  const shiftPx = (px: number): number => {
+    const i = ladder.indexOf(px);
+    if (i < 0) return px;
+    return ladder[Math.max(0, Math.min(ladder.length - 1, i + shift))];
+  };
+  const out: TypeComposite[] = [];
+  for (const group of Object.keys(TYPE_VARIANTS) as TypeGroup[]) {
+    let variants = TYPE_VARIANTS[group].slice();
+    if (group === 'title' && titleFloor === 16) variants = [['2xs', 16], ...variants];
+    for (const [variant, baseSize] of variants) {
+      // typeScale shifts headings only (display + title); reading/UI text stays put.
+      const sizePx = group === 'display' || group === 'title' ? shiftPx(baseSize) : baseSize;
+      if (group === 'display' && sizePx > ceiling) continue;        // displayCeiling trims the top
+      out.push({
+        group, variant, path: variant ? `${group}.${variant}` : group, sizePx,
+        family: familyMap[group], lineHeight: lineHeightFor(group, sizePx),
+        weightRole: TYPE_WEIGHT_DEFAULT[group], tracking: TYPE_TRACK_DEFAULT[group],
+      });
+    }
+  }
+  return out;
 };
 
 const buildTypography = (t: TypographyInput = {}): Typography => {
@@ -302,6 +389,7 @@ const buildTypography = (t: TypographyInput = {}): Typography => {
     lineHeights: LINE_HEIGHTS,
     letterSpacings: LETTER_SPACINGS,
     typeScale: t.typeScale ?? 'default',
+    composites: buildComposites(fontSizeLadder(), t),
   };
 };
 
@@ -364,7 +452,7 @@ export const brandTheme = (input: BrandInput): Theme => {
   notes.push(`dimension axis: ${baseUnit}px grid, ${spaceBase}px space rhythm, density '${density}' (drives component sizes), radius scale ${rScale} (baseMd ${baseMd}px)`);
   notes.push(`motion: tempo '${input.motionPersonality?.tempo ?? 'standard'}' scales the duration ramp; easing roles + springs + composite transitions generated; reduce-motion variants derived (informational preserved, vestibular → 0)`);
   const typography = buildTypography(input.typography);
-  notes.push(`typography: curated rem size ladder (${typography.sizesPx.length} steps, ${typography.sizesPx[0]}–${typography.sizesPx[typography.sizesPx.length - 1]}px — NOT ratio-derived; covers all bases, clean values); weight roles subtle/default/emphasis/strong → ${typography.weightRoles.map((w) => w.value).join('/')}; families ${typography.families.map((f) => `${f.role}=${f.stack[0]}`).join(', ')}${typography.families[0].variable ? ' (variable)' : ''}; typeScale '${typography.typeScale}'. Line-height unitless multiplier in \$value; px-from-ratio materialization for Figma in \$extensions.`);
+  notes.push(`typography: curated rem size ladder (${typography.sizesPx.length} steps, ${typography.sizesPx[0]}–${typography.sizesPx[typography.sizesPx.length - 1]}px — NOT ratio-derived; covers all bases, clean values); weight roles subtle/default/emphasis/strong → ${typography.weightRoles.map((w) => w.value).join('/')}; families ${typography.families.map((f) => `${f.role}=${f.stack[0]}`).join(', ')}${typography.families[0].variable ? ' (variable)' : ''}; typeScale '${typography.typeScale}'. ${typography.composites.length} semantic composites (title/display sizes shifted by typeScale; display capped at ${input.typography?.displayCeiling ?? 160}px; title floor ${input.typography?.titleFloor ?? 18}px). Line-height unitless multiplier in \$value; px-from-ratio materialization for Figma in \$extensions.`);
   const dStrat = input.disabledStrategy ?? 'accessible';
   notes.push(dStrat === 'accessible'
     ? `disabled: 'accessible' — disabled text/icon/border clears ${input.disabledMin ?? 3}:1 on the floor (legible, contrast-preserving; the field-rare default). Set disabledStrategy:'conventional' for the sub-AA exempt look.`

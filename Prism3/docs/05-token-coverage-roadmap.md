@@ -21,7 +21,7 @@
 | **Motion** | NB `core-motion`, `motion` | ✅ Done | `motionPersonality.tempo` → duration ramp; easing roles + springs + composites + derived reduce-motion | — |
 | **Layout** | NB `layout` | ❌ Missing | grid columns/gutter/margin per breakpoint | **low–med** |
 | **Shadow / elevation** | NB `shadows` | ❌ Missing | elevation lever → ramp, mode-aware | **medium** |
-| **Typography** | NB `core-typography`, `typography` | 🟡 Phase 1 done (primitives) | curated rem ladder + weight roles + family triad + line-height/tracking; semantic composites + fluid next | **large** |
+| **Typography** | NB `core-typography`, `typography` | 🟡 Phase 1+2 done (primitives + composites) | curated rem ladder + weight roles + family triad; semantic composites (display/title/body/label/caption/eyebrow/code) w/ typeScale + displayCeiling + titleFloor + familyMap levers; fluid + Figma modes (Phase 3) next | **large** |
 | **Gradients** | Prism2 `color/gradient/*` | ❌ Missing | brand-artistic (stops/angle) — not a clean lever | **medium** |
 
 ---
@@ -64,10 +64,24 @@
   directive in `$extensions.prism3.figma` (line-height `px-from-ratio`, size px,
   scopes). Lever wired into `BrandInput.typography` (families / weightRoles /
   typeScale) + schema; aurora exercises it (Clash Display variable, emphasis→500,
-  expressive scale). 411/411 aliases, 268/268 contracts, 65/65 tests. **Phase 2
-  (semantic composites) and Phase 3 (fluid + Figma modes) remain** — see below and
-  the *Cross-cutting: Figma round-trip* materialization decision. Original plan:
-  Two layers like colour:
+  expressive scale). **Phase 2 (semantic composites) SHIPPED (2026-06-28):** a
+  `type.*` group — `display` (sm→3xl), `title` (xs→2xl, opt-in 2xs=16), `body`
+  (sm/md/lg), `label` (sm/md), `caption`, `eyebrow`, `code.inline` — each a DTCG
+  composite bundling family + size + weight *role* (two-hop → numeric, so a brand
+  weight re-map reflows every composite) + line-height + tracking, materializing as
+  a Figma Text Style. Field-survey-grounded naming (11-system survey in the KB
+  research run): **"title" not "heading"** (dodges the H-tag collision), **button
+  folded into `label`** (M3 precedent — not its own type group), **`detail` retired**
+  → caption + label, **`eyebrow`** added for marketing kickers, **`code`** for mono;
+  **`link` deliberately omitted** (colour/decoration, not a type role). Levers:
+  `typeScale` (shifts heading sizes ±1 rung), `displayCeiling` (caps the hero tier —
+  "not everyone needs the high end"), `titleFloor` (opt-in 16px brand-font title),
+  `familyMap` (per-group family role — family is a property of the group, not the
+  size, so `title.xs`@18 and `body.lg`@18 share a size primitive but stay distinct
+  tokens; the overlap is visible in `font.size.18.aliased_by`). 511/511 aliases,
+  268/268 contracts, 65/65 tests. **Phase 3 (fluid `clamp()` + Figma desktop/mobile
+  modes) remains** — see the *Cross-cutting: Figma round-trip* materialization
+  decision (the min/max endpoint model). Original plan: Two layers like colour:
   primitives `font/{family,weight,size,lineheight}` → composite styles
   `typography/{display,heading,body,…}/* = {fontFamily, fontSize, fontWeight,
   letterSpacing, lineHeight}`. Lever: declared families + weights + a **modular
