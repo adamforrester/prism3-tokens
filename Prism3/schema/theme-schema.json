@@ -155,6 +155,16 @@
           "enum": [16, 18],
           "default": 18,
           "description": "Smallest title size. Default 18 (title.xs). Set 16 to add title.2xs — a 16px brand-font heading that deliberately overlaps body.md."
+        },
+        "responsive": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Responsive sizing. `fluid` (default true) gives heading groups a mobile endpoint (desktop × a per-group factor, snapped to the ladder); the one min/max pair drives both the web clamp() and the Figma desktop/mobile modes. Reading/UI text stays static.",
+          "properties": {
+            "fluid": { "type": "boolean", "default": true, "description": "Fluid heading sizing on/off. Off → all sizes static (min == max)." },
+            "minViewport": { "type": "number", "default": 375, "description": "Viewport (px) at which fluid type reaches its min." },
+            "maxViewport": { "type": "number", "default": 1280, "description": "Viewport (px) at which fluid type reaches its max." }
+          }
         }
       }
     },

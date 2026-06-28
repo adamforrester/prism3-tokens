@@ -161,20 +161,42 @@ const letterSpacingLeaf = (em: number, description: string): Token => ({
 //   validator resolves it, and the Figma round-trip plan FLATTENS composites at
 //   build — see 05 roadmap). A downstream SD/Tokens-Studio consumer may not honor
 //   brace property-level aliases; flatten-at-build is the mitigation.
-const typographyLeaf = (root: string, c: { group: string; variant: string; sizePx: number; family: string; weightRole: string; lineHeight: string; tracking: string; textCase: string }, face: string): Token => {
+// Fluid interpolation: clamp(min, preferred, max) where preferred = a rem
+// intercept + a vw slope, solved so it hits minPx at minVW and maxPx at maxVW. The
+// rem term is mandatory (WCAG 1.4.4 — vw-only defeats user zoom).
+const fluidClamp = (minPx: number, maxPx: number, minVW: number, maxVW: number): { clamp: string; preferred: string } => {
+  const slope = (maxPx - minPx) / (maxVW - minVW);             // px per px of viewport
+  const slopeVw = round(slope * 100, 4);                       // → vw units
+  const interceptRem = round((minPx - slope * minVW) / 16, 4); // rem (carries user zoom)
+  const preferred = `${interceptRem}rem + ${slopeVw}vw`;
+  return { clamp: `clamp(${round(minPx / 16, 4)}rem, ${preferred}, ${round(maxPx / 16, 4)}rem)`, preferred };
+};
+const typographyLeaf = (root: string, c: { group: string; variant: string; sizePx: number; sizeMinPx: number; family: string; weightRole: string; lineHeight: string; tracking: string; textCase: string }, face: string, minVW: number, maxVW: number): Token => {
   const a = (seg: string) => `{${root}.font.${seg}}`;
   const value: Record<string, unknown> = {
     fontFamily: a(`family.${c.family}`),
-    fontSize: a(`size.${c.sizePx}`),
+    fontSize: a(`size.${c.sizePx}`),                            // canonical = desktop/max (fallback)
     fontWeight: a(`weight-role.${c.weightRole}`),
     lineHeight: a(`line-height.${c.lineHeight}`),
     letterSpacing: a(`letter-spacing.${c.tracking}`),
   };
   if (c.textCase !== 'none') value.textCase = c.textCase;          // literal, baked (not a variable)
+  // Responsive directive (Phase 3): one min/max pair → web clamp() + Figma modes.
+  // Canonical $value.fontSize stays the desktop alias; the exporter reads this.
+  const isFluid = c.sizeMinPx !== c.sizePx;
+  const responsive = isFluid
+    ? {
+        fluid: true,
+        min: { px: c.sizeMinPx, rem: round(c.sizeMinPx / 16, 4), ref: `{${root}.font.size.${c.sizeMinPx}}` },
+        max: { px: c.sizePx, rem: round(c.sizePx / 16, 4), ref: `{${root}.font.size.${c.sizePx}}` },
+        web: fluidClamp(c.sizeMinPx, c.sizePx, minVW, maxVW).clamp,
+        figma: { field: 'fontSize', scope: 'FONT_SIZE', modes: { mobile: c.sizeMinPx, desktop: c.sizePx } },
+      }
+    : { fluid: false, px: c.sizePx };
   return {
     $type: 'typography', $value: value,
-    $description: `${c.group}${c.variant ? ' ' + c.variant : ''} — ${c.sizePx}px ${face} (${c.family} role), ${c.lineHeight} line-height, ${c.weightRole} weight, ${c.tracking} tracking${c.textCase !== 'none' ? `, ${c.textCase}` : ''} — consumer-facing type style`,
-    $extensions: { prism3: { role: 'composite', group: c.group, variant: c.variant, sizePx: c.sizePx, ...(c.textCase !== 'none' ? { textCase: c.textCase } : {}), figma: { kind: 'text-style', styleType: 'TEXT', binds: ['fontFamily', 'fontSize', 'fontWeight', 'lineHeight', 'letterSpacing'], baked: c.textCase !== 'none' ? ['textCase'] : [], note: 'Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles' } } },
+    $description: `${c.group}${c.variant ? ' ' + c.variant : ''} — ${isFluid ? `${c.sizeMinPx}→${c.sizePx}px fluid` : `${c.sizePx}px`} ${face} (${c.family} role), ${c.lineHeight} line-height, ${c.weightRole} weight, ${c.tracking} tracking${c.textCase !== 'none' ? `, ${c.textCase}` : ''} — consumer-facing type style`,
+    $extensions: { prism3: { role: 'composite', group: c.group, variant: c.variant, sizePx: c.sizePx, ...(c.textCase !== 'none' ? { textCase: c.textCase } : {}), responsive, figma: { kind: 'text-style', styleType: 'TEXT', binds: ['fontFamily', 'fontSize', 'fontWeight', 'lineHeight', 'letterSpacing'], baked: c.textCase !== 'none' ? ['textCase'] : [], note: 'Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)' } } },
   };
 };
 
@@ -323,7 +345,7 @@ const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats: Stats
   const faceOf: Record<string, string> = Object.fromEntries(ty.families.map((f) => [f.role, f.stack[0]]));
   const typeGroup: Record<string, any> = {};
   for (const c of ty.composites) {
-    const leaf = typographyLeaf(root, c, faceOf[c.family]);
+    const leaf = typographyLeaf(root, c, faceOf[c.family], ty.minViewport, ty.maxViewport);
     if (c.variant) (typeGroup[c.group] ??= {})[c.variant] = leaf;
     else typeGroup[c.group] = leaf;
   }
@@ -408,6 +430,8 @@ const aurora: BrandInput = {
     displayCeiling: 128,
     titleFloor: 16,
     familyMap: { label: 'text' },
+    // Exercise the responsive lever: a wider clamp window than the 375–1280 default.
+    responsive: { fluid: true, minViewport: 360, maxViewport: 1440 },
   },
 };
 
@@ -436,6 +460,8 @@ for (const theme of themes) {
     const byGroup: Record<string, string[]> = {};
     for (const c of theme.typography.composites) (byGroup[c.group] ??= []).push(c.variant ? `${c.variant}=${c.sizePx}` : String(c.sizePx));
     console.log(`  type: ${stats.typeComposites} composites — ${Object.entries(byGroup).map(([g, v]) => `${g}[${v.join(' ')}]`).join(' ')}`);
+    const fl = theme.typography.composites.filter((c) => c.sizeMinPx !== c.sizePx);
+    console.log(`  fluid: ${theme.typography.fluid ? `${fl.length} composites ${theme.typography.minViewport}–${theme.typography.maxViewport}px (e.g. ${fl.slice(0, 3).map((c) => `${c.path} ${c.sizeMinPx}→${c.sizePx}`).join(', ')})` : 'OFF (static)'}`);
   }
   console.log(`  aliases: ${stats.resolved}/${stats.aliases} resolve | mode contracts: ${stats.modePass}/${stats.modeChecks} pass`);
   console.log(`  [written] ${outPath}`);

@@ -138,7 +138,20 @@ for (const [label, ty] of typeCases) {
   ok(!bad, `[type/${label}] all composite refs resolve${bad ? ` — ${bad}` : ''}`);
   ok(!dup, `[type/${label}] no duplicate size within a group${dup ? ` — ${dup}` : ''}`);
   ok(!mono, `[type/${label}] sizes monotonic within group${mono ? ` — ${mono}` : ''}`);
+  // fluid (Phase 3): mobile endpoint never above desktop, always a real ladder rung,
+  // and only heading groups (display/title) ever go fluid.
+  let flbad = '';
+  for (const c of comps) {
+    if (c.sizeMinPx > c.sizePx) flbad ||= `${c.path} min>${c.sizePx}`;
+    if (!ladder.has(c.sizeMinPx)) flbad ||= `${c.path} min off-ladder ${c.sizeMinPx}`;
+    if (c.sizeMinPx !== c.sizePx && c.group !== 'display' && c.group !== 'title') flbad ||= `${c.path} non-heading is fluid`;
+  }
+  ok(!flbad, `[type/${label}] fluid endpoints valid${flbad ? ` — ${flbad}` : ''}`);
 }
+// responsive OFF → every composite static (min == max)
+ok(tBrand('static', { responsive: { fluid: false } }).typography.composites.every((c) => c.sizeMinPx === c.sizePx), 'responsive:{fluid:false} → all composites static');
+// default fluid → at least the display tier is fluid (min < max somewhere)
+ok(tBrand('fl', {}).typography.composites.some((c) => c.group === 'display' && c.sizeMinPx < c.sizePx), 'default fluid → display tier shrinks on mobile');
 ok(!tBrand('tf-d', {}).typography.composites.some((c) => c.path === 'title.2xs'), 'titleFloor default 18 → no title.2xs');
 // C1: titleFloor 16 delivers a LITERAL 16px title.2xs under EVERY typeScale (pinned, exempt from the shift).
 for (const scale of ['compact', 'default', 'expressive'] as const) {

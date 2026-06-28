@@ -249,7 +249,8 @@ export type TypeGroup = 'display' | 'title' | 'body' | 'label' | 'caption' | 'ey
 // family is a property of the GROUP, not the size. The size ladder underneath is
 // single-source.
 export type TypeComposite = {
-  group: TypeGroup; variant: string; path: string; sizePx: number;
+  group: TypeGroup; variant: string; path: string; sizePx: number;   // desktop / max
+  sizeMinPx: number;                               // mobile / min (== sizePx when static)
   family: FamilyRoleName; lineHeight: string; weightRole: WeightRoleName; tracking: string;
   textCase: 'none' | 'uppercase' | 'lowercase';   // baked style (not Figma-bindable; code/style-side)
 };
@@ -262,6 +263,9 @@ export type Typography = {
   letterSpacings: { key: string; em: number }[];      // em-relative tracking
   typeScale: 'compact' | 'default' | 'expressive';    // shifts heading sizes up/down the ladder
   composites: TypeComposite[];                        // semantic tier (Phase 2)
+  fluid: boolean;                                     // responsive sizing on (Phase 3)
+  minViewport: number;                                // px — fluid clamp() interpolation floor
+  maxViewport: number;                                // px — fluid clamp() interpolation ceiling
 };
 
 const SANS_FALLBACK = ['system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'];
@@ -309,6 +313,12 @@ export type TypographyInput = {
   /** Smallest title size. Default 18 (`title.xs`). Set 16 to add `title.2xs` — a
    *  16px brand-font heading that deliberately overlaps `body.md`. */
   titleFloor?: 16 | 18;
+  /** Responsive sizing (Phase 3). `fluid` (default true) gives heading groups a
+   *  mobile endpoint (= desktop × a per-group factor, snapped to the ladder); the
+   *  same min/max pair drives the web `clamp()` and the Figma desktop/mobile modes.
+   *  Reading/UI text stays static. `minViewport`/`maxViewport` (px, default
+   *  375/1280) bound the clamp interpolation. */
+  responsive?: { fluid?: boolean; minViewport?: number; maxViewport?: number };
 };
 
 // Semantic catalogue defaults (the 'default' typeScale, before levers). Family/
@@ -339,6 +349,14 @@ const TYPE_VARIANTS: Record<TypeGroup, [string, number][]> = {
   code: [['inline', 14]],
 };
 const TYPE_SCALE_SHIFT = { compact: -1, default: 0, expressive: 1 } as const;
+// Mobile endpoint = desktop × factor, snapped to the ladder. Headings shrink on
+// mobile (heroes most); reading/UI text stays static (factor absent → min==max).
+const FLUID_FACTOR: Partial<Record<TypeGroup, number>> = { display: 0.75, title: 0.875 };
+const snapToLadder = (ladder: number[], px: number): number =>
+  ladder.reduce((best, v) => {
+    const dv = Math.abs(v - px), db = Math.abs(best - px);
+    return dv < db || (dv === db && v < best) ? v : best;   // ties → smaller (more shrink)
+  }, ladder[0]);
 // Bigger heading → tighter line-height (display tightest; small titles open up).
 const lineHeightFor = (group: TypeGroup, px: number): string => {
   if (group === 'display') return 'tight';
@@ -347,7 +365,7 @@ const lineHeightFor = (group: TypeGroup, px: number): string => {
   return 'normal';                                       // body, caption, code
 };
 
-const buildComposites = (ladder: number[], t: TypographyInput): TypeComposite[] => {
+const buildComposites = (ladder: number[], t: TypographyInput, fluid: boolean): TypeComposite[] => {
   const familyMap = { ...TYPE_FAMILY_DEFAULT, ...(t.familyMap ?? {}) };
   const shift = TYPE_SCALE_SHIFT[t.typeScale ?? 'default'];
   const ceiling = t.displayCeiling ?? 160;
@@ -358,12 +376,16 @@ const buildComposites = (ladder: number[], t: TypographyInput): TypeComposite[] 
     return ladder[Math.max(0, Math.min(ladder.length - 1, i + shift))];
   };
   const out: TypeComposite[] = [];
-  const push = (group: TypeGroup, variant: string, sizePx: number) => out.push({
-    group, variant, path: variant ? `${group}.${variant}` : group, sizePx,
-    family: familyMap[group], lineHeight: lineHeightFor(group, sizePx),
-    weightRole: TYPE_WEIGHT_DEFAULT[group], tracking: trackingFor(group, sizePx),
-    textCase: group === 'eyebrow' ? 'uppercase' : 'none',
-  });
+  const push = (group: TypeGroup, variant: string, sizePx: number) => {
+    const factor = FLUID_FACTOR[group];
+    const sizeMinPx = fluid && factor ? Math.min(snapToLadder(ladder, sizePx * factor), sizePx) : sizePx;
+    out.push({
+      group, variant, path: variant ? `${group}.${variant}` : group, sizePx, sizeMinPx,
+      family: familyMap[group], lineHeight: lineHeightFor(group, sizePx),
+      weightRole: TYPE_WEIGHT_DEFAULT[group], tracking: trackingFor(group, sizePx),
+      textCase: group === 'eyebrow' ? 'uppercase' : 'none',
+    });
+  };
   for (const group of Object.keys(TYPE_VARIANTS) as TypeGroup[]) {
     const isHeading = group === 'display' || group === 'title';
     let prev = -Infinity;
@@ -397,6 +419,7 @@ const buildTypography = (t: TypographyInput = {}): Typography => {
     { role: 'mono', stack: asStack(fam.mono, 'JetBrains Mono', MONO_FALLBACK), variable: isVar('mono') },
   ];
   const wr = { ...WEIGHT_ROLE_DEFAULT, ...(t.weightRoles ?? {}) };
+  const fluid = t.responsive?.fluid ?? true;
   return {
     families,
     sizesPx: fontSizeLadder(),
@@ -405,7 +428,10 @@ const buildTypography = (t: TypographyInput = {}): Typography => {
     lineHeights: LINE_HEIGHTS,
     letterSpacings: LETTER_SPACINGS,
     typeScale: t.typeScale ?? 'default',
-    composites: buildComposites(fontSizeLadder(), t),
+    composites: buildComposites(fontSizeLadder(), t, fluid),
+    fluid,
+    minViewport: t.responsive?.minViewport ?? 375,
+    maxViewport: t.responsive?.maxViewport ?? 1280,
   };
 };
 
@@ -477,7 +503,7 @@ export const brandTheme = (input: BrandInput): Theme => {
       ? ` — NOTE: requested ceiling ${reqCeiling}px; effective top display is ${effCap}px (typeScale shifts sizes off the exact ladder rung)`
       : '';
   const varFams = typography.families.filter((f) => f.variable).map((f) => f.role);
-  notes.push(`typography: curated rem size ladder (${typography.sizesPx.length} steps, ${typography.sizesPx[0]}–${typography.sizesPx[typography.sizesPx.length - 1]}px — NOT ratio-derived; covers all bases, clean values); weight roles subtle/default/emphasis/strong → ${typography.weightRoles.map((w) => w.value).join('/')}; families ${typography.families.map((f) => `${f.role}=${f.stack[0]}`).join(', ')}${varFams.length ? ` (variable: ${varFams.join('/')})` : ''}; typeScale '${typography.typeScale}'. ${typography.composites.length} semantic composites (title/display sizes shifted by typeScale; display capped at ${reqCeiling}px; title floor ${input.typography?.titleFloor ?? 18}px)${capNote}. Line-height unitless multiplier in \$value; px-from-ratio materialization for Figma in \$extensions.`);
+  notes.push(`typography: curated rem size ladder (${typography.sizesPx.length} steps, ${typography.sizesPx[0]}–${typography.sizesPx[typography.sizesPx.length - 1]}px — NOT ratio-derived; covers all bases, clean values); weight roles subtle/default/emphasis/strong → ${typography.weightRoles.map((w) => w.value).join('/')}; families ${typography.families.map((f) => `${f.role}=${f.stack[0]}`).join(', ')}${varFams.length ? ` (variable: ${varFams.join('/')})` : ''}; typeScale '${typography.typeScale}'. ${typography.composites.length} semantic composites (title/display sizes shifted by typeScale; display capped at ${reqCeiling}px; title floor ${input.typography?.titleFloor ?? 18}px)${capNote}. ${typography.fluid ? `responsive: ${typography.composites.filter((c) => c.sizeMinPx !== c.sizePx).length} fluid composites (display+title shrink on mobile via per-group factor, snapped to the ladder; one min/max pair → web clamp() ${typography.minViewport}–${typography.maxViewport}px + Figma desktop/mobile modes)` : 'responsive: OFF (all sizes static)'}. Line-height unitless multiplier in \$value; px-from-ratio materialization for Figma in \$extensions.`);
   const dStrat = input.disabledStrategy ?? 'accessible';
   notes.push(dStrat === 'accessible'
     ? `disabled: 'accessible' — disabled text/icon/border clears ${input.disabledMin ?? 3}:1 on the floor (legible, contrast-preserving; the field-rare default). Set disabledStrategy:'conventional' for the sub-AA exempt look.`

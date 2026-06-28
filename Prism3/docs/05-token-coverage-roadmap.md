@@ -21,7 +21,7 @@
 | **Motion** | NB `core-motion`, `motion` | ✅ Done | `motionPersonality.tempo` → duration ramp; easing roles + springs + composites + derived reduce-motion | — |
 | **Layout** | NB `layout` | ❌ Missing | grid columns/gutter/margin per breakpoint | **low–med** |
 | **Shadow / elevation** | NB `shadows` | ❌ Missing | elevation lever → ramp, mode-aware | **medium** |
-| **Typography** | NB `core-typography`, `typography` | 🟡 Phase 1+2 done (primitives + composites) | curated rem ladder + weight roles + family triad; semantic composites (display/title/body/label/caption/eyebrow/code) w/ typeScale + displayCeiling + titleFloor + familyMap levers; fluid + Figma modes (Phase 3) next | **large** |
+| **Typography** | NB `core-typography`, `typography` | ✅ Done (primitives + composites + fluid) | curated rem ladder + weight roles + family triad; semantic composites (display/title/body/label/caption/eyebrow/code); levers typeScale/displayCeiling/titleFloor/familyMap/responsive; fluid clamp() + Figma desktop/mobile modes from one min/max pair | — |
 | **Gradients** | Prism2 `color/gradient/*` | ❌ Missing | brand-artistic (stops/angle) — not a clean lever | **medium** |
 
 ---
@@ -79,9 +79,19 @@
   `familyMap` (per-group family role — family is a property of the group, not the
   size, so `title.xs`@18 and `body.lg`@18 share a size primitive but stay distinct
   tokens; the overlap is visible in `font.size.18.aliased_by`). 511/511 aliases,
-  268/268 contracts, 65/65 tests. **Phase 3 (fluid `clamp()` + Figma desktop/mobile
-  modes) remains** — see the *Cross-cutting: Figma round-trip* materialization
-  decision (the min/max endpoint model). Original plan: Two layers like colour:
+  268/268 contracts. **Phase 3 (responsive) SHIPPED (2026-06-28):** each heading
+  composite (display + title) gets a **mobile endpoint** = desktop × a per-group
+  factor (display 0.75, title 0.875) snapped to the ladder; reading/UI text stays
+  static. The **one min/max pair drives both outputs** — `$extensions.prism3.
+  responsive` carries the web `clamp(min, preferred, max)` (rem-floored per WCAG
+  1.4.4) **and** the Figma `figma.modes.{mobile,desktop}` for desktop/mobile
+  collection modes — while `$value.fontSize` stays the desktop canonical/fallback
+  (the locked materialization pattern: exporter reads `$extensions`). Lever
+  `responsive: { fluid, minViewport, maxViewport }` (default on, 375–1280px); aurora
+  runs 360–1440. Line-height stays a unitless multiplier (scales on web; per-mode px
+  in Figma). 103/103 tests (incl. fluid-endpoint invariants), 511/511 aliases,
+  268/268 contracts. **Typography is now complete (primitives + composites + fluid).**
+  Original plan: Two layers like colour:
   primitives `font/{family,weight,size,lineheight}` → composite styles
   `typography/{display,heading,body,…}/* = {fontFamily, fontSize, fontWeight,
   letterSpacing, lineHeight}`. Lever: declared families + weights + a **modular

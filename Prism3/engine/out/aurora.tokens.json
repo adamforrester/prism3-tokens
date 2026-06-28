@@ -9820,13 +9820,35 @@
             "lineHeight": "{prism.font.line-height.tight}",
             "letterSpacing": "{prism.font.letter-spacing.tight}"
           },
-          "$description": "display sm — 56px Clash Display (display role), tight line-height, strong weight, tight tracking — consumer-facing type style",
+          "$description": "display sm — 40→56px fluid Clash Display (display role), tight line-height, strong weight, tight tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
               "group": "display",
               "variant": "sm",
               "sizePx": 56,
+              "responsive": {
+                "fluid": true,
+                "min": {
+                  "px": 40,
+                  "rem": 2.5,
+                  "ref": "{prism.font.size.40}"
+                },
+                "max": {
+                  "px": 56,
+                  "rem": 3.5,
+                  "ref": "{prism.font.size.56}"
+                },
+                "web": "clamp(2.5rem, 2.1667rem + 1.4815vw, 3.5rem)",
+                "figma": {
+                  "field": "fontSize",
+                  "scope": "FONT_SIZE",
+                  "modes": {
+                    "mobile": 40,
+                    "desktop": 56
+                  }
+                }
+              },
               "figma": {
                 "kind": "text-style",
                 "styleType": "TEXT",
@@ -9838,7 +9860,7 @@
                   "letterSpacing"
                 ],
                 "baked": [],
-                "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
+                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
             }
           }
@@ -9852,13 +9874,35 @@
             "lineHeight": "{prism.font.line-height.tight}",
             "letterSpacing": "{prism.font.letter-spacing.tight}"
           },
-          "$description": "display md — 72px Clash Display (display role), tight line-height, strong weight, tight tracking — consumer-facing type style",
+          "$description": "display md — 56→72px fluid Clash Display (display role), tight line-height, strong weight, tight tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
               "group": "display",
               "variant": "md",
               "sizePx": 72,
+              "responsive": {
+                "fluid": true,
+                "min": {
+                  "px": 56,
+                  "rem": 3.5,
+                  "ref": "{prism.font.size.56}"
+                },
+                "max": {
+                  "px": 72,
+                  "rem": 4.5,
+                  "ref": "{prism.font.size.72}"
+                },
+                "web": "clamp(3.5rem, 3.1667rem + 1.4815vw, 4.5rem)",
+                "figma": {
+                  "field": "fontSize",
+                  "scope": "FONT_SIZE",
+                  "modes": {
+                    "mobile": 56,
+                    "desktop": 72
+                  }
+                }
+              },
               "figma": {
                 "kind": "text-style",
                 "styleType": "TEXT",
@@ -9870,7 +9914,7 @@
                   "letterSpacing"
                 ],
                 "baked": [],
-                "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
+                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
             }
           }
@@ -9884,13 +9928,35 @@
             "lineHeight": "{prism.font.line-height.tight}",
             "letterSpacing": "{prism.font.letter-spacing.tighter}"
           },
-          "$description": "display lg — 96px Clash Display (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
+          "$description": "display lg — 72→96px fluid Clash Display (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
               "group": "display",
               "variant": "lg",
               "sizePx": 96,
+              "responsive": {
+                "fluid": true,
+                "min": {
+                  "px": 72,
+                  "rem": 4.5,
+                  "ref": "{prism.font.size.72}"
+                },
+                "max": {
+                  "px": 96,
+                  "rem": 6,
+                  "ref": "{prism.font.size.96}"
+                },
+                "web": "clamp(4.5rem, 4rem + 2.2222vw, 6rem)",
+                "figma": {
+                  "field": "fontSize",
+                  "scope": "FONT_SIZE",
+                  "modes": {
+                    "mobile": 72,
+                    "desktop": 96
+                  }
+                }
+              },
               "figma": {
                 "kind": "text-style",
                 "styleType": "TEXT",
@@ -9902,7 +9968,7 @@
                   "letterSpacing"
                 ],
                 "baked": [],
-                "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
+                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
             }
           }
@@ -9916,13 +9982,35 @@
             "lineHeight": "{prism.font.line-height.tight}",
             "letterSpacing": "{prism.font.letter-spacing.tighter}"
           },
-          "$description": "display xl — 112px Clash Display (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
+          "$description": "display xl — 80→112px fluid Clash Display (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
               "group": "display",
               "variant": "xl",
               "sizePx": 112,
+              "responsive": {
+                "fluid": true,
+                "min": {
+                  "px": 80,
+                  "rem": 5,
+                  "ref": "{prism.font.size.80}"
+                },
+                "max": {
+                  "px": 112,
+                  "rem": 7,
+                  "ref": "{prism.font.size.112}"
+                },
+                "web": "clamp(5rem, 4.3333rem + 2.963vw, 7rem)",
+                "figma": {
+                  "field": "fontSize",
+                  "scope": "FONT_SIZE",
+                  "modes": {
+                    "mobile": 80,
+                    "desktop": 112
+                  }
+                }
+              },
               "figma": {
                 "kind": "text-style",
                 "styleType": "TEXT",
@@ -9934,7 +10022,7 @@
                   "letterSpacing"
                 ],
                 "baked": [],
-                "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
+                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
             }
           }
@@ -9950,13 +10038,35 @@
             "lineHeight": "{prism.font.line-height.compact}",
             "letterSpacing": "{prism.font.letter-spacing.snug}"
           },
-          "$description": "title 2xs — 16px Clash Display (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
+          "$description": "title 2xs — 14→16px fluid Clash Display (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
               "group": "title",
               "variant": "2xs",
               "sizePx": 16,
+              "responsive": {
+                "fluid": true,
+                "min": {
+                  "px": 14,
+                  "rem": 0.875,
+                  "ref": "{prism.font.size.14}"
+                },
+                "max": {
+                  "px": 16,
+                  "rem": 1,
+                  "ref": "{prism.font.size.16}"
+                },
+                "web": "clamp(0.875rem, 0.8333rem + 0.1852vw, 1rem)",
+                "figma": {
+                  "field": "fontSize",
+                  "scope": "FONT_SIZE",
+                  "modes": {
+                    "mobile": 14,
+                    "desktop": 16
+                  }
+                }
+              },
               "figma": {
                 "kind": "text-style",
                 "styleType": "TEXT",
@@ -9968,7 +10078,7 @@
                   "letterSpacing"
                 ],
                 "baked": [],
-                "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
+                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
             }
           }
@@ -9982,13 +10092,35 @@
             "lineHeight": "{prism.font.line-height.compact}",
             "letterSpacing": "{prism.font.letter-spacing.snug}"
           },
-          "$description": "title xs — 20px Clash Display (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
+          "$description": "title xs — 18→20px fluid Clash Display (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
               "group": "title",
               "variant": "xs",
               "sizePx": 20,
+              "responsive": {
+                "fluid": true,
+                "min": {
+                  "px": 18,
+                  "rem": 1.125,
+                  "ref": "{prism.font.size.18}"
+                },
+                "max": {
+                  "px": 20,
+                  "rem": 1.25,
+                  "ref": "{prism.font.size.20}"
+                },
+                "web": "clamp(1.125rem, 1.0833rem + 0.1852vw, 1.25rem)",
+                "figma": {
+                  "field": "fontSize",
+                  "scope": "FONT_SIZE",
+                  "modes": {
+                    "mobile": 18,
+                    "desktop": 20
+                  }
+                }
+              },
               "figma": {
                 "kind": "text-style",
                 "styleType": "TEXT",
@@ -10000,7 +10132,7 @@
                   "letterSpacing"
                 ],
                 "baked": [],
-                "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
+                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
             }
           }
@@ -10014,13 +10146,35 @@
             "lineHeight": "{prism.font.line-height.compact}",
             "letterSpacing": "{prism.font.letter-spacing.snug}"
           },
-          "$description": "title sm — 24px Clash Display (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
+          "$description": "title sm — 20→24px fluid Clash Display (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
               "group": "title",
               "variant": "sm",
               "sizePx": 24,
+              "responsive": {
+                "fluid": true,
+                "min": {
+                  "px": 20,
+                  "rem": 1.25,
+                  "ref": "{prism.font.size.20}"
+                },
+                "max": {
+                  "px": 24,
+                  "rem": 1.5,
+                  "ref": "{prism.font.size.24}"
+                },
+                "web": "clamp(1.25rem, 1.1667rem + 0.3704vw, 1.5rem)",
+                "figma": {
+                  "field": "fontSize",
+                  "scope": "FONT_SIZE",
+                  "modes": {
+                    "mobile": 20,
+                    "desktop": 24
+                  }
+                }
+              },
               "figma": {
                 "kind": "text-style",
                 "styleType": "TEXT",
@@ -10032,7 +10186,7 @@
                   "letterSpacing"
                 ],
                 "baked": [],
-                "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
+                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
             }
           }
@@ -10046,13 +10200,35 @@
             "lineHeight": "{prism.font.line-height.snug}",
             "letterSpacing": "{prism.font.letter-spacing.snug}"
           },
-          "$description": "title md — 28px Clash Display (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
+          "$description": "title md — 24→28px fluid Clash Display (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
               "group": "title",
               "variant": "md",
               "sizePx": 28,
+              "responsive": {
+                "fluid": true,
+                "min": {
+                  "px": 24,
+                  "rem": 1.5,
+                  "ref": "{prism.font.size.24}"
+                },
+                "max": {
+                  "px": 28,
+                  "rem": 1.75,
+                  "ref": "{prism.font.size.28}"
+                },
+                "web": "clamp(1.5rem, 1.4167rem + 0.3704vw, 1.75rem)",
+                "figma": {
+                  "field": "fontSize",
+                  "scope": "FONT_SIZE",
+                  "modes": {
+                    "mobile": 24,
+                    "desktop": 28
+                  }
+                }
+              },
               "figma": {
                 "kind": "text-style",
                 "styleType": "TEXT",
@@ -10064,7 +10240,7 @@
                   "letterSpacing"
                 ],
                 "baked": [],
-                "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
+                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
             }
           }
@@ -10078,13 +10254,35 @@
             "lineHeight": "{prism.font.line-height.snug}",
             "letterSpacing": "{prism.font.letter-spacing.snug}"
           },
-          "$description": "title lg — 32px Clash Display (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
+          "$description": "title lg — 28→32px fluid Clash Display (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
               "group": "title",
               "variant": "lg",
               "sizePx": 32,
+              "responsive": {
+                "fluid": true,
+                "min": {
+                  "px": 28,
+                  "rem": 1.75,
+                  "ref": "{prism.font.size.28}"
+                },
+                "max": {
+                  "px": 32,
+                  "rem": 2,
+                  "ref": "{prism.font.size.32}"
+                },
+                "web": "clamp(1.75rem, 1.6667rem + 0.3704vw, 2rem)",
+                "figma": {
+                  "field": "fontSize",
+                  "scope": "FONT_SIZE",
+                  "modes": {
+                    "mobile": 28,
+                    "desktop": 32
+                  }
+                }
+              },
               "figma": {
                 "kind": "text-style",
                 "styleType": "TEXT",
@@ -10096,7 +10294,7 @@
                   "letterSpacing"
                 ],
                 "baked": [],
-                "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
+                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
             }
           }
@@ -10110,13 +10308,35 @@
             "lineHeight": "{prism.font.line-height.snug}",
             "letterSpacing": "{prism.font.letter-spacing.snug}"
           },
-          "$description": "title xl — 36px Clash Display (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
+          "$description": "title xl — 32→36px fluid Clash Display (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
               "group": "title",
               "variant": "xl",
               "sizePx": 36,
+              "responsive": {
+                "fluid": true,
+                "min": {
+                  "px": 32,
+                  "rem": 2,
+                  "ref": "{prism.font.size.32}"
+                },
+                "max": {
+                  "px": 36,
+                  "rem": 2.25,
+                  "ref": "{prism.font.size.36}"
+                },
+                "web": "clamp(2rem, 1.9167rem + 0.3704vw, 2.25rem)",
+                "figma": {
+                  "field": "fontSize",
+                  "scope": "FONT_SIZE",
+                  "modes": {
+                    "mobile": 32,
+                    "desktop": 36
+                  }
+                }
+              },
               "figma": {
                 "kind": "text-style",
                 "styleType": "TEXT",
@@ -10128,7 +10348,7 @@
                   "letterSpacing"
                 ],
                 "baked": [],
-                "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
+                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
             }
           }
@@ -10142,13 +10362,35 @@
             "lineHeight": "{prism.font.line-height.snug}",
             "letterSpacing": "{prism.font.letter-spacing.snug}"
           },
-          "$description": "title 2xl — 48px Clash Display (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
+          "$description": "title 2xl — 40→48px fluid Clash Display (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
               "group": "title",
               "variant": "2xl",
               "sizePx": 48,
+              "responsive": {
+                "fluid": true,
+                "min": {
+                  "px": 40,
+                  "rem": 2.5,
+                  "ref": "{prism.font.size.40}"
+                },
+                "max": {
+                  "px": 48,
+                  "rem": 3,
+                  "ref": "{prism.font.size.48}"
+                },
+                "web": "clamp(2.5rem, 2.3333rem + 0.7407vw, 3rem)",
+                "figma": {
+                  "field": "fontSize",
+                  "scope": "FONT_SIZE",
+                  "modes": {
+                    "mobile": 40,
+                    "desktop": 48
+                  }
+                }
+              },
               "figma": {
                 "kind": "text-style",
                 "styleType": "TEXT",
@@ -10160,7 +10402,7 @@
                   "letterSpacing"
                 ],
                 "baked": [],
-                "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
+                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
             }
           }
@@ -10183,6 +10425,10 @@
               "group": "body",
               "variant": "sm",
               "sizePx": 14,
+              "responsive": {
+                "fluid": false,
+                "px": 14
+              },
               "figma": {
                 "kind": "text-style",
                 "styleType": "TEXT",
@@ -10194,7 +10440,7 @@
                   "letterSpacing"
                 ],
                 "baked": [],
-                "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
+                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
             }
           }
@@ -10215,6 +10461,10 @@
               "group": "body",
               "variant": "md",
               "sizePx": 16,
+              "responsive": {
+                "fluid": false,
+                "px": 16
+              },
               "figma": {
                 "kind": "text-style",
                 "styleType": "TEXT",
@@ -10226,7 +10476,7 @@
                   "letterSpacing"
                 ],
                 "baked": [],
-                "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
+                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
             }
           }
@@ -10247,6 +10497,10 @@
               "group": "body",
               "variant": "lg",
               "sizePx": 18,
+              "responsive": {
+                "fluid": false,
+                "px": 18
+              },
               "figma": {
                 "kind": "text-style",
                 "styleType": "TEXT",
@@ -10258,7 +10512,7 @@
                   "letterSpacing"
                 ],
                 "baked": [],
-                "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
+                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
             }
           }
@@ -10281,6 +10535,10 @@
               "group": "label",
               "variant": "sm",
               "sizePx": 12,
+              "responsive": {
+                "fluid": false,
+                "px": 12
+              },
               "figma": {
                 "kind": "text-style",
                 "styleType": "TEXT",
@@ -10292,7 +10550,7 @@
                   "letterSpacing"
                 ],
                 "baked": [],
-                "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
+                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
             }
           }
@@ -10313,6 +10571,10 @@
               "group": "label",
               "variant": "md",
               "sizePx": 14,
+              "responsive": {
+                "fluid": false,
+                "px": 14
+              },
               "figma": {
                 "kind": "text-style",
                 "styleType": "TEXT",
@@ -10324,7 +10586,7 @@
                   "letterSpacing"
                 ],
                 "baked": [],
-                "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
+                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
             }
           }
@@ -10346,6 +10608,10 @@
             "group": "caption",
             "variant": "",
             "sizePx": 12,
+            "responsive": {
+              "fluid": false,
+              "px": 12
+            },
             "figma": {
               "kind": "text-style",
               "styleType": "TEXT",
@@ -10357,7 +10623,7 @@
                 "letterSpacing"
               ],
               "baked": [],
-              "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
+              "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
             }
           }
         }
@@ -10380,6 +10646,10 @@
             "variant": "",
             "sizePx": 12,
             "textCase": "uppercase",
+            "responsive": {
+              "fluid": false,
+              "px": 12
+            },
             "figma": {
               "kind": "text-style",
               "styleType": "TEXT",
@@ -10393,7 +10663,7 @@
               "baked": [
                 "textCase"
               ],
-              "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
+              "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
             }
           }
         }
@@ -10415,6 +10685,10 @@
               "group": "code",
               "variant": "inline",
               "sizePx": 14,
+              "responsive": {
+                "fluid": false,
+                "px": 14
+              },
               "figma": {
                 "kind": "text-style",
                 "styleType": "TEXT",
@@ -10426,7 +10700,7 @@
                   "letterSpacing"
                 ],
                 "baked": [],
-                "note": "Figma Text Style binding the variable sub-properties; lineHeight px = fontSize × multiplier; textCase/underline are baked (not bindable) — uppercase/link variants are separate styles"
+                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
             }
           }
@@ -11425,7 +11699,7 @@
         "danger: primary hue 285 is NOT red → carved a dedicated danger red at hue 27",
         "dimension axis: 4px grid, 8px space rhythm, density 'compact' (drives component sizes), radius scale 2 (baseMd 4px)",
         "motion: tempo 'snappy' scales the duration ramp; easing roles + springs + composite transitions generated; reduce-motion variants derived (informational preserved, vestibular → 0)",
-        "typography: curated rem size ladder (22 steps, 10–160px — NOT ratio-derived; covers all bases, clean values); weight roles subtle/default/emphasis/strong → 300/400/500/700; families display=Clash Display, text=Inter, mono=JetBrains Mono (variable: display/text); typeScale 'expressive'. 19 semantic composites (title/display sizes shifted by typeScale; display capped at 128px; title floor 16px) — NOTE: requested ceiling 128px; effective top display is 112px (typeScale shifts sizes off the exact ladder rung). Line-height unitless multiplier in $value; px-from-ratio materialization for Figma in $extensions.",
+        "typography: curated rem size ladder (22 steps, 10–160px — NOT ratio-derived; covers all bases, clean values); weight roles subtle/default/emphasis/strong → 300/400/500/700; families display=Clash Display, text=Inter, mono=JetBrains Mono (variable: display/text); typeScale 'expressive'. 19 semantic composites (title/display sizes shifted by typeScale; display capped at 128px; title floor 16px) — NOTE: requested ceiling 128px; effective top display is 112px (typeScale shifts sizes off the exact ladder rung). responsive: 11 fluid composites (display+title shrink on mobile via per-group factor, snapped to the ladder; one min/max pair → web clamp() 360–1440px + Figma desktop/mobile modes). Line-height unitless multiplier in $value; px-from-ratio materialization for Figma in $extensions.",
         "disabled: 'accessible' — disabled text/icon/border clears 3:1 on the floor (legible, contrast-preserving; the field-rare default). Set disabledStrategy:'conventional' for the sub-AA exempt look.",
         "light primary surface is NON-default (neutral.50) — CONFIRM this is the page colour; the contrast floor moves with it"
       ]
