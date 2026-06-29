@@ -129,8 +129,10 @@ const colorIntent = (seg: string[], node: any): string | undefined => {
   if (seg[1] === 'black-alpha' || seg[1] === 'white-alpha') return 'Overlay / scrim / shadow compositing (alpha — composites over any surface)';
   const ext = node.$extensions?.prism3 ?? {};
   if (!ext.band) return undefined;
-  const pivot = seg[2] === '500' ? ' — the dual-side AA pivot (clears 4.5:1 on both white and black)' : '';
-  return BAND_INTENT[ext.band] + pivot + (ext.anchor ? ' — brand anchor (pinned exact value)' : '');
+  // Usage-framed tails (what the step UNLOCKS) — distinct from the identity the
+  // leaf $description states (the measured property / provenance). No paraphrase.
+  const pivot = seg[2] === '500' ? ' — the one mid step that reads as text or icons over both light and dark fills' : '';
+  return BAND_INTENT[ext.band] + pivot + (ext.anchor ? ' — reach for this when fidelity to the source brand colour matters' : '');
 };
 
 // `consume` differs by family: colour/dimension are PRIVATE (reach them through a
@@ -140,6 +142,8 @@ const CONSUME: Record<string, string> = {
   dimension: 'Private primitive — reference via space / radius / size / border-width / focus.',
   opacity: 'Consumable — reference directly for custom alpha (or use the scrim / disabled tokens).',
   motion: 'Consumable — motion durations/easings/springs are used directly; transitions compose them.',
+  font: 'Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.',
+  shadow: 'Consumable — apply the elevation step directly (mode-aware: light shadow / reduced in dark, surface lift carries dark elevation).',
 };
 const primMeaning = (seg: string[]): string => {
   if (seg[0] === 'color') {
@@ -151,6 +155,15 @@ const primMeaning = (seg: string[]): string => {
   if (seg[0] === 'opacity') return 'Opacity scale primitive';
   if (seg[0] === 'dimension') return `${seg[1]}px grid primitive`;
   if (seg[0] === 'motion') return seg[1] === 'easing' ? 'Easing curve primitive (cubic-bezier)' : seg[1] === 'spring' ? 'Spring primitive (damping / stiffness)' : seg[1] === 'stagger' ? 'Stagger delay primitive' : 'Motion duration primitive';
+  if (seg[0] === 'font') {
+    if (seg[1] === 'family') return `Font family stack — ${seg[2]} role`;
+    if (seg[1] === 'size') return `Font size primitive — ${seg[2]}px (rem)`;
+    if (seg[1] === 'weight') return `Font weight primitive — numeric ${seg[2]} (reference tier)`;
+    if (seg[1] === 'line-height') return `Line-height multiplier — ${seg[2]} (unitless)`;
+    if (seg[1] === 'letter-spacing') return `Letter-spacing primitive — ${seg[2]} (em)`;
+    return 'Typography primitive';
+  }
+  if (seg[0] === 'shadow') return `Shadow / elevation composite — ${seg[1]} (2-layer, mode-aware)`;
   return `${seg[0]} primitive`;
 };
 
@@ -202,8 +215,21 @@ export const buildAiMetadata = (theme: Theme, tree: any) => {
   };
   walk(brand, []);
   const strip = (ref: string) => (ref.startsWith(root + '.') ? ref.slice(root.length + 1) : ref);
+  // Direct reverse edges (target → tokens that reference it directly).
+  const directBy: Record<string, string[]> = {};
+  for (const { path, node } of leaves) for (const ref of refsIn(node.$value)) (directBy[strip(ref)] ??= []).push(path);
+  // TRANSITIVE closure: a primitive's referrers include indirect ones too, so the
+  // two-hop weight chain (composite → weight-role → numeric) is visible — the KB's
+  // "re-map a brand's weights, every composite reflows" payoff is now provable from
+  // the index. Without this, font.weight.700 would list only weight-role.strong and
+  // hide the 15 composites that actually consume it.
   const aliasedBy: Record<string, string[]> = {};
-  for (const { path, node } of leaves) for (const ref of refsIn(node.$value)) (aliasedBy[strip(ref)] ??= []).push(path);
+  for (const target of Object.keys(directBy)) {
+    const acc = new Set<string>();
+    const visit = (t: string) => { for (const r of directBy[t] ?? []) if (!acc.has(r)) { acc.add(r); visit(r); } };
+    visit(target);
+    aliasedBy[target] = [...acc].sort();
+  }
 
   const primitives: Record<string, AiPrimitive> = {};
   for (const { path, node } of leaves) {
@@ -222,18 +248,86 @@ export const buildAiMetadata = (theme: Theme, tree: any) => {
     primitives[path] = p;
   }
 
+  // ---- typography tier (composites + weight roles) ----
+  // The consumer-facing type styles + the function-named weight roles. Without
+  // this the agent surface would omit the entire typography semantic layer (and
+  // aliased_by would dangle references at entries that don't exist in the file).
+  const TYPE_DESC: Record<string, { desc: string; when: string; avoid: string }> = {
+    display: { desc: 'hero / marketing display type', when: 'Large expressive headlines and hero moments.', avoid: 'Do not use for product-UI headings (use title) or running text (use body).' },
+    title: { desc: 'heading type — visual hierarchy, decoupled from DOM level', when: 'Section and page headings; pick the size for visual prominence and set the DOM level (h1–h6) by document structure independently.', avoid: 'Do not bind the size to a heading level; do not use for running text (use body).' },
+    body: { desc: 'running text / default UI copy', when: 'Paragraphs, descriptions, and default interface text.', avoid: 'Do not use for headings (use title/display) or dense control labels (use label).' },
+    label: { desc: 'UI label type — buttons, form labels, tabs, chips', when: 'Control and form labels, button text, tabs, chips, badges.', avoid: 'Do not use for running text (use body).' },
+    caption: { desc: 'caption / secondary small text', when: 'Image captions, helper text, metadata, footnotes.', avoid: 'Do not use for primary reading text (use body).' },
+    eyebrow: { desc: 'eyebrow / kicker — small uppercase label above a heading', when: 'A short label sitting above a title or hero (a "kicker").', avoid: 'Do not use as the heading itself (use title) or for body copy.' },
+    code: { desc: 'monospace / code type', when: 'Inline code, code blocks, and column-aligned values.', avoid: 'Do not use for prose (use body).' },
+  };
+  const typography: Record<string, any> = {};
+  for (const c of theme.typography.composites) {
+    const d = TYPE_DESC[c.group];
+    const resolves: Record<string, string> = {
+      fontFamily: `{${root}.font.family.${c.family}}`,
+      fontSize: `{${root}.font.size.${c.sizePx}}`,
+      fontWeight: `{${root}.font.weight-role.${c.weightRole}}`,
+      lineHeight: `{${root}.font.line-height.${c.lineHeight}}`,
+      letterSpacing: `{${root}.font.letter-spacing.${c.tracking}}`,
+    };
+    if (c.textCase !== 'none') resolves.textCase = c.textCase;
+    // Key by the real tree path (`type.<path>`) so aliased_by references resolve.
+    typography[`type.${c.path}`] = {
+      $description: `${cap(d.desc)}.`,
+      meaning: `Type style — ${c.group}${c.variant ? ' ' + c.variant : ''} (${c.sizePx}px, ${c.family} face${c.textCase !== 'none' ? `, ${c.textCase}` : ''})`,
+      when_to_use: d.when,
+      avoid_when: d.avoid,
+      resolves_to: resolves,
+    };
+  }
+  for (const w of theme.typography.weightRoles) {
+    const key = `font.weight-role.${w.role}`;
+    const entry: any = {
+      $description: `The ${w.role} font-weight role.`,
+      meaning: `Function-named weight → ${w.value} — white-label-stable (the role is the contract; each brand maps the numeric).`,
+      when_to_use: `Reference ${key} (not the numeric) so a brand weight re-map reflows every consumer at once.`,
+      avoid_when: `Do not hard-code the numeric (${w.value}); reference the role.`,
+      resolves_to: `{${root}.font.weight.${w.value}}`,
+    };
+    const usedBy = (aliasedBy[key] ?? []).filter((p) => p.startsWith('type.'));
+    if (usedBy.length) entry.used_by = usedBy;                      // which composites carry this role
+    typography[key] = entry;
+  }
+
+  // ---- gradient tier (opt-in brand gradients) ----
+  // Keyed by the real tree path (`gradient.<name>`) so an aliased_by reference (a
+  // colour primitive listing a gradient that consumes it) resolves to a real entry.
+  const gradient: Record<string, any> = {};
+  for (const g of theme.gradient.gradients) {
+    const aa = Math.min(g.worstOnWhite, g.worstOnBlack);
+    gradient[`gradient.${g.name}`] = {
+      $description: `Brand gradient — ${g.kind}${g.kind === 'linear' ? ` ${g.angle}°` : ` ${g.shape}`}, ${g.stops.length} stops.`,
+      meaning: `Decorative ${g.kind} gradient (opt-in); stop colours alias the ramp, ${g.interpolation} interpolation. Materializes as a Figma Paint Style — only stop colours bind (kind/angle/positions baked).`,
+      when_to_use: 'Brand / marketing surfaces, hero backgrounds, decorative fills.',
+      avoid_when: aa < 4.5
+        ? `Do not place body text directly over it — worst-case contrast is ${aa}:1 (below 4.5:1); use a scrim or a solid container.`
+        : 'Keep text overlays within the contrast-safe lightness range, or add a scrim.',
+      resolves_to: g.stops.map((s) => `{${s.aliasOf}}`),
+      a11y: { worst_on_white: g.worstOnWhite, worst_on_black: g.worstOnBlack },
+    };
+  }
+
   return {
     $schema: 'prism3-ai-metadata/0.1',
     brand: theme.id,
     generated: true,
-    note: 'Agent-readable metadata, companion to ' + `${theme.id}.tokens.json` + '. The semantic tier carries ' +
-      'the full schema (knowledge-base 31-color-systems §9); the primitive tier a simplified set + colour-scale `intent` ' +
-      'and `aliased_by` (the reverse index — which tokens resolve to it). `aliased_by` is recomputed from the token ' +
-      'tree on every build (authoritative at build time, never hand-maintained — it cannot drift as roles re-resolve). ' +
-      'All fields generated and contract-true.',
+    note: 'Agent-readable metadata, companion to ' + `${theme.id}.tokens.json` + '. The semantic (colour) tier and the ' +
+      'typography tier (type composites + weight roles) carry the rich schema; the primitive tier a simplified set + ' +
+      'colour-scale `intent` and `aliased_by` (the reverse index — which tokens resolve to it, TRANSITIVELY, so the ' +
+      'two-hop weight chain composite→role→numeric is visible). `aliased_by` is recomputed from the token tree on every ' +
+      'build (authoritative at build time, never hand-maintained — it cannot drift). All fields generated and contract-true.',
     semantic_fields: ['$description', 'meaning', 'when_to_use', 'avoid_when', 'paired_with', 'contrast_with', 'mode_overrides'],
+    typography_fields: ['$description', 'meaning', 'when_to_use', 'avoid_when', 'resolves_to', 'used_by'],
     primitive_fields: ['$description', 'meaning', 'intent', 'tier', 'consume', 'aliased_by'],
     semantic,
+    typography,
+    ...(Object.keys(gradient).length ? { gradient_fields: ['$description', 'meaning', 'when_to_use', 'avoid_when', 'resolves_to', 'a11y'], gradient } : {}),
     primitives,
   };
 };

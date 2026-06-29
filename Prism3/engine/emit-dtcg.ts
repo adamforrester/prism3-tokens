@@ -20,7 +20,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 import { RGB, contrast, hex } from './color';
 import { Step } from './ramp';
-import { Theme, nbTheme, brandTheme, BrandInput } from './theme';
+import { Theme, nbTheme, brandTheme, BrandInput, ShadowStep, ShadowLayer, ResolvedGradient } from './theme';
 import { resolveAllModes, ModeResult } from './modes';
 import { buildAiMetadata } from './ai-metadata';
 
@@ -33,6 +33,8 @@ const BLACK: RGB = { r: 0, g: 0, b: 0 };
 const round = (n: number, d = 4) => Math.round(n * 10 ** d) / 10 ** d;
 const rgbStr = ({ r, g, b }: RGB) => `rgb(${r}, ${g}, ${b})`;
 const colorValue = (rgb: RGB, fmt: 'rgb' | 'hex') => (fmt === 'hex' ? hex(rgb) : rgbStr(rgb));
+const rgbFromHex = (h: string): RGB => ({ r: parseInt(h.slice(1, 3), 16), g: parseInt(h.slice(3, 5), 16), b: parseInt(h.slice(5, 7), 16) });
+const colorValueFromHex = (h: string, fmt: 'rgb' | 'hex') => (fmt === 'hex' ? h : rgbStr(rgbFromHex(h)));
 const alphaHex = (a: number) => Math.round(a * 255).toString(16).padStart(2, '0');
 const alphaColorValue = (rgb: RGB, a: number, fmt: 'rgb' | 'hex') =>
   fmt === 'hex' ? `${hex(rgb)}${alphaHex(a)}` : `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${round(a, 2)})`;
@@ -44,7 +46,23 @@ const bandName: Record<string, string> = {
   ThreeQuarter: 'Three-Quarter-Tone', Shadows: 'Shadow',
 };
 
-type Token = { $type: 'color' | 'dimension' | 'number' | 'strokeStyle' | 'duration' | 'cubicBezier' | 'transition' | 'spring'; $value: string | number | number[] | Record<string, unknown>; $description: string; $extensions: { prism3: Record<string, unknown> } };
+// Phase B elevation ladder: each level pairs a surface tier with a shadow step.
+// In light the shadow does the work; in dark the surface lift does (both targets
+// are mode-aware, so the mapping is correct in both). `flat` carries no shadow.
+const ELEV_LEVELS: { level: string; tier: string; shadow: string | null }[] = [
+  { level: 'sunken', tier: 'sunken', shadow: 'inset' },
+  { level: 'flat', tier: 'primary', shadow: null },
+  { level: 'raised', tier: 'secondary', shadow: 'sm' },
+  { level: 'overlay', tier: 'tertiary', shadow: 'lg' },
+  { level: 'floating', tier: 'quaternary', shadow: 'xl' },
+];
+// Component → elevation level (the Atlassian/Primer component-aliases-the-level move).
+const ELEV_COMPONENTS: Record<string, string> = {
+  card: 'raised', dropdown: 'overlay', popover: 'overlay', menu: 'overlay',
+  dialog: 'floating', modal: 'floating', tooltip: 'floating', well: 'sunken',
+};
+
+type Token = { $type: 'color' | 'dimension' | 'number' | 'strokeStyle' | 'duration' | 'cubicBezier' | 'transition' | 'spring' | 'fontFamily' | 'fontWeight' | 'typography' | 'shadow' | 'gradient'; $value: string | number | number[] | string[] | Record<string, unknown> | Record<string, unknown>[]; $description: string; $extensions: { prism3: Record<string, unknown> } };
 
 // ---- colour leaves ----
 const primitiveLeaf = (theme: Theme, paletteDesc: string, s: Step, isAnchor: boolean): Token => {
@@ -61,6 +79,12 @@ const baseLeaf = (theme: Theme, rgb: RGB, description: string, band: string): To
 });
 const aliasLeaf = (path: string, description: string, extra: Record<string, unknown>): Token => ({
   $type: 'color', $value: `{${path}}`, $description: description,
+  $extensions: { prism3: { role: 'semantic', aliasOf: path, ...extra } },
+});
+// Generic typed alias (used by the elevation layer: a colour alias to a surface
+// tier + a shadow alias to a shadow step).
+const typedAlias = (type: Token['$type'], path: string, description: string, extra: Record<string, unknown> = {}): Token => ({
+  $type: type, $value: `{${path}}`, $description: description,
   $extensions: { prism3: { role: 'semantic', aliasOf: path, ...extra } },
 });
 // Alpha colour (composites over any surface — scrims, overlays, shadows).
@@ -103,6 +127,58 @@ const transitionLeaf = (durPath: string, easePath: string, description: string):
   $description: description, $extensions: { prism3: { role: 'composite' } },
 });
 
+// ---- shadow leaves (Phase A) ----
+// DTCG `shadow` composite — an array of layers (key + ambient). Mode-aware via the
+// locked materialization pattern: $value carries the LIGHT shadow (canonical);
+// $extensions.prism3.modes.dark carries the REDUCED dark shadow (lift-primary — the
+// surface ladder does dark elevation). Materializes as a Figma Effect Style (colour
+// + numerics bindable per layer; verified in the Figma round-trip research).
+const shadowLayerValue = (theme: Theme, l: ShadowLayer) => ({
+  color: alphaColorValue(theme.shadow.colorRgb, l.alpha, theme.colorFormat),
+  offsetX: `${l.offsetX}px`, offsetY: `${l.offsetY}px`, blur: `${l.blur}px`, spread: `${l.spread}px`,
+});
+const shadowLeaf = (theme: Theme, step: ShadowStep, description: string): Token => ({
+  $type: 'shadow',
+  $value: step.light.map((l) => shadowLayerValue(theme, l)),
+  $description: description,
+  $extensions: { prism3: { generated: true, role: 'composite', layers: step.light.length,
+    modes: { dark: step.dark.map((l) => shadowLayerValue(theme, l)) },
+    figma: { kind: 'effect-style', styleType: 'EFFECT', binds: ['color', 'radius', 'spread', 'offsetX', 'offsetY'], note: 'Figma Effect Style (drop-shadow layers); colour + numerics bindable per layer; mode-aware — dark shadow is reduced (surface lift carries dark elevation), see modes.dark' } } },
+});
+
+// ---- gradient leaves (brand-opt-in) ----
+// DTCG `gradient` composite — $value is an array of stops [{ color, position }],
+// stop COLOUR an alias into the colour ramp (themeable; the Fluent/Carbon model).
+// DTCG omits kind/angle/interpolation (issue #101), so those live in $extensions
+// alongside the materialization directive: a Figma PAINT STYLE (4th style class)
+// where only stop colours bind (kind/angle/positions baked), plus an N-stop sRGB
+// pre-sample of the OKLCH curve (Figma interpolates in sRGB only) and the CSS
+// `in oklch` string. A worst-case-stop contrast pair gates text-on-gradient use.
+const round3 = (n: number) => Math.round(n * 1000) / 1000;
+const gradientCss = (g: ResolvedGradient, fmt: 'rgb' | 'hex'): string => {
+  const stopList = g.stops.map((s) => `${colorValueFromHex(s.hex, fmt)} ${round3(s.position * 100)}%`).join(', ');
+  const space = g.interpolation === 'oklch' ? ' in oklch' : '';
+  if (g.kind === 'radial') return `radial-gradient(${g.shape} at ${round3(g.center[0] * 100)}% ${round3(g.center[1] * 100)}%${space}, ${stopList})`;
+  return `linear-gradient(${g.angle}deg${space}, ${stopList})`;
+};
+const gradientLeaf = (g: ResolvedGradient, fmt: 'rgb' | 'hex'): Token => {
+  const paintType = g.kind === 'radial' ? 'GRADIENT_RADIAL' : 'GRADIENT_LINEAR';
+  const geom = g.kind === 'radial' ? { center: g.center, shape: g.shape } : { angle: g.angle };
+  const aa = Math.min(g.worstOnWhite, g.worstOnBlack);
+  return {
+    $type: 'gradient',
+    $value: g.stops.map((s) => ({ color: `{${s.aliasOf}}`, position: round3(s.position) })),
+    $description: `gradient ${g.name} — ${g.kind}${g.kind === 'linear' ? ` ${g.angle}°` : ` (${g.shape})`}, ${g.stops.length} stops, ${g.interpolation} interpolation — brand gradient (opt-in)`,
+    $extensions: { prism3: { generated: true, role: 'composite', kind: g.kind, ...geom, interpolation: g.interpolation,
+      css: gradientCss(g, fmt),
+      a11y: { worstOnWhite: g.worstOnWhite, worstOnBlack: g.worstOnBlack,
+        note: `text-on-gradient: white text clears ${g.worstOnWhite}:1 at the lightest stop, black text ${g.worstOnBlack}:1 at the darkest — a text overlay must meet its ratio at the worst-case point (constrain the lightness range or add a scrim)${aa < 4.5 ? '; NEITHER plain overlay clears 4.5:1 body text — use a scrim or a solid container' : ''}` },
+      figma: { kind: 'paint-style', styleType: 'PAINT', paintType, binds: ['gradientStops[].color'], baked: ['type', g.kind === 'radial' ? 'center/shape' : 'angle', 'positions'],
+        sampledStops: g.sampled,
+        note: 'Figma Paint Style (gradient fill) — created via the Plugin API only (REST cannot write/read Paint values). Only stop COLOURS bind to COLOR variables (Plugin API Update 92); kind, angle/transform and stop positions are baked. Figma interpolates in sRGB only, so bind the canonical stop colours AND lay down sampledStops to approximate the OKLCH curve.' } } },
+  };
+};
+
 // ---- dimension leaves ----
 const dimLeaf = (px: number, description?: string): Token => ({
   $type: 'dimension', $value: `${px}px`, $description: description ?? `${px}px — dimension primitive`,
@@ -113,8 +189,96 @@ const dimAlias = (path: string, description: string, extra: Record<string, unkno
   $extensions: { prism3: { role: 'semantic', aliasOf: path, ...extra } },
 });
 
+// ---- typography leaves (Phase 1 primitives) ----
+// Each leaf carries a `figma` materialization directive in $extensions.prism3:
+// the exporter reads it (never the .ai.json prose). DTCG-canonical value lives in
+// $value (rem / unitless multiplier / em); the bindable Figma form is derived.
+const fontFamilyLeaf = (stack: string[], variable: boolean, description: string): Token => ({
+  $type: 'fontFamily', $value: stack, $description: description,
+  $extensions: { prism3: { generated: true, variable, figma: { kind: 'style-part', field: 'fontFamily', scope: 'FONT_FAMILY' } } },
+});
+// Font size: $value in rem (accessibility — scales with the user base size, KB 23);
+// px carried for the Figma exporter (Figma binds FONT_SIZE as a px FLOAT variable).
+const fontSizeLeaf = (px: number, description: string): Token => {
+  const rem = round(px / 16, 4);
+  return {
+    $type: 'dimension', $value: `${rem}rem`, $description: description,
+    $extensions: { prism3: { generated: true, px, rem, figma: { kind: 'variable', field: 'fontSize', scope: 'FONT_SIZE', unit: 'px', value: px } } },
+  };
+};
+const fontWeightLeaf = (value: number, description: string): Token => ({
+  $type: 'fontWeight', $value: value, $description: description,
+  $extensions: { prism3: { generated: true, figma: { kind: 'variable', field: 'fontWeight', scope: 'FONT_WEIGHT' } } },
+});
+const weightRoleAlias = (path: string, numeric: number, description: string): Token => ({
+  $type: 'fontWeight', $value: `{${path}}`, $description: description,
+  $extensions: { prism3: { role: 'semantic', aliasOf: path, numeric } },
+});
+// Line height: unitless multiplier in $value (DTCG-correct, CSS-correct). Figma
+// can't bind a unitless line-height (a bound FLOAT is read as PIXELS), so the
+// directive tells the exporter to materialize px = fontSize × value per mode.
+const lineHeightLeaf = (value: number, description: string): Token => ({
+  $type: 'number', $value: value, $description: description,
+  $extensions: { prism3: { generated: true, unitless: true, figma: { kind: 'style-part', field: 'lineHeight', unit: 'px-from-ratio', basis: 'fontSize', note: 'Figma binds line-height as px; multiply by the bound fontSize per mode' } } },
+});
+const letterSpacingLeaf = (em: number, description: string): Token => ({
+  $type: 'dimension', $value: `${em}em`, $description: description,
+  $extensions: { prism3: { generated: true, em, figma: { kind: 'style-part', field: 'letterSpacing', unit: 'px-from-em', basis: 'fontSize', note: 'Figma binds letter-spacing as px; multiply em by the bound fontSize' } } },
+});
+// Composite (DTCG typography): bundles family/size/weight-role/line-height/tracking
+// by intent. Sub-properties alias the primitives (weight via the role → numeric, so
+// re-mapping a brand's weights reflows every composite). `textCase` is a literal
+// (uppercase for eyebrow) — a baked style property, NOT a variable (textCase isn't
+// Figma-bindable; verified in the KB Figma round-trip research). Materializes as a
+// Figma Text Style binding the variable sub-properties; the case treatment and any
+// underline variant are baked into the style (separate styles), not bound.
+//   NOTE on aliasing: DTCG 2025.10 mandates JSON-Pointer ($ref) for property-level
+//   aliases inside a composite, not brace syntax; we use brace syntax (our own
+//   validator resolves it, and the Figma round-trip plan FLATTENS composites at
+//   build — see 05 roadmap). A downstream SD/Tokens-Studio consumer may not honor
+//   brace property-level aliases; flatten-at-build is the mitigation.
+// Fluid interpolation: clamp(min, preferred, max) where preferred = a rem
+// intercept + a vw slope, solved so it hits minPx at minVW and maxPx at maxVW. The
+// rem term is mandatory (WCAG 1.4.4 — vw-only defeats user zoom).
+const fluidClamp = (minPx: number, maxPx: number, minVW: number, maxVW: number): { clamp: string; preferred: string } => {
+  const slope = (maxPx - minPx) / (maxVW - minVW);             // px per px of viewport
+  const slopeVw = round(slope * 100, 4);                       // → vw units
+  const interceptRem = round((minPx - slope * minVW) / 16, 4); // rem (carries user zoom)
+  const preferred = `${interceptRem}rem + ${slopeVw}vw`;
+  return { clamp: `clamp(${round(minPx / 16, 4)}rem, ${preferred}, ${round(maxPx / 16, 4)}rem)`, preferred };
+};
+const typographyLeaf = (root: string, c: { group: string; variant: string; sizePx: number; sizeMinPx: number; family: string; weightRole: string; lineHeight: string; tracking: string; textCase: string }, face: string, minVW: number, maxVW: number): Token => {
+  const a = (seg: string) => `{${root}.font.${seg}}`;
+  const value: Record<string, unknown> = {
+    fontFamily: a(`family.${c.family}`),
+    fontSize: a(`size.${c.sizePx}`),                            // canonical = desktop/max (fallback)
+    fontWeight: a(`weight-role.${c.weightRole}`),
+    lineHeight: a(`line-height.${c.lineHeight}`),
+    letterSpacing: a(`letter-spacing.${c.tracking}`),
+  };
+  if (c.textCase !== 'none') value.textCase = c.textCase;          // literal, baked (not a variable)
+  // Responsive directive (Phase 3): one min/max pair → web clamp() + Figma modes.
+  // Canonical $value.fontSize stays the desktop alias; the exporter reads this.
+  const isFluid = c.sizeMinPx !== c.sizePx;
+  const responsive = isFluid
+    ? {
+        fluid: true,
+        min: { px: c.sizeMinPx, rem: round(c.sizeMinPx / 16, 4), ref: `{${root}.font.size.${c.sizeMinPx}}` },
+        max: { px: c.sizePx, rem: round(c.sizePx / 16, 4), ref: `{${root}.font.size.${c.sizePx}}` },
+        web: fluidClamp(c.sizeMinPx, c.sizePx, minVW, maxVW).clamp,
+        figma: { field: 'fontSize', scope: 'FONT_SIZE', modes: { mobile: c.sizeMinPx, desktop: c.sizePx } },
+      }
+    : { fluid: false, px: c.sizePx };
+  return {
+    $type: 'typography', $value: value,
+    $description: `${c.group}${c.variant ? ' ' + c.variant : ''} — ${isFluid ? `${c.sizeMinPx}→${c.sizePx}px fluid` : `${c.sizePx}px`} ${face} (${c.family} role), ${c.lineHeight} line-height, ${c.weightRole} weight, ${c.tracking} tracking${c.textCase !== 'none' ? `, ${c.textCase}` : ''} — consumer-facing type style`,
+    $extensions: { prism3: { role: 'composite', group: c.group, variant: c.variant, sizePx: c.sizePx, ...(c.textCase !== 'none' ? { textCase: c.textCase } : {}), responsive, figma: { kind: 'text-style', styleType: 'TEXT', binds: ['fontFamily', 'fontSize', 'fontWeight', 'lineHeight', 'letterSpacing'], baked: c.textCase !== 'none' ? ['textCase'] : [], note: 'Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)' } } },
+  };
+};
+
 type Stats = {
   colorLeaves: number; dimLeaves: number; spaceTokens: number; radiusTokens: number; sizeSteps: number;
+  fontSizes: number; fontWeights: number; typeComposites: number;
   aliases: number; resolved: number; modeChecks: number; modePass: number; broken: { path: string; ref: string }[];
 };
 
@@ -159,6 +323,27 @@ const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats: Stats
       for (let i = 0; i < parts.length - 1; i++) node = (node[parts[i]] ??= {});
       node[parts[parts.length - 1]] = aliasLeaf(r.path, r.description, { mode: mr.mode, contrast: r.ratio, against: r.against, ...(r.min > 0 ? { min: r.min } : {}) });
     }
+    // ---- Phase B: semantic elevation — pairs THIS mode's surface tier with a
+    // shadow step (the Atlassian split). The mode-awareness is already in the
+    // targets: in light the surface tiers converge (shadow carries elevation); in
+    // dark they lift (and the shadow token is reduced) — so one mapping is correct
+    // in both. Components reference the level, never the raw surface/shadow.
+    const bg = (tier: string) => `${root}.semantic.${mr.mode}.background.${tier}`;
+    const shRef = (step: string) => `${root}.shadow.${step}`;
+    const elevation: Record<string, any> = {};
+    for (const e of ELEV_LEVELS) {
+      const lvl: Record<string, Token> = { surface: typedAlias('color', bg(e.tier), `elevation ${e.level} surface — background.${e.tier} (${mr.mode})`, { elevation: e.level }) };
+      if (e.shadow) lvl.shadow = typedAlias('shadow', shRef(e.shadow), `elevation ${e.level} shadow — shadow.${e.shadow}`, { elevation: e.level });
+      elevation[e.level] = lvl;
+    }
+    for (const [comp, level] of Object.entries(ELEV_COMPONENTS)) {
+      const src = `${root}.semantic.${mr.mode}.elevation.${level}`;
+      elevation[comp] = {
+        surface: typedAlias('color', `${src}.surface`, `${comp} → elevation.${level} surface`, { component: comp }),
+        shadow: typedAlias('shadow', `${src}.shadow`, `${comp} → elevation.${level} shadow`, { component: comp }),
+      };
+    }
+    modeTree.elevation = elevation;
     semantic[mr.mode] = modeTree;
   }
 
@@ -230,8 +415,79 @@ const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats: Stats
   for (const t of m.transitions) motion.transition[t.name] = transitionLeaf(`${root}.motion.duration.${t.duration}`, `${root}.motion.easing.${t.easing}`, `motion ${t.name} — ${t.desc} (${t.duration} + ${t.easing})`);
   motion.stagger = durLeaf(m.stagger, `stagger standard — ${m.stagger}ms between siblings`);
 
+  // ---- typography axis — primitive tier (Phase 1) ----
+  // Curated rem size ladder (brand-invariant, not ratio-derived); numeric weight
+  // reference tier + function-named weight roles aliasing into it (the white-
+  // label-safe weight model); unitless line-height multipliers; em letter-spacing.
+  const ty = theme.typography;
+  const family: Record<string, Token> = {};
+  for (const f of ty.families) family[f.role] = fontFamilyLeaf(f.stack, f.variable, `font family — ${f.role} (${f.stack[0]})${f.variable ? ' [variable font]' : ''}`);
+  const fsize: Record<string, Token> = {};
+  for (const px of ty.sizesPx) fsize[String(px)] = fontSizeLeaf(px, `font size ${px}px (${round(px / 16, 4)}rem) — curated ladder primitive`);
+  const fweight: Record<string, Token> = {};
+  for (const w of ty.weightsRef) fweight[String(w)] = fontWeightLeaf(w, `font weight ${w} — numeric reference (the brand's literal axis value)`);
+  const weightRole: Record<string, Token> = {};
+  for (const r of ty.weightRoles) weightRole[r.role] = weightRoleAlias(`${root}.font.weight.${r.value}`, r.value, `weight role '${r.role}' → ${r.value} — function-named, white-label-stable (the brand maps the numeric; a 2-weight brand collapses roles)`);
+  const lineHeight: Record<string, Token> = {};
+  for (const lh of ty.lineHeights) lineHeight[lh.key] = lineHeightLeaf(lh.value, `line height ${lh.key} — ${lh.value}× (unitless multiplier)`);
+  const letterSpacing: Record<string, Token> = {};
+  for (const ls of ty.letterSpacings) letterSpacing[ls.key] = letterSpacingLeaf(ls.em, `letter spacing ${ls.key} — ${ls.em}em`);
+  const font = { family, size: fsize, weight: fweight, 'weight-role': weightRole, 'line-height': lineHeight, 'letter-spacing': letterSpacing };
+
+  // ---- typography semantic composites (Phase 2) ----
+  // Consumer-facing type styles under `type.*`. Two composites may share a size
+  // primitive (title.xs and body.lg at 18px) — distinct by family/line-height/
+  // weight, resolved via the composite, not the size. The shared ladder stays
+  // single-source; font.size.* aliased_by then shows the overlap explicitly.
+  const faceOf: Record<string, string> = Object.fromEntries(ty.families.map((f) => [f.role, f.stack[0]]));
+  const typeGroup: Record<string, any> = {};
+  for (const c of ty.composites) {
+    const leaf = typographyLeaf(root, c, faceOf[c.family], ty.minViewport, ty.maxViewport);
+    if (c.variant) (typeGroup[c.group] ??= {})[c.variant] = leaf;
+    else typeGroup[c.group] = leaf;
+  }
+
+  // ---- shadow / elevation axis (Phase A) ----
+  const sh = theme.shadow;
+  const shadow: Record<string, any> = {};
+  sh.steps.forEach((s, i) => { shadow[s.name] = shadowLeaf(theme, s, `shadow ${s.name} — elevation ${i + 1} of ${sh.steps.length}, ${s.light.length}-layer (key+ambient)`); });
+  shadow.inset = shadowLeaf(theme, sh.inset, 'shadow inset — inner shadow for wells / pressed states / inputs');
+
+  // ---- gradient axis (brand-opt-in; empty for brands that declare none) ----
+  const gradient: Record<string, Token> = {};
+  for (const g of theme.gradient.gradients) gradient[g.name] = gradientLeaf(g, theme.colorFormat);
+
+  // ---- layout axis: breakpoints + responsive grid + containers ----
+  // Breakpoints = min-width floors; grid columns/gutter/margin per breakpoint
+  // (gutter/margin ALIAS the spacing scale). Each breakpoint-keyed value carries a
+  // figma directive mapping it to a SEPARATE layout collection whose modes are the
+  // breakpoints (composes independently with the colour light/dark collection).
+  const ly = theme.layout;
+  const breakpoint: Record<string, Token> = {};
+  for (const b of ly.breakpoints) breakpoint[b.name] = dimLeaf(b.px, `breakpoint ${b.name} — min-width ${b.px}px (mobile-first)`);
+  const gridSpaceAlias = (px: number, desc: string, bp: string, variable: string): Token => {
+    const key = spaceKeyOf.get(px);
+    const fig = { figma: { collection: 'layout', mode: bp, variable, note: 'breakpoint = Figma mode (separate layout collection; composes with colour light/dark)' } };
+    return key ? dimAlias(`${root}.space.${key}`, desc, { px, ...fig }) : dimLeaf(px, desc);
+  };
+  const grid: Record<string, any> = {};
+  for (const g of ly.grid) {
+    grid[g.bp] = {
+      columns: { $type: 'number', $value: g.columns, $description: `grid ${g.bp} — ${g.columns} columns (design grid / Figma layout-grid; build with CSS Grid)`, $extensions: { prism3: { generated: true, figma: { collection: 'layout', mode: g.bp, variable: 'grid.columns', note: 'breakpoint = Figma mode' } } } },
+      gutter: gridSpaceAlias(g.gutterPx, `grid ${g.bp} gutter — ${g.gutterPx}px (spacing-scale alias)`, g.bp, 'grid.gutter'),
+      margin: gridSpaceAlias(g.marginPx, `grid ${g.bp} margin — ${g.marginPx}px (spacing-scale alias)`, g.bp, 'grid.margin'),
+    };
+  }
+  const container = {
+    max: dimLeaf(ly.containerMax, `container max — ${ly.containerMax}px content cap (fluid below it)`),
+    narrow: dimLeaf(ly.containerNarrow, `container narrow — ${ly.containerNarrow}px reading measure (~65–75ch)`),
+    fluid: { $type: 'dimension', $value: '100%', $description: 'container fluid — full width with margins (the default)', $extensions: { prism3: { generated: true } } },
+  };
+
   // ---- assemble under the brand root ----
-  const brand = { color, semantic, opacity, motion, dimension, space, radius, 'border-width': borderWidth, focus, size };
+  // `gradient` is included only when the brand opted in (kept off the tree for
+  // brands that declare none — gradients are an opt-in axis, not a default group).
+  const brand = { color, semantic, opacity, motion, font, type: typeGroup, shadow, ...(Object.keys(gradient).length ? { gradient } : {}), breakpoint, grid, container, dimension, space, radius, 'border-width': borderWidth, focus, size };
   const tree = {
     [root]: brand,
     $extensions: {
@@ -260,6 +516,13 @@ const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats: Stats
             const m = sv.match(/^\{(.+)\}$/);
             if (m) aliases.push({ path: path.join('.'), ref: m[1] });
           }
+        } else if (Array.isArray(v)) {
+          // composite-array token (gradient stops): validate aliases in each entry's
+          // sub-values (shadow layer arrays carry raw colours → no brace matches).
+          for (const item of v) if (item && typeof item === 'object') for (const sv of Object.values(item)) if (typeof sv === 'string') {
+            const m = sv.match(/^\{(.+)\}$/);
+            if (m) aliases.push({ path: path.join('.'), ref: m[1] });
+          }
         }
         return;
       }
@@ -274,7 +537,7 @@ const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats: Stats
 
   const alphaLeaves = 2 * ALPHA_STEPS.filter((s) => s > 0 && s < 100).length;
   const colorLeaves = 2 + theme.palettes.reduce((n, p) => n + p.steps.length, 0) + alphaLeaves;
-  return { tree, modes, stats: { colorLeaves, dimLeaves: theme.dims.grid.length, spaceTokens: theme.dims.space.length, radiusTokens: theme.dims.radius.length, sizeSteps: theme.dims.sizes.length, aliases: aliases.length, resolved: aliases.length - broken.length, broken, modeChecks, modePass } };
+  return { tree, modes, stats: { colorLeaves, dimLeaves: theme.dims.grid.length, spaceTokens: theme.dims.space.length, radiusTokens: theme.dims.radius.length, sizeSteps: theme.dims.sizes.length, fontSizes: theme.typography.sizesPx.length, fontWeights: theme.typography.weightsRef.length, typeComposites: theme.typography.composites.length, aliases: aliases.length, resolved: aliases.length - broken.length, broken, modeChecks, modePass } };
 };
 
 // ---------------------------------------------------------------------------
@@ -299,6 +562,30 @@ const aurora: BrandInput = {
   iconContrast: '3:1',
   // Exercise the motion lever: a snappy tempo compresses the duration ramp vs NB's standard.
   motionPersonality: { tempo: 'snappy' },
+  // Exercise the typography lever: a distinct variable display face, a remapped
+  // emphasis weight (500, not the default 600), and the expressive type scale.
+  typography: {
+    families: { display: 'Clash Display', text: 'Inter', mono: 'JetBrains Mono', variable: { display: true, text: true } },
+    weightRoles: { subtle: 300, default: 400, emphasis: 500, strong: 700 },
+    typeScale: 'expressive',
+    // Exercise the Phase 2 levers: cap heroes at 128px (no mega tier), include the
+    // 16px brand-font title (overlaps body.md), and put labels on the text face.
+    displayCeiling: 128,
+    titleFloor: 16,
+    familyMap: { label: 'text' },
+    // Exercise the responsive lever: a wider clamp window than the 375–1280 default.
+    responsive: { fluid: true, minViewport: 360, maxViewport: 1440 },
+  },
+  // Exercise the shadow lever: softer (marketing) shadows, tinted toward the violet brand hue.
+  shadow: { softness: 1.3, tint: { hue: 285, amount: 0.5 } },
+  // Exercise the layout lever: a 6th small-phone breakpoint (480) + a tighter content cap.
+  layout: { breakpoints: [0, 480, 768, 1024, 1440, 1920], containerMax: 1280 },
+  // Exercise the gradient lever (opt-in): a cross-palette linear brand gradient
+  // (violet → azure accent) + a radial accent glow — both OKLCH-interpolated.
+  gradients: [
+    { name: 'brand', kind: 'linear', angle: 135, stops: [{ palette: 'primary', step: 600, position: 0 }, { palette: 'accent', step: 500, position: 1 }] },
+    { name: 'glow', kind: 'radial', center: [0.5, 0.4], shape: 'circle', stops: [{ palette: 'accent', step: 400, position: 0 }, { palette: 'accent', step: 700, position: 1 }] },
+  ],
 };
 
 const themes: Theme[] = [nbTheme(), brandTheme(aurora)];
@@ -320,6 +607,19 @@ for (const theme of themes) {
   console.log(`    space (${theme.dims.spaceBase}px rhythm): ${theme.dims.space.filter((s) => s.key !== '0').map((s) => `${s.key}=${s.px}`).join(' ')}`);
   console.log(`    radius (scale ${theme.dims.radiusScaleValue}): ${theme.dims.radius.map((r) => `${r.name}=${r.px}`).join(' ')}`);
   console.log(`    sizes (${theme.dims.density}): ${theme.dims.sizes.map((z) => `${z.name}=${z.height}h/${z.padX}×${z.padY}pad`).join(' ')}`);
+  console.log(`  typography: ${stats.fontSizes} size primitives (${theme.typography.sizesPx[0]}–${theme.typography.sizesPx[theme.typography.sizesPx.length - 1]}px, rem), ${stats.fontWeights} weights + ${theme.typography.weightRoles.length} roles (${theme.typography.weightRoles.map((w) => `${w.role}=${w.value}`).join(' ')}), ${theme.typography.lineHeights.length} line-heights, ${theme.typography.letterSpacings.length} tracking`);
+  console.log(`    families: ${theme.typography.families.map((f) => `${f.role}=${f.stack[0]}`).join(' ')}${theme.typography.families[0].variable ? ' [variable]' : ''} · scale '${theme.typography.typeScale}'`);
+  {
+    const byGroup: Record<string, string[]> = {};
+    for (const c of theme.typography.composites) (byGroup[c.group] ??= []).push(c.variant ? `${c.variant}=${c.sizePx}` : String(c.sizePx));
+    console.log(`  type: ${stats.typeComposites} composites — ${Object.entries(byGroup).map(([g, v]) => `${g}[${v.join(' ')}]`).join(' ')}`);
+    const fl = theme.typography.composites.filter((c) => c.sizeMinPx !== c.sizePx);
+    console.log(`  fluid: ${theme.typography.fluid ? `${fl.length} composites ${theme.typography.minViewport}–${theme.typography.maxViewport}px (e.g. ${fl.slice(0, 3).map((c) => `${c.path} ${c.sizeMinPx}→${c.sizePx}`).join(', ')})` : 'OFF (static)'}`);
+  }
+  console.log(`  shadow: ${theme.shadow.steps.length}-step ramp + inset, ${theme.shadow.steps[0].light.length}-layer, softness ${theme.shadow.softness}, tint(hue ${theme.shadow.tint.hue}, amount ${theme.shadow.tint.amount}) — mode-aware (lift-primary, reduced dark)`);
+  console.log(`  elevation: ${ELEV_LEVELS.length} levels (${ELEV_LEVELS.map((e) => e.level).join('/')}) + ${Object.keys(ELEV_COMPONENTS).length} component aliases, per mode — each pairs surface-tier + shadow-step (Atlassian split)`);
+  console.log(`  layout: ${theme.layout.breakpoints.length} breakpoints (${theme.layout.breakpoints.map((b) => `${b.name}=${b.px}`).join(' ')}); grid cols ${theme.layout.grid.map((g) => g.columns).join('/')}, gutter ${theme.layout.grid.map((g) => g.gutterPx).join('/')} + margin ${theme.layout.grid.map((g) => g.marginPx).join('/')} (spacing aliases); container max ${theme.layout.containerMax}/narrow ${theme.layout.containerNarrow}`);
+  console.log(`  gradient: ${theme.gradient.gradients.length ? theme.gradient.gradients.map((g) => `${g.name}(${g.kind}${g.kind === 'linear' ? ` ${g.angle}°` : ''}, ${g.stops.length} stops, ${g.interpolation}, worst-on-white ${g.worstOnWhite}:1)`).join(' · ') : 'none (opt-in axis)'}`);
   console.log(`  aliases: ${stats.resolved}/${stats.aliases} resolve | mode contracts: ${stats.modePass}/${stats.modeChecks} pass`);
   console.log(`  [written] ${outPath}`);
   if (stats.broken.length) { ok = false; stats.broken.forEach((b) => console.log(`   ❌ ${b.path} -> {${b.ref}}`)); }

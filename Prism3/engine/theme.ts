@@ -18,6 +18,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 import { generateRamp, peakChromaL, autoPlaceStep, Step } from './ramp';
 import { dimensionGrid, spaceScale, radiusScale, componentSizes, SpaceStep, RadiusStep, SizeStep, Density } from './scale';
+import { oklchToRgb, RGB, contrast, hex as rgbHex } from './color';
 
 const here = dirname(fileURLToPath(import.meta.url));
 // The NB *measurement* fixture (reverse-engineered NB anchors) — the regression
@@ -69,6 +70,10 @@ export type Theme = {
   iconContrast: 'text' | '3:1';
   dims: Dims;
   motion: MotionAxis;
+  typography: Typography;
+  shadow: ShadowAxis;
+  layout: LayoutAxis;
+  gradient: GradientAxis;
   notes: string[];                   // human-readable record of engine decisions
 };
 
@@ -137,6 +142,27 @@ export type BrandInput = {
    *  `easingEmphasized` overrides the expressive curve. Reduce-motion variants are
    *  always derived. Omit for the 'standard' tempo. */
   motionPersonality?: MotionPersonality;
+  /** Typography axis lever. `families` supply the display/text/mono faces (a
+   *  single face is auto-padded with a system fallback stack; a full array is
+   *  trusted as-is) + a variable-font flag; `weightRoles` map the function-named
+   *  roles to the brand's numeric weights; `typeScale` shifts the semantic→
+   *  primitive mapping (Phase 2). The rem size ladder is brand-invariant. */
+  typography?: TypographyInput;
+  /** Shadow / elevation axis lever (Phase A). `softness` is the blur:offset
+   *  personality dial (low → crisp/product, high → soft/marketing); `tint` hue-
+   *  shifts the shadow base off pure black (default a subtle neutral tint; set a
+   *  brand hue + higher amount for brand-hued marketing shadows). */
+  shadow?: { softness?: number; tint?: { hue?: number; amount?: number } };
+  /** Layout axis lever. `breakpoints` is the min-width floor array (the real
+   *  per-brand variable; names are auto sm/md/lg/xl/2xl); `columns` the base
+   *  count (12 default; 16/24 for dense-data brands); `containerMax`/
+   *  `containerNarrow` the content caps. Gutter/margin alias the spacing scale. */
+  layout?: { breakpoints?: number[]; columns?: number; containerMax?: number; containerNarrow?: number };
+  /** Gradient axis lever — OPT-IN (off by default; most systems abstain and
+   *  gradients are contextual). `true` ships one default brand gradient
+   *  (primary.600→primary.350, linear); an explicit array ships exactly those.
+   *  Stop colours alias the colour ramp; OKLCH interpolation by default. */
+  gradients?: true | GradientInput[];
   /** Dimension axis levers (schema-required #4/#5). Defaults reproduce a
    *  conventional 4px-grid / 8px-rhythm, sharp-corner system. */
   baseUnit?: number;                 // fine dimension grid base (px), default 4
@@ -217,6 +243,442 @@ const buildMotion = (p: MotionPersonality = {}): MotionAxis => {
   };
 };
 
+// ---------------------------------------------------------------------------
+// Typography axis (Phase 1 — primitive tier). Grounded in 23-typography-
+// tokenisation + the Prism2 reference scale. Deliberate deviation from the KB's
+// modular-ratio recommendation: the size ladder is a CURATED rem scale, not a
+// ratio. A single ratio leaves gaps (1.25 off 16px skips 24/28/36 — the sizes
+// designers reach for) and yields non-round values; the curated ladder has
+// variable step density (fine for text, coarse for display) and covers all bases
+// with clean values. Font-size primitives are brand-INVARIANT (16px is 16px in
+// any brand, like the spacing scale); the white-label lever is the families, the
+// weight role→numeric map, and the `typeScale` preset (consumed at the semantic
+// tier in Phase 2). Weight roles are FUNCTION-named (subtle/default/emphasis/
+// strong over a numeric reference tier) — the white-label-safe answer to "one
+// brand's bold is 700, another's 600": the role is the stable contract, the
+// numeric is the brand-variable part (23 §"Naming the weight ladder").
+export type FontFamilyRole = { role: 'display' | 'text' | 'mono'; stack: string[]; variable: boolean };
+export type WeightRole = { role: 'subtle' | 'default' | 'emphasis' | 'strong'; value: number };
+export type FamilyRoleName = 'display' | 'text' | 'mono';
+export type WeightRoleName = 'subtle' | 'default' | 'emphasis' | 'strong';
+export type TypeGroup = 'display' | 'title' | 'body' | 'label' | 'caption' | 'eyebrow' | 'code';
+// A semantic composite: a (group, variant) bundling family + size + weight role +
+// line-height + tracking. Two composites may share a size primitive (e.g. title.xs
+// and body.lg both at 18px) — they differ on family/line-height/weight/intent;
+// family is a property of the GROUP, not the size. The size ladder underneath is
+// single-source.
+export type TypeComposite = {
+  group: TypeGroup; variant: string; path: string; sizePx: number;   // desktop / max
+  sizeMinPx: number;                               // mobile / min (== sizePx when static)
+  family: FamilyRoleName; lineHeight: string; weightRole: WeightRoleName; tracking: string;
+  textCase: 'none' | 'uppercase' | 'lowercase';   // baked style (not Figma-bindable; code/style-side)
+};
+export type Typography = {
+  families: FontFamilyRole[];
+  sizesPx: number[];                                  // curated ladder (px; rem = px/16)
+  weightsRef: number[];                               // 100..900 numeric reference tier
+  weightRoles: WeightRole[];                          // function-named roles → numeric
+  lineHeights: { key: string; value: number }[];      // unitless multipliers
+  letterSpacings: { key: string; em: number }[];      // em-relative tracking
+  typeScale: 'compact' | 'default' | 'expressive';    // shifts heading sizes up/down the ladder
+  composites: TypeComposite[];                        // semantic tier (Phase 2)
+  fluid: boolean;                                     // responsive sizing on (Phase 3)
+  minViewport: number;                                // px — fluid clamp() interpolation floor
+  maxViewport: number;                                // px — fluid clamp() interpolation ceiling
+};
+
+const SANS_FALLBACK = ['system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'];
+const MONO_FALLBACK = ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Consolas', 'Liberation Mono', 'monospace'];
+const LINE_HEIGHTS = [
+  { key: 'tight', value: 1.05 }, { key: 'snug', value: 1.15 }, { key: 'compact', value: 1.25 },
+  { key: 'normal', value: 1.5 }, { key: 'relaxed', value: 1.65 }, { key: 'loose', value: 1.75 },
+];
+const LETTER_SPACINGS = [
+  { key: 'tighter', em: -0.03 }, { key: 'tight', em: -0.02 }, { key: 'snug', em: -0.01 }, { key: 'normal', em: 0 },
+  { key: 'wide', em: 0.02 }, { key: 'wider', em: 0.05 },
+];
+const WEIGHT_ROLE_DEFAULT = { subtle: 300, default: 400, emphasis: 600, strong: 700 } as const;
+
+// Curated rem ladder: text [10–18] in 1–2px steps; ¼rem (4px) 20→40; ½rem (8px)
+// 48→80; 1rem (16px) 96→160. 22 steps, all clean rem values (matches Prism2).
+const fontSizeLadder = (): number[] => {
+  const px = [10, 11, 12, 14, 16, 18];
+  for (let p = 20; p <= 40; p += 4) px.push(p);
+  for (let p = 48; p <= 80; p += 8) px.push(p);
+  for (let p = 96; p <= 160; p += 16) px.push(p);
+  return px;
+};
+
+const asStack = (fam: string | string[] | undefined, fallbackFace: string, fallback: string[]): string[] => {
+  if (!fam) return [fallbackFace, ...fallback];
+  const arr = Array.isArray(fam) ? fam : [fam];
+  return arr.length > 1 ? arr : [...arr, ...fallback];   // single face → append fallback; full stack → trust it
+};
+
+export type TypographyInput = {
+  families?: { display?: string | string[]; text?: string | string[]; mono?: string | string[]; variable?: boolean | Partial<Record<FamilyRoleName, boolean>> };
+  weightRoles?: Partial<Record<'subtle' | 'default' | 'emphasis' | 'strong', number>>;
+  typeScale?: 'compact' | 'default' | 'expressive';
+  /** Which family role each semantic group consumes. Defaults: display/title/
+   *  label/eyebrow → display (brand); body/caption → text; code → mono. Override
+   *  per group (e.g. neutral buttons: `{ label: 'text' }`). Family is a property
+   *  of the GROUP, not the size — this is what lets a small brand-font title share
+   *  a size with body while staying a distinct token. */
+  familyMap?: Partial<Record<TypeGroup, FamilyRoleName>>;
+  /** Cap the display tier (px). Brands that don't need mega heroes stop lower
+   *  (e.g. 96); the ladder is unchanged, the engine just omits display composites
+   *  above the cap. Default 160 (full). */
+  displayCeiling?: number;
+  /** Smallest title size. Default 18 (`title.xs`). Set 16 to add `title.2xs` — a
+   *  16px brand-font heading that deliberately overlaps `body.md`. */
+  titleFloor?: 16 | 18;
+  /** Responsive sizing (Phase 3). `fluid` (default true) gives heading groups a
+   *  mobile endpoint (= desktop × a per-group factor, snapped to the ladder); the
+   *  same min/max pair drives the web `clamp()` and the Figma desktop/mobile modes.
+   *  Reading/UI text stays static. `minViewport`/`maxViewport` (px, default
+   *  375/1280) bound the clamp interpolation. */
+  responsive?: { fluid?: boolean; minViewport?: number; maxViewport?: number };
+};
+
+// Semantic catalogue defaults (the 'default' typeScale, before levers). Family/
+// weight/tracking are per-GROUP; line-height is size-derived for headings.
+const TYPE_FAMILY_DEFAULT: Record<TypeGroup, FamilyRoleName> = {
+  display: 'display', title: 'display', label: 'display', eyebrow: 'display',
+  body: 'text', caption: 'text', code: 'mono',
+};
+const TYPE_WEIGHT_DEFAULT: Record<TypeGroup, WeightRoleName> = {
+  display: 'strong', title: 'strong', label: 'emphasis', eyebrow: 'emphasis',
+  body: 'default', caption: 'default', code: 'default',
+};
+const TYPE_TRACK_DEFAULT: Record<TypeGroup, string> = {
+  display: 'tight', title: 'snug', label: 'normal', eyebrow: 'wider',
+  body: 'normal', caption: 'normal', code: 'normal',
+};
+// Mega display tightens further (-0.03em): large type needs tighter tracking.
+const trackingFor = (group: TypeGroup, px: number): string =>
+  group === 'display' && px >= 96 ? 'tighter' : TYPE_TRACK_DEFAULT[group];
+// base variant → px (default scale). title floor 18; 16 (title.2xs) is opt-in.
+const TYPE_VARIANTS: Record<TypeGroup, [string, number][]> = {
+  display: [['sm', 48], ['md', 64], ['lg', 80], ['xl', 96], ['2xl', 128], ['3xl', 160]],
+  title: [['xs', 18], ['sm', 20], ['md', 24], ['lg', 28], ['xl', 32], ['2xl', 40]],
+  body: [['sm', 14], ['md', 16], ['lg', 18]],
+  label: [['sm', 12], ['md', 14]],
+  caption: [['', 12]],
+  eyebrow: [['', 12]],
+  code: [['inline', 14]],
+};
+const TYPE_SCALE_SHIFT = { compact: -1, default: 0, expressive: 1 } as const;
+// Desktop → mobile endpoint — RESEARCH-VALIDATED (not a flat factor). The field
+// (IBM Carbon fluid-display, Utopia, practitioner consensus) shrinks BIGGER sizes
+// MORE: body/UI static, titles ~1 rung, display converging to a ~40–48px mobile
+// "hero band" no matter how large desktop goes (Carbon fluid-display-04 is
+// 40→176px ≈ 23%). A flat factor shrank a 96px hero and a 28px heading by the same
+// proportion — the opposite of how systems behave, and it left a 160px hero at
+// 120px (≈3 chars/line on a 360px phone) instead of ~48px (≈9–11 chars/line).
+const oneRungDown = (ladder: number[], px: number): number => {
+  const i = ladder.indexOf(px);
+  return i > 0 ? ladder[i - 1] : px;
+};
+// Display mobile endpoints, anchored to Carbon's fluid-display curve (floor ~40–48px).
+// Keyed by desktop px (always a ladder value); fallback ≈ one rung down.
+const DISPLAY_MOBILE: Record<number, number> = {
+  36: 32, 40: 32, 48: 36, 56: 40, 64: 40, 72: 40, 80: 40,
+  96: 48, 112: 48, 128: 48, 144: 48, 160: 48,
+};
+const mobileEndpoint = (ladder: number[], group: TypeGroup, desktopPx: number): number => {
+  if (group === 'display') return Math.min(desktopPx, DISPLAY_MOBILE[desktopPx] ?? Math.max(oneRungDown(ladder, desktopPx), 32));
+  if (group === 'title') return desktopPx <= 20 ? desktopPx : Math.min(desktopPx, Math.max(oneRungDown(ladder, desktopPx), 20));
+  return desktopPx;   // body / label / caption / eyebrow / code — static (field consensus)
+};
+// Bigger heading → tighter line-height (display tightest; small titles open up).
+const lineHeightFor = (group: TypeGroup, px: number): string => {
+  if (group === 'display') return 'tight';
+  if (group === 'title') return px >= 56 ? 'tight' : px >= 28 ? 'snug' : 'compact';
+  if (group === 'label' || group === 'eyebrow') return 'snug';
+  return 'normal';                                       // body, caption, code
+};
+
+const buildComposites = (ladder: number[], t: TypographyInput, fluid: boolean): TypeComposite[] => {
+  const familyMap = { ...TYPE_FAMILY_DEFAULT, ...(t.familyMap ?? {}) };
+  const shift = TYPE_SCALE_SHIFT[t.typeScale ?? 'default'];
+  const ceiling = t.displayCeiling ?? 160;
+  const titleFloor = t.titleFloor ?? 18;
+  const shiftPx = (px: number): number => {
+    const i = ladder.indexOf(px);
+    if (i < 0) return px;
+    return ladder[Math.max(0, Math.min(ladder.length - 1, i + shift))];
+  };
+  const out: TypeComposite[] = [];
+  const push = (group: TypeGroup, variant: string, sizePx: number) => {
+    const sizeMinPx = fluid ? mobileEndpoint(ladder, group, sizePx) : sizePx;
+    out.push({
+      group, variant, path: variant ? `${group}.${variant}` : group, sizePx, sizeMinPx,
+      family: familyMap[group], lineHeight: lineHeightFor(group, sizePx),
+      weightRole: TYPE_WEIGHT_DEFAULT[group], tracking: trackingFor(group, sizePx),
+      textCase: group === 'eyebrow' ? 'uppercase' : 'none',
+    });
+  };
+  for (const group of Object.keys(TYPE_VARIANTS) as TypeGroup[]) {
+    const isHeading = group === 'display' || group === 'title';
+    let prev = -Infinity;
+    // title floor: a fixed 16px brand-font heading, PINNED (exempt from the
+    // typeScale shift) so titleFloor:16 always delivers a literal 16px title that
+    // overlaps body.md — the documented contract — regardless of typeScale.
+    if (group === 'title' && titleFloor === 16) { push('title', '2xs', 16); prev = 16; }
+    for (const [variant, base] of TYPE_VARIANTS[group]) {
+      // typeScale shifts headings only (display + title); reading/UI text stays put.
+      let sizePx = isHeading ? shiftPx(base) : base;
+      if (group === 'title') sizePx = Math.max(sizePx, titleFloor);  // never below the floor
+      if (group === 'display' && sizePx > ceiling) continue;         // displayCeiling trims the top
+      if (sizePx <= prev) continue;                                  // monotonic + dedupe (clamp/shift collisions)
+      push(group, variant, sizePx);
+      prev = sizePx;
+    }
+  }
+  return out;
+};
+
+const buildTypography = (t: TypographyInput = {}): Typography => {
+  const fam = t.families ?? {};
+  const textFace = Array.isArray(fam.text) ? fam.text[0] : fam.text;
+  // `variable` may be a single flag (applies to all) or per-family — the build
+  // reads it per family to decide weight emission (KB 23 §Variable fonts).
+  const isVar = (role: FamilyRoleName): boolean =>
+    typeof fam.variable === 'object' ? fam.variable[role] ?? false : fam.variable ?? false;
+  const families: FontFamilyRole[] = [
+    { role: 'display', stack: asStack(fam.display ?? textFace, 'Inter', SANS_FALLBACK), variable: isVar('display') },
+    { role: 'text', stack: asStack(fam.text, 'Inter', SANS_FALLBACK), variable: isVar('text') },
+    { role: 'mono', stack: asStack(fam.mono, 'JetBrains Mono', MONO_FALLBACK), variable: isVar('mono') },
+  ];
+  const wr = { ...WEIGHT_ROLE_DEFAULT, ...(t.weightRoles ?? {}) };
+  const fluid = t.responsive?.fluid ?? true;
+  return {
+    families,
+    sizesPx: fontSizeLadder(),
+    weightsRef: [100, 200, 300, 400, 500, 600, 700, 800, 900],
+    weightRoles: (['subtle', 'default', 'emphasis', 'strong'] as const).map((role) => ({ role, value: wr[role] })),
+    lineHeights: LINE_HEIGHTS,
+    letterSpacings: LETTER_SPACINGS,
+    typeScale: t.typeScale ?? 'default',
+    composites: buildComposites(fontSizeLadder(), t, fluid),
+    fluid,
+    minViewport: t.responsive?.minViewport ?? 375,
+    maxViewport: t.responsive?.maxViewport ?? 1280,
+  };
+};
+
+// ---------------------------------------------------------------------------
+// Shadow / elevation axis (Phase A — the shadow ramp). Grounded in
+// 31-color-systems §lift pattern + a 10-system field survey. Decisions:
+//  - 6 steps (xs–2xl), the convergent count; + a single inset.
+//  - 2 LAYERS per step (key + ambient — the field's physical model: a tight
+//    directional key shadow for the edge, a soft diffuse ambient for distance).
+//  - TINTED near-black, not pure black (Polaris/Radix/Comeau): a shadow base
+//    colour from the neutral (or a brand) hue at low chroma. `shadow.tint` is the
+//    expressive lever; `softness` (blur:offset ratio) is the personality lever.
+//  - MODE-AWARE, LIFT-PRIMARY: full shadow in light; in dark the surface ladder
+//    lift carries elevation and the shadow is REDUCED (faded, more present only at
+//    the top steps) — NOT nulled (M3/Atlassian retain it), NOT heavier (rejecting
+//    NB's `inverse`). The semantic surface↔shadow pairing is Phase B.
+//  - offsetX = 0 (light directly above — the field-universal assumption); spread
+//    negative-and-growing to keep large shadows tight (Tailwind/Polaris/Radix).
+export type ShadowLayer = { offsetX: number; offsetY: number; blur: number; spread: number; alpha: number };
+export type ShadowStep = { name: string; light: ShadowLayer[]; dark: ShadowLayer[] };
+export type ShadowAxis = {
+  steps: ShadowStep[];
+  inset: ShadowStep;
+  colorRgb: RGB;                 // the tinted shadow base (layers vary only alpha)
+  softness: number;
+  tint: { hue: number; amount: number };
+};
+// Base ramp at softness 1 — [keyY, keyBlur, keySpread, keyAlpha, ambY, ambBlur, ambSpread, ambAlpha].
+// Anchored to Tailwind/Polaris/NB curves; offsetY≈blur×0.6–0.7, spread tightens with size.
+const SHADOW_BASE: { name: string; key: number[]; amb: number[] }[] = [
+  { name: 'xs', key: [1, 2, 0, 0.10], amb: [1, 3, 0, 0.06] },
+  { name: 'sm', key: [1, 2, -1, 0.10], amb: [2, 6, -1, 0.07] },
+  { name: 'md', key: [2, 4, -2, 0.12], amb: [4, 12, -3, 0.08] },
+  { name: 'lg', key: [3, 6, -3, 0.12], amb: [8, 20, -5, 0.08] },
+  { name: 'xl', key: [4, 8, -4, 0.14], amb: [14, 32, -8, 0.10] },
+  { name: '2xl', key: [6, 12, -6, 0.14], amb: [22, 52, -12, 0.12] },
+];
+
+const buildShadow = (neutralHue: number, input: BrandInput['shadow'] = {}): ShadowAxis => {
+  const softness = input.softness ?? 1;
+  const tint = { hue: input.tint?.hue ?? neutralHue, amount: input.tint?.amount ?? 0.15 };
+  // Shadow base colour: amount 0 = pure black (the NB dialect); any tint lifts it
+  // to a hue-tinted near-black (l 0.13, chroma scaled by amount — Polaris/Comeau:
+  // a tinted near-black reads richer than dead grey). Layers reuse this RGB and
+  // vary only alpha — one shadow colour per theme.
+  const colorRgb = tint.amount === 0 ? { r: 0, g: 0, b: 0 } : oklchToRgb({ l: 0.13, c: 0.05 * tint.amount, h: tint.hue });
+  const layer = (a: number[]): ShadowLayer => ({ offsetX: 0, offsetY: a[0], blur: Math.round(a[1] * softness), spread: a[2], alpha: a[3] });
+  // Dark: same geometry, alpha reduced and ramping UP with elevation (lower steps
+  // nearly disappear — the surface lift does the work; top steps keep a whisper).
+  const darkAlpha = (a: number, i: number): number => Math.round(a * (0.3 + 0.09 * i) * 100) / 100;
+  const darkLayer = (a: number[], i: number): ShadowLayer => ({ offsetX: 0, offsetY: a[0], blur: Math.round(a[1] * softness), spread: a[2], alpha: darkAlpha(a[3], i) });
+  const steps: ShadowStep[] = SHADOW_BASE.map((s, i) => ({
+    name: s.name,
+    light: [layer(s.key), layer(s.amb)],
+    dark: [darkLayer(s.key, i), darkLayer(s.amb, i)],
+  }));
+  // Inset (wells, pressed states, inputs) — a single inner shadow, light/dark.
+  const inset: ShadowStep = {
+    name: 'inset',
+    light: [{ offsetX: 0, offsetY: 2, blur: Math.round(4 * softness), spread: 0, alpha: 0.08 }],
+    dark: [{ offsetX: 0, offsetY: 2, blur: Math.round(4 * softness), spread: 0, alpha: 0.3 }],
+  };
+  return { steps, inset, colorRgb, softness, tint };
+};
+
+// ---------------------------------------------------------------------------
+// Layout axis (breakpoints + responsive grid + containers). Grounded in a
+// 10-system survey. Decisions:
+//  - 5 breakpoints, t-shirt named, min-width/mobile-first (the convergent shape);
+//    ranges are derived (next − 1). The brand authors the floor ARRAY (the real
+//    per-brand variable); names are constant.
+//  - The 12-col grid is a DESIGN ARTIFACT (Figma layout-grid + mental model), not
+//    the load-bearing code contract — modern layout is CSS Grid + container
+//    queries. Columns emit as a 4/8/12 ladder (the design convention); base count
+//    is one knob (12 default; 16/24 for dense-data brands).
+//  - Gutter/margin are NOT independent tokens — they ALIAS the 8px spacing scale
+//    (16→24→32 / 16→24→48), keyed to breakpoint index. Reuses the spacing engine.
+//  - Containers: FLUID-first + a `container.max` cap (the 2026 default) + a
+//    `narrow` reading container (~720). The fluid-vs-fixed duplication Prism2
+//    shipped is collapsed; fixed-stepped is an opt-in modifier (deferred).
+export type Breakpoint = { name: string; px: number };
+export type GridStep = { bp: string; columns: number; gutterPx: number; marginPx: number };
+export type LayoutAxis = {
+  breakpoints: Breakpoint[];
+  grid: GridStep[];
+  baseColumns: number;
+  containerMax: number;
+  containerNarrow: number;
+};
+// Count-aware names: ≤5 tiers anchor at sm (sm/md/lg/xl/2xl — Tailwind); 6+ prepend
+// xs (xs/sm/md/lg/xl/2xl — Bootstrap), so a small-phone tier is labelled correctly.
+const bpNames = (n: number): string[] =>
+  n <= 5 ? ['sm', 'md', 'lg', 'xl', '2xl'].slice(0, n) : ['xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl'].slice(0, n);
+// Shallow gutter/margin ramps (px), anchored to Atlassian/Prism2; margin runs a
+// step larger at the top. Sliced/clamped to the breakpoint count.
+const GUTTER_PX = [16, 16, 24, 24, 32, 32];
+const MARGIN_PX = [16, 24, 24, 32, 48, 48];
+
+const buildLayout = (input: BrandInput['layout'] = {}): LayoutAxis => {
+  const floors = input.breakpoints ?? [0, 768, 1024, 1440, 1920];
+  const base = input.columns ?? 12;
+  const n = floors.length;
+  const names = bpNames(n);
+  const breakpoints: Breakpoint[] = floors.map((px, i) => ({ name: names[i] ?? `bp${i}`, px }));
+  // column ladder: smallest = 4, next = 8, top reaches the base count.
+  const cols = (i: number): number => i === 0 ? Math.min(4, base) : i === n - 1 ? base : i === 1 ? Math.min(8, base) : base;
+  const grid: GridStep[] = breakpoints.map((b, i) => ({
+    bp: b.name, columns: cols(i),
+    gutterPx: GUTTER_PX[Math.min(i, GUTTER_PX.length - 1)],
+    marginPx: MARGIN_PX[Math.min(i, MARGIN_PX.length - 1)],
+  }));
+  return { breakpoints, grid, baseColumns: base, containerMax: input.containerMax ?? 1440, containerNarrow: input.containerNarrow ?? 720 };
+};
+
+// ---------------------------------------------------------------------------
+// Gradient axis (brand-opt-in). Grounded in a 10-system survey + the DTCG
+// gradient spec (2025.10) + the Figma round-trip research. Decisions:
+//  - OFF by default: most mature systems abstain (Material/Carbon/Atlassian/
+//    Primer/USWDS), and gradients are contextual. A brand opts in — `true` ships
+//    ONE default brand gradient; an explicit array ships exactly those. NB ships
+//    none (it had none). This is NOT a derived-for-everyone axis like colour.
+//  - DTCG `gradient` composite is the spine: $value = stops [{color, position}],
+//    and stop COLOURS ALIAS the colour ramp (the Fluent/Carbon model; themeable),
+//    never raw hex (the deprecated Polaris/SLDS trap).
+//  - DTCG omits kind/angle/interpolation (issue #101 — still open); we carry them
+//    in $extensions, the way the spec's own proposals would: kind (linear/radial),
+//    angle | center+shape, interpolation (OKLCH default).
+//  - OKLCH interpolation avoids the sRGB "grey dead zone". Figma interpolates in
+//    sRGB ONLY, so we PRE-SAMPLE the OKLCH curve into N baked sRGB stops for the
+//    Figma Paint Style (the one renderer that needs them); CSS keeps `in oklch`.
+//  - Materializes as a Figma PAINT STYLE (the 4th style class beside effect/text/
+//    grid); only stop COLOURS bind to variables — kind/angle/positions are baked.
+//  - Worst-case-stop contrast is computed: text over a gradient must clear its
+//    ratio at the LOWEST-contrast point, not the average (none of the surveyed
+//    systems do this — our contract-checking ethos extended to gradients).
+export type GradientStopInput = { palette: string; step: number; position: number };
+export type GradientInput = {
+  name: string;
+  kind?: 'linear' | 'radial';
+  angle?: number;                 // linear only — degrees (default 135, a brand diagonal)
+  center?: [number, number];      // radial only — 0..1 (default [0.5, 0.5])
+  shape?: 'circle' | 'ellipse';   // radial only (default 'ellipse')
+  interpolation?: 'oklch' | 'srgb';
+  samples?: number;               // sRGB pre-sample count for Figma (default 5)
+  stops: GradientStopInput[];
+};
+export type GradientStop = { aliasOf: string; position: number; rgb: RGB; hex: string; oklch: OKLCH };
+export type ResolvedGradient = {
+  name: string; kind: 'linear' | 'radial'; angle: number; center: [number, number];
+  shape: 'circle' | 'ellipse'; interpolation: 'oklch' | 'srgb';
+  stops: GradientStop[];
+  sampled: { hex: string; position: number }[];  // baked sRGB approximation (Figma)
+  worstOnWhite: number; worstOnBlack: number;     // lowest contrast of any sampled stop
+};
+export type GradientAxis = { gradients: ResolvedGradient[] };
+
+const DEFAULT_BRAND_GRADIENT = (brandPalette: string): GradientInput => ({
+  name: 'brand', kind: 'linear', angle: 135,
+  stops: [{ palette: brandPalette, step: 600, position: 0 }, { palette: brandPalette, step: 350, position: 1 }],
+});
+// Shortest-arc hue interpolation (degrees) — the perceptually correct path.
+const lerpHue = (h1: number, h2: number, t: number): number => {
+  const dh = (((h2 - h1) % 360) + 540) % 360 - 180;
+  return (h1 + t * dh + 360) % 360;
+};
+const lerpOklch = (a: OKLCH, b: OKLCH, t: number): OKLCH => ({ l: a.l + (b.l - a.l) * t, c: a.c + (b.c - a.c) * t, h: lerpHue(a.h, b.h, t) });
+const lerpRgb = (a: RGB, b: RGB, t: number): RGB => ({ r: Math.round(a.r + (b.r - a.r) * t), g: Math.round(a.g + (b.g - a.g) * t), b: Math.round(a.b + (b.b - a.b) * t) });
+
+const buildGradient = (spec: BrandInput['gradients'], palettes: PaletteBuild[], root: string): GradientAxis => {
+  if (!spec) return { gradients: [] };
+  const inputs: GradientInput[] = spec === true ? [DEFAULT_BRAND_GRADIENT('primary')] : spec;
+  const stepOf = (palette: string, step: number): Step => {
+    const p = palettes.find((pp) => pp.palette === palette);
+    if (!p) throw new Error(`gradient: palette '${palette}' is not defined (have: ${palettes.map((x) => x.palette).join(', ')})`);
+    const s = p.steps.find((st) => st.num === step);
+    if (!s) throw new Error(`gradient: '${palette}.${step}' is not a valid ramp step`);
+    return s;
+  };
+  const gradients: ResolvedGradient[] = inputs.map((g) => {
+    const kind = g.kind ?? 'linear';
+    const interpolation = g.interpolation ?? 'oklch';
+    const samples = Math.max(2, g.samples ?? 5);
+    const stops: GradientStop[] = g.stops
+      .slice().sort((a, b) => a.position - b.position)
+      .map((st) => {
+        const s = stepOf(st.palette, st.step);
+        return { aliasOf: `${root}.color.${st.palette}.${s.key}`, position: st.position, rgb: s.rgb, hex: s.hex, oklch: s.oklch };
+      });
+    // Pre-sample the curve at N evenly-spaced positions (the chosen interpolation
+    // space), output sRGB — the baked stops Figma needs (it can't interpolate OKLCH).
+    const sampleRgb = (p: number): RGB => {
+      if (p <= stops[0].position) return stops[0].rgb;
+      if (p >= stops[stops.length - 1].position) return stops[stops.length - 1].rgb;
+      for (let i = 0; i < stops.length - 1; i++) {
+        const a = stops[i], b = stops[i + 1];
+        if (p >= a.position && p <= b.position) {
+          const t = (p - a.position) / (b.position - a.position || 1);
+          return interpolation === 'oklch' ? oklchToRgb(lerpOklch(a.oklch, b.oklch, t)) : lerpRgb(a.rgb, b.rgb, t);
+        }
+      }
+      return stops[stops.length - 1].rgb;
+    };
+    const sampledRgb = Array.from({ length: samples }, (_, i) => sampleRgb(i / (samples - 1)));
+    const sampled = sampledRgb.map((rgb, i) => ({ hex: rgbHex(rgb), position: Math.round((i / (samples - 1)) * 1000) / 1000 }));
+    const WHITE: RGB = { r: 255, g: 255, b: 255 }, BLACK: RGB = { r: 0, g: 0, b: 0 };
+    const worstOnWhite = Math.min(...sampledRgb.map((c) => contrast(c, WHITE)));
+    const worstOnBlack = Math.min(...sampledRgb.map((c) => contrast(c, BLACK)));
+    return {
+      name: g.name, kind, angle: g.angle ?? 135, center: g.center ?? [0.5, 0.5],
+      shape: g.shape ?? 'ellipse', interpolation, stops, sampled, worstOnWhite, worstOnBlack,
+    };
+  });
+  return { gradients };
+};
+
 export const brandTheme = (input: BrandInput): Theme => {
   const notes: string[] = [];
   const anchorStep = autoPlaceStep(input.primary.l);
@@ -275,6 +737,27 @@ export const brandTheme = (input: BrandInput): Theme => {
   const baseMd = input.baseMd ?? 4;
   notes.push(`dimension axis: ${baseUnit}px grid, ${spaceBase}px space rhythm, density '${density}' (drives component sizes), radius scale ${rScale} (baseMd ${baseMd}px)`);
   notes.push(`motion: tempo '${input.motionPersonality?.tempo ?? 'standard'}' scales the duration ramp; easing roles + springs + composite transitions generated; reduce-motion variants derived (informational preserved, vestibular → 0)`);
+  const shadow = buildShadow(input.neutral.hue, input.shadow);
+  notes.push(`shadow: 6-step ramp (xs–2xl) + inset, 2-layer (key+ambient), softness ${shadow.softness}; tinted base (hue ${shadow.tint.hue}, amount ${shadow.tint.amount}${shadow.tint.amount === 0 ? ' = pure black' : ''}). Mode-aware, LIFT-primary: full shadow in light; reduced (faded, top-weighted) in dark — the surface ladder carries dark elevation. Composite shadow → Figma Effect Style.`);
+  const gradient = buildGradient(input.gradients, palettes, 'prism');
+  if (gradient.gradients.length) {
+    notes.push(`gradient: ${gradient.gradients.length} brand gradient(s) [${gradient.gradients.map((g) => `${g.name} ${g.kind}${g.kind === 'linear' ? ` ${g.angle}°` : ''} ${g.stops.length}-stop`).join(', ')}] — OPT-IN. DTCG composite spine, stop colours alias the ramp; kind/angle/${gradient.gradients[0].interpolation} interpolation in \$extensions (DTCG omits them — issue #101). OKLCH-interpolated + ${gradient.gradients[0].sampled.length}-stop sRGB pre-sample for Figma (sRGB-only); materializes as a Figma Paint Style (only stop colours bind). Worst-case-stop contrast computed for text-on-gradient.`);
+  } else {
+    notes.push('gradient: none (opt-in axis; brand declared no gradients — the field-common default).');
+  }
+  const layout = buildLayout(input.layout);
+  notes.push(`layout: ${layout.breakpoints.length} breakpoints (${layout.breakpoints.map((b) => `${b.name} ${b.px}`).join(', ')}); grid base ${layout.baseColumns} cols (ladder ${layout.grid.map((g) => g.columns).join('/')}); gutter/margin alias the spacing scale (${layout.grid.map((g) => g.gutterPx).join('/')} · ${layout.grid.map((g) => g.marginPx).join('/')}); container max ${layout.containerMax}px + narrow ${layout.containerNarrow}px (fluid-first + cap). Breakpoints → a separate Figma layout collection (modes), composing with colour light/dark.`);
+  const typography = buildTypography(input.typography);
+  const dispSizes = typography.composites.filter((c) => c.group === 'display').map((c) => c.sizePx);
+  const reqCeiling = input.typography?.displayCeiling ?? 160;
+  const effCap = dispSizes.length ? Math.max(...dispSizes) : 0;
+  const capNote = dispSizes.length === 0
+    ? ` — NOTE: display tier fully trimmed (ceiling ${reqCeiling}px is below the smallest display step); composite count is below the 15–25 norm`
+    : effCap !== reqCeiling
+      ? ` — NOTE: requested ceiling ${reqCeiling}px; effective top display is ${effCap}px (typeScale shifts sizes off the exact ladder rung)`
+      : '';
+  const varFams = typography.families.filter((f) => f.variable).map((f) => f.role);
+  notes.push(`typography: curated rem size ladder (${typography.sizesPx.length} steps, ${typography.sizesPx[0]}–${typography.sizesPx[typography.sizesPx.length - 1]}px — NOT ratio-derived; covers all bases, clean values); weight roles subtle/default/emphasis/strong → ${typography.weightRoles.map((w) => w.value).join('/')}; families ${typography.families.map((f) => `${f.role}=${f.stack[0]}`).join(', ')}${varFams.length ? ` (variable: ${varFams.join('/')})` : ''}; typeScale '${typography.typeScale}'. ${typography.composites.length} semantic composites (title/display sizes shifted by typeScale; display capped at ${reqCeiling}px; title floor ${input.typography?.titleFloor ?? 18}px)${capNote}. ${typography.fluid ? `responsive: ${typography.composites.filter((c) => c.sizeMinPx !== c.sizePx).length} fluid composites (size-dependent mobile shrink — research-validated, Carbon fluid-display curve: body static, titles ~1 rung, display converges to ~40–48px; one min/max pair → web clamp() ${typography.minViewport}–${typography.maxViewport}px + Figma desktop/mobile modes)` : 'responsive: OFF (all sizes static)'}. Line-height unitless multiplier in \$value; px-from-ratio materialization for Figma in \$extensions.`);
   const dStrat = input.disabledStrategy ?? 'accessible';
   notes.push(dStrat === 'accessible'
     ? `disabled: 'accessible' — disabled text/icon/border clears ${input.disabledMin ?? 3}:1 on the floor (legible, contrast-preserving; the field-rare default). Set disabledStrategy:'conventional' for the sub-AA exempt look.`
@@ -298,6 +781,10 @@ export const brandTheme = (input: BrandInput): Theme => {
     iconContrast: input.iconContrast ?? 'text',
     dims: buildDims(baseUnit, spaceBase, density, rScale, baseMd),
     motion: buildMotion(input.motionPersonality),
+    typography,
+    shadow,
+    layout,
+    gradient,
   };
 };
 
@@ -345,9 +832,16 @@ export const nbTheme = (): Theme => {
     roleAnchorStep: { brand: 550, neutral: 500, success: 500, warning: 500, danger: 550, info: 500, action: 550 },
     disabledStrategy: 'accessible', disabledMin: 3, iconContrast: 'text',
     dims, motion: buildMotion(),
+    typography: buildTypography(),
+    shadow: buildShadow(s.neutralHue.hue, { tint: { amount: 0 } }),  // NB ships pure-black shadows
+    layout: buildLayout({ containerMax: 1920 }),                     // NB caps at 1920 + narrow 720
+    gradient: { gradients: [] },                                     // NB ships no gradients (it had none)
     notes: [
       'NB regression: measured anchors; brand red also serves as danger (NB brand hue is its danger hue).',
       `dimension axis: ${baseUnit}px grid, 8px space rhythm (Prism2 numbered scale), comfortable density, radius scale 1 (baseMd ${baseMd}px).`,
+      'typography: curated rem size ladder (22 steps, 10–160px) reproducing the Prism2 reference scale; weight roles subtle/default/emphasis/strong → 300/400/600/700.',
+      'shadow: 6-step ramp + inset, 2-layer, pure-black (NB dialect); mode-aware lift-primary (reduced in dark, NOT NB\'s heavier inverse — the field-correct choice).',
+      'layout: 5 breakpoints (engine default) + 12-col grid (4/8/12 ladder) + container max 1920 / narrow 720 (NB caps); gutter/margin alias the spacing scale.',
     ],
   };
 };

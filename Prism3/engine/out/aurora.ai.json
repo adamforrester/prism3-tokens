@@ -2,7 +2,7 @@
   "$schema": "prism3-ai-metadata/0.1",
   "brand": "aurora",
   "generated": true,
-  "note": "Agent-readable metadata, companion to aurora.tokens.json. The semantic tier carries the full schema (knowledge-base 31-color-systems §9); the primitive tier a simplified set + colour-scale `intent` and `aliased_by` (the reverse index — which tokens resolve to it). `aliased_by` is recomputed from the token tree on every build (authoritative at build time, never hand-maintained — it cannot drift as roles re-resolve). All fields generated and contract-true.",
+  "note": "Agent-readable metadata, companion to aurora.tokens.json. The semantic (colour) tier and the typography tier (type composites + weight roles) carry the rich schema; the primitive tier a simplified set + colour-scale `intent` and `aliased_by` (the reverse index — which tokens resolve to it, TRANSITIVELY, so the two-hop weight chain composite→role→numeric is visible). `aliased_by` is recomputed from the token tree on every build (authoritative at build time, never hand-maintained — it cannot drift). All fields generated and contract-true.",
   "semantic_fields": [
     "$description",
     "meaning",
@@ -11,6 +11,14 @@
     "paired_with",
     "contrast_with",
     "mode_overrides"
+  ],
+  "typography_fields": [
+    "$description",
+    "meaning",
+    "when_to_use",
+    "avoid_when",
+    "resolves_to",
+    "used_by"
   ],
   "primitive_fields": [
     "$description",
@@ -1793,6 +1801,347 @@
       ]
     }
   },
+  "typography": {
+    "type.display.sm": {
+      "$description": "Hero / marketing display type.",
+      "meaning": "Type style — display sm (56px, display face)",
+      "when_to_use": "Large expressive headlines and hero moments.",
+      "avoid_when": "Do not use for product-UI headings (use title) or running text (use body).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.display}",
+        "fontSize": "{prism.font.size.56}",
+        "fontWeight": "{prism.font.weight-role.strong}",
+        "lineHeight": "{prism.font.line-height.tight}",
+        "letterSpacing": "{prism.font.letter-spacing.tight}"
+      }
+    },
+    "type.display.md": {
+      "$description": "Hero / marketing display type.",
+      "meaning": "Type style — display md (72px, display face)",
+      "when_to_use": "Large expressive headlines and hero moments.",
+      "avoid_when": "Do not use for product-UI headings (use title) or running text (use body).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.display}",
+        "fontSize": "{prism.font.size.72}",
+        "fontWeight": "{prism.font.weight-role.strong}",
+        "lineHeight": "{prism.font.line-height.tight}",
+        "letterSpacing": "{prism.font.letter-spacing.tight}"
+      }
+    },
+    "type.display.lg": {
+      "$description": "Hero / marketing display type.",
+      "meaning": "Type style — display lg (96px, display face)",
+      "when_to_use": "Large expressive headlines and hero moments.",
+      "avoid_when": "Do not use for product-UI headings (use title) or running text (use body).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.display}",
+        "fontSize": "{prism.font.size.96}",
+        "fontWeight": "{prism.font.weight-role.strong}",
+        "lineHeight": "{prism.font.line-height.tight}",
+        "letterSpacing": "{prism.font.letter-spacing.tighter}"
+      }
+    },
+    "type.display.xl": {
+      "$description": "Hero / marketing display type.",
+      "meaning": "Type style — display xl (112px, display face)",
+      "when_to_use": "Large expressive headlines and hero moments.",
+      "avoid_when": "Do not use for product-UI headings (use title) or running text (use body).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.display}",
+        "fontSize": "{prism.font.size.112}",
+        "fontWeight": "{prism.font.weight-role.strong}",
+        "lineHeight": "{prism.font.line-height.tight}",
+        "letterSpacing": "{prism.font.letter-spacing.tighter}"
+      }
+    },
+    "type.title.2xs": {
+      "$description": "Heading type — visual hierarchy, decoupled from DOM level.",
+      "meaning": "Type style — title 2xs (16px, display face)",
+      "when_to_use": "Section and page headings; pick the size for visual prominence and set the DOM level (h1–h6) by document structure independently.",
+      "avoid_when": "Do not bind the size to a heading level; do not use for running text (use body).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.display}",
+        "fontSize": "{prism.font.size.16}",
+        "fontWeight": "{prism.font.weight-role.strong}",
+        "lineHeight": "{prism.font.line-height.compact}",
+        "letterSpacing": "{prism.font.letter-spacing.snug}"
+      }
+    },
+    "type.title.xs": {
+      "$description": "Heading type — visual hierarchy, decoupled from DOM level.",
+      "meaning": "Type style — title xs (20px, display face)",
+      "when_to_use": "Section and page headings; pick the size for visual prominence and set the DOM level (h1–h6) by document structure independently.",
+      "avoid_when": "Do not bind the size to a heading level; do not use for running text (use body).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.display}",
+        "fontSize": "{prism.font.size.20}",
+        "fontWeight": "{prism.font.weight-role.strong}",
+        "lineHeight": "{prism.font.line-height.compact}",
+        "letterSpacing": "{prism.font.letter-spacing.snug}"
+      }
+    },
+    "type.title.sm": {
+      "$description": "Heading type — visual hierarchy, decoupled from DOM level.",
+      "meaning": "Type style — title sm (24px, display face)",
+      "when_to_use": "Section and page headings; pick the size for visual prominence and set the DOM level (h1–h6) by document structure independently.",
+      "avoid_when": "Do not bind the size to a heading level; do not use for running text (use body).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.display}",
+        "fontSize": "{prism.font.size.24}",
+        "fontWeight": "{prism.font.weight-role.strong}",
+        "lineHeight": "{prism.font.line-height.compact}",
+        "letterSpacing": "{prism.font.letter-spacing.snug}"
+      }
+    },
+    "type.title.md": {
+      "$description": "Heading type — visual hierarchy, decoupled from DOM level.",
+      "meaning": "Type style — title md (28px, display face)",
+      "when_to_use": "Section and page headings; pick the size for visual prominence and set the DOM level (h1–h6) by document structure independently.",
+      "avoid_when": "Do not bind the size to a heading level; do not use for running text (use body).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.display}",
+        "fontSize": "{prism.font.size.28}",
+        "fontWeight": "{prism.font.weight-role.strong}",
+        "lineHeight": "{prism.font.line-height.snug}",
+        "letterSpacing": "{prism.font.letter-spacing.snug}"
+      }
+    },
+    "type.title.lg": {
+      "$description": "Heading type — visual hierarchy, decoupled from DOM level.",
+      "meaning": "Type style — title lg (32px, display face)",
+      "when_to_use": "Section and page headings; pick the size for visual prominence and set the DOM level (h1–h6) by document structure independently.",
+      "avoid_when": "Do not bind the size to a heading level; do not use for running text (use body).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.display}",
+        "fontSize": "{prism.font.size.32}",
+        "fontWeight": "{prism.font.weight-role.strong}",
+        "lineHeight": "{prism.font.line-height.snug}",
+        "letterSpacing": "{prism.font.letter-spacing.snug}"
+      }
+    },
+    "type.title.xl": {
+      "$description": "Heading type — visual hierarchy, decoupled from DOM level.",
+      "meaning": "Type style — title xl (36px, display face)",
+      "when_to_use": "Section and page headings; pick the size for visual prominence and set the DOM level (h1–h6) by document structure independently.",
+      "avoid_when": "Do not bind the size to a heading level; do not use for running text (use body).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.display}",
+        "fontSize": "{prism.font.size.36}",
+        "fontWeight": "{prism.font.weight-role.strong}",
+        "lineHeight": "{prism.font.line-height.snug}",
+        "letterSpacing": "{prism.font.letter-spacing.snug}"
+      }
+    },
+    "type.title.2xl": {
+      "$description": "Heading type — visual hierarchy, decoupled from DOM level.",
+      "meaning": "Type style — title 2xl (48px, display face)",
+      "when_to_use": "Section and page headings; pick the size for visual prominence and set the DOM level (h1–h6) by document structure independently.",
+      "avoid_when": "Do not bind the size to a heading level; do not use for running text (use body).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.display}",
+        "fontSize": "{prism.font.size.48}",
+        "fontWeight": "{prism.font.weight-role.strong}",
+        "lineHeight": "{prism.font.line-height.snug}",
+        "letterSpacing": "{prism.font.letter-spacing.snug}"
+      }
+    },
+    "type.body.sm": {
+      "$description": "Running text / default UI copy.",
+      "meaning": "Type style — body sm (14px, text face)",
+      "when_to_use": "Paragraphs, descriptions, and default interface text.",
+      "avoid_when": "Do not use for headings (use title/display) or dense control labels (use label).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.text}",
+        "fontSize": "{prism.font.size.14}",
+        "fontWeight": "{prism.font.weight-role.default}",
+        "lineHeight": "{prism.font.line-height.normal}",
+        "letterSpacing": "{prism.font.letter-spacing.normal}"
+      }
+    },
+    "type.body.md": {
+      "$description": "Running text / default UI copy.",
+      "meaning": "Type style — body md (16px, text face)",
+      "when_to_use": "Paragraphs, descriptions, and default interface text.",
+      "avoid_when": "Do not use for headings (use title/display) or dense control labels (use label).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.text}",
+        "fontSize": "{prism.font.size.16}",
+        "fontWeight": "{prism.font.weight-role.default}",
+        "lineHeight": "{prism.font.line-height.normal}",
+        "letterSpacing": "{prism.font.letter-spacing.normal}"
+      }
+    },
+    "type.body.lg": {
+      "$description": "Running text / default UI copy.",
+      "meaning": "Type style — body lg (18px, text face)",
+      "when_to_use": "Paragraphs, descriptions, and default interface text.",
+      "avoid_when": "Do not use for headings (use title/display) or dense control labels (use label).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.text}",
+        "fontSize": "{prism.font.size.18}",
+        "fontWeight": "{prism.font.weight-role.default}",
+        "lineHeight": "{prism.font.line-height.normal}",
+        "letterSpacing": "{prism.font.letter-spacing.normal}"
+      }
+    },
+    "type.label.sm": {
+      "$description": "UI label type — buttons, form labels, tabs, chips.",
+      "meaning": "Type style — label sm (12px, text face)",
+      "when_to_use": "Control and form labels, button text, tabs, chips, badges.",
+      "avoid_when": "Do not use for running text (use body).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.text}",
+        "fontSize": "{prism.font.size.12}",
+        "fontWeight": "{prism.font.weight-role.emphasis}",
+        "lineHeight": "{prism.font.line-height.snug}",
+        "letterSpacing": "{prism.font.letter-spacing.normal}"
+      }
+    },
+    "type.label.md": {
+      "$description": "UI label type — buttons, form labels, tabs, chips.",
+      "meaning": "Type style — label md (14px, text face)",
+      "when_to_use": "Control and form labels, button text, tabs, chips, badges.",
+      "avoid_when": "Do not use for running text (use body).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.text}",
+        "fontSize": "{prism.font.size.14}",
+        "fontWeight": "{prism.font.weight-role.emphasis}",
+        "lineHeight": "{prism.font.line-height.snug}",
+        "letterSpacing": "{prism.font.letter-spacing.normal}"
+      }
+    },
+    "type.caption": {
+      "$description": "Caption / secondary small text.",
+      "meaning": "Type style — caption (12px, text face)",
+      "when_to_use": "Image captions, helper text, metadata, footnotes.",
+      "avoid_when": "Do not use for primary reading text (use body).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.text}",
+        "fontSize": "{prism.font.size.12}",
+        "fontWeight": "{prism.font.weight-role.default}",
+        "lineHeight": "{prism.font.line-height.normal}",
+        "letterSpacing": "{prism.font.letter-spacing.normal}"
+      }
+    },
+    "type.eyebrow": {
+      "$description": "Eyebrow / kicker — small uppercase label above a heading.",
+      "meaning": "Type style — eyebrow (12px, display face, uppercase)",
+      "when_to_use": "A short label sitting above a title or hero (a \"kicker\").",
+      "avoid_when": "Do not use as the heading itself (use title) or for body copy.",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.display}",
+        "fontSize": "{prism.font.size.12}",
+        "fontWeight": "{prism.font.weight-role.emphasis}",
+        "lineHeight": "{prism.font.line-height.snug}",
+        "letterSpacing": "{prism.font.letter-spacing.wider}",
+        "textCase": "uppercase"
+      }
+    },
+    "type.code.inline": {
+      "$description": "Monospace / code type.",
+      "meaning": "Type style — code inline (14px, mono face)",
+      "when_to_use": "Inline code, code blocks, and column-aligned values.",
+      "avoid_when": "Do not use for prose (use body).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.mono}",
+        "fontSize": "{prism.font.size.14}",
+        "fontWeight": "{prism.font.weight-role.default}",
+        "lineHeight": "{prism.font.line-height.normal}",
+        "letterSpacing": "{prism.font.letter-spacing.normal}"
+      }
+    },
+    "font.weight-role.subtle": {
+      "$description": "The subtle font-weight role.",
+      "meaning": "Function-named weight → 300 — white-label-stable (the role is the contract; each brand maps the numeric).",
+      "when_to_use": "Reference font.weight-role.subtle (not the numeric) so a brand weight re-map reflows every consumer at once.",
+      "avoid_when": "Do not hard-code the numeric (300); reference the role.",
+      "resolves_to": "{prism.font.weight.300}"
+    },
+    "font.weight-role.default": {
+      "$description": "The default font-weight role.",
+      "meaning": "Function-named weight → 400 — white-label-stable (the role is the contract; each brand maps the numeric).",
+      "when_to_use": "Reference font.weight-role.default (not the numeric) so a brand weight re-map reflows every consumer at once.",
+      "avoid_when": "Do not hard-code the numeric (400); reference the role.",
+      "resolves_to": "{prism.font.weight.400}",
+      "used_by": [
+        "type.body.lg",
+        "type.body.md",
+        "type.body.sm",
+        "type.caption",
+        "type.code.inline"
+      ]
+    },
+    "font.weight-role.emphasis": {
+      "$description": "The emphasis font-weight role.",
+      "meaning": "Function-named weight → 500 — white-label-stable (the role is the contract; each brand maps the numeric).",
+      "when_to_use": "Reference font.weight-role.emphasis (not the numeric) so a brand weight re-map reflows every consumer at once.",
+      "avoid_when": "Do not hard-code the numeric (500); reference the role.",
+      "resolves_to": "{prism.font.weight.500}",
+      "used_by": [
+        "type.eyebrow",
+        "type.label.md",
+        "type.label.sm"
+      ]
+    },
+    "font.weight-role.strong": {
+      "$description": "The strong font-weight role.",
+      "meaning": "Function-named weight → 700 — white-label-stable (the role is the contract; each brand maps the numeric).",
+      "when_to_use": "Reference font.weight-role.strong (not the numeric) so a brand weight re-map reflows every consumer at once.",
+      "avoid_when": "Do not hard-code the numeric (700); reference the role.",
+      "resolves_to": "{prism.font.weight.700}",
+      "used_by": [
+        "type.display.lg",
+        "type.display.md",
+        "type.display.sm",
+        "type.display.xl",
+        "type.title.2xl",
+        "type.title.2xs",
+        "type.title.lg",
+        "type.title.md",
+        "type.title.sm",
+        "type.title.xl",
+        "type.title.xs"
+      ]
+    }
+  },
+  "gradient_fields": [
+    "$description",
+    "meaning",
+    "when_to_use",
+    "avoid_when",
+    "resolves_to",
+    "a11y"
+  ],
+  "gradient": {
+    "gradient.brand": {
+      "$description": "Brand gradient — linear 135°, 2 stops.",
+      "meaning": "Decorative linear gradient (opt-in); stop colours alias the ramp, oklch interpolation. Materializes as a Figma Paint Style — only stop colours bind (kind/angle/positions baked).",
+      "when_to_use": "Brand / marketing surfaces, hero backgrounds, decorative fills.",
+      "avoid_when": "Do not place body text directly over it — worst-case contrast is 2.73:1 (below 4.5:1); use a scrim or a solid container.",
+      "resolves_to": [
+        "{prism.color.primary.600}",
+        "{prism.color.accent.500}"
+      ],
+      "a11y": {
+        "worst_on_white": 4.56,
+        "worst_on_black": 2.73
+      }
+    },
+    "gradient.glow": {
+      "$description": "Brand gradient — radial circle, 2 stops.",
+      "meaning": "Decorative radial gradient (opt-in); stop colours alias the ramp, oklch interpolation. Materializes as a Figma Paint Style — only stop colours bind (kind/angle/positions baked).",
+      "when_to_use": "Brand / marketing surfaces, hero backgrounds, decorative fills.",
+      "avoid_when": "Do not place body text directly over it — worst-case contrast is 2.09:1 (below 4.5:1); use a scrim or a solid container.",
+      "resolves_to": [
+        "{prism.color.accent.400}",
+        "{prism.color.accent.700}"
+      ],
+      "a11y": {
+        "worst_on_white": 3.35,
+        "worst_on_black": 2.09
+      }
+    }
+  },
   "primitives": {
     "color.white": {
       "$description": "Pure white — Highlight base / default surface",
@@ -1807,6 +2156,17 @@
         "semantic.hc-light.background.quaternary",
         "semantic.hc-light.background.secondary",
         "semantic.hc-light.background.tertiary",
+        "semantic.hc-light.elevation.card.surface",
+        "semantic.hc-light.elevation.dialog.surface",
+        "semantic.hc-light.elevation.dropdown.surface",
+        "semantic.hc-light.elevation.flat.surface",
+        "semantic.hc-light.elevation.floating.surface",
+        "semantic.hc-light.elevation.menu.surface",
+        "semantic.hc-light.elevation.modal.surface",
+        "semantic.hc-light.elevation.overlay.surface",
+        "semantic.hc-light.elevation.popover.surface",
+        "semantic.hc-light.elevation.raised.surface",
+        "semantic.hc-light.elevation.tooltip.surface",
         "semantic.hc-light.icon.inverse",
         "semantic.hc-light.icon.on-brand",
         "semantic.hc-light.icon.on-danger",
@@ -1826,6 +2186,16 @@
         "semantic.light.background.quaternary",
         "semantic.light.background.secondary",
         "semantic.light.background.tertiary",
+        "semantic.light.elevation.card.surface",
+        "semantic.light.elevation.dialog.surface",
+        "semantic.light.elevation.dropdown.surface",
+        "semantic.light.elevation.floating.surface",
+        "semantic.light.elevation.menu.surface",
+        "semantic.light.elevation.modal.surface",
+        "semantic.light.elevation.overlay.surface",
+        "semantic.light.elevation.popover.surface",
+        "semantic.light.elevation.raised.surface",
+        "semantic.light.elevation.tooltip.surface",
         "semantic.light.icon.on-brand",
         "semantic.light.icon.on-danger",
         "semantic.light.icon.on-emphasis",
@@ -1850,6 +2220,8 @@
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
         "semantic.dark.background.sunken",
+        "semantic.dark.elevation.sunken.surface",
+        "semantic.dark.elevation.well.surface",
         "semantic.dark.icon.on-brand",
         "semantic.dark.icon.on-danger",
         "semantic.dark.icon.on-emphasis",
@@ -1866,6 +2238,9 @@
         "semantic.dark.text.on-warning",
         "semantic.hc-dark.background.primary",
         "semantic.hc-dark.background.sunken",
+        "semantic.hc-dark.elevation.flat.surface",
+        "semantic.hc-dark.elevation.sunken.surface",
+        "semantic.hc-dark.elevation.well.surface",
         "semantic.hc-dark.icon.inverse",
         "semantic.hc-dark.icon.on-brand",
         "semantic.hc-dark.icon.on-danger",
@@ -1958,7 +2333,7 @@
     "color.primary.500": {
       "$description": "Brand primary 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
       "meaning": "primary ramp — raw step 500",
-      "intent": "Solid fills & UI-element backgrounds — the dual-side AA pivot (clears 4.5:1 on both white and black)",
+      "intent": "Solid fills & UI-element backgrounds — the one mid step that reads as text or icons over both light and dark fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -1972,7 +2347,7 @@
     "color.primary.550": {
       "$description": "Brand primary 550 — Mid-Tone band — brand anchor (exact, pinned)",
       "meaning": "primary ramp — raw step 550",
-      "intent": "Solid fills & UI-element backgrounds — brand anchor (pinned exact value)",
+      "intent": "Solid fills & UI-element backgrounds — reach for this when fidelity to the source brand colour matters",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -1987,7 +2362,10 @@
       "meaning": "primary ramp — raw step 600",
       "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "gradient.brand"
+      ]
     },
     "color.primary.650": {
       "$description": "Brand primary 650 — Three-Quarter-Tone band",
@@ -2108,7 +2486,11 @@
       "aliased_by": [
         "semantic.hc-dark.border.strong",
         "semantic.hc-light.background.sunken",
-        "semantic.light.background.sunken"
+        "semantic.hc-light.elevation.sunken.surface",
+        "semantic.hc-light.elevation.well.surface",
+        "semantic.light.background.sunken",
+        "semantic.light.elevation.sunken.surface",
+        "semantic.light.elevation.well.surface"
       ]
     },
     "color.neutral.300": {
@@ -2162,7 +2544,7 @@
     "color.neutral.500": {
       "$description": "Neutral 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
       "meaning": "neutral ramp — raw step 500",
-      "intent": "Solid fills & UI-element backgrounds — the dual-side AA pivot (clears 4.5:1 on both white and black)",
+      "intent": "Solid fills & UI-element backgrounds — the one mid step that reads as text or icons over both light and dark fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2263,8 +2645,16 @@
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
         "semantic.dark.background.quaternary",
+        "semantic.dark.elevation.dialog.surface",
+        "semantic.dark.elevation.floating.surface",
+        "semantic.dark.elevation.modal.surface",
+        "semantic.dark.elevation.tooltip.surface",
         "semantic.dark.foreground.tertiary",
         "semantic.hc-dark.background.quaternary",
+        "semantic.hc-dark.elevation.dialog.surface",
+        "semantic.hc-dark.elevation.floating.surface",
+        "semantic.hc-dark.elevation.modal.surface",
+        "semantic.hc-dark.elevation.tooltip.surface",
         "semantic.hc-dark.foreground.tertiary"
       ]
     },
@@ -2276,7 +2666,15 @@
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
         "semantic.dark.background.tertiary",
+        "semantic.dark.elevation.dropdown.surface",
+        "semantic.dark.elevation.menu.surface",
+        "semantic.dark.elevation.overlay.surface",
+        "semantic.dark.elevation.popover.surface",
         "semantic.hc-dark.background.tertiary",
+        "semantic.hc-dark.elevation.dropdown.surface",
+        "semantic.hc-dark.elevation.menu.surface",
+        "semantic.hc-dark.elevation.overlay.surface",
+        "semantic.hc-dark.elevation.popover.surface",
         "semantic.hc-light.background.inverse",
         "semantic.light.background.inverse",
         "semantic.light.border.inverse"
@@ -2291,9 +2689,13 @@
       "aliased_by": [
         "semantic.dark.background.secondary",
         "semantic.dark.background.subtle",
+        "semantic.dark.elevation.card.surface",
+        "semantic.dark.elevation.raised.surface",
         "semantic.dark.foreground.inverse",
         "semantic.hc-dark.background.secondary",
         "semantic.hc-dark.background.subtle",
+        "semantic.hc-dark.elevation.card.surface",
+        "semantic.hc-dark.elevation.raised.surface",
         "semantic.hc-dark.foreground.inverse"
       ]
     },
@@ -2305,6 +2707,7 @@
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
         "semantic.dark.background.primary",
+        "semantic.dark.elevation.flat.surface",
         "semantic.dark.icon.inverse",
         "semantic.dark.text.inverse",
         "semantic.hc-light.foreground.primary",
@@ -2337,6 +2740,7 @@
       "aliased_by": [
         "semantic.hc-light.foreground.inverse",
         "semantic.light.background.primary",
+        "semantic.light.elevation.flat.surface",
         "semantic.light.foreground.inverse"
       ]
     },
@@ -2415,6 +2819,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
+        "gradient.glow",
         "semantic.dark.border.interactive.focused",
         "semantic.dark.foreground.interactive.default",
         "semantic.dark.icon.interactive.visited",
@@ -2437,10 +2842,11 @@
     "color.accent.500": {
       "$description": "Brand accent 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
       "meaning": "accent ramp — raw step 500",
-      "intent": "Solid fills & UI-element backgrounds — the dual-side AA pivot (clears 4.5:1 on both white and black)",
+      "intent": "Solid fills & UI-element backgrounds — the one mid step that reads as text or icons over both light and dark fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
+        "gradient.brand",
         "semantic.dark.icon.interactive.default",
         "semantic.dark.icon.interactive.focused",
         "semantic.light.icon.interactive.default",
@@ -2493,6 +2899,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
+        "gradient.glow",
         "semantic.hc-light.border.interactive.focused",
         "semantic.hc-light.foreground.interactive.default",
         "semantic.hc-light.icon.interactive.visited",
@@ -2634,7 +3041,7 @@
     "color.success.500": {
       "$description": "success status 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
       "meaning": "success ramp — raw step 500",
-      "intent": "Solid fills & UI-element backgrounds — the dual-side AA pivot (clears 4.5:1 on both white and black)",
+      "intent": "Solid fills & UI-element backgrounds — the one mid step that reads as text or icons over both light and dark fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2808,7 +3215,7 @@
     "color.warning.500": {
       "$description": "warning status 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
       "meaning": "warning ramp — raw step 500",
-      "intent": "Solid fills & UI-element backgrounds — the dual-side AA pivot (clears 4.5:1 on both white and black)",
+      "intent": "Solid fills & UI-element backgrounds — the one mid step that reads as text or icons over both light and dark fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -2982,7 +3389,7 @@
     "color.info.500": {
       "$description": "info status 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
       "meaning": "info ramp — raw step 500",
-      "intent": "Solid fills & UI-element backgrounds — the dual-side AA pivot (clears 4.5:1 on both white and black)",
+      "intent": "Solid fills & UI-element backgrounds — the one mid step that reads as text or icons over both light and dark fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -3172,7 +3579,7 @@
     "color.danger.500": {
       "$description": "danger status (engine-carved red — primary is not red) 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
       "meaning": "danger ramp — raw step 500",
-      "intent": "Solid fills & UI-element backgrounds — the dual-side AA pivot (clears 4.5:1 on both white and black)",
+      "intent": "Solid fills & UI-element backgrounds — the one mid step that reads as text or icons over both light and dark fills",
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
@@ -3664,6 +4071,629 @@
       "tier": "primitive",
       "consume": "Consumable — motion durations/easings/springs are used directly; transitions compose them."
     },
+    "font.family.display": {
+      "$description": "font family — display (Clash Display) [variable font]",
+      "meaning": "Font family stack — display role",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
+      "aliased_by": [
+        "type.display.lg",
+        "type.display.md",
+        "type.display.sm",
+        "type.display.xl",
+        "type.eyebrow",
+        "type.title.2xl",
+        "type.title.2xs",
+        "type.title.lg",
+        "type.title.md",
+        "type.title.sm",
+        "type.title.xl",
+        "type.title.xs"
+      ]
+    },
+    "font.family.text": {
+      "$description": "font family — text (Inter) [variable font]",
+      "meaning": "Font family stack — text role",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
+      "aliased_by": [
+        "type.body.lg",
+        "type.body.md",
+        "type.body.sm",
+        "type.caption",
+        "type.label.md",
+        "type.label.sm"
+      ]
+    },
+    "font.family.mono": {
+      "$description": "font family — mono (JetBrains Mono)",
+      "meaning": "Font family stack — mono role",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
+      "aliased_by": [
+        "type.code.inline"
+      ]
+    },
+    "font.size.10": {
+      "$description": "font size 10px (0.625rem) — curated ladder primitive",
+      "meaning": "Font size primitive — 10px (rem)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight."
+    },
+    "font.size.11": {
+      "$description": "font size 11px (0.6875rem) — curated ladder primitive",
+      "meaning": "Font size primitive — 11px (rem)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight."
+    },
+    "font.size.12": {
+      "$description": "font size 12px (0.75rem) — curated ladder primitive",
+      "meaning": "Font size primitive — 12px (rem)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
+      "aliased_by": [
+        "type.caption",
+        "type.eyebrow",
+        "type.label.sm"
+      ]
+    },
+    "font.size.14": {
+      "$description": "font size 14px (0.875rem) — curated ladder primitive",
+      "meaning": "Font size primitive — 14px (rem)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
+      "aliased_by": [
+        "type.body.sm",
+        "type.code.inline",
+        "type.label.md"
+      ]
+    },
+    "font.size.16": {
+      "$description": "font size 16px (1rem) — curated ladder primitive",
+      "meaning": "Font size primitive — 16px (rem)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
+      "aliased_by": [
+        "type.body.md",
+        "type.title.2xs"
+      ]
+    },
+    "font.size.18": {
+      "$description": "font size 18px (1.125rem) — curated ladder primitive",
+      "meaning": "Font size primitive — 18px (rem)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
+      "aliased_by": [
+        "type.body.lg"
+      ]
+    },
+    "font.size.20": {
+      "$description": "font size 20px (1.25rem) — curated ladder primitive",
+      "meaning": "Font size primitive — 20px (rem)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
+      "aliased_by": [
+        "type.title.xs"
+      ]
+    },
+    "font.size.24": {
+      "$description": "font size 24px (1.5rem) — curated ladder primitive",
+      "meaning": "Font size primitive — 24px (rem)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
+      "aliased_by": [
+        "type.title.sm"
+      ]
+    },
+    "font.size.28": {
+      "$description": "font size 28px (1.75rem) — curated ladder primitive",
+      "meaning": "Font size primitive — 28px (rem)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
+      "aliased_by": [
+        "type.title.md"
+      ]
+    },
+    "font.size.32": {
+      "$description": "font size 32px (2rem) — curated ladder primitive",
+      "meaning": "Font size primitive — 32px (rem)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
+      "aliased_by": [
+        "type.title.lg"
+      ]
+    },
+    "font.size.36": {
+      "$description": "font size 36px (2.25rem) — curated ladder primitive",
+      "meaning": "Font size primitive — 36px (rem)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
+      "aliased_by": [
+        "type.title.xl"
+      ]
+    },
+    "font.size.40": {
+      "$description": "font size 40px (2.5rem) — curated ladder primitive",
+      "meaning": "Font size primitive — 40px (rem)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight."
+    },
+    "font.size.48": {
+      "$description": "font size 48px (3rem) — curated ladder primitive",
+      "meaning": "Font size primitive — 48px (rem)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
+      "aliased_by": [
+        "type.title.2xl"
+      ]
+    },
+    "font.size.56": {
+      "$description": "font size 56px (3.5rem) — curated ladder primitive",
+      "meaning": "Font size primitive — 56px (rem)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
+      "aliased_by": [
+        "type.display.sm"
+      ]
+    },
+    "font.size.64": {
+      "$description": "font size 64px (4rem) — curated ladder primitive",
+      "meaning": "Font size primitive — 64px (rem)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight."
+    },
+    "font.size.72": {
+      "$description": "font size 72px (4.5rem) — curated ladder primitive",
+      "meaning": "Font size primitive — 72px (rem)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
+      "aliased_by": [
+        "type.display.md"
+      ]
+    },
+    "font.size.80": {
+      "$description": "font size 80px (5rem) — curated ladder primitive",
+      "meaning": "Font size primitive — 80px (rem)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight."
+    },
+    "font.size.96": {
+      "$description": "font size 96px (6rem) — curated ladder primitive",
+      "meaning": "Font size primitive — 96px (rem)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
+      "aliased_by": [
+        "type.display.lg"
+      ]
+    },
+    "font.size.112": {
+      "$description": "font size 112px (7rem) — curated ladder primitive",
+      "meaning": "Font size primitive — 112px (rem)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
+      "aliased_by": [
+        "type.display.xl"
+      ]
+    },
+    "font.size.128": {
+      "$description": "font size 128px (8rem) — curated ladder primitive",
+      "meaning": "Font size primitive — 128px (rem)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight."
+    },
+    "font.size.144": {
+      "$description": "font size 144px (9rem) — curated ladder primitive",
+      "meaning": "Font size primitive — 144px (rem)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight."
+    },
+    "font.size.160": {
+      "$description": "font size 160px (10rem) — curated ladder primitive",
+      "meaning": "Font size primitive — 160px (rem)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight."
+    },
+    "font.weight.100": {
+      "$description": "font weight 100 — numeric reference (the brand's literal axis value)",
+      "meaning": "Font weight primitive — numeric 100 (reference tier)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight."
+    },
+    "font.weight.200": {
+      "$description": "font weight 200 — numeric reference (the brand's literal axis value)",
+      "meaning": "Font weight primitive — numeric 200 (reference tier)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight."
+    },
+    "font.weight.300": {
+      "$description": "font weight 300 — numeric reference (the brand's literal axis value)",
+      "meaning": "Font weight primitive — numeric 300 (reference tier)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
+      "aliased_by": [
+        "font.weight-role.subtle"
+      ]
+    },
+    "font.weight.400": {
+      "$description": "font weight 400 — numeric reference (the brand's literal axis value)",
+      "meaning": "Font weight primitive — numeric 400 (reference tier)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
+      "aliased_by": [
+        "font.weight-role.default",
+        "type.body.lg",
+        "type.body.md",
+        "type.body.sm",
+        "type.caption",
+        "type.code.inline"
+      ]
+    },
+    "font.weight.500": {
+      "$description": "font weight 500 — numeric reference (the brand's literal axis value)",
+      "meaning": "Font weight primitive — numeric 500 (reference tier)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
+      "aliased_by": [
+        "font.weight-role.emphasis",
+        "type.eyebrow",
+        "type.label.md",
+        "type.label.sm"
+      ]
+    },
+    "font.weight.600": {
+      "$description": "font weight 600 — numeric reference (the brand's literal axis value)",
+      "meaning": "Font weight primitive — numeric 600 (reference tier)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight."
+    },
+    "font.weight.700": {
+      "$description": "font weight 700 — numeric reference (the brand's literal axis value)",
+      "meaning": "Font weight primitive — numeric 700 (reference tier)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
+      "aliased_by": [
+        "font.weight-role.strong",
+        "type.display.lg",
+        "type.display.md",
+        "type.display.sm",
+        "type.display.xl",
+        "type.title.2xl",
+        "type.title.2xs",
+        "type.title.lg",
+        "type.title.md",
+        "type.title.sm",
+        "type.title.xl",
+        "type.title.xs"
+      ]
+    },
+    "font.weight.800": {
+      "$description": "font weight 800 — numeric reference (the brand's literal axis value)",
+      "meaning": "Font weight primitive — numeric 800 (reference tier)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight."
+    },
+    "font.weight.900": {
+      "$description": "font weight 900 — numeric reference (the brand's literal axis value)",
+      "meaning": "Font weight primitive — numeric 900 (reference tier)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight."
+    },
+    "font.line-height.tight": {
+      "$description": "line height tight — 1.05× (unitless multiplier)",
+      "meaning": "Line-height multiplier — tight (unitless)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
+      "aliased_by": [
+        "type.display.lg",
+        "type.display.md",
+        "type.display.sm",
+        "type.display.xl"
+      ]
+    },
+    "font.line-height.snug": {
+      "$description": "line height snug — 1.15× (unitless multiplier)",
+      "meaning": "Line-height multiplier — snug (unitless)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
+      "aliased_by": [
+        "type.eyebrow",
+        "type.label.md",
+        "type.label.sm",
+        "type.title.2xl",
+        "type.title.lg",
+        "type.title.md",
+        "type.title.xl"
+      ]
+    },
+    "font.line-height.compact": {
+      "$description": "line height compact — 1.25× (unitless multiplier)",
+      "meaning": "Line-height multiplier — compact (unitless)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
+      "aliased_by": [
+        "type.title.2xs",
+        "type.title.sm",
+        "type.title.xs"
+      ]
+    },
+    "font.line-height.normal": {
+      "$description": "line height normal — 1.5× (unitless multiplier)",
+      "meaning": "Line-height multiplier — normal (unitless)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
+      "aliased_by": [
+        "type.body.lg",
+        "type.body.md",
+        "type.body.sm",
+        "type.caption",
+        "type.code.inline"
+      ]
+    },
+    "font.line-height.relaxed": {
+      "$description": "line height relaxed — 1.65× (unitless multiplier)",
+      "meaning": "Line-height multiplier — relaxed (unitless)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight."
+    },
+    "font.line-height.loose": {
+      "$description": "line height loose — 1.75× (unitless multiplier)",
+      "meaning": "Line-height multiplier — loose (unitless)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight."
+    },
+    "font.letter-spacing.tighter": {
+      "$description": "letter spacing tighter — -0.03em",
+      "meaning": "Letter-spacing primitive — tighter (em)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
+      "aliased_by": [
+        "type.display.lg",
+        "type.display.xl"
+      ]
+    },
+    "font.letter-spacing.tight": {
+      "$description": "letter spacing tight — -0.02em",
+      "meaning": "Letter-spacing primitive — tight (em)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
+      "aliased_by": [
+        "type.display.md",
+        "type.display.sm"
+      ]
+    },
+    "font.letter-spacing.snug": {
+      "$description": "letter spacing snug — -0.01em",
+      "meaning": "Letter-spacing primitive — snug (em)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
+      "aliased_by": [
+        "type.title.2xl",
+        "type.title.2xs",
+        "type.title.lg",
+        "type.title.md",
+        "type.title.sm",
+        "type.title.xl",
+        "type.title.xs"
+      ]
+    },
+    "font.letter-spacing.normal": {
+      "$description": "letter spacing normal — 0em",
+      "meaning": "Letter-spacing primitive — normal (em)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
+      "aliased_by": [
+        "type.body.lg",
+        "type.body.md",
+        "type.body.sm",
+        "type.caption",
+        "type.code.inline",
+        "type.label.md",
+        "type.label.sm"
+      ]
+    },
+    "font.letter-spacing.wide": {
+      "$description": "letter spacing wide — 0.02em",
+      "meaning": "Letter-spacing primitive — wide (em)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight."
+    },
+    "font.letter-spacing.wider": {
+      "$description": "letter spacing wider — 0.05em",
+      "meaning": "Letter-spacing primitive — wider (em)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
+      "aliased_by": [
+        "type.eyebrow"
+      ]
+    },
+    "shadow.xs": {
+      "$description": "shadow xs — elevation 1 of 6, 2-layer (key+ambient)",
+      "meaning": "Shadow / elevation composite — xs (2-layer, mode-aware)",
+      "tier": "primitive",
+      "consume": "Consumable — apply the elevation step directly (mode-aware: light shadow / reduced in dark, surface lift carries dark elevation)."
+    },
+    "shadow.sm": {
+      "$description": "shadow sm — elevation 2 of 6, 2-layer (key+ambient)",
+      "meaning": "Shadow / elevation composite — sm (2-layer, mode-aware)",
+      "tier": "primitive",
+      "consume": "Consumable — apply the elevation step directly (mode-aware: light shadow / reduced in dark, surface lift carries dark elevation).",
+      "aliased_by": [
+        "semantic.dark.elevation.card.shadow",
+        "semantic.dark.elevation.raised.shadow",
+        "semantic.hc-dark.elevation.card.shadow",
+        "semantic.hc-dark.elevation.raised.shadow",
+        "semantic.hc-light.elevation.card.shadow",
+        "semantic.hc-light.elevation.raised.shadow",
+        "semantic.light.elevation.card.shadow",
+        "semantic.light.elevation.raised.shadow"
+      ]
+    },
+    "shadow.md": {
+      "$description": "shadow md — elevation 3 of 6, 2-layer (key+ambient)",
+      "meaning": "Shadow / elevation composite — md (2-layer, mode-aware)",
+      "tier": "primitive",
+      "consume": "Consumable — apply the elevation step directly (mode-aware: light shadow / reduced in dark, surface lift carries dark elevation)."
+    },
+    "shadow.lg": {
+      "$description": "shadow lg — elevation 4 of 6, 2-layer (key+ambient)",
+      "meaning": "Shadow / elevation composite — lg (2-layer, mode-aware)",
+      "tier": "primitive",
+      "consume": "Consumable — apply the elevation step directly (mode-aware: light shadow / reduced in dark, surface lift carries dark elevation).",
+      "aliased_by": [
+        "semantic.dark.elevation.dropdown.shadow",
+        "semantic.dark.elevation.menu.shadow",
+        "semantic.dark.elevation.overlay.shadow",
+        "semantic.dark.elevation.popover.shadow",
+        "semantic.hc-dark.elevation.dropdown.shadow",
+        "semantic.hc-dark.elevation.menu.shadow",
+        "semantic.hc-dark.elevation.overlay.shadow",
+        "semantic.hc-dark.elevation.popover.shadow",
+        "semantic.hc-light.elevation.dropdown.shadow",
+        "semantic.hc-light.elevation.menu.shadow",
+        "semantic.hc-light.elevation.overlay.shadow",
+        "semantic.hc-light.elevation.popover.shadow",
+        "semantic.light.elevation.dropdown.shadow",
+        "semantic.light.elevation.menu.shadow",
+        "semantic.light.elevation.overlay.shadow",
+        "semantic.light.elevation.popover.shadow"
+      ]
+    },
+    "shadow.xl": {
+      "$description": "shadow xl — elevation 5 of 6, 2-layer (key+ambient)",
+      "meaning": "Shadow / elevation composite — xl (2-layer, mode-aware)",
+      "tier": "primitive",
+      "consume": "Consumable — apply the elevation step directly (mode-aware: light shadow / reduced in dark, surface lift carries dark elevation).",
+      "aliased_by": [
+        "semantic.dark.elevation.dialog.shadow",
+        "semantic.dark.elevation.floating.shadow",
+        "semantic.dark.elevation.modal.shadow",
+        "semantic.dark.elevation.tooltip.shadow",
+        "semantic.hc-dark.elevation.dialog.shadow",
+        "semantic.hc-dark.elevation.floating.shadow",
+        "semantic.hc-dark.elevation.modal.shadow",
+        "semantic.hc-dark.elevation.tooltip.shadow",
+        "semantic.hc-light.elevation.dialog.shadow",
+        "semantic.hc-light.elevation.floating.shadow",
+        "semantic.hc-light.elevation.modal.shadow",
+        "semantic.hc-light.elevation.tooltip.shadow",
+        "semantic.light.elevation.dialog.shadow",
+        "semantic.light.elevation.floating.shadow",
+        "semantic.light.elevation.modal.shadow",
+        "semantic.light.elevation.tooltip.shadow"
+      ]
+    },
+    "shadow.2xl": {
+      "$description": "shadow 2xl — elevation 6 of 6, 2-layer (key+ambient)",
+      "meaning": "Shadow / elevation composite — 2xl (2-layer, mode-aware)",
+      "tier": "primitive",
+      "consume": "Consumable — apply the elevation step directly (mode-aware: light shadow / reduced in dark, surface lift carries dark elevation)."
+    },
+    "shadow.inset": {
+      "$description": "shadow inset — inner shadow for wells / pressed states / inputs",
+      "meaning": "Shadow / elevation composite — inset (2-layer, mode-aware)",
+      "tier": "primitive",
+      "consume": "Consumable — apply the elevation step directly (mode-aware: light shadow / reduced in dark, surface lift carries dark elevation).",
+      "aliased_by": [
+        "semantic.dark.elevation.sunken.shadow",
+        "semantic.dark.elevation.well.shadow",
+        "semantic.hc-dark.elevation.sunken.shadow",
+        "semantic.hc-dark.elevation.well.shadow",
+        "semantic.hc-light.elevation.sunken.shadow",
+        "semantic.hc-light.elevation.well.shadow",
+        "semantic.light.elevation.sunken.shadow",
+        "semantic.light.elevation.well.shadow"
+      ]
+    },
+    "breakpoint.xs": {
+      "$description": "breakpoint xs — min-width 0px (mobile-first)",
+      "meaning": "breakpoint primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — prefer a semantic token."
+    },
+    "breakpoint.sm": {
+      "$description": "breakpoint sm — min-width 480px (mobile-first)",
+      "meaning": "breakpoint primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — prefer a semantic token."
+    },
+    "breakpoint.md": {
+      "$description": "breakpoint md — min-width 768px (mobile-first)",
+      "meaning": "breakpoint primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — prefer a semantic token."
+    },
+    "breakpoint.lg": {
+      "$description": "breakpoint lg — min-width 1024px (mobile-first)",
+      "meaning": "breakpoint primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — prefer a semantic token."
+    },
+    "breakpoint.xl": {
+      "$description": "breakpoint xl — min-width 1440px (mobile-first)",
+      "meaning": "breakpoint primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — prefer a semantic token."
+    },
+    "breakpoint.2xl": {
+      "$description": "breakpoint 2xl — min-width 1920px (mobile-first)",
+      "meaning": "breakpoint primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — prefer a semantic token."
+    },
+    "grid.xs.columns": {
+      "$description": "grid xs — 4 columns (design grid / Figma layout-grid; build with CSS Grid)",
+      "meaning": "grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — prefer a semantic token."
+    },
+    "grid.sm.columns": {
+      "$description": "grid sm — 8 columns (design grid / Figma layout-grid; build with CSS Grid)",
+      "meaning": "grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — prefer a semantic token."
+    },
+    "grid.md.columns": {
+      "$description": "grid md — 12 columns (design grid / Figma layout-grid; build with CSS Grid)",
+      "meaning": "grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — prefer a semantic token."
+    },
+    "grid.lg.columns": {
+      "$description": "grid lg — 12 columns (design grid / Figma layout-grid; build with CSS Grid)",
+      "meaning": "grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — prefer a semantic token."
+    },
+    "grid.xl.columns": {
+      "$description": "grid xl — 12 columns (design grid / Figma layout-grid; build with CSS Grid)",
+      "meaning": "grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — prefer a semantic token."
+    },
+    "grid.2xl.columns": {
+      "$description": "grid 2xl — 12 columns (design grid / Figma layout-grid; build with CSS Grid)",
+      "meaning": "grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — prefer a semantic token."
+    },
+    "container.max": {
+      "$description": "container max — 1280px content cap (fluid below it)",
+      "meaning": "container primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — prefer a semantic token."
+    },
+    "container.narrow": {
+      "$description": "container narrow — 720px reading measure (~65–75ch)",
+      "meaning": "container primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — prefer a semantic token."
+    },
+    "container.fluid": {
+      "$description": "container fluid — full width with margins (the default)",
+      "meaning": "container primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — prefer a semantic token."
+    },
     "dimension.0": {
       "$description": "0px — dimension primitive",
       "meaning": "0px grid primitive",
@@ -3705,6 +4735,8 @@
       "aliased_by": [
         "border-width.heavy",
         "radius.sm",
+        "size.sm.padding-y",
+        "size.xs.padding-y",
         "space.050"
       ]
     },
@@ -3714,6 +4746,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reference via space / radius / size / border-width / focus.",
       "aliased_by": [
+        "size.md.padding-y",
         "space.075"
       ]
     },
@@ -3724,6 +4757,10 @@
       "consume": "Private primitive — reference via space / radius / size / border-width / focus.",
       "aliased_by": [
         "radius.md",
+        "size.lg.padding-y",
+        "size.sm.padding-x",
+        "size.xl.padding-y",
+        "size.xs.padding-x",
         "space.100"
       ]
     },
@@ -3742,6 +4779,11 @@
       "tier": "primitive",
       "consume": "Private primitive — reference via space / radius / size / border-width / focus.",
       "aliased_by": [
+        "grid.sm.gutter",
+        "grid.xs.gutter",
+        "grid.xs.margin",
+        "size.lg.padding-x",
+        "size.md.padding-x",
         "space.200"
       ]
     },
@@ -3757,6 +4799,11 @@
       "tier": "primitive",
       "consume": "Private primitive — reference via space / radius / size / border-width / focus.",
       "aliased_by": [
+        "grid.lg.gutter",
+        "grid.md.gutter",
+        "grid.md.margin",
+        "grid.sm.margin",
+        "size.xl.padding-x",
         "space.300"
       ]
     },
@@ -3772,6 +4819,9 @@
       "tier": "primitive",
       "consume": "Private primitive — reference via space / radius / size / border-width / focus.",
       "aliased_by": [
+        "grid.2xl.gutter",
+        "grid.lg.margin",
+        "grid.xl.gutter",
         "size.sm.height",
         "size.xs.height",
         "space.400"
@@ -3805,6 +4855,8 @@
       "tier": "primitive",
       "consume": "Private primitive — reference via space / radius / size / border-width / focus.",
       "aliased_by": [
+        "grid.2xl.margin",
+        "grid.xl.margin",
         "size.lg.height",
         "space.600"
       ]

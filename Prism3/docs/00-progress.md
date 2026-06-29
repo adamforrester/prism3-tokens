@@ -7,10 +7,11 @@
 
 ---
 
-## Current status (2026-06-21)
+## Current status (2026-06-29)
 
-**The color AND dimension axes are built, proven against a real brand, and
-proven white-label.** From a ~7-input schema the engine generates gamut-aware
+**Every token category NB and Prism2 ship is now generated** — colour, dimension,
+typography, motion, shadow/elevation, layout, and (opt-in) gradients — proven
+against a real brand and proven white-label. From a ~7-input schema the engine generates gamut-aware
 OKLCH ramps, places steps by contrast role, generates four contrast-verified
 appearance modes, generates the space + radius scales from a primitive grid, and
 emits consumable DTCG. It validates all of this against New Balance, and runs a
@@ -27,8 +28,8 @@ Headline numbers (regenerate with the commands below):
 | Tonal-band contrast contracts | **11/11** | (same engine) |
 | Cross-mode contrast contracts | **268/268** | **268/268** |
 | **Dimension axis, exact** (Prism2 space + NB radius) | **21/21** | n/a |
-| DTCG semantic aliases resolve (color + dim + size) | **407/407** | **407/407** |
-| Engine unit tests (colour math + 5 extreme brands) | **65/65** | (same engine) |
+| DTCG semantic aliases resolve (color + dim + size + type + elevation + layout + gradient) | **621/621** | **622/622** |
+| Engine unit tests (colour math + extreme brands + typography + fluid + shadow + layout + gradient invariants) | **137/137** | (same engine) |
 | Color primitives / dim grid emitted | 122 / 37 | 162 / 36 |
 | Brand palettes / action source | red / **action = brand** (red) | primary+accent+… / **action = accent ≠ brand** |
 | Form factor | comfortable / radius 1 (sharp) | compact / radius 2 (soft) |
@@ -62,7 +63,7 @@ Prism3/
     ├── modes.ts                    ← light/dark/hc-light/hc-dark, roles resolved by contrast target, brand-agnostic
     ├── nb-regression.ts            ← diffs generated vs real NB, checks contracts → nb-regression-report.md
     ├── emit-dtcg.ts                ← emits out/<id>.tokens.json per theme (NB + aurora) + modes-report.md, validates aliases, mode contracts & BrandInput schema conformance
-    ├── test.ts                     ← unit tests: colour-math invariants + 5 extreme-brand contract smoke tests (65 checks)
+    ├── test.ts                     ← unit tests: colour-math invariants + 5 extreme-brand contracts + typography/shadow/layout/gradient invariants (137 checks)
     ├── ai-metadata.ts              ← generates the AI-readable metadata sidecar (meaning/when/avoid/paired_with/contrast_with/mode_overrides) for the semantic layer
     ├── README.md                   ← how the engine works / how to run
     ├── nb-regression-report.md     ← generated (committed for review)
@@ -297,15 +298,17 @@ npx tsx Prism3/engine/test.ts            # unit tests: colour math + extreme-bra
 Reordered per external review: prove breadth (a second brand through the full
 stack) before pipeline plumbing — it tests the white-label thesis harder.
 
-1. **Finish "beyond color" — see the full build backlog in `05-token-coverage-roadmap.md`.**
-   Colour + the dimension axis (grid/space/radius/sizes) are DONE. Remaining token
-   categories mapped against what NB + Prism2 actually ship: **typography** (the
-   headline font-swap lever), **shadow** (mode-aware; reuses the alpha primitives +
-   surface ladder), **motion** (`motionPersonality` lever), **layout/breakpoints**,
-   plus quick wins (**border-width**, **focus** ring dims, **icon 3:1 toggle**,
-   breakpoints) and brand-artistic **gradients** (Prism2). Component sizing is a
-   prototype — values are sensible defaults, not yet validated against a real
-   component set; revisit when the component layer is real.
+1. **"Beyond color" is COMPLETE — see `05-token-coverage-roadmap.md`.** Every token
+   category NB + Prism2 ship is now generated: colour + the dimension axis
+   (grid/space/radius/sizes), **typography** (the headline font-swap lever +
+   composites + fluid), **shadow/elevation** (mode-aware), **motion**
+   (`motionPersonality` lever), **layout/breakpoints**, the quick wins
+   (**border-width**, **focus** ring dims, **icon 3:1 toggle**), and (opt-in)
+   **gradients** (DTCG composite, ramp-aliased stops, OKLCH + sRGB pre-sample,
+   Figma Paint Style, worst-case-stop contrast). What's left is plumbing, not new
+   categories. Component sizing is still a prototype — values are sensible
+   defaults, not yet validated against a real component set; revisit when the
+   component layer is real.
 2. **Prove downstream consumption.** Feed `out/*.tokens.json` through Style
    Dictionary and/or the Figma MCP — confirm a real tool ingests it and the four
    modes map to Figma variable modes. Turns "generation" into "pipeline".
@@ -330,6 +333,30 @@ stack) before pipeline plumbing — it tests the white-label thesis harder.
    pages as tokens change (web app lead; Figma plugin as a second surface). The
    interactive successor to `visualize.ts`; differentiator is a live
    contrast-contract overlay. Not slated for build; documented for direction.
+8. **Figma round-trip (code → Figma) (`05-token-coverage-roadmap.md` →
+   *Cross-cutting*).** Analysis recorded, build deferred. Figma variables are
+   only `COLOR`/`FLOAT`/`STRING` + scopes — no composite type — so typography
+   exports as atoms (→ a Text Style binds them) and shadow/transition have **no**
+   variable representation (Effect Style / code-only). Pipeline clarified: raw
+   Figma → **Adam's custom plugin** → SD-ready DTCG (SD has *not* run on the
+   example packages yet). Backlog: a three-tier disposition contract
+   (`variable`/`style-part`/`code-only` + scope) as the cheap now-step, then an
+   `emit-figma.ts` writer + style manifest + companion plugin. Open decision —
+   update an existing template (preserve `VariableID`s) vs build from scratch —
+   tracked as `03-open-questions` Item 9. KB POV write-up also backlogged.
+   **Verified research** now lives in the knowledge-base repo, run
+   `_research/_inbound/2026-06-28-figma-variables-styles-roundtrip` (four
+   primary-source agents): the variable type ceiling + 8-field typography binding
+   surface, **lineHeight/letterSpacing bind as px only** (unitless `1.5` → 1.5px),
+   **text-decoration/case unbindable** (links = separate Text Styles), shadow
+   *numerics* bind, Figma Motion (Config 2026) adds timing/easing variables, REST
+   Variables API is **Enterprise-only** (styles can only be created via the Plugin
+   API). **Materialization decision (locked for the typography build):** canonical
+   value in `$value`; a machine-readable directive in `$extensions.prism3.figma`
+   for the exporter (e.g. lineHeight `px-from-ratio`); intent *echoed* into
+   `.ai.json` as derived narrative — the exporter reads `$extensions` data, never
+   the prose sidecar. Generalises to letter-spacing, fluid sizes, etc.
+   (`05-token-coverage-roadmap` → Typography + *Cross-cutting: Figma round-trip*).
 
 ---
 

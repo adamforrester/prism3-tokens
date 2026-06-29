@@ -4422,6 +4422,334 @@
               }
             }
           }
+        },
+        "elevation": {
+          "sunken": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.light.background.sunken}",
+              "$description": "elevation sunken surface — background.sunken (light)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.light.background.sunken",
+                  "elevation": "sunken"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.shadow.inset}",
+              "$description": "elevation sunken shadow — shadow.inset",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.shadow.inset",
+                  "elevation": "sunken"
+                }
+              }
+            }
+          },
+          "flat": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.light.background.primary}",
+              "$description": "elevation flat surface — background.primary (light)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.light.background.primary",
+                  "elevation": "flat"
+                }
+              }
+            }
+          },
+          "raised": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.light.background.secondary}",
+              "$description": "elevation raised surface — background.secondary (light)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.light.background.secondary",
+                  "elevation": "raised"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.shadow.sm}",
+              "$description": "elevation raised shadow — shadow.sm",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.shadow.sm",
+                  "elevation": "raised"
+                }
+              }
+            }
+          },
+          "overlay": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.light.background.tertiary}",
+              "$description": "elevation overlay surface — background.tertiary (light)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.light.background.tertiary",
+                  "elevation": "overlay"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.shadow.lg}",
+              "$description": "elevation overlay shadow — shadow.lg",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.shadow.lg",
+                  "elevation": "overlay"
+                }
+              }
+            }
+          },
+          "floating": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.light.background.quaternary}",
+              "$description": "elevation floating surface — background.quaternary (light)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.light.background.quaternary",
+                  "elevation": "floating"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.shadow.xl}",
+              "$description": "elevation floating shadow — shadow.xl",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.shadow.xl",
+                  "elevation": "floating"
+                }
+              }
+            }
+          },
+          "card": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.light.elevation.raised.surface}",
+              "$description": "card → elevation.raised surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.light.elevation.raised.surface",
+                  "component": "card"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.semantic.light.elevation.raised.shadow}",
+              "$description": "card → elevation.raised shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.light.elevation.raised.shadow",
+                  "component": "card"
+                }
+              }
+            }
+          },
+          "dropdown": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.light.elevation.overlay.surface}",
+              "$description": "dropdown → elevation.overlay surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.light.elevation.overlay.surface",
+                  "component": "dropdown"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.semantic.light.elevation.overlay.shadow}",
+              "$description": "dropdown → elevation.overlay shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.light.elevation.overlay.shadow",
+                  "component": "dropdown"
+                }
+              }
+            }
+          },
+          "popover": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.light.elevation.overlay.surface}",
+              "$description": "popover → elevation.overlay surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.light.elevation.overlay.surface",
+                  "component": "popover"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.semantic.light.elevation.overlay.shadow}",
+              "$description": "popover → elevation.overlay shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.light.elevation.overlay.shadow",
+                  "component": "popover"
+                }
+              }
+            }
+          },
+          "menu": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.light.elevation.overlay.surface}",
+              "$description": "menu → elevation.overlay surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.light.elevation.overlay.surface",
+                  "component": "menu"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.semantic.light.elevation.overlay.shadow}",
+              "$description": "menu → elevation.overlay shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.light.elevation.overlay.shadow",
+                  "component": "menu"
+                }
+              }
+            }
+          },
+          "dialog": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.light.elevation.floating.surface}",
+              "$description": "dialog → elevation.floating surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.light.elevation.floating.surface",
+                  "component": "dialog"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.semantic.light.elevation.floating.shadow}",
+              "$description": "dialog → elevation.floating shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.light.elevation.floating.shadow",
+                  "component": "dialog"
+                }
+              }
+            }
+          },
+          "modal": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.light.elevation.floating.surface}",
+              "$description": "modal → elevation.floating surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.light.elevation.floating.surface",
+                  "component": "modal"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.semantic.light.elevation.floating.shadow}",
+              "$description": "modal → elevation.floating shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.light.elevation.floating.shadow",
+                  "component": "modal"
+                }
+              }
+            }
+          },
+          "tooltip": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.light.elevation.floating.surface}",
+              "$description": "tooltip → elevation.floating surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.light.elevation.floating.surface",
+                  "component": "tooltip"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.semantic.light.elevation.floating.shadow}",
+              "$description": "tooltip → elevation.floating shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.light.elevation.floating.shadow",
+                  "component": "tooltip"
+                }
+              }
+            }
+          },
+          "well": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.light.elevation.sunken.surface}",
+              "$description": "well → elevation.sunken surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.light.elevation.sunken.surface",
+                  "component": "well"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.semantic.light.elevation.sunken.shadow}",
+              "$description": "well → elevation.sunken shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.light.elevation.sunken.shadow",
+                  "component": "well"
+                }
+              }
+            }
+          }
         }
       },
       "dark": {
@@ -5755,6 +6083,334 @@
                   "contrast": 3.51,
                   "against": "background.primary",
                   "min": 3
+                }
+              }
+            }
+          }
+        },
+        "elevation": {
+          "sunken": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.dark.background.sunken}",
+              "$description": "elevation sunken surface — background.sunken (dark)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.dark.background.sunken",
+                  "elevation": "sunken"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.shadow.inset}",
+              "$description": "elevation sunken shadow — shadow.inset",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.shadow.inset",
+                  "elevation": "sunken"
+                }
+              }
+            }
+          },
+          "flat": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.dark.background.primary}",
+              "$description": "elevation flat surface — background.primary (dark)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.dark.background.primary",
+                  "elevation": "flat"
+                }
+              }
+            }
+          },
+          "raised": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.dark.background.secondary}",
+              "$description": "elevation raised surface — background.secondary (dark)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.dark.background.secondary",
+                  "elevation": "raised"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.shadow.sm}",
+              "$description": "elevation raised shadow — shadow.sm",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.shadow.sm",
+                  "elevation": "raised"
+                }
+              }
+            }
+          },
+          "overlay": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.dark.background.tertiary}",
+              "$description": "elevation overlay surface — background.tertiary (dark)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.dark.background.tertiary",
+                  "elevation": "overlay"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.shadow.lg}",
+              "$description": "elevation overlay shadow — shadow.lg",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.shadow.lg",
+                  "elevation": "overlay"
+                }
+              }
+            }
+          },
+          "floating": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.dark.background.quaternary}",
+              "$description": "elevation floating surface — background.quaternary (dark)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.dark.background.quaternary",
+                  "elevation": "floating"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.shadow.xl}",
+              "$description": "elevation floating shadow — shadow.xl",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.shadow.xl",
+                  "elevation": "floating"
+                }
+              }
+            }
+          },
+          "card": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.dark.elevation.raised.surface}",
+              "$description": "card → elevation.raised surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.dark.elevation.raised.surface",
+                  "component": "card"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.semantic.dark.elevation.raised.shadow}",
+              "$description": "card → elevation.raised shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.dark.elevation.raised.shadow",
+                  "component": "card"
+                }
+              }
+            }
+          },
+          "dropdown": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.dark.elevation.overlay.surface}",
+              "$description": "dropdown → elevation.overlay surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.dark.elevation.overlay.surface",
+                  "component": "dropdown"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.semantic.dark.elevation.overlay.shadow}",
+              "$description": "dropdown → elevation.overlay shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.dark.elevation.overlay.shadow",
+                  "component": "dropdown"
+                }
+              }
+            }
+          },
+          "popover": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.dark.elevation.overlay.surface}",
+              "$description": "popover → elevation.overlay surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.dark.elevation.overlay.surface",
+                  "component": "popover"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.semantic.dark.elevation.overlay.shadow}",
+              "$description": "popover → elevation.overlay shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.dark.elevation.overlay.shadow",
+                  "component": "popover"
+                }
+              }
+            }
+          },
+          "menu": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.dark.elevation.overlay.surface}",
+              "$description": "menu → elevation.overlay surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.dark.elevation.overlay.surface",
+                  "component": "menu"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.semantic.dark.elevation.overlay.shadow}",
+              "$description": "menu → elevation.overlay shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.dark.elevation.overlay.shadow",
+                  "component": "menu"
+                }
+              }
+            }
+          },
+          "dialog": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.dark.elevation.floating.surface}",
+              "$description": "dialog → elevation.floating surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.dark.elevation.floating.surface",
+                  "component": "dialog"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.semantic.dark.elevation.floating.shadow}",
+              "$description": "dialog → elevation.floating shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.dark.elevation.floating.shadow",
+                  "component": "dialog"
+                }
+              }
+            }
+          },
+          "modal": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.dark.elevation.floating.surface}",
+              "$description": "modal → elevation.floating surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.dark.elevation.floating.surface",
+                  "component": "modal"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.semantic.dark.elevation.floating.shadow}",
+              "$description": "modal → elevation.floating shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.dark.elevation.floating.shadow",
+                  "component": "modal"
+                }
+              }
+            }
+          },
+          "tooltip": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.dark.elevation.floating.surface}",
+              "$description": "tooltip → elevation.floating surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.dark.elevation.floating.surface",
+                  "component": "tooltip"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.semantic.dark.elevation.floating.shadow}",
+              "$description": "tooltip → elevation.floating shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.dark.elevation.floating.shadow",
+                  "component": "tooltip"
+                }
+              }
+            }
+          },
+          "well": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.dark.elevation.sunken.surface}",
+              "$description": "well → elevation.sunken surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.dark.elevation.sunken.surface",
+                  "component": "well"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.semantic.dark.elevation.sunken.shadow}",
+              "$description": "well → elevation.sunken shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.dark.elevation.sunken.shadow",
+                  "component": "well"
                 }
               }
             }
@@ -7096,6 +7752,334 @@
               }
             }
           }
+        },
+        "elevation": {
+          "sunken": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.hc-light.background.sunken}",
+              "$description": "elevation sunken surface — background.sunken (hc-light)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-light.background.sunken",
+                  "elevation": "sunken"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.shadow.inset}",
+              "$description": "elevation sunken shadow — shadow.inset",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.shadow.inset",
+                  "elevation": "sunken"
+                }
+              }
+            }
+          },
+          "flat": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.hc-light.background.primary}",
+              "$description": "elevation flat surface — background.primary (hc-light)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-light.background.primary",
+                  "elevation": "flat"
+                }
+              }
+            }
+          },
+          "raised": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.hc-light.background.secondary}",
+              "$description": "elevation raised surface — background.secondary (hc-light)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-light.background.secondary",
+                  "elevation": "raised"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.shadow.sm}",
+              "$description": "elevation raised shadow — shadow.sm",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.shadow.sm",
+                  "elevation": "raised"
+                }
+              }
+            }
+          },
+          "overlay": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.hc-light.background.tertiary}",
+              "$description": "elevation overlay surface — background.tertiary (hc-light)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-light.background.tertiary",
+                  "elevation": "overlay"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.shadow.lg}",
+              "$description": "elevation overlay shadow — shadow.lg",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.shadow.lg",
+                  "elevation": "overlay"
+                }
+              }
+            }
+          },
+          "floating": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.hc-light.background.quaternary}",
+              "$description": "elevation floating surface — background.quaternary (hc-light)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-light.background.quaternary",
+                  "elevation": "floating"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.shadow.xl}",
+              "$description": "elevation floating shadow — shadow.xl",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.shadow.xl",
+                  "elevation": "floating"
+                }
+              }
+            }
+          },
+          "card": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.hc-light.elevation.raised.surface}",
+              "$description": "card → elevation.raised surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-light.elevation.raised.surface",
+                  "component": "card"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.semantic.hc-light.elevation.raised.shadow}",
+              "$description": "card → elevation.raised shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-light.elevation.raised.shadow",
+                  "component": "card"
+                }
+              }
+            }
+          },
+          "dropdown": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.hc-light.elevation.overlay.surface}",
+              "$description": "dropdown → elevation.overlay surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-light.elevation.overlay.surface",
+                  "component": "dropdown"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.semantic.hc-light.elevation.overlay.shadow}",
+              "$description": "dropdown → elevation.overlay shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-light.elevation.overlay.shadow",
+                  "component": "dropdown"
+                }
+              }
+            }
+          },
+          "popover": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.hc-light.elevation.overlay.surface}",
+              "$description": "popover → elevation.overlay surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-light.elevation.overlay.surface",
+                  "component": "popover"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.semantic.hc-light.elevation.overlay.shadow}",
+              "$description": "popover → elevation.overlay shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-light.elevation.overlay.shadow",
+                  "component": "popover"
+                }
+              }
+            }
+          },
+          "menu": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.hc-light.elevation.overlay.surface}",
+              "$description": "menu → elevation.overlay surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-light.elevation.overlay.surface",
+                  "component": "menu"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.semantic.hc-light.elevation.overlay.shadow}",
+              "$description": "menu → elevation.overlay shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-light.elevation.overlay.shadow",
+                  "component": "menu"
+                }
+              }
+            }
+          },
+          "dialog": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.hc-light.elevation.floating.surface}",
+              "$description": "dialog → elevation.floating surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-light.elevation.floating.surface",
+                  "component": "dialog"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.semantic.hc-light.elevation.floating.shadow}",
+              "$description": "dialog → elevation.floating shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-light.elevation.floating.shadow",
+                  "component": "dialog"
+                }
+              }
+            }
+          },
+          "modal": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.hc-light.elevation.floating.surface}",
+              "$description": "modal → elevation.floating surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-light.elevation.floating.surface",
+                  "component": "modal"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.semantic.hc-light.elevation.floating.shadow}",
+              "$description": "modal → elevation.floating shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-light.elevation.floating.shadow",
+                  "component": "modal"
+                }
+              }
+            }
+          },
+          "tooltip": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.hc-light.elevation.floating.surface}",
+              "$description": "tooltip → elevation.floating surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-light.elevation.floating.surface",
+                  "component": "tooltip"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.semantic.hc-light.elevation.floating.shadow}",
+              "$description": "tooltip → elevation.floating shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-light.elevation.floating.shadow",
+                  "component": "tooltip"
+                }
+              }
+            }
+          },
+          "well": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.hc-light.elevation.sunken.surface}",
+              "$description": "well → elevation.sunken surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-light.elevation.sunken.surface",
+                  "component": "well"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.semantic.hc-light.elevation.sunken.shadow}",
+              "$description": "well → elevation.sunken shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-light.elevation.sunken.shadow",
+                  "component": "well"
+                }
+              }
+            }
+          }
         }
       },
       "hc-dark": {
@@ -8433,6 +9417,334 @@
               }
             }
           }
+        },
+        "elevation": {
+          "sunken": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.hc-dark.background.sunken}",
+              "$description": "elevation sunken surface — background.sunken (hc-dark)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-dark.background.sunken",
+                  "elevation": "sunken"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.shadow.inset}",
+              "$description": "elevation sunken shadow — shadow.inset",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.shadow.inset",
+                  "elevation": "sunken"
+                }
+              }
+            }
+          },
+          "flat": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.hc-dark.background.primary}",
+              "$description": "elevation flat surface — background.primary (hc-dark)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-dark.background.primary",
+                  "elevation": "flat"
+                }
+              }
+            }
+          },
+          "raised": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.hc-dark.background.secondary}",
+              "$description": "elevation raised surface — background.secondary (hc-dark)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-dark.background.secondary",
+                  "elevation": "raised"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.shadow.sm}",
+              "$description": "elevation raised shadow — shadow.sm",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.shadow.sm",
+                  "elevation": "raised"
+                }
+              }
+            }
+          },
+          "overlay": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.hc-dark.background.tertiary}",
+              "$description": "elevation overlay surface — background.tertiary (hc-dark)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-dark.background.tertiary",
+                  "elevation": "overlay"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.shadow.lg}",
+              "$description": "elevation overlay shadow — shadow.lg",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.shadow.lg",
+                  "elevation": "overlay"
+                }
+              }
+            }
+          },
+          "floating": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.hc-dark.background.quaternary}",
+              "$description": "elevation floating surface — background.quaternary (hc-dark)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-dark.background.quaternary",
+                  "elevation": "floating"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.shadow.xl}",
+              "$description": "elevation floating shadow — shadow.xl",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.shadow.xl",
+                  "elevation": "floating"
+                }
+              }
+            }
+          },
+          "card": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.hc-dark.elevation.raised.surface}",
+              "$description": "card → elevation.raised surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-dark.elevation.raised.surface",
+                  "component": "card"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.semantic.hc-dark.elevation.raised.shadow}",
+              "$description": "card → elevation.raised shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-dark.elevation.raised.shadow",
+                  "component": "card"
+                }
+              }
+            }
+          },
+          "dropdown": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.hc-dark.elevation.overlay.surface}",
+              "$description": "dropdown → elevation.overlay surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-dark.elevation.overlay.surface",
+                  "component": "dropdown"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.semantic.hc-dark.elevation.overlay.shadow}",
+              "$description": "dropdown → elevation.overlay shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-dark.elevation.overlay.shadow",
+                  "component": "dropdown"
+                }
+              }
+            }
+          },
+          "popover": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.hc-dark.elevation.overlay.surface}",
+              "$description": "popover → elevation.overlay surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-dark.elevation.overlay.surface",
+                  "component": "popover"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.semantic.hc-dark.elevation.overlay.shadow}",
+              "$description": "popover → elevation.overlay shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-dark.elevation.overlay.shadow",
+                  "component": "popover"
+                }
+              }
+            }
+          },
+          "menu": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.hc-dark.elevation.overlay.surface}",
+              "$description": "menu → elevation.overlay surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-dark.elevation.overlay.surface",
+                  "component": "menu"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.semantic.hc-dark.elevation.overlay.shadow}",
+              "$description": "menu → elevation.overlay shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-dark.elevation.overlay.shadow",
+                  "component": "menu"
+                }
+              }
+            }
+          },
+          "dialog": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.hc-dark.elevation.floating.surface}",
+              "$description": "dialog → elevation.floating surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-dark.elevation.floating.surface",
+                  "component": "dialog"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.semantic.hc-dark.elevation.floating.shadow}",
+              "$description": "dialog → elevation.floating shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-dark.elevation.floating.shadow",
+                  "component": "dialog"
+                }
+              }
+            }
+          },
+          "modal": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.hc-dark.elevation.floating.surface}",
+              "$description": "modal → elevation.floating surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-dark.elevation.floating.surface",
+                  "component": "modal"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.semantic.hc-dark.elevation.floating.shadow}",
+              "$description": "modal → elevation.floating shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-dark.elevation.floating.shadow",
+                  "component": "modal"
+                }
+              }
+            }
+          },
+          "tooltip": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.hc-dark.elevation.floating.surface}",
+              "$description": "tooltip → elevation.floating surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-dark.elevation.floating.surface",
+                  "component": "tooltip"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.semantic.hc-dark.elevation.floating.shadow}",
+              "$description": "tooltip → elevation.floating shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-dark.elevation.floating.shadow",
+                  "component": "tooltip"
+                }
+              }
+            }
+          },
+          "well": {
+            "surface": {
+              "$type": "color",
+              "$value": "{prism.semantic.hc-dark.elevation.sunken.surface}",
+              "$description": "well → elevation.sunken surface",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-dark.elevation.sunken.surface",
+                  "component": "well"
+                }
+              }
+            },
+            "shadow": {
+              "$type": "shadow",
+              "$value": "{prism.semantic.hc-dark.elevation.sunken.shadow}",
+              "$description": "well → elevation.sunken shadow",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.semantic.hc-dark.elevation.sunken.shadow",
+                  "component": "well"
+                }
+              }
+            }
+          }
         }
       }
     },
@@ -8900,6 +10212,2724 @@
           "prism3": {
             "generated": true,
             "ms": 30
+          }
+        }
+      }
+    },
+    "font": {
+      "family": {
+        "display": {
+          "$type": "fontFamily",
+          "$value": [
+            "Clash Display",
+            "system-ui",
+            "-apple-system",
+            "Segoe UI",
+            "Roboto",
+            "Helvetica",
+            "Arial",
+            "sans-serif"
+          ],
+          "$description": "font family — display (Clash Display) [variable font]",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "variable": true,
+              "figma": {
+                "kind": "style-part",
+                "field": "fontFamily",
+                "scope": "FONT_FAMILY"
+              }
+            }
+          }
+        },
+        "text": {
+          "$type": "fontFamily",
+          "$value": [
+            "Inter",
+            "system-ui",
+            "-apple-system",
+            "Segoe UI",
+            "Roboto",
+            "Helvetica",
+            "Arial",
+            "sans-serif"
+          ],
+          "$description": "font family — text (Inter) [variable font]",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "variable": true,
+              "figma": {
+                "kind": "style-part",
+                "field": "fontFamily",
+                "scope": "FONT_FAMILY"
+              }
+            }
+          }
+        },
+        "mono": {
+          "$type": "fontFamily",
+          "$value": [
+            "JetBrains Mono",
+            "ui-monospace",
+            "SFMono-Regular",
+            "Menlo",
+            "Consolas",
+            "Liberation Mono",
+            "monospace"
+          ],
+          "$description": "font family — mono (JetBrains Mono)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "variable": false,
+              "figma": {
+                "kind": "style-part",
+                "field": "fontFamily",
+                "scope": "FONT_FAMILY"
+              }
+            }
+          }
+        }
+      },
+      "size": {
+        "10": {
+          "$type": "dimension",
+          "$value": "0.625rem",
+          "$description": "font size 10px (0.625rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 10,
+              "rem": 0.625,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 10
+              }
+            }
+          }
+        },
+        "11": {
+          "$type": "dimension",
+          "$value": "0.6875rem",
+          "$description": "font size 11px (0.6875rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 11,
+              "rem": 0.6875,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 11
+              }
+            }
+          }
+        },
+        "12": {
+          "$type": "dimension",
+          "$value": "0.75rem",
+          "$description": "font size 12px (0.75rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 12,
+              "rem": 0.75,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 12
+              }
+            }
+          }
+        },
+        "14": {
+          "$type": "dimension",
+          "$value": "0.875rem",
+          "$description": "font size 14px (0.875rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 14,
+              "rem": 0.875,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 14
+              }
+            }
+          }
+        },
+        "16": {
+          "$type": "dimension",
+          "$value": "1rem",
+          "$description": "font size 16px (1rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 16,
+              "rem": 1,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 16
+              }
+            }
+          }
+        },
+        "18": {
+          "$type": "dimension",
+          "$value": "1.125rem",
+          "$description": "font size 18px (1.125rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 18,
+              "rem": 1.125,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 18
+              }
+            }
+          }
+        },
+        "20": {
+          "$type": "dimension",
+          "$value": "1.25rem",
+          "$description": "font size 20px (1.25rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 20,
+              "rem": 1.25,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 20
+              }
+            }
+          }
+        },
+        "24": {
+          "$type": "dimension",
+          "$value": "1.5rem",
+          "$description": "font size 24px (1.5rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 24,
+              "rem": 1.5,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 24
+              }
+            }
+          }
+        },
+        "28": {
+          "$type": "dimension",
+          "$value": "1.75rem",
+          "$description": "font size 28px (1.75rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 28,
+              "rem": 1.75,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 28
+              }
+            }
+          }
+        },
+        "32": {
+          "$type": "dimension",
+          "$value": "2rem",
+          "$description": "font size 32px (2rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 32,
+              "rem": 2,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 32
+              }
+            }
+          }
+        },
+        "36": {
+          "$type": "dimension",
+          "$value": "2.25rem",
+          "$description": "font size 36px (2.25rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 36,
+              "rem": 2.25,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 36
+              }
+            }
+          }
+        },
+        "40": {
+          "$type": "dimension",
+          "$value": "2.5rem",
+          "$description": "font size 40px (2.5rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 40,
+              "rem": 2.5,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 40
+              }
+            }
+          }
+        },
+        "48": {
+          "$type": "dimension",
+          "$value": "3rem",
+          "$description": "font size 48px (3rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 48,
+              "rem": 3,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 48
+              }
+            }
+          }
+        },
+        "56": {
+          "$type": "dimension",
+          "$value": "3.5rem",
+          "$description": "font size 56px (3.5rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 56,
+              "rem": 3.5,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 56
+              }
+            }
+          }
+        },
+        "64": {
+          "$type": "dimension",
+          "$value": "4rem",
+          "$description": "font size 64px (4rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 64,
+              "rem": 4,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 64
+              }
+            }
+          }
+        },
+        "72": {
+          "$type": "dimension",
+          "$value": "4.5rem",
+          "$description": "font size 72px (4.5rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 72,
+              "rem": 4.5,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 72
+              }
+            }
+          }
+        },
+        "80": {
+          "$type": "dimension",
+          "$value": "5rem",
+          "$description": "font size 80px (5rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 80,
+              "rem": 5,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 80
+              }
+            }
+          }
+        },
+        "96": {
+          "$type": "dimension",
+          "$value": "6rem",
+          "$description": "font size 96px (6rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 96,
+              "rem": 6,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 96
+              }
+            }
+          }
+        },
+        "112": {
+          "$type": "dimension",
+          "$value": "7rem",
+          "$description": "font size 112px (7rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 112,
+              "rem": 7,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 112
+              }
+            }
+          }
+        },
+        "128": {
+          "$type": "dimension",
+          "$value": "8rem",
+          "$description": "font size 128px (8rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 128,
+              "rem": 8,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 128
+              }
+            }
+          }
+        },
+        "144": {
+          "$type": "dimension",
+          "$value": "9rem",
+          "$description": "font size 144px (9rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 144,
+              "rem": 9,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 144
+              }
+            }
+          }
+        },
+        "160": {
+          "$type": "dimension",
+          "$value": "10rem",
+          "$description": "font size 160px (10rem) — curated ladder primitive",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "px": 160,
+              "rem": 10,
+              "figma": {
+                "kind": "variable",
+                "field": "fontSize",
+                "scope": "FONT_SIZE",
+                "unit": "px",
+                "value": 160
+              }
+            }
+          }
+        }
+      },
+      "weight": {
+        "100": {
+          "$type": "fontWeight",
+          "$value": 100,
+          "$description": "font weight 100 — numeric reference (the brand's literal axis value)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "figma": {
+                "kind": "variable",
+                "field": "fontWeight",
+                "scope": "FONT_WEIGHT"
+              }
+            }
+          }
+        },
+        "200": {
+          "$type": "fontWeight",
+          "$value": 200,
+          "$description": "font weight 200 — numeric reference (the brand's literal axis value)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "figma": {
+                "kind": "variable",
+                "field": "fontWeight",
+                "scope": "FONT_WEIGHT"
+              }
+            }
+          }
+        },
+        "300": {
+          "$type": "fontWeight",
+          "$value": 300,
+          "$description": "font weight 300 — numeric reference (the brand's literal axis value)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "figma": {
+                "kind": "variable",
+                "field": "fontWeight",
+                "scope": "FONT_WEIGHT"
+              }
+            }
+          }
+        },
+        "400": {
+          "$type": "fontWeight",
+          "$value": 400,
+          "$description": "font weight 400 — numeric reference (the brand's literal axis value)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "figma": {
+                "kind": "variable",
+                "field": "fontWeight",
+                "scope": "FONT_WEIGHT"
+              }
+            }
+          }
+        },
+        "500": {
+          "$type": "fontWeight",
+          "$value": 500,
+          "$description": "font weight 500 — numeric reference (the brand's literal axis value)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "figma": {
+                "kind": "variable",
+                "field": "fontWeight",
+                "scope": "FONT_WEIGHT"
+              }
+            }
+          }
+        },
+        "600": {
+          "$type": "fontWeight",
+          "$value": 600,
+          "$description": "font weight 600 — numeric reference (the brand's literal axis value)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "figma": {
+                "kind": "variable",
+                "field": "fontWeight",
+                "scope": "FONT_WEIGHT"
+              }
+            }
+          }
+        },
+        "700": {
+          "$type": "fontWeight",
+          "$value": 700,
+          "$description": "font weight 700 — numeric reference (the brand's literal axis value)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "figma": {
+                "kind": "variable",
+                "field": "fontWeight",
+                "scope": "FONT_WEIGHT"
+              }
+            }
+          }
+        },
+        "800": {
+          "$type": "fontWeight",
+          "$value": 800,
+          "$description": "font weight 800 — numeric reference (the brand's literal axis value)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "figma": {
+                "kind": "variable",
+                "field": "fontWeight",
+                "scope": "FONT_WEIGHT"
+              }
+            }
+          }
+        },
+        "900": {
+          "$type": "fontWeight",
+          "$value": 900,
+          "$description": "font weight 900 — numeric reference (the brand's literal axis value)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "figma": {
+                "kind": "variable",
+                "field": "fontWeight",
+                "scope": "FONT_WEIGHT"
+              }
+            }
+          }
+        }
+      },
+      "weight-role": {
+        "subtle": {
+          "$type": "fontWeight",
+          "$value": "{prism.font.weight.300}",
+          "$description": "weight role 'subtle' → 300 — function-named, white-label-stable (the brand maps the numeric; a 2-weight brand collapses roles)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.font.weight.300",
+              "numeric": 300
+            }
+          }
+        },
+        "default": {
+          "$type": "fontWeight",
+          "$value": "{prism.font.weight.400}",
+          "$description": "weight role 'default' → 400 — function-named, white-label-stable (the brand maps the numeric; a 2-weight brand collapses roles)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.font.weight.400",
+              "numeric": 400
+            }
+          }
+        },
+        "emphasis": {
+          "$type": "fontWeight",
+          "$value": "{prism.font.weight.500}",
+          "$description": "weight role 'emphasis' → 500 — function-named, white-label-stable (the brand maps the numeric; a 2-weight brand collapses roles)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.font.weight.500",
+              "numeric": 500
+            }
+          }
+        },
+        "strong": {
+          "$type": "fontWeight",
+          "$value": "{prism.font.weight.700}",
+          "$description": "weight role 'strong' → 700 — function-named, white-label-stable (the brand maps the numeric; a 2-weight brand collapses roles)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.font.weight.700",
+              "numeric": 700
+            }
+          }
+        }
+      },
+      "line-height": {
+        "tight": {
+          "$type": "number",
+          "$value": 1.05,
+          "$description": "line height tight — 1.05× (unitless multiplier)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "unitless": true,
+              "figma": {
+                "kind": "style-part",
+                "field": "lineHeight",
+                "unit": "px-from-ratio",
+                "basis": "fontSize",
+                "note": "Figma binds line-height as px; multiply by the bound fontSize per mode"
+              }
+            }
+          }
+        },
+        "snug": {
+          "$type": "number",
+          "$value": 1.15,
+          "$description": "line height snug — 1.15× (unitless multiplier)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "unitless": true,
+              "figma": {
+                "kind": "style-part",
+                "field": "lineHeight",
+                "unit": "px-from-ratio",
+                "basis": "fontSize",
+                "note": "Figma binds line-height as px; multiply by the bound fontSize per mode"
+              }
+            }
+          }
+        },
+        "compact": {
+          "$type": "number",
+          "$value": 1.25,
+          "$description": "line height compact — 1.25× (unitless multiplier)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "unitless": true,
+              "figma": {
+                "kind": "style-part",
+                "field": "lineHeight",
+                "unit": "px-from-ratio",
+                "basis": "fontSize",
+                "note": "Figma binds line-height as px; multiply by the bound fontSize per mode"
+              }
+            }
+          }
+        },
+        "normal": {
+          "$type": "number",
+          "$value": 1.5,
+          "$description": "line height normal — 1.5× (unitless multiplier)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "unitless": true,
+              "figma": {
+                "kind": "style-part",
+                "field": "lineHeight",
+                "unit": "px-from-ratio",
+                "basis": "fontSize",
+                "note": "Figma binds line-height as px; multiply by the bound fontSize per mode"
+              }
+            }
+          }
+        },
+        "relaxed": {
+          "$type": "number",
+          "$value": 1.65,
+          "$description": "line height relaxed — 1.65× (unitless multiplier)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "unitless": true,
+              "figma": {
+                "kind": "style-part",
+                "field": "lineHeight",
+                "unit": "px-from-ratio",
+                "basis": "fontSize",
+                "note": "Figma binds line-height as px; multiply by the bound fontSize per mode"
+              }
+            }
+          }
+        },
+        "loose": {
+          "$type": "number",
+          "$value": 1.75,
+          "$description": "line height loose — 1.75× (unitless multiplier)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "unitless": true,
+              "figma": {
+                "kind": "style-part",
+                "field": "lineHeight",
+                "unit": "px-from-ratio",
+                "basis": "fontSize",
+                "note": "Figma binds line-height as px; multiply by the bound fontSize per mode"
+              }
+            }
+          }
+        }
+      },
+      "letter-spacing": {
+        "tighter": {
+          "$type": "dimension",
+          "$value": "-0.03em",
+          "$description": "letter spacing tighter — -0.03em",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "em": -0.03,
+              "figma": {
+                "kind": "style-part",
+                "field": "letterSpacing",
+                "unit": "px-from-em",
+                "basis": "fontSize",
+                "note": "Figma binds letter-spacing as px; multiply em by the bound fontSize"
+              }
+            }
+          }
+        },
+        "tight": {
+          "$type": "dimension",
+          "$value": "-0.02em",
+          "$description": "letter spacing tight — -0.02em",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "em": -0.02,
+              "figma": {
+                "kind": "style-part",
+                "field": "letterSpacing",
+                "unit": "px-from-em",
+                "basis": "fontSize",
+                "note": "Figma binds letter-spacing as px; multiply em by the bound fontSize"
+              }
+            }
+          }
+        },
+        "snug": {
+          "$type": "dimension",
+          "$value": "-0.01em",
+          "$description": "letter spacing snug — -0.01em",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "em": -0.01,
+              "figma": {
+                "kind": "style-part",
+                "field": "letterSpacing",
+                "unit": "px-from-em",
+                "basis": "fontSize",
+                "note": "Figma binds letter-spacing as px; multiply em by the bound fontSize"
+              }
+            }
+          }
+        },
+        "normal": {
+          "$type": "dimension",
+          "$value": "0em",
+          "$description": "letter spacing normal — 0em",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "em": 0,
+              "figma": {
+                "kind": "style-part",
+                "field": "letterSpacing",
+                "unit": "px-from-em",
+                "basis": "fontSize",
+                "note": "Figma binds letter-spacing as px; multiply em by the bound fontSize"
+              }
+            }
+          }
+        },
+        "wide": {
+          "$type": "dimension",
+          "$value": "0.02em",
+          "$description": "letter spacing wide — 0.02em",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "em": 0.02,
+              "figma": {
+                "kind": "style-part",
+                "field": "letterSpacing",
+                "unit": "px-from-em",
+                "basis": "fontSize",
+                "note": "Figma binds letter-spacing as px; multiply em by the bound fontSize"
+              }
+            }
+          }
+        },
+        "wider": {
+          "$type": "dimension",
+          "$value": "0.05em",
+          "$description": "letter spacing wider — 0.05em",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "em": 0.05,
+              "figma": {
+                "kind": "style-part",
+                "field": "letterSpacing",
+                "unit": "px-from-em",
+                "basis": "fontSize",
+                "note": "Figma binds letter-spacing as px; multiply em by the bound fontSize"
+              }
+            }
+          }
+        }
+      }
+    },
+    "type": {
+      "display": {
+        "sm": {
+          "$type": "typography",
+          "$value": {
+            "fontFamily": "{prism.font.family.display}",
+            "fontSize": "{prism.font.size.56}",
+            "fontWeight": "{prism.font.weight-role.strong}",
+            "lineHeight": "{prism.font.line-height.tight}",
+            "letterSpacing": "{prism.font.letter-spacing.tight}"
+          },
+          "$description": "display sm — 40→56px fluid Clash Display (display role), tight line-height, strong weight, tight tracking — consumer-facing type style",
+          "$extensions": {
+            "prism3": {
+              "role": "composite",
+              "group": "display",
+              "variant": "sm",
+              "sizePx": 56,
+              "responsive": {
+                "fluid": true,
+                "min": {
+                  "px": 40,
+                  "rem": 2.5,
+                  "ref": "{prism.font.size.40}"
+                },
+                "max": {
+                  "px": 56,
+                  "rem": 3.5,
+                  "ref": "{prism.font.size.56}"
+                },
+                "web": "clamp(2.5rem, 2.1667rem + 1.4815vw, 3.5rem)",
+                "figma": {
+                  "field": "fontSize",
+                  "scope": "FONT_SIZE",
+                  "modes": {
+                    "mobile": 40,
+                    "desktop": 56
+                  }
+                }
+              },
+              "figma": {
+                "kind": "text-style",
+                "styleType": "TEXT",
+                "binds": [
+                  "fontFamily",
+                  "fontSize",
+                  "fontWeight",
+                  "lineHeight",
+                  "letterSpacing"
+                ],
+                "baked": [],
+                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+              }
+            }
+          }
+        },
+        "md": {
+          "$type": "typography",
+          "$value": {
+            "fontFamily": "{prism.font.family.display}",
+            "fontSize": "{prism.font.size.72}",
+            "fontWeight": "{prism.font.weight-role.strong}",
+            "lineHeight": "{prism.font.line-height.tight}",
+            "letterSpacing": "{prism.font.letter-spacing.tight}"
+          },
+          "$description": "display md — 40→72px fluid Clash Display (display role), tight line-height, strong weight, tight tracking — consumer-facing type style",
+          "$extensions": {
+            "prism3": {
+              "role": "composite",
+              "group": "display",
+              "variant": "md",
+              "sizePx": 72,
+              "responsive": {
+                "fluid": true,
+                "min": {
+                  "px": 40,
+                  "rem": 2.5,
+                  "ref": "{prism.font.size.40}"
+                },
+                "max": {
+                  "px": 72,
+                  "rem": 4.5,
+                  "ref": "{prism.font.size.72}"
+                },
+                "web": "clamp(2.5rem, 1.8333rem + 2.963vw, 4.5rem)",
+                "figma": {
+                  "field": "fontSize",
+                  "scope": "FONT_SIZE",
+                  "modes": {
+                    "mobile": 40,
+                    "desktop": 72
+                  }
+                }
+              },
+              "figma": {
+                "kind": "text-style",
+                "styleType": "TEXT",
+                "binds": [
+                  "fontFamily",
+                  "fontSize",
+                  "fontWeight",
+                  "lineHeight",
+                  "letterSpacing"
+                ],
+                "baked": [],
+                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+              }
+            }
+          }
+        },
+        "lg": {
+          "$type": "typography",
+          "$value": {
+            "fontFamily": "{prism.font.family.display}",
+            "fontSize": "{prism.font.size.96}",
+            "fontWeight": "{prism.font.weight-role.strong}",
+            "lineHeight": "{prism.font.line-height.tight}",
+            "letterSpacing": "{prism.font.letter-spacing.tighter}"
+          },
+          "$description": "display lg — 48→96px fluid Clash Display (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
+          "$extensions": {
+            "prism3": {
+              "role": "composite",
+              "group": "display",
+              "variant": "lg",
+              "sizePx": 96,
+              "responsive": {
+                "fluid": true,
+                "min": {
+                  "px": 48,
+                  "rem": 3,
+                  "ref": "{prism.font.size.48}"
+                },
+                "max": {
+                  "px": 96,
+                  "rem": 6,
+                  "ref": "{prism.font.size.96}"
+                },
+                "web": "clamp(3rem, 2rem + 4.4444vw, 6rem)",
+                "figma": {
+                  "field": "fontSize",
+                  "scope": "FONT_SIZE",
+                  "modes": {
+                    "mobile": 48,
+                    "desktop": 96
+                  }
+                }
+              },
+              "figma": {
+                "kind": "text-style",
+                "styleType": "TEXT",
+                "binds": [
+                  "fontFamily",
+                  "fontSize",
+                  "fontWeight",
+                  "lineHeight",
+                  "letterSpacing"
+                ],
+                "baked": [],
+                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+              }
+            }
+          }
+        },
+        "xl": {
+          "$type": "typography",
+          "$value": {
+            "fontFamily": "{prism.font.family.display}",
+            "fontSize": "{prism.font.size.112}",
+            "fontWeight": "{prism.font.weight-role.strong}",
+            "lineHeight": "{prism.font.line-height.tight}",
+            "letterSpacing": "{prism.font.letter-spacing.tighter}"
+          },
+          "$description": "display xl — 48→112px fluid Clash Display (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
+          "$extensions": {
+            "prism3": {
+              "role": "composite",
+              "group": "display",
+              "variant": "xl",
+              "sizePx": 112,
+              "responsive": {
+                "fluid": true,
+                "min": {
+                  "px": 48,
+                  "rem": 3,
+                  "ref": "{prism.font.size.48}"
+                },
+                "max": {
+                  "px": 112,
+                  "rem": 7,
+                  "ref": "{prism.font.size.112}"
+                },
+                "web": "clamp(3rem, 1.6667rem + 5.9259vw, 7rem)",
+                "figma": {
+                  "field": "fontSize",
+                  "scope": "FONT_SIZE",
+                  "modes": {
+                    "mobile": 48,
+                    "desktop": 112
+                  }
+                }
+              },
+              "figma": {
+                "kind": "text-style",
+                "styleType": "TEXT",
+                "binds": [
+                  "fontFamily",
+                  "fontSize",
+                  "fontWeight",
+                  "lineHeight",
+                  "letterSpacing"
+                ],
+                "baked": [],
+                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+              }
+            }
+          }
+        }
+      },
+      "title": {
+        "2xs": {
+          "$type": "typography",
+          "$value": {
+            "fontFamily": "{prism.font.family.display}",
+            "fontSize": "{prism.font.size.16}",
+            "fontWeight": "{prism.font.weight-role.strong}",
+            "lineHeight": "{prism.font.line-height.compact}",
+            "letterSpacing": "{prism.font.letter-spacing.snug}"
+          },
+          "$description": "title 2xs — 16px Clash Display (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
+          "$extensions": {
+            "prism3": {
+              "role": "composite",
+              "group": "title",
+              "variant": "2xs",
+              "sizePx": 16,
+              "responsive": {
+                "fluid": false,
+                "px": 16
+              },
+              "figma": {
+                "kind": "text-style",
+                "styleType": "TEXT",
+                "binds": [
+                  "fontFamily",
+                  "fontSize",
+                  "fontWeight",
+                  "lineHeight",
+                  "letterSpacing"
+                ],
+                "baked": [],
+                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+              }
+            }
+          }
+        },
+        "xs": {
+          "$type": "typography",
+          "$value": {
+            "fontFamily": "{prism.font.family.display}",
+            "fontSize": "{prism.font.size.20}",
+            "fontWeight": "{prism.font.weight-role.strong}",
+            "lineHeight": "{prism.font.line-height.compact}",
+            "letterSpacing": "{prism.font.letter-spacing.snug}"
+          },
+          "$description": "title xs — 20px Clash Display (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
+          "$extensions": {
+            "prism3": {
+              "role": "composite",
+              "group": "title",
+              "variant": "xs",
+              "sizePx": 20,
+              "responsive": {
+                "fluid": false,
+                "px": 20
+              },
+              "figma": {
+                "kind": "text-style",
+                "styleType": "TEXT",
+                "binds": [
+                  "fontFamily",
+                  "fontSize",
+                  "fontWeight",
+                  "lineHeight",
+                  "letterSpacing"
+                ],
+                "baked": [],
+                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+              }
+            }
+          }
+        },
+        "sm": {
+          "$type": "typography",
+          "$value": {
+            "fontFamily": "{prism.font.family.display}",
+            "fontSize": "{prism.font.size.24}",
+            "fontWeight": "{prism.font.weight-role.strong}",
+            "lineHeight": "{prism.font.line-height.compact}",
+            "letterSpacing": "{prism.font.letter-spacing.snug}"
+          },
+          "$description": "title sm — 20→24px fluid Clash Display (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
+          "$extensions": {
+            "prism3": {
+              "role": "composite",
+              "group": "title",
+              "variant": "sm",
+              "sizePx": 24,
+              "responsive": {
+                "fluid": true,
+                "min": {
+                  "px": 20,
+                  "rem": 1.25,
+                  "ref": "{prism.font.size.20}"
+                },
+                "max": {
+                  "px": 24,
+                  "rem": 1.5,
+                  "ref": "{prism.font.size.24}"
+                },
+                "web": "clamp(1.25rem, 1.1667rem + 0.3704vw, 1.5rem)",
+                "figma": {
+                  "field": "fontSize",
+                  "scope": "FONT_SIZE",
+                  "modes": {
+                    "mobile": 20,
+                    "desktop": 24
+                  }
+                }
+              },
+              "figma": {
+                "kind": "text-style",
+                "styleType": "TEXT",
+                "binds": [
+                  "fontFamily",
+                  "fontSize",
+                  "fontWeight",
+                  "lineHeight",
+                  "letterSpacing"
+                ],
+                "baked": [],
+                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+              }
+            }
+          }
+        },
+        "md": {
+          "$type": "typography",
+          "$value": {
+            "fontFamily": "{prism.font.family.display}",
+            "fontSize": "{prism.font.size.28}",
+            "fontWeight": "{prism.font.weight-role.strong}",
+            "lineHeight": "{prism.font.line-height.snug}",
+            "letterSpacing": "{prism.font.letter-spacing.snug}"
+          },
+          "$description": "title md — 24→28px fluid Clash Display (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
+          "$extensions": {
+            "prism3": {
+              "role": "composite",
+              "group": "title",
+              "variant": "md",
+              "sizePx": 28,
+              "responsive": {
+                "fluid": true,
+                "min": {
+                  "px": 24,
+                  "rem": 1.5,
+                  "ref": "{prism.font.size.24}"
+                },
+                "max": {
+                  "px": 28,
+                  "rem": 1.75,
+                  "ref": "{prism.font.size.28}"
+                },
+                "web": "clamp(1.5rem, 1.4167rem + 0.3704vw, 1.75rem)",
+                "figma": {
+                  "field": "fontSize",
+                  "scope": "FONT_SIZE",
+                  "modes": {
+                    "mobile": 24,
+                    "desktop": 28
+                  }
+                }
+              },
+              "figma": {
+                "kind": "text-style",
+                "styleType": "TEXT",
+                "binds": [
+                  "fontFamily",
+                  "fontSize",
+                  "fontWeight",
+                  "lineHeight",
+                  "letterSpacing"
+                ],
+                "baked": [],
+                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+              }
+            }
+          }
+        },
+        "lg": {
+          "$type": "typography",
+          "$value": {
+            "fontFamily": "{prism.font.family.display}",
+            "fontSize": "{prism.font.size.32}",
+            "fontWeight": "{prism.font.weight-role.strong}",
+            "lineHeight": "{prism.font.line-height.snug}",
+            "letterSpacing": "{prism.font.letter-spacing.snug}"
+          },
+          "$description": "title lg — 28→32px fluid Clash Display (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
+          "$extensions": {
+            "prism3": {
+              "role": "composite",
+              "group": "title",
+              "variant": "lg",
+              "sizePx": 32,
+              "responsive": {
+                "fluid": true,
+                "min": {
+                  "px": 28,
+                  "rem": 1.75,
+                  "ref": "{prism.font.size.28}"
+                },
+                "max": {
+                  "px": 32,
+                  "rem": 2,
+                  "ref": "{prism.font.size.32}"
+                },
+                "web": "clamp(1.75rem, 1.6667rem + 0.3704vw, 2rem)",
+                "figma": {
+                  "field": "fontSize",
+                  "scope": "FONT_SIZE",
+                  "modes": {
+                    "mobile": 28,
+                    "desktop": 32
+                  }
+                }
+              },
+              "figma": {
+                "kind": "text-style",
+                "styleType": "TEXT",
+                "binds": [
+                  "fontFamily",
+                  "fontSize",
+                  "fontWeight",
+                  "lineHeight",
+                  "letterSpacing"
+                ],
+                "baked": [],
+                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+              }
+            }
+          }
+        },
+        "xl": {
+          "$type": "typography",
+          "$value": {
+            "fontFamily": "{prism.font.family.display}",
+            "fontSize": "{prism.font.size.36}",
+            "fontWeight": "{prism.font.weight-role.strong}",
+            "lineHeight": "{prism.font.line-height.snug}",
+            "letterSpacing": "{prism.font.letter-spacing.snug}"
+          },
+          "$description": "title xl — 32→36px fluid Clash Display (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
+          "$extensions": {
+            "prism3": {
+              "role": "composite",
+              "group": "title",
+              "variant": "xl",
+              "sizePx": 36,
+              "responsive": {
+                "fluid": true,
+                "min": {
+                  "px": 32,
+                  "rem": 2,
+                  "ref": "{prism.font.size.32}"
+                },
+                "max": {
+                  "px": 36,
+                  "rem": 2.25,
+                  "ref": "{prism.font.size.36}"
+                },
+                "web": "clamp(2rem, 1.9167rem + 0.3704vw, 2.25rem)",
+                "figma": {
+                  "field": "fontSize",
+                  "scope": "FONT_SIZE",
+                  "modes": {
+                    "mobile": 32,
+                    "desktop": 36
+                  }
+                }
+              },
+              "figma": {
+                "kind": "text-style",
+                "styleType": "TEXT",
+                "binds": [
+                  "fontFamily",
+                  "fontSize",
+                  "fontWeight",
+                  "lineHeight",
+                  "letterSpacing"
+                ],
+                "baked": [],
+                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+              }
+            }
+          }
+        },
+        "2xl": {
+          "$type": "typography",
+          "$value": {
+            "fontFamily": "{prism.font.family.display}",
+            "fontSize": "{prism.font.size.48}",
+            "fontWeight": "{prism.font.weight-role.strong}",
+            "lineHeight": "{prism.font.line-height.snug}",
+            "letterSpacing": "{prism.font.letter-spacing.snug}"
+          },
+          "$description": "title 2xl — 40→48px fluid Clash Display (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
+          "$extensions": {
+            "prism3": {
+              "role": "composite",
+              "group": "title",
+              "variant": "2xl",
+              "sizePx": 48,
+              "responsive": {
+                "fluid": true,
+                "min": {
+                  "px": 40,
+                  "rem": 2.5,
+                  "ref": "{prism.font.size.40}"
+                },
+                "max": {
+                  "px": 48,
+                  "rem": 3,
+                  "ref": "{prism.font.size.48}"
+                },
+                "web": "clamp(2.5rem, 2.3333rem + 0.7407vw, 3rem)",
+                "figma": {
+                  "field": "fontSize",
+                  "scope": "FONT_SIZE",
+                  "modes": {
+                    "mobile": 40,
+                    "desktop": 48
+                  }
+                }
+              },
+              "figma": {
+                "kind": "text-style",
+                "styleType": "TEXT",
+                "binds": [
+                  "fontFamily",
+                  "fontSize",
+                  "fontWeight",
+                  "lineHeight",
+                  "letterSpacing"
+                ],
+                "baked": [],
+                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+              }
+            }
+          }
+        }
+      },
+      "body": {
+        "sm": {
+          "$type": "typography",
+          "$value": {
+            "fontFamily": "{prism.font.family.text}",
+            "fontSize": "{prism.font.size.14}",
+            "fontWeight": "{prism.font.weight-role.default}",
+            "lineHeight": "{prism.font.line-height.normal}",
+            "letterSpacing": "{prism.font.letter-spacing.normal}"
+          },
+          "$description": "body sm — 14px Inter (text role), normal line-height, default weight, normal tracking — consumer-facing type style",
+          "$extensions": {
+            "prism3": {
+              "role": "composite",
+              "group": "body",
+              "variant": "sm",
+              "sizePx": 14,
+              "responsive": {
+                "fluid": false,
+                "px": 14
+              },
+              "figma": {
+                "kind": "text-style",
+                "styleType": "TEXT",
+                "binds": [
+                  "fontFamily",
+                  "fontSize",
+                  "fontWeight",
+                  "lineHeight",
+                  "letterSpacing"
+                ],
+                "baked": [],
+                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+              }
+            }
+          }
+        },
+        "md": {
+          "$type": "typography",
+          "$value": {
+            "fontFamily": "{prism.font.family.text}",
+            "fontSize": "{prism.font.size.16}",
+            "fontWeight": "{prism.font.weight-role.default}",
+            "lineHeight": "{prism.font.line-height.normal}",
+            "letterSpacing": "{prism.font.letter-spacing.normal}"
+          },
+          "$description": "body md — 16px Inter (text role), normal line-height, default weight, normal tracking — consumer-facing type style",
+          "$extensions": {
+            "prism3": {
+              "role": "composite",
+              "group": "body",
+              "variant": "md",
+              "sizePx": 16,
+              "responsive": {
+                "fluid": false,
+                "px": 16
+              },
+              "figma": {
+                "kind": "text-style",
+                "styleType": "TEXT",
+                "binds": [
+                  "fontFamily",
+                  "fontSize",
+                  "fontWeight",
+                  "lineHeight",
+                  "letterSpacing"
+                ],
+                "baked": [],
+                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+              }
+            }
+          }
+        },
+        "lg": {
+          "$type": "typography",
+          "$value": {
+            "fontFamily": "{prism.font.family.text}",
+            "fontSize": "{prism.font.size.18}",
+            "fontWeight": "{prism.font.weight-role.default}",
+            "lineHeight": "{prism.font.line-height.normal}",
+            "letterSpacing": "{prism.font.letter-spacing.normal}"
+          },
+          "$description": "body lg — 18px Inter (text role), normal line-height, default weight, normal tracking — consumer-facing type style",
+          "$extensions": {
+            "prism3": {
+              "role": "composite",
+              "group": "body",
+              "variant": "lg",
+              "sizePx": 18,
+              "responsive": {
+                "fluid": false,
+                "px": 18
+              },
+              "figma": {
+                "kind": "text-style",
+                "styleType": "TEXT",
+                "binds": [
+                  "fontFamily",
+                  "fontSize",
+                  "fontWeight",
+                  "lineHeight",
+                  "letterSpacing"
+                ],
+                "baked": [],
+                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+              }
+            }
+          }
+        }
+      },
+      "label": {
+        "sm": {
+          "$type": "typography",
+          "$value": {
+            "fontFamily": "{prism.font.family.text}",
+            "fontSize": "{prism.font.size.12}",
+            "fontWeight": "{prism.font.weight-role.emphasis}",
+            "lineHeight": "{prism.font.line-height.snug}",
+            "letterSpacing": "{prism.font.letter-spacing.normal}"
+          },
+          "$description": "label sm — 12px Inter (text role), snug line-height, emphasis weight, normal tracking — consumer-facing type style",
+          "$extensions": {
+            "prism3": {
+              "role": "composite",
+              "group": "label",
+              "variant": "sm",
+              "sizePx": 12,
+              "responsive": {
+                "fluid": false,
+                "px": 12
+              },
+              "figma": {
+                "kind": "text-style",
+                "styleType": "TEXT",
+                "binds": [
+                  "fontFamily",
+                  "fontSize",
+                  "fontWeight",
+                  "lineHeight",
+                  "letterSpacing"
+                ],
+                "baked": [],
+                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+              }
+            }
+          }
+        },
+        "md": {
+          "$type": "typography",
+          "$value": {
+            "fontFamily": "{prism.font.family.text}",
+            "fontSize": "{prism.font.size.14}",
+            "fontWeight": "{prism.font.weight-role.emphasis}",
+            "lineHeight": "{prism.font.line-height.snug}",
+            "letterSpacing": "{prism.font.letter-spacing.normal}"
+          },
+          "$description": "label md — 14px Inter (text role), snug line-height, emphasis weight, normal tracking — consumer-facing type style",
+          "$extensions": {
+            "prism3": {
+              "role": "composite",
+              "group": "label",
+              "variant": "md",
+              "sizePx": 14,
+              "responsive": {
+                "fluid": false,
+                "px": 14
+              },
+              "figma": {
+                "kind": "text-style",
+                "styleType": "TEXT",
+                "binds": [
+                  "fontFamily",
+                  "fontSize",
+                  "fontWeight",
+                  "lineHeight",
+                  "letterSpacing"
+                ],
+                "baked": [],
+                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+              }
+            }
+          }
+        }
+      },
+      "caption": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{prism.font.family.text}",
+          "fontSize": "{prism.font.size.12}",
+          "fontWeight": "{prism.font.weight-role.default}",
+          "lineHeight": "{prism.font.line-height.normal}",
+          "letterSpacing": "{prism.font.letter-spacing.normal}"
+        },
+        "$description": "caption — 12px Inter (text role), normal line-height, default weight, normal tracking — consumer-facing type style",
+        "$extensions": {
+          "prism3": {
+            "role": "composite",
+            "group": "caption",
+            "variant": "",
+            "sizePx": 12,
+            "responsive": {
+              "fluid": false,
+              "px": 12
+            },
+            "figma": {
+              "kind": "text-style",
+              "styleType": "TEXT",
+              "binds": [
+                "fontFamily",
+                "fontSize",
+                "fontWeight",
+                "lineHeight",
+                "letterSpacing"
+              ],
+              "baked": [],
+              "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+            }
+          }
+        }
+      },
+      "eyebrow": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "{prism.font.family.display}",
+          "fontSize": "{prism.font.size.12}",
+          "fontWeight": "{prism.font.weight-role.emphasis}",
+          "lineHeight": "{prism.font.line-height.snug}",
+          "letterSpacing": "{prism.font.letter-spacing.wider}",
+          "textCase": "uppercase"
+        },
+        "$description": "eyebrow — 12px Clash Display (display role), snug line-height, emphasis weight, wider tracking, uppercase — consumer-facing type style",
+        "$extensions": {
+          "prism3": {
+            "role": "composite",
+            "group": "eyebrow",
+            "variant": "",
+            "sizePx": 12,
+            "textCase": "uppercase",
+            "responsive": {
+              "fluid": false,
+              "px": 12
+            },
+            "figma": {
+              "kind": "text-style",
+              "styleType": "TEXT",
+              "binds": [
+                "fontFamily",
+                "fontSize",
+                "fontWeight",
+                "lineHeight",
+                "letterSpacing"
+              ],
+              "baked": [
+                "textCase"
+              ],
+              "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+            }
+          }
+        }
+      },
+      "code": {
+        "inline": {
+          "$type": "typography",
+          "$value": {
+            "fontFamily": "{prism.font.family.mono}",
+            "fontSize": "{prism.font.size.14}",
+            "fontWeight": "{prism.font.weight-role.default}",
+            "lineHeight": "{prism.font.line-height.normal}",
+            "letterSpacing": "{prism.font.letter-spacing.normal}"
+          },
+          "$description": "code inline — 14px JetBrains Mono (mono role), normal line-height, default weight, normal tracking — consumer-facing type style",
+          "$extensions": {
+            "prism3": {
+              "role": "composite",
+              "group": "code",
+              "variant": "inline",
+              "sizePx": 14,
+              "responsive": {
+                "fluid": false,
+                "px": 14
+              },
+              "figma": {
+                "kind": "text-style",
+                "styleType": "TEXT",
+                "binds": [
+                  "fontFamily",
+                  "fontSize",
+                  "fontWeight",
+                  "lineHeight",
+                  "letterSpacing"
+                ],
+                "baked": [],
+                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+              }
+            }
+          }
+        }
+      }
+    },
+    "shadow": {
+      "xs": {
+        "$type": "shadow",
+        "$value": [
+          {
+            "color": "#0606111a",
+            "offsetX": "0px",
+            "offsetY": "1px",
+            "blur": "3px",
+            "spread": "0px"
+          },
+          {
+            "color": "#0606110f",
+            "offsetX": "0px",
+            "offsetY": "1px",
+            "blur": "4px",
+            "spread": "0px"
+          }
+        ],
+        "$description": "shadow xs — elevation 1 of 6, 2-layer (key+ambient)",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "role": "composite",
+            "layers": 2,
+            "modes": {
+              "dark": [
+                {
+                  "color": "#06061108",
+                  "offsetX": "0px",
+                  "offsetY": "1px",
+                  "blur": "3px",
+                  "spread": "0px"
+                },
+                {
+                  "color": "#06061105",
+                  "offsetX": "0px",
+                  "offsetY": "1px",
+                  "blur": "4px",
+                  "spread": "0px"
+                }
+              ]
+            },
+            "figma": {
+              "kind": "effect-style",
+              "styleType": "EFFECT",
+              "binds": [
+                "color",
+                "radius",
+                "spread",
+                "offsetX",
+                "offsetY"
+              ],
+              "note": "Figma Effect Style (drop-shadow layers); colour + numerics bindable per layer; mode-aware — dark shadow is reduced (surface lift carries dark elevation), see modes.dark"
+            }
+          }
+        }
+      },
+      "sm": {
+        "$type": "shadow",
+        "$value": [
+          {
+            "color": "#0606111a",
+            "offsetX": "0px",
+            "offsetY": "1px",
+            "blur": "3px",
+            "spread": "-1px"
+          },
+          {
+            "color": "#06061112",
+            "offsetX": "0px",
+            "offsetY": "2px",
+            "blur": "8px",
+            "spread": "-1px"
+          }
+        ],
+        "$description": "shadow sm — elevation 2 of 6, 2-layer (key+ambient)",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "role": "composite",
+            "layers": 2,
+            "modes": {
+              "dark": [
+                {
+                  "color": "#0606110a",
+                  "offsetX": "0px",
+                  "offsetY": "1px",
+                  "blur": "3px",
+                  "spread": "-1px"
+                },
+                {
+                  "color": "#06061108",
+                  "offsetX": "0px",
+                  "offsetY": "2px",
+                  "blur": "8px",
+                  "spread": "-1px"
+                }
+              ]
+            },
+            "figma": {
+              "kind": "effect-style",
+              "styleType": "EFFECT",
+              "binds": [
+                "color",
+                "radius",
+                "spread",
+                "offsetX",
+                "offsetY"
+              ],
+              "note": "Figma Effect Style (drop-shadow layers); colour + numerics bindable per layer; mode-aware — dark shadow is reduced (surface lift carries dark elevation), see modes.dark"
+            }
+          }
+        }
+      },
+      "md": {
+        "$type": "shadow",
+        "$value": [
+          {
+            "color": "#0606111f",
+            "offsetX": "0px",
+            "offsetY": "2px",
+            "blur": "5px",
+            "spread": "-2px"
+          },
+          {
+            "color": "#06061114",
+            "offsetX": "0px",
+            "offsetY": "4px",
+            "blur": "16px",
+            "spread": "-3px"
+          }
+        ],
+        "$description": "shadow md — elevation 3 of 6, 2-layer (key+ambient)",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "role": "composite",
+            "layers": 2,
+            "modes": {
+              "dark": [
+                {
+                  "color": "#0606110f",
+                  "offsetX": "0px",
+                  "offsetY": "2px",
+                  "blur": "5px",
+                  "spread": "-2px"
+                },
+                {
+                  "color": "#0606110a",
+                  "offsetX": "0px",
+                  "offsetY": "4px",
+                  "blur": "16px",
+                  "spread": "-3px"
+                }
+              ]
+            },
+            "figma": {
+              "kind": "effect-style",
+              "styleType": "EFFECT",
+              "binds": [
+                "color",
+                "radius",
+                "spread",
+                "offsetX",
+                "offsetY"
+              ],
+              "note": "Figma Effect Style (drop-shadow layers); colour + numerics bindable per layer; mode-aware — dark shadow is reduced (surface lift carries dark elevation), see modes.dark"
+            }
+          }
+        }
+      },
+      "lg": {
+        "$type": "shadow",
+        "$value": [
+          {
+            "color": "#0606111f",
+            "offsetX": "0px",
+            "offsetY": "3px",
+            "blur": "8px",
+            "spread": "-3px"
+          },
+          {
+            "color": "#06061114",
+            "offsetX": "0px",
+            "offsetY": "8px",
+            "blur": "26px",
+            "spread": "-5px"
+          }
+        ],
+        "$description": "shadow lg — elevation 4 of 6, 2-layer (key+ambient)",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "role": "composite",
+            "layers": 2,
+            "modes": {
+              "dark": [
+                {
+                  "color": "#06061112",
+                  "offsetX": "0px",
+                  "offsetY": "3px",
+                  "blur": "8px",
+                  "spread": "-3px"
+                },
+                {
+                  "color": "#0606110d",
+                  "offsetX": "0px",
+                  "offsetY": "8px",
+                  "blur": "26px",
+                  "spread": "-5px"
+                }
+              ]
+            },
+            "figma": {
+              "kind": "effect-style",
+              "styleType": "EFFECT",
+              "binds": [
+                "color",
+                "radius",
+                "spread",
+                "offsetX",
+                "offsetY"
+              ],
+              "note": "Figma Effect Style (drop-shadow layers); colour + numerics bindable per layer; mode-aware — dark shadow is reduced (surface lift carries dark elevation), see modes.dark"
+            }
+          }
+        }
+      },
+      "xl": {
+        "$type": "shadow",
+        "$value": [
+          {
+            "color": "#06061124",
+            "offsetX": "0px",
+            "offsetY": "4px",
+            "blur": "10px",
+            "spread": "-4px"
+          },
+          {
+            "color": "#0606111a",
+            "offsetX": "0px",
+            "offsetY": "14px",
+            "blur": "42px",
+            "spread": "-8px"
+          }
+        ],
+        "$description": "shadow xl — elevation 5 of 6, 2-layer (key+ambient)",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "role": "composite",
+            "layers": 2,
+            "modes": {
+              "dark": [
+                {
+                  "color": "#06061117",
+                  "offsetX": "0px",
+                  "offsetY": "4px",
+                  "blur": "10px",
+                  "spread": "-4px"
+                },
+                {
+                  "color": "#06061112",
+                  "offsetX": "0px",
+                  "offsetY": "14px",
+                  "blur": "42px",
+                  "spread": "-8px"
+                }
+              ]
+            },
+            "figma": {
+              "kind": "effect-style",
+              "styleType": "EFFECT",
+              "binds": [
+                "color",
+                "radius",
+                "spread",
+                "offsetX",
+                "offsetY"
+              ],
+              "note": "Figma Effect Style (drop-shadow layers); colour + numerics bindable per layer; mode-aware — dark shadow is reduced (surface lift carries dark elevation), see modes.dark"
+            }
+          }
+        }
+      },
+      "2xl": {
+        "$type": "shadow",
+        "$value": [
+          {
+            "color": "#06061124",
+            "offsetX": "0px",
+            "offsetY": "6px",
+            "blur": "16px",
+            "spread": "-6px"
+          },
+          {
+            "color": "#0606111f",
+            "offsetX": "0px",
+            "offsetY": "22px",
+            "blur": "68px",
+            "spread": "-12px"
+          }
+        ],
+        "$description": "shadow 2xl — elevation 6 of 6, 2-layer (key+ambient)",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "role": "composite",
+            "layers": 2,
+            "modes": {
+              "dark": [
+                {
+                  "color": "#0606111c",
+                  "offsetX": "0px",
+                  "offsetY": "6px",
+                  "blur": "16px",
+                  "spread": "-6px"
+                },
+                {
+                  "color": "#06061117",
+                  "offsetX": "0px",
+                  "offsetY": "22px",
+                  "blur": "68px",
+                  "spread": "-12px"
+                }
+              ]
+            },
+            "figma": {
+              "kind": "effect-style",
+              "styleType": "EFFECT",
+              "binds": [
+                "color",
+                "radius",
+                "spread",
+                "offsetX",
+                "offsetY"
+              ],
+              "note": "Figma Effect Style (drop-shadow layers); colour + numerics bindable per layer; mode-aware — dark shadow is reduced (surface lift carries dark elevation), see modes.dark"
+            }
+          }
+        }
+      },
+      "inset": {
+        "$type": "shadow",
+        "$value": [
+          {
+            "color": "#06061114",
+            "offsetX": "0px",
+            "offsetY": "2px",
+            "blur": "5px",
+            "spread": "0px"
+          }
+        ],
+        "$description": "shadow inset — inner shadow for wells / pressed states / inputs",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "role": "composite",
+            "layers": 1,
+            "modes": {
+              "dark": [
+                {
+                  "color": "#0606114d",
+                  "offsetX": "0px",
+                  "offsetY": "2px",
+                  "blur": "5px",
+                  "spread": "0px"
+                }
+              ]
+            },
+            "figma": {
+              "kind": "effect-style",
+              "styleType": "EFFECT",
+              "binds": [
+                "color",
+                "radius",
+                "spread",
+                "offsetX",
+                "offsetY"
+              ],
+              "note": "Figma Effect Style (drop-shadow layers); colour + numerics bindable per layer; mode-aware — dark shadow is reduced (surface lift carries dark elevation), see modes.dark"
+            }
+          }
+        }
+      }
+    },
+    "gradient": {
+      "brand": {
+        "$type": "gradient",
+        "$value": [
+          {
+            "color": "{prism.color.primary.600}",
+            "position": 0
+          },
+          {
+            "color": "{prism.color.accent.500}",
+            "position": 1
+          }
+        ],
+        "$description": "gradient brand — linear 135°, 2 stops, oklch interpolation — brand gradient (opt-in)",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "role": "composite",
+            "kind": "linear",
+            "angle": 135,
+            "interpolation": "oklch",
+            "css": "linear-gradient(135deg in oklch, #5241af 0%, #007cbb 100%)",
+            "a11y": {
+              "worstOnWhite": 4.56,
+              "worstOnBlack": 2.73,
+              "note": "text-on-gradient: white text clears 4.56:1 at the lightest stop, black text 2.73:1 at the darkest — a text overlay must meet its ratio at the worst-case point (constrain the lightness range or add a scrim); NEITHER plain overlay clears 4.5:1 body text — use a scrim or a solid container"
+            },
+            "figma": {
+              "kind": "paint-style",
+              "styleType": "PAINT",
+              "paintType": "GRADIENT_LINEAR",
+              "binds": [
+                "gradientStops[].color"
+              ],
+              "baked": [
+                "type",
+                "angle",
+                "positions"
+              ],
+              "sampledStops": [
+                {
+                  "hex": "#5241af",
+                  "position": 0
+                },
+                {
+                  "hex": "#4150b8",
+                  "position": 0.25
+                },
+                {
+                  "hex": "#2760bd",
+                  "position": 0.5
+                },
+                {
+                  "hex": "#006ebe",
+                  "position": 0.75
+                },
+                {
+                  "hex": "#007cbb",
+                  "position": 1
+                }
+              ],
+              "note": "Figma Paint Style (gradient fill) — created via the Plugin API only (REST cannot write/read Paint values). Only stop COLOURS bind to COLOR variables (Plugin API Update 92); kind, angle/transform and stop positions are baked. Figma interpolates in sRGB only, so bind the canonical stop colours AND lay down sampledStops to approximate the OKLCH curve."
+            }
+          }
+        }
+      },
+      "glow": {
+        "$type": "gradient",
+        "$value": [
+          {
+            "color": "{prism.color.accent.400}",
+            "position": 0
+          },
+          {
+            "color": "{prism.color.accent.700}",
+            "position": 1
+          }
+        ],
+        "$description": "gradient glow — radial (circle), 2 stops, oklch interpolation — brand gradient (opt-in)",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "role": "composite",
+            "kind": "radial",
+            "center": [
+              0.5,
+              0.4
+            ],
+            "shape": "circle",
+            "interpolation": "oklch",
+            "css": "radial-gradient(circle at 50% 40% in oklch, #3595c6 0%, #004766 100%)",
+            "a11y": {
+              "worstOnWhite": 3.35,
+              "worstOnBlack": 2.09,
+              "note": "text-on-gradient: white text clears 3.35:1 at the lightest stop, black text 2.09:1 at the darkest — a text overlay must meet its ratio at the worst-case point (constrain the lightness range or add a scrim); NEITHER plain overlay clears 4.5:1 body text — use a scrim or a solid container"
+            },
+            "figma": {
+              "kind": "paint-style",
+              "styleType": "PAINT",
+              "paintType": "GRADIENT_RADIAL",
+              "binds": [
+                "gradientStops[].color"
+              ],
+              "baked": [
+                "type",
+                "center/shape",
+                "positions"
+              ],
+              "sampledStops": [
+                {
+                  "hex": "#3595c6",
+                  "position": 0
+                },
+                {
+                  "hex": "#2881ad",
+                  "position": 0.25
+                },
+                {
+                  "hex": "#1b6d94",
+                  "position": 0.5
+                },
+                {
+                  "hex": "#0d5a7c",
+                  "position": 0.75
+                },
+                {
+                  "hex": "#004766",
+                  "position": 1
+                }
+              ],
+              "note": "Figma Paint Style (gradient fill) — created via the Plugin API only (REST cannot write/read Paint values). Only stop COLOURS bind to COLOR variables (Plugin API Update 92); kind, angle/transform and stop positions are baked. Figma interpolates in sRGB only, so bind the canonical stop colours AND lay down sampledStops to approximate the OKLCH curve."
+            }
+          }
+        }
+      }
+    },
+    "breakpoint": {
+      "xs": {
+        "$type": "dimension",
+        "$value": "0px",
+        "$description": "breakpoint xs — min-width 0px (mobile-first)",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 0
+          }
+        }
+      },
+      "sm": {
+        "$type": "dimension",
+        "$value": "480px",
+        "$description": "breakpoint sm — min-width 480px (mobile-first)",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 480
+          }
+        }
+      },
+      "md": {
+        "$type": "dimension",
+        "$value": "768px",
+        "$description": "breakpoint md — min-width 768px (mobile-first)",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 768
+          }
+        }
+      },
+      "lg": {
+        "$type": "dimension",
+        "$value": "1024px",
+        "$description": "breakpoint lg — min-width 1024px (mobile-first)",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 1024
+          }
+        }
+      },
+      "xl": {
+        "$type": "dimension",
+        "$value": "1440px",
+        "$description": "breakpoint xl — min-width 1440px (mobile-first)",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 1440
+          }
+        }
+      },
+      "2xl": {
+        "$type": "dimension",
+        "$value": "1920px",
+        "$description": "breakpoint 2xl — min-width 1920px (mobile-first)",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 1920
+          }
+        }
+      }
+    },
+    "grid": {
+      "xs": {
+        "columns": {
+          "$type": "number",
+          "$value": 4,
+          "$description": "grid xs — 4 columns (design grid / Figma layout-grid; build with CSS Grid)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "figma": {
+                "collection": "layout",
+                "mode": "xs",
+                "variable": "grid.columns",
+                "note": "breakpoint = Figma mode"
+              }
+            }
+          }
+        },
+        "gutter": {
+          "$type": "dimension",
+          "$value": "{prism.space.200}",
+          "$description": "grid xs gutter — 16px (spacing-scale alias)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.space.200",
+              "px": 16,
+              "figma": {
+                "collection": "layout",
+                "mode": "xs",
+                "variable": "grid.gutter",
+                "note": "breakpoint = Figma mode (separate layout collection; composes with colour light/dark)"
+              }
+            }
+          }
+        },
+        "margin": {
+          "$type": "dimension",
+          "$value": "{prism.space.200}",
+          "$description": "grid xs margin — 16px (spacing-scale alias)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.space.200",
+              "px": 16,
+              "figma": {
+                "collection": "layout",
+                "mode": "xs",
+                "variable": "grid.margin",
+                "note": "breakpoint = Figma mode (separate layout collection; composes with colour light/dark)"
+              }
+            }
+          }
+        }
+      },
+      "sm": {
+        "columns": {
+          "$type": "number",
+          "$value": 8,
+          "$description": "grid sm — 8 columns (design grid / Figma layout-grid; build with CSS Grid)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "figma": {
+                "collection": "layout",
+                "mode": "sm",
+                "variable": "grid.columns",
+                "note": "breakpoint = Figma mode"
+              }
+            }
+          }
+        },
+        "gutter": {
+          "$type": "dimension",
+          "$value": "{prism.space.200}",
+          "$description": "grid sm gutter — 16px (spacing-scale alias)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.space.200",
+              "px": 16,
+              "figma": {
+                "collection": "layout",
+                "mode": "sm",
+                "variable": "grid.gutter",
+                "note": "breakpoint = Figma mode (separate layout collection; composes with colour light/dark)"
+              }
+            }
+          }
+        },
+        "margin": {
+          "$type": "dimension",
+          "$value": "{prism.space.300}",
+          "$description": "grid sm margin — 24px (spacing-scale alias)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.space.300",
+              "px": 24,
+              "figma": {
+                "collection": "layout",
+                "mode": "sm",
+                "variable": "grid.margin",
+                "note": "breakpoint = Figma mode (separate layout collection; composes with colour light/dark)"
+              }
+            }
+          }
+        }
+      },
+      "md": {
+        "columns": {
+          "$type": "number",
+          "$value": 12,
+          "$description": "grid md — 12 columns (design grid / Figma layout-grid; build with CSS Grid)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "figma": {
+                "collection": "layout",
+                "mode": "md",
+                "variable": "grid.columns",
+                "note": "breakpoint = Figma mode"
+              }
+            }
+          }
+        },
+        "gutter": {
+          "$type": "dimension",
+          "$value": "{prism.space.300}",
+          "$description": "grid md gutter — 24px (spacing-scale alias)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.space.300",
+              "px": 24,
+              "figma": {
+                "collection": "layout",
+                "mode": "md",
+                "variable": "grid.gutter",
+                "note": "breakpoint = Figma mode (separate layout collection; composes with colour light/dark)"
+              }
+            }
+          }
+        },
+        "margin": {
+          "$type": "dimension",
+          "$value": "{prism.space.300}",
+          "$description": "grid md margin — 24px (spacing-scale alias)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.space.300",
+              "px": 24,
+              "figma": {
+                "collection": "layout",
+                "mode": "md",
+                "variable": "grid.margin",
+                "note": "breakpoint = Figma mode (separate layout collection; composes with colour light/dark)"
+              }
+            }
+          }
+        }
+      },
+      "lg": {
+        "columns": {
+          "$type": "number",
+          "$value": 12,
+          "$description": "grid lg — 12 columns (design grid / Figma layout-grid; build with CSS Grid)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "figma": {
+                "collection": "layout",
+                "mode": "lg",
+                "variable": "grid.columns",
+                "note": "breakpoint = Figma mode"
+              }
+            }
+          }
+        },
+        "gutter": {
+          "$type": "dimension",
+          "$value": "{prism.space.300}",
+          "$description": "grid lg gutter — 24px (spacing-scale alias)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.space.300",
+              "px": 24,
+              "figma": {
+                "collection": "layout",
+                "mode": "lg",
+                "variable": "grid.gutter",
+                "note": "breakpoint = Figma mode (separate layout collection; composes with colour light/dark)"
+              }
+            }
+          }
+        },
+        "margin": {
+          "$type": "dimension",
+          "$value": "{prism.space.400}",
+          "$description": "grid lg margin — 32px (spacing-scale alias)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.space.400",
+              "px": 32,
+              "figma": {
+                "collection": "layout",
+                "mode": "lg",
+                "variable": "grid.margin",
+                "note": "breakpoint = Figma mode (separate layout collection; composes with colour light/dark)"
+              }
+            }
+          }
+        }
+      },
+      "xl": {
+        "columns": {
+          "$type": "number",
+          "$value": 12,
+          "$description": "grid xl — 12 columns (design grid / Figma layout-grid; build with CSS Grid)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "figma": {
+                "collection": "layout",
+                "mode": "xl",
+                "variable": "grid.columns",
+                "note": "breakpoint = Figma mode"
+              }
+            }
+          }
+        },
+        "gutter": {
+          "$type": "dimension",
+          "$value": "{prism.space.400}",
+          "$description": "grid xl gutter — 32px (spacing-scale alias)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.space.400",
+              "px": 32,
+              "figma": {
+                "collection": "layout",
+                "mode": "xl",
+                "variable": "grid.gutter",
+                "note": "breakpoint = Figma mode (separate layout collection; composes with colour light/dark)"
+              }
+            }
+          }
+        },
+        "margin": {
+          "$type": "dimension",
+          "$value": "{prism.space.600}",
+          "$description": "grid xl margin — 48px (spacing-scale alias)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.space.600",
+              "px": 48,
+              "figma": {
+                "collection": "layout",
+                "mode": "xl",
+                "variable": "grid.margin",
+                "note": "breakpoint = Figma mode (separate layout collection; composes with colour light/dark)"
+              }
+            }
+          }
+        }
+      },
+      "2xl": {
+        "columns": {
+          "$type": "number",
+          "$value": 12,
+          "$description": "grid 2xl — 12 columns (design grid / Figma layout-grid; build with CSS Grid)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "figma": {
+                "collection": "layout",
+                "mode": "2xl",
+                "variable": "grid.columns",
+                "note": "breakpoint = Figma mode"
+              }
+            }
+          }
+        },
+        "gutter": {
+          "$type": "dimension",
+          "$value": "{prism.space.400}",
+          "$description": "grid 2xl gutter — 32px (spacing-scale alias)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.space.400",
+              "px": 32,
+              "figma": {
+                "collection": "layout",
+                "mode": "2xl",
+                "variable": "grid.gutter",
+                "note": "breakpoint = Figma mode (separate layout collection; composes with colour light/dark)"
+              }
+            }
+          }
+        },
+        "margin": {
+          "$type": "dimension",
+          "$value": "{prism.space.600}",
+          "$description": "grid 2xl margin — 48px (spacing-scale alias)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.space.600",
+              "px": 48,
+              "figma": {
+                "collection": "layout",
+                "mode": "2xl",
+                "variable": "grid.margin",
+                "note": "breakpoint = Figma mode (separate layout collection; composes with colour light/dark)"
+              }
+            }
+          }
+        }
+      }
+    },
+    "container": {
+      "max": {
+        "$type": "dimension",
+        "$value": "1280px",
+        "$description": "container max — 1280px content cap (fluid below it)",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 1280
+          }
+        }
+      },
+      "narrow": {
+        "$type": "dimension",
+        "$value": "720px",
+        "$description": "container narrow — 720px reading measure (~65–75ch)",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 720
+          }
+        }
+      },
+      "fluid": {
+        "$type": "dimension",
+        "$value": "100%",
+        "$description": "container fluid — full width with margins (the default)",
+        "$extensions": {
+          "prism3": {
+            "generated": true
           }
         }
       }
@@ -9896,6 +13926,10 @@
         "danger: primary hue 285 is NOT red → carved a dedicated danger red at hue 27",
         "dimension axis: 4px grid, 8px space rhythm, density 'compact' (drives component sizes), radius scale 2 (baseMd 4px)",
         "motion: tempo 'snappy' scales the duration ramp; easing roles + springs + composite transitions generated; reduce-motion variants derived (informational preserved, vestibular → 0)",
+        "shadow: 6-step ramp (xs–2xl) + inset, 2-layer (key+ambient), softness 1.3; tinted base (hue 285, amount 0.5). Mode-aware, LIFT-primary: full shadow in light; reduced (faded, top-weighted) in dark — the surface ladder carries dark elevation. Composite shadow → Figma Effect Style.",
+        "gradient: 2 brand gradient(s) [brand linear 135° 2-stop, glow radial 2-stop] — OPT-IN. DTCG composite spine, stop colours alias the ramp; kind/angle/oklch interpolation in $extensions (DTCG omits them — issue #101). OKLCH-interpolated + 5-stop sRGB pre-sample for Figma (sRGB-only); materializes as a Figma Paint Style (only stop colours bind). Worst-case-stop contrast computed for text-on-gradient.",
+        "layout: 6 breakpoints (xs 0, sm 480, md 768, lg 1024, xl 1440, 2xl 1920); grid base 12 cols (ladder 4/8/12/12/12/12); gutter/margin alias the spacing scale (16/16/24/24/32/32 · 16/24/24/32/48/48); container max 1280px + narrow 720px (fluid-first + cap). Breakpoints → a separate Figma layout collection (modes), composing with colour light/dark.",
+        "typography: curated rem size ladder (22 steps, 10–160px — NOT ratio-derived; covers all bases, clean values); weight roles subtle/default/emphasis/strong → 300/400/500/700; families display=Clash Display, text=Inter, mono=JetBrains Mono (variable: display/text); typeScale 'expressive'. 19 semantic composites (title/display sizes shifted by typeScale; display capped at 128px; title floor 16px) — NOTE: requested ceiling 128px; effective top display is 112px (typeScale shifts sizes off the exact ladder rung). responsive: 9 fluid composites (size-dependent mobile shrink — research-validated, Carbon fluid-display curve: body static, titles ~1 rung, display converges to ~40–48px; one min/max pair → web clamp() 360–1440px + Figma desktop/mobile modes). Line-height unitless multiplier in $value; px-from-ratio materialization for Figma in $extensions.",
         "disabled: 'accessible' — disabled text/icon/border clears 3:1 on the floor (legible, contrast-preserving; the field-rare default). Set disabledStrategy:'conventional' for the sub-AA exempt look.",
         "light primary surface is NON-default (neutral.50) — CONFIRM this is the page colour; the contrast floor moves with it"
       ]

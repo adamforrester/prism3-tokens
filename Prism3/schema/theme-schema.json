@@ -98,6 +98,111 @@
         }
       }
     },
+    "typography": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "OPTIONAL. Typography axis lever. The rem size ladder is brand-invariant (curated, not ratio-derived); the brand-variable parts are the families, the weight role→numeric map, and the `typeScale` preset (consumed at the semantic tier).",
+      "properties": {
+        "families": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Display / text / mono faces. A single face name is auto-padded with a system fallback stack; a full array is trusted as-is. `variable` flags variable-font usage.",
+          "properties": {
+            "display": { "oneOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }], "description": "Display/hero face (defaults to the text face if omitted)." },
+            "text": { "oneOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }], "description": "Body/UI workhorse face." },
+            "mono": { "oneOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }], "description": "Monospace/code face." },
+            "variable": { "type": "boolean", "default": false, "description": "Whether the faces are variable fonts." }
+          }
+        },
+        "weightRoles": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Function-named weight roles → the brand's numeric weights (the white-label-stable weight model). Omit any to use the defaults (subtle 300 / default 400 / emphasis 600 / strong 700).",
+          "properties": {
+            "subtle": { "type": "number", "description": "Lighter-than-body weight (optional use)." },
+            "default": { "type": "number", "description": "Resting body / UI weight." },
+            "emphasis": { "type": "number", "description": "Mild lift — strong inline text, active states." },
+            "strong": { "type": "number", "description": "Headings, primary actions." }
+          }
+        },
+        "typeScale": {
+          "type": "string",
+          "enum": ["compact", "default", "expressive"],
+          "default": "default",
+          "description": "Shifts heading sizes (display + title) up/down the ladder: expressive → one rung higher, compact → one lower. Body/label/caption stay put."
+        },
+        "familyMap": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Which family role each semantic group consumes. Defaults: display/title/label/eyebrow → display (brand); body/caption → text; code → mono. Override per group (e.g. neutral buttons: { label: 'text' }). Family is a property of the group, not the size.",
+          "properties": {
+            "display": { "type": "string", "enum": ["display", "text", "mono"] },
+            "title": { "type": "string", "enum": ["display", "text", "mono"] },
+            "body": { "type": "string", "enum": ["display", "text", "mono"] },
+            "label": { "type": "string", "enum": ["display", "text", "mono"] },
+            "caption": { "type": "string", "enum": ["display", "text", "mono"] },
+            "eyebrow": { "type": "string", "enum": ["display", "text", "mono"] },
+            "code": { "type": "string", "enum": ["display", "text", "mono"] }
+          }
+        },
+        "displayCeiling": {
+          "type": "number",
+          "default": 160,
+          "description": "Cap the display tier (px). Brands that don't need mega heroes stop lower (e.g. 96); the ladder is unchanged, the engine just omits display composites above the cap."
+        },
+        "titleFloor": {
+          "type": "number",
+          "enum": [16, 18],
+          "default": 18,
+          "description": "Smallest title size. Default 18 (title.xs). Set 16 to add title.2xs — a 16px brand-font heading that deliberately overlaps body.md."
+        },
+        "responsive": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Responsive sizing. `fluid` (default true) gives heading groups a mobile endpoint (desktop × a per-group factor, snapped to the ladder); the one min/max pair drives both the web clamp() and the Figma desktop/mobile modes. Reading/UI text stays static.",
+          "properties": {
+            "fluid": { "type": "boolean", "default": true, "description": "Fluid heading sizing on/off. Off → all sizes static (min == max)." },
+            "minViewport": { "type": "number", "default": 375, "description": "Viewport (px) at which fluid type reaches its min." },
+            "maxViewport": { "type": "number", "default": 1280, "description": "Viewport (px) at which fluid type reaches its max." }
+          }
+        }
+      }
+    },
+    "shadow": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "OPTIONAL. Shadow / elevation axis. A 6-step ramp (xs–2xl) + inset, 2-layer (key+ambient), mode-aware (full in light; reduced in dark — the surface ladder carries dark elevation, the lift-primary model).",
+      "properties": {
+        "softness": { "type": "number", "default": 1, "description": "Blur:offset personality dial. Low → crisp/product; high → soft/marketing. Scales blur across the ramp." },
+        "tint": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Hue-shifts the shadow base off pure black. Default a subtle neutral tint; set a brand hue + higher amount for brand-hued marketing shadows.",
+          "properties": {
+            "hue": { "type": "number", "description": "Shadow tint hue (deg). Defaults to the neutral ramp hue." },
+            "amount": { "type": "number", "minimum": 0, "description": "Tint strength (0 ≈ pure black; ~1 ≈ clearly hue-tinted). Default 0.15." }
+          }
+        }
+      }
+    },
+    "layout": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "OPTIONAL. Layout axis — breakpoints + responsive grid + containers. 5 breakpoints (min-width/mobile-first), a 12-col design grid (4/8/12 ladder), gutters/margins aliasing the spacing scale, fluid-first containers + a max cap.",
+      "properties": {
+        "breakpoints": { "type": "array", "items": { "type": "number" }, "description": "Min-width floors (px), ascending. Names are auto sm/md/lg/xl/2xl. Default [0,768,1024,1440,1920]." },
+        "columns": { "type": "number", "default": 12, "description": "Base column count (12 default; 16/24 for dense-data brands). Emitted as a 4/8/…/base ladder per breakpoint — a design grid, not the load-bearing code contract." },
+        "containerMax": { "type": "number", "default": 1440, "description": "Content max-width cap (px); layout is fluid below it." },
+        "containerNarrow": { "type": "number", "default": 720, "description": "Narrow / reading-measure container (px, ~65–75ch)." }
+      }
+    },
+    "gradients": {
+      "oneOf": [
+        { "type": "boolean" },
+        { "type": "array", "items": { "$ref": "#/$defs/gradient" } }
+      ],
+      "description": "OPTIONAL, OPT-IN (off by default — most systems abstain). `true` ships one default brand gradient (primary.600→primary.350, linear); an array ships exactly the listed gradients. Stop colours alias the colour ramp; OKLCH interpolation by default; materializes as a Figma Paint Style (only stop colours bind)."
+    },
     "baseUnit": { "type": "number", "default": 4, "description": "OPTIONAL. Fine dimension-grid base (px). Default 4." },
     "spaceBase": { "type": "number", "default": 8, "description": "OPTIONAL. Spacing rhythm (px) for the numbered-multiplier space scale. Default 8." },
     "density": {
@@ -110,6 +215,32 @@
     "baseMd": { "type": "number", "default": 4, "description": "OPTIONAL. The radius.md anchor (px) at scale 1. Default 4." }
   },
   "$defs": {
+    "gradient": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "stops"],
+      "description": "A brand gradient. Stops alias the colour ramp by {palette, step}; kind/angle/interpolation are carried because DTCG's gradient type omits them.",
+      "properties": {
+        "name": { "type": "string", "description": "Gradient name (e.g. 'brand', 'glow'). Emitted at gradient.<name>." },
+        "kind": { "type": "string", "enum": ["linear", "radial"], "default": "linear", "description": "linear (with angle) or radial (with center + shape)." },
+        "angle": { "type": "number", "default": 135, "description": "Linear angle (deg). Default 135 (a brand diagonal)." },
+        "center": { "type": "array", "items": { "type": "number" }, "description": "Radial center [x, y] in 0..1. Default [0.5, 0.5]." },
+        "shape": { "type": "string", "enum": ["circle", "ellipse"], "default": "ellipse", "description": "Radial shape." },
+        "interpolation": { "type": "string", "enum": ["oklch", "srgb"], "default": "oklch", "description": "Interpolation colour space. OKLCH avoids the sRGB grey dead zone; Figma gets a pre-sampled sRGB approximation." },
+        "samples": { "type": "number", "minimum": 2, "default": 5, "description": "Number of sRGB stops to pre-sample for Figma (which interpolates in sRGB only)." },
+        "stops": { "type": "array", "items": { "$ref": "#/$defs/gradientStop" }, "description": "Two or more colour stops, aliasing the ramp." }
+      }
+    },
+    "gradientStop": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["palette", "step", "position"],
+      "properties": {
+        "palette": { "type": "string", "description": "Ramp palette name (e.g. 'primary', 'accent')." },
+        "step": { "type": "number", "description": "Ramp step number (e.g. 600)." },
+        "position": { "type": "number", "minimum": 0, "maximum": 1, "description": "Stop position 0..1 along the gradient axis." }
+      }
+    },
     "oklch": {
       "type": "object",
       "additionalProperties": false,
