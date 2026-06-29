@@ -295,6 +295,24 @@ export const buildAiMetadata = (theme: Theme, tree: any) => {
     typography[key] = entry;
   }
 
+  // ---- gradient tier (opt-in brand gradients) ----
+  // Keyed by the real tree path (`gradient.<name>`) so an aliased_by reference (a
+  // colour primitive listing a gradient that consumes it) resolves to a real entry.
+  const gradient: Record<string, any> = {};
+  for (const g of theme.gradient.gradients) {
+    const aa = Math.min(g.worstOnWhite, g.worstOnBlack);
+    gradient[`gradient.${g.name}`] = {
+      $description: `Brand gradient — ${g.kind}${g.kind === 'linear' ? ` ${g.angle}°` : ` ${g.shape}`}, ${g.stops.length} stops.`,
+      meaning: `Decorative ${g.kind} gradient (opt-in); stop colours alias the ramp, ${g.interpolation} interpolation. Materializes as a Figma Paint Style — only stop colours bind (kind/angle/positions baked).`,
+      when_to_use: 'Brand / marketing surfaces, hero backgrounds, decorative fills.',
+      avoid_when: aa < 4.5
+        ? `Do not place body text directly over it — worst-case contrast is ${aa}:1 (below 4.5:1); use a scrim or a solid container.`
+        : 'Keep text overlays within the contrast-safe lightness range, or add a scrim.',
+      resolves_to: g.stops.map((s) => `{${s.aliasOf}}`),
+      a11y: { worst_on_white: g.worstOnWhite, worst_on_black: g.worstOnBlack },
+    };
+  }
+
   return {
     $schema: 'prism3-ai-metadata/0.1',
     brand: theme.id,
@@ -309,6 +327,7 @@ export const buildAiMetadata = (theme: Theme, tree: any) => {
     primitive_fields: ['$description', 'meaning', 'intent', 'tier', 'consume', 'aliased_by'],
     semantic,
     typography,
+    ...(Object.keys(gradient).length ? { gradient_fields: ['$description', 'meaning', 'when_to_use', 'avoid_when', 'resolves_to', 'a11y'], gradient } : {}),
     primitives,
   };
 };

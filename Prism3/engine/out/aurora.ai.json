@@ -2104,6 +2104,44 @@
       ]
     }
   },
+  "gradient_fields": [
+    "$description",
+    "meaning",
+    "when_to_use",
+    "avoid_when",
+    "resolves_to",
+    "a11y"
+  ],
+  "gradient": {
+    "gradient.brand": {
+      "$description": "Brand gradient — linear 135°, 2 stops.",
+      "meaning": "Decorative linear gradient (opt-in); stop colours alias the ramp, oklch interpolation. Materializes as a Figma Paint Style — only stop colours bind (kind/angle/positions baked).",
+      "when_to_use": "Brand / marketing surfaces, hero backgrounds, decorative fills.",
+      "avoid_when": "Do not place body text directly over it — worst-case contrast is 2.73:1 (below 4.5:1); use a scrim or a solid container.",
+      "resolves_to": [
+        "{prism.color.primary.600}",
+        "{prism.color.accent.500}"
+      ],
+      "a11y": {
+        "worst_on_white": 4.56,
+        "worst_on_black": 2.73
+      }
+    },
+    "gradient.glow": {
+      "$description": "Brand gradient — radial circle, 2 stops.",
+      "meaning": "Decorative radial gradient (opt-in); stop colours alias the ramp, oklch interpolation. Materializes as a Figma Paint Style — only stop colours bind (kind/angle/positions baked).",
+      "when_to_use": "Brand / marketing surfaces, hero backgrounds, decorative fills.",
+      "avoid_when": "Do not place body text directly over it — worst-case contrast is 2.09:1 (below 4.5:1); use a scrim or a solid container.",
+      "resolves_to": [
+        "{prism.color.accent.400}",
+        "{prism.color.accent.700}"
+      ],
+      "a11y": {
+        "worst_on_white": 3.35,
+        "worst_on_black": 2.09
+      }
+    }
+  },
   "primitives": {
     "color.white": {
       "$description": "Pure white — Highlight base / default surface",
@@ -2324,7 +2362,10 @@
       "meaning": "primary ramp — raw step 600",
       "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "gradient.brand"
+      ]
     },
     "color.primary.650": {
       "$description": "Brand primary 650 — Three-Quarter-Tone band",
@@ -2778,6 +2819,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
+        "gradient.glow",
         "semantic.dark.border.interactive.focused",
         "semantic.dark.foreground.interactive.default",
         "semantic.dark.icon.interactive.visited",
@@ -2804,6 +2846,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
+        "gradient.brand",
         "semantic.dark.icon.interactive.default",
         "semantic.dark.icon.interactive.focused",
         "semantic.light.icon.interactive.default",
@@ -2856,6 +2899,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
+        "gradient.glow",
         "semantic.hc-light.border.interactive.focused",
         "semantic.hc-light.foreground.interactive.default",
         "semantic.hc-light.icon.interactive.visited",

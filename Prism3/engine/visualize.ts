@@ -7,8 +7,9 @@
  * dimension axis (grid / space / radius / component sizes), typography (the
  * composite text styles rendered live + the font primitives), shadow &
  * elevation (on a light panel), motion (durations + animated easing curves +
- * springs), layout (breakpoints / grid / containers), and opacity +
- * border-width. No dependencies, no network — open the file in any browser.
+ * springs), layout (breakpoints / grid / containers), gradient (opt-in — OKLCH
+ * web vs sRGB-sampled Figma side by side), and opacity + border-width. No
+ * dependencies, no network — open the file in any browser.
  * Also prints a plain-text taxonomy to stdout.
  *
  *   npx tsx Prism3/engine/visualize.ts   # writes out/tokens.html
@@ -257,6 +258,30 @@ for (const b of brands) {
   }
   html.push('</div>');
 
+  // ---- gradient (opt-in brand gradients) ----
+  if (data.gradient) {
+    txt.push('\n— GRADIENT (opt-in) —');
+    html.push('<h3>Gradient <span class="muted">opt-in · stops alias the ramp · OKLCH-interpolated (web) vs sRGB-sampled (Figma)</span></h3><div class="grad">');
+    for (const k of Object.keys(data.gradient)) {
+      const node = data.gradient[k];
+      const ext = node.$extensions?.prism3 ?? {};
+      const css = ext.css as string;
+      // Build the baked sRGB approximation Figma would render, from sampledStops.
+      const samp = ext.figma?.sampledStops ?? [];
+      const stopList = samp.map((s: any) => `${s.hex} ${Math.round(s.position * 100)}%`).join(', ');
+      const srgbCss = ext.kind === 'radial'
+        ? `radial-gradient(${ext.shape} at ${Math.round(ext.center[0] * 100)}% ${Math.round(ext.center[1] * 100)}%, ${stopList})`
+        : `linear-gradient(${ext.angle}deg, ${stopList})`;
+      const aa = ext.a11y ?? {};
+      const stopAliases = (node.$value as any[]).map((s) => `${String(s.color).replace(/^\{|\}$/g, '').replace(`${root}.color.`, '')} ${Math.round(s.position * 100)}%`).join(' → ');
+      txt.push(`  gradient.${k.padEnd(8)} ${ext.kind}${ext.kind === 'linear' ? ` ${ext.angle}°` : ''} · ${stopAliases} · worst-on-white ${aa.worstOnWhite}:1`);
+      html.push(`<div class="gradrow"><div class="gradmeta"><b>${k}</b><span>${ext.kind}${ext.kind === 'linear' ? ` · ${ext.angle}°` : ` · ${ext.shape}`} · ${ext.interpolation}</span><span class="tfam">${esc(stopAliases)}</span><span class="gradaa">text-on: white ${aa.worstOnWhite}:1 · black ${aa.worstOnBlack}:1${Math.min(aa.worstOnWhite, aa.worstOnBlack) < 4.5 ? ' · scrim for body text' : ''}</span></div>`);
+      html.push(`<div class="gradpair"><div class="gradcell"><div class="gradbox" style="background:${css}"></div><small>OKLCH (web)</small></div><div class="gradcell"><div class="gradbox" style="background:${srgbCss}"></div><small>sRGB ${samp.length}-stop (Figma)</small></div></div>`);
+      html.push('</div>');
+    }
+    html.push('</div>');
+  }
+
   // ---- motion ----
   txt.push('\n— MOTION (duration · easing · spring) —');
   html.push('<h3>Motion <span class="muted">durations · easing curves (animated) · springs</span></h3>');
@@ -381,6 +406,16 @@ const page = `<!doctype html><html lang="en"><head><meta charset="utf-8">
   .shcell{display:flex;flex-direction:column;align-items:center;gap:8px;font-size:11px;color:#5b6270}
   .shbox{width:78px;height:60px;background:#fff;border-radius:8px}
   .shcell small{color:#9aa1ad}
+  /* gradient */
+  .grad{display:flex;flex-direction:column;gap:14px}
+  .gradrow{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+  .gradmeta{width:300px;flex:0 0 auto;display:flex;flex-direction:column;gap:2px}
+  .gradmeta b{font-size:13px;color:#cbd1db}
+  .gradmeta span{font-size:10px;color:#6b7280}
+  .gradmeta .gradaa{color:#8089a0;font-variant-numeric:tabular-nums}
+  .gradpair{display:flex;gap:14px}
+  .gradcell{display:flex;flex-direction:column;gap:5px;align-items:center;font-size:10px;color:#9aa1ad}
+  .gradbox{width:180px;height:84px;border-radius:8px;border:1px solid #2a2e37}
   /* motion */
   .bk2{width:56px;text-align:right;color:#9aa1ad;font-size:11px;font-variant-numeric:tabular-nums}
   .bar.mo{background:#e0a93b} .bar.ct{background:#c879d9}
@@ -410,7 +445,7 @@ const page = `<!doctype html><html lang="en"><head><meta charset="utf-8">
   .bwcell small{color:#6b7280}
 </style></head><body>
 <h1>Prism3 — generated token taxonomy</h1>
-<p class="lead">Every value below is engine-generated from a small theme input and read back from the emitted DTCG files (<code>out/*.tokens.json</code>) — colour, semantic roles, dimension, typography, shadow &amp; elevation, motion, layout, opacity and border-width. ★ marks the exact brand anchor. Type styles, shadows and easing curves are rendered live from the resolved tokens. Regenerate with <code>npx tsx Prism3/engine/visualize.ts</code>.</p>
+<p class="lead">Every value below is engine-generated from a small theme input and read back from the emitted DTCG files (<code>out/*.tokens.json</code>) — colour, semantic roles, dimension, typography, shadow &amp; elevation, motion, layout, gradient (opt-in), opacity and border-width. ★ marks the exact brand anchor. Type styles, shadows and easing curves are rendered live from the resolved tokens. Regenerate with <code>npx tsx Prism3/engine/visualize.ts</code>.</p>
 ${html.join('\n')}
 </body></html>`;
 

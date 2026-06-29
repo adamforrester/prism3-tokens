@@ -52,6 +52,16 @@
   .shcell{display:flex;flex-direction:column;align-items:center;gap:8px;font-size:11px;color:#5b6270}
   .shbox{width:78px;height:60px;background:#fff;border-radius:8px}
   .shcell small{color:#9aa1ad}
+  /* gradient */
+  .grad{display:flex;flex-direction:column;gap:14px}
+  .gradrow{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+  .gradmeta{width:300px;flex:0 0 auto;display:flex;flex-direction:column;gap:2px}
+  .gradmeta b{font-size:13px;color:#cbd1db}
+  .gradmeta span{font-size:10px;color:#6b7280}
+  .gradmeta .gradaa{color:#8089a0;font-variant-numeric:tabular-nums}
+  .gradpair{display:flex;gap:14px}
+  .gradcell{display:flex;flex-direction:column;gap:5px;align-items:center;font-size:10px;color:#9aa1ad}
+  .gradbox{width:180px;height:84px;border-radius:8px;border:1px solid #2a2e37}
   /* motion */
   .bk2{width:56px;text-align:right;color:#9aa1ad;font-size:11px;font-variant-numeric:tabular-nums}
   .bar.mo{background:#e0a93b} .bar.ct{background:#c879d9}
@@ -81,7 +91,7 @@
   .bwcell small{color:#6b7280}
 </style></head><body>
 <h1>Prism3 — generated token taxonomy</h1>
-<p class="lead">Every value below is engine-generated from a small theme input and read back from the emitted DTCG files (<code>out/*.tokens.json</code>) — colour, semantic roles, dimension, typography, shadow &amp; elevation, motion, layout, opacity and border-width. ★ marks the exact brand anchor. Type styles, shadows and easing curves are rendered live from the resolved tokens. Regenerate with <code>npx tsx Prism3/engine/visualize.ts</code>.</p>
+<p class="lead">Every value below is engine-generated from a small theme input and read back from the emitted DTCG files (<code>out/*.tokens.json</code>) — colour, semantic roles, dimension, typography, shadow &amp; elevation, motion, layout, gradient (opt-in), opacity and border-width. ★ marks the exact brand anchor. Type styles, shadows and easing curves are rendered live from the resolved tokens. Regenerate with <code>npx tsx Prism3/engine/visualize.ts</code>.</p>
 <section><h2>nb <span class="muted">nbds.* / rgb</span></h2>
 <h3>Colour primitives</h3>
 <div class="palette"><div class="plabel">red</div><div class="ramp">
@@ -2158,6 +2168,14 @@
 <div class="shcell"><div class="shbox" style="background:#ffffff;box-shadow:0px 1px 3px -1px #0606111a, 0px 2px 8px -1px #06061112"></div><span>raised</span></div>
 <div class="shcell"><div class="shbox" style="background:#ffffff;box-shadow:0px 3px 8px -3px #0606111f, 0px 8px 26px -5px #06061114"></div><span>overlay</span></div>
 <div class="shcell"><div class="shbox" style="background:#ffffff;box-shadow:0px 4px 10px -4px #06061124, 0px 14px 42px -8px #0606111a"></div><span>floating</span></div>
+</div>
+</div>
+<h3>Gradient <span class="muted">opt-in · stops alias the ramp · OKLCH-interpolated (web) vs sRGB-sampled (Figma)</span></h3><div class="grad">
+<div class="gradrow"><div class="gradmeta"><b>brand</b><span>linear · 135° · oklch</span><span class="tfam">primary.600 0% → accent.500 100%</span><span class="gradaa">text-on: white 4.56:1 · black 2.73:1 · scrim for body text</span></div>
+<div class="gradpair"><div class="gradcell"><div class="gradbox" style="background:linear-gradient(135deg in oklch, #5241af 0%, #007cbb 100%)"></div><small>OKLCH (web)</small></div><div class="gradcell"><div class="gradbox" style="background:linear-gradient(135deg, #5241af 0%, #4150b8 25%, #2760bd 50%, #006ebe 75%, #007cbb 100%)"></div><small>sRGB 5-stop (Figma)</small></div></div>
+</div>
+<div class="gradrow"><div class="gradmeta"><b>glow</b><span>radial · circle · oklch</span><span class="tfam">accent.400 0% → accent.700 100%</span><span class="gradaa">text-on: white 3.35:1 · black 2.09:1 · scrim for body text</span></div>
+<div class="gradpair"><div class="gradcell"><div class="gradbox" style="background:radial-gradient(circle at 50% 40% in oklch, #3595c6 0%, #004766 100%)"></div><small>OKLCH (web)</small></div><div class="gradcell"><div class="gradbox" style="background:radial-gradient(circle at 50% 40%, #3595c6 0%, #2881ad 25%, #1b6d94 50%, #0d5a7c 75%, #004766 100%)"></div><small>sRGB 5-stop (Figma)</small></div></div>
 </div>
 </div>
 <h3>Motion <span class="muted">durations · easing curves (animated) · springs</span></h3>

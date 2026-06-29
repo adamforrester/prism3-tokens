@@ -20,7 +20,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 import { RGB, contrast, hex } from './color';
 import { Step } from './ramp';
-import { Theme, nbTheme, brandTheme, BrandInput, ShadowStep, ShadowLayer } from './theme';
+import { Theme, nbTheme, brandTheme, BrandInput, ShadowStep, ShadowLayer, ResolvedGradient } from './theme';
 import { resolveAllModes, ModeResult } from './modes';
 import { buildAiMetadata } from './ai-metadata';
 
@@ -33,6 +33,8 @@ const BLACK: RGB = { r: 0, g: 0, b: 0 };
 const round = (n: number, d = 4) => Math.round(n * 10 ** d) / 10 ** d;
 const rgbStr = ({ r, g, b }: RGB) => `rgb(${r}, ${g}, ${b})`;
 const colorValue = (rgb: RGB, fmt: 'rgb' | 'hex') => (fmt === 'hex' ? hex(rgb) : rgbStr(rgb));
+const rgbFromHex = (h: string): RGB => ({ r: parseInt(h.slice(1, 3), 16), g: parseInt(h.slice(3, 5), 16), b: parseInt(h.slice(5, 7), 16) });
+const colorValueFromHex = (h: string, fmt: 'rgb' | 'hex') => (fmt === 'hex' ? h : rgbStr(rgbFromHex(h)));
 const alphaHex = (a: number) => Math.round(a * 255).toString(16).padStart(2, '0');
 const alphaColorValue = (rgb: RGB, a: number, fmt: 'rgb' | 'hex') =>
   fmt === 'hex' ? `${hex(rgb)}${alphaHex(a)}` : `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${round(a, 2)})`;
@@ -60,7 +62,7 @@ const ELEV_COMPONENTS: Record<string, string> = {
   dialog: 'floating', modal: 'floating', tooltip: 'floating', well: 'sunken',
 };
 
-type Token = { $type: 'color' | 'dimension' | 'number' | 'strokeStyle' | 'duration' | 'cubicBezier' | 'transition' | 'spring' | 'fontFamily' | 'fontWeight' | 'typography' | 'shadow'; $value: string | number | number[] | string[] | Record<string, unknown> | Record<string, unknown>[]; $description: string; $extensions: { prism3: Record<string, unknown> } };
+type Token = { $type: 'color' | 'dimension' | 'number' | 'strokeStyle' | 'duration' | 'cubicBezier' | 'transition' | 'spring' | 'fontFamily' | 'fontWeight' | 'typography' | 'shadow' | 'gradient'; $value: string | number | number[] | string[] | Record<string, unknown> | Record<string, unknown>[]; $description: string; $extensions: { prism3: Record<string, unknown> } };
 
 // ---- colour leaves ----
 const primitiveLeaf = (theme: Theme, paletteDesc: string, s: Step, isAnchor: boolean): Token => {
@@ -143,6 +145,39 @@ const shadowLeaf = (theme: Theme, step: ShadowStep, description: string): Token 
     modes: { dark: step.dark.map((l) => shadowLayerValue(theme, l)) },
     figma: { kind: 'effect-style', styleType: 'EFFECT', binds: ['color', 'radius', 'spread', 'offsetX', 'offsetY'], note: 'Figma Effect Style (drop-shadow layers); colour + numerics bindable per layer; mode-aware — dark shadow is reduced (surface lift carries dark elevation), see modes.dark' } } },
 });
+
+// ---- gradient leaves (brand-opt-in) ----
+// DTCG `gradient` composite — $value is an array of stops [{ color, position }],
+// stop COLOUR an alias into the colour ramp (themeable; the Fluent/Carbon model).
+// DTCG omits kind/angle/interpolation (issue #101), so those live in $extensions
+// alongside the materialization directive: a Figma PAINT STYLE (4th style class)
+// where only stop colours bind (kind/angle/positions baked), plus an N-stop sRGB
+// pre-sample of the OKLCH curve (Figma interpolates in sRGB only) and the CSS
+// `in oklch` string. A worst-case-stop contrast pair gates text-on-gradient use.
+const round3 = (n: number) => Math.round(n * 1000) / 1000;
+const gradientCss = (g: ResolvedGradient, fmt: 'rgb' | 'hex'): string => {
+  const stopList = g.stops.map((s) => `${colorValueFromHex(s.hex, fmt)} ${round3(s.position * 100)}%`).join(', ');
+  const space = g.interpolation === 'oklch' ? ' in oklch' : '';
+  if (g.kind === 'radial') return `radial-gradient(${g.shape} at ${round3(g.center[0] * 100)}% ${round3(g.center[1] * 100)}%${space}, ${stopList})`;
+  return `linear-gradient(${g.angle}deg${space}, ${stopList})`;
+};
+const gradientLeaf = (g: ResolvedGradient, fmt: 'rgb' | 'hex'): Token => {
+  const paintType = g.kind === 'radial' ? 'GRADIENT_RADIAL' : 'GRADIENT_LINEAR';
+  const geom = g.kind === 'radial' ? { center: g.center, shape: g.shape } : { angle: g.angle };
+  const aa = Math.min(g.worstOnWhite, g.worstOnBlack);
+  return {
+    $type: 'gradient',
+    $value: g.stops.map((s) => ({ color: `{${s.aliasOf}}`, position: round3(s.position) })),
+    $description: `gradient ${g.name} — ${g.kind}${g.kind === 'linear' ? ` ${g.angle}°` : ` (${g.shape})`}, ${g.stops.length} stops, ${g.interpolation} interpolation — brand gradient (opt-in)`,
+    $extensions: { prism3: { generated: true, role: 'composite', kind: g.kind, ...geom, interpolation: g.interpolation,
+      css: gradientCss(g, fmt),
+      a11y: { worstOnWhite: g.worstOnWhite, worstOnBlack: g.worstOnBlack,
+        note: `text-on-gradient: white text clears ${g.worstOnWhite}:1 at the lightest stop, black text ${g.worstOnBlack}:1 at the darkest — a text overlay must meet its ratio at the worst-case point (constrain the lightness range or add a scrim)${aa < 4.5 ? '; NEITHER plain overlay clears 4.5:1 body text — use a scrim or a solid container' : ''}` },
+      figma: { kind: 'paint-style', styleType: 'PAINT', paintType, binds: ['gradientStops[].color'], baked: ['type', g.kind === 'radial' ? 'center/shape' : 'angle', 'positions'],
+        sampledStops: g.sampled,
+        note: 'Figma Paint Style (gradient fill) — created via the Plugin API only (REST cannot write/read Paint values). Only stop COLOURS bind to COLOR variables (Plugin API Update 92); kind, angle/transform and stop positions are baked. Figma interpolates in sRGB only, so bind the canonical stop colours AND lay down sampledStops to approximate the OKLCH curve.' } } },
+  };
+};
 
 // ---- dimension leaves ----
 const dimLeaf = (px: number, description?: string): Token => ({
@@ -418,6 +453,10 @@ const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats: Stats
   sh.steps.forEach((s, i) => { shadow[s.name] = shadowLeaf(theme, s, `shadow ${s.name} — elevation ${i + 1} of ${sh.steps.length}, ${s.light.length}-layer (key+ambient)`); });
   shadow.inset = shadowLeaf(theme, sh.inset, 'shadow inset — inner shadow for wells / pressed states / inputs');
 
+  // ---- gradient axis (brand-opt-in; empty for brands that declare none) ----
+  const gradient: Record<string, Token> = {};
+  for (const g of theme.gradient.gradients) gradient[g.name] = gradientLeaf(g, theme.colorFormat);
+
   // ---- layout axis: breakpoints + responsive grid + containers ----
   // Breakpoints = min-width floors; grid columns/gutter/margin per breakpoint
   // (gutter/margin ALIAS the spacing scale). Each breakpoint-keyed value carries a
@@ -446,7 +485,9 @@ const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats: Stats
   };
 
   // ---- assemble under the brand root ----
-  const brand = { color, semantic, opacity, motion, font, type: typeGroup, shadow, breakpoint, grid, container, dimension, space, radius, 'border-width': borderWidth, focus, size };
+  // `gradient` is included only when the brand opted in (kept off the tree for
+  // brands that declare none — gradients are an opt-in axis, not a default group).
+  const brand = { color, semantic, opacity, motion, font, type: typeGroup, shadow, ...(Object.keys(gradient).length ? { gradient } : {}), breakpoint, grid, container, dimension, space, radius, 'border-width': borderWidth, focus, size };
   const tree = {
     [root]: brand,
     $extensions: {
@@ -472,6 +513,13 @@ const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats: Stats
         } else if (v && typeof v === 'object' && !Array.isArray(v)) {
           // composite token (e.g. transition): validate aliases in sub-values
           for (const sv of Object.values(v)) if (typeof sv === 'string') {
+            const m = sv.match(/^\{(.+)\}$/);
+            if (m) aliases.push({ path: path.join('.'), ref: m[1] });
+          }
+        } else if (Array.isArray(v)) {
+          // composite-array token (gradient stops): validate aliases in each entry's
+          // sub-values (shadow layer arrays carry raw colours → no brace matches).
+          for (const item of v) if (item && typeof item === 'object') for (const sv of Object.values(item)) if (typeof sv === 'string') {
             const m = sv.match(/^\{(.+)\}$/);
             if (m) aliases.push({ path: path.join('.'), ref: m[1] });
           }
@@ -532,6 +580,12 @@ const aurora: BrandInput = {
   shadow: { softness: 1.3, tint: { hue: 285, amount: 0.5 } },
   // Exercise the layout lever: a 6th small-phone breakpoint (480) + a tighter content cap.
   layout: { breakpoints: [0, 480, 768, 1024, 1440, 1920], containerMax: 1280 },
+  // Exercise the gradient lever (opt-in): a cross-palette linear brand gradient
+  // (violet → azure accent) + a radial accent glow — both OKLCH-interpolated.
+  gradients: [
+    { name: 'brand', kind: 'linear', angle: 135, stops: [{ palette: 'primary', step: 600, position: 0 }, { palette: 'accent', step: 500, position: 1 }] },
+    { name: 'glow', kind: 'radial', center: [0.5, 0.4], shape: 'circle', stops: [{ palette: 'accent', step: 400, position: 0 }, { palette: 'accent', step: 700, position: 1 }] },
+  ],
 };
 
 const themes: Theme[] = [nbTheme(), brandTheme(aurora)];
@@ -565,6 +619,7 @@ for (const theme of themes) {
   console.log(`  shadow: ${theme.shadow.steps.length}-step ramp + inset, ${theme.shadow.steps[0].light.length}-layer, softness ${theme.shadow.softness}, tint(hue ${theme.shadow.tint.hue}, amount ${theme.shadow.tint.amount}) — mode-aware (lift-primary, reduced dark)`);
   console.log(`  elevation: ${ELEV_LEVELS.length} levels (${ELEV_LEVELS.map((e) => e.level).join('/')}) + ${Object.keys(ELEV_COMPONENTS).length} component aliases, per mode — each pairs surface-tier + shadow-step (Atlassian split)`);
   console.log(`  layout: ${theme.layout.breakpoints.length} breakpoints (${theme.layout.breakpoints.map((b) => `${b.name}=${b.px}`).join(' ')}); grid cols ${theme.layout.grid.map((g) => g.columns).join('/')}, gutter ${theme.layout.grid.map((g) => g.gutterPx).join('/')} + margin ${theme.layout.grid.map((g) => g.marginPx).join('/')} (spacing aliases); container max ${theme.layout.containerMax}/narrow ${theme.layout.containerNarrow}`);
+  console.log(`  gradient: ${theme.gradient.gradients.length ? theme.gradient.gradients.map((g) => `${g.name}(${g.kind}${g.kind === 'linear' ? ` ${g.angle}°` : ''}, ${g.stops.length} stops, ${g.interpolation}, worst-on-white ${g.worstOnWhite}:1)`).join(' · ') : 'none (opt-in axis)'}`);
   console.log(`  aliases: ${stats.resolved}/${stats.aliases} resolve | mode contracts: ${stats.modePass}/${stats.modeChecks} pass`);
   console.log(`  [written] ${outPath}`);
   if (stats.broken.length) { ok = false; stats.broken.forEach((b) => console.log(`   ❌ ${b.path} -> {${b.ref}}`)); }

@@ -214,6 +214,43 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   ok(two.grid[0].columns === 4 && two.grid[1].columns === two.baseColumns, '2-tier ladder = [4, base]');
 }
 
+// ------------------------------------------------- gradient invariants (opt-in)
+{
+  const grBrand = (id: string, gradients: any) => brandTheme({ id, primary: { l: 0.5, c: 0.18, h: 285 }, neutral: { hue: 285, chroma: 0.01 }, brandColors: [{ name: 'accent', oklch: { l: 0.55, c: 0.15, h: 235 } }], gradients });
+  // OFF by default: no opt-in → no gradients (the field-common default).
+  ok(grBrand('gr-off', undefined).gradient.gradients.length === 0, 'gradients OFF by default (no opt-in → none)');
+  // `true` → exactly one default brand gradient (primary.600→primary.350, linear).
+  const def = grBrand('gr-true', true).gradient.gradients;
+  ok(def.length === 1 && def[0].name === 'brand' && def[0].kind === 'linear', '`gradients: true` ships one default linear brand gradient');
+  ok(def[0].stops.length === 2 && def[0].stops[0].aliasOf === 'prism.color.primary.600' && def[0].stops[1].aliasOf === 'prism.color.primary.350', 'default gradient stops alias primary.600 → primary.350');
+  // explicit array: linear + radial, cross-palette, stop colours alias the ramp.
+  const ex = grBrand('gr-ex', [
+    { name: 'brand', kind: 'linear', angle: 135, stops: [{ palette: 'primary', step: 600, position: 0 }, { palette: 'accent', step: 500, position: 1 }] },
+    { name: 'glow', kind: 'radial', center: [0.5, 0.4], shape: 'circle', stops: [{ palette: 'accent', step: 400, position: 0 }, { palette: 'accent', step: 700, position: 1 }] },
+  ]).gradient.gradients;
+  ok(ex.length === 2 && ex[0].kind === 'linear' && ex[1].kind === 'radial', 'explicit array → both linear + radial kinds');
+  ok(ex.every((g) => g.stops.every((s) => s.aliasOf.startsWith('prism.color.'))), 'every gradient stop aliases the colour ramp (never raw hex)');
+  // stops sorted ascending by position; positions in [0,1].
+  ok(ex.every((g) => g.stops.every((s, i) => i === 0 || s.position >= g.stops[i - 1].position)), 'stops are ordered ascending by position');
+  ok(ex.every((g) => g.stops.every((s) => s.position >= 0 && s.position <= 1)), 'stop positions are within [0,1]');
+  // OKLCH pre-sampling for Figma: N≥2 sRGB stops, endpoints hex, p 0→1.
+  ok(ex.every((g) => g.sampled.length >= 2 && g.sampled[0].position === 0 && g.sampled[g.sampled.length - 1].position === 1), 'sampled sRGB stops span positions 0→1');
+  ok(ex.every((g) => g.sampled.every((s) => /^#[0-9a-f]{6}$/.test(s.hex))), 'sampled stops are 6-digit hex (baked sRGB for Figma)');
+  // OKLCH midpoint is more chromatic than the naive sRGB midpoint (no grey dead zone).
+  const oklchG = grBrand('gr-ok', [{ name: 'g', kind: 'linear', samples: 3, interpolation: 'oklch', stops: [{ palette: 'primary', step: 600, position: 0 }, { palette: 'accent', step: 500, position: 1 }] }]).gradient.gradients[0];
+  const srgbG = grBrand('gr-sr', [{ name: 'g', kind: 'linear', samples: 3, interpolation: 'srgb', stops: [{ palette: 'primary', step: 600, position: 0 }, { palette: 'accent', step: 500, position: 1 }] }]).gradient.gradients[0];
+  const chroma = (hexStr: string) => { const r = parseInt(hexStr.slice(1, 3), 16), g = parseInt(hexStr.slice(3, 5), 16), b = parseInt(hexStr.slice(5, 7), 16); return Math.max(r, g, b) - Math.min(r, g, b); };
+  ok(chroma(oklchG.sampled[1].hex) >= chroma(srgbG.sampled[1].hex), 'OKLCH midpoint is no less chromatic than the sRGB midpoint (avoids the grey dead zone)');
+  // worst-case-stop contrast is computed and is the MIN across sampled stops.
+  ok(ex.every((g) => g.worstOnWhite > 0 && g.worstOnBlack > 0), 'worst-case-stop contrast computed for both white and black text');
+  // invalid stop reference throws a clear error.
+  let threw = false;
+  try { grBrand('gr-bad', [{ name: 'x', stops: [{ palette: 'nope', step: 600, position: 0 }, { palette: 'primary', step: 600, position: 1 }] }]); } catch { threw = true; }
+  ok(threw, 'gradient referencing an undefined palette throws');
+  // NB ships no gradients.
+  ok(nbTheme().gradient.gradients.length === 0, 'NB ships no gradients (it had none)');
+}
+
 // ------------------------------------------------------------------- report
 console.log(`\nPrism3 engine tests: ${pass} passed, ${fails.length} failed`);
 if (fails.length) { fails.forEach((f) => console.log(`  ❌ ${f}`)); process.exitCode = 1; }

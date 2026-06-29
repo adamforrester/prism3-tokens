@@ -7,10 +7,11 @@
 
 ---
 
-## Current status (2026-06-21)
+## Current status (2026-06-29)
 
-**The color AND dimension axes are built, proven against a real brand, and
-proven white-label.** From a ~7-input schema the engine generates gamut-aware
+**Every token category NB and Prism2 ship is now generated** — colour, dimension,
+typography, motion, shadow/elevation, layout, and (opt-in) gradients — proven
+against a real brand and proven white-label. From a ~7-input schema the engine generates gamut-aware
 OKLCH ramps, places steps by contrast role, generates four contrast-verified
 appearance modes, generates the space + radius scales from a primitive grid, and
 emits consumable DTCG. It validates all of this against New Balance, and runs a
@@ -27,8 +28,8 @@ Headline numbers (regenerate with the commands below):
 | Tonal-band contrast contracts | **11/11** | (same engine) |
 | Cross-mode contrast contracts | **268/268** | **268/268** |
 | **Dimension axis, exact** (Prism2 space + NB radius) | **21/21** | n/a |
-| DTCG semantic aliases resolve (color + dim + size + type + elevation + layout) | **621/621** | **618/618** |
-| Engine unit tests (colour math + extreme brands + typography + fluid + shadow + layout invariants) | **124/124** | (same engine) |
+| DTCG semantic aliases resolve (color + dim + size + type + elevation + layout + gradient) | **621/621** | **622/622** |
+| Engine unit tests (colour math + extreme brands + typography + fluid + shadow + layout + gradient invariants) | **137/137** | (same engine) |
 | Color primitives / dim grid emitted | 122 / 37 | 162 / 36 |
 | Brand palettes / action source | red / **action = brand** (red) | primary+accent+… / **action = accent ≠ brand** |
 | Form factor | comfortable / radius 1 (sharp) | compact / radius 2 (soft) |
@@ -62,7 +63,7 @@ Prism3/
     ├── modes.ts                    ← light/dark/hc-light/hc-dark, roles resolved by contrast target, brand-agnostic
     ├── nb-regression.ts            ← diffs generated vs real NB, checks contracts → nb-regression-report.md
     ├── emit-dtcg.ts                ← emits out/<id>.tokens.json per theme (NB + aurora) + modes-report.md, validates aliases, mode contracts & BrandInput schema conformance
-    ├── test.ts                     ← unit tests: colour-math invariants + 5 extreme-brand contracts + typography/shadow/layout invariants (124 checks)
+    ├── test.ts                     ← unit tests: colour-math invariants + 5 extreme-brand contracts + typography/shadow/layout/gradient invariants (137 checks)
     ├── ai-metadata.ts              ← generates the AI-readable metadata sidecar (meaning/when/avoid/paired_with/contrast_with/mode_overrides) for the semantic layer
     ├── README.md                   ← how the engine works / how to run
     ├── nb-regression-report.md     ← generated (committed for review)
@@ -297,15 +298,17 @@ npx tsx Prism3/engine/test.ts            # unit tests: colour math + extreme-bra
 Reordered per external review: prove breadth (a second brand through the full
 stack) before pipeline plumbing — it tests the white-label thesis harder.
 
-1. **Finish "beyond color" — see the full build backlog in `05-token-coverage-roadmap.md`.**
-   Colour + the dimension axis (grid/space/radius/sizes) are DONE. Remaining token
-   categories mapped against what NB + Prism2 actually ship: **typography** (the
-   headline font-swap lever), **shadow** (mode-aware; reuses the alpha primitives +
-   surface ladder), **motion** (`motionPersonality` lever), **layout/breakpoints**,
-   plus quick wins (**border-width**, **focus** ring dims, **icon 3:1 toggle**,
-   breakpoints) and brand-artistic **gradients** (Prism2). Component sizing is a
-   prototype — values are sensible defaults, not yet validated against a real
-   component set; revisit when the component layer is real.
+1. **"Beyond color" is COMPLETE — see `05-token-coverage-roadmap.md`.** Every token
+   category NB + Prism2 ship is now generated: colour + the dimension axis
+   (grid/space/radius/sizes), **typography** (the headline font-swap lever +
+   composites + fluid), **shadow/elevation** (mode-aware), **motion**
+   (`motionPersonality` lever), **layout/breakpoints**, the quick wins
+   (**border-width**, **focus** ring dims, **icon 3:1 toggle**), and (opt-in)
+   **gradients** (DTCG composite, ramp-aliased stops, OKLCH + sRGB pre-sample,
+   Figma Paint Style, worst-case-stop contrast). What's left is plumbing, not new
+   categories. Component sizing is still a prototype — values are sensible
+   defaults, not yet validated against a real component set; revisit when the
+   component layer is real.
 2. **Prove downstream consumption.** Feed `out/*.tokens.json` through Style
    Dictionary and/or the Figma MCP — confirm a real tool ingests it and the four
    modes map to Figma variable modes. Turns "generation" into "pipeline".

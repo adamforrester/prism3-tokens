@@ -16,8 +16,9 @@ It does two things:
 This is not the production engine, and it is well past color-thesis-only: from a
 small per-brand input it generates a **complete token layer end-to-end** for two
 brands (NB + a synthetic violet brand) across every axis — colour, semantic roles,
-dimension (space/radius/sizes), typography, shadow & elevation, motion, layout, and
-the mode-invariant primitives (border-width, focus, opacity/alpha) — emitted as
+dimension (space/radius/sizes), typography, shadow & elevation, motion, layout,
+opt-in gradients, and the mode-invariant primitives (border-width, focus,
+opacity/alpha) — emitted as
 DTCG, validated for alias resolution + contrast contracts + schema conformance, and
 rendered to a live HTML style guide. Each axis is driven by a few brand levers; the
 rest is derived.
@@ -43,7 +44,7 @@ Node ≥ 20. No `npm install` needed — the color math is self-contained
 - `modes.ts` — appearance modes (light / dark / hc-light / hc-dark). Resolves each semantic role to a primitive step by contrast target against the mode's surface. Brand-agnostic — paths/palette names come from the `Theme`.
 - `nb-regression.ts` — diffs generated NB ramps against the real NB tokens (ΔE00 per step), checks the contrast contracts, writes `nb-regression-report.md`.
 - `emit-dtcg.ts` — emits a DTCG tree per theme (`out/<id>.tokens.json`), generates the per-mode semantic layer, validates every alias resolves, every mode contrast contract holds, and the BrandInput conforms to the schema; writes `modes-report.md` + the `.ai.json` sidecar.
-- `ai-metadata.ts` — generates `out/<id>.ai.json`, the agent-readable metadata sidecar. Two tiers: **semantic** (full schema — `meaning`, `when_to_use`, `avoid_when`, `paired_with`, `contrast_with`, `mode_overrides`, per KB 31-color-systems §9) and **primitive** (simplified — `meaning`, `tier`, `consume`, and `aliased_by`, the reverse index of which tokens resolve to it, **computed transitively** across multi-hop alias chains → a bidirectional graph for impact analysis). Also carries the typography tier (`type.*` composites + `font.weight-role.*`). All fields generated/contract-true; keeps `tokens.json` DTCG-pure.
+- `ai-metadata.ts` — generates `out/<id>.ai.json`, the agent-readable metadata sidecar. Two tiers: **semantic** (full schema — `meaning`, `when_to_use`, `avoid_when`, `paired_with`, `contrast_with`, `mode_overrides`, per KB 31-color-systems §9) and **primitive** (simplified — `meaning`, `tier`, `consume`, and `aliased_by`, the reverse index of which tokens resolve to it, **computed transitively** across multi-hop alias chains → a bidirectional graph for impact analysis). Also carries the typography tier (`type.*` composites + `font.weight-role.*`) and, when a brand opts in, the gradient tier (`gradient.*` with stop refs + worst-case-stop a11y). All fields generated/contract-true; keeps `tokens.json` DTCG-pure.
 - `visualize.ts` — renders `out/tokens.html`, a single self-contained visual style guide read back from the emitted DTCG (every axis: colour, semantic roles, dimension, typography rendered live, shadow & elevation, motion with animated easing curves, layout, opacity, border-width). No deps; also prints a plain-text taxonomy.
 - `test.ts` — colour-math invariants + extreme-brand contract smoke tests + typography/shadow/layout invariants (124 checks).
 - generated outputs (committed so results are reviewable without running): `nb-regression-report.md`, `modes-report.md`, `out/nb.tokens.json`, `out/aurora.tokens.json`, `out/tokens.html`.
@@ -222,6 +223,39 @@ fluid-vs-fixed duplication into **fluid-first + a `container.max` cap (1280) + a
 with colour light/dark). Lever = the breakpoint floor array + base column count.
 Grounded in the `2026-06-28-layout-grid-breakpoints` research + a 11-system survey.
 
+## Gradient axis (opt-in · OKLCH-interpolated)
+
+The one **opt-in** axis: off by default (a brand sets `gradients: true` for one
+default brand gradient, or an array for specific ones), because the field
+overwhelmingly **abstains** — Material/Carbon/Atlassian/Primer/USWDS ship no
+gradient tokens, Polaris/SLDS deprecated theirs, only Fluent ships a real
+composite. NB ships none; aurora opts into two (a cross-palette linear brand +
+a radial glow). The model takes the most mature field pattern (Fluent) plus the
+best rendering practice (Tailwind v4 / CSS Color 4), fixing what others got wrong:
+
+- **DTCG `gradient` composite as the spine** — `$value` is the stops array
+  `[{ color, position }]`, and stop **colours alias the colour ramp** (themeable;
+  never raw hex — the deprecated Polaris/SLDS trap).
+- **DTCG omits kind/angle/interpolation** (issue #101 is still open) → we carry
+  them in `$extensions.prism3`: `kind` (linear/radial), `angle` | `center`+`shape`,
+  and `interpolation` (**OKLCH by default** — no sRGB grey dead zone). The CSS
+  string is emitted `in oklch`.
+- **Figma interpolates in sRGB only**, so the engine **pre-samples the OKLCH curve
+  into N baked sRGB stops** (`figma.sampledStops`) for the Paint Style — the
+  visualiser renders the OKLCH (web) and sampled-sRGB (Figma) versions side by side.
+- **Materializes as a Figma Paint Style** (the 4th style class beside effect/text/
+  grid): only stop **colours** bind to COLOR variables (Plugin API Update 92);
+  kind, angle/transform and stop positions are baked. REST can neither create nor
+  read Paint values — plugin-only, matching the export pipeline.
+- **Worst-case-stop contrast** is computed for text-on-gradient (the lowest
+  contrast across the sampled stops, vs white and black) and flagged in the
+  `a11y` extension — text over a gradient must clear its ratio at the *worst*
+  point, not the average. No surveyed system does this.
+
+Lever = the gradient list (kind, angle/center, stops as `{palette, step}` ramp
+refs). Grounded in a 10-system survey + the DTCG spec (2025.10) + the Figma
+gradient round-trip research.
+
 ## What it currently does / doesn't
 
 **Does:** exact anchor preservation; anchor-pinned L interpolation; chroma arc;
@@ -234,9 +268,11 @@ derived reduce-motion); **the typography axis** (curated rem ladder + weight-rol
 tier + role composites + size-dependent fluid); **shadow & two-axis elevation**
 (key+ambient, tinted, mode-aware reduced-dark); **the layout axis** (t-shirt
 breakpoints + grid-as-artifact + spacing-aliased gutter/margin + fluid containers);
-border-width, focus, opacity/alpha + scrim primitives; two-brand emit in two
-dialects; a live HTML style guide (`visualize.ts`). 618/618 aliases resolve,
-268/268 mode contracts hold, 124/124 unit tests pass, both brands schema-conform.
+**opt-in OKLCH gradients** (DTCG composite + ramp-aliased stops + sRGB pre-sample
+for Figma + worst-case-stop contrast); border-width, focus, opacity/alpha + scrim
+primitives; two-brand emit in two dialects; a live HTML style guide
+(`visualize.ts`). nb 621/621 + aurora 622/622 aliases resolve, 268/268 mode
+contracts hold, 137/137 unit tests pass, both brands schema-conform.
 
 **Deliberately not reproduced:**
 - *NB's per-step hue kinks* (amber.600, red.300). Following them would require
@@ -246,8 +282,9 @@ dialects; a live HTML style guide (`visualize.ts`). 618/618 aliases resolve,
   engine gap.
 
 **Next increments:**
-- Gradients (the last token category — low priority); the raw-figma / code→Figma
-  round-trip writer (the contract is complete — `$extensions.prism3.figma` carries
-  every transform directive — but the writer that drives the user's plugin to
+- The raw-figma / code→Figma round-trip writer (the contract is complete —
+  `$extensions.prism3.figma` carries every transform directive across all axes,
+  gradients included — but the writer that drives the user's plugin to
   update-in-place vs build-from-scratch is still backlog); downstream pipeline
-  (Style Dictionary / Figma MCP); a theming playground (see `docs/04`).
+  (Style Dictionary / Figma MCP); a theming playground (see `docs/04`). All token
+  categories are now generated.

@@ -18,7 +18,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 import { generateRamp, peakChromaL, autoPlaceStep, Step } from './ramp';
 import { dimensionGrid, spaceScale, radiusScale, componentSizes, SpaceStep, RadiusStep, SizeStep, Density } from './scale';
-import { oklchToRgb, RGB } from './color';
+import { oklchToRgb, RGB, contrast, hex as rgbHex } from './color';
 
 const here = dirname(fileURLToPath(import.meta.url));
 // The NB *measurement* fixture (reverse-engineered NB anchors) — the regression
@@ -73,6 +73,7 @@ export type Theme = {
   typography: Typography;
   shadow: ShadowAxis;
   layout: LayoutAxis;
+  gradient: GradientAxis;
   notes: string[];                   // human-readable record of engine decisions
 };
 
@@ -157,6 +158,11 @@ export type BrandInput = {
    *  count (12 default; 16/24 for dense-data brands); `containerMax`/
    *  `containerNarrow` the content caps. Gutter/margin alias the spacing scale. */
   layout?: { breakpoints?: number[]; columns?: number; containerMax?: number; containerNarrow?: number };
+  /** Gradient axis lever — OPT-IN (off by default; most systems abstain and
+   *  gradients are contextual). `true` ships one default brand gradient
+   *  (primary.600→primary.350, linear); an explicit array ships exactly those.
+   *  Stop colours alias the colour ramp; OKLCH interpolation by default. */
+  gradients?: true | GradientInput[];
   /** Dimension axis levers (schema-required #4/#5). Defaults reproduce a
    *  conventional 4px-grid / 8px-rhythm, sharp-corner system. */
   baseUnit?: number;                 // fine dimension grid base (px), default 4
@@ -572,6 +578,107 @@ const buildLayout = (input: BrandInput['layout'] = {}): LayoutAxis => {
   return { breakpoints, grid, baseColumns: base, containerMax: input.containerMax ?? 1440, containerNarrow: input.containerNarrow ?? 720 };
 };
 
+// ---------------------------------------------------------------------------
+// Gradient axis (brand-opt-in). Grounded in a 10-system survey + the DTCG
+// gradient spec (2025.10) + the Figma round-trip research. Decisions:
+//  - OFF by default: most mature systems abstain (Material/Carbon/Atlassian/
+//    Primer/USWDS), and gradients are contextual. A brand opts in — `true` ships
+//    ONE default brand gradient; an explicit array ships exactly those. NB ships
+//    none (it had none). This is NOT a derived-for-everyone axis like colour.
+//  - DTCG `gradient` composite is the spine: $value = stops [{color, position}],
+//    and stop COLOURS ALIAS the colour ramp (the Fluent/Carbon model; themeable),
+//    never raw hex (the deprecated Polaris/SLDS trap).
+//  - DTCG omits kind/angle/interpolation (issue #101 — still open); we carry them
+//    in $extensions, the way the spec's own proposals would: kind (linear/radial),
+//    angle | center+shape, interpolation (OKLCH default).
+//  - OKLCH interpolation avoids the sRGB "grey dead zone". Figma interpolates in
+//    sRGB ONLY, so we PRE-SAMPLE the OKLCH curve into N baked sRGB stops for the
+//    Figma Paint Style (the one renderer that needs them); CSS keeps `in oklch`.
+//  - Materializes as a Figma PAINT STYLE (the 4th style class beside effect/text/
+//    grid); only stop COLOURS bind to variables — kind/angle/positions are baked.
+//  - Worst-case-stop contrast is computed: text over a gradient must clear its
+//    ratio at the LOWEST-contrast point, not the average (none of the surveyed
+//    systems do this — our contract-checking ethos extended to gradients).
+export type GradientStopInput = { palette: string; step: number; position: number };
+export type GradientInput = {
+  name: string;
+  kind?: 'linear' | 'radial';
+  angle?: number;                 // linear only — degrees (default 135, a brand diagonal)
+  center?: [number, number];      // radial only — 0..1 (default [0.5, 0.5])
+  shape?: 'circle' | 'ellipse';   // radial only (default 'ellipse')
+  interpolation?: 'oklch' | 'srgb';
+  samples?: number;               // sRGB pre-sample count for Figma (default 5)
+  stops: GradientStopInput[];
+};
+export type GradientStop = { aliasOf: string; position: number; rgb: RGB; hex: string; oklch: OKLCH };
+export type ResolvedGradient = {
+  name: string; kind: 'linear' | 'radial'; angle: number; center: [number, number];
+  shape: 'circle' | 'ellipse'; interpolation: 'oklch' | 'srgb';
+  stops: GradientStop[];
+  sampled: { hex: string; position: number }[];  // baked sRGB approximation (Figma)
+  worstOnWhite: number; worstOnBlack: number;     // lowest contrast of any sampled stop
+};
+export type GradientAxis = { gradients: ResolvedGradient[] };
+
+const DEFAULT_BRAND_GRADIENT = (brandPalette: string): GradientInput => ({
+  name: 'brand', kind: 'linear', angle: 135,
+  stops: [{ palette: brandPalette, step: 600, position: 0 }, { palette: brandPalette, step: 350, position: 1 }],
+});
+// Shortest-arc hue interpolation (degrees) — the perceptually correct path.
+const lerpHue = (h1: number, h2: number, t: number): number => {
+  const dh = (((h2 - h1) % 360) + 540) % 360 - 180;
+  return (h1 + t * dh + 360) % 360;
+};
+const lerpOklch = (a: OKLCH, b: OKLCH, t: number): OKLCH => ({ l: a.l + (b.l - a.l) * t, c: a.c + (b.c - a.c) * t, h: lerpHue(a.h, b.h, t) });
+const lerpRgb = (a: RGB, b: RGB, t: number): RGB => ({ r: Math.round(a.r + (b.r - a.r) * t), g: Math.round(a.g + (b.g - a.g) * t), b: Math.round(a.b + (b.b - a.b) * t) });
+
+const buildGradient = (spec: BrandInput['gradients'], palettes: PaletteBuild[], root: string): GradientAxis => {
+  if (!spec) return { gradients: [] };
+  const inputs: GradientInput[] = spec === true ? [DEFAULT_BRAND_GRADIENT('primary')] : spec;
+  const stepOf = (palette: string, step: number): Step => {
+    const p = palettes.find((pp) => pp.palette === palette);
+    if (!p) throw new Error(`gradient: palette '${palette}' is not defined (have: ${palettes.map((x) => x.palette).join(', ')})`);
+    const s = p.steps.find((st) => st.num === step);
+    if (!s) throw new Error(`gradient: '${palette}.${step}' is not a valid ramp step`);
+    return s;
+  };
+  const gradients: ResolvedGradient[] = inputs.map((g) => {
+    const kind = g.kind ?? 'linear';
+    const interpolation = g.interpolation ?? 'oklch';
+    const samples = Math.max(2, g.samples ?? 5);
+    const stops: GradientStop[] = g.stops
+      .slice().sort((a, b) => a.position - b.position)
+      .map((st) => {
+        const s = stepOf(st.palette, st.step);
+        return { aliasOf: `${root}.color.${st.palette}.${s.key}`, position: st.position, rgb: s.rgb, hex: s.hex, oklch: s.oklch };
+      });
+    // Pre-sample the curve at N evenly-spaced positions (the chosen interpolation
+    // space), output sRGB — the baked stops Figma needs (it can't interpolate OKLCH).
+    const sampleRgb = (p: number): RGB => {
+      if (p <= stops[0].position) return stops[0].rgb;
+      if (p >= stops[stops.length - 1].position) return stops[stops.length - 1].rgb;
+      for (let i = 0; i < stops.length - 1; i++) {
+        const a = stops[i], b = stops[i + 1];
+        if (p >= a.position && p <= b.position) {
+          const t = (p - a.position) / (b.position - a.position || 1);
+          return interpolation === 'oklch' ? oklchToRgb(lerpOklch(a.oklch, b.oklch, t)) : lerpRgb(a.rgb, b.rgb, t);
+        }
+      }
+      return stops[stops.length - 1].rgb;
+    };
+    const sampledRgb = Array.from({ length: samples }, (_, i) => sampleRgb(i / (samples - 1)));
+    const sampled = sampledRgb.map((rgb, i) => ({ hex: rgbHex(rgb), position: Math.round((i / (samples - 1)) * 1000) / 1000 }));
+    const WHITE: RGB = { r: 255, g: 255, b: 255 }, BLACK: RGB = { r: 0, g: 0, b: 0 };
+    const worstOnWhite = Math.min(...sampledRgb.map((c) => contrast(c, WHITE)));
+    const worstOnBlack = Math.min(...sampledRgb.map((c) => contrast(c, BLACK)));
+    return {
+      name: g.name, kind, angle: g.angle ?? 135, center: g.center ?? [0.5, 0.5],
+      shape: g.shape ?? 'ellipse', interpolation, stops, sampled, worstOnWhite, worstOnBlack,
+    };
+  });
+  return { gradients };
+};
+
 export const brandTheme = (input: BrandInput): Theme => {
   const notes: string[] = [];
   const anchorStep = autoPlaceStep(input.primary.l);
@@ -632,6 +739,12 @@ export const brandTheme = (input: BrandInput): Theme => {
   notes.push(`motion: tempo '${input.motionPersonality?.tempo ?? 'standard'}' scales the duration ramp; easing roles + springs + composite transitions generated; reduce-motion variants derived (informational preserved, vestibular → 0)`);
   const shadow = buildShadow(input.neutral.hue, input.shadow);
   notes.push(`shadow: 6-step ramp (xs–2xl) + inset, 2-layer (key+ambient), softness ${shadow.softness}; tinted base (hue ${shadow.tint.hue}, amount ${shadow.tint.amount}${shadow.tint.amount === 0 ? ' = pure black' : ''}). Mode-aware, LIFT-primary: full shadow in light; reduced (faded, top-weighted) in dark — the surface ladder carries dark elevation. Composite shadow → Figma Effect Style.`);
+  const gradient = buildGradient(input.gradients, palettes, 'prism');
+  if (gradient.gradients.length) {
+    notes.push(`gradient: ${gradient.gradients.length} brand gradient(s) [${gradient.gradients.map((g) => `${g.name} ${g.kind}${g.kind === 'linear' ? ` ${g.angle}°` : ''} ${g.stops.length}-stop`).join(', ')}] — OPT-IN. DTCG composite spine, stop colours alias the ramp; kind/angle/${gradient.gradients[0].interpolation} interpolation in \$extensions (DTCG omits them — issue #101). OKLCH-interpolated + ${gradient.gradients[0].sampled.length}-stop sRGB pre-sample for Figma (sRGB-only); materializes as a Figma Paint Style (only stop colours bind). Worst-case-stop contrast computed for text-on-gradient.`);
+  } else {
+    notes.push('gradient: none (opt-in axis; brand declared no gradients — the field-common default).');
+  }
   const layout = buildLayout(input.layout);
   notes.push(`layout: ${layout.breakpoints.length} breakpoints (${layout.breakpoints.map((b) => `${b.name} ${b.px}`).join(', ')}); grid base ${layout.baseColumns} cols (ladder ${layout.grid.map((g) => g.columns).join('/')}); gutter/margin alias the spacing scale (${layout.grid.map((g) => g.gutterPx).join('/')} · ${layout.grid.map((g) => g.marginPx).join('/')}); container max ${layout.containerMax}px + narrow ${layout.containerNarrow}px (fluid-first + cap). Breakpoints → a separate Figma layout collection (modes), composing with colour light/dark.`);
   const typography = buildTypography(input.typography);
@@ -671,6 +784,7 @@ export const brandTheme = (input: BrandInput): Theme => {
     typography,
     shadow,
     layout,
+    gradient,
   };
 };
 
@@ -721,6 +835,7 @@ export const nbTheme = (): Theme => {
     typography: buildTypography(),
     shadow: buildShadow(s.neutralHue.hue, { tint: { amount: 0 } }),  // NB ships pure-black shadows
     layout: buildLayout({ containerMax: 1920 }),                     // NB caps at 1920 + narrow 720
+    gradient: { gradients: [] },                                     // NB ships no gradients (it had none)
     notes: [
       'NB regression: measured anchors; brand red also serves as danger (NB brand hue is its danger hue).',
       `dimension axis: ${baseUnit}px grid, 8px space rhythm (Prism2 numbered scale), comfortable density, radius scale 1 (baseMd ${baseMd}px).`,

@@ -22,7 +22,7 @@
 | **Layout** | NB `layout` | ✅ Done | breakpoints + grid (12-col design ladder) + containers; gutter/margin alias the spacing scale; Figma breakpoint-modes | — |
 | **Shadow / elevation** | NB `shadows` | ✅ Done (shadow ramp + elevation) | 6-step 2-layer shadow ramp + inset (`softness`+`tint` levers, mode-aware lift-primary, Figma Effect Style) + semantic `elevation.*` (sunken/flat/raised/overlay/floating) pairing surface-lift + shadow per mode + component aliases (Atlassian split) | — |
 | **Typography** | NB `core-typography`, `typography` | ✅ Done (primitives + composites + fluid) | curated rem ladder + weight roles + family triad; semantic composites (display/title/body/label/caption/eyebrow/code); levers typeScale/displayCeiling/titleFloor/familyMap/responsive; fluid clamp() + Figma desktop/mobile modes from one min/max pair | — |
-| **Gradients** | Prism2 `color/gradient/*` | ❌ Missing | brand-artistic (stops/angle) — not a clean lever | **medium** |
+| **Gradients** | Prism2 `color/gradient/*` | ✅ Done (opt-in) | OFF by default (field abstains); `gradients: true` ships one default brand gradient, or an explicit list. DTCG `gradient` composite, stops alias the ramp; kind/angle/interpolation in `$extensions` (DTCG omits them); OKLCH interpolation + N-stop sRGB pre-sample for Figma; Figma Paint Style (only stop colours bind); worst-case-stop contrast for text-on-gradient | — |
 
 ---
 
@@ -168,11 +168,22 @@
 
 ### Brand-specific / harder to generate
 
-- **Gradients.** Prism2 ships `color/gradient/brand/primary/{type,angle,stops[]}`.
-  A real category, but **artistic** — angle and stop positions are brand design
-  choices, not a contrast-derived lever. Options: pass-through brand-authored
-  gradients, or derive a simple two-stop gradient from the primary ramp. Lower
-  priority; revisit when a brand needs it.
+- **Gradients.** ✅ **Done (opt-in).** Prism2 shipped
+  `color/gradient/brand/primary/{type,angle,stops[]}` — shredded into 6 scalar
+  Figma variables (round-trippable, but non-rendering data). The engine does
+  better: a single **DTCG `gradient` composite** whose stops **alias the colour
+  ramp** (the Fluent/Carbon model), with the kind/angle/interpolation DTCG omits
+  (issue #101) carried in `$extensions`. OKLCH interpolation by default (no sRGB
+  grey dead zone) with an **N-stop sRGB pre-sample** for Figma (which interpolates
+  in sRGB only); materializes as a **Figma Paint Style** (only stop colours bind);
+  a **worst-case-stop contrast** check gates text-on-gradient. Brand-authored and
+  **OFF by default** — the field overwhelmingly abstains (Material/Carbon/
+  Atlassian/Primer/USWDS ship none; Polaris/SLDS deprecated theirs; only Fluent
+  ships a real composite), so this is opt-in, not a derived-for-everyone axis.
+  `true` ships one default brand gradient; an explicit list ships exactly those.
+  Linear + radial supported (conic/diamond skipped — rare, no clean CSS↔Figma
+  parity). Grounded in a 10-system survey + the DTCG spec (2025.10) + the Figma
+  gradient round-trip research.
 
 ---
 
@@ -266,10 +277,14 @@ when this graduates from analysis to build.
    `tempo`-scaled duration ramp, easing roles (+ `calm` a11y curve), M3 springs,
    Atlassian-style composite transitions, derived informational/vestibular
    reduce-motion. Aurora demos `snappy`.
-3. **Typography** — the headline lever (largest value).
-4. **Shadow** — completes elevation; reuses alpha primitives + the surface ladder.
-5. **Layout** — responsive grid on top of breakpoints.
-6. **Gradients** — only when a brand needs it (brand-artistic, no clean lever).
+3. ~~**Typography**~~ ✅ done — the headline lever (largest value).
+4. ~~**Shadow**~~ ✅ done — completes elevation; reuses alpha primitives + the surface ladder.
+5. ~~**Layout**~~ ✅ done — responsive grid on top of breakpoints.
+6. ~~**Gradients**~~ ✅ done (2026-06-29) — opt-in (off by default; the field abstains).
+   DTCG composite, ramp-aliased stops, OKLCH interpolation + sRGB pre-sample for
+   Figma, Paint Style materialization, worst-case-stop contrast. Aurora demos a
+   linear brand + a radial glow.
 
-After 1–5 the engine covers every category NB and Prism2 ship except brand-artistic
-gradients.
+The engine now covers **every token category** NB and Prism2 ship. What remains is
+cross-cutting plumbing (the Figma round-trip writer) and a theming playground, not
+new token categories.

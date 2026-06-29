@@ -196,6 +196,13 @@
         "containerNarrow": { "type": "number", "default": 720, "description": "Narrow / reading-measure container (px, ~65–75ch)." }
       }
     },
+    "gradients": {
+      "oneOf": [
+        { "type": "boolean" },
+        { "type": "array", "items": { "$ref": "#/$defs/gradient" } }
+      ],
+      "description": "OPTIONAL, OPT-IN (off by default — most systems abstain). `true` ships one default brand gradient (primary.600→primary.350, linear); an array ships exactly the listed gradients. Stop colours alias the colour ramp; OKLCH interpolation by default; materializes as a Figma Paint Style (only stop colours bind)."
+    },
     "baseUnit": { "type": "number", "default": 4, "description": "OPTIONAL. Fine dimension-grid base (px). Default 4." },
     "spaceBase": { "type": "number", "default": 8, "description": "OPTIONAL. Spacing rhythm (px) for the numbered-multiplier space scale. Default 8." },
     "density": {
@@ -208,6 +215,32 @@
     "baseMd": { "type": "number", "default": 4, "description": "OPTIONAL. The radius.md anchor (px) at scale 1. Default 4." }
   },
   "$defs": {
+    "gradient": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "stops"],
+      "description": "A brand gradient. Stops alias the colour ramp by {palette, step}; kind/angle/interpolation are carried because DTCG's gradient type omits them.",
+      "properties": {
+        "name": { "type": "string", "description": "Gradient name (e.g. 'brand', 'glow'). Emitted at gradient.<name>." },
+        "kind": { "type": "string", "enum": ["linear", "radial"], "default": "linear", "description": "linear (with angle) or radial (with center + shape)." },
+        "angle": { "type": "number", "default": 135, "description": "Linear angle (deg). Default 135 (a brand diagonal)." },
+        "center": { "type": "array", "items": { "type": "number" }, "description": "Radial center [x, y] in 0..1. Default [0.5, 0.5]." },
+        "shape": { "type": "string", "enum": ["circle", "ellipse"], "default": "ellipse", "description": "Radial shape." },
+        "interpolation": { "type": "string", "enum": ["oklch", "srgb"], "default": "oklch", "description": "Interpolation colour space. OKLCH avoids the sRGB grey dead zone; Figma gets a pre-sampled sRGB approximation." },
+        "samples": { "type": "number", "minimum": 2, "default": 5, "description": "Number of sRGB stops to pre-sample for Figma (which interpolates in sRGB only)." },
+        "stops": { "type": "array", "items": { "$ref": "#/$defs/gradientStop" }, "description": "Two or more colour stops, aliasing the ramp." }
+      }
+    },
+    "gradientStop": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["palette", "step", "position"],
+      "properties": {
+        "palette": { "type": "string", "description": "Ramp palette name (e.g. 'primary', 'accent')." },
+        "step": { "type": "number", "description": "Ramp step number (e.g. 600)." },
+        "position": { "type": "number", "minimum": 0, "maximum": 1, "description": "Stop position 0..1 along the gradient axis." }
+      }
+    },
     "oklch": {
       "type": "object",
       "additionalProperties": false,
