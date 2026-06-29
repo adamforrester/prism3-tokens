@@ -185,6 +185,17 @@
         }
       }
     },
+    "layout": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "OPTIONAL. Layout axis — breakpoints + responsive grid + containers. 5 breakpoints (min-width/mobile-first), a 12-col design grid (4/8/12 ladder), gutters/margins aliasing the spacing scale, fluid-first containers + a max cap.",
+      "properties": {
+        "breakpoints": { "type": "array", "items": { "type": "number" }, "description": "Min-width floors (px), ascending. Names are auto sm/md/lg/xl/2xl. Default [0,768,1024,1440,1920]." },
+        "columns": { "type": "number", "default": 12, "description": "Base column count (12 default; 16/24 for dense-data brands). Emitted as a 4/8/…/base ladder per breakpoint — a design grid, not the load-bearing code contract." },
+        "containerMax": { "type": "number", "default": 1440, "description": "Content max-width cap (px); layout is fluid below it." },
+        "containerNarrow": { "type": "number", "default": 720, "description": "Narrow / reading-measure container (px, ~65–75ch)." }
+      }
+    },
     "baseUnit": { "type": "number", "default": 4, "description": "OPTIONAL. Fine dimension-grid base (px). Default 4." },
     "spaceBase": { "type": "number", "default": 8, "description": "OPTIONAL. Spacing rhythm (px) for the numbered-multiplier space scale. Default 8." },
     "density": {

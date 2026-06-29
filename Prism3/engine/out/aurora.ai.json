@@ -4560,6 +4560,96 @@
         "semantic.light.elevation.well.shadow"
       ]
     },
+    "breakpoint.xs": {
+      "$description": "breakpoint xs — min-width 0px (mobile-first)",
+      "meaning": "breakpoint primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — prefer a semantic token."
+    },
+    "breakpoint.sm": {
+      "$description": "breakpoint sm — min-width 480px (mobile-first)",
+      "meaning": "breakpoint primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — prefer a semantic token."
+    },
+    "breakpoint.md": {
+      "$description": "breakpoint md — min-width 768px (mobile-first)",
+      "meaning": "breakpoint primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — prefer a semantic token."
+    },
+    "breakpoint.lg": {
+      "$description": "breakpoint lg — min-width 1024px (mobile-first)",
+      "meaning": "breakpoint primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — prefer a semantic token."
+    },
+    "breakpoint.xl": {
+      "$description": "breakpoint xl — min-width 1440px (mobile-first)",
+      "meaning": "breakpoint primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — prefer a semantic token."
+    },
+    "breakpoint.2xl": {
+      "$description": "breakpoint 2xl — min-width 1920px (mobile-first)",
+      "meaning": "breakpoint primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — prefer a semantic token."
+    },
+    "grid.xs.columns": {
+      "$description": "grid xs — 4 columns (design grid / Figma layout-grid; build with CSS Grid)",
+      "meaning": "grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — prefer a semantic token."
+    },
+    "grid.sm.columns": {
+      "$description": "grid sm — 8 columns (design grid / Figma layout-grid; build with CSS Grid)",
+      "meaning": "grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — prefer a semantic token."
+    },
+    "grid.md.columns": {
+      "$description": "grid md — 12 columns (design grid / Figma layout-grid; build with CSS Grid)",
+      "meaning": "grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — prefer a semantic token."
+    },
+    "grid.lg.columns": {
+      "$description": "grid lg — 12 columns (design grid / Figma layout-grid; build with CSS Grid)",
+      "meaning": "grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — prefer a semantic token."
+    },
+    "grid.xl.columns": {
+      "$description": "grid xl — 12 columns (design grid / Figma layout-grid; build with CSS Grid)",
+      "meaning": "grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — prefer a semantic token."
+    },
+    "grid.2xl.columns": {
+      "$description": "grid 2xl — 12 columns (design grid / Figma layout-grid; build with CSS Grid)",
+      "meaning": "grid primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — prefer a semantic token."
+    },
+    "container.max": {
+      "$description": "container max — 1280px content cap (fluid below it)",
+      "meaning": "container primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — prefer a semantic token."
+    },
+    "container.narrow": {
+      "$description": "container narrow — 720px reading measure (~65–75ch)",
+      "meaning": "container primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — prefer a semantic token."
+    },
+    "container.fluid": {
+      "$description": "container fluid — full width with margins (the default)",
+      "meaning": "container primitive",
+      "tier": "primitive",
+      "consume": "Private primitive — prefer a semantic token."
+    },
     "dimension.0": {
       "$description": "0px — dimension primitive",
       "meaning": "0px grid primitive",
@@ -4645,6 +4735,9 @@
       "tier": "primitive",
       "consume": "Private primitive — reference via space / radius / size / border-width / focus.",
       "aliased_by": [
+        "grid.sm.gutter",
+        "grid.xs.gutter",
+        "grid.xs.margin",
         "size.lg.padding-x",
         "size.md.padding-x",
         "space.200"
@@ -4662,6 +4755,10 @@
       "tier": "primitive",
       "consume": "Private primitive — reference via space / radius / size / border-width / focus.",
       "aliased_by": [
+        "grid.lg.gutter",
+        "grid.md.gutter",
+        "grid.md.margin",
+        "grid.sm.margin",
         "size.xl.padding-x",
         "space.300"
       ]
@@ -4678,6 +4775,9 @@
       "tier": "primitive",
       "consume": "Private primitive — reference via space / radius / size / border-width / focus.",
       "aliased_by": [
+        "grid.2xl.gutter",
+        "grid.lg.margin",
+        "grid.xl.gutter",
         "size.sm.height",
         "size.xs.height",
         "space.400"
@@ -4711,6 +4811,8 @@
       "tier": "primitive",
       "consume": "Private primitive — reference via space / radius / size / border-width / focus.",
       "aliased_by": [
+        "grid.2xl.margin",
+        "grid.xl.margin",
         "size.lg.height",
         "space.600"
       ]

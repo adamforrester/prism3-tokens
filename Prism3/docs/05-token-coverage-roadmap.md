@@ -17,9 +17,9 @@
 | **Border width** | NB `border-width` (in `space-size`) | ✅ Done | `none/hairline/thick/heavy` → dim 0/1/2/4 | — |
 | **Focus** | NB `focus` | ✅ Done | ring width/offset/offset-field/style; colour = `border.interactive.focused` | — |
 | **Icon 3:1 toggle** | (colour sub-item) | ✅ Done | `iconContrast: 'text' \| '3:1'` theme input | — |
-| **Breakpoints** | NB `core-breakpoint` | ⏸ Parked for discussion | fluid vs fixed + grid coupling — needs a decision | **low** |
+| **Breakpoints** | NB `core-breakpoint` | ✅ Done (with layout) | 5 t-shirt min-width floors; fluid-vs-fixed RESOLVED → fluid-first + cap | — |
 | **Motion** | NB `core-motion`, `motion` | ✅ Done | `motionPersonality.tempo` → duration ramp; easing roles + springs + composites + derived reduce-motion | — |
-| **Layout** | NB `layout` | ❌ Missing | grid columns/gutter/margin per breakpoint | **low–med** |
+| **Layout** | NB `layout` | ✅ Done | breakpoints + grid (12-col design ladder) + containers; gutter/margin alias the spacing scale; Figma breakpoint-modes | — |
 | **Shadow / elevation** | NB `shadows` | ✅ Done (shadow ramp + elevation) | 6-step 2-layer shadow ramp + inset (`softness`+`tint` levers, mode-aware lift-primary, Figma Effect Style) + semantic `elevation.*` (sunken/flat/raised/overlay/floating) pairing surface-lift + shadow per mode + component aliases (Atlassian split) | — |
 | **Typography** | NB `core-typography`, `typography` | ✅ Done (primitives + composites + fluid) | curated rem ladder + weight roles + family triad; semantic composites (display/title/body/label/caption/eyebrow/code); levers typeScale/displayCeiling/titleFloor/familyMap/responsive; fluid clamp() + Figma desktop/mobile modes from one min/max pair | — |
 | **Gradients** | Prism2 `color/gradient/*` | ❌ Missing | brand-artistic (stops/angle) — not a clean lever | **medium** |
@@ -151,9 +151,20 @@
   31-color-systems §"Shadow tokens — shape, colour, and the elevation lever".
   Original note:
   NB ships `shadow/{xs..xl}/{default,inverse}`; the split is the light/dark variant.
-- **Layout** — `container/{max,narrow}` + `grid/{mobile,desktop}/{columns,
-  gutter,margin}`. Builds on breakpoints + the dimension grid (the 720 container
-  outlier is already in the grid). A small responsive-grid lever.
+- **Layout** — **SHIPPED (2026-06-28).** `breakpoint.{sm..2xl}` (5 min-width
+  floors, count-aware names — `xs` prepended at 6+) + `grid.{bp}.{columns,gutter,
+  margin}` + `container.{max,narrow,fluid}`. Columns emit a **4/8/12 design ladder**
+  (base count is one knob; the column grid is a Figma layout-grid / design artifact,
+  not the load-bearing code contract — build with CSS Grid). **Gutter/margin ALIAS
+  the spacing scale** (16/24/32 · 16/24/48) — not independent tokens. **Containers:
+  fluid-first + a `container.max` cap + a `narrow`≈720 reading measure** — the
+  parked fluid-vs-fixed decision RESOLVED by collapsing it (no Prism2-style dual
+  tree; fixed-stepped is a deferred opt-in). Breakpoint-keyed values carry a Figma
+  directive mapping them to a **separate layout collection (modes = breakpoints)**
+  that composes with the colour light/dark collection. Lever: breakpoint floor
+  array + base column count (+ container caps); everything else derived. 621/621
+  (nb) / 618/618 (aurora) aliases, 124/124 tests. *Research:* KB `_research`
+  10-system survey (pending filing).
 
 ### Brand-specific / harder to generate
 

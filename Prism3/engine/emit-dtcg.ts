@@ -418,8 +418,35 @@ const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats: Stats
   sh.steps.forEach((s, i) => { shadow[s.name] = shadowLeaf(theme, s, `shadow ${s.name} — elevation ${i + 1} of ${sh.steps.length}, ${s.light.length}-layer (key+ambient)`); });
   shadow.inset = shadowLeaf(theme, sh.inset, 'shadow inset — inner shadow for wells / pressed states / inputs');
 
+  // ---- layout axis: breakpoints + responsive grid + containers ----
+  // Breakpoints = min-width floors; grid columns/gutter/margin per breakpoint
+  // (gutter/margin ALIAS the spacing scale). Each breakpoint-keyed value carries a
+  // figma directive mapping it to a SEPARATE layout collection whose modes are the
+  // breakpoints (composes independently with the colour light/dark collection).
+  const ly = theme.layout;
+  const breakpoint: Record<string, Token> = {};
+  for (const b of ly.breakpoints) breakpoint[b.name] = dimLeaf(b.px, `breakpoint ${b.name} — min-width ${b.px}px (mobile-first)`);
+  const gridSpaceAlias = (px: number, desc: string, bp: string, variable: string): Token => {
+    const key = spaceKeyOf.get(px);
+    const fig = { figma: { collection: 'layout', mode: bp, variable, note: 'breakpoint = Figma mode (separate layout collection; composes with colour light/dark)' } };
+    return key ? dimAlias(`${root}.space.${key}`, desc, { px, ...fig }) : dimLeaf(px, desc);
+  };
+  const grid: Record<string, any> = {};
+  for (const g of ly.grid) {
+    grid[g.bp] = {
+      columns: { $type: 'number', $value: g.columns, $description: `grid ${g.bp} — ${g.columns} columns (design grid / Figma layout-grid; build with CSS Grid)`, $extensions: { prism3: { generated: true, figma: { collection: 'layout', mode: g.bp, variable: 'grid.columns', note: 'breakpoint = Figma mode' } } } },
+      gutter: gridSpaceAlias(g.gutterPx, `grid ${g.bp} gutter — ${g.gutterPx}px (spacing-scale alias)`, g.bp, 'grid.gutter'),
+      margin: gridSpaceAlias(g.marginPx, `grid ${g.bp} margin — ${g.marginPx}px (spacing-scale alias)`, g.bp, 'grid.margin'),
+    };
+  }
+  const container = {
+    max: dimLeaf(ly.containerMax, `container max — ${ly.containerMax}px content cap (fluid below it)`),
+    narrow: dimLeaf(ly.containerNarrow, `container narrow — ${ly.containerNarrow}px reading measure (~65–75ch)`),
+    fluid: { $type: 'dimension', $value: '100%', $description: 'container fluid — full width with margins (the default)', $extensions: { prism3: { generated: true } } },
+  };
+
   // ---- assemble under the brand root ----
-  const brand = { color, semantic, opacity, motion, font, type: typeGroup, shadow, dimension, space, radius, 'border-width': borderWidth, focus, size };
+  const brand = { color, semantic, opacity, motion, font, type: typeGroup, shadow, breakpoint, grid, container, dimension, space, radius, 'border-width': borderWidth, focus, size };
   const tree = {
     [root]: brand,
     $extensions: {
@@ -503,6 +530,8 @@ const aurora: BrandInput = {
   },
   // Exercise the shadow lever: softer (marketing) shadows, tinted toward the violet brand hue.
   shadow: { softness: 1.3, tint: { hue: 285, amount: 0.5 } },
+  // Exercise the layout lever: a 6th small-phone breakpoint (480) + a tighter content cap.
+  layout: { breakpoints: [0, 480, 768, 1024, 1440, 1920], containerMax: 1280 },
 };
 
 const themes: Theme[] = [nbTheme(), brandTheme(aurora)];
@@ -535,6 +564,7 @@ for (const theme of themes) {
   }
   console.log(`  shadow: ${theme.shadow.steps.length}-step ramp + inset, ${theme.shadow.steps[0].light.length}-layer, softness ${theme.shadow.softness}, tint(hue ${theme.shadow.tint.hue}, amount ${theme.shadow.tint.amount}) — mode-aware (lift-primary, reduced dark)`);
   console.log(`  elevation: ${ELEV_LEVELS.length} levels (${ELEV_LEVELS.map((e) => e.level).join('/')}) + ${Object.keys(ELEV_COMPONENTS).length} component aliases, per mode — each pairs surface-tier + shadow-step (Atlassian split)`);
+  console.log(`  layout: ${theme.layout.breakpoints.length} breakpoints (${theme.layout.breakpoints.map((b) => `${b.name}=${b.px}`).join(' ')}); grid cols ${theme.layout.grid.map((g) => g.columns).join('/')}, gutter ${theme.layout.grid.map((g) => g.gutterPx).join('/')} + margin ${theme.layout.grid.map((g) => g.marginPx).join('/')} (spacing aliases); container max ${theme.layout.containerMax}/narrow ${theme.layout.containerNarrow}`);
   console.log(`  aliases: ${stats.resolved}/${stats.aliases} resolve | mode contracts: ${stats.modePass}/${stats.modeChecks} pass`);
   console.log(`  [written] ${outPath}`);
   if (stats.broken.length) { ok = false; stats.broken.forEach((b) => console.log(`   ❌ ${b.path} -> {${b.ref}}`)); }

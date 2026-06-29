@@ -11620,6 +11620,369 @@
         }
       }
     },
+    "breakpoint": {
+      "sm": {
+        "$type": "dimension",
+        "$value": "0px",
+        "$description": "breakpoint sm — min-width 0px (mobile-first)",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 0
+          }
+        }
+      },
+      "md": {
+        "$type": "dimension",
+        "$value": "768px",
+        "$description": "breakpoint md — min-width 768px (mobile-first)",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 768
+          }
+        }
+      },
+      "lg": {
+        "$type": "dimension",
+        "$value": "1024px",
+        "$description": "breakpoint lg — min-width 1024px (mobile-first)",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 1024
+          }
+        }
+      },
+      "xl": {
+        "$type": "dimension",
+        "$value": "1440px",
+        "$description": "breakpoint xl — min-width 1440px (mobile-first)",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 1440
+          }
+        }
+      },
+      "2xl": {
+        "$type": "dimension",
+        "$value": "1920px",
+        "$description": "breakpoint 2xl — min-width 1920px (mobile-first)",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 1920
+          }
+        }
+      }
+    },
+    "grid": {
+      "sm": {
+        "columns": {
+          "$type": "number",
+          "$value": 4,
+          "$description": "grid sm — 4 columns (design grid / Figma layout-grid; build with CSS Grid)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "figma": {
+                "collection": "layout",
+                "mode": "sm",
+                "variable": "grid.columns",
+                "note": "breakpoint = Figma mode"
+              }
+            }
+          }
+        },
+        "gutter": {
+          "$type": "dimension",
+          "$value": "{nbds.space.200}",
+          "$description": "grid sm gutter — 16px (spacing-scale alias)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.space.200",
+              "px": 16,
+              "figma": {
+                "collection": "layout",
+                "mode": "sm",
+                "variable": "grid.gutter",
+                "note": "breakpoint = Figma mode (separate layout collection; composes with colour light/dark)"
+              }
+            }
+          }
+        },
+        "margin": {
+          "$type": "dimension",
+          "$value": "{nbds.space.200}",
+          "$description": "grid sm margin — 16px (spacing-scale alias)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.space.200",
+              "px": 16,
+              "figma": {
+                "collection": "layout",
+                "mode": "sm",
+                "variable": "grid.margin",
+                "note": "breakpoint = Figma mode (separate layout collection; composes with colour light/dark)"
+              }
+            }
+          }
+        }
+      },
+      "md": {
+        "columns": {
+          "$type": "number",
+          "$value": 8,
+          "$description": "grid md — 8 columns (design grid / Figma layout-grid; build with CSS Grid)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "figma": {
+                "collection": "layout",
+                "mode": "md",
+                "variable": "grid.columns",
+                "note": "breakpoint = Figma mode"
+              }
+            }
+          }
+        },
+        "gutter": {
+          "$type": "dimension",
+          "$value": "{nbds.space.200}",
+          "$description": "grid md gutter — 16px (spacing-scale alias)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.space.200",
+              "px": 16,
+              "figma": {
+                "collection": "layout",
+                "mode": "md",
+                "variable": "grid.gutter",
+                "note": "breakpoint = Figma mode (separate layout collection; composes with colour light/dark)"
+              }
+            }
+          }
+        },
+        "margin": {
+          "$type": "dimension",
+          "$value": "{nbds.space.300}",
+          "$description": "grid md margin — 24px (spacing-scale alias)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.space.300",
+              "px": 24,
+              "figma": {
+                "collection": "layout",
+                "mode": "md",
+                "variable": "grid.margin",
+                "note": "breakpoint = Figma mode (separate layout collection; composes with colour light/dark)"
+              }
+            }
+          }
+        }
+      },
+      "lg": {
+        "columns": {
+          "$type": "number",
+          "$value": 12,
+          "$description": "grid lg — 12 columns (design grid / Figma layout-grid; build with CSS Grid)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "figma": {
+                "collection": "layout",
+                "mode": "lg",
+                "variable": "grid.columns",
+                "note": "breakpoint = Figma mode"
+              }
+            }
+          }
+        },
+        "gutter": {
+          "$type": "dimension",
+          "$value": "{nbds.space.300}",
+          "$description": "grid lg gutter — 24px (spacing-scale alias)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.space.300",
+              "px": 24,
+              "figma": {
+                "collection": "layout",
+                "mode": "lg",
+                "variable": "grid.gutter",
+                "note": "breakpoint = Figma mode (separate layout collection; composes with colour light/dark)"
+              }
+            }
+          }
+        },
+        "margin": {
+          "$type": "dimension",
+          "$value": "{nbds.space.300}",
+          "$description": "grid lg margin — 24px (spacing-scale alias)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.space.300",
+              "px": 24,
+              "figma": {
+                "collection": "layout",
+                "mode": "lg",
+                "variable": "grid.margin",
+                "note": "breakpoint = Figma mode (separate layout collection; composes with colour light/dark)"
+              }
+            }
+          }
+        }
+      },
+      "xl": {
+        "columns": {
+          "$type": "number",
+          "$value": 12,
+          "$description": "grid xl — 12 columns (design grid / Figma layout-grid; build with CSS Grid)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "figma": {
+                "collection": "layout",
+                "mode": "xl",
+                "variable": "grid.columns",
+                "note": "breakpoint = Figma mode"
+              }
+            }
+          }
+        },
+        "gutter": {
+          "$type": "dimension",
+          "$value": "{nbds.space.300}",
+          "$description": "grid xl gutter — 24px (spacing-scale alias)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.space.300",
+              "px": 24,
+              "figma": {
+                "collection": "layout",
+                "mode": "xl",
+                "variable": "grid.gutter",
+                "note": "breakpoint = Figma mode (separate layout collection; composes with colour light/dark)"
+              }
+            }
+          }
+        },
+        "margin": {
+          "$type": "dimension",
+          "$value": "{nbds.space.400}",
+          "$description": "grid xl margin — 32px (spacing-scale alias)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.space.400",
+              "px": 32,
+              "figma": {
+                "collection": "layout",
+                "mode": "xl",
+                "variable": "grid.margin",
+                "note": "breakpoint = Figma mode (separate layout collection; composes with colour light/dark)"
+              }
+            }
+          }
+        }
+      },
+      "2xl": {
+        "columns": {
+          "$type": "number",
+          "$value": 12,
+          "$description": "grid 2xl — 12 columns (design grid / Figma layout-grid; build with CSS Grid)",
+          "$extensions": {
+            "prism3": {
+              "generated": true,
+              "figma": {
+                "collection": "layout",
+                "mode": "2xl",
+                "variable": "grid.columns",
+                "note": "breakpoint = Figma mode"
+              }
+            }
+          }
+        },
+        "gutter": {
+          "$type": "dimension",
+          "$value": "{nbds.space.400}",
+          "$description": "grid 2xl gutter — 32px (spacing-scale alias)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.space.400",
+              "px": 32,
+              "figma": {
+                "collection": "layout",
+                "mode": "2xl",
+                "variable": "grid.gutter",
+                "note": "breakpoint = Figma mode (separate layout collection; composes with colour light/dark)"
+              }
+            }
+          }
+        },
+        "margin": {
+          "$type": "dimension",
+          "$value": "{nbds.space.600}",
+          "$description": "grid 2xl margin — 48px (spacing-scale alias)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.space.600",
+              "px": 48,
+              "figma": {
+                "collection": "layout",
+                "mode": "2xl",
+                "variable": "grid.margin",
+                "note": "breakpoint = Figma mode (separate layout collection; composes with colour light/dark)"
+              }
+            }
+          }
+        }
+      }
+    },
+    "container": {
+      "max": {
+        "$type": "dimension",
+        "$value": "1920px",
+        "$description": "container max — 1920px content cap (fluid below it)",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 1920
+          }
+        }
+      },
+      "narrow": {
+        "$type": "dimension",
+        "$value": "720px",
+        "$description": "container narrow — 720px reading measure (~65–75ch)",
+        "$extensions": {
+          "prism3": {
+            "generated": true,
+            "px": 720
+          }
+        }
+      },
+      "fluid": {
+        "$type": "dimension",
+        "$value": "100%",
+        "$description": "container fluid — full width with margins (the default)",
+        "$extensions": {
+          "prism3": {
+            "generated": true
+          }
+        }
+      }
+    },
     "dimension": {
       "0": {
         "$type": "dimension",
@@ -12617,7 +12980,8 @@
         "NB regression: measured anchors; brand red also serves as danger (NB brand hue is its danger hue).",
         "dimension axis: 4px grid, 8px space rhythm (Prism2 numbered scale), comfortable density, radius scale 1 (baseMd 4px).",
         "typography: curated rem size ladder (22 steps, 10–160px) reproducing the Prism2 reference scale; weight roles subtle/default/emphasis/strong → 300/400/600/700.",
-        "shadow: 6-step ramp + inset, 2-layer, pure-black (NB dialect); mode-aware lift-primary (reduced in dark, NOT NB's heavier inverse — the field-correct choice)."
+        "shadow: 6-step ramp + inset, 2-layer, pure-black (NB dialect); mode-aware lift-primary (reduced in dark, NOT NB's heavier inverse — the field-correct choice).",
+        "layout: 5 breakpoints (engine default) + 12-col grid (4/8/12 ladder) + container max 1920 / narrow 720 (NB caps); gutter/margin alias the spacing scale."
       ]
     }
   }

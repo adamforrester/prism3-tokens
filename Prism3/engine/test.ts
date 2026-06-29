@@ -186,6 +186,34 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   ok(tinted.colorRgb.r + tinted.colorRgb.g + tinted.colorRgb.b > 0, 'tinted shadow base is not pure black');
 }
 
+// ------------------------------------------------- layout / breakpoint invariants
+{
+  const lyBrand = (id: string, layout: any) => brandTheme({ id, primary: { l: 0.5, c: 0.15, h: 250 }, neutral: { hue: 250, chroma: 0.01 }, layout });
+  const d = lyBrand('ly', undefined).layout;
+  ok(d.breakpoints.length === 5, `default layout is 5 breakpoints (got ${d.breakpoints.length})`);
+  ok(d.breakpoints[0].px === 0, 'breakpoints start at 0 (mobile-first)');
+  let asc = true;
+  for (let i = 1; i < d.breakpoints.length; i++) if (d.breakpoints[i].px <= d.breakpoints[i - 1].px) asc = false;
+  ok(asc, 'breakpoint floors strictly ascending');
+  ok(d.breakpoints.map((b) => b.name).join(',') === 'sm,md,lg,xl,2xl', '5-tier names are sm/md/lg/xl/2xl');
+  // column ladder: starts at ≤4, never exceeds base, top reaches base, monotonic
+  ok(d.grid[0].columns <= 4 && d.grid[d.grid.length - 1].columns === d.baseColumns, 'column ladder: small ≤4, top = base');
+  ok(d.grid.every((g) => g.columns <= d.baseColumns), 'no breakpoint exceeds the base column count');
+  let cmono = true; for (let i = 1; i < d.grid.length; i++) if (d.grid[i].columns < d.grid[i - 1].columns) cmono = false;
+  ok(cmono, 'column ladder is non-decreasing');
+  // gutter/margin grow (shallow) and stay on the spacing scale (multiples of 8 or 4)
+  ok(d.grid.every((g) => g.gutterPx % 4 === 0 && g.marginPx % 4 === 0), 'gutter/margin land on the 4px grid (spacing-scale aliases)');
+  ok(d.grid[d.grid.length - 1].gutterPx >= d.grid[0].gutterPx, 'gutter grows toward the top breakpoint');
+  // 6-tier prepends xs (Bootstrap convention)
+  const six = lyBrand('ly6', { breakpoints: [0, 480, 768, 1024, 1440, 1920] }).layout;
+  ok(six.breakpoints[0].name === 'xs' && six.breakpoints.map((b) => b.name).join(',') === 'xs,sm,md,lg,xl,2xl', '6-tier names prepend xs');
+  // base column lever
+  ok(lyBrand('ly16', { columns: 16 }).layout.grid.some((g) => g.columns === 16), 'columns lever → base 16 reachable');
+  // 2-tier (NB-style minimal): smallest 4, top = base
+  const two = lyBrand('ly2', { breakpoints: [0, 1024] }).layout;
+  ok(two.grid[0].columns === 4 && two.grid[1].columns === two.baseColumns, '2-tier ladder = [4, base]');
+}
+
 // ------------------------------------------------------------------- report
 console.log(`\nPrism3 engine tests: ${pass} passed, ${fails.length} failed`);
 if (fails.length) { fails.forEach((f) => console.log(`  ❌ ${f}`)); process.exitCode = 1; }

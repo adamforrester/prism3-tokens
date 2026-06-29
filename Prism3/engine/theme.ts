@@ -72,6 +72,7 @@ export type Theme = {
   motion: MotionAxis;
   typography: Typography;
   shadow: ShadowAxis;
+  layout: LayoutAxis;
   notes: string[];                   // human-readable record of engine decisions
 };
 
@@ -151,6 +152,11 @@ export type BrandInput = {
    *  shifts the shadow base off pure black (default a subtle neutral tint; set a
    *  brand hue + higher amount for brand-hued marketing shadows). */
   shadow?: { softness?: number; tint?: { hue?: number; amount?: number } };
+  /** Layout axis lever. `breakpoints` is the min-width floor array (the real
+   *  per-brand variable; names are auto sm/md/lg/xl/2xl); `columns` the base
+   *  count (12 default; 16/24 for dense-data brands); `containerMax`/
+   *  `containerNarrow` the content caps. Gutter/margin alias the spacing scale. */
+  layout?: { breakpoints?: number[]; columns?: number; containerMax?: number; containerNarrow?: number };
   /** Dimension axis levers (schema-required #4/#5). Defaults reproduce a
    *  conventional 4px-grid / 8px-rhythm, sharp-corner system. */
   baseUnit?: number;                 // fine dimension grid base (px), default 4
@@ -517,6 +523,55 @@ const buildShadow = (neutralHue: number, input: BrandInput['shadow'] = {}): Shad
   return { steps, inset, colorRgb, softness, tint };
 };
 
+// ---------------------------------------------------------------------------
+// Layout axis (breakpoints + responsive grid + containers). Grounded in a
+// 10-system survey. Decisions:
+//  - 5 breakpoints, t-shirt named, min-width/mobile-first (the convergent shape);
+//    ranges are derived (next − 1). The brand authors the floor ARRAY (the real
+//    per-brand variable); names are constant.
+//  - The 12-col grid is a DESIGN ARTIFACT (Figma layout-grid + mental model), not
+//    the load-bearing code contract — modern layout is CSS Grid + container
+//    queries. Columns emit as a 4/8/12 ladder (the design convention); base count
+//    is one knob (12 default; 16/24 for dense-data brands).
+//  - Gutter/margin are NOT independent tokens — they ALIAS the 8px spacing scale
+//    (16→24→32 / 16→24→48), keyed to breakpoint index. Reuses the spacing engine.
+//  - Containers: FLUID-first + a `container.max` cap (the 2026 default) + a
+//    `narrow` reading container (~720). The fluid-vs-fixed duplication Prism2
+//    shipped is collapsed; fixed-stepped is an opt-in modifier (deferred).
+export type Breakpoint = { name: string; px: number };
+export type GridStep = { bp: string; columns: number; gutterPx: number; marginPx: number };
+export type LayoutAxis = {
+  breakpoints: Breakpoint[];
+  grid: GridStep[];
+  baseColumns: number;
+  containerMax: number;
+  containerNarrow: number;
+};
+// Count-aware names: ≤5 tiers anchor at sm (sm/md/lg/xl/2xl — Tailwind); 6+ prepend
+// xs (xs/sm/md/lg/xl/2xl — Bootstrap), so a small-phone tier is labelled correctly.
+const bpNames = (n: number): string[] =>
+  n <= 5 ? ['sm', 'md', 'lg', 'xl', '2xl'].slice(0, n) : ['xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl'].slice(0, n);
+// Shallow gutter/margin ramps (px), anchored to Atlassian/Prism2; margin runs a
+// step larger at the top. Sliced/clamped to the breakpoint count.
+const GUTTER_PX = [16, 16, 24, 24, 32, 32];
+const MARGIN_PX = [16, 24, 24, 32, 48, 48];
+
+const buildLayout = (input: BrandInput['layout'] = {}): LayoutAxis => {
+  const floors = input.breakpoints ?? [0, 768, 1024, 1440, 1920];
+  const base = input.columns ?? 12;
+  const n = floors.length;
+  const names = bpNames(n);
+  const breakpoints: Breakpoint[] = floors.map((px, i) => ({ name: names[i] ?? `bp${i}`, px }));
+  // column ladder: smallest = 4, next = 8, top reaches the base count.
+  const cols = (i: number): number => i === 0 ? Math.min(4, base) : i === n - 1 ? base : i === 1 ? Math.min(8, base) : base;
+  const grid: GridStep[] = breakpoints.map((b, i) => ({
+    bp: b.name, columns: cols(i),
+    gutterPx: GUTTER_PX[Math.min(i, GUTTER_PX.length - 1)],
+    marginPx: MARGIN_PX[Math.min(i, MARGIN_PX.length - 1)],
+  }));
+  return { breakpoints, grid, baseColumns: base, containerMax: input.containerMax ?? 1440, containerNarrow: input.containerNarrow ?? 720 };
+};
+
 export const brandTheme = (input: BrandInput): Theme => {
   const notes: string[] = [];
   const anchorStep = autoPlaceStep(input.primary.l);
@@ -577,6 +632,8 @@ export const brandTheme = (input: BrandInput): Theme => {
   notes.push(`motion: tempo '${input.motionPersonality?.tempo ?? 'standard'}' scales the duration ramp; easing roles + springs + composite transitions generated; reduce-motion variants derived (informational preserved, vestibular → 0)`);
   const shadow = buildShadow(input.neutral.hue, input.shadow);
   notes.push(`shadow: 6-step ramp (xs–2xl) + inset, 2-layer (key+ambient), softness ${shadow.softness}; tinted base (hue ${shadow.tint.hue}, amount ${shadow.tint.amount}${shadow.tint.amount === 0 ? ' = pure black' : ''}). Mode-aware, LIFT-primary: full shadow in light; reduced (faded, top-weighted) in dark — the surface ladder carries dark elevation. Composite shadow → Figma Effect Style.`);
+  const layout = buildLayout(input.layout);
+  notes.push(`layout: ${layout.breakpoints.length} breakpoints (${layout.breakpoints.map((b) => `${b.name} ${b.px}`).join(', ')}); grid base ${layout.baseColumns} cols (ladder ${layout.grid.map((g) => g.columns).join('/')}); gutter/margin alias the spacing scale (${layout.grid.map((g) => g.gutterPx).join('/')} · ${layout.grid.map((g) => g.marginPx).join('/')}); container max ${layout.containerMax}px + narrow ${layout.containerNarrow}px (fluid-first + cap). Breakpoints → a separate Figma layout collection (modes), composing with colour light/dark.`);
   const typography = buildTypography(input.typography);
   const dispSizes = typography.composites.filter((c) => c.group === 'display').map((c) => c.sizePx);
   const reqCeiling = input.typography?.displayCeiling ?? 160;
@@ -613,6 +670,7 @@ export const brandTheme = (input: BrandInput): Theme => {
     motion: buildMotion(input.motionPersonality),
     typography,
     shadow,
+    layout,
   };
 };
 
@@ -662,11 +720,13 @@ export const nbTheme = (): Theme => {
     dims, motion: buildMotion(),
     typography: buildTypography(),
     shadow: buildShadow(s.neutralHue.hue, { tint: { amount: 0 } }),  // NB ships pure-black shadows
+    layout: buildLayout({ containerMax: 1920 }),                     // NB caps at 1920 + narrow 720
     notes: [
       'NB regression: measured anchors; brand red also serves as danger (NB brand hue is its danger hue).',
       `dimension axis: ${baseUnit}px grid, 8px space rhythm (Prism2 numbered scale), comfortable density, radius scale 1 (baseMd ${baseMd}px).`,
       'typography: curated rem size ladder (22 steps, 10–160px) reproducing the Prism2 reference scale; weight roles subtle/default/emphasis/strong → 300/400/600/700.',
       'shadow: 6-step ramp + inset, 2-layer, pure-black (NB dialect); mode-aware lift-primary (reduced in dark, NOT NB\'s heavier inverse — the field-correct choice).',
+      'layout: 5 breakpoints (engine default) + 12-col grid (4/8/12 ladder) + container max 1920 / narrow 720 (NB caps); gutter/margin alias the spacing scale.',
     ],
   };
 };

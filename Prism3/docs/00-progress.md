@@ -27,8 +27,8 @@ Headline numbers (regenerate with the commands below):
 | Tonal-band contrast contracts | **11/11** | (same engine) |
 | Cross-mode contrast contracts | **268/268** | **268/268** |
 | **Dimension axis, exact** (Prism2 space + NB radius) | **21/21** | n/a |
-| DTCG semantic aliases resolve (color + dim + size + type + elevation) | **611/611** | **606/606** |
-| Engine unit tests (colour math + extreme brands + typography + fluid + shadow invariants) | **112/112** | (same engine) |
+| DTCG semantic aliases resolve (color + dim + size + type + elevation + layout) | **621/621** | **618/618** |
+| Engine unit tests (colour math + extreme brands + typography + fluid + shadow + layout invariants) | **124/124** | (same engine) |
 | Color primitives / dim grid emitted | 122 / 37 | 162 / 36 |
 | Brand palettes / action source | red / **action = brand** (red) | primary+accent+… / **action = accent ≠ brand** |
 | Form factor | comfortable / radius 1 (sharp) | compact / radius 2 (soft) |
@@ -62,7 +62,7 @@ Prism3/
     ├── modes.ts                    ← light/dark/hc-light/hc-dark, roles resolved by contrast target, brand-agnostic
     ├── nb-regression.ts            ← diffs generated vs real NB, checks contracts → nb-regression-report.md
     ├── emit-dtcg.ts                ← emits out/<id>.tokens.json per theme (NB + aurora) + modes-report.md, validates aliases, mode contracts & BrandInput schema conformance
-    ├── test.ts                     ← unit tests: colour-math invariants + 5 extreme-brand contracts + typography composite invariants across 6 lever combos (95 checks)
+    ├── test.ts                     ← unit tests: colour-math invariants + 5 extreme-brand contracts + typography/shadow/layout invariants (124 checks)
     ├── ai-metadata.ts              ← generates the AI-readable metadata sidecar (meaning/when/avoid/paired_with/contrast_with/mode_overrides) for the semantic layer
     ├── README.md                   ← how the engine works / how to run
     ├── nb-regression-report.md     ← generated (committed for review)
