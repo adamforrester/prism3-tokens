@@ -46,21 +46,9 @@ const bandName: Record<string, string> = {
   ThreeQuarter: 'Three-Quarter-Tone', Shadows: 'Shadow',
 };
 
-// Phase B elevation ladder: each level pairs a surface tier with a shadow step.
-// In light the shadow does the work; in dark the surface lift does (both targets
-// are mode-aware, so the mapping is correct in both). `flat` carries no shadow.
-const ELEV_LEVELS: { level: string; tier: string; shadow: string | null }[] = [
-  { level: 'sunken', tier: 'sunken', shadow: 'inset' },
-  { level: 'flat', tier: 'primary', shadow: null },
-  { level: 'raised', tier: 'secondary', shadow: 'sm' },
-  { level: 'overlay', tier: 'tertiary', shadow: 'lg' },
-  { level: 'floating', tier: 'quaternary', shadow: 'xl' },
-];
-// Component → elevation level (the Atlassian/Primer component-aliases-the-level move).
-const ELEV_COMPONENTS: Record<string, string> = {
-  card: 'raised', dropdown: 'overlay', popover: 'overlay', menu: 'overlay',
-  dialog: 'floating', modal: 'floating', tooltip: 'floating', well: 'sunken',
-};
+// Elevation is no longer a colour group: it's expressed as a foreground surface
+// tier + a shadow step, composed at the component layer (see docs/06). The shadow
+// ramp + the tonal foreground ladder carry it; no parallel `elevation.*` tokens.
 
 type Token = { $type: 'color' | 'dimension' | 'number' | 'strokeStyle' | 'duration' | 'cubicBezier' | 'transition' | 'spring' | 'fontFamily' | 'fontWeight' | 'typography' | 'shadow' | 'gradient'; $value: string | number | number[] | string[] | Record<string, unknown> | Record<string, unknown>[]; $description: string; $extensions: { prism3: Record<string, unknown> } };
 
@@ -323,27 +311,8 @@ const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats: Stats
       for (let i = 0; i < parts.length - 1; i++) node = (node[parts[i]] ??= {});
       node[parts[parts.length - 1]] = aliasLeaf(r.path, r.description, { mode: mr.mode, contrast: r.ratio, against: r.against, ...(r.min > 0 ? { min: r.min } : {}) });
     }
-    // ---- Phase B: semantic elevation — pairs THIS mode's surface tier with a
-    // shadow step (the Atlassian split). The mode-awareness is already in the
-    // targets: in light the surface tiers converge (shadow carries elevation); in
-    // dark they lift (and the shadow token is reduced) — so one mapping is correct
-    // in both. Components reference the level, never the raw surface/shadow.
-    const bg = (tier: string) => `${root}.semantic.${mr.mode}.background.${tier}`;
-    const shRef = (step: string) => `${root}.shadow.${step}`;
-    const elevation: Record<string, any> = {};
-    for (const e of ELEV_LEVELS) {
-      const lvl: Record<string, Token> = { surface: typedAlias('color', bg(e.tier), `elevation ${e.level} surface — background.${e.tier} (${mr.mode})`, { elevation: e.level }) };
-      if (e.shadow) lvl.shadow = typedAlias('shadow', shRef(e.shadow), `elevation ${e.level} shadow — shadow.${e.shadow}`, { elevation: e.level });
-      elevation[e.level] = lvl;
-    }
-    for (const [comp, level] of Object.entries(ELEV_COMPONENTS)) {
-      const src = `${root}.semantic.${mr.mode}.elevation.${level}`;
-      elevation[comp] = {
-        surface: typedAlias('color', `${src}.surface`, `${comp} → elevation.${level} surface`, { component: comp }),
-        shadow: typedAlias('shadow', `${src}.shadow`, `${comp} → elevation.${level} shadow`, { component: comp }),
-      };
-    }
-    modeTree.elevation = elevation;
+    // Elevation is not a colour group — a component composes a foreground tier +
+    // a shadow step (see docs/06). No parallel `elevation.*` tree is emitted.
     semantic[mr.mode] = modeTree;
   }
 
@@ -616,8 +585,7 @@ for (const theme of themes) {
     const fl = theme.typography.composites.filter((c) => c.sizeMinPx !== c.sizePx);
     console.log(`  fluid: ${theme.typography.fluid ? `${fl.length} composites ${theme.typography.minViewport}–${theme.typography.maxViewport}px (e.g. ${fl.slice(0, 3).map((c) => `${c.path} ${c.sizeMinPx}→${c.sizePx}`).join(', ')})` : 'OFF (static)'}`);
   }
-  console.log(`  shadow: ${theme.shadow.steps.length}-step ramp + inset, ${theme.shadow.steps[0].light.length}-layer, softness ${theme.shadow.softness}, tint(hue ${theme.shadow.tint.hue}, amount ${theme.shadow.tint.amount}) — mode-aware (lift-primary, reduced dark)`);
-  console.log(`  elevation: ${ELEV_LEVELS.length} levels (${ELEV_LEVELS.map((e) => e.level).join('/')}) + ${Object.keys(ELEV_COMPONENTS).length} component aliases, per mode — each pairs surface-tier + shadow-step (Atlassian split)`);
+  console.log(`  shadow: ${theme.shadow.steps.length}-step ramp + inset, ${theme.shadow.steps[0].light.length}-layer, softness ${theme.shadow.softness}, tint(hue ${theme.shadow.tint.hue}, amount ${theme.shadow.tint.amount}) — mode-aware (lift-primary, reduced dark); elevation = foreground tier + shadow (no colour group)`);
   console.log(`  layout: ${theme.layout.breakpoints.length} breakpoints (${theme.layout.breakpoints.map((b) => `${b.name}=${b.px}`).join(' ')}); grid cols ${theme.layout.grid.map((g) => g.columns).join('/')}, gutter ${theme.layout.grid.map((g) => g.gutterPx).join('/')} + margin ${theme.layout.grid.map((g) => g.marginPx).join('/')} (spacing aliases); container max ${theme.layout.containerMax}/narrow ${theme.layout.containerNarrow}`);
   console.log(`  gradient: ${theme.gradient.gradients.length ? theme.gradient.gradients.map((g) => `${g.name}(${g.kind}${g.kind === 'linear' ? ` ${g.angle}°` : ''}, ${g.stops.length} stops, ${g.interpolation}, worst-on-white ${g.worstOnWhite}:1)`).join(' · ') : 'none (opt-in axis)'}`);
   console.log(`  aliases: ${stats.resolved}/${stats.aliases} resolve | mode contracts: ${stats.modePass}/${stats.modeChecks} pass`);

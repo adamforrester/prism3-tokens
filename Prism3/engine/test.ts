@@ -251,6 +251,37 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   ok(nbTheme().gradient.gradients.length === 0, 'NB ships no gradients (it had none)');
 }
 
+// ------------------------------------------- surface/content model invariants
+{
+  const th = brandTheme({ id: 'sm', primary: { l: 0.5, c: 0.15, h: 250 }, neutral: { hue: 250, chroma: 0.01 } });
+  const modes = resolveAllModes(th);
+  const byMode = Object.fromEntries(modes.map((m) => [m.mode, m.roles] as const));
+  const L = byMode['light'], D = byMode['dark'], HCD = byMode['hc-dark'];
+  const p = (roles: any, k: string) => roles[k]?.path;
+  // tonal ladders — the all-white-light complaint is fixed; dark lifts too
+  ok(p(L, 'background.primary') !== p(L, 'background.secondary'), 'light background tiers are tonal (primary != secondary)');
+  ok(p(L, 'foreground.primary') !== p(L, 'foreground.secondary'), 'light foreground tiers are tonal');
+  ok(p(D, 'background.primary') !== p(D, 'background.secondary'), 'dark background tiers are tonal (lift)');
+  // the relationship rule: a foreground surface differs from the page under it
+  ok(p(L, 'foreground.primary') !== p(L, 'background.primary'), 'foreground.primary differs from background.primary');
+  // inverse ladders on both layers
+  ok(p(L, 'background.inverse.primary') && p(L, 'foreground.inverse.primary'), 'inverse ladders present on both layers');
+  // action top-level; legacy foreground.interactive gone
+  ok(p(L, 'action.default') !== undefined, 'action.* is top-level');
+  ok(L['foreground.interactive.default'] === undefined, 'legacy foreground.interactive removed');
+  // elevation colour group + dropped surfaces gone
+  ok(!Object.keys(L).some((k) => k.startsWith('elevation')), 'no elevation.* colour group');
+  ok(L['background.subtle'] === undefined && L['background.sunken'] === undefined && L['background.quaternary'] === undefined, 'background.subtle/sunken/quaternary removed');
+  // renames
+  ok(L['text.on-inverse'] !== undefined && L['text.on-emphasis'] === undefined, 'text.on-emphasis → on-inverse');
+  ok(L['text.link.default'] !== undefined && L['text.interactive.default'] === undefined, 'links use text.link.*');
+  // subtle semantic foreground + ink present (suffix form)
+  ok(L['foreground.danger-subtle'] !== undefined && L['text.danger-subtle'] !== undefined, 'subtle semantic foreground + ink present');
+  // HC carries elevation by border: raised tiers collapse to the base
+  ok(p(HCD, 'background.secondary') === p(HCD, 'background.primary'), 'HC flattens background tiers to the base');
+  ok(p(HCD, 'foreground.secondary') === p(HCD, 'foreground.primary'), 'HC flattens foreground tiers to the base');
+}
+
 // ------------------------------------------------------------------- report
 console.log(`\nPrism3 engine tests: ${pass} passed, ${fails.length} failed`);
 if (fails.length) { fails.forEach((f) => console.log(`  ❌ ${f}`)); process.exitCode = 1; }

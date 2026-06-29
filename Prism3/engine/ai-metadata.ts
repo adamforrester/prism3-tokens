@@ -30,14 +30,10 @@ const INTENT: Record<string, string> = {
   danger: 'destructive / error', info: 'informational',
 };
 const EMPHASIS: Record<string, string> = { primary: 'primary (highest-emphasis)', secondary: 'secondary', tertiary: 'tertiary (subtle)' };
+const TIER_N: Record<string, number> = { primary: 1, secondary: 2, tertiary: 3 };
 // state → the interaction moment it applies to (makes state variants informative)
 const STATE_WHEN: Record<string, string> = { hover: 'on pointer hover', pressed: 'while pressed', focused: 'when keyboard-focused', disabled: 'when disabled / unavailable', selected: 'when selected / active', visited: 'after it has been visited' };
 const sc = (state?: string) => (state && STATE_WHEN[state] ? ` ${STATE_WHEN[state]}` : '');
-const NEUTRAL_FILL: Record<string, string> = {
-  primary: 'High-emphasis neutral elements — neutral/secondary buttons, strong chips.',
-  secondary: 'Medium-emphasis neutral fills — subtle buttons, chips.',
-  tertiary: 'Low-emphasis neutral fills — ghost buttons, hover wells.',
-};
 // `meaning` answers "what does this SIGNIFY / what is it for" (vs `$description`,
 // which is "what it is"). Semantic signal per intent; structural purpose otherwise.
 const SIGNAL: Record<string, string> = {
@@ -45,66 +41,70 @@ const SIGNAL: Record<string, string> = {
   danger: 'Destructive / error signalling', info: 'Informational signalling',
 };
 const genMeaning = (group: string, variant: string): string => {
-  if (variant === 'interactive') return 'Interactivity / actions';
+  if (group === 'action') return 'Interactivity / actions';
   if (variant === 'link') return 'Interactivity / navigation';
+  if (variant === 'focus') return 'Keyboard focus indication';
   if (SIGNAL[variant]) return SIGNAL[variant];                                  // intent fill/text/icon/border (incl. danger)
   if (variant.endsWith('-subtle')) { const i = variant.replace('-subtle', ''); return `${SIGNAL[i] ?? cap(i)} (low-emphasis)`; }
-  if (variant.startsWith('on-')) { const x = variant.slice(3); return `Legible content on ${x === 'emphasis' ? 'emphasis / inverse' : (INTENT[x] ?? x)} fills`; }
+  if (variant.startsWith('on-')) { const x = variant.slice(3); return `Legible content on ${x === 'inverse' ? 'an inverse surface' : x === 'action' ? 'the action fill' : (INTENT[x] ?? x) + ' fills'}`; }
   if (variant === 'disabled') return 'Unavailable / inactive state';
-  if (variant === 'inverse') return group === 'border' ? 'Inverted-surface separation' : group === 'background' ? 'Inverted-surface emphasis' : 'Inverted-surface contrast';
-  if (group === 'background') return variant === 'sunken' ? 'Recessed depth' : variant === 'subtle' ? 'Low-emphasis grouping' : 'Container elevation / depth';
-  if (group === 'foreground') return 'Neutral element emphasis';
+  if (variant === 'inverse') return group === 'border' ? 'Inverted-surface separation' : group === 'background' ? 'Inverted page surface' : 'Inverted / bold surface';
+  if (group === 'background') return 'Page / canvas surface';
+  if (group === 'foreground') return 'Surface / fill on the canvas';
   if (group === 'text' || group === 'icon') return 'Content hierarchy / reading emphasis';
   if (group === 'border') return 'Separation / structure';
   if (group === 'scrim') return 'Background dimming / modal focus';
   return `${cap(group)} role`;
 };
 // the on-color target an on-* label sits on
-const onTarget = (x: string): string => x === 'interactive' ? 'foreground.interactive.default' : x === 'emphasis' ? 'background.inverse' : `foreground.${x}`;
+const onTarget = (x: string): string => x === 'action' ? 'action.default' : x === 'inverse' ? 'background.inverse.primary' : `foreground.${x}`;
 
-/** Generate the prose + relationship fields for one semantic role. */
+/** Generate the prose + relationship fields for one semantic role. The key splits
+ *  as [group, variant, state]; nested ladders (background.inverse.primary,
+ *  foreground.danger.hover) put the tier/state in `state`. */
 const describe = (group: string, variant: string, state: string | undefined): { desc: string; when_to_use: string; avoid_when: string; paired_with?: string[] } => {
   const st = state ? ` (${state} state)` : '';
   const intent = INTENT[variant];
 
+  // background — the CANVAS (thin, page-level)
   if (group === 'background') {
-    if (['primary', 'secondary', 'tertiary', 'quaternary'].includes(variant)) {
-      const n = { primary: 1, secondary: 2, tertiary: 3, quaternary: 4 }[variant];
-      return { desc: `Elevation ${n} container surface (page → floating)`, when_to_use: `Fill for ${variant === 'primary' ? 'the page / base' : variant === 'quaternary' ? 'floating UI (dialogs, popovers, menus)' : variant === 'tertiary' ? 'nested / higher-elevation containers' : 'raised cards & panels'}.`, avoid_when: 'Do not use for text, icons, or interactive fills. For interactive elements use foreground.interactive.', paired_with: ['text.primary', 'text.secondary', 'border.default'] };
-    }
-    if (variant === 'subtle') return { desc: 'Muted / grouped container surface', when_to_use: 'Secondary background for grouped or low-emphasis regions.', avoid_when: 'Do not use as the primary page surface (use background.primary).' };
-    if (variant === 'sunken') return { desc: 'Sunken / inset container surface', when_to_use: 'Wells, insets, tracks — areas that read as below the page.', avoid_when: 'Do not use for raised elements (use background.secondary+).' };
-    if (variant === 'inverse') return { desc: 'Inverse container surface', when_to_use: 'High-contrast inverted sections (e.g. a dark callout in light mode).', avoid_when: 'Do not place mode-default text on it — use text.inverse / text.on-emphasis.', paired_with: ['text.inverse', 'text.on-emphasis'] };
-    if (variant.endsWith('-subtle')) { const i = variant.replace('-subtle', ''); return { desc: `Subtle ${INTENT[i] ?? i} tint surface`, when_to_use: `Low-emphasis ${i} backgrounds — badges, banners, selected rows.`, avoid_when: `Do not use as a solid ${i} fill (use foreground.${i}) or for ${i} text (use text.${i}).`, paired_with: [`text.${i}`, `icon.${i}`] }; }
+    if (variant === 'inverse') { const tier = state ?? 'primary'; return { desc: `Inverse page surface (tier ${TIER_N[tier] ?? 1})`, when_to_use: 'Inverted page sections — a dark band on a light page (or vice-versa).', avoid_when: 'Do not place mode-default ink on it — use text.on-inverse.', paired_with: ['text.on-inverse', 'border.inverse'] }; }
+    if (TIER_N[variant]) return { desc: `Page / canvas surface (tier ${TIER_N[variant]})`, when_to_use: variant === 'primary' ? 'The page / base canvas.' : variant === 'secondary' ? 'A slightly tinted page or page band.' : 'A third page-level surface step.', avoid_when: 'Do not use for surfaces placed on the page (use foreground.*) or for ink (use text/icon).', paired_with: ['foreground.primary', 'text.primary', 'border.primary'] };
   }
 
-  if (group === 'foreground') { // fills
-    if (['primary', 'secondary', 'tertiary'].includes(variant)) return { desc: `${EMPHASIS[variant]} neutral element fill`, when_to_use: NEUTRAL_FILL[variant], avoid_when: 'Do not use for text/icons (use text.*/icon.*) or page surfaces (use background.*).' };
-    if (variant === 'inverse') return { desc: 'Neutral element fill for inverse contexts', when_to_use: 'Neutral fills placed on inverse surfaces.', avoid_when: 'Do not use on default surfaces (use foreground.primary).' };
-    if (variant === 'interactive') return { desc: `Interactive (action) fill${st}`, when_to_use: `Primary interactive surfaces — buttons, toggles, controls${sc(state)}.`, avoid_when: 'Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background.*).', paired_with: ['text.on-interactive', 'icon.on-interactive'] };
-    if (variant === 'danger') return { desc: `Destructive / error fill${st}`, when_to_use: `Destructive actions — delete/remove buttons, error fills${sc(state)}.`, avoid_when: 'Do not use for non-destructive actions (use foreground.interactive) or warnings (use foreground.warning).', paired_with: ['text.on-danger', 'icon.on-danger'] };
-    if (intent) return { desc: `Solid ${intent} fill`, when_to_use: `Filled ${variant} elements — badges, banners, status chips.`, avoid_when: `Do not use for ${variant} text (use text.${variant}) or as a subtle tint (use background.${variant}-subtle).`, paired_with: [`text.on-${variant}`, `icon.on-${variant}`] };
+  // foreground — SURFACES & FILLS placed on the canvas
+  if (group === 'foreground') {
+    if (variant === 'inverse') { const tier = state ?? 'primary'; return { desc: `Inverse / bold surface (tier ${TIER_N[tier] ?? 1})`, when_to_use: 'Strong / inverse fills — a dark callout, a solid neutral button, an emphasis surface in light mode.', avoid_when: 'Do not use for the page (use background.*) or for ink (use text/icon).', paired_with: ['text.on-inverse'] }; }
+    if (TIER_N[variant]) return { desc: `Surface placed on the canvas (tier ${TIER_N[variant]})`, when_to_use: variant === 'primary' ? 'Cards — the default surface placed on the page.' : variant === 'secondary' ? 'Panels / nested containers.' : 'A third surface step.', avoid_when: 'Do not use for the page itself (use background.*) or for ink (use text/icon).', paired_with: ['text.primary', 'border.primary'] };
+    if (variant === 'danger') return { desc: `Destructive / error fill${st}`, when_to_use: `Destructive actions — delete/remove buttons, error fills${sc(state)}.`, avoid_when: 'Do not use for non-destructive actions (use action.*) or warnings (use foreground.warning).', paired_with: ['text.on-danger', 'icon.on-danger'] };
+    if (variant.endsWith('-subtle')) { const i = variant.replace('-subtle', ''); return { desc: `Subtle ${INTENT[i] ?? i} tint surface`, when_to_use: `Low-emphasis ${i} surfaces — banners, badges, selected rows.`, avoid_when: `Do not use as a solid ${i} fill (use foreground.${i}) or for ${i} ink (use text.${i}).`, paired_with: [`text.${i}`, `icon.${i}`] }; }
+    if (intent) return { desc: `Bold solid ${intent} fill`, when_to_use: `Filled ${variant} elements — badges, banners, status chips.`, avoid_when: `Do not use for ${variant} ink (use text.${variant}) or as a subtle tint (use foreground.${variant}-subtle).`, paired_with: [`text.on-${variant}`, `icon.on-${variant}`] };
   }
 
+  // action — the interactive fill (variant carries the state)
+  if (group === 'action') return { desc: `Interactive (action) fill${variant === 'default' ? '' : ` (${variant} state)`}`, when_to_use: `Primary interactive surfaces — buttons, toggles, controls${sc(variant)}.`, avoid_when: 'Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background/foreground).', paired_with: ['text.on-action', 'icon.on-action'] };
+
+  // text / icon — INK
   if (group === 'text' || group === 'icon') {
     const k = group;
-    if (['primary', 'secondary', 'tertiary'].includes(variant)) return { desc: `${EMPHASIS[variant]} ${k}`, when_to_use: `${cap(variant)} ${k} on any standard surface (holds across the elevation ladder).`, avoid_when: `Do not use on solid/vivid fills — use ${k}.on-*.`, paired_with: ['background.primary', 'background.secondary', 'background.tertiary'] };
+    if (TIER_N[variant]) return { desc: `${EMPHASIS[variant]} ${k}`, when_to_use: `${cap(variant)} ${k} on any surface (holds across the tonal ladder).`, avoid_when: `Do not use on solid/vivid fills — use ${k}.on-*.`, paired_with: ['background.primary', 'foreground.primary'] };
     if (variant === 'disabled') return { desc: `Disabled / inactive ${k}`, when_to_use: `${cap(k)} for disabled or inactive elements.`, avoid_when: 'Do not use for active content.' };
-    if (variant === 'inverse') return { desc: `${cap(k)} on inverse surfaces`, when_to_use: `${cap(k)} on background.inverse / dark callouts.`, avoid_when: 'Do not use on default surfaces.', paired_with: ['background.inverse'] };
-    if (variant === 'link' || variant === 'interactive') return { desc: `Link (interactive ${k})${st}`, when_to_use: `Hyperlinks and interactive ${k}${sc(state)}.`, avoid_when: `Do not use for non-interactive ${k} (use ${k}.primary).` };
-    if (variant.startsWith('on-')) { const x = variant.slice(3); return { desc: `${cap(k)} on a solid ${INTENT[x] ?? x} fill`, when_to_use: `${cap(k)} placed on the ${x} fill it is paired with.`, avoid_when: `Do not use on standard surfaces — use ${k}.primary/secondary.`, paired_with: [onTarget(x)] }; }
+    if (variant === 'link') return { desc: `Link (interactive ${k})${st}`, when_to_use: `Hyperlinks and interactive ${k}${sc(state)}.`, avoid_when: `Do not use for non-interactive ${k} (use ${k}.primary).` };
+    if (variant.endsWith('-subtle')) { const i = variant.replace('-subtle', ''); return { desc: `Muted ${INTENT[i] ?? i} ${k}`, when_to_use: `Low-emphasis ${i} ${k} — secondary status text / quiet accents.`, avoid_when: `For safety-critical ${i} messaging use the bold ${k}.${i}; verify contrast for body text.`, paired_with: ['background.primary'] }; }
+    if (variant.startsWith('on-')) { const x = variant.slice(3); return { desc: `${cap(k)} on ${x === 'inverse' ? 'an inverse surface' : `a solid ${INTENT[x] ?? x} fill`}`, when_to_use: `${cap(k)} placed on the ${x === 'inverse' ? 'inverse surface' : x + ' fill'} it is paired with.`, avoid_when: `Do not use on standard surfaces — use ${k}.primary/secondary.`, paired_with: [onTarget(x)] }; }
     if (intent) return { desc: `${cap(intent)} ${k}`, when_to_use: `${cap(variant)} ${k} on standard surfaces (e.g. inline error/success text).`, avoid_when: `Do not use on a solid ${variant} fill — use ${k}.on-${variant}.`, paired_with: ['background.primary'] };
   }
 
+  // border
   if (group === 'border') {
-    if (variant === 'default') return { desc: 'Subtle / decorative border', when_to_use: 'Dividers, card outlines, low-emphasis separation.', avoid_when: 'Do not use where a 3:1 non-text contrast is required (use border.strong / border.interactive).' };
-    if (variant === 'strong') return { desc: 'Stronger divider border', when_to_use: 'Higher-emphasis dividers and separators.', avoid_when: 'Do not use for form-field borders (use border.interactive).' };
-    if (variant === 'inverse') return { desc: 'Border on inverse surfaces', when_to_use: 'Borders on background.inverse.', avoid_when: 'Do not use on default surfaces.', paired_with: ['background.inverse'] };
-    if (variant === 'interactive') return { desc: `Form-field / control border${st}`, when_to_use: state === 'focused' ? 'The focus ring on interactive elements (keyboard focus).' : `Borders on inputs and controls${sc(state)}.`, avoid_when: 'Do not use as a decorative divider (use border.default).', paired_with: ['background.primary'] };
-    if (intent) return { desc: `${cap(intent)} validation border`, when_to_use: `Validation/state borders for ${variant} (e.g. invalid fields).`, avoid_when: `Do not use as ${variant} text or fill — use text.${variant} / foreground.${variant}.` };
+    if (variant === 'primary') return { desc: 'Default / decorative border', when_to_use: 'Dividers, card outlines, low-emphasis separation.', avoid_when: 'Do not use where a 3:1 non-text contrast is required (use border.secondary / border.focus).' };
+    if (variant === 'secondary') return { desc: 'Stronger divider border', when_to_use: 'Higher-emphasis dividers and separators; control borders.', avoid_when: 'Do not use as a faint hairline (use border.primary).' };
+    if (variant === 'inverse') return { desc: 'Border on inverse surfaces', when_to_use: 'Borders on background.inverse / foreground.inverse.', avoid_when: 'Do not use on default surfaces.', paired_with: ['background.inverse.primary'] };
+    if (variant === 'focus') return { desc: 'Focus ring colour', when_to_use: 'The keyboard-focus indicator on interactive elements.', avoid_when: 'Do not use as a decorative divider (use border.primary).', paired_with: ['background.primary'] };
+    if (intent) return { desc: `${cap(intent)} validation border`, when_to_use: `Validation/state borders for ${variant} (e.g. invalid fields).`, avoid_when: `Do not use as ${variant} ink or fill — use text.${variant} / foreground.${variant}.` };
   }
 
-  if (group === 'scrim') return { desc: 'Semi-transparent backdrop behind modals / drawers', when_to_use: 'The dimming layer behind a modal, dialog, or drawer.', avoid_when: 'Do not use as a solid surface or for any opaque element.', paired_with: ['background.quaternary'] };
+  if (group === 'scrim') return { desc: 'Semi-transparent backdrop behind modals / drawers', when_to_use: 'The dimming layer behind a modal, dialog, or drawer.', avoid_when: 'Do not use as a solid surface or for any opaque element.', paired_with: ['foreground.inverse.primary'] };
 
   // fallback
   return { desc: `${group} ${variant}${st}`, when_to_use: `Use as the ${group} ${variant} role.`, avoid_when: `Do not use outside the ${group} role.` };

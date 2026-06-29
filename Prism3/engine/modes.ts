@@ -5,21 +5,25 @@
  * mode is which primitive STEP each semantic role resolves to — derived by
  * contrast target against the mode's own surface, not hand-mapped.
  *
- * Semantic model — PROPERTY-LED (decided with the practice, NB-faithful):
- *   color / <property> / <variant> [ / <state> ]
- *   - background  — inert container surfaces (page/raised/sunken/tints).
- *   - foreground  — element FILLS (a component's own solid colour). NB's meaning
- *                   of "foreground": the fill, NOT the text.
- *   - text        — text colours.
- *   - icon        — icon colours. A full peer group; for now it SHARES text's
- *                   values (mirrors text). A future toggle can relax icons to the
- *                   3:1 non-text floor so they diverge — see 03-open-questions.
- *   - border      — border colours.
- * Interactivity is a per-property `interactive` variant carrying STATES
- * (default/hover/pressed/focused/visited/selected/disabled — the applicable
- * subset). Semantic intents are static EXCEPT `danger`, which carries fill states
- * (destructive buttons). Inverse is modest (a primary `inverse` per property),
- * leaning on per-mode resolution for actual dark mode.
+ * Semantic model — the surface & content vocabulary (see docs/06):
+ *   - background — the CANVAS: thin, page-level inert surfaces. `primary`/
+ *                  `secondary`/`tertiary` (tonal in BOTH modes) + an `inverse.*`
+ *                  sibling ladder. The page you build on.
+ *   - foreground — the SURFACES/FILLS placed on the canvas (Prism2's `surface`,
+ *                  renamed): a tonal `primary/secondary/tertiary` ladder (cards →
+ *                  panels → nested) + `inverse.*` (dark fills in light) + bold
+ *                  semantic fills + `-subtle` tints. `foreground.primary` sits on
+ *                  `background.primary`, a different shade. NOT ink.
+ *   - text/icon  — INK on a surface: neutral emphasis + semantic + `-subtle` +
+ *                  `on-*` pairs (ink on a solid fill) + `link` (no disabled).
+ *                  Split only by contrast floor (text 4.5 / icon optional 3:1).
+ *   - action     — the interactive fill + states (top-level).
+ *   - border     — neutral (`primary`/`secondary`), `inverse`, semantic, `focus`.
+ *
+ * Light & dark step surfaces tonally and SYMMETRICALLY (light is no longer all
+ * white); shadow is an additive elevation cue, not the sole differentiator. In
+ * HIGH CONTRAST the neutral surface ladders flatten to the base — HC separates
+ * regions by BORDER (the ≥4.5:1 border target), not by near-invisible tints.
  */
 import { RGB, contrast } from './color';
 import { Step } from './ramp';
@@ -63,17 +67,15 @@ const pickBrand = (steps: Step[], ns: string, palette: string, anchorNum: number
   return passing[0] ?? { ...anchor, ratio: contrast(anchor.rgb, surface) };
 };
 
-/** Elevation set for a mode: the non-interactive container fills. An ordinal,
- * use-case-neutral ladder (primary=page … quaternary=floating). In LIGHT the
- * raised tiers converge in colour (elevation is carried by shadow — a deferred
- * effects axis); in DARK they step lighter (the M3 lift pattern). */
-type BgSet = { primary: Cand; secondary: Cand; tertiary: Cand; quaternary: Cand; subtle: Cand; sunken: Cand; inverse: Cand };
+// A tonal surface ladder for a mode: primary/secondary/tertiary (3 steps).
+type SurfSet = { primary: Cand; secondary: Cand; tertiary: Cand };
 
 export type ModeCfg = {
-  surface: Cand;            // base page surface
+  surface: Cand;                   // base page surface (background.primary)
   floor: Cand; floorName: string;  // contrast floor (worst-case supported surface)
-  bg: BgSet;
-  inverseSurface: RGB;
+  bg: SurfSet; bgInverse: SurfSet; // background canvas ladders
+  fg: SurfSet; fgInverse: SurfSet; // foreground surface ladders
+  inverseSurface: RGB;             // the primary inverse surface (for on-inverse / border.inverse)
   family: 'light' | 'dark';
   primaryMin: number; secondaryMin: number; tertiaryMin: number; actionMin: number;
   borderTarget: number; nonTextMin: number;
@@ -89,41 +91,58 @@ const modeConfigs = (ns: string, neutralPalette: string, neutral: Step[], surfac
   const n = (num: number) => { const s = nNear(num); return cand(`${ns}.${neutralPalette}.${s.key}`, s.rgb); };
   const white = cand(`${ns}.white`, WHITE);
   const black = cand(`${ns}.black`, BLACK);
-  const spec = (s: SurfaceSpec): Cand => (s === 'white' ? white : s === 'black' ? black : n(s));
   const short = (c: Cand) => c.path.replace(`${ns}.`, '');
+  // A neutral surface step by number, snapping the extremes to pure white/black.
+  const surfAt = (num: number): Cand => (num <= 0 ? white : num >= 1000 ? black : n(num));
+  // Background ladder: base → +1 → +2 steps (50 each), in the mode's tonal direction.
+  const bgLadder = (baseNum: number, dir: number): SurfSet => ({ primary: surfAt(baseNum), secondary: surfAt(baseNum + dir * 50), tertiary: surfAt(baseNum + dir * 100) });
+  // Foreground ladder: surfaces placed on the canvas — offset one step deeper than
+  // the page so a card reads against the default page, then stepping on.
+  const fgLadder = (baseNum: number, dir: number): SurfSet => ({ primary: surfAt(baseNum + dir * 50), secondary: surfAt(baseNum + dir * 100), tertiary: surfAt(baseNum + dir * 150) });
 
-  const resolve = (family: 'light' | 'dark', defBase: SurfaceSpec): { base: Cand; floor: Cand; bg: BgSet } => {
+  const resolve = (family: 'light' | 'dark', defBase: SurfaceSpec): { base: Cand; floor: Cand; bg: SurfSet; fg: SurfSet; bgInverse: SurfSet; fgInverse: SurfSet; invRgb: RGB } => {
     const cfg = surfaces[family] ?? {};
     const baseSpec = cfg.base ?? defBase;
     const baseNum = baseSpec === 'white' ? 0 : baseSpec === 'black' ? 1000 : baseSpec;
     const defFloor = typeof baseSpec === 'number' ? (family === 'light' ? baseSpec + 50 : baseSpec - 50)
       : baseSpec === 'white' ? 50 : 950;
     const floorStep = cfg.floorStep ?? defFloor;
-    const base = spec(baseSpec);
-    const floor = n(floorStep);
-    const bg: BgSet = family === 'light'
-      ? { primary: base, secondary: white, tertiary: white, quaternary: white, subtle: floor, sunken: n(floorStep + 150), inverse: n(875) }
-      : { primary: base, secondary: n(baseNum - 50), tertiary: n(baseNum - 100), quaternary: n(baseNum - 150), subtle: n(baseNum - 50), sunken: black, inverse: n(125) };
-    return { base, floor, bg };
+    const dir = family === 'light' ? +1 : -1;           // light steps darker; dark steps lighter
+    const invBaseNum = family === 'light' ? 1000 : 0;   // inverse anchors at the opposite extreme
+    const invDir = -dir;
+    return {
+      base: surfAt(baseNum), floor: n(floorStep),
+      bg: bgLadder(baseNum, dir), fg: fgLadder(baseNum, dir),
+      bgInverse: bgLadder(invBaseNum, invDir), fgInverse: fgLadder(invBaseNum, invDir),
+      invRgb: surfAt(invBaseNum).rgb,
+    };
   };
 
   const light = resolve('light', 'white');
   const dark = resolve('dark', 950);
-  const mk = (r: { base: Cand; floor: Cand; bg: BgSet }, family: 'light' | 'dark', inverseSurface: RGB, mins: Pick<ModeCfg, 'primaryMin' | 'secondaryMin' | 'tertiaryMin' | 'actionMin' | 'borderTarget' | 'nonTextMin'>): ModeCfg =>
-    ({ surface: r.base, floor: r.floor, floorName: short(r.floor), bg: r.bg, inverseSurface, family, ...mins });
+  // High contrast flattens the neutral surface ladders to a single base — HC carries
+  // elevation by BORDER (escalated to ≥4.5:1), not by near-invisible surface tints.
+  const flat = (c: Cand): SurfSet => ({ primary: c, secondary: c, tertiary: c });
+
+  const mk = (r: ReturnType<typeof resolve>, family: 'light' | 'dark', mins: Pick<ModeCfg, 'primaryMin' | 'secondaryMin' | 'tertiaryMin' | 'actionMin' | 'borderTarget' | 'nonTextMin'>): ModeCfg =>
+    ({ surface: r.base, floor: r.floor, floorName: short(r.floor), bg: r.bg, bgInverse: r.bgInverse, fg: r.fg, fgInverse: r.fgInverse, inverseSurface: r.invRgb, family, ...mins });
+  const hcMk = (base: Cand, inv: Cand, floor: Cand, family: 'light' | 'dark', mins: Pick<ModeCfg, 'primaryMin' | 'secondaryMin' | 'tertiaryMin' | 'actionMin' | 'borderTarget' | 'nonTextMin'>): ModeCfg =>
+    ({ surface: base, floor, floorName: short(floor), bg: flat(base), bgInverse: flat(inv), fg: flat(base), fgInverse: flat(inv), inverseSurface: inv.rgb, family, ...mins });
 
   return {
-    light:      mk(light, 'light', BLACK, { primaryMin: 7,  secondaryMin: 4.5, tertiaryMin: 3, actionMin: 4.5, borderTarget: 1.4, nonTextMin: 3 }),
-    dark:       mk(dark,  'dark',  WHITE, { primaryMin: 7,  secondaryMin: 4.5, tertiaryMin: 3, actionMin: 4.5, borderTarget: 1.8, nonTextMin: 3 }),
-    'hc-light': mk({ base: cand(`${ns}.white`, WHITE), floor: light.floor, bg: { ...light.bg, primary: cand(`${ns}.white`, WHITE) } }, 'light', BLACK, { primaryMin: 15, secondaryMin: 7, tertiaryMin: 4.5, actionMin: 7, borderTarget: 4.5, nonTextMin: 4.5 }),
-    'hc-dark':  mk({ base: cand(`${ns}.black`, BLACK), floor: dark.floor, bg: { ...dark.bg, primary: cand(`${ns}.black`, BLACK), sunken: cand(`${ns}.black`, BLACK) } }, 'dark', WHITE, { primaryMin: 15, secondaryMin: 7, tertiaryMin: 4.5, actionMin: 7, borderTarget: 4.5, nonTextMin: 4.5 }),
+    light:      mk(light, 'light', { primaryMin: 7,  secondaryMin: 4.5, tertiaryMin: 3, actionMin: 4.5, borderTarget: 1.4, nonTextMin: 3 }),
+    dark:       mk(dark,  'dark',  { primaryMin: 7,  secondaryMin: 4.5, tertiaryMin: 3, actionMin: 4.5, borderTarget: 1.8, nonTextMin: 3 }),
+    'hc-light': hcMk(white, black, light.floor, 'light', { primaryMin: 15, secondaryMin: 7, tertiaryMin: 4.5, actionMin: 7, borderTarget: 4.5, nonTextMin: 4.5 }),
+    'hc-dark':  hcMk(black, white, dark.floor,  'dark',  { primaryMin: 15, secondaryMin: 7, tertiaryMin: 4.5, actionMin: 7, borderTarget: 4.5, nonTextMin: 4.5 }),
   };
 };
 
 // Per-property interactive state members (the applicable subset of the vocabulary).
+// Links (text.link) carry NO disabled state: a disabled link is an a11y anti-pattern
+// (you remove the href / element, not grey it). Disabled text uses text.disabled.
 const FILL_STATES = ['default', 'hover', 'pressed', 'focused', 'selected', 'disabled'] as const;
-const TEXT_STATES = ['default', 'hover', 'visited', 'focused', 'disabled'] as const;
-const BORDER_STATES = ['default', 'hover', 'focused', 'disabled'] as const;
+const LINK_STATES = ['default', 'hover', 'visited', 'focused'] as const;
+const SEMANTICS = ['brand', 'success', 'warning', 'danger', 'info'] as const;
 
 const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<string, Step[]>): ModeResult => {
   const ns = theme.namespace;
@@ -135,11 +154,7 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
   const baseRgb = cfg.surface.rgb;
   const floorRgb = cfg.floor.rgb;
   const invRgb = cfg.inverseSurface;
-  const tintStep = cfg.family === 'light' ? 100 : 900;
-  const dir = cfg.family === 'light' ? +1 : -1;
-  // Text on a SATURATED fill targets AA (4.5), not the mode's escalated bar: a
-  // vivid mid-tone is gamut-bounded — no pure black/white text reaches 7:1 on it.
-  const onMin = 4.5;
+  const onMin = 4.5; // text on a saturated fill targets AA (a vivid mid-tone is gamut-bounded)
 
   const roles: Record<string, ResolvedRole> = {};
   const rated = (c: Cand, surf: RGB): Rated => ({ ...c, ratio: contrast(c.rgb, surf) });
@@ -156,85 +171,87 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
   const onColor = (fill: RGB): Rated => pickMostExtreme([cand(`${ns}.white`, WHITE), cand(`${ns}.black`, BLACK)], fill);
   const paletteRole = (r: Role, surf: RGB, min: number): RatedNum =>
     pickBrand(ramps.get(r2p[r])!, ns, r2p[r], theme.roleAnchorStep[r], surf, min);
+  const dir = cfg.family === 'light' ? +1 : -1;
   const walk = (palette: string, fromNum: number, steps: number): Cand => pStep(palette, fromNum + dir * 50 * steps);
   const neutralLow = (): Cand => pStep(r2p.neutral, cfg.family === 'light' ? 200 : 750);
+  const tintStep = cfg.family === 'light' ? 100 : 900;       // subtle semantic SURFACE tint
+  const mutedStep = cfg.family === 'light' ? 450 : 350;      // muted semantic INK
 
   // Disabled-state strategy (theme-level). 'accessible' clears a floor so disabled
   // stays legible (KB's `inactive`); 'conventional' is the sub-AA exempt look.
-  // The accessible floor escalates to 4.5 in HC so disabled holds for HC users.
   const accessibleDisabled = theme.disabledStrategy === 'accessible';
   const disabledTarget = hc ? Math.max(theme.disabledMin, 4.5) : theme.disabledMin;
-  // A disabled text/icon pick + its contract (against the floor when accessible).
   const disabledText = (): { r: Rated; against: string; min: number } =>
     accessibleDisabled
       ? { r: pickMinPass(textCands, floorRgb, disabledTarget), against: cfg.floorName, min: disabledTarget }
       : { r: pickClosest(textCands, baseRgb, 2), against: 'background.primary', min: 0 };
-  // A disabled border pick (non-text floor when accessible).
   const disabledBorder = (): { r: Rated; against: string; min: number } =>
     accessibleDisabled
       ? { r: pickMinPass(ramp, baseRgb, Math.min(disabledTarget, cfg.nonTextMin)), against: 'background.primary', min: Math.min(disabledTarget, cfg.nonTextMin) }
       : { r: rated(neutralLow(), baseRgb), against: 'background.primary', min: 0 };
 
-  // ---------------------------------------------------------------- backgrounds
-  const bg = cfg.bg;
-  // Elevation ladder — ordinal, use-case-neutral (primary=page … quaternary=floating).
-  // Light tiers converge in colour (shadow carries elevation — deferred effects axis);
-  // dark tiers step lighter. Component→tier mapping (card→secondary, dialog→quaternary)
-  // is documentation, not baked into the token name.
-  putSurf('background.primary', bg.primary, 'Page surface (elevation 1 — base)');
-  putSurf('background.secondary', bg.secondary, 'Raised surface (elevation 2 — cards / panels)');
-  putSurf('background.tertiary', bg.tertiary, 'Higher surface (elevation 3 — nested / menus)');
-  putSurf('background.quaternary', bg.quaternary, 'Floating surface (elevation 4 — dialogs / popovers)');
-  putSurf('background.subtle', bg.subtle, 'Subtle surface — muted grouped fill (off the ladder)');
-  putSurf('background.sunken', bg.sunken, 'Sunken surface — wells / insets (below the page)');
-  putSurf('background.inverse', bg.inverse, 'Inverse surface');
-  for (const r of ['brand', 'success', 'warning', 'danger', 'info'] as const)
-    putSurf(`background.${r}-subtle`, pStep(r2p[r], tintStep), `Subtle ${r} tint`);
-  // scrim — semi-transparent backdrop behind modals/drawers. Alpha-based
-  // (aliases the black-alpha primitive ramp), heavier in dark per the field
-  // (Spectrum/Fluent/Radix). Not a contrast contract.
+  // -------------------------------------------------------------- backgrounds
+  // The canvas: thin, page-level, tonal in both modes. `inverse.*` is the opposite-
+  // polarity ladder (a dark band on a light page). In HC every tier == the base.
+  putSurf('background.primary', cfg.bg.primary, 'Page surface — the canvas / base');
+  putSurf('background.secondary', cfg.bg.secondary, 'Page surface, second tier — a slightly tinted page / band');
+  putSurf('background.tertiary', cfg.bg.tertiary, 'Page surface, third tier');
+  putSurf('background.inverse.primary', cfg.bgInverse.primary, 'Inverse page surface — a dark band in light mode');
+  putSurf('background.inverse.secondary', cfg.bgInverse.secondary, 'Inverse page surface, second tier');
+  putSurf('background.inverse.tertiary', cfg.bgInverse.tertiary, 'Inverse page surface, third tier');
+  // scrim — semi-transparent backdrop behind modals/drawers (alpha; heavier in dark).
   const scrimStep = hc ? (cfg.family === 'light' ? 60 : 70) : (cfg.family === 'light' ? 40 : 60);
   put('scrim.default', { path: `${ns}.black-alpha.${scrimStep}`, rgb: BLACK, ratio: 1 },
     `Scrim — ${scrimStep}% black backdrop (modals / drawers)`, 'self', 0);
 
-  // ----------------------------------------------------------- foreground FILLS
-  // Neutral fills (emphasis tiers used as element fills — e.g. neutral buttons).
-  put('foreground.primary', pickMostExtreme(ramp, baseRgb), 'Strong neutral fill — high-emphasis neutral element', 'background.primary', 0);
-  put('foreground.secondary', rated(pStep(r2p.neutral, cfg.family === 'light' ? 200 : 700), baseRgb), 'Medium neutral fill', 'background.primary', 0);
-  put('foreground.tertiary', rated(pStep(r2p.neutral, cfg.family === 'light' ? 100 : 800), baseRgb), 'Subtle neutral fill', 'background.primary', 0);
-  put('foreground.inverse', rated(pStep(r2p.neutral, cfg.family === 'light' ? 50 : 900), baseRgb), 'Inverse neutral fill — for inverse contexts', 'background.inverse', 0);
-  // Static semantic fills (filled badges/banners/buttons at rest).
+  // -------------------------------------------------------------- foregrounds
+  // Surfaces & fills placed on the canvas. Neutral tonal ladder + inverse + bold
+  // semantic fills + `-subtle` tints + the stateful `danger` fill. (`action` is
+  // top-level, below.) `foreground.primary` sits on `background.primary`.
+  putSurf('foreground.primary', cfg.fg.primary, 'Default surface placed on the page — a card');
+  putSurf('foreground.secondary', cfg.fg.secondary, 'A second surface — a panel / nested container');
+  putSurf('foreground.tertiary', cfg.fg.tertiary, 'A third surface step');
+  putSurf('foreground.inverse.primary', cfg.fgInverse.primary, 'Inverse / bold surface — a dark fill in light mode');
+  putSurf('foreground.inverse.secondary', cfg.fgInverse.secondary, 'Inverse surface, second tier');
+  putSurf('foreground.inverse.tertiary', cfg.fgInverse.tertiary, 'Inverse surface, third tier');
+  // bold semantic fills (filled badge / banner / button at rest) — static.
   const fills: Partial<Record<Role, RatedNum>> = {};
   for (const r of ['brand', 'success', 'warning', 'info'] as const) {
     const f = paletteRole(r, floorRgb, cfg.actionMin);
     fills[r] = f;
-    put(`foreground.${r}`, f, `${r} fill — clears ${cfg.actionMin}:1 on the floor (${cfg.floorName})`, cfg.floorName, cfg.actionMin);
+    put(`foreground.${r}`, f, `Bold ${r} fill — clears ${cfg.actionMin}:1 on the floor (${cfg.floorName})`, cfg.floorName, cfg.actionMin);
   }
-  // danger fill — the one stateful semantic (destructive buttons).
+  // subtle semantic tint SURFACES (light banner/badge fills) — pair with text.{r}.
+  for (const r of SEMANTICS)
+    putSurf(`foreground.${r}-subtle`, pStep(r2p[r], tintStep), `Subtle ${r} tint surface — banners, badges, selected rows`);
+  // danger — the one stateful semantic fill (destructive buttons).
   const dangerRest = paletteRole('danger', floorRgb, cfg.actionMin);
   fills.danger = dangerRest;
-  // interactive (accent/action) fill.
-  const intRest = paletteRole('action', floorRgb, cfg.actionMin);
-  // Emit the two stateful fills.
   const fillStateCand = (rest: RatedNum, palette: string, st: typeof FILL_STATES[number]): Cand =>
     st === 'default' ? rest
     : st === 'hover' || st === 'focused' ? walk(palette, rest.num, 1)
     : st === 'pressed' || st === 'selected' ? walk(palette, rest.num, 2)
     : neutralLow(); // disabled
   for (const st of FILL_STATES) {
-    const c = fillStateCand(intRest, r2p.action, st);
-    put(`foreground.interactive.${st}`, rated(c, st === 'disabled' ? baseRgb : floorRgb),
-      `Interactive fill (action) — ${st}`, st === 'disabled' ? 'background.primary' : cfg.floorName, st === 'disabled' ? 0 : cfg.actionMin);
     const d = fillStateCand(dangerRest, r2p.danger, st);
     put(`foreground.danger.${st}`, rated(d, st === 'disabled' ? baseRgb : floorRgb),
       `Danger / destructive fill — ${st}`, st === 'disabled' ? 'background.primary' : cfg.floorName, st === 'disabled' ? 0 : cfg.actionMin);
   }
 
+  // ------------------------------------------------------------------- action
+  // The interactive fill + states (top-level — Prism2 + KB). Its text/border
+  // expressions are text.link.* and border.focus.
+  const actionRest = paletteRole('action', floorRgb, cfg.actionMin);
+  for (const st of FILL_STATES) {
+    const c = fillStateCand(actionRest, r2p.action, st);
+    put(`action.${st}`, rated(c, st === 'disabled' ? baseRgb : floorRgb),
+      `Interactive (action) fill — ${st}`, st === 'disabled' ? 'background.primary' : cfg.floorName, st === 'disabled' ? 0 : cfg.actionMin);
+  }
+
   // -------------------------------------------------------------- text (+ icon)
-  // Content specs built from a floor PROFILE so `text` (4.5:1) and `icon` can
-  // diverge: with iconContrast '3:1' icons resolve against the WCAG 1.4.11
-  // non-text floor (3:1) for secondary/tertiary/semantic/link — `primary` stays
-  // strong either way. With 'text' (default) icons mirror text exactly.
+  // Ink. Built from a floor PROFILE so `text` (4.5:1) and `icon` can diverge: with
+  // iconContrast '3:1' icons resolve against the WCAG 1.4.11 non-text floor for
+  // secondary/tertiary/semantic — `primary` stays strong either way.
   type Spec = { key: string; r: Rated; desc: string; against: string; min: number };
   type Profile = { label: string; secondaryMin: number; tertiaryMin: number; semanticMin: number };
   const buildContent = (p: Profile): Spec[] => {
@@ -244,53 +261,43 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
     T('secondary', pickMinPass(textCands, floorRgb, p.secondaryMin), `Secondary ${p.label} — ${p.secondaryMin}:1 on the floor`, cfg.floorName, p.secondaryMin);
     T('tertiary', pickMinPass(textCands, floorRgb, p.tertiaryMin), `Tertiary ${p.label} — ${p.tertiaryMin}:1 on the floor`, cfg.floorName, p.tertiaryMin);
     { const d = disabledText(); T('disabled', d.r, accessibleDisabled ? `Disabled ${p.label} — clears ${disabledTarget}:1 (accessible)` : `Disabled ${p.label} — sub-AA (WCAG-exempt)`, d.against, d.min); }
-    T('inverse', pickMostExtreme(textCands, invRgb), `Inverse ${p.label} — on the opposite surface`, 'background.inverse', cfg.secondaryMin);
-    for (const r of ['brand', 'success', 'warning', 'danger', 'info'] as const)
+    // bold semantic ink
+    for (const r of SEMANTICS)
       T(r, paletteRole(r, floorRgb, p.semanticMin), `${r} ${p.label} — ${p.semanticMin}:1 on the floor`, cfg.floorName, p.semanticMin);
-    // on-* pair labels (content on a solid fill) — AA on a vivid fill.
-    T('on-interactive', onColor(intRest.rgb), `${p.label} on the interactive fill`, 'foreground.interactive.default', onMin);
-    for (const r of ['brand', 'success', 'warning', 'danger', 'info'] as const)
+    // muted semantic ink (the "quiet" variant) — designer's judgment for emphasis.
+    for (const r of SEMANTICS)
+      T(`${r}-subtle`, rated(pStep(r2p[r], mutedStep), baseRgb), `Muted ${r} ${p.label} — low-emphasis accent`, 'background.primary', 0);
+    // on-* pairs (ink on a solid fill) — AA on a vivid fill.
+    T('on-action', onColor(actionRest.rgb), `${p.label} on the action fill`, 'action.default', onMin);
+    for (const r of SEMANTICS)
       T(`on-${r}`, onColor(fills[r]!.rgb), `${p.label} on a solid ${r} fill`, `foreground.${r}`, onMin);
-    T('on-emphasis', onColor(invRgb), `${p.label} on an emphasis / inverse fill`, 'background.inverse', cfg.secondaryMin);
-    // interactive (links) + states.
-    const linkRest = paletteRole('action', floorRgb, p.semanticMin);
-    const linkStateCand = (st: typeof TEXT_STATES[number]): Cand =>
-      st === 'default' || st === 'focused' ? linkRest
-      : st === 'hover' ? walk(r2p.action, linkRest.num, 1)
-      : st === 'visited' ? walk(r2p.action, linkRest.num, 2)
-      : neutralLow();
-    for (const st of TEXT_STATES) {
-      if (st === 'disabled') { const d = disabledText(); T('interactive.disabled', d.r, `Link ${p.label} — disabled`, d.against, d.min); continue; }
-      T(`interactive.${st}`, rated(linkStateCand(st), floorRgb), `Link ${p.label} — ${st}`, cfg.floorName, p.semanticMin);
-    }
+    T('on-inverse', pickMostExtreme(textCands, invRgb), `${p.label} on an inverse surface`, 'background.inverse.primary', cfg.secondaryMin);
+    // link (interactive text) + states — no disabled.
+    const linkStateCand = (st: typeof LINK_STATES[number]): Cand =>
+      st === 'default' || st === 'focused' ? actionRest
+      : st === 'hover' ? walk(r2p.action, actionRest.num, 1)
+      : walk(r2p.action, actionRest.num, 2); // visited
+    for (const st of LINK_STATES)
+      T(`link.${st}`, rated(linkStateCand(st), floorRgb), `Link ${p.label} — ${st}`, cfg.floorName, p.semanticMin);
     return out;
   };
 
   const textProfile: Profile = { label: 'text', secondaryMin: cfg.secondaryMin, tertiaryMin: cfg.tertiaryMin, semanticMin: cfg.actionMin };
   for (const s of buildContent(textProfile)) put(`text.${s.key}`, s.r, s.desc, s.against, s.min);
-  // icon: mirror text, or (iconContrast '3:1') resolve against the non-text floor.
   const iconSpecs = theme.iconContrast === '3:1'
     ? buildContent({ label: 'icon', secondaryMin: cfg.nonTextMin, tertiaryMin: cfg.nonTextMin, semanticMin: cfg.nonTextMin })
     : buildContent({ ...textProfile, label: 'icon' });
   for (const s of iconSpecs) put(`icon.${s.key}`, s.r, s.desc, s.against, s.min);
 
   // ------------------------------------------------------------------- borders
-  put('border.default', pickClosest(ramp, baseRgb, cfg.borderTarget), `Default border — decorative, ~${cfg.borderTarget}:1`, 'background.primary', 0);
-  put('border.strong', pickClosest(ramp, baseRgb, cfg.borderTarget * 2.2), 'Stronger border / divider', 'background.primary', 0);
-  put('border.inverse', pickClosest(ramp, invRgb, cfg.borderTarget), 'Inverse border', 'background.inverse', 0);
-  for (const r of ['brand', 'success', 'warning', 'danger', 'info'] as const)
+  // Neutral (primary/secondary), inverse, semantic, and the focus ring. In HC the
+  // border targets escalate — borders carry structure when surfaces flatten.
+  put('border.primary', pickClosest(ramp, baseRgb, cfg.borderTarget), `Default border — decorative, ~${cfg.borderTarget}:1`, 'background.primary', 0);
+  put('border.secondary', pickClosest(ramp, baseRgb, cfg.borderTarget * 2.2), 'Stronger border / divider', 'background.primary', 0);
+  put('border.inverse', pickClosest(ramp, invRgb, cfg.borderTarget), 'Border on inverse surfaces', 'background.inverse.primary', 0);
+  for (const r of SEMANTICS)
     put(`border.${r}`, rated(pickBrand(ramps.get(r2p[r])!, ns, r2p[r], 500, baseRgb, cfg.nonTextMin), baseRgb), `${r} border — ${cfg.nonTextMin}:1 (SC 1.4.11)`, 'background.primary', cfg.nonTextMin);
-  // interactive (input/control) border + states; focus ring = .focused.
-  const borderRest = pickMinPass(ramp, baseRgb, cfg.nonTextMin);
-  const borderStateCand = (st: typeof BORDER_STATES[number]): Cand =>
-    st === 'default' ? borderRest
-    : st === 'hover' ? pickClosest(ramp, baseRgb, cfg.nonTextMin * 1.6)
-    : st === 'focused' ? intRest
-    : neutralLow(); // disabled
-  for (const st of BORDER_STATES) {
-    if (st === 'disabled') { const d = disabledBorder(); put('border.interactive.disabled', d.r, 'Form-field / control border — disabled', d.against, d.min); continue; }
-    put(`border.interactive.${st}`, rated(borderStateCand(st), baseRgb), `Form-field / control border — ${st}`, 'background.primary', cfg.nonTextMin);
-  }
+  put('border.focus', rated(actionRest, baseRgb), 'Focus ring colour (keyboard focus)', 'background.primary', cfg.nonTextMin);
 
   return { mode, surface: baseRgb, roles };
 };
