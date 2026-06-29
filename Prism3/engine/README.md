@@ -60,7 +60,7 @@ palette* nearest its anchor that clears AA on this surface" — both resolve
 correctly in any mode for free. The action palette is whatever
 `roleToPalette.action` points at (NB: `red`, decoupled-by-default but here same as
 brand; aurora: `accent`, a different palette from the violet brand). The run
-verifies every mode's contrast contracts (currently 268/268).
+verifies every mode's contrast contracts (currently 260/260).
 
 **Semantic vocabulary — PROPERTY-LED** (`color / <property> / <variant> [ /
 <state> ]`), decided against a nine-system field survey + the practice KB, aligned
@@ -271,7 +271,7 @@ breakpoints + grid-as-artifact + spacing-aliased gutter/margin + fluid container
 **opt-in OKLCH gradients** (DTCG composite + ramp-aliased stops + sRGB pre-sample
 for Figma + worst-case-stop contrast); border-width, focus, opacity/alpha + scrim
 primitives; two-brand emit in two dialects; a live HTML style guide
-(`visualize.ts`). nb 621/621 + aurora 622/622 aliases resolve, 268/268 mode
+(`visualize.ts`). nb 613/613 + aurora 614/614 aliases resolve, 260/260 mode
 contracts hold, 137/137 unit tests pass, both brands schema-conform.
 
 **Deliberately not reproduced:**

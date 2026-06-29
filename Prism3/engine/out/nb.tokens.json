@@ -3086,21 +3086,6 @@
                   "min": 4.5
                 }
               }
-            },
-            "disabled": {
-              "$type": "color",
-              "$value": "{nbds.color.neutral.450}",
-              "$description": "Link text — disabled",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.450",
-                  "mode": "light",
-                  "contrast": 3.16,
-                  "against": "neutral.050",
-                  "min": 3
-                }
-              }
             }
           }
         },
@@ -3418,21 +3403,6 @@
                   "contrast": 4.62,
                   "against": "neutral.050",
                   "min": 4.5
-                }
-              }
-            },
-            "disabled": {
-              "$type": "color",
-              "$value": "{nbds.color.neutral.450}",
-              "$description": "Link icon — disabled",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.450",
-                  "mode": "light",
-                  "contrast": 3.16,
-                  "against": "neutral.050",
-                  "min": 3
                 }
               }
             }
@@ -4751,21 +4721,6 @@
                   "min": 4.5
                 }
               }
-            },
-            "disabled": {
-              "$type": "color",
-              "$value": "{nbds.color.neutral.550}",
-              "$description": "Link text — disabled",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.550",
-                  "mode": "dark",
-                  "contrast": 3.27,
-                  "against": "neutral.900",
-                  "min": 3
-                }
-              }
             }
           }
         },
@@ -5083,21 +5038,6 @@
                   "contrast": 4.66,
                   "against": "neutral.900",
                   "min": 4.5
-                }
-              }
-            },
-            "disabled": {
-              "$type": "color",
-              "$value": "{nbds.color.neutral.550}",
-              "$description": "Link icon — disabled",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.550",
-                  "mode": "dark",
-                  "contrast": 3.27,
-                  "against": "neutral.900",
-                  "min": 3
                 }
               }
             }
@@ -5673,12 +5613,12 @@
           },
           "subtle": {
             "$type": "color",
-            "$value": "{nbds.color.neutral.050}",
+            "$value": "{nbds.color.white}",
             "$description": "Subtle surface — muted grouped fill (off the ladder)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.neutral.050",
+                "aliasOf": "nbds.color.white",
                 "mode": "hc-light",
                 "contrast": 1,
                 "against": "self"
@@ -6416,21 +6356,6 @@
                   "min": 7
                 }
               }
-            },
-            "disabled": {
-              "$type": "color",
-              "$value": "{nbds.color.neutral.550}",
-              "$description": "Link text — disabled",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.550",
-                  "mode": "hc-light",
-                  "contrast": 4.52,
-                  "against": "neutral.050",
-                  "min": 4.5
-                }
-              }
             }
           }
         },
@@ -6748,21 +6673,6 @@
                   "contrast": 8.25,
                   "against": "neutral.050",
                   "min": 7
-                }
-              }
-            },
-            "disabled": {
-              "$type": "color",
-              "$value": "{nbds.color.neutral.550}",
-              "$description": "Link icon — disabled",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.550",
-                  "mode": "hc-light",
-                  "contrast": 4.52,
-                  "against": "neutral.050",
-                  "min": 4.5
                 }
               }
             }
@@ -7296,12 +7206,12 @@
           },
           "secondary": {
             "$type": "color",
-            "$value": "{nbds.color.neutral.900}",
+            "$value": "{nbds.color.black}",
             "$description": "Raised surface (elevation 2 — cards / panels)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.neutral.900",
+                "aliasOf": "nbds.color.black",
                 "mode": "hc-dark",
                 "contrast": 1,
                 "against": "self"
@@ -7310,12 +7220,12 @@
           },
           "tertiary": {
             "$type": "color",
-            "$value": "{nbds.color.neutral.850}",
+            "$value": "{nbds.color.black}",
             "$description": "Higher surface (elevation 3 — nested / menus)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.neutral.850",
+                "aliasOf": "nbds.color.black",
                 "mode": "hc-dark",
                 "contrast": 1,
                 "against": "self"
@@ -7324,12 +7234,12 @@
           },
           "quaternary": {
             "$type": "color",
-            "$value": "{nbds.color.neutral.800}",
+            "$value": "{nbds.color.black}",
             "$description": "Floating surface (elevation 4 — dialogs / popovers)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.neutral.800",
+                "aliasOf": "nbds.color.black",
                 "mode": "hc-dark",
                 "contrast": 1,
                 "against": "self"
@@ -7338,12 +7248,12 @@
           },
           "subtle": {
             "$type": "color",
-            "$value": "{nbds.color.neutral.900}",
+            "$value": "{nbds.color.black}",
             "$description": "Subtle surface — muted grouped fill (off the ladder)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.neutral.900",
+                "aliasOf": "nbds.color.black",
                 "mode": "hc-dark",
                 "contrast": 1,
                 "against": "self"
@@ -8081,21 +7991,6 @@
                   "min": 7
                 }
               }
-            },
-            "disabled": {
-              "$type": "color",
-              "$value": "{nbds.color.neutral.450}",
-              "$description": "Link text — disabled",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.450",
-                  "mode": "hc-dark",
-                  "contrast": 4.68,
-                  "against": "neutral.900",
-                  "min": 4.5
-                }
-              }
             }
           }
         },
@@ -8413,21 +8308,6 @@
                   "contrast": 7.5,
                   "against": "neutral.900",
                   "min": 7
-                }
-              }
-            },
-            "disabled": {
-              "$type": "color",
-              "$value": "{nbds.color.neutral.450}",
-              "$description": "Link icon — disabled",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.450",
-                  "mode": "hc-dark",
-                  "contrast": 4.68,
-                  "against": "neutral.900",
-                  "min": 4.5
                 }
               }
             }

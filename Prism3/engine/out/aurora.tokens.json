@@ -3890,21 +3890,6 @@
                   "min": 4.5
                 }
               }
-            },
-            "disabled": {
-              "$type": "color",
-              "$value": "{prism.color.neutral.500}",
-              "$description": "Link text — disabled",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "prism.color.neutral.500",
-                  "mode": "light",
-                  "contrast": 3.28,
-                  "against": "neutral.100",
-                  "min": 3
-                }
-              }
             }
           }
         },
@@ -4220,21 +4205,6 @@
                   "aliasOf": "prism.color.accent.500",
                   "mode": "light",
                   "contrast": 3.3,
-                  "against": "neutral.100",
-                  "min": 3
-                }
-              }
-            },
-            "disabled": {
-              "$type": "color",
-              "$value": "{prism.color.neutral.500}",
-              "$description": "Link icon — disabled",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "prism.color.neutral.500",
-                  "mode": "light",
-                  "contrast": 3.28,
                   "against": "neutral.100",
                   "min": 3
                 }
@@ -5555,21 +5525,6 @@
                   "min": 4.5
                 }
               }
-            },
-            "disabled": {
-              "$type": "color",
-              "$value": "{prism.color.neutral.550}",
-              "$description": "Link text — disabled",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "prism.color.neutral.550",
-                  "mode": "dark",
-                  "contrast": 3.23,
-                  "against": "neutral.900",
-                  "min": 3
-                }
-              }
             }
           }
         },
@@ -5885,21 +5840,6 @@
                   "aliasOf": "prism.color.accent.500",
                   "mode": "dark",
                   "contrast": 3.92,
-                  "against": "neutral.900",
-                  "min": 3
-                }
-              }
-            },
-            "disabled": {
-              "$type": "color",
-              "$value": "{prism.color.neutral.550}",
-              "$description": "Link icon — disabled",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "prism.color.neutral.550",
-                  "mode": "dark",
-                  "contrast": 3.23,
                   "against": "neutral.900",
                   "min": 3
                 }
@@ -6477,12 +6417,12 @@
           },
           "subtle": {
             "$type": "color",
-            "$value": "{prism.color.neutral.100}",
+            "$value": "{prism.color.white}",
             "$description": "Subtle surface — muted grouped fill (off the ladder)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "prism.color.neutral.100",
+                "aliasOf": "prism.color.white",
                 "mode": "hc-light",
                 "contrast": 1,
                 "against": "self"
@@ -7220,21 +7160,6 @@
                   "min": 7
                 }
               }
-            },
-            "disabled": {
-              "$type": "color",
-              "$value": "{prism.color.neutral.600}",
-              "$description": "Link text — disabled",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "prism.color.neutral.600",
-                  "mode": "hc-light",
-                  "contrast": 4.81,
-                  "against": "neutral.100",
-                  "min": 4.5
-                }
-              }
             }
           }
         },
@@ -7550,21 +7475,6 @@
                   "aliasOf": "prism.color.accent.600",
                   "mode": "hc-light",
                   "contrast": 4.95,
-                  "against": "neutral.100",
-                  "min": 4.5
-                }
-              }
-            },
-            "disabled": {
-              "$type": "color",
-              "$value": "{prism.color.neutral.600}",
-              "$description": "Link icon — disabled",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "prism.color.neutral.600",
-                  "mode": "hc-light",
-                  "contrast": 4.81,
                   "against": "neutral.100",
                   "min": 4.5
                 }
@@ -8100,12 +8010,12 @@
           },
           "secondary": {
             "$type": "color",
-            "$value": "{prism.color.neutral.900}",
+            "$value": "{prism.color.black}",
             "$description": "Raised surface (elevation 2 — cards / panels)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "prism.color.neutral.900",
+                "aliasOf": "prism.color.black",
                 "mode": "hc-dark",
                 "contrast": 1,
                 "against": "self"
@@ -8114,12 +8024,12 @@
           },
           "tertiary": {
             "$type": "color",
-            "$value": "{prism.color.neutral.850}",
+            "$value": "{prism.color.black}",
             "$description": "Higher surface (elevation 3 — nested / menus)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "prism.color.neutral.850",
+                "aliasOf": "prism.color.black",
                 "mode": "hc-dark",
                 "contrast": 1,
                 "against": "self"
@@ -8128,12 +8038,12 @@
           },
           "quaternary": {
             "$type": "color",
-            "$value": "{prism.color.neutral.800}",
+            "$value": "{prism.color.black}",
             "$description": "Floating surface (elevation 4 — dialogs / popovers)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "prism.color.neutral.800",
+                "aliasOf": "prism.color.black",
                 "mode": "hc-dark",
                 "contrast": 1,
                 "against": "self"
@@ -8142,12 +8052,12 @@
           },
           "subtle": {
             "$type": "color",
-            "$value": "{prism.color.neutral.900}",
+            "$value": "{prism.color.black}",
             "$description": "Subtle surface — muted grouped fill (off the ladder)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "prism.color.neutral.900",
+                "aliasOf": "prism.color.black",
                 "mode": "hc-dark",
                 "contrast": 1,
                 "against": "self"
@@ -8885,21 +8795,6 @@
                   "min": 7
                 }
               }
-            },
-            "disabled": {
-              "$type": "color",
-              "$value": "{prism.color.neutral.450}",
-              "$description": "Link text — disabled",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "prism.color.neutral.450",
-                  "mode": "hc-dark",
-                  "contrast": 4.66,
-                  "against": "neutral.900",
-                  "min": 4.5
-                }
-              }
             }
           }
         },
@@ -9215,21 +9110,6 @@
                   "aliasOf": "prism.color.accent.400",
                   "mode": "hc-dark",
                   "contrast": 5.34,
-                  "against": "neutral.900",
-                  "min": 4.5
-                }
-              }
-            },
-            "disabled": {
-              "$type": "color",
-              "$value": "{prism.color.neutral.450}",
-              "$description": "Link icon — disabled",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "prism.color.neutral.450",
-                  "mode": "hc-dark",
-                  "contrast": 4.66,
                   "against": "neutral.900",
                   "min": 4.5
                 }

@@ -55,7 +55,7 @@
         "light": "{prism.color.white}",
         "dark": "{prism.color.neutral.900}",
         "hc-light": "{prism.color.white}",
-        "hc-dark": "{prism.color.neutral.900}"
+        "hc-dark": "{prism.color.black}"
       },
       "paired_with": [
         "text.primary",
@@ -72,7 +72,7 @@
         "light": "{prism.color.white}",
         "dark": "{prism.color.neutral.850}",
         "hc-light": "{prism.color.white}",
-        "hc-dark": "{prism.color.neutral.850}"
+        "hc-dark": "{prism.color.black}"
       },
       "paired_with": [
         "text.primary",
@@ -89,7 +89,7 @@
         "light": "{prism.color.white}",
         "dark": "{prism.color.neutral.800}",
         "hc-light": "{prism.color.white}",
-        "hc-dark": "{prism.color.neutral.800}"
+        "hc-dark": "{prism.color.black}"
       },
       "paired_with": [
         "text.primary",
@@ -105,8 +105,8 @@
       "mode_overrides": {
         "light": "{prism.color.neutral.100}",
         "dark": "{prism.color.neutral.900}",
-        "hc-light": "{prism.color.neutral.100}",
-        "hc-dark": "{prism.color.neutral.900}"
+        "hc-light": "{prism.color.white}",
+        "hc-dark": "{prism.color.black}"
       }
     },
     "background.sunken": {
@@ -1087,25 +1087,6 @@
         }
       ]
     },
-    "text.interactive.disabled": {
-      "$description": "Link (interactive text) (disabled state).",
-      "meaning": "Interactivity / actions",
-      "when_to_use": "Hyperlinks and interactive text when disabled / unavailable.",
-      "avoid_when": "Do not use for non-interactive text (use text.primary).",
-      "mode_overrides": {
-        "light": "{prism.color.neutral.500}",
-        "dark": "{prism.color.neutral.550}",
-        "hc-light": "{prism.color.neutral.600}",
-        "hc-dark": "{prism.color.neutral.450}"
-      },
-      "contrast_with": [
-        {
-          "token": "neutral.100",
-          "min": "3:1",
-          "ratio": 3.28
-        }
-      ]
-    },
     "icon.primary": {
       "$description": "Primary (highest-emphasis) icon.",
       "meaning": "Content hierarchy / reading emphasis",
@@ -1556,25 +1537,6 @@
           "token": "neutral.100",
           "min": "3:1",
           "ratio": 3.3
-        }
-      ]
-    },
-    "icon.interactive.disabled": {
-      "$description": "Link (interactive icon) (disabled state).",
-      "meaning": "Interactivity / actions",
-      "when_to_use": "Hyperlinks and interactive icon when disabled / unavailable.",
-      "avoid_when": "Do not use for non-interactive icon (use icon.primary).",
-      "mode_overrides": {
-        "light": "{prism.color.neutral.500}",
-        "dark": "{prism.color.neutral.550}",
-        "hc-light": "{prism.color.neutral.600}",
-        "hc-dark": "{prism.color.neutral.450}"
-      },
-      "contrast_with": [
-        {
-          "token": "neutral.100",
-          "min": "3:1",
-          "ratio": 3.28
         }
       ]
     },
@@ -2155,6 +2117,7 @@
         "semantic.hc-light.background.primary",
         "semantic.hc-light.background.quaternary",
         "semantic.hc-light.background.secondary",
+        "semantic.hc-light.background.subtle",
         "semantic.hc-light.background.tertiary",
         "semantic.hc-light.elevation.card.surface",
         "semantic.hc-light.elevation.dialog.surface",
@@ -2237,9 +2200,23 @@
         "semantic.dark.text.on-success",
         "semantic.dark.text.on-warning",
         "semantic.hc-dark.background.primary",
+        "semantic.hc-dark.background.quaternary",
+        "semantic.hc-dark.background.secondary",
+        "semantic.hc-dark.background.subtle",
         "semantic.hc-dark.background.sunken",
+        "semantic.hc-dark.background.tertiary",
+        "semantic.hc-dark.elevation.card.surface",
+        "semantic.hc-dark.elevation.dialog.surface",
+        "semantic.hc-dark.elevation.dropdown.surface",
         "semantic.hc-dark.elevation.flat.surface",
+        "semantic.hc-dark.elevation.floating.surface",
+        "semantic.hc-dark.elevation.menu.surface",
+        "semantic.hc-dark.elevation.modal.surface",
+        "semantic.hc-dark.elevation.overlay.surface",
+        "semantic.hc-dark.elevation.popover.surface",
+        "semantic.hc-dark.elevation.raised.surface",
         "semantic.hc-dark.elevation.sunken.surface",
+        "semantic.hc-dark.elevation.tooltip.surface",
         "semantic.hc-dark.elevation.well.surface",
         "semantic.hc-dark.icon.inverse",
         "semantic.hc-dark.icon.on-brand",
@@ -2447,7 +2424,6 @@
       "aliased_by": [
         "semantic.dark.background.inverse",
         "semantic.hc-dark.background.inverse",
-        "semantic.hc-light.background.subtle",
         "semantic.hc-light.foreground.tertiary",
         "semantic.light.background.subtle",
         "semantic.light.foreground.tertiary"
@@ -2530,11 +2506,9 @@
         "semantic.dark.border.interactive.hover",
         "semantic.dark.text.secondary",
         "semantic.hc-dark.icon.disabled",
-        "semantic.hc-dark.icon.interactive.disabled",
         "semantic.hc-dark.icon.secondary",
         "semantic.hc-dark.icon.tertiary",
         "semantic.hc-dark.text.disabled",
-        "semantic.hc-dark.text.interactive.disabled",
         "semantic.hc-dark.text.tertiary",
         "semantic.light.border.interactive.default",
         "semantic.light.border.interactive.disabled",
@@ -2558,11 +2532,9 @@
         "semantic.hc-light.border.interactive.disabled",
         "semantic.hc-light.border.inverse",
         "semantic.light.icon.disabled",
-        "semantic.light.icon.interactive.disabled",
         "semantic.light.icon.secondary",
         "semantic.light.icon.tertiary",
         "semantic.light.text.disabled",
-        "semantic.light.text.interactive.disabled",
         "semantic.light.text.tertiary"
       ]
     },
@@ -2576,11 +2548,9 @@
         "semantic.dark.border.interactive.default",
         "semantic.dark.border.interactive.disabled",
         "semantic.dark.icon.disabled",
-        "semantic.dark.icon.interactive.disabled",
         "semantic.dark.icon.secondary",
         "semantic.dark.icon.tertiary",
         "semantic.dark.text.disabled",
-        "semantic.dark.text.interactive.disabled",
         "semantic.dark.text.tertiary",
         "semantic.light.border.interactive.hover"
       ]
@@ -2594,11 +2564,9 @@
       "aliased_by": [
         "semantic.hc-light.border.interactive.hover",
         "semantic.hc-light.icon.disabled",
-        "semantic.hc-light.icon.interactive.disabled",
         "semantic.hc-light.icon.secondary",
         "semantic.hc-light.icon.tertiary",
         "semantic.hc-light.text.disabled",
-        "semantic.hc-light.text.interactive.disabled",
         "semantic.hc-light.text.tertiary",
         "semantic.light.text.secondary"
       ]
@@ -2650,11 +2618,6 @@
         "semantic.dark.elevation.modal.surface",
         "semantic.dark.elevation.tooltip.surface",
         "semantic.dark.foreground.tertiary",
-        "semantic.hc-dark.background.quaternary",
-        "semantic.hc-dark.elevation.dialog.surface",
-        "semantic.hc-dark.elevation.floating.surface",
-        "semantic.hc-dark.elevation.modal.surface",
-        "semantic.hc-dark.elevation.tooltip.surface",
         "semantic.hc-dark.foreground.tertiary"
       ]
     },
@@ -2670,11 +2633,6 @@
         "semantic.dark.elevation.menu.surface",
         "semantic.dark.elevation.overlay.surface",
         "semantic.dark.elevation.popover.surface",
-        "semantic.hc-dark.background.tertiary",
-        "semantic.hc-dark.elevation.dropdown.surface",
-        "semantic.hc-dark.elevation.menu.surface",
-        "semantic.hc-dark.elevation.overlay.surface",
-        "semantic.hc-dark.elevation.popover.surface",
         "semantic.hc-light.background.inverse",
         "semantic.light.background.inverse",
         "semantic.light.border.inverse"
@@ -2692,10 +2650,6 @@
         "semantic.dark.elevation.card.surface",
         "semantic.dark.elevation.raised.surface",
         "semantic.dark.foreground.inverse",
-        "semantic.hc-dark.background.secondary",
-        "semantic.hc-dark.background.subtle",
-        "semantic.hc-dark.elevation.card.surface",
-        "semantic.hc-dark.elevation.raised.surface",
         "semantic.hc-dark.foreground.inverse"
       ]
     },

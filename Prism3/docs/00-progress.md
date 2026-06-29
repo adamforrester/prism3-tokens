@@ -26,9 +26,9 @@ Headline numbers (regenerate with the commands below):
 |---|---|---|
 | Aggregate ΔE00 vs real NB (color) | **1.95** | n/a |
 | Tonal-band contrast contracts | **11/11** | (same engine) |
-| Cross-mode contrast contracts | **268/268** | **268/268** |
+| Cross-mode contrast contracts | **260/260** | **260/260** |
 | **Dimension axis, exact** (Prism2 space + NB radius) | **21/21** | n/a |
-| DTCG semantic aliases resolve (color + dim + size + type + elevation + layout + gradient) | **621/621** | **622/622** |
+| DTCG semantic aliases resolve (color + dim + size + type + elevation + layout + gradient) | **613/613** | **614/614** |
 | Engine unit tests (colour math + extreme brands + typography + fluid + shadow + layout + gradient invariants) | **137/137** | (same engine) |
 | Color primitives / dim grid emitted | 122 / 37 | 162 / 36 |
 | Brand palettes / action source | red / **action = brand** (red) | primary+accent+… / **action = accent ≠ brand** |

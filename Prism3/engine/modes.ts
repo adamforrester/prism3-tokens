@@ -66,7 +66,10 @@ const pickBrand = (steps: Step[], ns: string, palette: string, anchorNum: number
 /** Elevation set for a mode: the non-interactive container fills. An ordinal,
  * use-case-neutral ladder (primary=page … quaternary=floating). In LIGHT the
  * raised tiers converge in colour (elevation is carried by shadow — a deferred
- * effects axis); in DARK they step lighter (the M3 lift pattern). */
+ * effects axis); in DARK they step lighter (the M3 lift pattern). In HIGH
+ * CONTRAST the raised tiers + subtle FLATTEN to the base surface: HC separates
+ * regions by BORDER (the HC border target is ≥4.5:1), not by near-invisible
+ * surface tints, so a false ladder of barely-distinguishable steps is wrong. */
 type BgSet = { primary: Cand; secondary: Cand; tertiary: Cand; quaternary: Cand; subtle: Cand; sunken: Cand; inverse: Cand };
 
 export type ModeCfg = {
@@ -109,20 +112,29 @@ const modeConfigs = (ns: string, neutralPalette: string, neutral: Step[], surfac
 
   const light = resolve('light', 'white');
   const dark = resolve('dark', 950);
+  // High-contrast elevation: flatten the raised ladder + subtle to the base so HC
+  // elevation is carried by BORDER, not by near-invisible surface tints (HC users
+  // can't distinguish neutral.900/850/800 on black). `sunken` (a genuinely useful
+  // recessed cue) and `inverse` are kept from the family.
+  const hcBg = (famBg: BgSet, base: Cand): BgSet => ({ ...famBg, primary: base, secondary: base, tertiary: base, quaternary: base, subtle: base });
   const mk = (r: { base: Cand; floor: Cand; bg: BgSet }, family: 'light' | 'dark', inverseSurface: RGB, mins: Pick<ModeCfg, 'primaryMin' | 'secondaryMin' | 'tertiaryMin' | 'actionMin' | 'borderTarget' | 'nonTextMin'>): ModeCfg =>
     ({ surface: r.base, floor: r.floor, floorName: short(r.floor), bg: r.bg, inverseSurface, family, ...mins });
 
   return {
     light:      mk(light, 'light', BLACK, { primaryMin: 7,  secondaryMin: 4.5, tertiaryMin: 3, actionMin: 4.5, borderTarget: 1.4, nonTextMin: 3 }),
     dark:       mk(dark,  'dark',  WHITE, { primaryMin: 7,  secondaryMin: 4.5, tertiaryMin: 3, actionMin: 4.5, borderTarget: 1.8, nonTextMin: 3 }),
-    'hc-light': mk({ base: cand(`${ns}.white`, WHITE), floor: light.floor, bg: { ...light.bg, primary: cand(`${ns}.white`, WHITE) } }, 'light', BLACK, { primaryMin: 15, secondaryMin: 7, tertiaryMin: 4.5, actionMin: 7, borderTarget: 4.5, nonTextMin: 4.5 }),
-    'hc-dark':  mk({ base: cand(`${ns}.black`, BLACK), floor: dark.floor, bg: { ...dark.bg, primary: cand(`${ns}.black`, BLACK), sunken: cand(`${ns}.black`, BLACK) } }, 'dark', WHITE, { primaryMin: 15, secondaryMin: 7, tertiaryMin: 4.5, actionMin: 7, borderTarget: 4.5, nonTextMin: 4.5 }),
+    'hc-light': mk({ base: cand(`${ns}.white`, WHITE), floor: light.floor, bg: hcBg(light.bg, cand(`${ns}.white`, WHITE)) }, 'light', BLACK, { primaryMin: 15, secondaryMin: 7, tertiaryMin: 4.5, actionMin: 7, borderTarget: 4.5, nonTextMin: 4.5 }),
+    'hc-dark':  mk({ base: cand(`${ns}.black`, BLACK), floor: dark.floor, bg: hcBg(dark.bg, cand(`${ns}.black`, BLACK)) }, 'dark', WHITE, { primaryMin: 15, secondaryMin: 7, tertiaryMin: 4.5, actionMin: 7, borderTarget: 4.5, nonTextMin: 4.5 }),
   };
 };
 
 // Per-property interactive state members (the applicable subset of the vocabulary).
+// Links (text.interactive) carry NO disabled state: a disabled link is an a11y
+// anti-pattern (you remove the href / element, not grey it), and it resolved to the
+// exact same value as text.disabled — a duplicate token with no distinct decision.
+// Disabled text uses text.disabled; disabled buttons use foreground.interactive.disabled.
 const FILL_STATES = ['default', 'hover', 'pressed', 'focused', 'selected', 'disabled'] as const;
-const TEXT_STATES = ['default', 'hover', 'visited', 'focused', 'disabled'] as const;
+const TEXT_STATES = ['default', 'hover', 'visited', 'focused'] as const;
 const BORDER_STATES = ['default', 'hover', 'focused', 'disabled'] as const;
 
 const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<string, Step[]>): ModeResult => {
@@ -260,7 +272,8 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
       : st === 'visited' ? walk(r2p.action, linkRest.num, 2)
       : neutralLow();
     for (const st of TEXT_STATES) {
-      if (st === 'disabled') { const d = disabledText(); T('interactive.disabled', d.r, `Link ${p.label} — disabled`, d.against, d.min); continue; }
+      // No `disabled` for links — see TEXT_STATES note (disabled links are an
+      // anti-pattern; disabled text uses text.disabled).
       T(`interactive.${st}`, rated(linkStateCand(st), floorRgb), `Link ${p.label} — ${st}`, cfg.floorName, p.semanticMin);
     }
     return out;
