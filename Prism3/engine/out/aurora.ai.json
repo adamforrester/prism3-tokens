@@ -30,10 +30,10 @@
   ],
   "semantic": {
     "background.primary": {
-      "$description": "Elevation 1 container surface (page → floating).",
-      "meaning": "Container elevation / depth",
-      "when_to_use": "Fill for the page / base.",
-      "avoid_when": "Do not use for text, icons, or interactive fills. For interactive elements use foreground.interactive.",
+      "$description": "Page / canvas surface (tier 1).",
+      "meaning": "Page / canvas surface",
+      "when_to_use": "The page / base canvas.",
+      "avoid_when": "Do not use for surfaces placed on the page (use foreground.*) or for ink (use text/icon).",
       "mode_overrides": {
         "light": "{prism.color.neutral.050}",
         "dark": "{prism.color.neutral.950}",
@@ -41,180 +41,91 @@
         "hc-dark": "{prism.color.black}"
       },
       "paired_with": [
+        "foreground.primary",
         "text.primary",
-        "text.secondary",
-        "border.default"
+        "border.primary"
       ]
     },
     "background.secondary": {
-      "$description": "Elevation 2 container surface (page → floating).",
-      "meaning": "Container elevation / depth",
-      "when_to_use": "Fill for raised cards & panels.",
-      "avoid_when": "Do not use for text, icons, or interactive fills. For interactive elements use foreground.interactive.",
-      "mode_overrides": {
-        "light": "{prism.color.white}",
-        "dark": "{prism.color.neutral.900}",
-        "hc-light": "{prism.color.white}",
-        "hc-dark": "{prism.color.black}"
-      },
-      "paired_with": [
-        "text.primary",
-        "text.secondary",
-        "border.default"
-      ]
-    },
-    "background.tertiary": {
-      "$description": "Elevation 3 container surface (page → floating).",
-      "meaning": "Container elevation / depth",
-      "when_to_use": "Fill for nested / higher-elevation containers.",
-      "avoid_when": "Do not use for text, icons, or interactive fills. For interactive elements use foreground.interactive.",
-      "mode_overrides": {
-        "light": "{prism.color.white}",
-        "dark": "{prism.color.neutral.850}",
-        "hc-light": "{prism.color.white}",
-        "hc-dark": "{prism.color.black}"
-      },
-      "paired_with": [
-        "text.primary",
-        "text.secondary",
-        "border.default"
-      ]
-    },
-    "background.quaternary": {
-      "$description": "Elevation 4 container surface (page → floating).",
-      "meaning": "Container elevation / depth",
-      "when_to_use": "Fill for floating UI (dialogs, popovers, menus).",
-      "avoid_when": "Do not use for text, icons, or interactive fills. For interactive elements use foreground.interactive.",
-      "mode_overrides": {
-        "light": "{prism.color.white}",
-        "dark": "{prism.color.neutral.800}",
-        "hc-light": "{prism.color.white}",
-        "hc-dark": "{prism.color.black}"
-      },
-      "paired_with": [
-        "text.primary",
-        "text.secondary",
-        "border.default"
-      ]
-    },
-    "background.subtle": {
-      "$description": "Muted / grouped container surface.",
-      "meaning": "Low-emphasis grouping",
-      "when_to_use": "Secondary background for grouped or low-emphasis regions.",
-      "avoid_when": "Do not use as the primary page surface (use background.primary).",
+      "$description": "Page / canvas surface (tier 2).",
+      "meaning": "Page / canvas surface",
+      "when_to_use": "A slightly tinted page or page band.",
+      "avoid_when": "Do not use for surfaces placed on the page (use foreground.*) or for ink (use text/icon).",
       "mode_overrides": {
         "light": "{prism.color.neutral.100}",
         "dark": "{prism.color.neutral.900}",
         "hc-light": "{prism.color.white}",
         "hc-dark": "{prism.color.black}"
-      }
+      },
+      "paired_with": [
+        "foreground.primary",
+        "text.primary",
+        "border.primary"
+      ]
     },
-    "background.sunken": {
-      "$description": "Sunken / inset container surface.",
-      "meaning": "Recessed depth",
-      "when_to_use": "Wells, insets, tracks — areas that read as below the page.",
-      "avoid_when": "Do not use for raised elements (use background.secondary+).",
+    "background.tertiary": {
+      "$description": "Page / canvas surface (tier 3).",
+      "meaning": "Page / canvas surface",
+      "when_to_use": "A third page-level surface step.",
+      "avoid_when": "Do not use for surfaces placed on the page (use foreground.*) or for ink (use text/icon).",
       "mode_overrides": {
-        "light": "{prism.color.neutral.250}",
-        "dark": "{prism.color.black}",
-        "hc-light": "{prism.color.neutral.250}",
+        "light": "{prism.color.neutral.150}",
+        "dark": "{prism.color.neutral.850}",
+        "hc-light": "{prism.color.white}",
         "hc-dark": "{prism.color.black}"
-      }
+      },
+      "paired_with": [
+        "foreground.primary",
+        "text.primary",
+        "border.primary"
+      ]
     },
-    "background.inverse": {
-      "$description": "Inverse container surface.",
-      "meaning": "Inverted-surface emphasis",
-      "when_to_use": "High-contrast inverted sections (e.g. a dark callout in light mode).",
-      "avoid_when": "Do not place mode-default text on it — use text.inverse / text.on-emphasis.",
+    "background.inverse.primary": {
+      "$description": "Inverse page surface (tier 1).",
+      "meaning": "Inverted page surface",
+      "when_to_use": "Inverted page sections — a dark band on a light page (or vice-versa).",
+      "avoid_when": "Do not place mode-default ink on it — use text.on-inverse.",
       "mode_overrides": {
-        "light": "{prism.color.neutral.850}",
+        "light": "{prism.color.black}",
+        "dark": "{prism.color.white}",
+        "hc-light": "{prism.color.black}",
+        "hc-dark": "{prism.color.white}"
+      },
+      "paired_with": [
+        "text.on-inverse",
+        "border.inverse"
+      ]
+    },
+    "background.inverse.secondary": {
+      "$description": "Inverse page surface (tier 2).",
+      "meaning": "Inverted page surface",
+      "when_to_use": "Inverted page sections — a dark band on a light page (or vice-versa).",
+      "avoid_when": "Do not place mode-default ink on it — use text.on-inverse.",
+      "mode_overrides": {
+        "light": "{prism.color.neutral.950}",
+        "dark": "{prism.color.neutral.050}",
+        "hc-light": "{prism.color.black}",
+        "hc-dark": "{prism.color.white}"
+      },
+      "paired_with": [
+        "text.on-inverse",
+        "border.inverse"
+      ]
+    },
+    "background.inverse.tertiary": {
+      "$description": "Inverse page surface (tier 3).",
+      "meaning": "Inverted page surface",
+      "when_to_use": "Inverted page sections — a dark band on a light page (or vice-versa).",
+      "avoid_when": "Do not place mode-default ink on it — use text.on-inverse.",
+      "mode_overrides": {
+        "light": "{prism.color.neutral.900}",
         "dark": "{prism.color.neutral.100}",
-        "hc-light": "{prism.color.neutral.850}",
-        "hc-dark": "{prism.color.neutral.100}"
+        "hc-light": "{prism.color.black}",
+        "hc-dark": "{prism.color.white}"
       },
       "paired_with": [
-        "text.inverse",
-        "text.on-emphasis"
-      ]
-    },
-    "background.brand-subtle": {
-      "$description": "Subtle brand identity tint surface.",
-      "meaning": "Brand identity (low-emphasis)",
-      "when_to_use": "Low-emphasis brand backgrounds — badges, banners, selected rows.",
-      "avoid_when": "Do not use as a solid brand fill (use foreground.brand) or for brand text (use text.brand).",
-      "mode_overrides": {
-        "light": "{prism.color.primary.100}",
-        "dark": "{prism.color.primary.900}",
-        "hc-light": "{prism.color.primary.100}",
-        "hc-dark": "{prism.color.primary.900}"
-      },
-      "paired_with": [
-        "text.brand",
-        "icon.brand"
-      ]
-    },
-    "background.success-subtle": {
-      "$description": "Subtle success / positive tint surface.",
-      "meaning": "Success / positive signalling (low-emphasis)",
-      "when_to_use": "Low-emphasis success backgrounds — badges, banners, selected rows.",
-      "avoid_when": "Do not use as a solid success fill (use foreground.success) or for success text (use text.success).",
-      "mode_overrides": {
-        "light": "{prism.color.success.100}",
-        "dark": "{prism.color.success.900}",
-        "hc-light": "{prism.color.success.100}",
-        "hc-dark": "{prism.color.success.900}"
-      },
-      "paired_with": [
-        "text.success",
-        "icon.success"
-      ]
-    },
-    "background.warning-subtle": {
-      "$description": "Subtle warning / caution tint surface.",
-      "meaning": "Warning / caution signalling (low-emphasis)",
-      "when_to_use": "Low-emphasis warning backgrounds — badges, banners, selected rows.",
-      "avoid_when": "Do not use as a solid warning fill (use foreground.warning) or for warning text (use text.warning).",
-      "mode_overrides": {
-        "light": "{prism.color.warning.100}",
-        "dark": "{prism.color.warning.900}",
-        "hc-light": "{prism.color.warning.100}",
-        "hc-dark": "{prism.color.warning.900}"
-      },
-      "paired_with": [
-        "text.warning",
-        "icon.warning"
-      ]
-    },
-    "background.danger-subtle": {
-      "$description": "Subtle destructive / error tint surface.",
-      "meaning": "Destructive / error signalling (low-emphasis)",
-      "when_to_use": "Low-emphasis danger backgrounds — badges, banners, selected rows.",
-      "avoid_when": "Do not use as a solid danger fill (use foreground.danger) or for danger text (use text.danger).",
-      "mode_overrides": {
-        "light": "{prism.color.danger.100}",
-        "dark": "{prism.color.danger.900}",
-        "hc-light": "{prism.color.danger.100}",
-        "hc-dark": "{prism.color.danger.900}"
-      },
-      "paired_with": [
-        "text.danger",
-        "icon.danger"
-      ]
-    },
-    "background.info-subtle": {
-      "$description": "Subtle informational tint surface.",
-      "meaning": "Informational signalling (low-emphasis)",
-      "when_to_use": "Low-emphasis info backgrounds — badges, banners, selected rows.",
-      "avoid_when": "Do not use as a solid info fill (use foreground.info) or for info text (use text.info).",
-      "mode_overrides": {
-        "light": "{prism.color.info.100}",
-        "dark": "{prism.color.info.900}",
-        "hc-light": "{prism.color.info.100}",
-        "hc-dark": "{prism.color.info.900}"
-      },
-      "paired_with": [
-        "text.info",
-        "icon.info"
+        "text.on-inverse",
+        "border.inverse"
       ]
     },
     "scrim.default": {
@@ -229,62 +140,107 @@
         "hc-dark": "{prism.color.black-alpha.70}"
       },
       "paired_with": [
-        "background.quaternary"
+        "foreground.inverse.primary"
       ]
     },
     "foreground.primary": {
-      "$description": "Primary (highest-emphasis) neutral element fill.",
-      "meaning": "Neutral element emphasis",
-      "when_to_use": "High-emphasis neutral elements — neutral/secondary buttons, strong chips.",
-      "avoid_when": "Do not use for text/icons (use text.*/icon.*) or page surfaces (use background.*).",
-      "mode_overrides": {
-        "light": "{prism.color.neutral.950}",
-        "dark": "{prism.color.neutral.025}",
-        "hc-light": "{prism.color.neutral.950}",
-        "hc-dark": "{prism.color.neutral.025}"
-      }
-    },
-    "foreground.secondary": {
-      "$description": "Secondary neutral element fill.",
-      "meaning": "Neutral element emphasis",
-      "when_to_use": "Medium-emphasis neutral fills — subtle buttons, chips.",
-      "avoid_when": "Do not use for text/icons (use text.*/icon.*) or page surfaces (use background.*).",
-      "mode_overrides": {
-        "light": "{prism.color.neutral.200}",
-        "dark": "{prism.color.neutral.700}",
-        "hc-light": "{prism.color.neutral.200}",
-        "hc-dark": "{prism.color.neutral.700}"
-      }
-    },
-    "foreground.tertiary": {
-      "$description": "Tertiary (subtle) neutral element fill.",
-      "meaning": "Neutral element emphasis",
-      "when_to_use": "Low-emphasis neutral fills — ghost buttons, hover wells.",
-      "avoid_when": "Do not use for text/icons (use text.*/icon.*) or page surfaces (use background.*).",
+      "$description": "Surface placed on the canvas (tier 1).",
+      "meaning": "Surface / fill on the canvas",
+      "when_to_use": "Cards — the default surface placed on the page.",
+      "avoid_when": "Do not use for the page itself (use background.*) or for ink (use text/icon).",
       "mode_overrides": {
         "light": "{prism.color.neutral.100}",
-        "dark": "{prism.color.neutral.800}",
-        "hc-light": "{prism.color.neutral.100}",
-        "hc-dark": "{prism.color.neutral.800}"
-      }
-    },
-    "foreground.inverse": {
-      "$description": "Neutral element fill for inverse contexts.",
-      "meaning": "Inverted-surface contrast",
-      "when_to_use": "Neutral fills placed on inverse surfaces.",
-      "avoid_when": "Do not use on default surfaces (use foreground.primary).",
-      "mode_overrides": {
-        "light": "{prism.color.neutral.050}",
         "dark": "{prism.color.neutral.900}",
-        "hc-light": "{prism.color.neutral.050}",
-        "hc-dark": "{prism.color.neutral.900}"
-      }
+        "hc-light": "{prism.color.white}",
+        "hc-dark": "{prism.color.black}"
+      },
+      "paired_with": [
+        "text.primary",
+        "border.primary"
+      ]
+    },
+    "foreground.secondary": {
+      "$description": "Surface placed on the canvas (tier 2).",
+      "meaning": "Surface / fill on the canvas",
+      "when_to_use": "Panels / nested containers.",
+      "avoid_when": "Do not use for the page itself (use background.*) or for ink (use text/icon).",
+      "mode_overrides": {
+        "light": "{prism.color.neutral.150}",
+        "dark": "{prism.color.neutral.850}",
+        "hc-light": "{prism.color.white}",
+        "hc-dark": "{prism.color.black}"
+      },
+      "paired_with": [
+        "text.primary",
+        "border.primary"
+      ]
+    },
+    "foreground.tertiary": {
+      "$description": "Surface placed on the canvas (tier 3).",
+      "meaning": "Surface / fill on the canvas",
+      "when_to_use": "A third surface step.",
+      "avoid_when": "Do not use for the page itself (use background.*) or for ink (use text/icon).",
+      "mode_overrides": {
+        "light": "{prism.color.neutral.200}",
+        "dark": "{prism.color.neutral.800}",
+        "hc-light": "{prism.color.white}",
+        "hc-dark": "{prism.color.black}"
+      },
+      "paired_with": [
+        "text.primary",
+        "border.primary"
+      ]
+    },
+    "foreground.inverse.primary": {
+      "$description": "Inverse / bold surface (tier 1).",
+      "meaning": "Inverted / bold surface",
+      "when_to_use": "Strong / inverse fills — a dark callout, a solid neutral button, an emphasis surface in light mode.",
+      "avoid_when": "Do not use for the page (use background.*) or for ink (use text/icon).",
+      "mode_overrides": {
+        "light": "{prism.color.neutral.950}",
+        "dark": "{prism.color.neutral.050}",
+        "hc-light": "{prism.color.black}",
+        "hc-dark": "{prism.color.white}"
+      },
+      "paired_with": [
+        "text.on-inverse"
+      ]
+    },
+    "foreground.inverse.secondary": {
+      "$description": "Inverse / bold surface (tier 2).",
+      "meaning": "Inverted / bold surface",
+      "when_to_use": "Strong / inverse fills — a dark callout, a solid neutral button, an emphasis surface in light mode.",
+      "avoid_when": "Do not use for the page (use background.*) or for ink (use text/icon).",
+      "mode_overrides": {
+        "light": "{prism.color.neutral.900}",
+        "dark": "{prism.color.neutral.100}",
+        "hc-light": "{prism.color.black}",
+        "hc-dark": "{prism.color.white}"
+      },
+      "paired_with": [
+        "text.on-inverse"
+      ]
+    },
+    "foreground.inverse.tertiary": {
+      "$description": "Inverse / bold surface (tier 3).",
+      "meaning": "Inverted / bold surface",
+      "when_to_use": "Strong / inverse fills — a dark callout, a solid neutral button, an emphasis surface in light mode.",
+      "avoid_when": "Do not use for the page (use background.*) or for ink (use text/icon).",
+      "mode_overrides": {
+        "light": "{prism.color.neutral.850}",
+        "dark": "{prism.color.neutral.150}",
+        "hc-light": "{prism.color.black}",
+        "hc-dark": "{prism.color.white}"
+      },
+      "paired_with": [
+        "text.on-inverse"
+      ]
     },
     "foreground.brand": {
-      "$description": "Solid brand identity fill.",
+      "$description": "Bold solid brand identity fill.",
       "meaning": "Brand identity",
       "when_to_use": "Filled brand elements — badges, banners, status chips.",
-      "avoid_when": "Do not use for brand text (use text.brand) or as a subtle tint (use background.brand-subtle).",
+      "avoid_when": "Do not use for brand ink (use text.brand) or as a subtle tint (use foreground.brand-subtle).",
       "mode_overrides": {
         "light": "{prism.color.primary.550}",
         "dark": "{prism.color.primary.450}",
@@ -304,10 +260,10 @@
       ]
     },
     "foreground.success": {
-      "$description": "Solid success / positive fill.",
+      "$description": "Bold solid success / positive fill.",
       "meaning": "Success / positive signalling",
       "when_to_use": "Filled success elements — badges, banners, status chips.",
-      "avoid_when": "Do not use for success text (use text.success) or as a subtle tint (use background.success-subtle).",
+      "avoid_when": "Do not use for success ink (use text.success) or as a subtle tint (use foreground.success-subtle).",
       "mode_overrides": {
         "light": "{prism.color.success.600}",
         "dark": "{prism.color.success.450}",
@@ -327,10 +283,10 @@
       ]
     },
     "foreground.warning": {
-      "$description": "Solid warning / caution fill.",
+      "$description": "Bold solid warning / caution fill.",
       "meaning": "Warning / caution signalling",
       "when_to_use": "Filled warning elements — badges, banners, status chips.",
-      "avoid_when": "Do not use for warning text (use text.warning) or as a subtle tint (use background.warning-subtle).",
+      "avoid_when": "Do not use for warning ink (use text.warning) or as a subtle tint (use foreground.warning-subtle).",
       "mode_overrides": {
         "light": "{prism.color.warning.600}",
         "dark": "{prism.color.warning.450}",
@@ -350,10 +306,10 @@
       ]
     },
     "foreground.info": {
-      "$description": "Solid informational fill.",
+      "$description": "Bold solid informational fill.",
       "meaning": "Informational signalling",
       "when_to_use": "Filled info elements — badges, banners, status chips.",
-      "avoid_when": "Do not use for info text (use text.info) or as a subtle tint (use background.info-subtle).",
+      "avoid_when": "Do not use for info ink (use text.info) or as a subtle tint (use foreground.info-subtle).",
       "mode_overrides": {
         "light": "{prism.color.info.600}",
         "dark": "{prism.color.info.450}",
@@ -372,34 +328,91 @@
         }
       ]
     },
-    "foreground.interactive.default": {
-      "$description": "Interactive (action) fill (default state).",
-      "meaning": "Interactivity / actions",
-      "when_to_use": "Primary interactive surfaces — buttons, toggles, controls.",
-      "avoid_when": "Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background.*).",
+    "foreground.brand-subtle": {
+      "$description": "Subtle brand identity tint surface.",
+      "meaning": "Brand identity (low-emphasis)",
+      "when_to_use": "Low-emphasis brand surfaces — banners, badges, selected rows.",
+      "avoid_when": "Do not use as a solid brand fill (use foreground.brand) or for brand ink (use text.brand).",
       "mode_overrides": {
-        "light": "{prism.color.accent.600}",
-        "dark": "{prism.color.accent.400}",
-        "hc-light": "{prism.color.accent.700}",
-        "hc-dark": "{prism.color.accent.300}"
+        "light": "{prism.color.primary.100}",
+        "dark": "{prism.color.primary.900}",
+        "hc-light": "{prism.color.primary.100}",
+        "hc-dark": "{prism.color.primary.900}"
       },
       "paired_with": [
-        "text.on-interactive",
-        "icon.on-interactive"
-      ],
-      "contrast_with": [
-        {
-          "token": "neutral.100",
-          "min": "4.5:1",
-          "ratio": 4.95
-        }
+        "text.brand",
+        "icon.brand"
+      ]
+    },
+    "foreground.success-subtle": {
+      "$description": "Subtle success / positive tint surface.",
+      "meaning": "Success / positive signalling (low-emphasis)",
+      "when_to_use": "Low-emphasis success surfaces — banners, badges, selected rows.",
+      "avoid_when": "Do not use as a solid success fill (use foreground.success) or for success ink (use text.success).",
+      "mode_overrides": {
+        "light": "{prism.color.success.100}",
+        "dark": "{prism.color.success.900}",
+        "hc-light": "{prism.color.success.100}",
+        "hc-dark": "{prism.color.success.900}"
+      },
+      "paired_with": [
+        "text.success",
+        "icon.success"
+      ]
+    },
+    "foreground.warning-subtle": {
+      "$description": "Subtle warning / caution tint surface.",
+      "meaning": "Warning / caution signalling (low-emphasis)",
+      "when_to_use": "Low-emphasis warning surfaces — banners, badges, selected rows.",
+      "avoid_when": "Do not use as a solid warning fill (use foreground.warning) or for warning ink (use text.warning).",
+      "mode_overrides": {
+        "light": "{prism.color.warning.100}",
+        "dark": "{prism.color.warning.900}",
+        "hc-light": "{prism.color.warning.100}",
+        "hc-dark": "{prism.color.warning.900}"
+      },
+      "paired_with": [
+        "text.warning",
+        "icon.warning"
+      ]
+    },
+    "foreground.danger-subtle": {
+      "$description": "Subtle destructive / error tint surface.",
+      "meaning": "Destructive / error signalling (low-emphasis)",
+      "when_to_use": "Low-emphasis danger surfaces — banners, badges, selected rows.",
+      "avoid_when": "Do not use as a solid danger fill (use foreground.danger) or for danger ink (use text.danger).",
+      "mode_overrides": {
+        "light": "{prism.color.danger.100}",
+        "dark": "{prism.color.danger.900}",
+        "hc-light": "{prism.color.danger.100}",
+        "hc-dark": "{prism.color.danger.900}"
+      },
+      "paired_with": [
+        "text.danger",
+        "icon.danger"
+      ]
+    },
+    "foreground.info-subtle": {
+      "$description": "Subtle informational tint surface.",
+      "meaning": "Informational signalling (low-emphasis)",
+      "when_to_use": "Low-emphasis info surfaces — banners, badges, selected rows.",
+      "avoid_when": "Do not use as a solid info fill (use foreground.info) or for info ink (use text.info).",
+      "mode_overrides": {
+        "light": "{prism.color.info.100}",
+        "dark": "{prism.color.info.900}",
+        "hc-light": "{prism.color.info.100}",
+        "hc-dark": "{prism.color.info.900}"
+      },
+      "paired_with": [
+        "text.info",
+        "icon.info"
       ]
     },
     "foreground.danger.default": {
       "$description": "Destructive / error fill (default state).",
       "meaning": "Destructive / error signalling",
       "when_to_use": "Destructive actions — delete/remove buttons, error fills.",
-      "avoid_when": "Do not use for non-destructive actions (use foreground.interactive) or warnings (use foreground.warning).",
+      "avoid_when": "Do not use for non-destructive actions (use action.*) or warnings (use foreground.warning).",
       "mode_overrides": {
         "light": "{prism.color.danger.600}",
         "dark": "{prism.color.danger.450}",
@@ -418,34 +431,11 @@
         }
       ]
     },
-    "foreground.interactive.hover": {
-      "$description": "Interactive (action) fill (hover state).",
-      "meaning": "Interactivity / actions",
-      "when_to_use": "Primary interactive surfaces — buttons, toggles, controls on pointer hover.",
-      "avoid_when": "Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background.*).",
-      "mode_overrides": {
-        "light": "{prism.color.accent.650}",
-        "dark": "{prism.color.accent.350}",
-        "hc-light": "{prism.color.accent.750}",
-        "hc-dark": "{prism.color.accent.250}"
-      },
-      "paired_with": [
-        "text.on-interactive",
-        "icon.on-interactive"
-      ],
-      "contrast_with": [
-        {
-          "token": "neutral.100",
-          "min": "4.5:1",
-          "ratio": 6
-        }
-      ]
-    },
     "foreground.danger.hover": {
       "$description": "Destructive / error fill (hover state).",
       "meaning": "Destructive / error signalling",
       "when_to_use": "Destructive actions — delete/remove buttons, error fills on pointer hover.",
-      "avoid_when": "Do not use for non-destructive actions (use foreground.interactive) or warnings (use foreground.warning).",
+      "avoid_when": "Do not use for non-destructive actions (use action.*) or warnings (use foreground.warning).",
       "mode_overrides": {
         "light": "{prism.color.danger.650}",
         "dark": "{prism.color.danger.400}",
@@ -461,29 +451,6 @@
           "token": "neutral.100",
           "min": "4.5:1",
           "ratio": 5.95
-        }
-      ]
-    },
-    "foreground.interactive.pressed": {
-      "$description": "Interactive (action) fill (pressed state).",
-      "meaning": "Interactivity / actions",
-      "when_to_use": "Primary interactive surfaces — buttons, toggles, controls while pressed.",
-      "avoid_when": "Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background.*).",
-      "mode_overrides": {
-        "light": "{prism.color.accent.700}",
-        "dark": "{prism.color.accent.300}",
-        "hc-light": "{prism.color.accent.800}",
-        "hc-dark": "{prism.color.accent.200}"
-      },
-      "paired_with": [
-        "text.on-interactive",
-        "icon.on-interactive"
-      ],
-      "contrast_with": [
-        {
-          "token": "neutral.100",
-          "min": "4.5:1",
-          "ratio": 7.26
         }
       ]
     },
@@ -491,7 +458,7 @@
       "$description": "Destructive / error fill (pressed state).",
       "meaning": "Destructive / error signalling",
       "when_to_use": "Destructive actions — delete/remove buttons, error fills while pressed.",
-      "avoid_when": "Do not use for non-destructive actions (use foreground.interactive) or warnings (use foreground.warning).",
+      "avoid_when": "Do not use for non-destructive actions (use action.*) or warnings (use foreground.warning).",
       "mode_overrides": {
         "light": "{prism.color.danger.700}",
         "dark": "{prism.color.danger.350}",
@@ -510,34 +477,11 @@
         }
       ]
     },
-    "foreground.interactive.focused": {
-      "$description": "Interactive (action) fill (focused state).",
-      "meaning": "Interactivity / actions",
-      "when_to_use": "Primary interactive surfaces — buttons, toggles, controls when keyboard-focused.",
-      "avoid_when": "Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background.*).",
-      "mode_overrides": {
-        "light": "{prism.color.accent.650}",
-        "dark": "{prism.color.accent.350}",
-        "hc-light": "{prism.color.accent.750}",
-        "hc-dark": "{prism.color.accent.250}"
-      },
-      "paired_with": [
-        "text.on-interactive",
-        "icon.on-interactive"
-      ],
-      "contrast_with": [
-        {
-          "token": "neutral.100",
-          "min": "4.5:1",
-          "ratio": 6
-        }
-      ]
-    },
     "foreground.danger.focused": {
       "$description": "Destructive / error fill (focused state).",
       "meaning": "Destructive / error signalling",
       "when_to_use": "Destructive actions — delete/remove buttons, error fills when keyboard-focused.",
-      "avoid_when": "Do not use for non-destructive actions (use foreground.interactive) or warnings (use foreground.warning).",
+      "avoid_when": "Do not use for non-destructive actions (use action.*) or warnings (use foreground.warning).",
       "mode_overrides": {
         "light": "{prism.color.danger.650}",
         "dark": "{prism.color.danger.400}",
@@ -556,34 +500,11 @@
         }
       ]
     },
-    "foreground.interactive.selected": {
-      "$description": "Interactive (action) fill (selected state).",
-      "meaning": "Interactivity / actions",
-      "when_to_use": "Primary interactive surfaces — buttons, toggles, controls when selected / active.",
-      "avoid_when": "Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background.*).",
-      "mode_overrides": {
-        "light": "{prism.color.accent.700}",
-        "dark": "{prism.color.accent.300}",
-        "hc-light": "{prism.color.accent.800}",
-        "hc-dark": "{prism.color.accent.200}"
-      },
-      "paired_with": [
-        "text.on-interactive",
-        "icon.on-interactive"
-      ],
-      "contrast_with": [
-        {
-          "token": "neutral.100",
-          "min": "4.5:1",
-          "ratio": 7.26
-        }
-      ]
-    },
     "foreground.danger.selected": {
       "$description": "Destructive / error fill (selected state).",
       "meaning": "Destructive / error signalling",
       "when_to_use": "Destructive actions — delete/remove buttons, error fills when selected / active.",
-      "avoid_when": "Do not use for non-destructive actions (use foreground.interactive) or warnings (use foreground.warning).",
+      "avoid_when": "Do not use for non-destructive actions (use action.*) or warnings (use foreground.warning).",
       "mode_overrides": {
         "light": "{prism.color.danger.700}",
         "dark": "{prism.color.danger.350}",
@@ -602,27 +523,11 @@
         }
       ]
     },
-    "foreground.interactive.disabled": {
-      "$description": "Interactive (action) fill (disabled state).",
-      "meaning": "Interactivity / actions",
-      "when_to_use": "Primary interactive surfaces — buttons, toggles, controls when disabled / unavailable.",
-      "avoid_when": "Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background.*).",
-      "mode_overrides": {
-        "light": "{prism.color.neutral.200}",
-        "dark": "{prism.color.neutral.750}",
-        "hc-light": "{prism.color.neutral.200}",
-        "hc-dark": "{prism.color.neutral.750}"
-      },
-      "paired_with": [
-        "text.on-interactive",
-        "icon.on-interactive"
-      ]
-    },
     "foreground.danger.disabled": {
       "$description": "Destructive / error fill (disabled state).",
       "meaning": "Destructive / error signalling",
       "when_to_use": "Destructive actions — delete/remove buttons, error fills when disabled / unavailable.",
-      "avoid_when": "Do not use for non-destructive actions (use foreground.interactive) or warnings (use foreground.warning).",
+      "avoid_when": "Do not use for non-destructive actions (use action.*) or warnings (use foreground.warning).",
       "mode_overrides": {
         "light": "{prism.color.neutral.200}",
         "dark": "{prism.color.neutral.750}",
@@ -634,10 +539,141 @@
         "icon.on-danger"
       ]
     },
+    "action.default": {
+      "$description": "Interactive (action) fill.",
+      "meaning": "Interactivity / actions",
+      "when_to_use": "Primary interactive surfaces — buttons, toggles, controls.",
+      "avoid_when": "Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background/foreground).",
+      "mode_overrides": {
+        "light": "{prism.color.accent.600}",
+        "dark": "{prism.color.accent.400}",
+        "hc-light": "{prism.color.accent.700}",
+        "hc-dark": "{prism.color.accent.300}"
+      },
+      "paired_with": [
+        "text.on-action",
+        "icon.on-action"
+      ],
+      "contrast_with": [
+        {
+          "token": "neutral.100",
+          "min": "4.5:1",
+          "ratio": 4.95
+        }
+      ]
+    },
+    "action.hover": {
+      "$description": "Interactive (action) fill (hover state).",
+      "meaning": "Interactivity / actions",
+      "when_to_use": "Primary interactive surfaces — buttons, toggles, controls on pointer hover.",
+      "avoid_when": "Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background/foreground).",
+      "mode_overrides": {
+        "light": "{prism.color.accent.650}",
+        "dark": "{prism.color.accent.350}",
+        "hc-light": "{prism.color.accent.750}",
+        "hc-dark": "{prism.color.accent.250}"
+      },
+      "paired_with": [
+        "text.on-action",
+        "icon.on-action"
+      ],
+      "contrast_with": [
+        {
+          "token": "neutral.100",
+          "min": "4.5:1",
+          "ratio": 6
+        }
+      ]
+    },
+    "action.pressed": {
+      "$description": "Interactive (action) fill (pressed state).",
+      "meaning": "Interactivity / actions",
+      "when_to_use": "Primary interactive surfaces — buttons, toggles, controls while pressed.",
+      "avoid_when": "Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background/foreground).",
+      "mode_overrides": {
+        "light": "{prism.color.accent.700}",
+        "dark": "{prism.color.accent.300}",
+        "hc-light": "{prism.color.accent.800}",
+        "hc-dark": "{prism.color.accent.200}"
+      },
+      "paired_with": [
+        "text.on-action",
+        "icon.on-action"
+      ],
+      "contrast_with": [
+        {
+          "token": "neutral.100",
+          "min": "4.5:1",
+          "ratio": 7.26
+        }
+      ]
+    },
+    "action.focused": {
+      "$description": "Interactive (action) fill (focused state).",
+      "meaning": "Interactivity / actions",
+      "when_to_use": "Primary interactive surfaces — buttons, toggles, controls when keyboard-focused.",
+      "avoid_when": "Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background/foreground).",
+      "mode_overrides": {
+        "light": "{prism.color.accent.650}",
+        "dark": "{prism.color.accent.350}",
+        "hc-light": "{prism.color.accent.750}",
+        "hc-dark": "{prism.color.accent.250}"
+      },
+      "paired_with": [
+        "text.on-action",
+        "icon.on-action"
+      ],
+      "contrast_with": [
+        {
+          "token": "neutral.100",
+          "min": "4.5:1",
+          "ratio": 6
+        }
+      ]
+    },
+    "action.selected": {
+      "$description": "Interactive (action) fill (selected state).",
+      "meaning": "Interactivity / actions",
+      "when_to_use": "Primary interactive surfaces — buttons, toggles, controls when selected / active.",
+      "avoid_when": "Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background/foreground).",
+      "mode_overrides": {
+        "light": "{prism.color.accent.700}",
+        "dark": "{prism.color.accent.300}",
+        "hc-light": "{prism.color.accent.800}",
+        "hc-dark": "{prism.color.accent.200}"
+      },
+      "paired_with": [
+        "text.on-action",
+        "icon.on-action"
+      ],
+      "contrast_with": [
+        {
+          "token": "neutral.100",
+          "min": "4.5:1",
+          "ratio": 7.26
+        }
+      ]
+    },
+    "action.disabled": {
+      "$description": "Interactive (action) fill (disabled state).",
+      "meaning": "Interactivity / actions",
+      "when_to_use": "Primary interactive surfaces — buttons, toggles, controls when disabled / unavailable.",
+      "avoid_when": "Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background/foreground).",
+      "mode_overrides": {
+        "light": "{prism.color.neutral.200}",
+        "dark": "{prism.color.neutral.750}",
+        "hc-light": "{prism.color.neutral.200}",
+        "hc-dark": "{prism.color.neutral.750}"
+      },
+      "paired_with": [
+        "text.on-action",
+        "icon.on-action"
+      ]
+    },
     "text.primary": {
       "$description": "Primary (highest-emphasis) text.",
       "meaning": "Content hierarchy / reading emphasis",
-      "when_to_use": "Primary text on any standard surface (holds across the elevation ladder).",
+      "when_to_use": "Primary text on any surface (holds across the tonal ladder).",
       "avoid_when": "Do not use on solid/vivid fills — use text.on-*.",
       "mode_overrides": {
         "light": "{prism.color.neutral.950}",
@@ -647,8 +683,7 @@
       },
       "paired_with": [
         "background.primary",
-        "background.secondary",
-        "background.tertiary"
+        "foreground.primary"
       ],
       "contrast_with": [
         {
@@ -661,7 +696,7 @@
     "text.secondary": {
       "$description": "Secondary text.",
       "meaning": "Content hierarchy / reading emphasis",
-      "when_to_use": "Secondary text on any standard surface (holds across the elevation ladder).",
+      "when_to_use": "Secondary text on any surface (holds across the tonal ladder).",
       "avoid_when": "Do not use on solid/vivid fills — use text.on-*.",
       "mode_overrides": {
         "light": "{prism.color.neutral.600}",
@@ -671,8 +706,7 @@
       },
       "paired_with": [
         "background.primary",
-        "background.secondary",
-        "background.tertiary"
+        "foreground.primary"
       ],
       "contrast_with": [
         {
@@ -685,7 +719,7 @@
     "text.tertiary": {
       "$description": "Tertiary (subtle) text.",
       "meaning": "Content hierarchy / reading emphasis",
-      "when_to_use": "Tertiary text on any standard surface (holds across the elevation ladder).",
+      "when_to_use": "Tertiary text on any surface (holds across the tonal ladder).",
       "avoid_when": "Do not use on solid/vivid fills — use text.on-*.",
       "mode_overrides": {
         "light": "{prism.color.neutral.500}",
@@ -695,8 +729,7 @@
       },
       "paired_with": [
         "background.primary",
-        "background.secondary",
-        "background.tertiary"
+        "foreground.primary"
       ],
       "contrast_with": [
         {
@@ -722,28 +755,6 @@
           "token": "neutral.100",
           "min": "3:1",
           "ratio": 3.28
-        }
-      ]
-    },
-    "text.inverse": {
-      "$description": "Text on inverse surfaces.",
-      "meaning": "Inverted-surface contrast",
-      "when_to_use": "Text on background.inverse / dark callouts.",
-      "avoid_when": "Do not use on default surfaces.",
-      "mode_overrides": {
-        "light": "{prism.color.neutral.025}",
-        "dark": "{prism.color.neutral.950}",
-        "hc-light": "{prism.color.white}",
-        "hc-dark": "{prism.color.black}"
-      },
-      "paired_with": [
-        "background.inverse"
-      ],
-      "contrast_with": [
-        {
-          "token": "background.inverse",
-          "min": "4.5:1",
-          "ratio": 19.6
         }
       ]
     },
@@ -857,10 +868,85 @@
         }
       ]
     },
-    "text.on-interactive": {
-      "$description": "Text on a solid interactive fill.",
-      "meaning": "Legible content on interactive fills",
-      "when_to_use": "Text placed on the interactive fill it is paired with.",
+    "text.brand-subtle": {
+      "$description": "Muted brand identity text.",
+      "meaning": "Brand identity (low-emphasis)",
+      "when_to_use": "Low-emphasis brand text — secondary status text / quiet accents.",
+      "avoid_when": "For safety-critical brand messaging use the bold text.brand; verify contrast for body text.",
+      "mode_overrides": {
+        "light": "{prism.color.primary.450}",
+        "dark": "{prism.color.primary.350}",
+        "hc-light": "{prism.color.primary.450}",
+        "hc-dark": "{prism.color.primary.350}"
+      },
+      "paired_with": [
+        "background.primary"
+      ]
+    },
+    "text.success-subtle": {
+      "$description": "Muted success / positive text.",
+      "meaning": "Success / positive signalling (low-emphasis)",
+      "when_to_use": "Low-emphasis success text — secondary status text / quiet accents.",
+      "avoid_when": "For safety-critical success messaging use the bold text.success; verify contrast for body text.",
+      "mode_overrides": {
+        "light": "{prism.color.success.450}",
+        "dark": "{prism.color.success.350}",
+        "hc-light": "{prism.color.success.450}",
+        "hc-dark": "{prism.color.success.350}"
+      },
+      "paired_with": [
+        "background.primary"
+      ]
+    },
+    "text.warning-subtle": {
+      "$description": "Muted warning / caution text.",
+      "meaning": "Warning / caution signalling (low-emphasis)",
+      "when_to_use": "Low-emphasis warning text — secondary status text / quiet accents.",
+      "avoid_when": "For safety-critical warning messaging use the bold text.warning; verify contrast for body text.",
+      "mode_overrides": {
+        "light": "{prism.color.warning.450}",
+        "dark": "{prism.color.warning.350}",
+        "hc-light": "{prism.color.warning.450}",
+        "hc-dark": "{prism.color.warning.350}"
+      },
+      "paired_with": [
+        "background.primary"
+      ]
+    },
+    "text.danger-subtle": {
+      "$description": "Muted destructive / error text.",
+      "meaning": "Destructive / error signalling (low-emphasis)",
+      "when_to_use": "Low-emphasis danger text — secondary status text / quiet accents.",
+      "avoid_when": "For safety-critical danger messaging use the bold text.danger; verify contrast for body text.",
+      "mode_overrides": {
+        "light": "{prism.color.danger.450}",
+        "dark": "{prism.color.danger.350}",
+        "hc-light": "{prism.color.danger.450}",
+        "hc-dark": "{prism.color.danger.350}"
+      },
+      "paired_with": [
+        "background.primary"
+      ]
+    },
+    "text.info-subtle": {
+      "$description": "Muted informational text.",
+      "meaning": "Informational signalling (low-emphasis)",
+      "when_to_use": "Low-emphasis info text — secondary status text / quiet accents.",
+      "avoid_when": "For safety-critical info messaging use the bold text.info; verify contrast for body text.",
+      "mode_overrides": {
+        "light": "{prism.color.info.450}",
+        "dark": "{prism.color.info.350}",
+        "hc-light": "{prism.color.info.450}",
+        "hc-dark": "{prism.color.info.350}"
+      },
+      "paired_with": [
+        "background.primary"
+      ]
+    },
+    "text.on-action": {
+      "$description": "Text on a solid action fill.",
+      "meaning": "Legible content on the action fill",
+      "when_to_use": "Text placed on the action fill it is paired with.",
       "avoid_when": "Do not use on standard surfaces — use text.primary/secondary.",
       "mode_overrides": {
         "light": "{prism.color.white}",
@@ -869,11 +955,11 @@
         "hc-dark": "{prism.color.black}"
       },
       "paired_with": [
-        "foreground.interactive.default"
+        "action.default"
       ],
       "contrast_with": [
         {
-          "token": "foreground.interactive.default",
+          "token": "action.default",
           "min": "4.5:1",
           "ratio": 6.85
         }
@@ -989,31 +1075,31 @@
         }
       ]
     },
-    "text.on-emphasis": {
-      "$description": "Text on a solid emphasis fill.",
-      "meaning": "Legible content on emphasis / inverse fills",
-      "when_to_use": "Text placed on the emphasis fill it is paired with.",
+    "text.on-inverse": {
+      "$description": "Text on an inverse surface.",
+      "meaning": "Legible content on an inverse surface",
+      "when_to_use": "Text placed on the inverse surface it is paired with.",
       "avoid_when": "Do not use on standard surfaces — use text.primary/secondary.",
       "mode_overrides": {
-        "light": "{prism.color.white}",
-        "dark": "{prism.color.black}",
+        "light": "{prism.color.neutral.025}",
+        "dark": "{prism.color.neutral.950}",
         "hc-light": "{prism.color.white}",
         "hc-dark": "{prism.color.black}"
       },
       "paired_with": [
-        "background.inverse"
+        "background.inverse.primary"
       ],
       "contrast_with": [
         {
-          "token": "background.inverse",
+          "token": "background.inverse.primary",
           "min": "4.5:1",
-          "ratio": 21
+          "ratio": 19.6
         }
       ]
     },
-    "text.interactive.default": {
+    "text.link.default": {
       "$description": "Link (interactive text) (default state).",
-      "meaning": "Interactivity / actions",
+      "meaning": "Interactivity / navigation",
       "when_to_use": "Hyperlinks and interactive text.",
       "avoid_when": "Do not use for non-interactive text (use text.primary).",
       "mode_overrides": {
@@ -1030,9 +1116,9 @@
         }
       ]
     },
-    "text.interactive.hover": {
+    "text.link.hover": {
       "$description": "Link (interactive text) (hover state).",
-      "meaning": "Interactivity / actions",
+      "meaning": "Interactivity / navigation",
       "when_to_use": "Hyperlinks and interactive text on pointer hover.",
       "avoid_when": "Do not use for non-interactive text (use text.primary).",
       "mode_overrides": {
@@ -1049,9 +1135,9 @@
         }
       ]
     },
-    "text.interactive.visited": {
+    "text.link.visited": {
       "$description": "Link (interactive text) (visited state).",
-      "meaning": "Interactivity / actions",
+      "meaning": "Interactivity / navigation",
       "when_to_use": "Hyperlinks and interactive text after it has been visited.",
       "avoid_when": "Do not use for non-interactive text (use text.primary).",
       "mode_overrides": {
@@ -1068,9 +1154,9 @@
         }
       ]
     },
-    "text.interactive.focused": {
+    "text.link.focused": {
       "$description": "Link (interactive text) (focused state).",
-      "meaning": "Interactivity / actions",
+      "meaning": "Interactivity / navigation",
       "when_to_use": "Hyperlinks and interactive text when keyboard-focused.",
       "avoid_when": "Do not use for non-interactive text (use text.primary).",
       "mode_overrides": {
@@ -1090,7 +1176,7 @@
     "icon.primary": {
       "$description": "Primary (highest-emphasis) icon.",
       "meaning": "Content hierarchy / reading emphasis",
-      "when_to_use": "Primary icon on any standard surface (holds across the elevation ladder).",
+      "when_to_use": "Primary icon on any surface (holds across the tonal ladder).",
       "avoid_when": "Do not use on solid/vivid fills — use icon.on-*.",
       "mode_overrides": {
         "light": "{prism.color.neutral.950}",
@@ -1100,8 +1186,7 @@
       },
       "paired_with": [
         "background.primary",
-        "background.secondary",
-        "background.tertiary"
+        "foreground.primary"
       ],
       "contrast_with": [
         {
@@ -1114,7 +1199,7 @@
     "icon.secondary": {
       "$description": "Secondary icon.",
       "meaning": "Content hierarchy / reading emphasis",
-      "when_to_use": "Secondary icon on any standard surface (holds across the elevation ladder).",
+      "when_to_use": "Secondary icon on any surface (holds across the tonal ladder).",
       "avoid_when": "Do not use on solid/vivid fills — use icon.on-*.",
       "mode_overrides": {
         "light": "{prism.color.neutral.500}",
@@ -1124,8 +1209,7 @@
       },
       "paired_with": [
         "background.primary",
-        "background.secondary",
-        "background.tertiary"
+        "foreground.primary"
       ],
       "contrast_with": [
         {
@@ -1138,7 +1222,7 @@
     "icon.tertiary": {
       "$description": "Tertiary (subtle) icon.",
       "meaning": "Content hierarchy / reading emphasis",
-      "when_to_use": "Tertiary icon on any standard surface (holds across the elevation ladder).",
+      "when_to_use": "Tertiary icon on any surface (holds across the tonal ladder).",
       "avoid_when": "Do not use on solid/vivid fills — use icon.on-*.",
       "mode_overrides": {
         "light": "{prism.color.neutral.500}",
@@ -1148,8 +1232,7 @@
       },
       "paired_with": [
         "background.primary",
-        "background.secondary",
-        "background.tertiary"
+        "foreground.primary"
       ],
       "contrast_with": [
         {
@@ -1175,28 +1258,6 @@
           "token": "neutral.100",
           "min": "3:1",
           "ratio": 3.28
-        }
-      ]
-    },
-    "icon.inverse": {
-      "$description": "Icon on inverse surfaces.",
-      "meaning": "Inverted-surface contrast",
-      "when_to_use": "Icon on background.inverse / dark callouts.",
-      "avoid_when": "Do not use on default surfaces.",
-      "mode_overrides": {
-        "light": "{prism.color.neutral.025}",
-        "dark": "{prism.color.neutral.950}",
-        "hc-light": "{prism.color.white}",
-        "hc-dark": "{prism.color.black}"
-      },
-      "paired_with": [
-        "background.inverse"
-      ],
-      "contrast_with": [
-        {
-          "token": "background.inverse",
-          "min": "4.5:1",
-          "ratio": 19.6
         }
       ]
     },
@@ -1310,10 +1371,85 @@
         }
       ]
     },
-    "icon.on-interactive": {
-      "$description": "Icon on a solid interactive fill.",
-      "meaning": "Legible content on interactive fills",
-      "when_to_use": "Icon placed on the interactive fill it is paired with.",
+    "icon.brand-subtle": {
+      "$description": "Muted brand identity icon.",
+      "meaning": "Brand identity (low-emphasis)",
+      "when_to_use": "Low-emphasis brand icon — secondary status text / quiet accents.",
+      "avoid_when": "For safety-critical brand messaging use the bold icon.brand; verify contrast for body text.",
+      "mode_overrides": {
+        "light": "{prism.color.primary.450}",
+        "dark": "{prism.color.primary.350}",
+        "hc-light": "{prism.color.primary.450}",
+        "hc-dark": "{prism.color.primary.350}"
+      },
+      "paired_with": [
+        "background.primary"
+      ]
+    },
+    "icon.success-subtle": {
+      "$description": "Muted success / positive icon.",
+      "meaning": "Success / positive signalling (low-emphasis)",
+      "when_to_use": "Low-emphasis success icon — secondary status text / quiet accents.",
+      "avoid_when": "For safety-critical success messaging use the bold icon.success; verify contrast for body text.",
+      "mode_overrides": {
+        "light": "{prism.color.success.450}",
+        "dark": "{prism.color.success.350}",
+        "hc-light": "{prism.color.success.450}",
+        "hc-dark": "{prism.color.success.350}"
+      },
+      "paired_with": [
+        "background.primary"
+      ]
+    },
+    "icon.warning-subtle": {
+      "$description": "Muted warning / caution icon.",
+      "meaning": "Warning / caution signalling (low-emphasis)",
+      "when_to_use": "Low-emphasis warning icon — secondary status text / quiet accents.",
+      "avoid_when": "For safety-critical warning messaging use the bold icon.warning; verify contrast for body text.",
+      "mode_overrides": {
+        "light": "{prism.color.warning.450}",
+        "dark": "{prism.color.warning.350}",
+        "hc-light": "{prism.color.warning.450}",
+        "hc-dark": "{prism.color.warning.350}"
+      },
+      "paired_with": [
+        "background.primary"
+      ]
+    },
+    "icon.danger-subtle": {
+      "$description": "Muted destructive / error icon.",
+      "meaning": "Destructive / error signalling (low-emphasis)",
+      "when_to_use": "Low-emphasis danger icon — secondary status text / quiet accents.",
+      "avoid_when": "For safety-critical danger messaging use the bold icon.danger; verify contrast for body text.",
+      "mode_overrides": {
+        "light": "{prism.color.danger.450}",
+        "dark": "{prism.color.danger.350}",
+        "hc-light": "{prism.color.danger.450}",
+        "hc-dark": "{prism.color.danger.350}"
+      },
+      "paired_with": [
+        "background.primary"
+      ]
+    },
+    "icon.info-subtle": {
+      "$description": "Muted informational icon.",
+      "meaning": "Informational signalling (low-emphasis)",
+      "when_to_use": "Low-emphasis info icon — secondary status text / quiet accents.",
+      "avoid_when": "For safety-critical info messaging use the bold icon.info; verify contrast for body text.",
+      "mode_overrides": {
+        "light": "{prism.color.info.450}",
+        "dark": "{prism.color.info.350}",
+        "hc-light": "{prism.color.info.450}",
+        "hc-dark": "{prism.color.info.350}"
+      },
+      "paired_with": [
+        "background.primary"
+      ]
+    },
+    "icon.on-action": {
+      "$description": "Icon on a solid action fill.",
+      "meaning": "Legible content on the action fill",
+      "when_to_use": "Icon placed on the action fill it is paired with.",
       "avoid_when": "Do not use on standard surfaces — use icon.primary/secondary.",
       "mode_overrides": {
         "light": "{prism.color.white}",
@@ -1322,11 +1458,11 @@
         "hc-dark": "{prism.color.black}"
       },
       "paired_with": [
-        "foreground.interactive.default"
+        "action.default"
       ],
       "contrast_with": [
         {
-          "token": "foreground.interactive.default",
+          "token": "action.default",
           "min": "4.5:1",
           "ratio": 6.85
         }
@@ -1442,70 +1578,32 @@
         }
       ]
     },
-    "icon.on-emphasis": {
-      "$description": "Icon on a solid emphasis fill.",
-      "meaning": "Legible content on emphasis / inverse fills",
-      "when_to_use": "Icon placed on the emphasis fill it is paired with.",
+    "icon.on-inverse": {
+      "$description": "Icon on an inverse surface.",
+      "meaning": "Legible content on an inverse surface",
+      "when_to_use": "Icon placed on the inverse surface it is paired with.",
       "avoid_when": "Do not use on standard surfaces — use icon.primary/secondary.",
       "mode_overrides": {
-        "light": "{prism.color.white}",
-        "dark": "{prism.color.black}",
+        "light": "{prism.color.neutral.025}",
+        "dark": "{prism.color.neutral.950}",
         "hc-light": "{prism.color.white}",
         "hc-dark": "{prism.color.black}"
       },
       "paired_with": [
-        "background.inverse"
+        "background.inverse.primary"
       ],
       "contrast_with": [
         {
-          "token": "background.inverse",
+          "token": "background.inverse.primary",
           "min": "4.5:1",
-          "ratio": 21
+          "ratio": 19.6
         }
       ]
     },
-    "icon.interactive.default": {
+    "icon.link.default": {
       "$description": "Link (interactive icon) (default state).",
-      "meaning": "Interactivity / actions",
+      "meaning": "Interactivity / navigation",
       "when_to_use": "Hyperlinks and interactive icon.",
-      "avoid_when": "Do not use for non-interactive icon (use icon.primary).",
-      "mode_overrides": {
-        "light": "{prism.color.accent.500}",
-        "dark": "{prism.color.accent.500}",
-        "hc-light": "{prism.color.accent.600}",
-        "hc-dark": "{prism.color.accent.400}"
-      },
-      "contrast_with": [
-        {
-          "token": "neutral.100",
-          "min": "3:1",
-          "ratio": 3.3
-        }
-      ]
-    },
-    "icon.interactive.hover": {
-      "$description": "Link (interactive icon) (hover state).",
-      "meaning": "Interactivity / actions",
-      "when_to_use": "Hyperlinks and interactive icon on pointer hover.",
-      "avoid_when": "Do not use for non-interactive icon (use icon.primary).",
-      "mode_overrides": {
-        "light": "{prism.color.accent.550}",
-        "dark": "{prism.color.accent.450}",
-        "hc-light": "{prism.color.accent.650}",
-        "hc-dark": "{prism.color.accent.350}"
-      },
-      "contrast_with": [
-        {
-          "token": "neutral.100",
-          "min": "3:1",
-          "ratio": 4.12
-        }
-      ]
-    },
-    "icon.interactive.visited": {
-      "$description": "Link (interactive icon) (visited state).",
-      "meaning": "Interactivity / actions",
-      "when_to_use": "Hyperlinks and interactive icon after it has been visited.",
       "avoid_when": "Do not use for non-interactive icon (use icon.primary).",
       "mode_overrides": {
         "light": "{prism.color.accent.600}",
@@ -1521,30 +1619,68 @@
         }
       ]
     },
-    "icon.interactive.focused": {
-      "$description": "Link (interactive icon) (focused state).",
-      "meaning": "Interactivity / actions",
-      "when_to_use": "Hyperlinks and interactive icon when keyboard-focused.",
+    "icon.link.hover": {
+      "$description": "Link (interactive icon) (hover state).",
+      "meaning": "Interactivity / navigation",
+      "when_to_use": "Hyperlinks and interactive icon on pointer hover.",
       "avoid_when": "Do not use for non-interactive icon (use icon.primary).",
       "mode_overrides": {
-        "light": "{prism.color.accent.500}",
-        "dark": "{prism.color.accent.500}",
-        "hc-light": "{prism.color.accent.600}",
-        "hc-dark": "{prism.color.accent.400}"
+        "light": "{prism.color.accent.650}",
+        "dark": "{prism.color.accent.350}",
+        "hc-light": "{prism.color.accent.750}",
+        "hc-dark": "{prism.color.accent.250}"
       },
       "contrast_with": [
         {
           "token": "neutral.100",
           "min": "3:1",
-          "ratio": 3.3
+          "ratio": 6
         }
       ]
     },
-    "border.default": {
-      "$description": "Subtle / decorative border.",
+    "icon.link.visited": {
+      "$description": "Link (interactive icon) (visited state).",
+      "meaning": "Interactivity / navigation",
+      "when_to_use": "Hyperlinks and interactive icon after it has been visited.",
+      "avoid_when": "Do not use for non-interactive icon (use icon.primary).",
+      "mode_overrides": {
+        "light": "{prism.color.accent.700}",
+        "dark": "{prism.color.accent.300}",
+        "hc-light": "{prism.color.accent.800}",
+        "hc-dark": "{prism.color.accent.200}"
+      },
+      "contrast_with": [
+        {
+          "token": "neutral.100",
+          "min": "3:1",
+          "ratio": 7.26
+        }
+      ]
+    },
+    "icon.link.focused": {
+      "$description": "Link (interactive icon) (focused state).",
+      "meaning": "Interactivity / navigation",
+      "when_to_use": "Hyperlinks and interactive icon when keyboard-focused.",
+      "avoid_when": "Do not use for non-interactive icon (use icon.primary).",
+      "mode_overrides": {
+        "light": "{prism.color.accent.600}",
+        "dark": "{prism.color.accent.400}",
+        "hc-light": "{prism.color.accent.700}",
+        "hc-dark": "{prism.color.accent.300}"
+      },
+      "contrast_with": [
+        {
+          "token": "neutral.100",
+          "min": "3:1",
+          "ratio": 4.95
+        }
+      ]
+    },
+    "border.primary": {
+      "$description": "Default / decorative border.",
       "meaning": "Separation / structure",
       "when_to_use": "Dividers, card outlines, low-emphasis separation.",
-      "avoid_when": "Do not use where a 3:1 non-text contrast is required (use border.strong / border.interactive).",
+      "avoid_when": "Do not use where a 3:1 non-text contrast is required (use border.secondary / border.focus).",
       "mode_overrides": {
         "light": "{prism.color.neutral.200}",
         "dark": "{prism.color.neutral.750}",
@@ -1552,11 +1688,11 @@
         "hc-dark": "{prism.color.neutral.500}"
       }
     },
-    "border.strong": {
+    "border.secondary": {
       "$description": "Stronger divider border.",
       "meaning": "Separation / structure",
-      "when_to_use": "Higher-emphasis dividers and separators.",
-      "avoid_when": "Do not use for form-field borders (use border.interactive).",
+      "when_to_use": "Higher-emphasis dividers and separators; control borders.",
+      "avoid_when": "Do not use as a faint hairline (use border.primary).",
       "mode_overrides": {
         "light": "{prism.color.neutral.450}",
         "dark": "{prism.color.neutral.500}",
@@ -1567,7 +1703,7 @@
     "border.inverse": {
       "$description": "Border on inverse surfaces.",
       "meaning": "Inverted-surface separation",
-      "when_to_use": "Borders on background.inverse.",
+      "when_to_use": "Borders on background.inverse / foreground.inverse.",
       "avoid_when": "Do not use on default surfaces.",
       "mode_overrides": {
         "light": "{prism.color.neutral.850}",
@@ -1576,14 +1712,14 @@
         "hc-dark": "{prism.color.neutral.500}"
       },
       "paired_with": [
-        "background.inverse"
+        "background.inverse.primary"
       ]
     },
     "border.brand": {
       "$description": "Brand identity validation border.",
       "meaning": "Brand identity",
       "when_to_use": "Validation/state borders for brand (e.g. invalid fields).",
-      "avoid_when": "Do not use as brand text or fill — use text.brand / foreground.brand.",
+      "avoid_when": "Do not use as brand ink or fill — use text.brand / foreground.brand.",
       "mode_overrides": {
         "light": "{prism.color.primary.500}",
         "dark": "{prism.color.primary.500}",
@@ -1602,7 +1738,7 @@
       "$description": "Success / positive validation border.",
       "meaning": "Success / positive signalling",
       "when_to_use": "Validation/state borders for success (e.g. invalid fields).",
-      "avoid_when": "Do not use as success text or fill — use text.success / foreground.success.",
+      "avoid_when": "Do not use as success ink or fill — use text.success / foreground.success.",
       "mode_overrides": {
         "light": "{prism.color.success.500}",
         "dark": "{prism.color.success.500}",
@@ -1621,7 +1757,7 @@
       "$description": "Warning / caution validation border.",
       "meaning": "Warning / caution signalling",
       "when_to_use": "Validation/state borders for warning (e.g. invalid fields).",
-      "avoid_when": "Do not use as warning text or fill — use text.warning / foreground.warning.",
+      "avoid_when": "Do not use as warning ink or fill — use text.warning / foreground.warning.",
       "mode_overrides": {
         "light": "{prism.color.warning.500}",
         "dark": "{prism.color.warning.500}",
@@ -1640,7 +1776,7 @@
       "$description": "Destructive / error validation border.",
       "meaning": "Destructive / error signalling",
       "when_to_use": "Validation/state borders for danger (e.g. invalid fields).",
-      "avoid_when": "Do not use as danger text or fill — use text.danger / foreground.danger.",
+      "avoid_when": "Do not use as danger ink or fill — use text.danger / foreground.danger.",
       "mode_overrides": {
         "light": "{prism.color.danger.500}",
         "dark": "{prism.color.danger.500}",
@@ -1659,7 +1795,7 @@
       "$description": "Informational validation border.",
       "meaning": "Informational signalling",
       "when_to_use": "Validation/state borders for info (e.g. invalid fields).",
-      "avoid_when": "Do not use as info text or fill — use text.info / foreground.info.",
+      "avoid_when": "Do not use as info ink or fill — use text.info / foreground.info.",
       "mode_overrides": {
         "light": "{prism.color.info.500}",
         "dark": "{prism.color.info.500}",
@@ -1674,55 +1810,11 @@
         }
       ]
     },
-    "border.interactive.default": {
-      "$description": "Form-field / control border (default state).",
-      "meaning": "Interactivity / actions",
-      "when_to_use": "Borders on inputs and controls.",
-      "avoid_when": "Do not use as a decorative divider (use border.default).",
-      "mode_overrides": {
-        "light": "{prism.color.neutral.450}",
-        "dark": "{prism.color.neutral.550}",
-        "hc-light": "{prism.color.neutral.500}",
-        "hc-dark": "{prism.color.neutral.500}"
-      },
-      "paired_with": [
-        "background.primary"
-      ],
-      "contrast_with": [
-        {
-          "token": "background.primary",
-          "min": "3:1",
-          "ratio": 3.16
-        }
-      ]
-    },
-    "border.interactive.hover": {
-      "$description": "Form-field / control border (hover state).",
-      "meaning": "Interactivity / actions",
-      "when_to_use": "Borders on inputs and controls on pointer hover.",
-      "avoid_when": "Do not use as a decorative divider (use border.default).",
-      "mode_overrides": {
-        "light": "{prism.color.neutral.550}",
-        "dark": "{prism.color.neutral.450}",
-        "hc-light": "{prism.color.neutral.600}",
-        "hc-dark": "{prism.color.neutral.350}"
-      },
-      "paired_with": [
-        "background.primary"
-      ],
-      "contrast_with": [
-        {
-          "token": "background.primary",
-          "min": "3:1",
-          "ratio": 4.57
-        }
-      ]
-    },
-    "border.interactive.focused": {
-      "$description": "Form-field / control border (focused state).",
-      "meaning": "Interactivity / actions",
-      "when_to_use": "The focus ring on interactive elements (keyboard focus).",
-      "avoid_when": "Do not use as a decorative divider (use border.default).",
+    "border.focus": {
+      "$description": "Focus ring colour.",
+      "meaning": "Keyboard focus indication",
+      "when_to_use": "The keyboard-focus indicator on interactive elements.",
+      "avoid_when": "Do not use as a decorative divider (use border.primary).",
       "mode_overrides": {
         "light": "{prism.color.accent.600}",
         "dark": "{prism.color.accent.400}",
@@ -1737,28 +1829,6 @@
           "token": "background.primary",
           "min": "3:1",
           "ratio": 5.65
-        }
-      ]
-    },
-    "border.interactive.disabled": {
-      "$description": "Form-field / control border (disabled state).",
-      "meaning": "Interactivity / actions",
-      "when_to_use": "Borders on inputs and controls when disabled / unavailable.",
-      "avoid_when": "Do not use as a decorative divider (use border.default).",
-      "mode_overrides": {
-        "light": "{prism.color.neutral.450}",
-        "dark": "{prism.color.neutral.550}",
-        "hc-light": "{prism.color.neutral.500}",
-        "hc-dark": "{prism.color.neutral.500}"
-      },
-      "paired_with": [
-        "background.primary"
-      ],
-      "contrast_with": [
-        {
-          "token": "background.primary",
-          "min": "3:1",
-          "ratio": 3.16
         }
       ]
     }
@@ -2112,65 +2182,45 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
+        "semantic.dark.background.inverse.primary",
+        "semantic.hc-dark.background.inverse.primary",
+        "semantic.hc-dark.background.inverse.secondary",
+        "semantic.hc-dark.background.inverse.tertiary",
+        "semantic.hc-dark.foreground.inverse.primary",
+        "semantic.hc-dark.foreground.inverse.secondary",
+        "semantic.hc-dark.foreground.inverse.tertiary",
         "semantic.hc-dark.icon.primary",
         "semantic.hc-dark.text.primary",
         "semantic.hc-light.background.primary",
-        "semantic.hc-light.background.quaternary",
         "semantic.hc-light.background.secondary",
-        "semantic.hc-light.background.subtle",
         "semantic.hc-light.background.tertiary",
-        "semantic.hc-light.elevation.card.surface",
-        "semantic.hc-light.elevation.dialog.surface",
-        "semantic.hc-light.elevation.dropdown.surface",
-        "semantic.hc-light.elevation.flat.surface",
-        "semantic.hc-light.elevation.floating.surface",
-        "semantic.hc-light.elevation.menu.surface",
-        "semantic.hc-light.elevation.modal.surface",
-        "semantic.hc-light.elevation.overlay.surface",
-        "semantic.hc-light.elevation.popover.surface",
-        "semantic.hc-light.elevation.raised.surface",
-        "semantic.hc-light.elevation.tooltip.surface",
-        "semantic.hc-light.icon.inverse",
+        "semantic.hc-light.foreground.primary",
+        "semantic.hc-light.foreground.secondary",
+        "semantic.hc-light.foreground.tertiary",
+        "semantic.hc-light.icon.on-action",
         "semantic.hc-light.icon.on-brand",
         "semantic.hc-light.icon.on-danger",
-        "semantic.hc-light.icon.on-emphasis",
         "semantic.hc-light.icon.on-info",
-        "semantic.hc-light.icon.on-interactive",
+        "semantic.hc-light.icon.on-inverse",
         "semantic.hc-light.icon.on-success",
         "semantic.hc-light.icon.on-warning",
-        "semantic.hc-light.text.inverse",
+        "semantic.hc-light.text.on-action",
         "semantic.hc-light.text.on-brand",
         "semantic.hc-light.text.on-danger",
-        "semantic.hc-light.text.on-emphasis",
         "semantic.hc-light.text.on-info",
-        "semantic.hc-light.text.on-interactive",
+        "semantic.hc-light.text.on-inverse",
         "semantic.hc-light.text.on-success",
         "semantic.hc-light.text.on-warning",
-        "semantic.light.background.quaternary",
-        "semantic.light.background.secondary",
-        "semantic.light.background.tertiary",
-        "semantic.light.elevation.card.surface",
-        "semantic.light.elevation.dialog.surface",
-        "semantic.light.elevation.dropdown.surface",
-        "semantic.light.elevation.floating.surface",
-        "semantic.light.elevation.menu.surface",
-        "semantic.light.elevation.modal.surface",
-        "semantic.light.elevation.overlay.surface",
-        "semantic.light.elevation.popover.surface",
-        "semantic.light.elevation.raised.surface",
-        "semantic.light.elevation.tooltip.surface",
+        "semantic.light.icon.on-action",
         "semantic.light.icon.on-brand",
         "semantic.light.icon.on-danger",
-        "semantic.light.icon.on-emphasis",
         "semantic.light.icon.on-info",
-        "semantic.light.icon.on-interactive",
         "semantic.light.icon.on-success",
         "semantic.light.icon.on-warning",
+        "semantic.light.text.on-action",
         "semantic.light.text.on-brand",
         "semantic.light.text.on-danger",
-        "semantic.light.text.on-emphasis",
         "semantic.light.text.on-info",
-        "semantic.light.text.on-interactive",
         "semantic.light.text.on-success",
         "semantic.light.text.on-warning"
       ]
@@ -2182,60 +2232,47 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.background.sunken",
-        "semantic.dark.elevation.sunken.surface",
-        "semantic.dark.elevation.well.surface",
+        "semantic.dark.icon.on-action",
         "semantic.dark.icon.on-brand",
         "semantic.dark.icon.on-danger",
-        "semantic.dark.icon.on-emphasis",
         "semantic.dark.icon.on-info",
-        "semantic.dark.icon.on-interactive",
         "semantic.dark.icon.on-success",
         "semantic.dark.icon.on-warning",
+        "semantic.dark.text.on-action",
         "semantic.dark.text.on-brand",
         "semantic.dark.text.on-danger",
-        "semantic.dark.text.on-emphasis",
         "semantic.dark.text.on-info",
-        "semantic.dark.text.on-interactive",
         "semantic.dark.text.on-success",
         "semantic.dark.text.on-warning",
         "semantic.hc-dark.background.primary",
-        "semantic.hc-dark.background.quaternary",
         "semantic.hc-dark.background.secondary",
-        "semantic.hc-dark.background.subtle",
-        "semantic.hc-dark.background.sunken",
         "semantic.hc-dark.background.tertiary",
-        "semantic.hc-dark.elevation.card.surface",
-        "semantic.hc-dark.elevation.dialog.surface",
-        "semantic.hc-dark.elevation.dropdown.surface",
-        "semantic.hc-dark.elevation.flat.surface",
-        "semantic.hc-dark.elevation.floating.surface",
-        "semantic.hc-dark.elevation.menu.surface",
-        "semantic.hc-dark.elevation.modal.surface",
-        "semantic.hc-dark.elevation.overlay.surface",
-        "semantic.hc-dark.elevation.popover.surface",
-        "semantic.hc-dark.elevation.raised.surface",
-        "semantic.hc-dark.elevation.sunken.surface",
-        "semantic.hc-dark.elevation.tooltip.surface",
-        "semantic.hc-dark.elevation.well.surface",
-        "semantic.hc-dark.icon.inverse",
+        "semantic.hc-dark.foreground.primary",
+        "semantic.hc-dark.foreground.secondary",
+        "semantic.hc-dark.foreground.tertiary",
+        "semantic.hc-dark.icon.on-action",
         "semantic.hc-dark.icon.on-brand",
         "semantic.hc-dark.icon.on-danger",
-        "semantic.hc-dark.icon.on-emphasis",
         "semantic.hc-dark.icon.on-info",
-        "semantic.hc-dark.icon.on-interactive",
+        "semantic.hc-dark.icon.on-inverse",
         "semantic.hc-dark.icon.on-success",
         "semantic.hc-dark.icon.on-warning",
-        "semantic.hc-dark.text.inverse",
+        "semantic.hc-dark.text.on-action",
         "semantic.hc-dark.text.on-brand",
         "semantic.hc-dark.text.on-danger",
-        "semantic.hc-dark.text.on-emphasis",
         "semantic.hc-dark.text.on-info",
-        "semantic.hc-dark.text.on-interactive",
+        "semantic.hc-dark.text.on-inverse",
         "semantic.hc-dark.text.on-success",
         "semantic.hc-dark.text.on-warning",
+        "semantic.hc-light.background.inverse.primary",
+        "semantic.hc-light.background.inverse.secondary",
+        "semantic.hc-light.background.inverse.tertiary",
+        "semantic.hc-light.foreground.inverse.primary",
+        "semantic.hc-light.foreground.inverse.secondary",
+        "semantic.hc-light.foreground.inverse.tertiary",
         "semantic.hc-light.icon.primary",
-        "semantic.hc-light.text.primary"
+        "semantic.hc-light.text.primary",
+        "semantic.light.background.inverse.primary"
       ]
     },
     "color.primary.100": {
@@ -2245,8 +2282,8 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.hc-light.background.brand-subtle",
-        "semantic.light.background.brand-subtle"
+        "semantic.hc-light.foreground.brand-subtle",
+        "semantic.light.foreground.brand-subtle"
       ]
     },
     "color.primary.150": {
@@ -2286,7 +2323,13 @@
       "meaning": "primary ramp — raw step 350",
       "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.dark.icon.brand-subtle",
+        "semantic.dark.text.brand-subtle",
+        "semantic.hc-dark.icon.brand-subtle",
+        "semantic.hc-dark.text.brand-subtle"
+      ]
     },
     "color.primary.400": {
       "$description": "Brand primary 400 — Mid-Tone band",
@@ -2304,7 +2347,11 @@
       "aliased_by": [
         "semantic.dark.foreground.brand",
         "semantic.dark.text.brand",
-        "semantic.hc-dark.icon.brand"
+        "semantic.hc-dark.icon.brand",
+        "semantic.hc-light.icon.brand-subtle",
+        "semantic.hc-light.text.brand-subtle",
+        "semantic.light.icon.brand-subtle",
+        "semantic.light.text.brand-subtle"
       ]
     },
     "color.primary.500": {
@@ -2390,8 +2437,8 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.background.brand-subtle",
-        "semantic.hc-dark.background.brand-subtle"
+        "semantic.dark.foreground.brand-subtle",
+        "semantic.hc-dark.foreground.brand-subtle"
       ]
     },
     "color.primary.950": {
@@ -2422,11 +2469,10 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.background.inverse",
-        "semantic.hc-dark.background.inverse",
-        "semantic.hc-light.foreground.tertiary",
-        "semantic.light.background.subtle",
-        "semantic.light.foreground.tertiary"
+        "semantic.dark.background.inverse.tertiary",
+        "semantic.dark.foreground.inverse.secondary",
+        "semantic.light.background.secondary",
+        "semantic.light.foreground.primary"
       ]
     },
     "color.neutral.150": {
@@ -2434,7 +2480,12 @@
       "meaning": "neutral ramp — raw step 150",
       "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.dark.foreground.inverse.tertiary",
+        "semantic.light.background.tertiary",
+        "semantic.light.foreground.secondary"
+      ]
     },
     "color.neutral.200": {
       "$description": "Neutral 200 — Quarter-Tone band",
@@ -2444,13 +2495,12 @@
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
         "semantic.dark.border.inverse",
+        "semantic.hc-light.action.disabled",
         "semantic.hc-light.foreground.danger.disabled",
-        "semantic.hc-light.foreground.interactive.disabled",
-        "semantic.hc-light.foreground.secondary",
-        "semantic.light.border.default",
+        "semantic.light.action.disabled",
+        "semantic.light.border.primary",
         "semantic.light.foreground.danger.disabled",
-        "semantic.light.foreground.interactive.disabled",
-        "semantic.light.foreground.secondary"
+        "semantic.light.foreground.tertiary"
       ]
     },
     "color.neutral.250": {
@@ -2460,13 +2510,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.hc-dark.border.strong",
-        "semantic.hc-light.background.sunken",
-        "semantic.hc-light.elevation.sunken.surface",
-        "semantic.hc-light.elevation.well.surface",
-        "semantic.light.background.sunken",
-        "semantic.light.elevation.sunken.surface",
-        "semantic.light.elevation.well.surface"
+        "semantic.hc-dark.border.secondary"
       ]
     },
     "color.neutral.300": {
@@ -2484,10 +2528,7 @@
       "meaning": "neutral ramp — raw step 350",
       "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
-      "aliased_by": [
-        "semantic.hc-dark.border.interactive.hover"
-      ]
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.neutral.400": {
       "$description": "Neutral 400 — Mid-Tone band",
@@ -2503,16 +2544,13 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.border.interactive.hover",
         "semantic.dark.text.secondary",
         "semantic.hc-dark.icon.disabled",
         "semantic.hc-dark.icon.secondary",
         "semantic.hc-dark.icon.tertiary",
         "semantic.hc-dark.text.disabled",
         "semantic.hc-dark.text.tertiary",
-        "semantic.light.border.interactive.default",
-        "semantic.light.border.interactive.disabled",
-        "semantic.light.border.strong"
+        "semantic.light.border.secondary"
       ]
     },
     "color.neutral.500": {
@@ -2522,15 +2560,11 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.border.strong",
-        "semantic.hc-dark.border.default",
-        "semantic.hc-dark.border.interactive.default",
-        "semantic.hc-dark.border.interactive.disabled",
+        "semantic.dark.border.secondary",
         "semantic.hc-dark.border.inverse",
-        "semantic.hc-light.border.default",
-        "semantic.hc-light.border.interactive.default",
-        "semantic.hc-light.border.interactive.disabled",
+        "semantic.hc-dark.border.primary",
         "semantic.hc-light.border.inverse",
+        "semantic.hc-light.border.primary",
         "semantic.light.icon.disabled",
         "semantic.light.icon.secondary",
         "semantic.light.icon.tertiary",
@@ -2545,14 +2579,11 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.border.interactive.default",
-        "semantic.dark.border.interactive.disabled",
         "semantic.dark.icon.disabled",
         "semantic.dark.icon.secondary",
         "semantic.dark.icon.tertiary",
         "semantic.dark.text.disabled",
-        "semantic.dark.text.tertiary",
-        "semantic.light.border.interactive.hover"
+        "semantic.dark.text.tertiary"
       ]
     },
     "color.neutral.600": {
@@ -2562,7 +2593,6 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.hc-light.border.interactive.hover",
         "semantic.hc-light.icon.disabled",
         "semantic.hc-light.icon.secondary",
         "semantic.hc-light.icon.tertiary",
@@ -2585,9 +2615,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.foreground.secondary",
-        "semantic.hc-dark.foreground.secondary",
-        "semantic.hc-light.border.strong",
+        "semantic.hc-light.border.secondary",
         "semantic.hc-light.text.secondary"
       ]
     },
@@ -2598,11 +2626,11 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.border.default",
+        "semantic.dark.action.disabled",
+        "semantic.dark.border.primary",
         "semantic.dark.foreground.danger.disabled",
-        "semantic.dark.foreground.interactive.disabled",
-        "semantic.hc-dark.foreground.danger.disabled",
-        "semantic.hc-dark.foreground.interactive.disabled"
+        "semantic.hc-dark.action.disabled",
+        "semantic.hc-dark.foreground.danger.disabled"
       ]
     },
     "color.neutral.800": {
@@ -2612,13 +2640,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.background.quaternary",
-        "semantic.dark.elevation.dialog.surface",
-        "semantic.dark.elevation.floating.surface",
-        "semantic.dark.elevation.modal.surface",
-        "semantic.dark.elevation.tooltip.surface",
-        "semantic.dark.foreground.tertiary",
-        "semantic.hc-dark.foreground.tertiary"
+        "semantic.dark.foreground.tertiary"
       ]
     },
     "color.neutral.850": {
@@ -2629,13 +2651,9 @@
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
         "semantic.dark.background.tertiary",
-        "semantic.dark.elevation.dropdown.surface",
-        "semantic.dark.elevation.menu.surface",
-        "semantic.dark.elevation.overlay.surface",
-        "semantic.dark.elevation.popover.surface",
-        "semantic.hc-light.background.inverse",
-        "semantic.light.background.inverse",
-        "semantic.light.border.inverse"
+        "semantic.dark.foreground.secondary",
+        "semantic.light.border.inverse",
+        "semantic.light.foreground.inverse.tertiary"
       ]
     },
     "color.neutral.900": {
@@ -2646,11 +2664,9 @@
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
         "semantic.dark.background.secondary",
-        "semantic.dark.background.subtle",
-        "semantic.dark.elevation.card.surface",
-        "semantic.dark.elevation.raised.surface",
-        "semantic.dark.foreground.inverse",
-        "semantic.hc-dark.foreground.inverse"
+        "semantic.dark.foreground.primary",
+        "semantic.light.background.inverse.tertiary",
+        "semantic.light.foreground.inverse.secondary"
       ]
     },
     "color.neutral.950": {
@@ -2661,11 +2677,10 @@
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
         "semantic.dark.background.primary",
-        "semantic.dark.elevation.flat.surface",
-        "semantic.dark.icon.inverse",
-        "semantic.dark.text.inverse",
-        "semantic.hc-light.foreground.primary",
-        "semantic.light.foreground.primary",
+        "semantic.dark.icon.on-inverse",
+        "semantic.dark.text.on-inverse",
+        "semantic.light.background.inverse.secondary",
+        "semantic.light.foreground.inverse.primary",
         "semantic.light.icon.primary",
         "semantic.light.text.primary"
       ]
@@ -2677,12 +2692,10 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.foreground.primary",
         "semantic.dark.icon.primary",
         "semantic.dark.text.primary",
-        "semantic.hc-dark.foreground.primary",
-        "semantic.light.icon.inverse",
-        "semantic.light.text.inverse"
+        "semantic.light.icon.on-inverse",
+        "semantic.light.text.on-inverse"
       ]
     },
     "color.neutral.050": {
@@ -2692,10 +2705,9 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.hc-light.foreground.inverse",
-        "semantic.light.background.primary",
-        "semantic.light.elevation.flat.surface",
-        "semantic.light.foreground.inverse"
+        "semantic.dark.background.inverse.secondary",
+        "semantic.dark.foreground.inverse.primary",
+        "semantic.light.background.primary"
       ]
     },
     "color.accent.100": {
@@ -2719,9 +2731,10 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.hc-dark.foreground.interactive.pressed",
-        "semantic.hc-dark.foreground.interactive.selected",
-        "semantic.hc-dark.text.interactive.visited"
+        "semantic.hc-dark.action.pressed",
+        "semantic.hc-dark.action.selected",
+        "semantic.hc-dark.icon.link.visited",
+        "semantic.hc-dark.text.link.visited"
       ]
     },
     "color.accent.250": {
@@ -2731,9 +2744,10 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.hc-dark.foreground.interactive.focused",
-        "semantic.hc-dark.foreground.interactive.hover",
-        "semantic.hc-dark.text.interactive.hover"
+        "semantic.hc-dark.action.focused",
+        "semantic.hc-dark.action.hover",
+        "semantic.hc-dark.icon.link.hover",
+        "semantic.hc-dark.text.link.hover"
       ]
     },
     "color.accent.300": {
@@ -2743,14 +2757,16 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.foreground.interactive.pressed",
-        "semantic.dark.foreground.interactive.selected",
-        "semantic.dark.text.interactive.visited",
-        "semantic.hc-dark.border.interactive.focused",
-        "semantic.hc-dark.foreground.interactive.default",
-        "semantic.hc-dark.icon.interactive.visited",
-        "semantic.hc-dark.text.interactive.default",
-        "semantic.hc-dark.text.interactive.focused"
+        "semantic.dark.action.pressed",
+        "semantic.dark.action.selected",
+        "semantic.dark.icon.link.visited",
+        "semantic.dark.text.link.visited",
+        "semantic.hc-dark.action.default",
+        "semantic.hc-dark.border.focus",
+        "semantic.hc-dark.icon.link.default",
+        "semantic.hc-dark.icon.link.focused",
+        "semantic.hc-dark.text.link.default",
+        "semantic.hc-dark.text.link.focused"
       ]
     },
     "color.accent.350": {
@@ -2760,10 +2776,10 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.foreground.interactive.focused",
-        "semantic.dark.foreground.interactive.hover",
-        "semantic.dark.text.interactive.hover",
-        "semantic.hc-dark.icon.interactive.hover"
+        "semantic.dark.action.focused",
+        "semantic.dark.action.hover",
+        "semantic.dark.icon.link.hover",
+        "semantic.dark.text.link.hover"
       ]
     },
     "color.accent.400": {
@@ -2774,13 +2790,12 @@
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
         "gradient.glow",
-        "semantic.dark.border.interactive.focused",
-        "semantic.dark.foreground.interactive.default",
-        "semantic.dark.icon.interactive.visited",
-        "semantic.dark.text.interactive.default",
-        "semantic.dark.text.interactive.focused",
-        "semantic.hc-dark.icon.interactive.default",
-        "semantic.hc-dark.icon.interactive.focused"
+        "semantic.dark.action.default",
+        "semantic.dark.border.focus",
+        "semantic.dark.icon.link.default",
+        "semantic.dark.icon.link.focused",
+        "semantic.dark.text.link.default",
+        "semantic.dark.text.link.focused"
       ]
     },
     "color.accent.450": {
@@ -2788,10 +2803,7 @@
       "meaning": "accent ramp — raw step 450",
       "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
-      "aliased_by": [
-        "semantic.dark.icon.interactive.hover"
-      ]
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.accent.500": {
       "$description": "Brand accent 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
@@ -2800,11 +2812,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "gradient.brand",
-        "semantic.dark.icon.interactive.default",
-        "semantic.dark.icon.interactive.focused",
-        "semantic.light.icon.interactive.default",
-        "semantic.light.icon.interactive.focused"
+        "gradient.brand"
       ]
     },
     "color.accent.550": {
@@ -2812,10 +2820,7 @@
       "meaning": "accent ramp — raw step 550",
       "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
-      "aliased_by": [
-        "semantic.light.icon.interactive.hover"
-      ]
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
     },
     "color.accent.600": {
       "$description": "Brand accent 600 — Mid-Tone band",
@@ -2824,13 +2829,12 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.hc-light.icon.interactive.default",
-        "semantic.hc-light.icon.interactive.focused",
-        "semantic.light.border.interactive.focused",
-        "semantic.light.foreground.interactive.default",
-        "semantic.light.icon.interactive.visited",
-        "semantic.light.text.interactive.default",
-        "semantic.light.text.interactive.focused"
+        "semantic.light.action.default",
+        "semantic.light.border.focus",
+        "semantic.light.icon.link.default",
+        "semantic.light.icon.link.focused",
+        "semantic.light.text.link.default",
+        "semantic.light.text.link.focused"
       ]
     },
     "color.accent.650": {
@@ -2840,10 +2844,10 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.hc-light.icon.interactive.hover",
-        "semantic.light.foreground.interactive.focused",
-        "semantic.light.foreground.interactive.hover",
-        "semantic.light.text.interactive.hover"
+        "semantic.light.action.focused",
+        "semantic.light.action.hover",
+        "semantic.light.icon.link.hover",
+        "semantic.light.text.link.hover"
       ]
     },
     "color.accent.700": {
@@ -2854,14 +2858,16 @@
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
         "gradient.glow",
-        "semantic.hc-light.border.interactive.focused",
-        "semantic.hc-light.foreground.interactive.default",
-        "semantic.hc-light.icon.interactive.visited",
-        "semantic.hc-light.text.interactive.default",
-        "semantic.hc-light.text.interactive.focused",
-        "semantic.light.foreground.interactive.pressed",
-        "semantic.light.foreground.interactive.selected",
-        "semantic.light.text.interactive.visited"
+        "semantic.hc-light.action.default",
+        "semantic.hc-light.border.focus",
+        "semantic.hc-light.icon.link.default",
+        "semantic.hc-light.icon.link.focused",
+        "semantic.hc-light.text.link.default",
+        "semantic.hc-light.text.link.focused",
+        "semantic.light.action.pressed",
+        "semantic.light.action.selected",
+        "semantic.light.icon.link.visited",
+        "semantic.light.text.link.visited"
       ]
     },
     "color.accent.750": {
@@ -2871,9 +2877,10 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.hc-light.foreground.interactive.focused",
-        "semantic.hc-light.foreground.interactive.hover",
-        "semantic.hc-light.text.interactive.hover"
+        "semantic.hc-light.action.focused",
+        "semantic.hc-light.action.hover",
+        "semantic.hc-light.icon.link.hover",
+        "semantic.hc-light.text.link.hover"
       ]
     },
     "color.accent.800": {
@@ -2883,9 +2890,10 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.hc-light.foreground.interactive.pressed",
-        "semantic.hc-light.foreground.interactive.selected",
-        "semantic.hc-light.text.interactive.visited"
+        "semantic.hc-light.action.pressed",
+        "semantic.hc-light.action.selected",
+        "semantic.hc-light.icon.link.visited",
+        "semantic.hc-light.text.link.visited"
       ]
     },
     "color.accent.850": {
@@ -2930,8 +2938,8 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.hc-light.background.success-subtle",
-        "semantic.light.background.success-subtle"
+        "semantic.hc-light.foreground.success-subtle",
+        "semantic.light.foreground.success-subtle"
       ]
     },
     "color.success.150": {
@@ -2971,7 +2979,13 @@
       "meaning": "success ramp — raw step 350",
       "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.dark.icon.success-subtle",
+        "semantic.dark.text.success-subtle",
+        "semantic.hc-dark.icon.success-subtle",
+        "semantic.hc-dark.text.success-subtle"
+      ]
     },
     "color.success.400": {
       "$description": "success status 400 — Mid-Tone band",
@@ -2989,7 +3003,11 @@
       "aliased_by": [
         "semantic.dark.foreground.success",
         "semantic.dark.text.success",
-        "semantic.hc-dark.icon.success"
+        "semantic.hc-dark.icon.success",
+        "semantic.hc-light.icon.success-subtle",
+        "semantic.hc-light.text.success-subtle",
+        "semantic.light.icon.success-subtle",
+        "semantic.light.text.success-subtle"
       ]
     },
     "color.success.500": {
@@ -3072,8 +3090,8 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.background.success-subtle",
-        "semantic.hc-dark.background.success-subtle"
+        "semantic.dark.foreground.success-subtle",
+        "semantic.hc-dark.foreground.success-subtle"
       ]
     },
     "color.success.950": {
@@ -3104,8 +3122,8 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.hc-light.background.warning-subtle",
-        "semantic.light.background.warning-subtle"
+        "semantic.hc-light.foreground.warning-subtle",
+        "semantic.light.foreground.warning-subtle"
       ]
     },
     "color.warning.150": {
@@ -3145,7 +3163,13 @@
       "meaning": "warning ramp — raw step 350",
       "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.dark.icon.warning-subtle",
+        "semantic.dark.text.warning-subtle",
+        "semantic.hc-dark.icon.warning-subtle",
+        "semantic.hc-dark.text.warning-subtle"
+      ]
     },
     "color.warning.400": {
       "$description": "warning status 400 — Mid-Tone band",
@@ -3163,7 +3187,11 @@
       "aliased_by": [
         "semantic.dark.foreground.warning",
         "semantic.dark.text.warning",
-        "semantic.hc-dark.icon.warning"
+        "semantic.hc-dark.icon.warning",
+        "semantic.hc-light.icon.warning-subtle",
+        "semantic.hc-light.text.warning-subtle",
+        "semantic.light.icon.warning-subtle",
+        "semantic.light.text.warning-subtle"
       ]
     },
     "color.warning.500": {
@@ -3246,8 +3274,8 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.background.warning-subtle",
-        "semantic.hc-dark.background.warning-subtle"
+        "semantic.dark.foreground.warning-subtle",
+        "semantic.hc-dark.foreground.warning-subtle"
       ]
     },
     "color.warning.950": {
@@ -3278,8 +3306,8 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.hc-light.background.info-subtle",
-        "semantic.light.background.info-subtle"
+        "semantic.hc-light.foreground.info-subtle",
+        "semantic.light.foreground.info-subtle"
       ]
     },
     "color.info.150": {
@@ -3319,7 +3347,13 @@
       "meaning": "info ramp — raw step 350",
       "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.dark.icon.info-subtle",
+        "semantic.dark.text.info-subtle",
+        "semantic.hc-dark.icon.info-subtle",
+        "semantic.hc-dark.text.info-subtle"
+      ]
     },
     "color.info.400": {
       "$description": "info status 400 — Mid-Tone band",
@@ -3337,7 +3371,11 @@
       "aliased_by": [
         "semantic.dark.foreground.info",
         "semantic.dark.text.info",
-        "semantic.hc-dark.icon.info"
+        "semantic.hc-dark.icon.info",
+        "semantic.hc-light.icon.info-subtle",
+        "semantic.hc-light.text.info-subtle",
+        "semantic.light.icon.info-subtle",
+        "semantic.light.text.info-subtle"
       ]
     },
     "color.info.500": {
@@ -3420,8 +3458,8 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.background.info-subtle",
-        "semantic.hc-dark.background.info-subtle"
+        "semantic.dark.foreground.info-subtle",
+        "semantic.hc-dark.foreground.info-subtle"
       ]
     },
     "color.info.950": {
@@ -3452,8 +3490,8 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.hc-light.background.danger-subtle",
-        "semantic.light.background.danger-subtle"
+        "semantic.hc-light.foreground.danger-subtle",
+        "semantic.light.foreground.danger-subtle"
       ]
     },
     "color.danger.150": {
@@ -3504,7 +3542,11 @@
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
         "semantic.dark.foreground.danger.pressed",
-        "semantic.dark.foreground.danger.selected"
+        "semantic.dark.foreground.danger.selected",
+        "semantic.dark.icon.danger-subtle",
+        "semantic.dark.text.danger-subtle",
+        "semantic.hc-dark.icon.danger-subtle",
+        "semantic.hc-dark.text.danger-subtle"
       ]
     },
     "color.danger.400": {
@@ -3527,7 +3569,11 @@
       "aliased_by": [
         "semantic.dark.foreground.danger.default",
         "semantic.dark.text.danger",
-        "semantic.hc-dark.icon.danger"
+        "semantic.hc-dark.icon.danger",
+        "semantic.hc-light.icon.danger-subtle",
+        "semantic.hc-light.text.danger-subtle",
+        "semantic.light.icon.danger-subtle",
+        "semantic.light.text.danger-subtle"
       ]
     },
     "color.danger.500": {
@@ -3624,8 +3670,8 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.background.danger-subtle",
-        "semantic.hc-dark.background.danger-subtle"
+        "semantic.dark.foreground.danger-subtle",
+        "semantic.hc-dark.foreground.danger-subtle"
       ]
     },
     "color.danger.950": {
@@ -4470,17 +4516,7 @@
       "$description": "shadow sm — elevation 2 of 6, 2-layer (key+ambient)",
       "meaning": "Shadow / elevation composite — sm (2-layer, mode-aware)",
       "tier": "primitive",
-      "consume": "Consumable — apply the elevation step directly (mode-aware: light shadow / reduced in dark, surface lift carries dark elevation).",
-      "aliased_by": [
-        "semantic.dark.elevation.card.shadow",
-        "semantic.dark.elevation.raised.shadow",
-        "semantic.hc-dark.elevation.card.shadow",
-        "semantic.hc-dark.elevation.raised.shadow",
-        "semantic.hc-light.elevation.card.shadow",
-        "semantic.hc-light.elevation.raised.shadow",
-        "semantic.light.elevation.card.shadow",
-        "semantic.light.elevation.raised.shadow"
-      ]
+      "consume": "Consumable — apply the elevation step directly (mode-aware: light shadow / reduced in dark, surface lift carries dark elevation)."
     },
     "shadow.md": {
       "$description": "shadow md — elevation 3 of 6, 2-layer (key+ambient)",
@@ -4492,49 +4528,13 @@
       "$description": "shadow lg — elevation 4 of 6, 2-layer (key+ambient)",
       "meaning": "Shadow / elevation composite — lg (2-layer, mode-aware)",
       "tier": "primitive",
-      "consume": "Consumable — apply the elevation step directly (mode-aware: light shadow / reduced in dark, surface lift carries dark elevation).",
-      "aliased_by": [
-        "semantic.dark.elevation.dropdown.shadow",
-        "semantic.dark.elevation.menu.shadow",
-        "semantic.dark.elevation.overlay.shadow",
-        "semantic.dark.elevation.popover.shadow",
-        "semantic.hc-dark.elevation.dropdown.shadow",
-        "semantic.hc-dark.elevation.menu.shadow",
-        "semantic.hc-dark.elevation.overlay.shadow",
-        "semantic.hc-dark.elevation.popover.shadow",
-        "semantic.hc-light.elevation.dropdown.shadow",
-        "semantic.hc-light.elevation.menu.shadow",
-        "semantic.hc-light.elevation.overlay.shadow",
-        "semantic.hc-light.elevation.popover.shadow",
-        "semantic.light.elevation.dropdown.shadow",
-        "semantic.light.elevation.menu.shadow",
-        "semantic.light.elevation.overlay.shadow",
-        "semantic.light.elevation.popover.shadow"
-      ]
+      "consume": "Consumable — apply the elevation step directly (mode-aware: light shadow / reduced in dark, surface lift carries dark elevation)."
     },
     "shadow.xl": {
       "$description": "shadow xl — elevation 5 of 6, 2-layer (key+ambient)",
       "meaning": "Shadow / elevation composite — xl (2-layer, mode-aware)",
       "tier": "primitive",
-      "consume": "Consumable — apply the elevation step directly (mode-aware: light shadow / reduced in dark, surface lift carries dark elevation).",
-      "aliased_by": [
-        "semantic.dark.elevation.dialog.shadow",
-        "semantic.dark.elevation.floating.shadow",
-        "semantic.dark.elevation.modal.shadow",
-        "semantic.dark.elevation.tooltip.shadow",
-        "semantic.hc-dark.elevation.dialog.shadow",
-        "semantic.hc-dark.elevation.floating.shadow",
-        "semantic.hc-dark.elevation.modal.shadow",
-        "semantic.hc-dark.elevation.tooltip.shadow",
-        "semantic.hc-light.elevation.dialog.shadow",
-        "semantic.hc-light.elevation.floating.shadow",
-        "semantic.hc-light.elevation.modal.shadow",
-        "semantic.hc-light.elevation.tooltip.shadow",
-        "semantic.light.elevation.dialog.shadow",
-        "semantic.light.elevation.floating.shadow",
-        "semantic.light.elevation.modal.shadow",
-        "semantic.light.elevation.tooltip.shadow"
-      ]
+      "consume": "Consumable — apply the elevation step directly (mode-aware: light shadow / reduced in dark, surface lift carries dark elevation)."
     },
     "shadow.2xl": {
       "$description": "shadow 2xl — elevation 6 of 6, 2-layer (key+ambient)",
@@ -4546,17 +4546,7 @@
       "$description": "shadow inset — inner shadow for wells / pressed states / inputs",
       "meaning": "Shadow / elevation composite — inset (2-layer, mode-aware)",
       "tier": "primitive",
-      "consume": "Consumable — apply the elevation step directly (mode-aware: light shadow / reduced in dark, surface lift carries dark elevation).",
-      "aliased_by": [
-        "semantic.dark.elevation.sunken.shadow",
-        "semantic.dark.elevation.well.shadow",
-        "semantic.hc-dark.elevation.sunken.shadow",
-        "semantic.hc-dark.elevation.well.shadow",
-        "semantic.hc-light.elevation.sunken.shadow",
-        "semantic.hc-light.elevation.well.shadow",
-        "semantic.light.elevation.sunken.shadow",
-        "semantic.light.elevation.well.shadow"
-      ]
+      "consume": "Consumable — apply the elevation step directly (mode-aware: light shadow / reduced in dark, surface lift carries dark elevation)."
     },
     "breakpoint.xs": {
       "$description": "breakpoint xs — min-width 0px (mobile-first)",

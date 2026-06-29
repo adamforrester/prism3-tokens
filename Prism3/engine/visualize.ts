@@ -5,8 +5,8 @@
  * self-contained HTML page covering every generated axis: colour swatches per
  * palette, the per-mode semantic roles (resolved colour + contrast), the
  * dimension axis (grid / space / radius / component sizes), typography (the
- * composite text styles rendered live + the font primitives), shadow &
- * elevation (on a light panel), motion (durations + animated easing curves +
+ * composite text styles rendered live + the font primitives), shadow (on a
+ * light panel), motion (durations + animated easing curves +
  * springs), layout (breakpoints / grid / containers), gradient (opt-in — OKLCH
  * web vs sRGB-sampled Figma side by side), and opacity + border-width. No
  * dependencies, no network — open the file in any browser.
@@ -232,9 +232,11 @@ for (const b of brands) {
   }
   html.push('</div>');
 
-  // ---- shadow + elevation (light panel) ----
+  // ---- shadow (light panel) ----
+  // Elevation is no longer a colour group — it's a foreground surface tier + one of
+  // these shadow steps, composed at the component layer (see docs/06).
   txt.push('\n— SHADOW (elevation ladder) —');
-  html.push('<h3>Shadow &amp; elevation <span class="muted">light mode · 2-layer key+ambient · elevation joins surface + shadow</span></h3>');
+  html.push('<h3>Shadow <span class="muted">light mode · 2-layer key+ambient · elevation = a foreground tier + a shadow</span></h3>');
   html.push('<div class="lightpanel"><div class="lpsub">shadow ladder</div><div class="shrow">');
   for (const k of Object.keys(data.shadow)) {
     const layers = data.shadow[k].$value;
@@ -243,20 +245,7 @@ for (const b of brands) {
     txt.push(`  shadow.${k.padEnd(5)} ${n} layer(s)`);
     html.push(`<div class="shcell"><div class="shbox" style="box-shadow:${css}"></div><span>${k}</span><small>${n} layer${n > 1 ? 's' : ''}</small></div>`);
   }
-  html.push('</div>');
-  // elevation levels (surface + shadow together), light mode
-  const elev = data.semantic[modes[0]].elevation;
-  if (elev) {
-    const levelKeys = Object.keys(elev).filter((k) => !elev[k].surface?.$extensions?.prism3?.component);
-    html.push('<div class="lpsub">elevation levels <span class="lpmuted">(surface + shadow)</span></div><div class="shrow">');
-    for (const k of levelKeys) {
-      const surfHex = hexOf(tree, elev[k].surface);
-      const shCss = elev[k].shadow ? shadowCssOf(tree, elev[k].shadow) : 'none';
-      html.push(`<div class="shcell"><div class="shbox" style="background:${surfHex};box-shadow:${shCss}"></div><span>${k}</span></div>`);
-    }
-    html.push('</div>');
-  }
-  html.push('</div>');
+  html.push('</div></div>');
 
   // ---- gradient (opt-in brand gradients) ----
   if (data.gradient) {
@@ -445,7 +434,7 @@ const page = `<!doctype html><html lang="en"><head><meta charset="utf-8">
   .bwcell small{color:#6b7280}
 </style></head><body>
 <h1>Prism3 — generated token taxonomy</h1>
-<p class="lead">Every value below is engine-generated from a small theme input and read back from the emitted DTCG files (<code>out/*.tokens.json</code>) — colour, semantic roles, dimension, typography, shadow &amp; elevation, motion, layout, gradient (opt-in), opacity and border-width. ★ marks the exact brand anchor. Type styles, shadows and easing curves are rendered live from the resolved tokens. Regenerate with <code>npx tsx Prism3/engine/visualize.ts</code>.</p>
+<p class="lead">Every value below is engine-generated from a small theme input and read back from the emitted DTCG files (<code>out/*.tokens.json</code>) — colour, semantic roles, dimension, typography, shadow, motion, layout, gradient (opt-in), opacity and border-width. ★ marks the exact brand anchor. Type styles, shadows and easing curves are rendered live from the resolved tokens. Regenerate with <code>npx tsx Prism3/engine/visualize.ts</code>.</p>
 ${html.join('\n')}
 </body></html>`;
 

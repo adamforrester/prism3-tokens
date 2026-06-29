@@ -152,17 +152,14 @@ because borders — not surface tints — carry structure in HC (see §4).
 Already shipped on `claude/semantic-color-refinements` (independent of this rework):
 the disabled-link removal and the first hc-elevation fix.
 
-## 6. Open decisions for red-line
+## 6. Decisions (resolved 2026-06-29)
 
-1. **`action` placement** — top-level `action.*` (recommended; Prism2 + KB), or
-   `foreground.action.*` for "every fill is a foreground"? I lean top-level.
-2. **`-subtle` syntax** — `foreground.danger-subtle` (flat suffix) vs
-   `foreground.danger.subtle` (nested). Suffix reads cleaner alongside stateful
-   `danger.{hover,…}`; confirm.
-3. **`background.tertiary`** — keep the third page step in reserve, or stop at
-   secondary until a use case appears?
-4. **Exact light surface steps** — the tonal ramp values (e.g. card = neutral.25
-   vs neutral.50) want a quick visual tune once built.
+1. **`action` placement** — ✅ **top-level `action.*`** (Prism2 + KB).
+2. **`-subtle` syntax** — ✅ **flat suffix** (`foreground.danger-subtle`,
+   `text.danger-subtle`).
+3. **`background.tertiary`** — ✅ **keep** the third page step.
+4. **Exact light surface steps** — go with the engine's recommended values; **tune
+   visually** once the style guide renders the new model.
 
 ## 7. Engine impact
 

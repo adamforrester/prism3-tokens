@@ -2288,7 +2288,7 @@
           "primary": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Page surface (elevation 1 — base)",
+            "$description": "Page surface — the canvas / base",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -2301,50 +2301,8 @@
           },
           "secondary": {
             "$type": "color",
-            "$value": "{nbds.color.white}",
-            "$description": "Raised surface (elevation 2 — cards / panels)",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.white",
-                "mode": "light",
-                "contrast": 1,
-                "against": "self"
-              }
-            }
-          },
-          "tertiary": {
-            "$type": "color",
-            "$value": "{nbds.color.white}",
-            "$description": "Higher surface (elevation 3 — nested / menus)",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.white",
-                "mode": "light",
-                "contrast": 1,
-                "against": "self"
-              }
-            }
-          },
-          "quaternary": {
-            "$type": "color",
-            "$value": "{nbds.color.white}",
-            "$description": "Floating surface (elevation 4 — dialogs / popovers)",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.white",
-                "mode": "light",
-                "contrast": 1,
-                "against": "self"
-              }
-            }
-          },
-          "subtle": {
-            "$type": "color",
             "$value": "{nbds.color.neutral.050}",
-            "$description": "Subtle surface — muted grouped fill (off the ladder)",
+            "$description": "Page surface, second tier — a slightly tinted page / band",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -2355,14 +2313,14 @@
               }
             }
           },
-          "sunken": {
+          "tertiary": {
             "$type": "color",
-            "$value": "{nbds.color.neutral.200}",
-            "$description": "Sunken surface — wells / insets (below the page)",
+            "$value": "{nbds.color.neutral.100}",
+            "$description": "Page surface, third tier",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.neutral.200",
+                "aliasOf": "nbds.color.neutral.100",
                 "mode": "light",
                 "contrast": 1,
                 "against": "self"
@@ -2370,86 +2328,46 @@
             }
           },
           "inverse": {
-            "$type": "color",
-            "$value": "{nbds.color.neutral.850}",
-            "$description": "Inverse surface",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.neutral.850",
-                "mode": "light",
-                "contrast": 1,
-                "against": "self"
+            "primary": {
+              "$type": "color",
+              "$value": "{nbds.color.black}",
+              "$description": "Inverse page surface — a dark band in light mode",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.color.black",
+                  "mode": "light",
+                  "contrast": 1,
+                  "against": "self"
+                }
               }
-            }
-          },
-          "brand-subtle": {
-            "$type": "color",
-            "$value": "{nbds.color.red.100}",
-            "$description": "Subtle brand tint",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.red.100",
-                "mode": "light",
-                "contrast": 1,
-                "against": "self"
+            },
+            "secondary": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.950}",
+              "$description": "Inverse page surface, second tier",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.color.neutral.950",
+                  "mode": "light",
+                  "contrast": 1,
+                  "against": "self"
+                }
               }
-            }
-          },
-          "success-subtle": {
-            "$type": "color",
-            "$value": "{nbds.color.green.100}",
-            "$description": "Subtle success tint",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.green.100",
-                "mode": "light",
-                "contrast": 1,
-                "against": "self"
-              }
-            }
-          },
-          "warning-subtle": {
-            "$type": "color",
-            "$value": "{nbds.color.amber.100}",
-            "$description": "Subtle warning tint",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.amber.100",
-                "mode": "light",
-                "contrast": 1,
-                "against": "self"
-              }
-            }
-          },
-          "danger-subtle": {
-            "$type": "color",
-            "$value": "{nbds.color.red.100}",
-            "$description": "Subtle danger tint",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.red.100",
-                "mode": "light",
-                "contrast": 1,
-                "against": "self"
-              }
-            }
-          },
-          "info-subtle": {
-            "$type": "color",
-            "$value": "{nbds.color.info.100}",
-            "$description": "Subtle info tint",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.info.100",
-                "mode": "light",
-                "contrast": 1,
-                "against": "self"
+            },
+            "tertiary": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.900}",
+              "$description": "Inverse page surface, third tier",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.color.neutral.900",
+                  "mode": "light",
+                  "contrast": 1,
+                  "against": "self"
+                }
               }
             }
           }
@@ -2473,64 +2391,94 @@
         "foreground": {
           "primary": {
             "$type": "color",
-            "$value": "{nbds.color.neutral.950}",
-            "$description": "Strong neutral fill — high-emphasis neutral element",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.neutral.950",
-                "mode": "light",
-                "contrast": 19.44,
-                "against": "background.primary"
-              }
-            }
-          },
-          "secondary": {
-            "$type": "color",
-            "$value": "{nbds.color.neutral.200}",
-            "$description": "Medium neutral fill",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.neutral.200",
-                "mode": "light",
-                "contrast": 1.81,
-                "against": "background.primary"
-              }
-            }
-          },
-          "tertiary": {
-            "$type": "color",
-            "$value": "{nbds.color.neutral.100}",
-            "$description": "Subtle neutral fill",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.neutral.100",
-                "mode": "light",
-                "contrast": 1.38,
-                "against": "background.primary"
-              }
-            }
-          },
-          "inverse": {
-            "$type": "color",
             "$value": "{nbds.color.neutral.050}",
-            "$description": "Inverse neutral fill — for inverse contexts",
+            "$description": "Default surface placed on the page — a card",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
                 "aliasOf": "nbds.color.neutral.050",
                 "mode": "light",
-                "contrast": 1.22,
-                "against": "background.inverse"
+                "contrast": 1,
+                "against": "self"
+              }
+            }
+          },
+          "secondary": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.100}",
+            "$description": "A second surface — a panel / nested container",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.neutral.100",
+                "mode": "light",
+                "contrast": 1,
+                "against": "self"
+              }
+            }
+          },
+          "tertiary": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.150}",
+            "$description": "A third surface step",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.neutral.150",
+                "mode": "light",
+                "contrast": 1,
+                "against": "self"
+              }
+            }
+          },
+          "inverse": {
+            "primary": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.950}",
+              "$description": "Inverse / bold surface — a dark fill in light mode",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.color.neutral.950",
+                  "mode": "light",
+                  "contrast": 1,
+                  "against": "self"
+                }
+              }
+            },
+            "secondary": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.900}",
+              "$description": "Inverse surface, second tier",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.color.neutral.900",
+                  "mode": "light",
+                  "contrast": 1,
+                  "against": "self"
+                }
+              }
+            },
+            "tertiary": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.850}",
+              "$description": "Inverse surface, third tier",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.color.neutral.850",
+                  "mode": "light",
+                  "contrast": 1,
+                  "against": "self"
+                }
               }
             }
           },
           "brand": {
             "$type": "color",
             "$value": "{nbds.color.red.550}",
-            "$description": "brand fill — clears 4.5:1 on the floor (neutral.050)",
+            "$description": "Bold brand fill — clears 4.5:1 on the floor (neutral.050)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -2545,7 +2493,7 @@
           "success": {
             "$type": "color",
             "$value": "{nbds.color.green.550}",
-            "$description": "success fill — clears 4.5:1 on the floor (neutral.050)",
+            "$description": "Bold success fill — clears 4.5:1 on the floor (neutral.050)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -2560,7 +2508,7 @@
           "warning": {
             "$type": "color",
             "$value": "{nbds.color.amber.600}",
-            "$description": "warning fill — clears 4.5:1 on the floor (neutral.050)",
+            "$description": "Bold warning fill — clears 4.5:1 on the floor (neutral.050)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -2575,7 +2523,7 @@
           "info": {
             "$type": "color",
             "$value": "{nbds.color.info.550}",
-            "$description": "info fill — clears 4.5:1 on the floor (neutral.050)",
+            "$description": "Bold info fill — clears 4.5:1 on the floor (neutral.050)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -2587,94 +2535,73 @@
               }
             }
           },
-          "interactive": {
-            "default": {
-              "$type": "color",
-              "$value": "{nbds.color.red.550}",
-              "$description": "Interactive fill (action) — default",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.red.550",
-                  "mode": "light",
-                  "contrast": 4.62,
-                  "against": "neutral.050",
-                  "min": 4.5
-                }
+          "brand-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.red.100}",
+            "$description": "Subtle brand tint surface — banners, badges, selected rows",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.100",
+                "mode": "light",
+                "contrast": 1,
+                "against": "self"
               }
-            },
-            "hover": {
-              "$type": "color",
-              "$value": "{nbds.color.red.600}",
-              "$description": "Interactive fill (action) — hover",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.red.600",
-                  "mode": "light",
-                  "contrast": 5.64,
-                  "against": "neutral.050",
-                  "min": 4.5
-                }
+            }
+          },
+          "success-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.green.100}",
+            "$description": "Subtle success tint surface — banners, badges, selected rows",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.green.100",
+                "mode": "light",
+                "contrast": 1,
+                "against": "self"
               }
-            },
-            "pressed": {
-              "$type": "color",
-              "$value": "{nbds.color.red.650}",
-              "$description": "Interactive fill (action) — pressed",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.red.650",
-                  "mode": "light",
-                  "contrast": 6.82,
-                  "against": "neutral.050",
-                  "min": 4.5
-                }
+            }
+          },
+          "warning-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.amber.100}",
+            "$description": "Subtle warning tint surface — banners, badges, selected rows",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.amber.100",
+                "mode": "light",
+                "contrast": 1,
+                "against": "self"
               }
-            },
-            "focused": {
-              "$type": "color",
-              "$value": "{nbds.color.red.600}",
-              "$description": "Interactive fill (action) — focused",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.red.600",
-                  "mode": "light",
-                  "contrast": 5.64,
-                  "against": "neutral.050",
-                  "min": 4.5
-                }
+            }
+          },
+          "danger-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.red.100}",
+            "$description": "Subtle danger tint surface — banners, badges, selected rows",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.100",
+                "mode": "light",
+                "contrast": 1,
+                "against": "self"
               }
-            },
-            "selected": {
-              "$type": "color",
-              "$value": "{nbds.color.red.650}",
-              "$description": "Interactive fill (action) — selected",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.red.650",
-                  "mode": "light",
-                  "contrast": 6.82,
-                  "against": "neutral.050",
-                  "min": 4.5
-                }
-              }
-            },
-            "disabled": {
-              "$type": "color",
-              "$value": "{nbds.color.neutral.200}",
-              "$description": "Interactive fill (action) — disabled",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.200",
-                  "mode": "light",
-                  "contrast": 1.81,
-                  "against": "background.primary"
-                }
+            }
+          },
+          "info-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.info.100}",
+            "$description": "Subtle info tint surface — banners, badges, selected rows",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.info.100",
+                "mode": "light",
+                "contrast": 1,
+                "against": "self"
               }
             }
           },
@@ -2770,6 +2697,97 @@
             }
           }
         },
+        "action": {
+          "default": {
+            "$type": "color",
+            "$value": "{nbds.color.red.550}",
+            "$description": "Interactive (action) fill — default",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.550",
+                "mode": "light",
+                "contrast": 4.62,
+                "against": "neutral.050",
+                "min": 4.5
+              }
+            }
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{nbds.color.red.600}",
+            "$description": "Interactive (action) fill — hover",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.600",
+                "mode": "light",
+                "contrast": 5.64,
+                "against": "neutral.050",
+                "min": 4.5
+              }
+            }
+          },
+          "pressed": {
+            "$type": "color",
+            "$value": "{nbds.color.red.650}",
+            "$description": "Interactive (action) fill — pressed",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.650",
+                "mode": "light",
+                "contrast": 6.82,
+                "against": "neutral.050",
+                "min": 4.5
+              }
+            }
+          },
+          "focused": {
+            "$type": "color",
+            "$value": "{nbds.color.red.600}",
+            "$description": "Interactive (action) fill — focused",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.600",
+                "mode": "light",
+                "contrast": 5.64,
+                "against": "neutral.050",
+                "min": 4.5
+              }
+            }
+          },
+          "selected": {
+            "$type": "color",
+            "$value": "{nbds.color.red.650}",
+            "$description": "Interactive (action) fill — selected",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.650",
+                "mode": "light",
+                "contrast": 6.82,
+                "against": "neutral.050",
+                "min": 4.5
+              }
+            }
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.200}",
+            "$description": "Interactive (action) fill — disabled",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.neutral.200",
+                "mode": "light",
+                "contrast": 1.81,
+                "against": "background.primary"
+              }
+            }
+          }
+        },
         "text": {
           "primary": {
             "$type": "color",
@@ -2828,21 +2846,6 @@
                 "contrast": 3.16,
                 "against": "neutral.050",
                 "min": 3
-              }
-            }
-          },
-          "inverse": {
-            "$type": "color",
-            "$value": "{nbds.color.neutral.025}",
-            "$description": "Inverse text — on the opposite surface",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.neutral.025",
-                "mode": "light",
-                "contrast": 19.57,
-                "against": "background.inverse",
-                "min": 4.5
               }
             }
           },
@@ -2921,17 +2924,87 @@
               }
             }
           },
-          "on-interactive": {
+          "brand-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.red.450}",
+            "$description": "Muted brand text — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.450",
+                "mode": "light",
+                "contrast": 3.85,
+                "against": "background.primary"
+              }
+            }
+          },
+          "success-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.green.450}",
+            "$description": "Muted success text — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.green.450",
+                "mode": "light",
+                "contrast": 4.11,
+                "against": "background.primary"
+              }
+            }
+          },
+          "warning-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.amber.450}",
+            "$description": "Muted warning text — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.amber.450",
+                "mode": "light",
+                "contrast": 3.79,
+                "against": "background.primary"
+              }
+            }
+          },
+          "danger-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.red.450}",
+            "$description": "Muted danger text — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.450",
+                "mode": "light",
+                "contrast": 3.85,
+                "against": "background.primary"
+              }
+            }
+          },
+          "info-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.info.450}",
+            "$description": "Muted info text — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.info.450",
+                "mode": "light",
+                "contrast": 3.86,
+                "against": "background.primary"
+              }
+            }
+          },
+          "on-action": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "text on the interactive fill",
+            "$description": "text on the action fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
                 "aliasOf": "nbds.color.white",
                 "mode": "light",
                 "contrast": 5.62,
-                "against": "foreground.interactive.default",
+                "against": "action.default",
                 "min": 4.5
               }
             }
@@ -3011,22 +3084,22 @@
               }
             }
           },
-          "on-emphasis": {
+          "on-inverse": {
             "$type": "color",
-            "$value": "{nbds.color.white}",
-            "$description": "text on an emphasis / inverse fill",
+            "$value": "{nbds.color.neutral.025}",
+            "$description": "text on an inverse surface",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.white",
+                "aliasOf": "nbds.color.neutral.025",
                 "mode": "light",
-                "contrast": 21,
-                "against": "background.inverse",
+                "contrast": 19.57,
+                "against": "background.inverse.primary",
                 "min": 4.5
               }
             }
           },
-          "interactive": {
+          "link": {
             "default": {
               "$type": "color",
               "$value": "{nbds.color.red.550}",
@@ -3150,21 +3223,6 @@
               }
             }
           },
-          "inverse": {
-            "$type": "color",
-            "$value": "{nbds.color.neutral.025}",
-            "$description": "Inverse icon — on the opposite surface",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.neutral.025",
-                "mode": "light",
-                "contrast": 19.57,
-                "against": "background.inverse",
-                "min": 4.5
-              }
-            }
-          },
           "brand": {
             "$type": "color",
             "$value": "{nbds.color.red.550}",
@@ -3240,17 +3298,87 @@
               }
             }
           },
-          "on-interactive": {
+          "brand-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.red.450}",
+            "$description": "Muted brand icon — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.450",
+                "mode": "light",
+                "contrast": 3.85,
+                "against": "background.primary"
+              }
+            }
+          },
+          "success-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.green.450}",
+            "$description": "Muted success icon — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.green.450",
+                "mode": "light",
+                "contrast": 4.11,
+                "against": "background.primary"
+              }
+            }
+          },
+          "warning-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.amber.450}",
+            "$description": "Muted warning icon — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.amber.450",
+                "mode": "light",
+                "contrast": 3.79,
+                "against": "background.primary"
+              }
+            }
+          },
+          "danger-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.red.450}",
+            "$description": "Muted danger icon — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.450",
+                "mode": "light",
+                "contrast": 3.85,
+                "against": "background.primary"
+              }
+            }
+          },
+          "info-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.info.450}",
+            "$description": "Muted info icon — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.info.450",
+                "mode": "light",
+                "contrast": 3.86,
+                "against": "background.primary"
+              }
+            }
+          },
+          "on-action": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "icon on the interactive fill",
+            "$description": "icon on the action fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
                 "aliasOf": "nbds.color.white",
                 "mode": "light",
                 "contrast": 5.62,
-                "against": "foreground.interactive.default",
+                "against": "action.default",
                 "min": 4.5
               }
             }
@@ -3330,22 +3458,22 @@
               }
             }
           },
-          "on-emphasis": {
+          "on-inverse": {
             "$type": "color",
-            "$value": "{nbds.color.white}",
-            "$description": "icon on an emphasis / inverse fill",
+            "$value": "{nbds.color.neutral.025}",
+            "$description": "icon on an inverse surface",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.white",
+                "aliasOf": "nbds.color.neutral.025",
                 "mode": "light",
-                "contrast": 21,
-                "against": "background.inverse",
+                "contrast": 19.57,
+                "against": "background.inverse.primary",
                 "min": 4.5
               }
             }
           },
-          "interactive": {
+          "link": {
             "default": {
               "$type": "color",
               "$value": "{nbds.color.red.550}",
@@ -3409,7 +3537,7 @@
           }
         },
         "border": {
-          "default": {
+          "primary": {
             "$type": "color",
             "$value": "{nbds.color.neutral.100}",
             "$description": "Default border — decorative, ~1.4:1",
@@ -3423,7 +3551,7 @@
               }
             }
           },
-          "strong": {
+          "secondary": {
             "$type": "color",
             "$value": "{nbds.color.neutral.400}",
             "$description": "Stronger border / divider",
@@ -3440,14 +3568,14 @@
           "inverse": {
             "$type": "color",
             "$value": "{nbds.color.neutral.850}",
-            "$description": "Inverse border",
+            "$description": "Border on inverse surfaces",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
                 "aliasOf": "nbds.color.neutral.850",
                 "mode": "light",
                 "contrast": 1.31,
-                "against": "background.inverse"
+                "against": "background.inverse.primary"
               }
             }
           },
@@ -3526,393 +3654,18 @@
               }
             }
           },
-          "interactive": {
-            "default": {
-              "$type": "color",
-              "$value": "{nbds.color.neutral.400}",
-              "$description": "Form-field / control border — default",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.400",
-                  "mode": "light",
-                  "contrast": 3.27,
-                  "against": "background.primary",
-                  "min": 3
-                }
-              }
-            },
-            "hover": {
-              "$type": "color",
-              "$value": "{nbds.color.neutral.500}",
-              "$description": "Form-field / control border — hover",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.500",
-                  "mode": "light",
-                  "contrast": 4.59,
-                  "against": "background.primary",
-                  "min": 3
-                }
-              }
-            },
-            "focused": {
-              "$type": "color",
-              "$value": "{nbds.color.red.550}",
-              "$description": "Form-field / control border — focused",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.red.550",
-                  "mode": "light",
-                  "contrast": 5.62,
-                  "against": "background.primary",
-                  "min": 3
-                }
-              }
-            },
-            "disabled": {
-              "$type": "color",
-              "$value": "{nbds.color.neutral.400}",
-              "$description": "Form-field / control border — disabled",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.400",
-                  "mode": "light",
-                  "contrast": 3.27,
-                  "against": "background.primary",
-                  "min": 3
-                }
-              }
-            }
-          }
-        },
-        "elevation": {
-          "sunken": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.light.background.sunken}",
-              "$description": "elevation sunken surface — background.sunken (light)",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.light.background.sunken",
-                  "elevation": "sunken"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.shadow.inset}",
-              "$description": "elevation sunken shadow — shadow.inset",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.shadow.inset",
-                  "elevation": "sunken"
-                }
-              }
-            }
-          },
-          "flat": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.light.background.primary}",
-              "$description": "elevation flat surface — background.primary (light)",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.light.background.primary",
-                  "elevation": "flat"
-                }
-              }
-            }
-          },
-          "raised": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.light.background.secondary}",
-              "$description": "elevation raised surface — background.secondary (light)",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.light.background.secondary",
-                  "elevation": "raised"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.shadow.sm}",
-              "$description": "elevation raised shadow — shadow.sm",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.shadow.sm",
-                  "elevation": "raised"
-                }
-              }
-            }
-          },
-          "overlay": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.light.background.tertiary}",
-              "$description": "elevation overlay surface — background.tertiary (light)",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.light.background.tertiary",
-                  "elevation": "overlay"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.shadow.lg}",
-              "$description": "elevation overlay shadow — shadow.lg",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.shadow.lg",
-                  "elevation": "overlay"
-                }
-              }
-            }
-          },
-          "floating": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.light.background.quaternary}",
-              "$description": "elevation floating surface — background.quaternary (light)",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.light.background.quaternary",
-                  "elevation": "floating"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.shadow.xl}",
-              "$description": "elevation floating shadow — shadow.xl",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.shadow.xl",
-                  "elevation": "floating"
-                }
-              }
-            }
-          },
-          "card": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.light.elevation.raised.surface}",
-              "$description": "card → elevation.raised surface",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.light.elevation.raised.surface",
-                  "component": "card"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.semantic.light.elevation.raised.shadow}",
-              "$description": "card → elevation.raised shadow",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.light.elevation.raised.shadow",
-                  "component": "card"
-                }
-              }
-            }
-          },
-          "dropdown": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.light.elevation.overlay.surface}",
-              "$description": "dropdown → elevation.overlay surface",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.light.elevation.overlay.surface",
-                  "component": "dropdown"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.semantic.light.elevation.overlay.shadow}",
-              "$description": "dropdown → elevation.overlay shadow",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.light.elevation.overlay.shadow",
-                  "component": "dropdown"
-                }
-              }
-            }
-          },
-          "popover": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.light.elevation.overlay.surface}",
-              "$description": "popover → elevation.overlay surface",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.light.elevation.overlay.surface",
-                  "component": "popover"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.semantic.light.elevation.overlay.shadow}",
-              "$description": "popover → elevation.overlay shadow",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.light.elevation.overlay.shadow",
-                  "component": "popover"
-                }
-              }
-            }
-          },
-          "menu": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.light.elevation.overlay.surface}",
-              "$description": "menu → elevation.overlay surface",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.light.elevation.overlay.surface",
-                  "component": "menu"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.semantic.light.elevation.overlay.shadow}",
-              "$description": "menu → elevation.overlay shadow",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.light.elevation.overlay.shadow",
-                  "component": "menu"
-                }
-              }
-            }
-          },
-          "dialog": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.light.elevation.floating.surface}",
-              "$description": "dialog → elevation.floating surface",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.light.elevation.floating.surface",
-                  "component": "dialog"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.semantic.light.elevation.floating.shadow}",
-              "$description": "dialog → elevation.floating shadow",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.light.elevation.floating.shadow",
-                  "component": "dialog"
-                }
-              }
-            }
-          },
-          "modal": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.light.elevation.floating.surface}",
-              "$description": "modal → elevation.floating surface",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.light.elevation.floating.surface",
-                  "component": "modal"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.semantic.light.elevation.floating.shadow}",
-              "$description": "modal → elevation.floating shadow",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.light.elevation.floating.shadow",
-                  "component": "modal"
-                }
-              }
-            }
-          },
-          "tooltip": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.light.elevation.floating.surface}",
-              "$description": "tooltip → elevation.floating surface",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.light.elevation.floating.surface",
-                  "component": "tooltip"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.semantic.light.elevation.floating.shadow}",
-              "$description": "tooltip → elevation.floating shadow",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.light.elevation.floating.shadow",
-                  "component": "tooltip"
-                }
-              }
-            }
-          },
-          "well": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.light.elevation.sunken.surface}",
-              "$description": "well → elevation.sunken surface",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.light.elevation.sunken.surface",
-                  "component": "well"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.semantic.light.elevation.sunken.shadow}",
-              "$description": "well → elevation.sunken shadow",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.light.elevation.sunken.shadow",
-                  "component": "well"
-                }
+          "focus": {
+            "$type": "color",
+            "$value": "{nbds.color.red.550}",
+            "$description": "Focus ring colour (keyboard focus)",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.550",
+                "mode": "light",
+                "contrast": 5.62,
+                "against": "background.primary",
+                "min": 3
               }
             }
           }
@@ -3923,7 +3676,7 @@
           "primary": {
             "$type": "color",
             "$value": "{nbds.color.neutral.950}",
-            "$description": "Page surface (elevation 1 — base)",
+            "$description": "Page surface — the canvas / base",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -3937,7 +3690,7 @@
           "secondary": {
             "$type": "color",
             "$value": "{nbds.color.neutral.900}",
-            "$description": "Raised surface (elevation 2 — cards / panels)",
+            "$description": "Page surface, second tier — a slightly tinted page / band",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -3951,7 +3704,7 @@
           "tertiary": {
             "$type": "color",
             "$value": "{nbds.color.neutral.850}",
-            "$description": "Higher surface (elevation 3 — nested / menus)",
+            "$description": "Page surface, third tier",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -3962,129 +3715,47 @@
               }
             }
           },
-          "quaternary": {
-            "$type": "color",
-            "$value": "{nbds.color.neutral.800}",
-            "$description": "Floating surface (elevation 4 — dialogs / popovers)",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.neutral.800",
-                "mode": "dark",
-                "contrast": 1,
-                "against": "self"
-              }
-            }
-          },
-          "subtle": {
-            "$type": "color",
-            "$value": "{nbds.color.neutral.900}",
-            "$description": "Subtle surface — muted grouped fill (off the ladder)",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.neutral.900",
-                "mode": "dark",
-                "contrast": 1,
-                "against": "self"
-              }
-            }
-          },
-          "sunken": {
-            "$type": "color",
-            "$value": "{nbds.color.black}",
-            "$description": "Sunken surface — wells / insets (below the page)",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.black",
-                "mode": "dark",
-                "contrast": 1,
-                "against": "self"
-              }
-            }
-          },
           "inverse": {
-            "$type": "color",
-            "$value": "{nbds.color.neutral.100}",
-            "$description": "Inverse surface",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.neutral.100",
-                "mode": "dark",
-                "contrast": 1,
-                "against": "self"
+            "primary": {
+              "$type": "color",
+              "$value": "{nbds.color.white}",
+              "$description": "Inverse page surface — a dark band in light mode",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.color.white",
+                  "mode": "dark",
+                  "contrast": 1,
+                  "against": "self"
+                }
               }
-            }
-          },
-          "brand-subtle": {
-            "$type": "color",
-            "$value": "{nbds.color.red.900}",
-            "$description": "Subtle brand tint",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.red.900",
-                "mode": "dark",
-                "contrast": 1,
-                "against": "self"
+            },
+            "secondary": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.050}",
+              "$description": "Inverse page surface, second tier",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.color.neutral.050",
+                  "mode": "dark",
+                  "contrast": 1,
+                  "against": "self"
+                }
               }
-            }
-          },
-          "success-subtle": {
-            "$type": "color",
-            "$value": "{nbds.color.green.900}",
-            "$description": "Subtle success tint",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.green.900",
-                "mode": "dark",
-                "contrast": 1,
-                "against": "self"
-              }
-            }
-          },
-          "warning-subtle": {
-            "$type": "color",
-            "$value": "{nbds.color.amber.900}",
-            "$description": "Subtle warning tint",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.amber.900",
-                "mode": "dark",
-                "contrast": 1,
-                "against": "self"
-              }
-            }
-          },
-          "danger-subtle": {
-            "$type": "color",
-            "$value": "{nbds.color.red.900}",
-            "$description": "Subtle danger tint",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.red.900",
-                "mode": "dark",
-                "contrast": 1,
-                "against": "self"
-              }
-            }
-          },
-          "info-subtle": {
-            "$type": "color",
-            "$value": "{nbds.color.info.900}",
-            "$description": "Subtle info tint",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.info.900",
-                "mode": "dark",
-                "contrast": 1,
-                "against": "self"
+            },
+            "tertiary": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.100}",
+              "$description": "Inverse page surface, third tier",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.color.neutral.100",
+                  "mode": "dark",
+                  "contrast": 1,
+                  "against": "self"
+                }
               }
             }
           }
@@ -4108,64 +3779,94 @@
         "foreground": {
           "primary": {
             "$type": "color",
-            "$value": "{nbds.color.neutral.025}",
-            "$description": "Strong neutral fill — high-emphasis neutral element",
+            "$value": "{nbds.color.neutral.900}",
+            "$description": "Default surface placed on the page — a card",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.neutral.025",
+                "aliasOf": "nbds.color.neutral.900",
                 "mode": "dark",
-                "contrast": 18.11,
-                "against": "background.primary"
+                "contrast": 1,
+                "against": "self"
               }
             }
           },
           "secondary": {
             "$type": "color",
-            "$value": "{nbds.color.neutral.700}",
-            "$description": "Medium neutral fill",
+            "$value": "{nbds.color.neutral.850}",
+            "$description": "A second surface — a panel / nested container",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.neutral.700",
+                "aliasOf": "nbds.color.neutral.850",
                 "mode": "dark",
-                "contrast": 1.98,
-                "against": "background.primary"
+                "contrast": 1,
+                "against": "self"
               }
             }
           },
           "tertiary": {
             "$type": "color",
             "$value": "{nbds.color.neutral.800}",
-            "$description": "Subtle neutral fill",
+            "$description": "A third surface step",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
                 "aliasOf": "nbds.color.neutral.800",
                 "mode": "dark",
-                "contrast": 1.4,
-                "against": "background.primary"
+                "contrast": 1,
+                "against": "self"
               }
             }
           },
           "inverse": {
-            "$type": "color",
-            "$value": "{nbds.color.neutral.900}",
-            "$description": "Inverse neutral fill — for inverse contexts",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.neutral.900",
-                "mode": "dark",
-                "contrast": 1.08,
-                "against": "background.inverse"
+            "primary": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.050}",
+              "$description": "Inverse / bold surface — a dark fill in light mode",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.color.neutral.050",
+                  "mode": "dark",
+                  "contrast": 1,
+                  "against": "self"
+                }
+              }
+            },
+            "secondary": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.100}",
+              "$description": "Inverse surface, second tier",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.color.neutral.100",
+                  "mode": "dark",
+                  "contrast": 1,
+                  "against": "self"
+                }
+              }
+            },
+            "tertiary": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.150}",
+              "$description": "Inverse surface, third tier",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.color.neutral.150",
+                  "mode": "dark",
+                  "contrast": 1,
+                  "against": "self"
+                }
               }
             }
           },
           "brand": {
             "$type": "color",
             "$value": "{nbds.color.red.450}",
-            "$description": "brand fill — clears 4.5:1 on the floor (neutral.900)",
+            "$description": "Bold brand fill — clears 4.5:1 on the floor (neutral.900)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -4180,7 +3881,7 @@
           "success": {
             "$type": "color",
             "$value": "{nbds.color.green.400}",
-            "$description": "success fill — clears 4.5:1 on the floor (neutral.900)",
+            "$description": "Bold success fill — clears 4.5:1 on the floor (neutral.900)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -4195,7 +3896,7 @@
           "warning": {
             "$type": "color",
             "$value": "{nbds.color.amber.450}",
-            "$description": "warning fill — clears 4.5:1 on the floor (neutral.900)",
+            "$description": "Bold warning fill — clears 4.5:1 on the floor (neutral.900)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -4210,7 +3911,7 @@
           "info": {
             "$type": "color",
             "$value": "{nbds.color.info.450}",
-            "$description": "info fill — clears 4.5:1 on the floor (neutral.900)",
+            "$description": "Bold info fill — clears 4.5:1 on the floor (neutral.900)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -4222,94 +3923,73 @@
               }
             }
           },
-          "interactive": {
-            "default": {
-              "$type": "color",
-              "$value": "{nbds.color.red.450}",
-              "$description": "Interactive fill (action) — default",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.red.450",
-                  "mode": "dark",
-                  "contrast": 4.66,
-                  "against": "neutral.900",
-                  "min": 4.5
-                }
+          "brand-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.red.900}",
+            "$description": "Subtle brand tint surface — banners, badges, selected rows",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.900",
+                "mode": "dark",
+                "contrast": 1,
+                "against": "self"
               }
-            },
-            "hover": {
-              "$type": "color",
-              "$value": "{nbds.color.red.400}",
-              "$description": "Interactive fill (action) — hover",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.red.400",
-                  "mode": "dark",
-                  "contrast": 5.52,
-                  "against": "neutral.900",
-                  "min": 4.5
-                }
+            }
+          },
+          "success-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.green.900}",
+            "$description": "Subtle success tint surface — banners, badges, selected rows",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.green.900",
+                "mode": "dark",
+                "contrast": 1,
+                "against": "self"
               }
-            },
-            "pressed": {
-              "$type": "color",
-              "$value": "{nbds.color.red.350}",
-              "$description": "Interactive fill (action) — pressed",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.red.350",
-                  "mode": "dark",
-                  "contrast": 6.44,
-                  "against": "neutral.900",
-                  "min": 4.5
-                }
+            }
+          },
+          "warning-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.amber.900}",
+            "$description": "Subtle warning tint surface — banners, badges, selected rows",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.amber.900",
+                "mode": "dark",
+                "contrast": 1,
+                "against": "self"
               }
-            },
-            "focused": {
-              "$type": "color",
-              "$value": "{nbds.color.red.400}",
-              "$description": "Interactive fill (action) — focused",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.red.400",
-                  "mode": "dark",
-                  "contrast": 5.52,
-                  "against": "neutral.900",
-                  "min": 4.5
-                }
+            }
+          },
+          "danger-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.red.900}",
+            "$description": "Subtle danger tint surface — banners, badges, selected rows",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.900",
+                "mode": "dark",
+                "contrast": 1,
+                "against": "self"
               }
-            },
-            "selected": {
-              "$type": "color",
-              "$value": "{nbds.color.red.350}",
-              "$description": "Interactive fill (action) — selected",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.red.350",
-                  "mode": "dark",
-                  "contrast": 6.44,
-                  "against": "neutral.900",
-                  "min": 4.5
-                }
-              }
-            },
-            "disabled": {
-              "$type": "color",
-              "$value": "{nbds.color.neutral.750}",
-              "$description": "Interactive fill (action) — disabled",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.750",
-                  "mode": "dark",
-                  "contrast": 1.65,
-                  "against": "background.primary"
-                }
+            }
+          },
+          "info-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.info.900}",
+            "$description": "Subtle info tint surface — banners, badges, selected rows",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.info.900",
+                "mode": "dark",
+                "contrast": 1,
+                "against": "self"
               }
             }
           },
@@ -4405,6 +4085,97 @@
             }
           }
         },
+        "action": {
+          "default": {
+            "$type": "color",
+            "$value": "{nbds.color.red.450}",
+            "$description": "Interactive (action) fill — default",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.450",
+                "mode": "dark",
+                "contrast": 4.66,
+                "against": "neutral.900",
+                "min": 4.5
+              }
+            }
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{nbds.color.red.400}",
+            "$description": "Interactive (action) fill — hover",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.400",
+                "mode": "dark",
+                "contrast": 5.52,
+                "against": "neutral.900",
+                "min": 4.5
+              }
+            }
+          },
+          "pressed": {
+            "$type": "color",
+            "$value": "{nbds.color.red.350}",
+            "$description": "Interactive (action) fill — pressed",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.350",
+                "mode": "dark",
+                "contrast": 6.44,
+                "against": "neutral.900",
+                "min": 4.5
+              }
+            }
+          },
+          "focused": {
+            "$type": "color",
+            "$value": "{nbds.color.red.400}",
+            "$description": "Interactive (action) fill — focused",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.400",
+                "mode": "dark",
+                "contrast": 5.52,
+                "against": "neutral.900",
+                "min": 4.5
+              }
+            }
+          },
+          "selected": {
+            "$type": "color",
+            "$value": "{nbds.color.red.350}",
+            "$description": "Interactive (action) fill — selected",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.350",
+                "mode": "dark",
+                "contrast": 6.44,
+                "against": "neutral.900",
+                "min": 4.5
+              }
+            }
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.750}",
+            "$description": "Interactive (action) fill — disabled",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.neutral.750",
+                "mode": "dark",
+                "contrast": 1.65,
+                "against": "background.primary"
+              }
+            }
+          }
+        },
         "text": {
           "primary": {
             "$type": "color",
@@ -4463,21 +4234,6 @@
                 "contrast": 3.27,
                 "against": "neutral.900",
                 "min": 3
-              }
-            }
-          },
-          "inverse": {
-            "$type": "color",
-            "$value": "{nbds.color.neutral.950}",
-            "$description": "Inverse text — on the opposite surface",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.neutral.950",
-                "mode": "dark",
-                "contrast": 19.44,
-                "against": "background.inverse",
-                "min": 4.5
               }
             }
           },
@@ -4556,17 +4312,87 @@
               }
             }
           },
-          "on-interactive": {
+          "brand-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.red.350}",
+            "$description": "Muted brand text — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.350",
+                "mode": "dark",
+                "contrast": 6.97,
+                "against": "background.primary"
+              }
+            }
+          },
+          "success-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.green.350}",
+            "$description": "Muted success text — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.green.350",
+                "mode": "dark",
+                "contrast": 6.65,
+                "against": "background.primary"
+              }
+            }
+          },
+          "warning-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.amber.350}",
+            "$description": "Muted warning text — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.amber.350",
+                "mode": "dark",
+                "contrast": 7.04,
+                "against": "background.primary"
+              }
+            }
+          },
+          "danger-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.red.350}",
+            "$description": "Muted danger text — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.350",
+                "mode": "dark",
+                "contrast": 6.97,
+                "against": "background.primary"
+              }
+            }
+          },
+          "info-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.info.350}",
+            "$description": "Muted info text — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.info.350",
+                "mode": "dark",
+                "contrast": 6.96,
+                "against": "background.primary"
+              }
+            }
+          },
+          "on-action": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "text on the interactive fill",
+            "$description": "text on the action fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
                 "aliasOf": "nbds.color.black",
                 "mode": "dark",
                 "contrast": 5.45,
-                "against": "foreground.interactive.default",
+                "against": "action.default",
                 "min": 4.5
               }
             }
@@ -4646,22 +4472,22 @@
               }
             }
           },
-          "on-emphasis": {
+          "on-inverse": {
             "$type": "color",
-            "$value": "{nbds.color.black}",
-            "$description": "text on an emphasis / inverse fill",
+            "$value": "{nbds.color.neutral.950}",
+            "$description": "text on an inverse surface",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.black",
+                "aliasOf": "nbds.color.neutral.950",
                 "mode": "dark",
-                "contrast": 21,
-                "against": "background.inverse",
+                "contrast": 19.44,
+                "against": "background.inverse.primary",
                 "min": 4.5
               }
             }
           },
-          "interactive": {
+          "link": {
             "default": {
               "$type": "color",
               "$value": "{nbds.color.red.450}",
@@ -4785,21 +4611,6 @@
               }
             }
           },
-          "inverse": {
-            "$type": "color",
-            "$value": "{nbds.color.neutral.950}",
-            "$description": "Inverse icon — on the opposite surface",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.neutral.950",
-                "mode": "dark",
-                "contrast": 19.44,
-                "against": "background.inverse",
-                "min": 4.5
-              }
-            }
-          },
           "brand": {
             "$type": "color",
             "$value": "{nbds.color.red.450}",
@@ -4875,17 +4686,87 @@
               }
             }
           },
-          "on-interactive": {
+          "brand-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.red.350}",
+            "$description": "Muted brand icon — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.350",
+                "mode": "dark",
+                "contrast": 6.97,
+                "against": "background.primary"
+              }
+            }
+          },
+          "success-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.green.350}",
+            "$description": "Muted success icon — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.green.350",
+                "mode": "dark",
+                "contrast": 6.65,
+                "against": "background.primary"
+              }
+            }
+          },
+          "warning-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.amber.350}",
+            "$description": "Muted warning icon — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.amber.350",
+                "mode": "dark",
+                "contrast": 7.04,
+                "against": "background.primary"
+              }
+            }
+          },
+          "danger-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.red.350}",
+            "$description": "Muted danger icon — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.350",
+                "mode": "dark",
+                "contrast": 6.97,
+                "against": "background.primary"
+              }
+            }
+          },
+          "info-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.info.350}",
+            "$description": "Muted info icon — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.info.350",
+                "mode": "dark",
+                "contrast": 6.96,
+                "against": "background.primary"
+              }
+            }
+          },
+          "on-action": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "icon on the interactive fill",
+            "$description": "icon on the action fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
                 "aliasOf": "nbds.color.black",
                 "mode": "dark",
                 "contrast": 5.45,
-                "against": "foreground.interactive.default",
+                "against": "action.default",
                 "min": 4.5
               }
             }
@@ -4965,22 +4846,22 @@
               }
             }
           },
-          "on-emphasis": {
+          "on-inverse": {
             "$type": "color",
-            "$value": "{nbds.color.black}",
-            "$description": "icon on an emphasis / inverse fill",
+            "$value": "{nbds.color.neutral.950}",
+            "$description": "icon on an inverse surface",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.black",
+                "aliasOf": "nbds.color.neutral.950",
                 "mode": "dark",
-                "contrast": 21,
-                "against": "background.inverse",
+                "contrast": 19.44,
+                "against": "background.inverse.primary",
                 "min": 4.5
               }
             }
           },
-          "interactive": {
+          "link": {
             "default": {
               "$type": "color",
               "$value": "{nbds.color.red.450}",
@@ -5044,7 +4925,7 @@
           }
         },
         "border": {
-          "default": {
+          "primary": {
             "$type": "color",
             "$value": "{nbds.color.neutral.750}",
             "$description": "Default border — decorative, ~1.8:1",
@@ -5058,7 +4939,7 @@
               }
             }
           },
-          "strong": {
+          "secondary": {
             "$type": "color",
             "$value": "{nbds.color.neutral.500}",
             "$description": "Stronger border / divider",
@@ -5075,14 +4956,14 @@
           "inverse": {
             "$type": "color",
             "$value": "{nbds.color.neutral.200}",
-            "$description": "Inverse border",
+            "$description": "Border on inverse surfaces",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
                 "aliasOf": "nbds.color.neutral.200",
                 "mode": "dark",
                 "contrast": 1.81,
-                "against": "background.inverse"
+                "against": "background.inverse.primary"
               }
             }
           },
@@ -5161,393 +5042,18 @@
               }
             }
           },
-          "interactive": {
-            "default": {
-              "$type": "color",
-              "$value": "{nbds.color.neutral.550}",
-              "$description": "Form-field / control border — default",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.550",
-                  "mode": "dark",
-                  "contrast": 3.54,
-                  "against": "background.primary",
-                  "min": 3
-                }
-              }
-            },
-            "hover": {
-              "$type": "color",
-              "$value": "{nbds.color.neutral.450}",
-              "$description": "Form-field / control border — hover",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.450",
-                  "mode": "dark",
-                  "contrast": 5.06,
-                  "against": "background.primary",
-                  "min": 3
-                }
-              }
-            },
-            "focused": {
-              "$type": "color",
-              "$value": "{nbds.color.red.450}",
-              "$description": "Form-field / control border — focused",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.red.450",
-                  "mode": "dark",
-                  "contrast": 5.05,
-                  "against": "background.primary",
-                  "min": 3
-                }
-              }
-            },
-            "disabled": {
-              "$type": "color",
-              "$value": "{nbds.color.neutral.550}",
-              "$description": "Form-field / control border — disabled",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.550",
-                  "mode": "dark",
-                  "contrast": 3.54,
-                  "against": "background.primary",
-                  "min": 3
-                }
-              }
-            }
-          }
-        },
-        "elevation": {
-          "sunken": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.dark.background.sunken}",
-              "$description": "elevation sunken surface — background.sunken (dark)",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.dark.background.sunken",
-                  "elevation": "sunken"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.shadow.inset}",
-              "$description": "elevation sunken shadow — shadow.inset",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.shadow.inset",
-                  "elevation": "sunken"
-                }
-              }
-            }
-          },
-          "flat": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.dark.background.primary}",
-              "$description": "elevation flat surface — background.primary (dark)",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.dark.background.primary",
-                  "elevation": "flat"
-                }
-              }
-            }
-          },
-          "raised": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.dark.background.secondary}",
-              "$description": "elevation raised surface — background.secondary (dark)",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.dark.background.secondary",
-                  "elevation": "raised"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.shadow.sm}",
-              "$description": "elevation raised shadow — shadow.sm",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.shadow.sm",
-                  "elevation": "raised"
-                }
-              }
-            }
-          },
-          "overlay": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.dark.background.tertiary}",
-              "$description": "elevation overlay surface — background.tertiary (dark)",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.dark.background.tertiary",
-                  "elevation": "overlay"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.shadow.lg}",
-              "$description": "elevation overlay shadow — shadow.lg",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.shadow.lg",
-                  "elevation": "overlay"
-                }
-              }
-            }
-          },
-          "floating": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.dark.background.quaternary}",
-              "$description": "elevation floating surface — background.quaternary (dark)",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.dark.background.quaternary",
-                  "elevation": "floating"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.shadow.xl}",
-              "$description": "elevation floating shadow — shadow.xl",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.shadow.xl",
-                  "elevation": "floating"
-                }
-              }
-            }
-          },
-          "card": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.dark.elevation.raised.surface}",
-              "$description": "card → elevation.raised surface",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.dark.elevation.raised.surface",
-                  "component": "card"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.semantic.dark.elevation.raised.shadow}",
-              "$description": "card → elevation.raised shadow",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.dark.elevation.raised.shadow",
-                  "component": "card"
-                }
-              }
-            }
-          },
-          "dropdown": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.dark.elevation.overlay.surface}",
-              "$description": "dropdown → elevation.overlay surface",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.dark.elevation.overlay.surface",
-                  "component": "dropdown"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.semantic.dark.elevation.overlay.shadow}",
-              "$description": "dropdown → elevation.overlay shadow",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.dark.elevation.overlay.shadow",
-                  "component": "dropdown"
-                }
-              }
-            }
-          },
-          "popover": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.dark.elevation.overlay.surface}",
-              "$description": "popover → elevation.overlay surface",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.dark.elevation.overlay.surface",
-                  "component": "popover"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.semantic.dark.elevation.overlay.shadow}",
-              "$description": "popover → elevation.overlay shadow",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.dark.elevation.overlay.shadow",
-                  "component": "popover"
-                }
-              }
-            }
-          },
-          "menu": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.dark.elevation.overlay.surface}",
-              "$description": "menu → elevation.overlay surface",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.dark.elevation.overlay.surface",
-                  "component": "menu"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.semantic.dark.elevation.overlay.shadow}",
-              "$description": "menu → elevation.overlay shadow",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.dark.elevation.overlay.shadow",
-                  "component": "menu"
-                }
-              }
-            }
-          },
-          "dialog": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.dark.elevation.floating.surface}",
-              "$description": "dialog → elevation.floating surface",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.dark.elevation.floating.surface",
-                  "component": "dialog"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.semantic.dark.elevation.floating.shadow}",
-              "$description": "dialog → elevation.floating shadow",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.dark.elevation.floating.shadow",
-                  "component": "dialog"
-                }
-              }
-            }
-          },
-          "modal": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.dark.elevation.floating.surface}",
-              "$description": "modal → elevation.floating surface",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.dark.elevation.floating.surface",
-                  "component": "modal"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.semantic.dark.elevation.floating.shadow}",
-              "$description": "modal → elevation.floating shadow",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.dark.elevation.floating.shadow",
-                  "component": "modal"
-                }
-              }
-            }
-          },
-          "tooltip": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.dark.elevation.floating.surface}",
-              "$description": "tooltip → elevation.floating surface",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.dark.elevation.floating.surface",
-                  "component": "tooltip"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.semantic.dark.elevation.floating.shadow}",
-              "$description": "tooltip → elevation.floating shadow",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.dark.elevation.floating.shadow",
-                  "component": "tooltip"
-                }
-              }
-            }
-          },
-          "well": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.dark.elevation.sunken.surface}",
-              "$description": "well → elevation.sunken surface",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.dark.elevation.sunken.surface",
-                  "component": "well"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.semantic.dark.elevation.sunken.shadow}",
-              "$description": "well → elevation.sunken shadow",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.dark.elevation.sunken.shadow",
-                  "component": "well"
-                }
+          "focus": {
+            "$type": "color",
+            "$value": "{nbds.color.red.450}",
+            "$description": "Focus ring colour (keyboard focus)",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.450",
+                "mode": "dark",
+                "contrast": 5.05,
+                "against": "background.primary",
+                "min": 3
               }
             }
           }
@@ -5558,7 +5064,7 @@
           "primary": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Page surface (elevation 1 — base)",
+            "$description": "Page surface — the canvas / base",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -5572,7 +5078,7 @@
           "secondary": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Raised surface (elevation 2 — cards / panels)",
+            "$description": "Page surface, second tier — a slightly tinted page / band",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -5586,53 +5092,11 @@
           "tertiary": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "Higher surface (elevation 3 — nested / menus)",
+            "$description": "Page surface, third tier",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
                 "aliasOf": "nbds.color.white",
-                "mode": "hc-light",
-                "contrast": 1,
-                "against": "self"
-              }
-            }
-          },
-          "quaternary": {
-            "$type": "color",
-            "$value": "{nbds.color.white}",
-            "$description": "Floating surface (elevation 4 — dialogs / popovers)",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.white",
-                "mode": "hc-light",
-                "contrast": 1,
-                "against": "self"
-              }
-            }
-          },
-          "subtle": {
-            "$type": "color",
-            "$value": "{nbds.color.white}",
-            "$description": "Subtle surface — muted grouped fill (off the ladder)",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.white",
-                "mode": "hc-light",
-                "contrast": 1,
-                "against": "self"
-              }
-            }
-          },
-          "sunken": {
-            "$type": "color",
-            "$value": "{nbds.color.neutral.200}",
-            "$description": "Sunken surface — wells / insets (below the page)",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.neutral.200",
                 "mode": "hc-light",
                 "contrast": 1,
                 "against": "self"
@@ -5640,86 +5104,46 @@
             }
           },
           "inverse": {
-            "$type": "color",
-            "$value": "{nbds.color.neutral.850}",
-            "$description": "Inverse surface",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.neutral.850",
-                "mode": "hc-light",
-                "contrast": 1,
-                "against": "self"
+            "primary": {
+              "$type": "color",
+              "$value": "{nbds.color.black}",
+              "$description": "Inverse page surface — a dark band in light mode",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.color.black",
+                  "mode": "hc-light",
+                  "contrast": 1,
+                  "against": "self"
+                }
               }
-            }
-          },
-          "brand-subtle": {
-            "$type": "color",
-            "$value": "{nbds.color.red.100}",
-            "$description": "Subtle brand tint",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.red.100",
-                "mode": "hc-light",
-                "contrast": 1,
-                "against": "self"
+            },
+            "secondary": {
+              "$type": "color",
+              "$value": "{nbds.color.black}",
+              "$description": "Inverse page surface, second tier",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.color.black",
+                  "mode": "hc-light",
+                  "contrast": 1,
+                  "against": "self"
+                }
               }
-            }
-          },
-          "success-subtle": {
-            "$type": "color",
-            "$value": "{nbds.color.green.100}",
-            "$description": "Subtle success tint",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.green.100",
-                "mode": "hc-light",
-                "contrast": 1,
-                "against": "self"
-              }
-            }
-          },
-          "warning-subtle": {
-            "$type": "color",
-            "$value": "{nbds.color.amber.100}",
-            "$description": "Subtle warning tint",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.amber.100",
-                "mode": "hc-light",
-                "contrast": 1,
-                "against": "self"
-              }
-            }
-          },
-          "danger-subtle": {
-            "$type": "color",
-            "$value": "{nbds.color.red.100}",
-            "$description": "Subtle danger tint",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.red.100",
-                "mode": "hc-light",
-                "contrast": 1,
-                "against": "self"
-              }
-            }
-          },
-          "info-subtle": {
-            "$type": "color",
-            "$value": "{nbds.color.info.100}",
-            "$description": "Subtle info tint",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.info.100",
-                "mode": "hc-light",
-                "contrast": 1,
-                "against": "self"
+            },
+            "tertiary": {
+              "$type": "color",
+              "$value": "{nbds.color.black}",
+              "$description": "Inverse page surface, third tier",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.color.black",
+                  "mode": "hc-light",
+                  "contrast": 1,
+                  "against": "self"
+                }
               }
             }
           }
@@ -5743,64 +5167,94 @@
         "foreground": {
           "primary": {
             "$type": "color",
-            "$value": "{nbds.color.neutral.950}",
-            "$description": "Strong neutral fill — high-emphasis neutral element",
+            "$value": "{nbds.color.white}",
+            "$description": "Default surface placed on the page — a card",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.neutral.950",
+                "aliasOf": "nbds.color.white",
                 "mode": "hc-light",
-                "contrast": 19.44,
-                "against": "background.primary"
+                "contrast": 1,
+                "against": "self"
               }
             }
           },
           "secondary": {
             "$type": "color",
-            "$value": "{nbds.color.neutral.200}",
-            "$description": "Medium neutral fill",
+            "$value": "{nbds.color.white}",
+            "$description": "A second surface — a panel / nested container",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.neutral.200",
+                "aliasOf": "nbds.color.white",
                 "mode": "hc-light",
-                "contrast": 1.81,
-                "against": "background.primary"
+                "contrast": 1,
+                "against": "self"
               }
             }
           },
           "tertiary": {
             "$type": "color",
-            "$value": "{nbds.color.neutral.100}",
-            "$description": "Subtle neutral fill",
+            "$value": "{nbds.color.white}",
+            "$description": "A third surface step",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.neutral.100",
+                "aliasOf": "nbds.color.white",
                 "mode": "hc-light",
-                "contrast": 1.38,
-                "against": "background.primary"
+                "contrast": 1,
+                "against": "self"
               }
             }
           },
           "inverse": {
-            "$type": "color",
-            "$value": "{nbds.color.neutral.050}",
-            "$description": "Inverse neutral fill — for inverse contexts",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.neutral.050",
-                "mode": "hc-light",
-                "contrast": 1.22,
-                "against": "background.inverse"
+            "primary": {
+              "$type": "color",
+              "$value": "{nbds.color.black}",
+              "$description": "Inverse / bold surface — a dark fill in light mode",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.color.black",
+                  "mode": "hc-light",
+                  "contrast": 1,
+                  "against": "self"
+                }
+              }
+            },
+            "secondary": {
+              "$type": "color",
+              "$value": "{nbds.color.black}",
+              "$description": "Inverse surface, second tier",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.color.black",
+                  "mode": "hc-light",
+                  "contrast": 1,
+                  "against": "self"
+                }
+              }
+            },
+            "tertiary": {
+              "$type": "color",
+              "$value": "{nbds.color.black}",
+              "$description": "Inverse surface, third tier",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.color.black",
+                  "mode": "hc-light",
+                  "contrast": 1,
+                  "against": "self"
+                }
               }
             }
           },
           "brand": {
             "$type": "color",
             "$value": "{nbds.color.red.700}",
-            "$description": "brand fill — clears 7:1 on the floor (neutral.050)",
+            "$description": "Bold brand fill — clears 7:1 on the floor (neutral.050)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -5815,7 +5269,7 @@
           "success": {
             "$type": "color",
             "$value": "{nbds.color.green.700}",
-            "$description": "success fill — clears 7:1 on the floor (neutral.050)",
+            "$description": "Bold success fill — clears 7:1 on the floor (neutral.050)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -5830,7 +5284,7 @@
           "warning": {
             "$type": "color",
             "$value": "{nbds.color.amber.700}",
-            "$description": "warning fill — clears 7:1 on the floor (neutral.050)",
+            "$description": "Bold warning fill — clears 7:1 on the floor (neutral.050)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -5845,7 +5299,7 @@
           "info": {
             "$type": "color",
             "$value": "{nbds.color.info.700}",
-            "$description": "info fill — clears 7:1 on the floor (neutral.050)",
+            "$description": "Bold info fill — clears 7:1 on the floor (neutral.050)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -5857,94 +5311,73 @@
               }
             }
           },
-          "interactive": {
-            "default": {
-              "$type": "color",
-              "$value": "{nbds.color.red.700}",
-              "$description": "Interactive fill (action) — default",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.red.700",
-                  "mode": "hc-light",
-                  "contrast": 8.25,
-                  "against": "neutral.050",
-                  "min": 7
-                }
+          "brand-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.red.100}",
+            "$description": "Subtle brand tint surface — banners, badges, selected rows",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.100",
+                "mode": "hc-light",
+                "contrast": 1,
+                "against": "self"
               }
-            },
-            "hover": {
-              "$type": "color",
-              "$value": "{nbds.color.red.750}",
-              "$description": "Interactive fill (action) — hover",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.red.750",
-                  "mode": "hc-light",
-                  "contrast": 9.94,
-                  "against": "neutral.050",
-                  "min": 7
-                }
+            }
+          },
+          "success-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.green.100}",
+            "$description": "Subtle success tint surface — banners, badges, selected rows",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.green.100",
+                "mode": "hc-light",
+                "contrast": 1,
+                "against": "self"
               }
-            },
-            "pressed": {
-              "$type": "color",
-              "$value": "{nbds.color.red.800}",
-              "$description": "Interactive fill (action) — pressed",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.red.800",
-                  "mode": "hc-light",
-                  "contrast": 11.66,
-                  "against": "neutral.050",
-                  "min": 7
-                }
+            }
+          },
+          "warning-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.amber.100}",
+            "$description": "Subtle warning tint surface — banners, badges, selected rows",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.amber.100",
+                "mode": "hc-light",
+                "contrast": 1,
+                "against": "self"
               }
-            },
-            "focused": {
-              "$type": "color",
-              "$value": "{nbds.color.red.750}",
-              "$description": "Interactive fill (action) — focused",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.red.750",
-                  "mode": "hc-light",
-                  "contrast": 9.94,
-                  "against": "neutral.050",
-                  "min": 7
-                }
+            }
+          },
+          "danger-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.red.100}",
+            "$description": "Subtle danger tint surface — banners, badges, selected rows",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.100",
+                "mode": "hc-light",
+                "contrast": 1,
+                "against": "self"
               }
-            },
-            "selected": {
-              "$type": "color",
-              "$value": "{nbds.color.red.800}",
-              "$description": "Interactive fill (action) — selected",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.red.800",
-                  "mode": "hc-light",
-                  "contrast": 11.66,
-                  "against": "neutral.050",
-                  "min": 7
-                }
-              }
-            },
-            "disabled": {
-              "$type": "color",
-              "$value": "{nbds.color.neutral.200}",
-              "$description": "Interactive fill (action) — disabled",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.200",
-                  "mode": "hc-light",
-                  "contrast": 1.81,
-                  "against": "background.primary"
-                }
+            }
+          },
+          "info-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.info.100}",
+            "$description": "Subtle info tint surface — banners, badges, selected rows",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.info.100",
+                "mode": "hc-light",
+                "contrast": 1,
+                "against": "self"
               }
             }
           },
@@ -6040,6 +5473,97 @@
             }
           }
         },
+        "action": {
+          "default": {
+            "$type": "color",
+            "$value": "{nbds.color.red.700}",
+            "$description": "Interactive (action) fill — default",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.700",
+                "mode": "hc-light",
+                "contrast": 8.25,
+                "against": "neutral.050",
+                "min": 7
+              }
+            }
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{nbds.color.red.750}",
+            "$description": "Interactive (action) fill — hover",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.750",
+                "mode": "hc-light",
+                "contrast": 9.94,
+                "against": "neutral.050",
+                "min": 7
+              }
+            }
+          },
+          "pressed": {
+            "$type": "color",
+            "$value": "{nbds.color.red.800}",
+            "$description": "Interactive (action) fill — pressed",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.800",
+                "mode": "hc-light",
+                "contrast": 11.66,
+                "against": "neutral.050",
+                "min": 7
+              }
+            }
+          },
+          "focused": {
+            "$type": "color",
+            "$value": "{nbds.color.red.750}",
+            "$description": "Interactive (action) fill — focused",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.750",
+                "mode": "hc-light",
+                "contrast": 9.94,
+                "against": "neutral.050",
+                "min": 7
+              }
+            }
+          },
+          "selected": {
+            "$type": "color",
+            "$value": "{nbds.color.red.800}",
+            "$description": "Interactive (action) fill — selected",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.800",
+                "mode": "hc-light",
+                "contrast": 11.66,
+                "against": "neutral.050",
+                "min": 7
+              }
+            }
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.200}",
+            "$description": "Interactive (action) fill — disabled",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.neutral.200",
+                "mode": "hc-light",
+                "contrast": 1.81,
+                "against": "background.primary"
+              }
+            }
+          }
+        },
         "text": {
           "primary": {
             "$type": "color",
@@ -6098,21 +5622,6 @@
                 "contrast": 4.52,
                 "against": "neutral.050",
                 "min": 4.5
-              }
-            }
-          },
-          "inverse": {
-            "$type": "color",
-            "$value": "{nbds.color.white}",
-            "$description": "Inverse text — on the opposite surface",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.white",
-                "mode": "hc-light",
-                "contrast": 21,
-                "against": "background.inverse",
-                "min": 7
               }
             }
           },
@@ -6191,17 +5700,87 @@
               }
             }
           },
-          "on-interactive": {
+          "brand-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.red.450}",
+            "$description": "Muted brand text — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.450",
+                "mode": "hc-light",
+                "contrast": 3.85,
+                "against": "background.primary"
+              }
+            }
+          },
+          "success-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.green.450}",
+            "$description": "Muted success text — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.green.450",
+                "mode": "hc-light",
+                "contrast": 4.11,
+                "against": "background.primary"
+              }
+            }
+          },
+          "warning-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.amber.450}",
+            "$description": "Muted warning text — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.amber.450",
+                "mode": "hc-light",
+                "contrast": 3.79,
+                "against": "background.primary"
+              }
+            }
+          },
+          "danger-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.red.450}",
+            "$description": "Muted danger text — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.450",
+                "mode": "hc-light",
+                "contrast": 3.85,
+                "against": "background.primary"
+              }
+            }
+          },
+          "info-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.info.450}",
+            "$description": "Muted info text — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.info.450",
+                "mode": "hc-light",
+                "contrast": 3.86,
+                "against": "background.primary"
+              }
+            }
+          },
+          "on-action": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "text on the interactive fill",
+            "$description": "text on the action fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
                 "aliasOf": "nbds.color.white",
                 "mode": "hc-light",
                 "contrast": 10.03,
-                "against": "foreground.interactive.default",
+                "against": "action.default",
                 "min": 4.5
               }
             }
@@ -6281,22 +5860,22 @@
               }
             }
           },
-          "on-emphasis": {
+          "on-inverse": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "text on an emphasis / inverse fill",
+            "$description": "text on an inverse surface",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
                 "aliasOf": "nbds.color.white",
                 "mode": "hc-light",
                 "contrast": 21,
-                "against": "background.inverse",
+                "against": "background.inverse.primary",
                 "min": 7
               }
             }
           },
-          "interactive": {
+          "link": {
             "default": {
               "$type": "color",
               "$value": "{nbds.color.red.700}",
@@ -6420,21 +5999,6 @@
               }
             }
           },
-          "inverse": {
-            "$type": "color",
-            "$value": "{nbds.color.white}",
-            "$description": "Inverse icon — on the opposite surface",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.white",
-                "mode": "hc-light",
-                "contrast": 21,
-                "against": "background.inverse",
-                "min": 7
-              }
-            }
-          },
           "brand": {
             "$type": "color",
             "$value": "{nbds.color.red.700}",
@@ -6510,17 +6074,87 @@
               }
             }
           },
-          "on-interactive": {
+          "brand-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.red.450}",
+            "$description": "Muted brand icon — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.450",
+                "mode": "hc-light",
+                "contrast": 3.85,
+                "against": "background.primary"
+              }
+            }
+          },
+          "success-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.green.450}",
+            "$description": "Muted success icon — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.green.450",
+                "mode": "hc-light",
+                "contrast": 4.11,
+                "against": "background.primary"
+              }
+            }
+          },
+          "warning-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.amber.450}",
+            "$description": "Muted warning icon — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.amber.450",
+                "mode": "hc-light",
+                "contrast": 3.79,
+                "against": "background.primary"
+              }
+            }
+          },
+          "danger-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.red.450}",
+            "$description": "Muted danger icon — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.450",
+                "mode": "hc-light",
+                "contrast": 3.85,
+                "against": "background.primary"
+              }
+            }
+          },
+          "info-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.info.450}",
+            "$description": "Muted info icon — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.info.450",
+                "mode": "hc-light",
+                "contrast": 3.86,
+                "against": "background.primary"
+              }
+            }
+          },
+          "on-action": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "icon on the interactive fill",
+            "$description": "icon on the action fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
                 "aliasOf": "nbds.color.white",
                 "mode": "hc-light",
                 "contrast": 10.03,
-                "against": "foreground.interactive.default",
+                "against": "action.default",
                 "min": 4.5
               }
             }
@@ -6600,22 +6234,22 @@
               }
             }
           },
-          "on-emphasis": {
+          "on-inverse": {
             "$type": "color",
             "$value": "{nbds.color.white}",
-            "$description": "icon on an emphasis / inverse fill",
+            "$description": "icon on an inverse surface",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
                 "aliasOf": "nbds.color.white",
                 "mode": "hc-light",
                 "contrast": 21,
-                "against": "background.inverse",
+                "against": "background.inverse.primary",
                 "min": 7
               }
             }
           },
-          "interactive": {
+          "link": {
             "default": {
               "$type": "color",
               "$value": "{nbds.color.red.700}",
@@ -6679,7 +6313,7 @@
           }
         },
         "border": {
-          "default": {
+          "primary": {
             "$type": "color",
             "$value": "{nbds.color.neutral.500}",
             "$description": "Default border — decorative, ~4.5:1",
@@ -6693,7 +6327,7 @@
               }
             }
           },
-          "strong": {
+          "secondary": {
             "$type": "color",
             "$value": "{nbds.color.neutral.700}",
             "$description": "Stronger border / divider",
@@ -6710,14 +6344,14 @@
           "inverse": {
             "$type": "color",
             "$value": "{nbds.color.neutral.500}",
-            "$description": "Inverse border",
+            "$description": "Border on inverse surfaces",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
                 "aliasOf": "nbds.color.neutral.500",
                 "mode": "hc-light",
                 "contrast": 4.57,
-                "against": "background.inverse"
+                "against": "background.inverse.primary"
               }
             }
           },
@@ -6796,393 +6430,18 @@
               }
             }
           },
-          "interactive": {
-            "default": {
-              "$type": "color",
-              "$value": "{nbds.color.neutral.500}",
-              "$description": "Form-field / control border — default",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.500",
-                  "mode": "hc-light",
-                  "contrast": 4.59,
-                  "against": "background.primary",
-                  "min": 4.5
-                }
-              }
-            },
-            "hover": {
-              "$type": "color",
-              "$value": "{nbds.color.neutral.600}",
-              "$description": "Form-field / control border — hover",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.600",
-                  "mode": "hc-light",
-                  "contrast": 6.69,
-                  "against": "background.primary",
-                  "min": 4.5
-                }
-              }
-            },
-            "focused": {
-              "$type": "color",
-              "$value": "{nbds.color.red.700}",
-              "$description": "Form-field / control border — focused",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.red.700",
-                  "mode": "hc-light",
-                  "contrast": 10.03,
-                  "against": "background.primary",
-                  "min": 4.5
-                }
-              }
-            },
-            "disabled": {
-              "$type": "color",
-              "$value": "{nbds.color.neutral.500}",
-              "$description": "Form-field / control border — disabled",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.500",
-                  "mode": "hc-light",
-                  "contrast": 4.59,
-                  "against": "background.primary",
-                  "min": 4.5
-                }
-              }
-            }
-          }
-        },
-        "elevation": {
-          "sunken": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.hc-light.background.sunken}",
-              "$description": "elevation sunken surface — background.sunken (hc-light)",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-light.background.sunken",
-                  "elevation": "sunken"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.shadow.inset}",
-              "$description": "elevation sunken shadow — shadow.inset",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.shadow.inset",
-                  "elevation": "sunken"
-                }
-              }
-            }
-          },
-          "flat": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.hc-light.background.primary}",
-              "$description": "elevation flat surface — background.primary (hc-light)",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-light.background.primary",
-                  "elevation": "flat"
-                }
-              }
-            }
-          },
-          "raised": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.hc-light.background.secondary}",
-              "$description": "elevation raised surface — background.secondary (hc-light)",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-light.background.secondary",
-                  "elevation": "raised"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.shadow.sm}",
-              "$description": "elevation raised shadow — shadow.sm",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.shadow.sm",
-                  "elevation": "raised"
-                }
-              }
-            }
-          },
-          "overlay": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.hc-light.background.tertiary}",
-              "$description": "elevation overlay surface — background.tertiary (hc-light)",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-light.background.tertiary",
-                  "elevation": "overlay"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.shadow.lg}",
-              "$description": "elevation overlay shadow — shadow.lg",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.shadow.lg",
-                  "elevation": "overlay"
-                }
-              }
-            }
-          },
-          "floating": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.hc-light.background.quaternary}",
-              "$description": "elevation floating surface — background.quaternary (hc-light)",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-light.background.quaternary",
-                  "elevation": "floating"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.shadow.xl}",
-              "$description": "elevation floating shadow — shadow.xl",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.shadow.xl",
-                  "elevation": "floating"
-                }
-              }
-            }
-          },
-          "card": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.hc-light.elevation.raised.surface}",
-              "$description": "card → elevation.raised surface",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-light.elevation.raised.surface",
-                  "component": "card"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.semantic.hc-light.elevation.raised.shadow}",
-              "$description": "card → elevation.raised shadow",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-light.elevation.raised.shadow",
-                  "component": "card"
-                }
-              }
-            }
-          },
-          "dropdown": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.hc-light.elevation.overlay.surface}",
-              "$description": "dropdown → elevation.overlay surface",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-light.elevation.overlay.surface",
-                  "component": "dropdown"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.semantic.hc-light.elevation.overlay.shadow}",
-              "$description": "dropdown → elevation.overlay shadow",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-light.elevation.overlay.shadow",
-                  "component": "dropdown"
-                }
-              }
-            }
-          },
-          "popover": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.hc-light.elevation.overlay.surface}",
-              "$description": "popover → elevation.overlay surface",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-light.elevation.overlay.surface",
-                  "component": "popover"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.semantic.hc-light.elevation.overlay.shadow}",
-              "$description": "popover → elevation.overlay shadow",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-light.elevation.overlay.shadow",
-                  "component": "popover"
-                }
-              }
-            }
-          },
-          "menu": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.hc-light.elevation.overlay.surface}",
-              "$description": "menu → elevation.overlay surface",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-light.elevation.overlay.surface",
-                  "component": "menu"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.semantic.hc-light.elevation.overlay.shadow}",
-              "$description": "menu → elevation.overlay shadow",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-light.elevation.overlay.shadow",
-                  "component": "menu"
-                }
-              }
-            }
-          },
-          "dialog": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.hc-light.elevation.floating.surface}",
-              "$description": "dialog → elevation.floating surface",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-light.elevation.floating.surface",
-                  "component": "dialog"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.semantic.hc-light.elevation.floating.shadow}",
-              "$description": "dialog → elevation.floating shadow",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-light.elevation.floating.shadow",
-                  "component": "dialog"
-                }
-              }
-            }
-          },
-          "modal": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.hc-light.elevation.floating.surface}",
-              "$description": "modal → elevation.floating surface",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-light.elevation.floating.surface",
-                  "component": "modal"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.semantic.hc-light.elevation.floating.shadow}",
-              "$description": "modal → elevation.floating shadow",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-light.elevation.floating.shadow",
-                  "component": "modal"
-                }
-              }
-            }
-          },
-          "tooltip": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.hc-light.elevation.floating.surface}",
-              "$description": "tooltip → elevation.floating surface",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-light.elevation.floating.surface",
-                  "component": "tooltip"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.semantic.hc-light.elevation.floating.shadow}",
-              "$description": "tooltip → elevation.floating shadow",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-light.elevation.floating.shadow",
-                  "component": "tooltip"
-                }
-              }
-            }
-          },
-          "well": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.hc-light.elevation.sunken.surface}",
-              "$description": "well → elevation.sunken surface",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-light.elevation.sunken.surface",
-                  "component": "well"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.semantic.hc-light.elevation.sunken.shadow}",
-              "$description": "well → elevation.sunken shadow",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-light.elevation.sunken.shadow",
-                  "component": "well"
-                }
+          "focus": {
+            "$type": "color",
+            "$value": "{nbds.color.red.700}",
+            "$description": "Focus ring colour (keyboard focus)",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.700",
+                "mode": "hc-light",
+                "contrast": 10.03,
+                "against": "background.primary",
+                "min": 4.5
               }
             }
           }
@@ -7193,7 +6452,7 @@
           "primary": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "Page surface (elevation 1 — base)",
+            "$description": "Page surface — the canvas / base",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -7207,7 +6466,7 @@
           "secondary": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "Raised surface (elevation 2 — cards / panels)",
+            "$description": "Page surface, second tier — a slightly tinted page / band",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -7221,49 +6480,7 @@
           "tertiary": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "Higher surface (elevation 3 — nested / menus)",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.black",
-                "mode": "hc-dark",
-                "contrast": 1,
-                "against": "self"
-              }
-            }
-          },
-          "quaternary": {
-            "$type": "color",
-            "$value": "{nbds.color.black}",
-            "$description": "Floating surface (elevation 4 — dialogs / popovers)",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.black",
-                "mode": "hc-dark",
-                "contrast": 1,
-                "against": "self"
-              }
-            }
-          },
-          "subtle": {
-            "$type": "color",
-            "$value": "{nbds.color.black}",
-            "$description": "Subtle surface — muted grouped fill (off the ladder)",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.black",
-                "mode": "hc-dark",
-                "contrast": 1,
-                "against": "self"
-              }
-            }
-          },
-          "sunken": {
-            "$type": "color",
-            "$value": "{nbds.color.black}",
-            "$description": "Sunken surface — wells / insets (below the page)",
+            "$description": "Page surface, third tier",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -7275,86 +6492,46 @@
             }
           },
           "inverse": {
-            "$type": "color",
-            "$value": "{nbds.color.neutral.100}",
-            "$description": "Inverse surface",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.neutral.100",
-                "mode": "hc-dark",
-                "contrast": 1,
-                "against": "self"
+            "primary": {
+              "$type": "color",
+              "$value": "{nbds.color.white}",
+              "$description": "Inverse page surface — a dark band in light mode",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.color.white",
+                  "mode": "hc-dark",
+                  "contrast": 1,
+                  "against": "self"
+                }
               }
-            }
-          },
-          "brand-subtle": {
-            "$type": "color",
-            "$value": "{nbds.color.red.900}",
-            "$description": "Subtle brand tint",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.red.900",
-                "mode": "hc-dark",
-                "contrast": 1,
-                "against": "self"
+            },
+            "secondary": {
+              "$type": "color",
+              "$value": "{nbds.color.white}",
+              "$description": "Inverse page surface, second tier",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.color.white",
+                  "mode": "hc-dark",
+                  "contrast": 1,
+                  "against": "self"
+                }
               }
-            }
-          },
-          "success-subtle": {
-            "$type": "color",
-            "$value": "{nbds.color.green.900}",
-            "$description": "Subtle success tint",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.green.900",
-                "mode": "hc-dark",
-                "contrast": 1,
-                "against": "self"
-              }
-            }
-          },
-          "warning-subtle": {
-            "$type": "color",
-            "$value": "{nbds.color.amber.900}",
-            "$description": "Subtle warning tint",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.amber.900",
-                "mode": "hc-dark",
-                "contrast": 1,
-                "against": "self"
-              }
-            }
-          },
-          "danger-subtle": {
-            "$type": "color",
-            "$value": "{nbds.color.red.900}",
-            "$description": "Subtle danger tint",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.red.900",
-                "mode": "hc-dark",
-                "contrast": 1,
-                "against": "self"
-              }
-            }
-          },
-          "info-subtle": {
-            "$type": "color",
-            "$value": "{nbds.color.info.900}",
-            "$description": "Subtle info tint",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.info.900",
-                "mode": "hc-dark",
-                "contrast": 1,
-                "against": "self"
+            },
+            "tertiary": {
+              "$type": "color",
+              "$value": "{nbds.color.white}",
+              "$description": "Inverse page surface, third tier",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.color.white",
+                  "mode": "hc-dark",
+                  "contrast": 1,
+                  "against": "self"
+                }
               }
             }
           }
@@ -7378,64 +6555,94 @@
         "foreground": {
           "primary": {
             "$type": "color",
-            "$value": "{nbds.color.neutral.025}",
-            "$description": "Strong neutral fill — high-emphasis neutral element",
+            "$value": "{nbds.color.black}",
+            "$description": "Default surface placed on the page — a card",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.neutral.025",
+                "aliasOf": "nbds.color.black",
                 "mode": "hc-dark",
-                "contrast": 19.57,
-                "against": "background.primary"
+                "contrast": 1,
+                "against": "self"
               }
             }
           },
           "secondary": {
             "$type": "color",
-            "$value": "{nbds.color.neutral.700}",
-            "$description": "Medium neutral fill",
+            "$value": "{nbds.color.black}",
+            "$description": "A second surface — a panel / nested container",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.neutral.700",
+                "aliasOf": "nbds.color.black",
                 "mode": "hc-dark",
-                "contrast": 2.13,
-                "against": "background.primary"
+                "contrast": 1,
+                "against": "self"
               }
             }
           },
           "tertiary": {
             "$type": "color",
-            "$value": "{nbds.color.neutral.800}",
-            "$description": "Subtle neutral fill",
+            "$value": "{nbds.color.black}",
+            "$description": "A third surface step",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.neutral.800",
+                "aliasOf": "nbds.color.black",
                 "mode": "hc-dark",
-                "contrast": 1.51,
-                "against": "background.primary"
+                "contrast": 1,
+                "against": "self"
               }
             }
           },
           "inverse": {
-            "$type": "color",
-            "$value": "{nbds.color.neutral.900}",
-            "$description": "Inverse neutral fill — for inverse contexts",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.neutral.900",
-                "mode": "hc-dark",
-                "contrast": 1.17,
-                "against": "background.inverse"
+            "primary": {
+              "$type": "color",
+              "$value": "{nbds.color.white}",
+              "$description": "Inverse / bold surface — a dark fill in light mode",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.color.white",
+                  "mode": "hc-dark",
+                  "contrast": 1,
+                  "against": "self"
+                }
+              }
+            },
+            "secondary": {
+              "$type": "color",
+              "$value": "{nbds.color.white}",
+              "$description": "Inverse surface, second tier",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.color.white",
+                  "mode": "hc-dark",
+                  "contrast": 1,
+                  "against": "self"
+                }
+              }
+            },
+            "tertiary": {
+              "$type": "color",
+              "$value": "{nbds.color.white}",
+              "$description": "Inverse surface, third tier",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.color.white",
+                  "mode": "hc-dark",
+                  "contrast": 1,
+                  "against": "self"
+                }
               }
             }
           },
           "brand": {
             "$type": "color",
             "$value": "{nbds.color.red.300}",
-            "$description": "brand fill — clears 7:1 on the floor (neutral.900)",
+            "$description": "Bold brand fill — clears 7:1 on the floor (neutral.900)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -7450,7 +6657,7 @@
           "success": {
             "$type": "color",
             "$value": "{nbds.color.green.300}",
-            "$description": "success fill — clears 7:1 on the floor (neutral.900)",
+            "$description": "Bold success fill — clears 7:1 on the floor (neutral.900)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -7465,7 +6672,7 @@
           "warning": {
             "$type": "color",
             "$value": "{nbds.color.amber.300}",
-            "$description": "warning fill — clears 7:1 on the floor (neutral.900)",
+            "$description": "Bold warning fill — clears 7:1 on the floor (neutral.900)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -7480,7 +6687,7 @@
           "info": {
             "$type": "color",
             "$value": "{nbds.color.info.300}",
-            "$description": "info fill — clears 7:1 on the floor (neutral.900)",
+            "$description": "Bold info fill — clears 7:1 on the floor (neutral.900)",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
@@ -7492,94 +6699,73 @@
               }
             }
           },
-          "interactive": {
-            "default": {
-              "$type": "color",
-              "$value": "{nbds.color.red.300}",
-              "$description": "Interactive fill (action) — default",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.red.300",
-                  "mode": "hc-dark",
-                  "contrast": 7.5,
-                  "against": "neutral.900",
-                  "min": 7
-                }
+          "brand-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.red.900}",
+            "$description": "Subtle brand tint surface — banners, badges, selected rows",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.900",
+                "mode": "hc-dark",
+                "contrast": 1,
+                "against": "self"
               }
-            },
-            "hover": {
-              "$type": "color",
-              "$value": "{nbds.color.red.250}",
-              "$description": "Interactive fill (action) — hover",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.red.250",
-                  "mode": "hc-dark",
-                  "contrast": 8.7,
-                  "against": "neutral.900",
-                  "min": 7
-                }
+            }
+          },
+          "success-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.green.900}",
+            "$description": "Subtle success tint surface — banners, badges, selected rows",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.green.900",
+                "mode": "hc-dark",
+                "contrast": 1,
+                "against": "self"
               }
-            },
-            "pressed": {
-              "$type": "color",
-              "$value": "{nbds.color.red.200}",
-              "$description": "Interactive fill (action) — pressed",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.red.200",
-                  "mode": "hc-dark",
-                  "contrast": 10.01,
-                  "against": "neutral.900",
-                  "min": 7
-                }
+            }
+          },
+          "warning-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.amber.900}",
+            "$description": "Subtle warning tint surface — banners, badges, selected rows",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.amber.900",
+                "mode": "hc-dark",
+                "contrast": 1,
+                "against": "self"
               }
-            },
-            "focused": {
-              "$type": "color",
-              "$value": "{nbds.color.red.250}",
-              "$description": "Interactive fill (action) — focused",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.red.250",
-                  "mode": "hc-dark",
-                  "contrast": 8.7,
-                  "against": "neutral.900",
-                  "min": 7
-                }
+            }
+          },
+          "danger-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.red.900}",
+            "$description": "Subtle danger tint surface — banners, badges, selected rows",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.900",
+                "mode": "hc-dark",
+                "contrast": 1,
+                "against": "self"
               }
-            },
-            "selected": {
-              "$type": "color",
-              "$value": "{nbds.color.red.200}",
-              "$description": "Interactive fill (action) — selected",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.red.200",
-                  "mode": "hc-dark",
-                  "contrast": 10.01,
-                  "against": "neutral.900",
-                  "min": 7
-                }
-              }
-            },
-            "disabled": {
-              "$type": "color",
-              "$value": "{nbds.color.neutral.750}",
-              "$description": "Interactive fill (action) — disabled",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.750",
-                  "mode": "hc-dark",
-                  "contrast": 1.78,
-                  "against": "background.primary"
-                }
+            }
+          },
+          "info-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.info.900}",
+            "$description": "Subtle info tint surface — banners, badges, selected rows",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.info.900",
+                "mode": "hc-dark",
+                "contrast": 1,
+                "against": "self"
               }
             }
           },
@@ -7675,6 +6861,97 @@
             }
           }
         },
+        "action": {
+          "default": {
+            "$type": "color",
+            "$value": "{nbds.color.red.300}",
+            "$description": "Interactive (action) fill — default",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.300",
+                "mode": "hc-dark",
+                "contrast": 7.5,
+                "against": "neutral.900",
+                "min": 7
+              }
+            }
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{nbds.color.red.250}",
+            "$description": "Interactive (action) fill — hover",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.250",
+                "mode": "hc-dark",
+                "contrast": 8.7,
+                "against": "neutral.900",
+                "min": 7
+              }
+            }
+          },
+          "pressed": {
+            "$type": "color",
+            "$value": "{nbds.color.red.200}",
+            "$description": "Interactive (action) fill — pressed",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.200",
+                "mode": "hc-dark",
+                "contrast": 10.01,
+                "against": "neutral.900",
+                "min": 7
+              }
+            }
+          },
+          "focused": {
+            "$type": "color",
+            "$value": "{nbds.color.red.250}",
+            "$description": "Interactive (action) fill — focused",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.250",
+                "mode": "hc-dark",
+                "contrast": 8.7,
+                "against": "neutral.900",
+                "min": 7
+              }
+            }
+          },
+          "selected": {
+            "$type": "color",
+            "$value": "{nbds.color.red.200}",
+            "$description": "Interactive (action) fill — selected",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.200",
+                "mode": "hc-dark",
+                "contrast": 10.01,
+                "against": "neutral.900",
+                "min": 7
+              }
+            }
+          },
+          "disabled": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.750}",
+            "$description": "Interactive (action) fill — disabled",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.neutral.750",
+                "mode": "hc-dark",
+                "contrast": 1.78,
+                "against": "background.primary"
+              }
+            }
+          }
+        },
         "text": {
           "primary": {
             "$type": "color",
@@ -7733,21 +7010,6 @@
                 "contrast": 4.68,
                 "against": "neutral.900",
                 "min": 4.5
-              }
-            }
-          },
-          "inverse": {
-            "$type": "color",
-            "$value": "{nbds.color.black}",
-            "$description": "Inverse text — on the opposite surface",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.black",
-                "mode": "hc-dark",
-                "contrast": 21,
-                "against": "background.inverse",
-                "min": 7
               }
             }
           },
@@ -7826,17 +7088,87 @@
               }
             }
           },
-          "on-interactive": {
+          "brand-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.red.350}",
+            "$description": "Muted brand text — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.350",
+                "mode": "hc-dark",
+                "contrast": 7.52,
+                "against": "background.primary"
+              }
+            }
+          },
+          "success-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.green.350}",
+            "$description": "Muted success text — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.green.350",
+                "mode": "hc-dark",
+                "contrast": 7.19,
+                "against": "background.primary"
+              }
+            }
+          },
+          "warning-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.amber.350}",
+            "$description": "Muted warning text — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.amber.350",
+                "mode": "hc-dark",
+                "contrast": 7.61,
+                "against": "background.primary"
+              }
+            }
+          },
+          "danger-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.red.350}",
+            "$description": "Muted danger text — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.350",
+                "mode": "hc-dark",
+                "contrast": 7.52,
+                "against": "background.primary"
+              }
+            }
+          },
+          "info-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.info.350}",
+            "$description": "Muted info text — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.info.350",
+                "mode": "hc-dark",
+                "contrast": 7.52,
+                "against": "background.primary"
+              }
+            }
+          },
+          "on-action": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "text on the interactive fill",
+            "$description": "text on the action fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
                 "aliasOf": "nbds.color.black",
                 "mode": "hc-dark",
                 "contrast": 8.77,
-                "against": "foreground.interactive.default",
+                "against": "action.default",
                 "min": 4.5
               }
             }
@@ -7916,22 +7248,22 @@
               }
             }
           },
-          "on-emphasis": {
+          "on-inverse": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "text on an emphasis / inverse fill",
+            "$description": "text on an inverse surface",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
                 "aliasOf": "nbds.color.black",
                 "mode": "hc-dark",
                 "contrast": 21,
-                "against": "background.inverse",
+                "against": "background.inverse.primary",
                 "min": 7
               }
             }
           },
-          "interactive": {
+          "link": {
             "default": {
               "$type": "color",
               "$value": "{nbds.color.red.300}",
@@ -8055,21 +7387,6 @@
               }
             }
           },
-          "inverse": {
-            "$type": "color",
-            "$value": "{nbds.color.black}",
-            "$description": "Inverse icon — on the opposite surface",
-            "$extensions": {
-              "prism3": {
-                "role": "semantic",
-                "aliasOf": "nbds.color.black",
-                "mode": "hc-dark",
-                "contrast": 21,
-                "against": "background.inverse",
-                "min": 7
-              }
-            }
-          },
           "brand": {
             "$type": "color",
             "$value": "{nbds.color.red.300}",
@@ -8145,17 +7462,87 @@
               }
             }
           },
-          "on-interactive": {
+          "brand-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.red.350}",
+            "$description": "Muted brand icon — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.350",
+                "mode": "hc-dark",
+                "contrast": 7.52,
+                "against": "background.primary"
+              }
+            }
+          },
+          "success-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.green.350}",
+            "$description": "Muted success icon — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.green.350",
+                "mode": "hc-dark",
+                "contrast": 7.19,
+                "against": "background.primary"
+              }
+            }
+          },
+          "warning-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.amber.350}",
+            "$description": "Muted warning icon — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.amber.350",
+                "mode": "hc-dark",
+                "contrast": 7.61,
+                "against": "background.primary"
+              }
+            }
+          },
+          "danger-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.red.350}",
+            "$description": "Muted danger icon — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.350",
+                "mode": "hc-dark",
+                "contrast": 7.52,
+                "against": "background.primary"
+              }
+            }
+          },
+          "info-subtle": {
+            "$type": "color",
+            "$value": "{nbds.color.info.350}",
+            "$description": "Muted info icon — low-emphasis accent",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.info.350",
+                "mode": "hc-dark",
+                "contrast": 7.52,
+                "against": "background.primary"
+              }
+            }
+          },
+          "on-action": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "icon on the interactive fill",
+            "$description": "icon on the action fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
                 "aliasOf": "nbds.color.black",
                 "mode": "hc-dark",
                 "contrast": 8.77,
-                "against": "foreground.interactive.default",
+                "against": "action.default",
                 "min": 4.5
               }
             }
@@ -8235,22 +7622,22 @@
               }
             }
           },
-          "on-emphasis": {
+          "on-inverse": {
             "$type": "color",
             "$value": "{nbds.color.black}",
-            "$description": "icon on an emphasis / inverse fill",
+            "$description": "icon on an inverse surface",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
                 "aliasOf": "nbds.color.black",
                 "mode": "hc-dark",
                 "contrast": 21,
-                "against": "background.inverse",
+                "against": "background.inverse.primary",
                 "min": 7
               }
             }
           },
-          "interactive": {
+          "link": {
             "default": {
               "$type": "color",
               "$value": "{nbds.color.red.300}",
@@ -8314,7 +7701,7 @@
           }
         },
         "border": {
-          "default": {
+          "primary": {
             "$type": "color",
             "$value": "{nbds.color.neutral.500}",
             "$description": "Default border — decorative, ~4.5:1",
@@ -8328,7 +7715,7 @@
               }
             }
           },
-          "strong": {
+          "secondary": {
             "$type": "color",
             "$value": "{nbds.color.neutral.250}",
             "$description": "Stronger border / divider",
@@ -8345,14 +7732,14 @@
           "inverse": {
             "$type": "color",
             "$value": "{nbds.color.neutral.500}",
-            "$description": "Inverse border",
+            "$description": "Border on inverse surfaces",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
                 "aliasOf": "nbds.color.neutral.500",
                 "mode": "hc-dark",
                 "contrast": 4.59,
-                "against": "background.inverse"
+                "against": "background.inverse.primary"
               }
             }
           },
@@ -8431,393 +7818,18 @@
               }
             }
           },
-          "interactive": {
-            "default": {
-              "$type": "color",
-              "$value": "{nbds.color.neutral.500}",
-              "$description": "Form-field / control border — default",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.500",
-                  "mode": "hc-dark",
-                  "contrast": 4.57,
-                  "against": "background.primary",
-                  "min": 4.5
-                }
-              }
-            },
-            "hover": {
-              "$type": "color",
-              "$value": "{nbds.color.neutral.350}",
-              "$description": "Form-field / control border — hover",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.350",
-                  "mode": "hc-dark",
-                  "contrast": 7.49,
-                  "against": "background.primary",
-                  "min": 4.5
-                }
-              }
-            },
-            "focused": {
-              "$type": "color",
-              "$value": "{nbds.color.red.300}",
-              "$description": "Form-field / control border — focused",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.red.300",
-                  "mode": "hc-dark",
-                  "contrast": 8.77,
-                  "against": "background.primary",
-                  "min": 4.5
-                }
-              }
-            },
-            "disabled": {
-              "$type": "color",
-              "$value": "{nbds.color.neutral.500}",
-              "$description": "Form-field / control border — disabled",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.500",
-                  "mode": "hc-dark",
-                  "contrast": 4.57,
-                  "against": "background.primary",
-                  "min": 4.5
-                }
-              }
-            }
-          }
-        },
-        "elevation": {
-          "sunken": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.hc-dark.background.sunken}",
-              "$description": "elevation sunken surface — background.sunken (hc-dark)",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-dark.background.sunken",
-                  "elevation": "sunken"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.shadow.inset}",
-              "$description": "elevation sunken shadow — shadow.inset",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.shadow.inset",
-                  "elevation": "sunken"
-                }
-              }
-            }
-          },
-          "flat": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.hc-dark.background.primary}",
-              "$description": "elevation flat surface — background.primary (hc-dark)",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-dark.background.primary",
-                  "elevation": "flat"
-                }
-              }
-            }
-          },
-          "raised": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.hc-dark.background.secondary}",
-              "$description": "elevation raised surface — background.secondary (hc-dark)",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-dark.background.secondary",
-                  "elevation": "raised"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.shadow.sm}",
-              "$description": "elevation raised shadow — shadow.sm",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.shadow.sm",
-                  "elevation": "raised"
-                }
-              }
-            }
-          },
-          "overlay": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.hc-dark.background.tertiary}",
-              "$description": "elevation overlay surface — background.tertiary (hc-dark)",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-dark.background.tertiary",
-                  "elevation": "overlay"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.shadow.lg}",
-              "$description": "elevation overlay shadow — shadow.lg",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.shadow.lg",
-                  "elevation": "overlay"
-                }
-              }
-            }
-          },
-          "floating": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.hc-dark.background.quaternary}",
-              "$description": "elevation floating surface — background.quaternary (hc-dark)",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-dark.background.quaternary",
-                  "elevation": "floating"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.shadow.xl}",
-              "$description": "elevation floating shadow — shadow.xl",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.shadow.xl",
-                  "elevation": "floating"
-                }
-              }
-            }
-          },
-          "card": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.hc-dark.elevation.raised.surface}",
-              "$description": "card → elevation.raised surface",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-dark.elevation.raised.surface",
-                  "component": "card"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.semantic.hc-dark.elevation.raised.shadow}",
-              "$description": "card → elevation.raised shadow",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-dark.elevation.raised.shadow",
-                  "component": "card"
-                }
-              }
-            }
-          },
-          "dropdown": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.hc-dark.elevation.overlay.surface}",
-              "$description": "dropdown → elevation.overlay surface",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-dark.elevation.overlay.surface",
-                  "component": "dropdown"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.semantic.hc-dark.elevation.overlay.shadow}",
-              "$description": "dropdown → elevation.overlay shadow",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-dark.elevation.overlay.shadow",
-                  "component": "dropdown"
-                }
-              }
-            }
-          },
-          "popover": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.hc-dark.elevation.overlay.surface}",
-              "$description": "popover → elevation.overlay surface",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-dark.elevation.overlay.surface",
-                  "component": "popover"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.semantic.hc-dark.elevation.overlay.shadow}",
-              "$description": "popover → elevation.overlay shadow",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-dark.elevation.overlay.shadow",
-                  "component": "popover"
-                }
-              }
-            }
-          },
-          "menu": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.hc-dark.elevation.overlay.surface}",
-              "$description": "menu → elevation.overlay surface",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-dark.elevation.overlay.surface",
-                  "component": "menu"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.semantic.hc-dark.elevation.overlay.shadow}",
-              "$description": "menu → elevation.overlay shadow",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-dark.elevation.overlay.shadow",
-                  "component": "menu"
-                }
-              }
-            }
-          },
-          "dialog": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.hc-dark.elevation.floating.surface}",
-              "$description": "dialog → elevation.floating surface",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-dark.elevation.floating.surface",
-                  "component": "dialog"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.semantic.hc-dark.elevation.floating.shadow}",
-              "$description": "dialog → elevation.floating shadow",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-dark.elevation.floating.shadow",
-                  "component": "dialog"
-                }
-              }
-            }
-          },
-          "modal": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.hc-dark.elevation.floating.surface}",
-              "$description": "modal → elevation.floating surface",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-dark.elevation.floating.surface",
-                  "component": "modal"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.semantic.hc-dark.elevation.floating.shadow}",
-              "$description": "modal → elevation.floating shadow",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-dark.elevation.floating.shadow",
-                  "component": "modal"
-                }
-              }
-            }
-          },
-          "tooltip": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.hc-dark.elevation.floating.surface}",
-              "$description": "tooltip → elevation.floating surface",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-dark.elevation.floating.surface",
-                  "component": "tooltip"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.semantic.hc-dark.elevation.floating.shadow}",
-              "$description": "tooltip → elevation.floating shadow",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-dark.elevation.floating.shadow",
-                  "component": "tooltip"
-                }
-              }
-            }
-          },
-          "well": {
-            "surface": {
-              "$type": "color",
-              "$value": "{nbds.semantic.hc-dark.elevation.sunken.surface}",
-              "$description": "well → elevation.sunken surface",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-dark.elevation.sunken.surface",
-                  "component": "well"
-                }
-              }
-            },
-            "shadow": {
-              "$type": "shadow",
-              "$value": "{nbds.semantic.hc-dark.elevation.sunken.shadow}",
-              "$description": "well → elevation.sunken shadow",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.semantic.hc-dark.elevation.sunken.shadow",
-                  "component": "well"
-                }
+          "focus": {
+            "$type": "color",
+            "$value": "{nbds.color.red.300}",
+            "$description": "Focus ring colour (keyboard focus)",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.red.300",
+                "mode": "hc-dark",
+                "contrast": 8.77,
+                "against": "background.primary",
+                "min": 4.5
               }
             }
           }
