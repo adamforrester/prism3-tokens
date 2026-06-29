@@ -2,10 +2,14 @@
  * Prism3 engine — token visualiser.
  *
  * Reads the emitted DTCG files (out/*.tokens.json) and renders a single
- * self-contained HTML page: colour swatches per palette, the per-mode semantic
- * roles (with their resolved colour + contrast), and the dimension axis (grid /
- * space / radius) as visual previews. No dependencies, no network — open the
- * file in any browser. Also prints a plain-text taxonomy to stdout.
+ * self-contained HTML page covering every generated axis: colour swatches per
+ * palette, the per-mode semantic roles (resolved colour + contrast), the
+ * dimension axis (grid / space / radius / component sizes), typography (the
+ * composite text styles rendered live + the font primitives), shadow &
+ * elevation (on a light panel), motion (durations + animated easing curves +
+ * springs), layout (breakpoints / grid / containers), and opacity +
+ * border-width. No dependencies, no network — open the file in any browser.
+ * Also prints a plain-text taxonomy to stdout.
  *
  *   npx tsx Prism3/engine/visualize.ts   # writes out/tokens.html
  */
@@ -40,6 +44,19 @@ const pxOf = (tree: Node, node: Node): number => {
   return parseInt(String(t?.$value).replace('px', ''), 10) || 0;
 };
 const aliasTarget = (node: Node): string => (typeof node.$value === 'string' && /^\{.+\}$/.test(node.$value) ? node.$value.slice(1, -1) : '');
+// Resolve a composite sub-value (an `{alias}` string) to its primitive node.
+const subNode = (tree: Node, aliasStr: any): Node => at(tree, String(aliasStr).replace(/^\{|\}$/g, ''));
+const numOf = (tree: Node, node: Node): number => { const t = deref(tree, node); return typeof t?.$value === 'number' ? t.$value : parseFloat(String(t?.$value)) || 0; };
+const remPxOf = (tree: Node, node: Node): number => { const t = deref(tree, node); const px = t?.$extensions?.prism3?.px; if (px) return px; const v = String(t?.$value); return v.endsWith('rem') ? parseFloat(v) * 16 : parseFloat(v) || 0; };
+const familyOf = (tree: Node, node: Node): string => { const t = deref(tree, node); return Array.isArray(t?.$value) ? t.$value.join(', ') : String(t?.$value ?? 'sans-serif'); };
+// Resolve a shadow node (possibly an alias chain) to a CSS box-shadow string.
+const shadowCssOf = (tree: Node, node: Node): string => {
+  let cur = node, guard = 0;
+  while (cur && typeof cur.$value === 'string' && /^\{.+\}$/.test(cur.$value) && guard++ < 10) cur = at(tree, cur.$value.slice(1, -1));
+  const layers = Array.isArray(cur?.$value) ? cur.$value : [];
+  const inset = /inner|inset|well/i.test(String(cur?.$description ?? ''));
+  return layers.map((l: any) => `${inset ? 'inset ' : ''}${l.offsetX} ${l.offsetY} ${l.blur} ${l.spread} ${l.color}`).join(', ') || 'none';
+};
 
 type Brand = { id: string; root: string; tree: Node; data: Node };
 const load = (id: string, root: string): Brand => {
@@ -160,6 +177,153 @@ for (const b of brands) {
   }
   html.push('</div>');
 
+  // ---- typography (composite text styles) ----
+  txt.push('\n— TYPOGRAPHY (composite text styles) —');
+  html.push('<h3>Typography <span class="muted">composite text styles · fluid range shown · capped to 64px</span></h3><div class="type">');
+  const renderType = (path: string, node: Node) => {
+    const v = node.$value;
+    const ext = node.$extensions?.prism3 ?? {};
+    const family = familyOf(tree, subNode(tree, v.fontFamily));
+    const weight = numOf(tree, subNode(tree, v.fontWeight));
+    const lh = numOf(tree, subNode(tree, v.lineHeight));
+    const ls = String(deref(tree, subNode(tree, v.letterSpacing))?.$value ?? '0');
+    const tc = v.textCase ?? ext.textCase ?? 'none';
+    const sizePx = ext.sizePx ?? remPxOf(tree, subNode(tree, v.fontSize));
+    const r = ext.responsive ?? {};
+    const range = r.fluid ? `${r.min.px}→${r.max.px}px fluid` : `${r.px ?? sizePx}px`;
+    const shown = Math.min(sizePx, 64);
+    const style = `font-family:${family};font-size:${shown}px;font-weight:${weight};line-height:${lh};letter-spacing:${ls};text-transform:${tc}`;
+    txt.push(`  ${path.padEnd(16)} ${range} · w${weight} · lh${lh} · ${family.split(',')[0]}`);
+    html.push(`<div class="trow"><div class="tmeta"><b>${path}</b><span>${range} · w${weight} · lh ${lh} · ls ${ls}${tc !== 'none' ? ' · ' + tc : ''}</span><span class="tfam">${esc(family.split(',')[0])}</span></div><div class="tsample" style="${style}">${esc(path.split('.').slice(1).join(' '))}</div></div>`);
+  };
+  for (const g of Object.keys(data.type)) {
+    const grp = data.type[g];
+    if ('$value' in grp) renderType(`type.${g}`, grp);
+    else for (const vk of Object.keys(grp)) renderType(`type.${g}.${vk}`, grp[vk]);
+  }
+  html.push('</div>');
+
+  // type primitives: families, weight roles, line-height, tracking, size ladder
+  html.push('<h3>Font primitives <span class="muted">families · weight roles · line-height · tracking · size ladder</span></h3>');
+  html.push('<div class="fontprim">');
+  html.push('<div class="fpcol"><div class="fplabel">families</div>');
+  for (const k of Object.keys(data.font.family)) {
+    const fam = familyOf(tree, data.font.family[k]);
+    html.push(`<div class="fpline" style="font-family:${fam}">${k} — ${esc(fam.split(',')[0])}</div>`);
+  }
+  html.push('</div>');
+  html.push('<div class="fpcol"><div class="fplabel">weight roles</div>');
+  for (const k of Object.keys(data.font['weight-role'])) {
+    const w = numOf(tree, data.font['weight-role'][k]);
+    html.push(`<div class="fpline" style="font-weight:${w}">${k} — ${w}</div>`);
+  }
+  html.push('</div>');
+  html.push('<div class="fpcol"><div class="fplabel">line-height</div>');
+  for (const k of Object.keys(data.font['line-height'])) html.push(`<div class="fpline">${k} — ${data.font['line-height'][k].$value}</div>`);
+  html.push('</div>');
+  html.push('<div class="fpcol"><div class="fplabel">tracking</div>');
+  for (const k of Object.keys(data.font['letter-spacing'])) html.push(`<div class="fpline">${k} — ${data.font['letter-spacing'][k].$value}</div>`);
+  html.push('</div></div>');
+  html.push('<div class="bars" style="margin-top:8px">');
+  for (const k of Object.keys(data.font.size)) {
+    const px = data.font.size[k].$extensions?.prism3?.px ?? remPxOf(tree, data.font.size[k]);
+    html.push(`<div class="barrow"><span class="bk">${k}</span><div class="bar fs" style="width:${Math.min(px, 200)}px"></div><span class="bv">${px}px</span></div>`);
+  }
+  html.push('</div>');
+
+  // ---- shadow + elevation (light panel) ----
+  txt.push('\n— SHADOW (elevation ladder) —');
+  html.push('<h3>Shadow &amp; elevation <span class="muted">light mode · 2-layer key+ambient · elevation joins surface + shadow</span></h3>');
+  html.push('<div class="lightpanel"><div class="lpsub">shadow ladder</div><div class="shrow">');
+  for (const k of Object.keys(data.shadow)) {
+    const layers = data.shadow[k].$value;
+    const n = data.shadow[k].$extensions?.prism3?.layers ?? layers.length;
+    const css = layers.map((l: any) => `${k === 'inset' ? 'inset ' : ''}${l.offsetX} ${l.offsetY} ${l.blur} ${l.spread} ${l.color}`).join(', ');
+    txt.push(`  shadow.${k.padEnd(5)} ${n} layer(s)`);
+    html.push(`<div class="shcell"><div class="shbox" style="box-shadow:${css}"></div><span>${k}</span><small>${n} layer${n > 1 ? 's' : ''}</small></div>`);
+  }
+  html.push('</div>');
+  // elevation levels (surface + shadow together), light mode
+  const elev = data.semantic[modes[0]].elevation;
+  if (elev) {
+    const levelKeys = Object.keys(elev).filter((k) => !elev[k].surface?.$extensions?.prism3?.component);
+    html.push('<div class="lpsub">elevation levels <span class="lpmuted">(surface + shadow)</span></div><div class="shrow">');
+    for (const k of levelKeys) {
+      const surfHex = hexOf(tree, elev[k].surface);
+      const shCss = elev[k].shadow ? shadowCssOf(tree, elev[k].shadow) : 'none';
+      html.push(`<div class="shcell"><div class="shbox" style="background:${surfHex};box-shadow:${shCss}"></div><span>${k}</span></div>`);
+    }
+    html.push('</div>');
+  }
+  html.push('</div>');
+
+  // ---- motion ----
+  txt.push('\n— MOTION (duration · easing · spring) —');
+  html.push('<h3>Motion <span class="muted">durations · easing curves (animated) · springs</span></h3>');
+  html.push('<div class="bars">');
+  for (const k of Object.keys(data.motion.duration)) {
+    const ms = data.motion.duration[k].$extensions?.prism3?.ms ?? parseInt(String(data.motion.duration[k].$value), 10);
+    txt.push(`  duration.${k.padEnd(8)} ${ms}ms`);
+    html.push(`<div class="barrow"><span class="bk2">${k}</span><div class="bar mo" style="width:${Math.max(2, Math.min(ms, 600) / 2)}px"></div><span class="bv">${ms}ms</span></div>`);
+  }
+  html.push('</div><div class="eases">');
+  for (const k of Object.keys(data.motion.easing)) {
+    const bz = data.motion.easing[k].$value;
+    const cb = `cubic-bezier(${bz.join(', ')})`;
+    html.push(`<div class="ecell"><div class="etrack"><div class="edot" style="animation-timing-function:${cb}"></div></div><span>${k}</span><small>${cb}</small></div>`);
+  }
+  html.push('</div>');
+  if (data.motion.spring) {
+    html.push('<div class="springs">');
+    for (const k of Object.keys(data.motion.spring)) {
+      const s = data.motion.spring[k].$value;
+      html.push(`<div class="spcell"><b>${k}</b><small>damping ${s.damping} · stiffness ${s.stiffness}</small></div>`);
+    }
+    html.push('</div>');
+  }
+
+  // ---- layout (breakpoints · grid · containers) ----
+  txt.push('\n— LAYOUT (breakpoints · grid · containers) —');
+  html.push('<h3>Layout <span class="muted">breakpoint floors · grid (design artifact) · containers</span></h3>');
+  html.push('<div class="bps">');
+  for (const k of Object.keys(data.breakpoint)) {
+    const px = data.breakpoint[k].$extensions?.prism3?.px ?? parseInt(String(data.breakpoint[k].$value), 10);
+    txt.push(`  breakpoint.${k.padEnd(4)} ${px === 0 ? '0 (base)' : '>=' + px + 'px'}`);
+    html.push(`<div class="bp"><b>${k}</b><small>${px === 0 ? '0 · base' : '≥' + px + 'px'}</small></div>`);
+  }
+  html.push('</div>');
+  html.push('<table class="grid"><thead><tr><th>bp</th><th>columns</th><th>gutter</th><th>margin</th></tr></thead><tbody>');
+  for (const k of Object.keys(data.grid)) {
+    const g = data.grid[k];
+    const cols = g.columns.$value;
+    const gut = g.gutter.$extensions?.prism3?.px ?? '';
+    const mar = g.margin.$extensions?.prism3?.px ?? '';
+    txt.push(`  grid.${k.padEnd(4)} ${cols} cols · gutter ${gut} · margin ${mar}`);
+    html.push(`<tr><td>${k}</td><td>${cols}</td><td>${gut}px</td><td>${mar}px</td></tr>`);
+  }
+  html.push('</tbody></table>');
+  html.push('<div class="bars">');
+  for (const k of Object.keys(data.container)) {
+    const node = data.container[k];
+    const px = node.$extensions?.prism3?.px;
+    const w = px ? Math.min(px / 6, 240) : 240;
+    html.push(`<div class="barrow"><span class="bk2">${k}</span><div class="bar ct" style="width:${w}px"></div><span class="bv">${node.$value}</span></div>`);
+  }
+  html.push('</div>');
+
+  // ---- opacity + border-width ----
+  html.push('<h3>Opacity</h3><div class="ops">');
+  for (const k of Object.keys(data.opacity)) {
+    html.push(`<div class="opcell"><div class="opwrap"><div class="opbox" style="opacity:${data.opacity[k].$value}"></div></div><span>${k}</span></div>`);
+  }
+  html.push('</div>');
+  html.push('<h3>Border width</h3><div class="bws">');
+  for (const k of Object.keys(data['border-width'])) {
+    const px = data['border-width'][k].$extensions?.prism3?.px ?? pxOf(tree, data['border-width'][k]);
+    html.push(`<div class="bwcell"><div class="bwline" style="border-top-width:${px}px"></div><span>${k}</span><small>${px}px</small></div>`);
+  }
+  html.push('</div>');
+
   html.push('</section>');
 }
 
@@ -196,9 +360,57 @@ const page = `<!doctype html><html lang="en"><head><meta charset="utf-8">
   .scell{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;color:#6b7280}
   .control{box-sizing:border-box;min-width:64px;background:#2a2e37;border:1px solid #3a3f4a;border-radius:6px;display:flex;align-items:center;justify-content:center}
   .ctext{background:#4f8cff33;border:1px solid #4f8cff;color:#cdd9ff;border-radius:3px;font-size:11px;font-weight:600;padding:1px 8px;height:100%;display:flex;align-items:center}
+  .bar.fs{background:#d98ad0}
+  /* typography */
+  .type{display:flex;flex-direction:column;gap:0}
+  .trow{display:flex;align-items:baseline;gap:20px;padding:9px 0;border-bottom:1px solid #1c2027}
+  .tmeta{width:240px;flex:0 0 auto;display:flex;flex-direction:column;gap:1px;align-self:center}
+  .tmeta b{font-size:12px;color:#cbd1db;font-variant-numeric:tabular-nums}
+  .tmeta span{font-size:10px;color:#6b7280}
+  .tmeta .tfam{color:#808894}
+  .tsample{color:#e6e7eb;overflow:hidden;white-space:nowrap;flex:1 1 auto}
+  .fontprim{display:flex;gap:34px;flex-wrap:wrap}
+  .fpcol{display:flex;flex-direction:column;gap:3px;font-size:12px;color:#cbd1db}
+  .fplabel{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:#6b7280;margin-bottom:2px}
+  .fpline{font-variant-numeric:tabular-nums}
+  /* shadow + elevation */
+  .lightpanel{background:#f4f5f7;border-radius:10px;padding:22px 24px;margin:6px 0}
+  .lpsub{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#5b6270;font-weight:600;margin:6px 0 14px}
+  .lpsub:not(:first-child){margin-top:26px} .lpmuted{color:#9aa1ad;font-weight:400;text-transform:none;letter-spacing:0}
+  .shrow{display:flex;gap:26px;flex-wrap:wrap;align-items:flex-end}
+  .shcell{display:flex;flex-direction:column;align-items:center;gap:8px;font-size:11px;color:#5b6270}
+  .shbox{width:78px;height:60px;background:#fff;border-radius:8px}
+  .shcell small{color:#9aa1ad}
+  /* motion */
+  .bk2{width:56px;text-align:right;color:#9aa1ad;font-size:11px;font-variant-numeric:tabular-nums}
+  .bar.mo{background:#e0a93b} .bar.ct{background:#c879d9}
+  .eases{display:flex;gap:18px;flex-wrap:wrap;margin-top:12px}
+  .ecell{display:flex;flex-direction:column;gap:6px;font-size:10px;color:#9aa1ad;width:160px}
+  .etrack{position:relative;height:14px;background:#1c2027;border-radius:7px;overflow:hidden}
+  .edot{position:absolute;top:1px;left:1px;width:12px;height:12px;border-radius:50%;background:#4f8cff;animation:edot 1.8s infinite alternate}
+  @keyframes edot{from{left:1px}to{left:calc(100% - 13px)}}
+  .springs{display:flex;gap:20px;flex-wrap:wrap;margin-top:14px}
+  .spcell{display:flex;flex-direction:column;gap:2px;font-size:12px;color:#cbd1db}
+  .spcell small{color:#6b7280;font-size:10px}
+  /* layout */
+  .bps{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+  .bp{background:#1c2027;border:1px solid #2a2e37;border-radius:6px;padding:6px 12px;display:flex;flex-direction:column;gap:2px}
+  .bp b{font-size:12px;color:#cbd1db} .bp small{font-size:10px;color:#6b7280;font-variant-numeric:tabular-nums}
+  table.grid{border-collapse:collapse;font-size:12px;margin:4px 0 16px}
+  table.grid th{text-align:left;color:#9aa1ad;font-weight:600;padding:4px 22px 4px 0;font-size:11px}
+  table.grid td{padding:3px 22px 3px 0;color:#cbd1db;font-variant-numeric:tabular-nums;border-top:1px solid #1c2027}
+  /* opacity + border-width */
+  .ops{display:flex;gap:6px;flex-wrap:wrap}
+  .opcell{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10px;color:#9aa1ad}
+  .opwrap{width:46px;height:40px;border-radius:5px;overflow:hidden;background:repeating-conic-gradient(#3a3f4a 0% 25%,#2a2e37 0% 50%) 0/14px 14px}
+  .opbox{width:100%;height:100%;background:#4f8cff}
+  .bws{display:flex;gap:22px;flex-wrap:wrap;align-items:flex-end;margin-top:4px}
+  .bwcell{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;color:#9aa1ad;width:96px}
+  .bwline{width:96px;border-top-style:solid;border-top-color:#4f8cff}
+  .bwcell small{color:#6b7280}
 </style></head><body>
 <h1>Prism3 — generated token taxonomy</h1>
-<p class="lead">Every value below is engine-generated from a small theme input and read back from the emitted DTCG files (<code>out/*.tokens.json</code>). ★ marks the exact brand anchor. Regenerate with <code>npx tsx Prism3/engine/visualize.ts</code>.</p>
+<p class="lead">Every value below is engine-generated from a small theme input and read back from the emitted DTCG files (<code>out/*.tokens.json</code>) — colour, semantic roles, dimension, typography, shadow &amp; elevation, motion, layout, opacity and border-width. ★ marks the exact brand anchor. Type styles, shadows and easing curves are rendered live from the resolved tokens. Regenerate with <code>npx tsx Prism3/engine/visualize.ts</code>.</p>
 ${html.join('\n')}
 </body></html>`;
 

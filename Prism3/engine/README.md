@@ -13,8 +13,14 @@ It does two things:
    `brand`* so the interactive colour need not be the hero colour
    (`emit-dtcg.ts`, second theme `aurora`).
 
-This is not the production engine, but it is no longer color-thesis-only: it
-generates two brands (NB + a synthetic violet brand) end-to-end.
+This is not the production engine, and it is well past color-thesis-only: from a
+small per-brand input it generates a **complete token layer end-to-end** for two
+brands (NB + a synthetic violet brand) across every axis — colour, semantic roles,
+dimension (space/radius/sizes), typography, shadow & elevation, motion, layout, and
+the mode-invariant primitives (border-width, focus, opacity/alpha) — emitted as
+DTCG, validated for alias resolution + contrast contracts + schema conformance, and
+rendered to a live HTML style guide. Each axis is driven by a few brand levers; the
+rest is derived.
 
 ## Run
 
@@ -22,6 +28,7 @@ generates two brands (NB + a synthetic violet brand) end-to-end.
 npx tsx Prism3/engine/nb-regression.ts   # regression: generated vs real NB
 npx tsx Prism3/engine/emit-dtcg.ts       # emit a DTCG token tree + validate aliases + schema
 npx tsx Prism3/engine/test.ts            # unit tests: colour math + extreme-brand contracts
+npx tsx Prism3/engine/visualize.ts       # render out/tokens.html — a live visual style guide
 ```
 
 Node ≥ 20. No `npm install` needed — the color math is self-contained
@@ -36,9 +43,10 @@ Node ≥ 20. No `npm install` needed — the color math is self-contained
 - `modes.ts` — appearance modes (light / dark / hc-light / hc-dark). Resolves each semantic role to a primitive step by contrast target against the mode's surface. Brand-agnostic — paths/palette names come from the `Theme`.
 - `nb-regression.ts` — diffs generated NB ramps against the real NB tokens (ΔE00 per step), checks the contrast contracts, writes `nb-regression-report.md`.
 - `emit-dtcg.ts` — emits a DTCG tree per theme (`out/<id>.tokens.json`), generates the per-mode semantic layer, validates every alias resolves, every mode contrast contract holds, and the BrandInput conforms to the schema; writes `modes-report.md` + the `.ai.json` sidecar.
-- `ai-metadata.ts` — generates `out/<id>.ai.json`, the agent-readable metadata sidecar. Two tiers: **semantic** (full schema — `meaning`, `when_to_use`, `avoid_when`, `paired_with`, `contrast_with`, `mode_overrides`, per KB 31-color-systems §9) and **primitive** (simplified — `meaning`, `tier`, `consume`, and `aliased_by`, the reverse index of which tokens resolve to it → a bidirectional graph for impact analysis). All fields generated/contract-true; keeps `tokens.json` DTCG-pure.
-- `test.ts` — colour-math invariants + extreme-brand contract smoke tests (65 checks).
-- generated outputs (committed so results are reviewable without running): `nb-regression-report.md`, `modes-report.md`, `out/nb.tokens.json`, `out/aurora.tokens.json`.
+- `ai-metadata.ts` — generates `out/<id>.ai.json`, the agent-readable metadata sidecar. Two tiers: **semantic** (full schema — `meaning`, `when_to_use`, `avoid_when`, `paired_with`, `contrast_with`, `mode_overrides`, per KB 31-color-systems §9) and **primitive** (simplified — `meaning`, `tier`, `consume`, and `aliased_by`, the reverse index of which tokens resolve to it, **computed transitively** across multi-hop alias chains → a bidirectional graph for impact analysis). Also carries the typography tier (`type.*` composites + `font.weight-role.*`). All fields generated/contract-true; keeps `tokens.json` DTCG-pure.
+- `visualize.ts` — renders `out/tokens.html`, a single self-contained visual style guide read back from the emitted DTCG (every axis: colour, semantic roles, dimension, typography rendered live, shadow & elevation, motion with animated easing curves, layout, opacity, border-width). No deps; also prints a plain-text taxonomy.
+- `test.ts` — colour-math invariants + extreme-brand contract smoke tests + typography/shadow/layout invariants (124 checks).
+- generated outputs (committed so results are reviewable without running): `nb-regression-report.md`, `modes-report.md`, `out/nb.tokens.json`, `out/aurora.tokens.json`, `out/tokens.html`.
 
 ## Modes (`modes-report.md`)
 
@@ -163,6 +171,57 @@ motion preserved/floored, vestibular → 0 — Apple "substitute, don't delete")
 Beats a fixed single-brand ramp via the lever, composites, the `calm` curve, and
 derived reduce-motion. Grounded in KB `18-motion-foundations` + a 7-system survey.
 
+## Typography axis (font primitives · composite text styles)
+
+Same primitives→composites architecture as colour. **Primitives:** a *curated*
+rem `font.size` ladder (10→160px, whole/half-rem steps — **not** a modular ratio,
+which leaves gaps; Prism2's lesson); a numeric `font.weight` **reference tier**
+(100–900) with function-named `font.weight-role.*` aliases
+(`subtle`/`default`/`emphasis`/`strong`) so a two-weight brand collapses roles
+without touching consumers; unitless `font.line-height.*`; `font.letter-spacing.*`
+in em; and `font.family.*` (`display`/`text`/`mono`). **Composites:** DTCG
+`typography` tokens grouped by role — `display`/`title`/`body`/`label`/`caption`/
+`eyebrow`/`code` — each binding family + size + weight-role + line-height +
+tracking (+ baked `textCase` where applicable). **Fluid is size-dependent, not a
+flat factor** (the wrong model — research showed bigger shrinks more): `display`
+runs a convergent mobile curve toward a ~40–48px hero band, `title` drops ~one rung
+floored, `body` stays static; every `clamp()` is rem-floored for WCAG 1.4.4. The
+materialization directive carries the export data in `$extensions.prism3`: the
+`web` clamp string, the Figma `responsive.figma.modes` (desktop/mobile fontSize),
+and the per-mode `lineHeight px = fontSize × multiplier` rule (Figma binds
+line-height as px, not unitless). `title` is allowed to bleed into body sizes; a
+16px title is an opt-in floor entry (pinned, exempt from the scale shift).
+Grounded in KB `23-typography-tokenisation` + a Carbon/Utopia/Material survey.
+
+## Shadow & elevation axis (key+ambient · two-axis elevation)
+
+A six-step `shadow` ladder (`xs…2xl`) plus an `inset`, each a **two-layer**
+DTCG `shadow` composite (a tight **key** + a soft **ambient**), colour a **tinted
+near-black** (not pure black — pure black reads grey and muddy). One `softness`
+lever scales blur/spread. Dark mode is **mode-aware**: the shadow is *reduced*
+(carried under `$extensions.prism3.modes.dark`) because **surface lift** does the
+dark-mode elevation work — neither NB's heavier-dark shadow nor a null. Elevation
+is **two axes joined**: a surface ladder (`background.*`) and the shadow ladder,
+bound per mode by semantic `elevation.<level>` tokens (`sunken`/`flat`/`raised`/
+`overlay`/`floating`) each carrying a `{surface, shadow}` pair, with component
+aliases (`card`/`dropdown`/`dialog`/…) pointing at a level (Atlassian's split).
+Emits as a Figma **Effect Style** (colour + numerics bindable per layer).
+Grounded in KB `31-color-systems` (lift pattern + the shadow subsection).
+
+## Layout axis (breakpoints · grid · containers)
+
+Five-to-six **t-shirt min-width** breakpoints (mobile-first floors; count-aware
+names — ≤5 anchor at `sm`, 6+ prepend `xs` Bootstrap-style). The 12-col `grid` is
+emitted as a **design artifact, not the code contract** (build with CSS Grid +
+container queries) — a 4/8/12 column ladder per breakpoint. **Gutter and margin
+alias the spacing scale** (`{space.*}`, 16/24/32 · 16/24/48), not independent
+tokens — the single most load-bearing finding. Containers collapse Prism2's
+fluid-vs-fixed duplication into **fluid-first + a `container.max` cap (1280) + a
+`narrow` reading container (~720)**. Breakpoint-keyed values are tagged for a
+*separate* Figma layout collection (modes = breakpoints, composing independently
+with colour light/dark). Lever = the breakpoint floor array + base column count.
+Grounded in the `2026-06-28-layout-grid-breakpoints` research + a 11-system survey.
+
 ## What it currently does / doesn't
 
 **Does:** exact anchor preservation; anchor-pinned L interpolation; chroma arc;
@@ -171,8 +230,13 @@ the dual-side AA luminance pivot so all band contracts pass); band classificatio
 WCAG contract checks; **the dimension axis** (grid + numbered space + radius +
 density-driven component sizes, 21/21 exact vs Prism2 space + NB radius); **the
 motion axis** (tempo-generated durations + easing/spring/composite-transition +
-derived reduce-motion); border-width, focus, opacity/alpha + scrim primitives;
-two-brand emit in two dialects.
+derived reduce-motion); **the typography axis** (curated rem ladder + weight-role
+tier + role composites + size-dependent fluid); **shadow & two-axis elevation**
+(key+ambient, tinted, mode-aware reduced-dark); **the layout axis** (t-shirt
+breakpoints + grid-as-artifact + spacing-aliased gutter/margin + fluid containers);
+border-width, focus, opacity/alpha + scrim primitives; two-brand emit in two
+dialects; a live HTML style guide (`visualize.ts`). 618/618 aliases resolve,
+268/268 mode contracts hold, 124/124 unit tests pass, both brands schema-conform.
 
 **Deliberately not reproduced:**
 - *NB's per-step hue kinks* (amber.600, red.300). Following them would require
@@ -182,6 +246,8 @@ two-brand emit in two dialects.
   engine gap.
 
 **Next increments:**
-- Typography (modular scale / weight ladder / fluid triplets) and motion
-  (duration / easing ramp) from the schema; raw-figma round-trip; downstream
-  pipeline (Style Dictionary / Figma MCP).
+- Gradients (the last token category — low priority); the raw-figma / code→Figma
+  round-trip writer (the contract is complete — `$extensions.prism3.figma` carries
+  every transform directive — but the writer that drives the user's plugin to
+  update-in-place vs build-from-scratch is still backlog); downstream pipeline
+  (Style Dictionary / Figma MCP); a theming playground (see `docs/04`).

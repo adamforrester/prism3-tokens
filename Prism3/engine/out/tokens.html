@@ -31,9 +31,57 @@
   .scell{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;color:#6b7280}
   .control{box-sizing:border-box;min-width:64px;background:#2a2e37;border:1px solid #3a3f4a;border-radius:6px;display:flex;align-items:center;justify-content:center}
   .ctext{background:#4f8cff33;border:1px solid #4f8cff;color:#cdd9ff;border-radius:3px;font-size:11px;font-weight:600;padding:1px 8px;height:100%;display:flex;align-items:center}
+  .bar.fs{background:#d98ad0}
+  /* typography */
+  .type{display:flex;flex-direction:column;gap:0}
+  .trow{display:flex;align-items:baseline;gap:20px;padding:9px 0;border-bottom:1px solid #1c2027}
+  .tmeta{width:240px;flex:0 0 auto;display:flex;flex-direction:column;gap:1px;align-self:center}
+  .tmeta b{font-size:12px;color:#cbd1db;font-variant-numeric:tabular-nums}
+  .tmeta span{font-size:10px;color:#6b7280}
+  .tmeta .tfam{color:#808894}
+  .tsample{color:#e6e7eb;overflow:hidden;white-space:nowrap;flex:1 1 auto}
+  .fontprim{display:flex;gap:34px;flex-wrap:wrap}
+  .fpcol{display:flex;flex-direction:column;gap:3px;font-size:12px;color:#cbd1db}
+  .fplabel{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:#6b7280;margin-bottom:2px}
+  .fpline{font-variant-numeric:tabular-nums}
+  /* shadow + elevation */
+  .lightpanel{background:#f4f5f7;border-radius:10px;padding:22px 24px;margin:6px 0}
+  .lpsub{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#5b6270;font-weight:600;margin:6px 0 14px}
+  .lpsub:not(:first-child){margin-top:26px} .lpmuted{color:#9aa1ad;font-weight:400;text-transform:none;letter-spacing:0}
+  .shrow{display:flex;gap:26px;flex-wrap:wrap;align-items:flex-end}
+  .shcell{display:flex;flex-direction:column;align-items:center;gap:8px;font-size:11px;color:#5b6270}
+  .shbox{width:78px;height:60px;background:#fff;border-radius:8px}
+  .shcell small{color:#9aa1ad}
+  /* motion */
+  .bk2{width:56px;text-align:right;color:#9aa1ad;font-size:11px;font-variant-numeric:tabular-nums}
+  .bar.mo{background:#e0a93b} .bar.ct{background:#c879d9}
+  .eases{display:flex;gap:18px;flex-wrap:wrap;margin-top:12px}
+  .ecell{display:flex;flex-direction:column;gap:6px;font-size:10px;color:#9aa1ad;width:160px}
+  .etrack{position:relative;height:14px;background:#1c2027;border-radius:7px;overflow:hidden}
+  .edot{position:absolute;top:1px;left:1px;width:12px;height:12px;border-radius:50%;background:#4f8cff;animation:edot 1.8s infinite alternate}
+  @keyframes edot{from{left:1px}to{left:calc(100% - 13px)}}
+  .springs{display:flex;gap:20px;flex-wrap:wrap;margin-top:14px}
+  .spcell{display:flex;flex-direction:column;gap:2px;font-size:12px;color:#cbd1db}
+  .spcell small{color:#6b7280;font-size:10px}
+  /* layout */
+  .bps{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+  .bp{background:#1c2027;border:1px solid #2a2e37;border-radius:6px;padding:6px 12px;display:flex;flex-direction:column;gap:2px}
+  .bp b{font-size:12px;color:#cbd1db} .bp small{font-size:10px;color:#6b7280;font-variant-numeric:tabular-nums}
+  table.grid{border-collapse:collapse;font-size:12px;margin:4px 0 16px}
+  table.grid th{text-align:left;color:#9aa1ad;font-weight:600;padding:4px 22px 4px 0;font-size:11px}
+  table.grid td{padding:3px 22px 3px 0;color:#cbd1db;font-variant-numeric:tabular-nums;border-top:1px solid #1c2027}
+  /* opacity + border-width */
+  .ops{display:flex;gap:6px;flex-wrap:wrap}
+  .opcell{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10px;color:#9aa1ad}
+  .opwrap{width:46px;height:40px;border-radius:5px;overflow:hidden;background:repeating-conic-gradient(#3a3f4a 0% 25%,#2a2e37 0% 50%) 0/14px 14px}
+  .opbox{width:100%;height:100%;background:#4f8cff}
+  .bws{display:flex;gap:22px;flex-wrap:wrap;align-items:flex-end;margin-top:4px}
+  .bwcell{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;color:#9aa1ad;width:96px}
+  .bwline{width:96px;border-top-style:solid;border-top-color:#4f8cff}
+  .bwcell small{color:#6b7280}
 </style></head><body>
 <h1>Prism3 — generated token taxonomy</h1>
-<p class="lead">Every value below is engine-generated from a small theme input and read back from the emitted DTCG files (<code>out/*.tokens.json</code>). ★ marks the exact brand anchor. Regenerate with <code>npx tsx Prism3/engine/visualize.ts</code>.</p>
+<p class="lead">Every value below is engine-generated from a small theme input and read back from the emitted DTCG files (<code>out/*.tokens.json</code>) — colour, semantic roles, dimension, typography, shadow &amp; elevation, motion, layout, opacity and border-width. ★ marks the exact brand anchor. Type styles, shadows and easing curves are rendered live from the resolved tokens. Regenerate with <code>npx tsx Prism3/engine/visualize.ts</code>.</p>
 <section><h2>nb <span class="muted">nbds.* / rgb</span></h2>
 <h3>Colour primitives</h3>
 <div class="palette"><div class="plabel">red</div><div class="ramp">
@@ -706,6 +754,156 @@
 <td class="cell" style="background:#70767c;color:#fff"><span>neutral.500</span><small>#70767c · 4.59:1</small></td>
 <td class="cell" style="background:#70767c;color:#fff"><span>neutral.500</span><small>#70767c · 4.57:1</small></td>
 </tr>
+<tr><td class="rk">elevation.sunken.surface</td>
+<td class="cell" style="background:#bec1c4;color:#111"><span>nbds.semantic.light.background.sunken</span><small>#bec1c4</small></td>
+<td class="cell" style="background:#000000;color:#fff"><span>nbds.semantic.dark.background.sunken</span><small>#000000</small></td>
+<td class="cell" style="background:#bec1c4;color:#111"><span>nbds.semantic.hc-light.background.sunken</span><small>#bec1c4</small></td>
+<td class="cell" style="background:#000000;color:#fff"><span>nbds.semantic.hc-dark.background.sunken</span><small>#000000</small></td>
+</tr>
+<tr><td class="rk">elevation.sunken.shadow</td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.shadow.inset</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.shadow.inset</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.shadow.inset</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.shadow.inset</span><small>#000</small></td>
+</tr>
+<tr><td class="rk">elevation.flat.surface</td>
+<td class="cell" style="background:#ffffff;color:#111"><span>nbds.semantic.light.background.primary</span><small>#ffffff</small></td>
+<td class="cell" style="background:#0c0d0f;color:#fff"><span>nbds.semantic.dark.background.primary</span><small>#0c0d0f</small></td>
+<td class="cell" style="background:#ffffff;color:#111"><span>nbds.semantic.hc-light.background.primary</span><small>#ffffff</small></td>
+<td class="cell" style="background:#000000;color:#fff"><span>nbds.semantic.hc-dark.background.primary</span><small>#000000</small></td>
+</tr>
+<tr><td class="rk">elevation.raised.surface</td>
+<td class="cell" style="background:#ffffff;color:#111"><span>nbds.semantic.light.background.secondary</span><small>#ffffff</small></td>
+<td class="cell" style="background:#151719;color:#fff"><span>nbds.semantic.dark.background.secondary</span><small>#151719</small></td>
+<td class="cell" style="background:#ffffff;color:#111"><span>nbds.semantic.hc-light.background.secondary</span><small>#ffffff</small></td>
+<td class="cell" style="background:#151719;color:#fff"><span>nbds.semantic.hc-dark.background.secondary</span><small>#151719</small></td>
+</tr>
+<tr><td class="rk">elevation.raised.shadow</td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.shadow.sm</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.shadow.sm</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.shadow.sm</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.shadow.sm</span><small>#000</small></td>
+</tr>
+<tr><td class="rk">elevation.overlay.surface</td>
+<td class="cell" style="background:#ffffff;color:#111"><span>nbds.semantic.light.background.tertiary</span><small>#ffffff</small></td>
+<td class="cell" style="background:#1f2224;color:#fff"><span>nbds.semantic.dark.background.tertiary</span><small>#1f2224</small></td>
+<td class="cell" style="background:#ffffff;color:#111"><span>nbds.semantic.hc-light.background.tertiary</span><small>#ffffff</small></td>
+<td class="cell" style="background:#1f2224;color:#fff"><span>nbds.semantic.hc-dark.background.tertiary</span><small>#1f2224</small></td>
+</tr>
+<tr><td class="rk">elevation.overlay.shadow</td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.shadow.lg</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.shadow.lg</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.shadow.lg</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.shadow.lg</span><small>#000</small></td>
+</tr>
+<tr><td class="rk">elevation.floating.surface</td>
+<td class="cell" style="background:#ffffff;color:#111"><span>nbds.semantic.light.background.quaternary</span><small>#ffffff</small></td>
+<td class="cell" style="background:#292d30;color:#fff"><span>nbds.semantic.dark.background.quaternary</span><small>#292d30</small></td>
+<td class="cell" style="background:#ffffff;color:#111"><span>nbds.semantic.hc-light.background.quaternary</span><small>#ffffff</small></td>
+<td class="cell" style="background:#292d30;color:#fff"><span>nbds.semantic.hc-dark.background.quaternary</span><small>#292d30</small></td>
+</tr>
+<tr><td class="rk">elevation.floating.shadow</td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.shadow.xl</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.shadow.xl</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.shadow.xl</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.shadow.xl</span><small>#000</small></td>
+</tr>
+<tr><td class="rk">elevation.card.surface</td>
+<td class="cell" style="background:#ffffff;color:#111"><span>nbds.semantic.light.elevation.raised.surface</span><small>#ffffff</small></td>
+<td class="cell" style="background:#151719;color:#fff"><span>nbds.semantic.dark.elevation.raised.surface</span><small>#151719</small></td>
+<td class="cell" style="background:#ffffff;color:#111"><span>nbds.semantic.hc-light.elevation.raised.surface</span><small>#ffffff</small></td>
+<td class="cell" style="background:#151719;color:#fff"><span>nbds.semantic.hc-dark.elevation.raised.surface</span><small>#151719</small></td>
+</tr>
+<tr><td class="rk">elevation.card.shadow</td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.semantic.light.elevation.raised.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.semantic.dark.elevation.raised.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.semantic.hc-light.elevation.raised.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.semantic.hc-dark.elevation.raised.shadow</span><small>#000</small></td>
+</tr>
+<tr><td class="rk">elevation.dropdown.surface</td>
+<td class="cell" style="background:#ffffff;color:#111"><span>nbds.semantic.light.elevation.overlay.surface</span><small>#ffffff</small></td>
+<td class="cell" style="background:#1f2224;color:#fff"><span>nbds.semantic.dark.elevation.overlay.surface</span><small>#1f2224</small></td>
+<td class="cell" style="background:#ffffff;color:#111"><span>nbds.semantic.hc-light.elevation.overlay.surface</span><small>#ffffff</small></td>
+<td class="cell" style="background:#1f2224;color:#fff"><span>nbds.semantic.hc-dark.elevation.overlay.surface</span><small>#1f2224</small></td>
+</tr>
+<tr><td class="rk">elevation.dropdown.shadow</td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.semantic.light.elevation.overlay.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.semantic.dark.elevation.overlay.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.semantic.hc-light.elevation.overlay.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.semantic.hc-dark.elevation.overlay.shadow</span><small>#000</small></td>
+</tr>
+<tr><td class="rk">elevation.popover.surface</td>
+<td class="cell" style="background:#ffffff;color:#111"><span>nbds.semantic.light.elevation.overlay.surface</span><small>#ffffff</small></td>
+<td class="cell" style="background:#1f2224;color:#fff"><span>nbds.semantic.dark.elevation.overlay.surface</span><small>#1f2224</small></td>
+<td class="cell" style="background:#ffffff;color:#111"><span>nbds.semantic.hc-light.elevation.overlay.surface</span><small>#ffffff</small></td>
+<td class="cell" style="background:#1f2224;color:#fff"><span>nbds.semantic.hc-dark.elevation.overlay.surface</span><small>#1f2224</small></td>
+</tr>
+<tr><td class="rk">elevation.popover.shadow</td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.semantic.light.elevation.overlay.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.semantic.dark.elevation.overlay.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.semantic.hc-light.elevation.overlay.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.semantic.hc-dark.elevation.overlay.shadow</span><small>#000</small></td>
+</tr>
+<tr><td class="rk">elevation.menu.surface</td>
+<td class="cell" style="background:#ffffff;color:#111"><span>nbds.semantic.light.elevation.overlay.surface</span><small>#ffffff</small></td>
+<td class="cell" style="background:#1f2224;color:#fff"><span>nbds.semantic.dark.elevation.overlay.surface</span><small>#1f2224</small></td>
+<td class="cell" style="background:#ffffff;color:#111"><span>nbds.semantic.hc-light.elevation.overlay.surface</span><small>#ffffff</small></td>
+<td class="cell" style="background:#1f2224;color:#fff"><span>nbds.semantic.hc-dark.elevation.overlay.surface</span><small>#1f2224</small></td>
+</tr>
+<tr><td class="rk">elevation.menu.shadow</td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.semantic.light.elevation.overlay.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.semantic.dark.elevation.overlay.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.semantic.hc-light.elevation.overlay.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.semantic.hc-dark.elevation.overlay.shadow</span><small>#000</small></td>
+</tr>
+<tr><td class="rk">elevation.dialog.surface</td>
+<td class="cell" style="background:#ffffff;color:#111"><span>nbds.semantic.light.elevation.floating.surface</span><small>#ffffff</small></td>
+<td class="cell" style="background:#292d30;color:#fff"><span>nbds.semantic.dark.elevation.floating.surface</span><small>#292d30</small></td>
+<td class="cell" style="background:#ffffff;color:#111"><span>nbds.semantic.hc-light.elevation.floating.surface</span><small>#ffffff</small></td>
+<td class="cell" style="background:#292d30;color:#fff"><span>nbds.semantic.hc-dark.elevation.floating.surface</span><small>#292d30</small></td>
+</tr>
+<tr><td class="rk">elevation.dialog.shadow</td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.semantic.light.elevation.floating.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.semantic.dark.elevation.floating.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.semantic.hc-light.elevation.floating.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.semantic.hc-dark.elevation.floating.shadow</span><small>#000</small></td>
+</tr>
+<tr><td class="rk">elevation.modal.surface</td>
+<td class="cell" style="background:#ffffff;color:#111"><span>nbds.semantic.light.elevation.floating.surface</span><small>#ffffff</small></td>
+<td class="cell" style="background:#292d30;color:#fff"><span>nbds.semantic.dark.elevation.floating.surface</span><small>#292d30</small></td>
+<td class="cell" style="background:#ffffff;color:#111"><span>nbds.semantic.hc-light.elevation.floating.surface</span><small>#ffffff</small></td>
+<td class="cell" style="background:#292d30;color:#fff"><span>nbds.semantic.hc-dark.elevation.floating.surface</span><small>#292d30</small></td>
+</tr>
+<tr><td class="rk">elevation.modal.shadow</td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.semantic.light.elevation.floating.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.semantic.dark.elevation.floating.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.semantic.hc-light.elevation.floating.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.semantic.hc-dark.elevation.floating.shadow</span><small>#000</small></td>
+</tr>
+<tr><td class="rk">elevation.tooltip.surface</td>
+<td class="cell" style="background:#ffffff;color:#111"><span>nbds.semantic.light.elevation.floating.surface</span><small>#ffffff</small></td>
+<td class="cell" style="background:#292d30;color:#fff"><span>nbds.semantic.dark.elevation.floating.surface</span><small>#292d30</small></td>
+<td class="cell" style="background:#ffffff;color:#111"><span>nbds.semantic.hc-light.elevation.floating.surface</span><small>#ffffff</small></td>
+<td class="cell" style="background:#292d30;color:#fff"><span>nbds.semantic.hc-dark.elevation.floating.surface</span><small>#292d30</small></td>
+</tr>
+<tr><td class="rk">elevation.tooltip.shadow</td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.semantic.light.elevation.floating.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.semantic.dark.elevation.floating.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.semantic.hc-light.elevation.floating.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.semantic.hc-dark.elevation.floating.shadow</span><small>#000</small></td>
+</tr>
+<tr><td class="rk">elevation.well.surface</td>
+<td class="cell" style="background:#bec1c4;color:#111"><span>nbds.semantic.light.elevation.sunken.surface</span><small>#bec1c4</small></td>
+<td class="cell" style="background:#000000;color:#fff"><span>nbds.semantic.dark.elevation.sunken.surface</span><small>#000000</small></td>
+<td class="cell" style="background:#bec1c4;color:#111"><span>nbds.semantic.hc-light.elevation.sunken.surface</span><small>#bec1c4</small></td>
+<td class="cell" style="background:#000000;color:#fff"><span>nbds.semantic.hc-dark.elevation.sunken.surface</span><small>#000000</small></td>
+</tr>
+<tr><td class="rk">elevation.well.shadow</td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.semantic.light.elevation.sunken.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.semantic.dark.elevation.sunken.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.semantic.hc-light.elevation.sunken.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>nbds.semantic.hc-dark.elevation.sunken.shadow</span><small>#000</small></td>
+</tr>
 </tbody></table>
 <h3>Dimension grid <span class="muted">37 primitives</span></h3><div class="bars">
 <div class="barrow"><span class="bk">0</span><div class="bar" style="width:0px"></div></div>
@@ -777,6 +975,160 @@
 <div class="scell"><div class="control" style="height:48px;padding:8px 16px"><div class="ctext">md</div></div><small>48h · 16×8</small></div>
 <div class="scell"><div class="control" style="height:56px;padding:8px 24px"><div class="ctext">lg</div></div><small>56h · 24×8</small></div>
 <div class="scell"><div class="control" style="height:64px;padding:16px 24px"><div class="ctext">xl</div></div><small>64h · 24×16</small></div>
+</div>
+<h3>Typography <span class="muted">composite text styles · fluid range shown · capped to 64px</span></h3><div class="type">
+<div class="trow"><div class="tmeta"><b>type.display.sm</b><span>36→48px fluid · w700 · lh 1.05 · ls -0.02em</span><span class="tfam">Inter</span></div><div class="tsample" style="font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;font-size:48px;font-weight:700;line-height:1.05;letter-spacing:-0.02em;text-transform:none">display sm</div></div>
+<div class="trow"><div class="tmeta"><b>type.display.md</b><span>40→64px fluid · w700 · lh 1.05 · ls -0.02em</span><span class="tfam">Inter</span></div><div class="tsample" style="font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;font-size:64px;font-weight:700;line-height:1.05;letter-spacing:-0.02em;text-transform:none">display md</div></div>
+<div class="trow"><div class="tmeta"><b>type.display.lg</b><span>40→80px fluid · w700 · lh 1.05 · ls -0.02em</span><span class="tfam">Inter</span></div><div class="tsample" style="font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;font-size:64px;font-weight:700;line-height:1.05;letter-spacing:-0.02em;text-transform:none">display lg</div></div>
+<div class="trow"><div class="tmeta"><b>type.display.xl</b><span>48→96px fluid · w700 · lh 1.05 · ls -0.03em</span><span class="tfam">Inter</span></div><div class="tsample" style="font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;font-size:64px;font-weight:700;line-height:1.05;letter-spacing:-0.03em;text-transform:none">display xl</div></div>
+<div class="trow"><div class="tmeta"><b>type.display.2xl</b><span>48→128px fluid · w700 · lh 1.05 · ls -0.03em</span><span class="tfam">Inter</span></div><div class="tsample" style="font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;font-size:64px;font-weight:700;line-height:1.05;letter-spacing:-0.03em;text-transform:none">display 2xl</div></div>
+<div class="trow"><div class="tmeta"><b>type.display.3xl</b><span>48→160px fluid · w700 · lh 1.05 · ls -0.03em</span><span class="tfam">Inter</span></div><div class="tsample" style="font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;font-size:64px;font-weight:700;line-height:1.05;letter-spacing:-0.03em;text-transform:none">display 3xl</div></div>
+<div class="trow"><div class="tmeta"><b>type.title.xs</b><span>18px · w700 · lh 1.25 · ls -0.01em</span><span class="tfam">Inter</span></div><div class="tsample" style="font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;font-size:18px;font-weight:700;line-height:1.25;letter-spacing:-0.01em;text-transform:none">title xs</div></div>
+<div class="trow"><div class="tmeta"><b>type.title.sm</b><span>20px · w700 · lh 1.25 · ls -0.01em</span><span class="tfam">Inter</span></div><div class="tsample" style="font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;font-size:20px;font-weight:700;line-height:1.25;letter-spacing:-0.01em;text-transform:none">title sm</div></div>
+<div class="trow"><div class="tmeta"><b>type.title.md</b><span>20→24px fluid · w700 · lh 1.25 · ls -0.01em</span><span class="tfam">Inter</span></div><div class="tsample" style="font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;font-size:24px;font-weight:700;line-height:1.25;letter-spacing:-0.01em;text-transform:none">title md</div></div>
+<div class="trow"><div class="tmeta"><b>type.title.lg</b><span>24→28px fluid · w700 · lh 1.15 · ls -0.01em</span><span class="tfam">Inter</span></div><div class="tsample" style="font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;font-size:28px;font-weight:700;line-height:1.15;letter-spacing:-0.01em;text-transform:none">title lg</div></div>
+<div class="trow"><div class="tmeta"><b>type.title.xl</b><span>28→32px fluid · w700 · lh 1.15 · ls -0.01em</span><span class="tfam">Inter</span></div><div class="tsample" style="font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;font-size:32px;font-weight:700;line-height:1.15;letter-spacing:-0.01em;text-transform:none">title xl</div></div>
+<div class="trow"><div class="tmeta"><b>type.title.2xl</b><span>36→40px fluid · w700 · lh 1.15 · ls -0.01em</span><span class="tfam">Inter</span></div><div class="tsample" style="font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;font-size:40px;font-weight:700;line-height:1.15;letter-spacing:-0.01em;text-transform:none">title 2xl</div></div>
+<div class="trow"><div class="tmeta"><b>type.body.sm</b><span>14px · w400 · lh 1.5 · ls 0em</span><span class="tfam">Inter</span></div><div class="tsample" style="font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;font-size:14px;font-weight:400;line-height:1.5;letter-spacing:0em;text-transform:none">body sm</div></div>
+<div class="trow"><div class="tmeta"><b>type.body.md</b><span>16px · w400 · lh 1.5 · ls 0em</span><span class="tfam">Inter</span></div><div class="tsample" style="font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:400;line-height:1.5;letter-spacing:0em;text-transform:none">body md</div></div>
+<div class="trow"><div class="tmeta"><b>type.body.lg</b><span>18px · w400 · lh 1.5 · ls 0em</span><span class="tfam">Inter</span></div><div class="tsample" style="font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;font-size:18px;font-weight:400;line-height:1.5;letter-spacing:0em;text-transform:none">body lg</div></div>
+<div class="trow"><div class="tmeta"><b>type.label.sm</b><span>12px · w600 · lh 1.15 · ls 0em</span><span class="tfam">Inter</span></div><div class="tsample" style="font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;font-size:12px;font-weight:600;line-height:1.15;letter-spacing:0em;text-transform:none">label sm</div></div>
+<div class="trow"><div class="tmeta"><b>type.label.md</b><span>14px · w600 · lh 1.15 · ls 0em</span><span class="tfam">Inter</span></div><div class="tsample" style="font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;font-size:14px;font-weight:600;line-height:1.15;letter-spacing:0em;text-transform:none">label md</div></div>
+<div class="trow"><div class="tmeta"><b>type.caption</b><span>12px · w400 · lh 1.5 · ls 0em</span><span class="tfam">Inter</span></div><div class="tsample" style="font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;font-size:12px;font-weight:400;line-height:1.5;letter-spacing:0em;text-transform:none">caption</div></div>
+<div class="trow"><div class="tmeta"><b>type.eyebrow</b><span>12px · w600 · lh 1.15 · ls 0.05em · uppercase</span><span class="tfam">Inter</span></div><div class="tsample" style="font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;font-size:12px;font-weight:600;line-height:1.15;letter-spacing:0.05em;text-transform:uppercase">eyebrow</div></div>
+<div class="trow"><div class="tmeta"><b>type.code.inline</b><span>14px · w400 · lh 1.5 · ls 0em</span><span class="tfam">JetBrains Mono</span></div><div class="tsample" style="font-family:JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Consolas, Liberation Mono, monospace;font-size:14px;font-weight:400;line-height:1.5;letter-spacing:0em;text-transform:none">code inline</div></div>
+</div>
+<h3>Font primitives <span class="muted">families · weight roles · line-height · tracking · size ladder</span></h3>
+<div class="fontprim">
+<div class="fpcol"><div class="fplabel">families</div>
+<div class="fpline" style="font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif">display — Inter</div>
+<div class="fpline" style="font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif">text — Inter</div>
+<div class="fpline" style="font-family:JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Consolas, Liberation Mono, monospace">mono — JetBrains Mono</div>
+</div>
+<div class="fpcol"><div class="fplabel">weight roles</div>
+<div class="fpline" style="font-weight:300">subtle — 300</div>
+<div class="fpline" style="font-weight:400">default — 400</div>
+<div class="fpline" style="font-weight:600">emphasis — 600</div>
+<div class="fpline" style="font-weight:700">strong — 700</div>
+</div>
+<div class="fpcol"><div class="fplabel">line-height</div>
+<div class="fpline">tight — 1.05</div>
+<div class="fpline">snug — 1.15</div>
+<div class="fpline">compact — 1.25</div>
+<div class="fpline">normal — 1.5</div>
+<div class="fpline">relaxed — 1.65</div>
+<div class="fpline">loose — 1.75</div>
+</div>
+<div class="fpcol"><div class="fplabel">tracking</div>
+<div class="fpline">tighter — -0.03em</div>
+<div class="fpline">tight — -0.02em</div>
+<div class="fpline">snug — -0.01em</div>
+<div class="fpline">normal — 0em</div>
+<div class="fpline">wide — 0.02em</div>
+<div class="fpline">wider — 0.05em</div>
+</div></div>
+<div class="bars" style="margin-top:8px">
+<div class="barrow"><span class="bk">10</span><div class="bar fs" style="width:10px"></div><span class="bv">10px</span></div>
+<div class="barrow"><span class="bk">11</span><div class="bar fs" style="width:11px"></div><span class="bv">11px</span></div>
+<div class="barrow"><span class="bk">12</span><div class="bar fs" style="width:12px"></div><span class="bv">12px</span></div>
+<div class="barrow"><span class="bk">14</span><div class="bar fs" style="width:14px"></div><span class="bv">14px</span></div>
+<div class="barrow"><span class="bk">16</span><div class="bar fs" style="width:16px"></div><span class="bv">16px</span></div>
+<div class="barrow"><span class="bk">18</span><div class="bar fs" style="width:18px"></div><span class="bv">18px</span></div>
+<div class="barrow"><span class="bk">20</span><div class="bar fs" style="width:20px"></div><span class="bv">20px</span></div>
+<div class="barrow"><span class="bk">24</span><div class="bar fs" style="width:24px"></div><span class="bv">24px</span></div>
+<div class="barrow"><span class="bk">28</span><div class="bar fs" style="width:28px"></div><span class="bv">28px</span></div>
+<div class="barrow"><span class="bk">32</span><div class="bar fs" style="width:32px"></div><span class="bv">32px</span></div>
+<div class="barrow"><span class="bk">36</span><div class="bar fs" style="width:36px"></div><span class="bv">36px</span></div>
+<div class="barrow"><span class="bk">40</span><div class="bar fs" style="width:40px"></div><span class="bv">40px</span></div>
+<div class="barrow"><span class="bk">48</span><div class="bar fs" style="width:48px"></div><span class="bv">48px</span></div>
+<div class="barrow"><span class="bk">56</span><div class="bar fs" style="width:56px"></div><span class="bv">56px</span></div>
+<div class="barrow"><span class="bk">64</span><div class="bar fs" style="width:64px"></div><span class="bv">64px</span></div>
+<div class="barrow"><span class="bk">72</span><div class="bar fs" style="width:72px"></div><span class="bv">72px</span></div>
+<div class="barrow"><span class="bk">80</span><div class="bar fs" style="width:80px"></div><span class="bv">80px</span></div>
+<div class="barrow"><span class="bk">96</span><div class="bar fs" style="width:96px"></div><span class="bv">96px</span></div>
+<div class="barrow"><span class="bk">112</span><div class="bar fs" style="width:112px"></div><span class="bv">112px</span></div>
+<div class="barrow"><span class="bk">128</span><div class="bar fs" style="width:128px"></div><span class="bv">128px</span></div>
+<div class="barrow"><span class="bk">144</span><div class="bar fs" style="width:144px"></div><span class="bv">144px</span></div>
+<div class="barrow"><span class="bk">160</span><div class="bar fs" style="width:160px"></div><span class="bv">160px</span></div>
+</div>
+<h3>Shadow &amp; elevation <span class="muted">light mode · 2-layer key+ambient · elevation joins surface + shadow</span></h3>
+<div class="lightpanel"><div class="lpsub">shadow ladder</div><div class="shrow">
+<div class="shcell"><div class="shbox" style="box-shadow:0px 1px 2px 0px rgba(0, 0, 0, 0.1), 0px 1px 3px 0px rgba(0, 0, 0, 0.06)"></div><span>xs</span><small>2 layers</small></div>
+<div class="shcell"><div class="shbox" style="box-shadow:0px 1px 2px -1px rgba(0, 0, 0, 0.1), 0px 2px 6px -1px rgba(0, 0, 0, 0.07)"></div><span>sm</span><small>2 layers</small></div>
+<div class="shcell"><div class="shbox" style="box-shadow:0px 2px 4px -2px rgba(0, 0, 0, 0.12), 0px 4px 12px -3px rgba(0, 0, 0, 0.08)"></div><span>md</span><small>2 layers</small></div>
+<div class="shcell"><div class="shbox" style="box-shadow:0px 3px 6px -3px rgba(0, 0, 0, 0.12), 0px 8px 20px -5px rgba(0, 0, 0, 0.08)"></div><span>lg</span><small>2 layers</small></div>
+<div class="shcell"><div class="shbox" style="box-shadow:0px 4px 8px -4px rgba(0, 0, 0, 0.14), 0px 14px 32px -8px rgba(0, 0, 0, 0.1)"></div><span>xl</span><small>2 layers</small></div>
+<div class="shcell"><div class="shbox" style="box-shadow:0px 6px 12px -6px rgba(0, 0, 0, 0.14), 0px 22px 52px -12px rgba(0, 0, 0, 0.12)"></div><span>2xl</span><small>2 layers</small></div>
+<div class="shcell"><div class="shbox" style="box-shadow:inset 0px 2px 4px 0px rgba(0, 0, 0, 0.08)"></div><span>inset</span><small>1 layer</small></div>
+</div>
+<div class="lpsub">elevation levels <span class="lpmuted">(surface + shadow)</span></div><div class="shrow">
+<div class="shcell"><div class="shbox" style="background:#bec1c4;box-shadow:inset 0px 2px 4px 0px rgba(0, 0, 0, 0.08)"></div><span>sunken</span></div>
+<div class="shcell"><div class="shbox" style="background:#ffffff;box-shadow:none"></div><span>flat</span></div>
+<div class="shcell"><div class="shbox" style="background:#ffffff;box-shadow:0px 1px 2px -1px rgba(0, 0, 0, 0.1), 0px 2px 6px -1px rgba(0, 0, 0, 0.07)"></div><span>raised</span></div>
+<div class="shcell"><div class="shbox" style="background:#ffffff;box-shadow:0px 3px 6px -3px rgba(0, 0, 0, 0.12), 0px 8px 20px -5px rgba(0, 0, 0, 0.08)"></div><span>overlay</span></div>
+<div class="shcell"><div class="shbox" style="background:#ffffff;box-shadow:0px 4px 8px -4px rgba(0, 0, 0, 0.14), 0px 14px 32px -8px rgba(0, 0, 0, 0.1)"></div><span>floating</span></div>
+</div>
+</div>
+<h3>Motion <span class="muted">durations · easing curves (animated) · springs</span></h3>
+<div class="bars">
+<div class="barrow"><span class="bk2">instant</span><div class="bar mo" style="width:25px"></div><span class="bv">50ms</span></div>
+<div class="barrow"><span class="bk2">fast</span><div class="bar mo" style="width:50px"></div><span class="bv">100ms</span></div>
+<div class="barrow"><span class="bk2">normal</span><div class="bar mo" style="width:100px"></div><span class="bv">200ms</span></div>
+<div class="barrow"><span class="bk2">moderate</span><div class="bar mo" style="width:150px"></div><span class="bv">300ms</span></div>
+<div class="barrow"><span class="bk2">slow</span><div class="bar mo" style="width:250px"></div><span class="bv">500ms</span></div>
+<div class="barrow"><span class="bk2">slower</span><div class="bar mo" style="width:300px"></div><span class="bv">800ms</span></div>
+</div><div class="eases">
+<div class="ecell"><div class="etrack"><div class="edot" style="animation-timing-function:cubic-bezier(0, 0, 1, 1)"></div></div><span>linear</span><small>cubic-bezier(0, 0, 1, 1)</small></div>
+<div class="ecell"><div class="etrack"><div class="edot" style="animation-timing-function:cubic-bezier(0.2, 0, 0, 1)"></div></div><span>standard</span><small>cubic-bezier(0.2, 0, 0, 1)</small></div>
+<div class="ecell"><div class="etrack"><div class="edot" style="animation-timing-function:cubic-bezier(0, 0, 0.2, 1)"></div></div><span>enter</span><small>cubic-bezier(0, 0, 0.2, 1)</small></div>
+<div class="ecell"><div class="etrack"><div class="edot" style="animation-timing-function:cubic-bezier(0.4, 0, 1, 1)"></div></div><span>exit</span><small>cubic-bezier(0.4, 0, 1, 1)</small></div>
+<div class="ecell"><div class="etrack"><div class="edot" style="animation-timing-function:cubic-bezier(0.4, 0.14, 0.3, 1)"></div></div><span>emphasized</span><small>cubic-bezier(0.4, 0.14, 0.3, 1)</small></div>
+<div class="ecell"><div class="etrack"><div class="edot" style="animation-timing-function:cubic-bezier(0.4, 0, 0.6, 1)"></div></div><span>calm</span><small>cubic-bezier(0.4, 0, 0.6, 1)</small></div>
+</div>
+<div class="springs">
+<div class="spcell"><b>snappy</b><small>damping 0.9 · stiffness 700</small></div>
+<div class="spcell"><b>gentle</b><small>damping 0.8 · stiffness 380</small></div>
+<div class="spcell"><b>bouncy</b><small>damping 0.6 · stiffness 800</small></div>
+</div>
+<h3>Layout <span class="muted">breakpoint floors · grid (design artifact) · containers</span></h3>
+<div class="bps">
+<div class="bp"><b>sm</b><small>0 · base</small></div>
+<div class="bp"><b>md</b><small>≥768px</small></div>
+<div class="bp"><b>lg</b><small>≥1024px</small></div>
+<div class="bp"><b>xl</b><small>≥1440px</small></div>
+<div class="bp"><b>2xl</b><small>≥1920px</small></div>
+</div>
+<table class="grid"><thead><tr><th>bp</th><th>columns</th><th>gutter</th><th>margin</th></tr></thead><tbody>
+<tr><td>sm</td><td>4</td><td>16px</td><td>16px</td></tr>
+<tr><td>md</td><td>8</td><td>16px</td><td>24px</td></tr>
+<tr><td>lg</td><td>12</td><td>24px</td><td>24px</td></tr>
+<tr><td>xl</td><td>12</td><td>24px</td><td>32px</td></tr>
+<tr><td>2xl</td><td>12</td><td>32px</td><td>48px</td></tr>
+</tbody></table>
+<div class="bars">
+<div class="barrow"><span class="bk2">max</span><div class="bar ct" style="width:240px"></div><span class="bv">1920px</span></div>
+<div class="barrow"><span class="bk2">narrow</span><div class="bar ct" style="width:120px"></div><span class="bv">720px</span></div>
+<div class="barrow"><span class="bk2">fluid</span><div class="bar ct" style="width:240px"></div><span class="bv">100%</span></div>
+</div>
+<h3>Opacity</h3><div class="ops">
+<div class="opcell"><div class="opwrap"><div class="opbox" style="opacity:0"></div></div><span>0</span></div>
+<div class="opcell"><div class="opwrap"><div class="opbox" style="opacity:0.05"></div></div><span>5</span></div>
+<div class="opcell"><div class="opwrap"><div class="opbox" style="opacity:0.1"></div></div><span>10</span></div>
+<div class="opcell"><div class="opwrap"><div class="opbox" style="opacity:0.2"></div></div><span>20</span></div>
+<div class="opcell"><div class="opwrap"><div class="opbox" style="opacity:0.3"></div></div><span>30</span></div>
+<div class="opcell"><div class="opwrap"><div class="opbox" style="opacity:0.4"></div></div><span>40</span></div>
+<div class="opcell"><div class="opwrap"><div class="opbox" style="opacity:0.5"></div></div><span>50</span></div>
+<div class="opcell"><div class="opwrap"><div class="opbox" style="opacity:0.6"></div></div><span>60</span></div>
+<div class="opcell"><div class="opwrap"><div class="opbox" style="opacity:0.7"></div></div><span>70</span></div>
+<div class="opcell"><div class="opwrap"><div class="opbox" style="opacity:0.8"></div></div><span>80</span></div>
+<div class="opcell"><div class="opwrap"><div class="opbox" style="opacity:0.9"></div></div><span>90</span></div>
+<div class="opcell"><div class="opwrap"><div class="opbox" style="opacity:1"></div></div><span>100</span></div>
+</div>
+<h3>Border width</h3><div class="bws">
+<div class="bwcell"><div class="bwline" style="border-top-width:0px"></div><span>none</span><small>0px</small></div>
+<div class="bwcell"><div class="bwline" style="border-top-width:1px"></div><span>hairline</span><small>1px</small></div>
+<div class="bwcell"><div class="bwline" style="border-top-width:2px"></div><span>thick</span><small>2px</small></div>
+<div class="bwcell"><div class="bwline" style="border-top-width:4px"></div><span>heavy</span><small>4px</small></div>
 </div>
 </section>
 <section><h2>aurora <span class="muted">prism.* / hex</span></h2>
@@ -1495,6 +1847,156 @@
 <td class="cell" style="background:#75767a;color:#fff"><span>neutral.500</span><small>#75767a · 4.54:1</small></td>
 <td class="cell" style="background:#75767a;color:#fff"><span>neutral.500</span><small>#75767a · 4.63:1</small></td>
 </tr>
+<tr><td class="rk">elevation.sunken.surface</td>
+<td class="cell" style="background:#b4b4b6;color:#111"><span>prism.semantic.light.background.sunken</span><small>#b4b4b6</small></td>
+<td class="cell" style="background:#000000;color:#fff"><span>prism.semantic.dark.background.sunken</span><small>#000000</small></td>
+<td class="cell" style="background:#b4b4b6;color:#111"><span>prism.semantic.hc-light.background.sunken</span><small>#b4b4b6</small></td>
+<td class="cell" style="background:#000000;color:#fff"><span>prism.semantic.hc-dark.background.sunken</span><small>#000000</small></td>
+</tr>
+<tr><td class="rk">elevation.sunken.shadow</td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.shadow.inset</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.shadow.inset</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.shadow.inset</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.shadow.inset</span><small>#000</small></td>
+</tr>
+<tr><td class="rk">elevation.flat.surface</td>
+<td class="cell" style="background:#e9e9ea;color:#111"><span>prism.semantic.light.background.primary</span><small>#e9e9ea</small></td>
+<td class="cell" style="background:#0d0d0e;color:#fff"><span>prism.semantic.dark.background.primary</span><small>#0d0d0e</small></td>
+<td class="cell" style="background:#ffffff;color:#111"><span>prism.semantic.hc-light.background.primary</span><small>#ffffff</small></td>
+<td class="cell" style="background:#000000;color:#fff"><span>prism.semantic.hc-dark.background.primary</span><small>#000000</small></td>
+</tr>
+<tr><td class="rk">elevation.raised.surface</td>
+<td class="cell" style="background:#ffffff;color:#111"><span>prism.semantic.light.background.secondary</span><small>#ffffff</small></td>
+<td class="cell" style="background:#171719;color:#fff"><span>prism.semantic.dark.background.secondary</span><small>#171719</small></td>
+<td class="cell" style="background:#ffffff;color:#111"><span>prism.semantic.hc-light.background.secondary</span><small>#ffffff</small></td>
+<td class="cell" style="background:#171719;color:#fff"><span>prism.semantic.hc-dark.background.secondary</span><small>#171719</small></td>
+</tr>
+<tr><td class="rk">elevation.raised.shadow</td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.shadow.sm</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.shadow.sm</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.shadow.sm</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.shadow.sm</span><small>#000</small></td>
+</tr>
+<tr><td class="rk">elevation.overlay.surface</td>
+<td class="cell" style="background:#ffffff;color:#111"><span>prism.semantic.light.background.tertiary</span><small>#ffffff</small></td>
+<td class="cell" style="background:#212124;color:#fff"><span>prism.semantic.dark.background.tertiary</span><small>#212124</small></td>
+<td class="cell" style="background:#ffffff;color:#111"><span>prism.semantic.hc-light.background.tertiary</span><small>#ffffff</small></td>
+<td class="cell" style="background:#212124;color:#fff"><span>prism.semantic.hc-dark.background.tertiary</span><small>#212124</small></td>
+</tr>
+<tr><td class="rk">elevation.overlay.shadow</td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.shadow.lg</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.shadow.lg</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.shadow.lg</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.shadow.lg</span><small>#000</small></td>
+</tr>
+<tr><td class="rk">elevation.floating.surface</td>
+<td class="cell" style="background:#ffffff;color:#111"><span>prism.semantic.light.background.quaternary</span><small>#ffffff</small></td>
+<td class="cell" style="background:#2c2c2f;color:#fff"><span>prism.semantic.dark.background.quaternary</span><small>#2c2c2f</small></td>
+<td class="cell" style="background:#ffffff;color:#111"><span>prism.semantic.hc-light.background.quaternary</span><small>#ffffff</small></td>
+<td class="cell" style="background:#2c2c2f;color:#fff"><span>prism.semantic.hc-dark.background.quaternary</span><small>#2c2c2f</small></td>
+</tr>
+<tr><td class="rk">elevation.floating.shadow</td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.shadow.xl</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.shadow.xl</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.shadow.xl</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.shadow.xl</span><small>#000</small></td>
+</tr>
+<tr><td class="rk">elevation.card.surface</td>
+<td class="cell" style="background:#ffffff;color:#111"><span>prism.semantic.light.elevation.raised.surface</span><small>#ffffff</small></td>
+<td class="cell" style="background:#171719;color:#fff"><span>prism.semantic.dark.elevation.raised.surface</span><small>#171719</small></td>
+<td class="cell" style="background:#ffffff;color:#111"><span>prism.semantic.hc-light.elevation.raised.surface</span><small>#ffffff</small></td>
+<td class="cell" style="background:#171719;color:#fff"><span>prism.semantic.hc-dark.elevation.raised.surface</span><small>#171719</small></td>
+</tr>
+<tr><td class="rk">elevation.card.shadow</td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.semantic.light.elevation.raised.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.semantic.dark.elevation.raised.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.semantic.hc-light.elevation.raised.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.semantic.hc-dark.elevation.raised.shadow</span><small>#000</small></td>
+</tr>
+<tr><td class="rk">elevation.dropdown.surface</td>
+<td class="cell" style="background:#ffffff;color:#111"><span>prism.semantic.light.elevation.overlay.surface</span><small>#ffffff</small></td>
+<td class="cell" style="background:#212124;color:#fff"><span>prism.semantic.dark.elevation.overlay.surface</span><small>#212124</small></td>
+<td class="cell" style="background:#ffffff;color:#111"><span>prism.semantic.hc-light.elevation.overlay.surface</span><small>#ffffff</small></td>
+<td class="cell" style="background:#212124;color:#fff"><span>prism.semantic.hc-dark.elevation.overlay.surface</span><small>#212124</small></td>
+</tr>
+<tr><td class="rk">elevation.dropdown.shadow</td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.semantic.light.elevation.overlay.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.semantic.dark.elevation.overlay.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.semantic.hc-light.elevation.overlay.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.semantic.hc-dark.elevation.overlay.shadow</span><small>#000</small></td>
+</tr>
+<tr><td class="rk">elevation.popover.surface</td>
+<td class="cell" style="background:#ffffff;color:#111"><span>prism.semantic.light.elevation.overlay.surface</span><small>#ffffff</small></td>
+<td class="cell" style="background:#212124;color:#fff"><span>prism.semantic.dark.elevation.overlay.surface</span><small>#212124</small></td>
+<td class="cell" style="background:#ffffff;color:#111"><span>prism.semantic.hc-light.elevation.overlay.surface</span><small>#ffffff</small></td>
+<td class="cell" style="background:#212124;color:#fff"><span>prism.semantic.hc-dark.elevation.overlay.surface</span><small>#212124</small></td>
+</tr>
+<tr><td class="rk">elevation.popover.shadow</td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.semantic.light.elevation.overlay.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.semantic.dark.elevation.overlay.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.semantic.hc-light.elevation.overlay.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.semantic.hc-dark.elevation.overlay.shadow</span><small>#000</small></td>
+</tr>
+<tr><td class="rk">elevation.menu.surface</td>
+<td class="cell" style="background:#ffffff;color:#111"><span>prism.semantic.light.elevation.overlay.surface</span><small>#ffffff</small></td>
+<td class="cell" style="background:#212124;color:#fff"><span>prism.semantic.dark.elevation.overlay.surface</span><small>#212124</small></td>
+<td class="cell" style="background:#ffffff;color:#111"><span>prism.semantic.hc-light.elevation.overlay.surface</span><small>#ffffff</small></td>
+<td class="cell" style="background:#212124;color:#fff"><span>prism.semantic.hc-dark.elevation.overlay.surface</span><small>#212124</small></td>
+</tr>
+<tr><td class="rk">elevation.menu.shadow</td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.semantic.light.elevation.overlay.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.semantic.dark.elevation.overlay.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.semantic.hc-light.elevation.overlay.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.semantic.hc-dark.elevation.overlay.shadow</span><small>#000</small></td>
+</tr>
+<tr><td class="rk">elevation.dialog.surface</td>
+<td class="cell" style="background:#ffffff;color:#111"><span>prism.semantic.light.elevation.floating.surface</span><small>#ffffff</small></td>
+<td class="cell" style="background:#2c2c2f;color:#fff"><span>prism.semantic.dark.elevation.floating.surface</span><small>#2c2c2f</small></td>
+<td class="cell" style="background:#ffffff;color:#111"><span>prism.semantic.hc-light.elevation.floating.surface</span><small>#ffffff</small></td>
+<td class="cell" style="background:#2c2c2f;color:#fff"><span>prism.semantic.hc-dark.elevation.floating.surface</span><small>#2c2c2f</small></td>
+</tr>
+<tr><td class="rk">elevation.dialog.shadow</td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.semantic.light.elevation.floating.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.semantic.dark.elevation.floating.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.semantic.hc-light.elevation.floating.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.semantic.hc-dark.elevation.floating.shadow</span><small>#000</small></td>
+</tr>
+<tr><td class="rk">elevation.modal.surface</td>
+<td class="cell" style="background:#ffffff;color:#111"><span>prism.semantic.light.elevation.floating.surface</span><small>#ffffff</small></td>
+<td class="cell" style="background:#2c2c2f;color:#fff"><span>prism.semantic.dark.elevation.floating.surface</span><small>#2c2c2f</small></td>
+<td class="cell" style="background:#ffffff;color:#111"><span>prism.semantic.hc-light.elevation.floating.surface</span><small>#ffffff</small></td>
+<td class="cell" style="background:#2c2c2f;color:#fff"><span>prism.semantic.hc-dark.elevation.floating.surface</span><small>#2c2c2f</small></td>
+</tr>
+<tr><td class="rk">elevation.modal.shadow</td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.semantic.light.elevation.floating.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.semantic.dark.elevation.floating.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.semantic.hc-light.elevation.floating.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.semantic.hc-dark.elevation.floating.shadow</span><small>#000</small></td>
+</tr>
+<tr><td class="rk">elevation.tooltip.surface</td>
+<td class="cell" style="background:#ffffff;color:#111"><span>prism.semantic.light.elevation.floating.surface</span><small>#ffffff</small></td>
+<td class="cell" style="background:#2c2c2f;color:#fff"><span>prism.semantic.dark.elevation.floating.surface</span><small>#2c2c2f</small></td>
+<td class="cell" style="background:#ffffff;color:#111"><span>prism.semantic.hc-light.elevation.floating.surface</span><small>#ffffff</small></td>
+<td class="cell" style="background:#2c2c2f;color:#fff"><span>prism.semantic.hc-dark.elevation.floating.surface</span><small>#2c2c2f</small></td>
+</tr>
+<tr><td class="rk">elevation.tooltip.shadow</td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.semantic.light.elevation.floating.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.semantic.dark.elevation.floating.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.semantic.hc-light.elevation.floating.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.semantic.hc-dark.elevation.floating.shadow</span><small>#000</small></td>
+</tr>
+<tr><td class="rk">elevation.well.surface</td>
+<td class="cell" style="background:#b4b4b6;color:#111"><span>prism.semantic.light.elevation.sunken.surface</span><small>#b4b4b6</small></td>
+<td class="cell" style="background:#000000;color:#fff"><span>prism.semantic.dark.elevation.sunken.surface</span><small>#000000</small></td>
+<td class="cell" style="background:#b4b4b6;color:#111"><span>prism.semantic.hc-light.elevation.sunken.surface</span><small>#b4b4b6</small></td>
+<td class="cell" style="background:#000000;color:#fff"><span>prism.semantic.hc-dark.elevation.sunken.surface</span><small>#000000</small></td>
+</tr>
+<tr><td class="rk">elevation.well.shadow</td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.semantic.light.elevation.sunken.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.semantic.dark.elevation.sunken.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.semantic.hc-light.elevation.sunken.shadow</span><small>#000</small></td>
+<td class="cell" style="background:#000;color:#fff"><span>prism.semantic.hc-dark.elevation.sunken.shadow</span><small>#000</small></td>
+</tr>
 </tbody></table>
 <h3>Dimension grid <span class="muted">36 primitives</span></h3><div class="bars">
 <div class="barrow"><span class="bk">0</span><div class="bar" style="width:0px"></div></div>
@@ -1565,6 +2067,161 @@
 <div class="scell"><div class="control" style="height:40px;padding:6px 16px"><div class="ctext">md</div></div><small>40h · 16×6</small></div>
 <div class="scell"><div class="control" style="height:48px;padding:8px 16px"><div class="ctext">lg</div></div><small>48h · 16×8</small></div>
 <div class="scell"><div class="control" style="height:56px;padding:8px 24px"><div class="ctext">xl</div></div><small>56h · 24×8</small></div>
+</div>
+<h3>Typography <span class="muted">composite text styles · fluid range shown · capped to 64px</span></h3><div class="type">
+<div class="trow"><div class="tmeta"><b>type.display.sm</b><span>40→56px fluid · w700 · lh 1.05 · ls -0.02em</span><span class="tfam">Clash Display</span></div><div class="tsample" style="font-family:Clash Display, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;font-size:56px;font-weight:700;line-height:1.05;letter-spacing:-0.02em;text-transform:none">display sm</div></div>
+<div class="trow"><div class="tmeta"><b>type.display.md</b><span>40→72px fluid · w700 · lh 1.05 · ls -0.02em</span><span class="tfam">Clash Display</span></div><div class="tsample" style="font-family:Clash Display, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;font-size:64px;font-weight:700;line-height:1.05;letter-spacing:-0.02em;text-transform:none">display md</div></div>
+<div class="trow"><div class="tmeta"><b>type.display.lg</b><span>48→96px fluid · w700 · lh 1.05 · ls -0.03em</span><span class="tfam">Clash Display</span></div><div class="tsample" style="font-family:Clash Display, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;font-size:64px;font-weight:700;line-height:1.05;letter-spacing:-0.03em;text-transform:none">display lg</div></div>
+<div class="trow"><div class="tmeta"><b>type.display.xl</b><span>48→112px fluid · w700 · lh 1.05 · ls -0.03em</span><span class="tfam">Clash Display</span></div><div class="tsample" style="font-family:Clash Display, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;font-size:64px;font-weight:700;line-height:1.05;letter-spacing:-0.03em;text-transform:none">display xl</div></div>
+<div class="trow"><div class="tmeta"><b>type.title.2xs</b><span>16px · w700 · lh 1.25 · ls -0.01em</span><span class="tfam">Clash Display</span></div><div class="tsample" style="font-family:Clash Display, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:700;line-height:1.25;letter-spacing:-0.01em;text-transform:none">title 2xs</div></div>
+<div class="trow"><div class="tmeta"><b>type.title.xs</b><span>20px · w700 · lh 1.25 · ls -0.01em</span><span class="tfam">Clash Display</span></div><div class="tsample" style="font-family:Clash Display, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;font-size:20px;font-weight:700;line-height:1.25;letter-spacing:-0.01em;text-transform:none">title xs</div></div>
+<div class="trow"><div class="tmeta"><b>type.title.sm</b><span>20→24px fluid · w700 · lh 1.25 · ls -0.01em</span><span class="tfam">Clash Display</span></div><div class="tsample" style="font-family:Clash Display, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;font-size:24px;font-weight:700;line-height:1.25;letter-spacing:-0.01em;text-transform:none">title sm</div></div>
+<div class="trow"><div class="tmeta"><b>type.title.md</b><span>24→28px fluid · w700 · lh 1.15 · ls -0.01em</span><span class="tfam">Clash Display</span></div><div class="tsample" style="font-family:Clash Display, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;font-size:28px;font-weight:700;line-height:1.15;letter-spacing:-0.01em;text-transform:none">title md</div></div>
+<div class="trow"><div class="tmeta"><b>type.title.lg</b><span>28→32px fluid · w700 · lh 1.15 · ls -0.01em</span><span class="tfam">Clash Display</span></div><div class="tsample" style="font-family:Clash Display, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;font-size:32px;font-weight:700;line-height:1.15;letter-spacing:-0.01em;text-transform:none">title lg</div></div>
+<div class="trow"><div class="tmeta"><b>type.title.xl</b><span>32→36px fluid · w700 · lh 1.15 · ls -0.01em</span><span class="tfam">Clash Display</span></div><div class="tsample" style="font-family:Clash Display, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;font-size:36px;font-weight:700;line-height:1.15;letter-spacing:-0.01em;text-transform:none">title xl</div></div>
+<div class="trow"><div class="tmeta"><b>type.title.2xl</b><span>40→48px fluid · w700 · lh 1.15 · ls -0.01em</span><span class="tfam">Clash Display</span></div><div class="tsample" style="font-family:Clash Display, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;font-size:48px;font-weight:700;line-height:1.15;letter-spacing:-0.01em;text-transform:none">title 2xl</div></div>
+<div class="trow"><div class="tmeta"><b>type.body.sm</b><span>14px · w400 · lh 1.5 · ls 0em</span><span class="tfam">Inter</span></div><div class="tsample" style="font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;font-size:14px;font-weight:400;line-height:1.5;letter-spacing:0em;text-transform:none">body sm</div></div>
+<div class="trow"><div class="tmeta"><b>type.body.md</b><span>16px · w400 · lh 1.5 · ls 0em</span><span class="tfam">Inter</span></div><div class="tsample" style="font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:400;line-height:1.5;letter-spacing:0em;text-transform:none">body md</div></div>
+<div class="trow"><div class="tmeta"><b>type.body.lg</b><span>18px · w400 · lh 1.5 · ls 0em</span><span class="tfam">Inter</span></div><div class="tsample" style="font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;font-size:18px;font-weight:400;line-height:1.5;letter-spacing:0em;text-transform:none">body lg</div></div>
+<div class="trow"><div class="tmeta"><b>type.label.sm</b><span>12px · w500 · lh 1.15 · ls 0em</span><span class="tfam">Inter</span></div><div class="tsample" style="font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;font-size:12px;font-weight:500;line-height:1.15;letter-spacing:0em;text-transform:none">label sm</div></div>
+<div class="trow"><div class="tmeta"><b>type.label.md</b><span>14px · w500 · lh 1.15 · ls 0em</span><span class="tfam">Inter</span></div><div class="tsample" style="font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;font-size:14px;font-weight:500;line-height:1.15;letter-spacing:0em;text-transform:none">label md</div></div>
+<div class="trow"><div class="tmeta"><b>type.caption</b><span>12px · w400 · lh 1.5 · ls 0em</span><span class="tfam">Inter</span></div><div class="tsample" style="font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;font-size:12px;font-weight:400;line-height:1.5;letter-spacing:0em;text-transform:none">caption</div></div>
+<div class="trow"><div class="tmeta"><b>type.eyebrow</b><span>12px · w500 · lh 1.15 · ls 0.05em · uppercase</span><span class="tfam">Clash Display</span></div><div class="tsample" style="font-family:Clash Display, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;font-size:12px;font-weight:500;line-height:1.15;letter-spacing:0.05em;text-transform:uppercase">eyebrow</div></div>
+<div class="trow"><div class="tmeta"><b>type.code.inline</b><span>14px · w400 · lh 1.5 · ls 0em</span><span class="tfam">JetBrains Mono</span></div><div class="tsample" style="font-family:JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Consolas, Liberation Mono, monospace;font-size:14px;font-weight:400;line-height:1.5;letter-spacing:0em;text-transform:none">code inline</div></div>
+</div>
+<h3>Font primitives <span class="muted">families · weight roles · line-height · tracking · size ladder</span></h3>
+<div class="fontprim">
+<div class="fpcol"><div class="fplabel">families</div>
+<div class="fpline" style="font-family:Clash Display, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif">display — Clash Display</div>
+<div class="fpline" style="font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif">text — Inter</div>
+<div class="fpline" style="font-family:JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Consolas, Liberation Mono, monospace">mono — JetBrains Mono</div>
+</div>
+<div class="fpcol"><div class="fplabel">weight roles</div>
+<div class="fpline" style="font-weight:300">subtle — 300</div>
+<div class="fpline" style="font-weight:400">default — 400</div>
+<div class="fpline" style="font-weight:500">emphasis — 500</div>
+<div class="fpline" style="font-weight:700">strong — 700</div>
+</div>
+<div class="fpcol"><div class="fplabel">line-height</div>
+<div class="fpline">tight — 1.05</div>
+<div class="fpline">snug — 1.15</div>
+<div class="fpline">compact — 1.25</div>
+<div class="fpline">normal — 1.5</div>
+<div class="fpline">relaxed — 1.65</div>
+<div class="fpline">loose — 1.75</div>
+</div>
+<div class="fpcol"><div class="fplabel">tracking</div>
+<div class="fpline">tighter — -0.03em</div>
+<div class="fpline">tight — -0.02em</div>
+<div class="fpline">snug — -0.01em</div>
+<div class="fpline">normal — 0em</div>
+<div class="fpline">wide — 0.02em</div>
+<div class="fpline">wider — 0.05em</div>
+</div></div>
+<div class="bars" style="margin-top:8px">
+<div class="barrow"><span class="bk">10</span><div class="bar fs" style="width:10px"></div><span class="bv">10px</span></div>
+<div class="barrow"><span class="bk">11</span><div class="bar fs" style="width:11px"></div><span class="bv">11px</span></div>
+<div class="barrow"><span class="bk">12</span><div class="bar fs" style="width:12px"></div><span class="bv">12px</span></div>
+<div class="barrow"><span class="bk">14</span><div class="bar fs" style="width:14px"></div><span class="bv">14px</span></div>
+<div class="barrow"><span class="bk">16</span><div class="bar fs" style="width:16px"></div><span class="bv">16px</span></div>
+<div class="barrow"><span class="bk">18</span><div class="bar fs" style="width:18px"></div><span class="bv">18px</span></div>
+<div class="barrow"><span class="bk">20</span><div class="bar fs" style="width:20px"></div><span class="bv">20px</span></div>
+<div class="barrow"><span class="bk">24</span><div class="bar fs" style="width:24px"></div><span class="bv">24px</span></div>
+<div class="barrow"><span class="bk">28</span><div class="bar fs" style="width:28px"></div><span class="bv">28px</span></div>
+<div class="barrow"><span class="bk">32</span><div class="bar fs" style="width:32px"></div><span class="bv">32px</span></div>
+<div class="barrow"><span class="bk">36</span><div class="bar fs" style="width:36px"></div><span class="bv">36px</span></div>
+<div class="barrow"><span class="bk">40</span><div class="bar fs" style="width:40px"></div><span class="bv">40px</span></div>
+<div class="barrow"><span class="bk">48</span><div class="bar fs" style="width:48px"></div><span class="bv">48px</span></div>
+<div class="barrow"><span class="bk">56</span><div class="bar fs" style="width:56px"></div><span class="bv">56px</span></div>
+<div class="barrow"><span class="bk">64</span><div class="bar fs" style="width:64px"></div><span class="bv">64px</span></div>
+<div class="barrow"><span class="bk">72</span><div class="bar fs" style="width:72px"></div><span class="bv">72px</span></div>
+<div class="barrow"><span class="bk">80</span><div class="bar fs" style="width:80px"></div><span class="bv">80px</span></div>
+<div class="barrow"><span class="bk">96</span><div class="bar fs" style="width:96px"></div><span class="bv">96px</span></div>
+<div class="barrow"><span class="bk">112</span><div class="bar fs" style="width:112px"></div><span class="bv">112px</span></div>
+<div class="barrow"><span class="bk">128</span><div class="bar fs" style="width:128px"></div><span class="bv">128px</span></div>
+<div class="barrow"><span class="bk">144</span><div class="bar fs" style="width:144px"></div><span class="bv">144px</span></div>
+<div class="barrow"><span class="bk">160</span><div class="bar fs" style="width:160px"></div><span class="bv">160px</span></div>
+</div>
+<h3>Shadow &amp; elevation <span class="muted">light mode · 2-layer key+ambient · elevation joins surface + shadow</span></h3>
+<div class="lightpanel"><div class="lpsub">shadow ladder</div><div class="shrow">
+<div class="shcell"><div class="shbox" style="box-shadow:0px 1px 3px 0px #0606111a, 0px 1px 4px 0px #0606110f"></div><span>xs</span><small>2 layers</small></div>
+<div class="shcell"><div class="shbox" style="box-shadow:0px 1px 3px -1px #0606111a, 0px 2px 8px -1px #06061112"></div><span>sm</span><small>2 layers</small></div>
+<div class="shcell"><div class="shbox" style="box-shadow:0px 2px 5px -2px #0606111f, 0px 4px 16px -3px #06061114"></div><span>md</span><small>2 layers</small></div>
+<div class="shcell"><div class="shbox" style="box-shadow:0px 3px 8px -3px #0606111f, 0px 8px 26px -5px #06061114"></div><span>lg</span><small>2 layers</small></div>
+<div class="shcell"><div class="shbox" style="box-shadow:0px 4px 10px -4px #06061124, 0px 14px 42px -8px #0606111a"></div><span>xl</span><small>2 layers</small></div>
+<div class="shcell"><div class="shbox" style="box-shadow:0px 6px 16px -6px #06061124, 0px 22px 68px -12px #0606111f"></div><span>2xl</span><small>2 layers</small></div>
+<div class="shcell"><div class="shbox" style="box-shadow:inset 0px 2px 5px 0px #06061114"></div><span>inset</span><small>1 layer</small></div>
+</div>
+<div class="lpsub">elevation levels <span class="lpmuted">(surface + shadow)</span></div><div class="shrow">
+<div class="shcell"><div class="shbox" style="background:#b4b4b6;box-shadow:inset 0px 2px 5px 0px #06061114"></div><span>sunken</span></div>
+<div class="shcell"><div class="shbox" style="background:#e9e9ea;box-shadow:none"></div><span>flat</span></div>
+<div class="shcell"><div class="shbox" style="background:#ffffff;box-shadow:0px 1px 3px -1px #0606111a, 0px 2px 8px -1px #06061112"></div><span>raised</span></div>
+<div class="shcell"><div class="shbox" style="background:#ffffff;box-shadow:0px 3px 8px -3px #0606111f, 0px 8px 26px -5px #06061114"></div><span>overlay</span></div>
+<div class="shcell"><div class="shbox" style="background:#ffffff;box-shadow:0px 4px 10px -4px #06061124, 0px 14px 42px -8px #0606111a"></div><span>floating</span></div>
+</div>
+</div>
+<h3>Motion <span class="muted">durations · easing curves (animated) · springs</span></h3>
+<div class="bars">
+<div class="barrow"><span class="bk2">instant</span><div class="bar mo" style="width:20px"></div><span class="bv">40ms</span></div>
+<div class="barrow"><span class="bk2">fast</span><div class="bar mo" style="width:40px"></div><span class="bv">80ms</span></div>
+<div class="barrow"><span class="bk2">normal</span><div class="bar mo" style="width:80px"></div><span class="bv">160ms</span></div>
+<div class="barrow"><span class="bk2">moderate</span><div class="bar mo" style="width:120px"></div><span class="bv">240ms</span></div>
+<div class="barrow"><span class="bk2">slow</span><div class="bar mo" style="width:200px"></div><span class="bv">400ms</span></div>
+<div class="barrow"><span class="bk2">slower</span><div class="bar mo" style="width:300px"></div><span class="bv">640ms</span></div>
+</div><div class="eases">
+<div class="ecell"><div class="etrack"><div class="edot" style="animation-timing-function:cubic-bezier(0, 0, 1, 1)"></div></div><span>linear</span><small>cubic-bezier(0, 0, 1, 1)</small></div>
+<div class="ecell"><div class="etrack"><div class="edot" style="animation-timing-function:cubic-bezier(0.2, 0, 0, 1)"></div></div><span>standard</span><small>cubic-bezier(0.2, 0, 0, 1)</small></div>
+<div class="ecell"><div class="etrack"><div class="edot" style="animation-timing-function:cubic-bezier(0, 0, 0.2, 1)"></div></div><span>enter</span><small>cubic-bezier(0, 0, 0.2, 1)</small></div>
+<div class="ecell"><div class="etrack"><div class="edot" style="animation-timing-function:cubic-bezier(0.4, 0, 1, 1)"></div></div><span>exit</span><small>cubic-bezier(0.4, 0, 1, 1)</small></div>
+<div class="ecell"><div class="etrack"><div class="edot" style="animation-timing-function:cubic-bezier(0.4, 0.14, 0.3, 1)"></div></div><span>emphasized</span><small>cubic-bezier(0.4, 0.14, 0.3, 1)</small></div>
+<div class="ecell"><div class="etrack"><div class="edot" style="animation-timing-function:cubic-bezier(0.4, 0, 0.6, 1)"></div></div><span>calm</span><small>cubic-bezier(0.4, 0, 0.6, 1)</small></div>
+</div>
+<div class="springs">
+<div class="spcell"><b>snappy</b><small>damping 0.9 · stiffness 700</small></div>
+<div class="spcell"><b>gentle</b><small>damping 0.8 · stiffness 380</small></div>
+<div class="spcell"><b>bouncy</b><small>damping 0.6 · stiffness 800</small></div>
+</div>
+<h3>Layout <span class="muted">breakpoint floors · grid (design artifact) · containers</span></h3>
+<div class="bps">
+<div class="bp"><b>xs</b><small>0 · base</small></div>
+<div class="bp"><b>sm</b><small>≥480px</small></div>
+<div class="bp"><b>md</b><small>≥768px</small></div>
+<div class="bp"><b>lg</b><small>≥1024px</small></div>
+<div class="bp"><b>xl</b><small>≥1440px</small></div>
+<div class="bp"><b>2xl</b><small>≥1920px</small></div>
+</div>
+<table class="grid"><thead><tr><th>bp</th><th>columns</th><th>gutter</th><th>margin</th></tr></thead><tbody>
+<tr><td>xs</td><td>4</td><td>16px</td><td>16px</td></tr>
+<tr><td>sm</td><td>8</td><td>16px</td><td>24px</td></tr>
+<tr><td>md</td><td>12</td><td>24px</td><td>24px</td></tr>
+<tr><td>lg</td><td>12</td><td>24px</td><td>32px</td></tr>
+<tr><td>xl</td><td>12</td><td>32px</td><td>48px</td></tr>
+<tr><td>2xl</td><td>12</td><td>32px</td><td>48px</td></tr>
+</tbody></table>
+<div class="bars">
+<div class="barrow"><span class="bk2">max</span><div class="bar ct" style="width:213.33333333333334px"></div><span class="bv">1280px</span></div>
+<div class="barrow"><span class="bk2">narrow</span><div class="bar ct" style="width:120px"></div><span class="bv">720px</span></div>
+<div class="barrow"><span class="bk2">fluid</span><div class="bar ct" style="width:240px"></div><span class="bv">100%</span></div>
+</div>
+<h3>Opacity</h3><div class="ops">
+<div class="opcell"><div class="opwrap"><div class="opbox" style="opacity:0"></div></div><span>0</span></div>
+<div class="opcell"><div class="opwrap"><div class="opbox" style="opacity:0.05"></div></div><span>5</span></div>
+<div class="opcell"><div class="opwrap"><div class="opbox" style="opacity:0.1"></div></div><span>10</span></div>
+<div class="opcell"><div class="opwrap"><div class="opbox" style="opacity:0.2"></div></div><span>20</span></div>
+<div class="opcell"><div class="opwrap"><div class="opbox" style="opacity:0.3"></div></div><span>30</span></div>
+<div class="opcell"><div class="opwrap"><div class="opbox" style="opacity:0.4"></div></div><span>40</span></div>
+<div class="opcell"><div class="opwrap"><div class="opbox" style="opacity:0.5"></div></div><span>50</span></div>
+<div class="opcell"><div class="opwrap"><div class="opbox" style="opacity:0.6"></div></div><span>60</span></div>
+<div class="opcell"><div class="opwrap"><div class="opbox" style="opacity:0.7"></div></div><span>70</span></div>
+<div class="opcell"><div class="opwrap"><div class="opbox" style="opacity:0.8"></div></div><span>80</span></div>
+<div class="opcell"><div class="opwrap"><div class="opbox" style="opacity:0.9"></div></div><span>90</span></div>
+<div class="opcell"><div class="opwrap"><div class="opbox" style="opacity:1"></div></div><span>100</span></div>
+</div>
+<h3>Border width</h3><div class="bws">
+<div class="bwcell"><div class="bwline" style="border-top-width:0px"></div><span>none</span><small>0px</small></div>
+<div class="bwcell"><div class="bwline" style="border-top-width:1px"></div><span>hairline</span><small>1px</small></div>
+<div class="bwcell"><div class="bwline" style="border-top-width:2px"></div><span>thick</span><small>2px</small></div>
+<div class="bwcell"><div class="bwline" style="border-top-width:4px"></div><span>heavy</span><small>4px</small></div>
 </div>
 </section>
 </body></html>

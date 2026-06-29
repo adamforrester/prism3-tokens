@@ -151,7 +151,9 @@ Merges Prism2's role/weight composites with NB's viewport handling. Three-tier (
 - **Semantic (composite):** `typography.{display,heading,body,label,code}.{xs…xl}` — DTCG `typography` composites referencing atomics by family *role* (never literal family). 15–25 composites is the target volume.
 - **Responsive:** fluid sizes encoded as a **`{min, preferred, max}` triplet** primitive; build emits `clamp()` for web (preferred **must** carry a `rem` term — WCAG 1.4.4) and a static fallback for native. The triplet's **`min`/`max` endpoints become the two Figma viewport modes** (`narrow`/`wide`) so designers can see and swap both ends of each style — Figma can't render the fluid middle. (Open: whether code also ships parallel `vw` *and* container `cqi` sets — see §12.)
 - **Family-role indirection is the white-label lever:** a font swap is a single `core.font.family.*` change; no composite is rewritten.
-- **Decouple DOM level from visual size:** composites are named `heading.lg`, never `h2`.
+- **Decouple DOM level from visual size:** composites are named `title.lg`, never `h2`.
+
+> **As built** (see README "Typography axis"): namespace is `type.*` (composites) over `font.*` (primitives); roles are `display/title/body/label/caption/eyebrow/code` (`title` chosen over `heading`). The modular scale was replaced by a **curated rem ladder** (ratios leave necessary sizes out — Prism2's lesson), and the `{min,preferred,max}` triplet by a **size-dependent fluid curve** (bigger sizes shrink more toward a ~40–48px mobile hero band; body static) — a flat shrink factor proved to be the wrong model. Weight uses a numeric reference tier + function-named `weight-role.*` aliases. `title` is allowed to bleed into body sizes; the 16px title is an opt-in pinned floor.
 
 ### 4.3 Space & size
 - **Core:** `core.dimension.<step>` — unitless modular scale (NB's explicit dimension tier, generalized).
@@ -167,6 +169,8 @@ Merges Prism2's role/weight composites with NB's viewport handling. Three-tier (
 ### 4.6 Elevation / shadow
 - **Semantic composite:** `elevation.{0,1,2,3,4}` multi-layer shadows, with `default` and `inverse` (dark-surface) variants. Generated from a tier curve, not hand-placed. Figma sync via effect `styleId` (variables can't hold shadow objects).
 
+> **As built** (see README "Shadow & elevation axis"): a six-step `shadow` ladder (`xs…2xl` + `inset`), each a **two-layer** key+ambient composite with a **tinted near-black** colour (not pure black) and one `softness` lever. Elevation is **two axes joined** — a surface ladder and the shadow ladder — bound per mode by **named** `elevation.<level>` tokens (`sunken/flat/raised/overlay/floating`, each a `{surface, shadow}` pair) with component aliases (`card`/`dialog`/…). Dark mode **reduces** the shadow (surface lift carries dark elevation) rather than shipping a heavier "inverse".
+
 ### 4.7 Focus (adopt NB)
 - `focus.ring.{width,offset,color,color-inverse}` — first-class, not an afterthought. Width/offset from `core.dimension.*`; color is the luminance-aware focus token.
 
@@ -177,6 +181,8 @@ Merges Prism2's role/weight composites with NB's viewport handling. Three-tier (
 ### 4.9 Layout & breakpoint (adopt NB)
 - **Core:** `core.breakpoint.<step>`.
 - **Semantic:** `layout.container.{narrow,default,max}`, `layout.grid.{columns,gutter,margin}` per breakpoint, `layout.breakpoint.*`.
+
+> **As built** (see README "Layout axis"): `breakpoint.*` (5–6 t-shirt min-width floors, count-aware names), `grid.*` per breakpoint (a 4/8/12 column ladder emitted as a **design artifact, not the code contract** — build with CSS Grid), and `container.{fluid,max,narrow}` (fluid-first + a 1280 cap + a ~720 reading container, collapsing Prism2's fluid-vs-fixed duplication). **Gutter and margin alias the spacing scale** (`{space.*}`) rather than standing as independent tokens. Breakpoint-keyed values are tagged for a separate Figma layout collection (modes = breakpoints).
 
 ### 4.10 Utility
 - `core.opacity.<step>`, `z-index.<role>` (`base,raised,overlay,modal,toast,tooltip`), `target-size.min` (a11y floor — an invariant, lives in Global Foundations).
