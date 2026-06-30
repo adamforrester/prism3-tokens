@@ -46,7 +46,7 @@ Node ≥ 20. No `npm install` needed — the color math is self-contained
 - `emit-dtcg.ts` — emits a DTCG tree per theme (`out/<id>.tokens.json`), generates the per-mode semantic layer, validates every alias resolves, every mode contrast contract holds, and the BrandInput conforms to the schema; writes `modes-report.md` + the `.ai.json` sidecar.
 - `ai-metadata.ts` — generates `out/<id>.ai.json`, the agent-readable metadata sidecar. Two tiers: **semantic** (full schema — `meaning`, `when_to_use`, `avoid_when`, `paired_with`, `contrast_with`, `mode_overrides`, per KB 31-color-systems §9) and **primitive** (simplified — `meaning`, `tier`, `consume`, and `aliased_by`, the reverse index of which tokens resolve to it, **computed transitively** across multi-hop alias chains → a bidirectional graph for impact analysis). Also carries the typography tier (`type.*` composites + `font.weight-role.*`) and, when a brand opts in, the gradient tier (`gradient.*` with stop refs + worst-case-stop a11y). All fields generated/contract-true; keeps `tokens.json` DTCG-pure.
 - `visualize.ts` — renders `out/tokens.html`, a single self-contained visual style guide read back from the emitted DTCG (every axis: colour, semantic roles, dimension, typography rendered live, shadow, motion with animated easing curves, layout, opt-in gradients, opacity, border-width). No deps; also prints a plain-text taxonomy.
-- `test.ts` — colour-math invariants + extreme-brand contract smoke tests + typography/shadow/layout/gradient/surface-model invariants (151 checks).
+- `test.ts` — colour-math invariants + extreme-brand contract smoke tests + typography/shadow/layout/gradient/surface-model + harshness + typography-weights/links invariants (172 checks).
 - generated outputs (committed so results are reviewable without running): `nb-regression-report.md`, `modes-report.md`, `out/nb.tokens.json`, `out/aurora.tokens.json`, `out/tokens.html`.
 
 ## Modes (`modes-report.md`)
@@ -60,7 +60,7 @@ palette* nearest its anchor that clears AA on this surface" — both resolve
 correctly in any mode for free. The action palette is whatever
 `roleToPalette.action` points at (NB: `red`, decoupled-by-default but here same as
 brand; aurora: `accent`, a different palette from the violet brand). The run
-verifies every mode's contrast contracts (currently 240/240).
+verifies every mode's contrast contracts (currently 248/248).
 
 **Semantic vocabulary — the surface & content model** (see `docs/06`). Decided
 against a nine-system field survey + the practice KB, refined by a UI-designer
@@ -77,13 +77,24 @@ review. `background` is the canvas; `foreground` is what sits on it:
   sits on `background.primary`.
 - `action.*` — the interactive fill + states (top-level).
 - `text.*` / `icon.*` — **ink**: `primary/secondary/tertiary/disabled`, semantic +
-  `{semantic}-subtle` (muted), `on-action`/`on-{semantic}`/`on-inverse` pairs, and
-  `link.*` (no disabled). `icon` mirrors `text` unless `iconContrast: '3:1'`.
+  `{semantic}-subtle` (muted), `on-action`/`on-{semantic}`/`on-inverse` pairs, an
+  `on-disabled` pair (the label on a disabled fill — Carbon's `text-on-color-
+  disabled`, resolved against that fill), and `link.*` (no disabled). `icon`
+  mirrors `text` unless `iconContrast: '3:1'`.
 - `border.*` — `primary`/`secondary` (neutral), `inverse`, semantic, and `focus`.
 
 Elevation is **not** a colour group: a component composes a `foreground` tier + a
 `shadow` step. In high contrast the neutral surface ladders flatten to the base —
 HC carries elevation by **border** (escalated to ≥4.5:1), not by faint tints.
+
+**Harshness — no pure extremes in standard modes.** Pure black reads muddy and
+pure white halates on a dark ground (KB 31 §halation/§tint-not-black), so the
+engine softens the extremes: inverse surfaces resolve to `neutral.950`/`025`
+(not `#000`/`#fff`), and the `on-*` contrast pick uses the near-extreme — pure
+white survives only as the light **base page** (universal, not harsh), while dark
+mode softens white→`025` and black→`950` everywhere. **HC modes keep pure black &
+white** for low-vision maximum contrast (with a pure-extreme fallback if a
+softened pick can't clear AA on a fill).
 
 Mode-invariant siblings of the dimension axis: **`border-width`** (`none/hairline/
 thick/heavy` → dim 0/1/2/4, 1px hairline floor) and **`focus.ring`** (width 2px /
@@ -188,7 +199,17 @@ without touching consumers; unitless `font.line-height.*`; `font.letter-spacing.
 in em; and `font.family.*` (`display`/`text`/`mono`). **Composites:** DTCG
 `typography` tokens grouped by role — `display`/`title`/`body`/`label`/`caption`/
 `eyebrow`/`code` — each binding family + size + weight-role + line-height +
-tracking (+ baked `textCase` where applicable). **Fluid is size-dependent, not a
+tracking (+ baked `textCase` where applicable). **Weight is an axis on every role**
+— each role declares its weight set and every composite carries the weight in its
+name (`type.body.md.strong`), so adding a weight later is purely additive (never a
+rename). Defaults stay lean (display/title `[strong]`, body `[default, strong]`
+with `emphasis` opt-in, caption `[default, strong]`); a brand ships a multi-weight
+hero ramp with one line (`weights: { display: ['default','strong'] }`). **Links are
+a `-link` suffix variant** (e.g. `type.body.md.strong-link`) generated for every
+body + caption size×weight, with `textDecoration: underline` **baked** (not
+Figma-bindable — a separate text style); the link *colour* stays `text.link.*` and
+pairs at apply-time. The link roles are a lever (`links: ['body','caption']`).
+**Fluid is size-dependent, not a
 flat factor** (the wrong model — research showed bigger shrinks more): `display`
 runs a convergent mobile curve toward a ~40–48px hero band, `title` drops ~one rung
 floored, `body` stays static; every `clamp()` is rem-floored for WCAG 1.4.4. The
@@ -199,19 +220,20 @@ line-height as px, not unitless). `title` is allowed to bleed into body sizes; a
 16px title is an opt-in floor entry (pinned, exempt from the scale shift).
 Grounded in KB `23-typography-tokenisation` + a Carbon/Utopia/Material survey.
 
-## Shadow & elevation axis (key+ambient · two-axis elevation)
+## Shadow axis (key+ambient · mode-aware)
 
 A six-step `shadow` ladder (`xs…2xl`) plus an `inset`, each a **two-layer**
 DTCG `shadow` composite (a tight **key** + a soft **ambient**), colour a **tinted
 near-black** (not pure black — pure black reads grey and muddy). One `softness`
 lever scales blur/spread. Dark mode is **mode-aware**: the shadow is *reduced*
 (carried under `$extensions.prism3.modes.dark`) because **surface lift** does the
-dark-mode elevation work — neither NB's heavier-dark shadow nor a null. Elevation
-is **two axes joined**: a surface ladder (`background.*`) and the shadow ladder,
-bound per mode by semantic `elevation.<level>` tokens (`sunken`/`flat`/`raised`/
-`overlay`/`floating`) each carrying a `{surface, shadow}` pair, with component
-aliases (`card`/`dropdown`/`dialog`/…) pointing at a level (Atlassian's split).
-Emits as a Figma **Effect Style** (colour + numerics bindable per layer).
+dark-mode elevation work — neither NB's heavier-dark shadow nor a null. Emits as a
+Figma **Effect Style** (colour + numerics bindable per layer).
+
+**Elevation is not a colour group.** A component composes a `foreground` surface
+tier + one of these shadow steps (see `docs/06`). A semantic `elevation.*` colour
+ladder was briefly shipped then removed in the surface & content model rework —
+the foreground tonal ladder + the shadow ramp carry it without a parallel group.
 Grounded in KB `31-color-systems` (lift pattern + the shadow subsection).
 
 ## Layout axis (breakpoints · grid · containers)
@@ -276,8 +298,8 @@ breakpoints + grid-as-artifact + spacing-aliased gutter/margin + fluid container
 **opt-in OKLCH gradients** (DTCG composite + ramp-aliased stops + sRGB pre-sample
 for Figma + worst-case-stop contrast); border-width, focus, opacity/alpha + scrim
 primitives; two-brand emit in two dialects; a live HTML style guide
-(`visualize.ts`). nb 537/537 + aurora 538/538 aliases resolve, 240/240 mode
-contracts hold, 151/151 unit tests pass, both brands schema-conform.
+(`visualize.ts`). nb 625/625 + aurora 626/626 aliases resolve, 248/248 mode
+contracts hold, 172/172 unit tests pass, both brands schema-conform.
 
 **Deliberately not reproduced:**
 - *NB's per-step hue kinks* (amber.600, red.300). Following them would require

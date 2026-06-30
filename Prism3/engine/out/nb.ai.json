@@ -86,8 +86,8 @@
       "when_to_use": "Inverted page sections — a dark band on a light page (or vice-versa).",
       "avoid_when": "Do not place mode-default ink on it — use text.on-inverse.",
       "mode_overrides": {
-        "light": "{nbds.color.black}",
-        "dark": "{nbds.color.white}",
+        "light": "{nbds.color.neutral.950}",
+        "dark": "{nbds.color.neutral.025}",
         "hc-light": "{nbds.color.black}",
         "hc-dark": "{nbds.color.white}"
       },
@@ -102,7 +102,7 @@
       "when_to_use": "Inverted page sections — a dark band on a light page (or vice-versa).",
       "avoid_when": "Do not place mode-default ink on it — use text.on-inverse.",
       "mode_overrides": {
-        "light": "{nbds.color.neutral.950}",
+        "light": "{nbds.color.neutral.900}",
         "dark": "{nbds.color.neutral.050}",
         "hc-light": "{nbds.color.black}",
         "hc-dark": "{nbds.color.white}"
@@ -118,7 +118,7 @@
       "when_to_use": "Inverted page sections — a dark band on a light page (or vice-versa).",
       "avoid_when": "Do not place mode-default ink on it — use text.on-inverse.",
       "mode_overrides": {
-        "light": "{nbds.color.neutral.900}",
+        "light": "{nbds.color.neutral.850}",
         "dark": "{nbds.color.neutral.100}",
         "hc-light": "{nbds.color.black}",
         "hc-dark": "{nbds.color.white}"
@@ -197,7 +197,7 @@
       "when_to_use": "Strong / inverse fills — a dark callout, a solid neutral button, an emphasis surface in light mode.",
       "avoid_when": "Do not use for the page (use background.*) or for ink (use text/icon).",
       "mode_overrides": {
-        "light": "{nbds.color.neutral.950}",
+        "light": "{nbds.color.neutral.900}",
         "dark": "{nbds.color.neutral.050}",
         "hc-light": "{nbds.color.black}",
         "hc-dark": "{nbds.color.white}"
@@ -212,7 +212,7 @@
       "when_to_use": "Strong / inverse fills — a dark callout, a solid neutral button, an emphasis surface in light mode.",
       "avoid_when": "Do not use for the page (use background.*) or for ink (use text/icon).",
       "mode_overrides": {
-        "light": "{nbds.color.neutral.900}",
+        "light": "{nbds.color.neutral.850}",
         "dark": "{nbds.color.neutral.100}",
         "hc-light": "{nbds.color.black}",
         "hc-dark": "{nbds.color.white}"
@@ -227,7 +227,7 @@
       "when_to_use": "Strong / inverse fills — a dark callout, a solid neutral button, an emphasis surface in light mode.",
       "avoid_when": "Do not use for the page (use background.*) or for ink (use text/icon).",
       "mode_overrides": {
-        "light": "{nbds.color.neutral.850}",
+        "light": "{nbds.color.neutral.800}",
         "dark": "{nbds.color.neutral.150}",
         "hc-light": "{nbds.color.black}",
         "hc-dark": "{nbds.color.white}"
@@ -950,7 +950,7 @@
       "avoid_when": "Do not use on standard surfaces — use text.primary/secondary.",
       "mode_overrides": {
         "light": "{nbds.color.white}",
-        "dark": "{nbds.color.black}",
+        "dark": "{nbds.color.neutral.950}",
         "hc-light": "{nbds.color.white}",
         "hc-dark": "{nbds.color.black}"
       },
@@ -972,7 +972,7 @@
       "avoid_when": "Do not use on standard surfaces — use text.primary/secondary.",
       "mode_overrides": {
         "light": "{nbds.color.white}",
-        "dark": "{nbds.color.black}",
+        "dark": "{nbds.color.neutral.950}",
         "hc-light": "{nbds.color.white}",
         "hc-dark": "{nbds.color.black}"
       },
@@ -994,7 +994,7 @@
       "avoid_when": "Do not use on standard surfaces — use text.primary/secondary.",
       "mode_overrides": {
         "light": "{nbds.color.white}",
-        "dark": "{nbds.color.black}",
+        "dark": "{nbds.color.neutral.950}",
         "hc-light": "{nbds.color.white}",
         "hc-dark": "{nbds.color.black}"
       },
@@ -1016,7 +1016,7 @@
       "avoid_when": "Do not use on standard surfaces — use text.primary/secondary.",
       "mode_overrides": {
         "light": "{nbds.color.white}",
-        "dark": "{nbds.color.black}",
+        "dark": "{nbds.color.neutral.950}",
         "hc-light": "{nbds.color.white}",
         "hc-dark": "{nbds.color.black}"
       },
@@ -1038,7 +1038,7 @@
       "avoid_when": "Do not use on standard surfaces — use text.primary/secondary.",
       "mode_overrides": {
         "light": "{nbds.color.white}",
-        "dark": "{nbds.color.black}",
+        "dark": "{nbds.color.neutral.950}",
         "hc-light": "{nbds.color.white}",
         "hc-dark": "{nbds.color.black}"
       },
@@ -1060,7 +1060,7 @@
       "avoid_when": "Do not use on standard surfaces — use text.primary/secondary.",
       "mode_overrides": {
         "light": "{nbds.color.white}",
-        "dark": "{nbds.color.black}",
+        "dark": "{nbds.color.neutral.950}",
         "hc-light": "{nbds.color.white}",
         "hc-dark": "{nbds.color.black}"
       },
@@ -1093,7 +1093,29 @@
         {
           "token": "background.inverse.primary",
           "min": "4.5:1",
-          "ratio": 19.57
+          "ratio": 18.11
+        }
+      ]
+    },
+    "text.on-disabled": {
+      "$description": "Text on a disabled fill (muted).",
+      "meaning": "Legible content on a disabled fill",
+      "when_to_use": "The label/text on a disabled control's fill — muted but legible (paired with action.disabled / foreground.danger.disabled).",
+      "avoid_when": "Do not use on an enabled fill (use text.on-action / on-{semantic}) or on the page (use text.disabled).",
+      "mode_overrides": {
+        "light": "{nbds.color.neutral.550}",
+        "dark": "{nbds.color.neutral.450}",
+        "hc-light": "{nbds.color.neutral.650}",
+        "hc-dark": "{nbds.color.neutral.300}"
+      },
+      "paired_with": [
+        "action.disabled"
+      ],
+      "contrast_with": [
+        {
+          "token": "action.disabled",
+          "min": "3:1",
+          "ratio": 3.04
         }
       ]
     },
@@ -1453,7 +1475,7 @@
       "avoid_when": "Do not use on standard surfaces — use icon.primary/secondary.",
       "mode_overrides": {
         "light": "{nbds.color.white}",
-        "dark": "{nbds.color.black}",
+        "dark": "{nbds.color.neutral.950}",
         "hc-light": "{nbds.color.white}",
         "hc-dark": "{nbds.color.black}"
       },
@@ -1475,7 +1497,7 @@
       "avoid_when": "Do not use on standard surfaces — use icon.primary/secondary.",
       "mode_overrides": {
         "light": "{nbds.color.white}",
-        "dark": "{nbds.color.black}",
+        "dark": "{nbds.color.neutral.950}",
         "hc-light": "{nbds.color.white}",
         "hc-dark": "{nbds.color.black}"
       },
@@ -1497,7 +1519,7 @@
       "avoid_when": "Do not use on standard surfaces — use icon.primary/secondary.",
       "mode_overrides": {
         "light": "{nbds.color.white}",
-        "dark": "{nbds.color.black}",
+        "dark": "{nbds.color.neutral.950}",
         "hc-light": "{nbds.color.white}",
         "hc-dark": "{nbds.color.black}"
       },
@@ -1519,7 +1541,7 @@
       "avoid_when": "Do not use on standard surfaces — use icon.primary/secondary.",
       "mode_overrides": {
         "light": "{nbds.color.white}",
-        "dark": "{nbds.color.black}",
+        "dark": "{nbds.color.neutral.950}",
         "hc-light": "{nbds.color.white}",
         "hc-dark": "{nbds.color.black}"
       },
@@ -1541,7 +1563,7 @@
       "avoid_when": "Do not use on standard surfaces — use icon.primary/secondary.",
       "mode_overrides": {
         "light": "{nbds.color.white}",
-        "dark": "{nbds.color.black}",
+        "dark": "{nbds.color.neutral.950}",
         "hc-light": "{nbds.color.white}",
         "hc-dark": "{nbds.color.black}"
       },
@@ -1563,7 +1585,7 @@
       "avoid_when": "Do not use on standard surfaces — use icon.primary/secondary.",
       "mode_overrides": {
         "light": "{nbds.color.white}",
-        "dark": "{nbds.color.black}",
+        "dark": "{nbds.color.neutral.950}",
         "hc-light": "{nbds.color.white}",
         "hc-dark": "{nbds.color.black}"
       },
@@ -1596,7 +1618,29 @@
         {
           "token": "background.inverse.primary",
           "min": "4.5:1",
-          "ratio": 19.57
+          "ratio": 18.11
+        }
+      ]
+    },
+    "icon.on-disabled": {
+      "$description": "Icon on a disabled fill (muted).",
+      "meaning": "Legible content on a disabled fill",
+      "when_to_use": "The label/icon on a disabled control's fill — muted but legible (paired with action.disabled / foreground.danger.disabled).",
+      "avoid_when": "Do not use on an enabled fill (use icon.on-action / on-{semantic}) or on the page (use icon.disabled).",
+      "mode_overrides": {
+        "light": "{nbds.color.neutral.550}",
+        "dark": "{nbds.color.neutral.450}",
+        "hc-light": "{nbds.color.neutral.650}",
+        "hc-dark": "{nbds.color.neutral.300}"
+      },
+      "paired_with": [
+        "action.disabled"
+      ],
+      "contrast_with": [
+        {
+          "token": "action.disabled",
+          "min": "3:1",
+          "ratio": 3.04
         }
       ]
     },
@@ -1706,7 +1750,7 @@
       "when_to_use": "Borders on background.inverse / foreground.inverse.",
       "avoid_when": "Do not use on default surfaces.",
       "mode_overrides": {
-        "light": "{nbds.color.neutral.850}",
+        "light": "{nbds.color.neutral.800}",
         "dark": "{nbds.color.neutral.200}",
         "hc-light": "{nbds.color.neutral.500}",
         "hc-dark": "{nbds.color.neutral.500}"
@@ -1834,9 +1878,9 @@
     }
   },
   "typography": {
-    "type.display.sm": {
+    "type.display.sm.strong": {
       "$description": "Hero / marketing display type.",
-      "meaning": "Type style — display sm (48px, display face)",
+      "meaning": "Type style — display sm strong (48px, display face)",
       "when_to_use": "Large expressive headlines and hero moments.",
       "avoid_when": "Do not use for product-UI headings (use title) or running text (use body).",
       "resolves_to": {
@@ -1847,9 +1891,9 @@
         "letterSpacing": "{nbds.font.letter-spacing.tight}"
       }
     },
-    "type.display.md": {
+    "type.display.md.strong": {
       "$description": "Hero / marketing display type.",
-      "meaning": "Type style — display md (64px, display face)",
+      "meaning": "Type style — display md strong (64px, display face)",
       "when_to_use": "Large expressive headlines and hero moments.",
       "avoid_when": "Do not use for product-UI headings (use title) or running text (use body).",
       "resolves_to": {
@@ -1860,9 +1904,9 @@
         "letterSpacing": "{nbds.font.letter-spacing.tight}"
       }
     },
-    "type.display.lg": {
+    "type.display.lg.strong": {
       "$description": "Hero / marketing display type.",
-      "meaning": "Type style — display lg (80px, display face)",
+      "meaning": "Type style — display lg strong (80px, display face)",
       "when_to_use": "Large expressive headlines and hero moments.",
       "avoid_when": "Do not use for product-UI headings (use title) or running text (use body).",
       "resolves_to": {
@@ -1873,9 +1917,9 @@
         "letterSpacing": "{nbds.font.letter-spacing.tight}"
       }
     },
-    "type.display.xl": {
+    "type.display.xl.strong": {
       "$description": "Hero / marketing display type.",
-      "meaning": "Type style — display xl (96px, display face)",
+      "meaning": "Type style — display xl strong (96px, display face)",
       "when_to_use": "Large expressive headlines and hero moments.",
       "avoid_when": "Do not use for product-UI headings (use title) or running text (use body).",
       "resolves_to": {
@@ -1886,9 +1930,9 @@
         "letterSpacing": "{nbds.font.letter-spacing.tighter}"
       }
     },
-    "type.display.2xl": {
+    "type.display.2xl.strong": {
       "$description": "Hero / marketing display type.",
-      "meaning": "Type style — display 2xl (128px, display face)",
+      "meaning": "Type style — display 2xl strong (128px, display face)",
       "when_to_use": "Large expressive headlines and hero moments.",
       "avoid_when": "Do not use for product-UI headings (use title) or running text (use body).",
       "resolves_to": {
@@ -1899,9 +1943,9 @@
         "letterSpacing": "{nbds.font.letter-spacing.tighter}"
       }
     },
-    "type.display.3xl": {
+    "type.display.3xl.strong": {
       "$description": "Hero / marketing display type.",
-      "meaning": "Type style — display 3xl (160px, display face)",
+      "meaning": "Type style — display 3xl strong (160px, display face)",
       "when_to_use": "Large expressive headlines and hero moments.",
       "avoid_when": "Do not use for product-UI headings (use title) or running text (use body).",
       "resolves_to": {
@@ -1912,9 +1956,9 @@
         "letterSpacing": "{nbds.font.letter-spacing.tighter}"
       }
     },
-    "type.title.xs": {
+    "type.title.xs.strong": {
       "$description": "Heading type — visual hierarchy, decoupled from DOM level.",
-      "meaning": "Type style — title xs (18px, display face)",
+      "meaning": "Type style — title xs strong (18px, display face)",
       "when_to_use": "Section and page headings; pick the size for visual prominence and set the DOM level (h1–h6) by document structure independently.",
       "avoid_when": "Do not bind the size to a heading level; do not use for running text (use body).",
       "resolves_to": {
@@ -1925,9 +1969,9 @@
         "letterSpacing": "{nbds.font.letter-spacing.snug}"
       }
     },
-    "type.title.sm": {
+    "type.title.sm.strong": {
       "$description": "Heading type — visual hierarchy, decoupled from DOM level.",
-      "meaning": "Type style — title sm (20px, display face)",
+      "meaning": "Type style — title sm strong (20px, display face)",
       "when_to_use": "Section and page headings; pick the size for visual prominence and set the DOM level (h1–h6) by document structure independently.",
       "avoid_when": "Do not bind the size to a heading level; do not use for running text (use body).",
       "resolves_to": {
@@ -1938,9 +1982,9 @@
         "letterSpacing": "{nbds.font.letter-spacing.snug}"
       }
     },
-    "type.title.md": {
+    "type.title.md.strong": {
       "$description": "Heading type — visual hierarchy, decoupled from DOM level.",
-      "meaning": "Type style — title md (24px, display face)",
+      "meaning": "Type style — title md strong (24px, display face)",
       "when_to_use": "Section and page headings; pick the size for visual prominence and set the DOM level (h1–h6) by document structure independently.",
       "avoid_when": "Do not bind the size to a heading level; do not use for running text (use body).",
       "resolves_to": {
@@ -1951,9 +1995,9 @@
         "letterSpacing": "{nbds.font.letter-spacing.snug}"
       }
     },
-    "type.title.lg": {
+    "type.title.lg.strong": {
       "$description": "Heading type — visual hierarchy, decoupled from DOM level.",
-      "meaning": "Type style — title lg (28px, display face)",
+      "meaning": "Type style — title lg strong (28px, display face)",
       "when_to_use": "Section and page headings; pick the size for visual prominence and set the DOM level (h1–h6) by document structure independently.",
       "avoid_when": "Do not bind the size to a heading level; do not use for running text (use body).",
       "resolves_to": {
@@ -1964,9 +2008,9 @@
         "letterSpacing": "{nbds.font.letter-spacing.snug}"
       }
     },
-    "type.title.xl": {
+    "type.title.xl.strong": {
       "$description": "Heading type — visual hierarchy, decoupled from DOM level.",
-      "meaning": "Type style — title xl (32px, display face)",
+      "meaning": "Type style — title xl strong (32px, display face)",
       "when_to_use": "Section and page headings; pick the size for visual prominence and set the DOM level (h1–h6) by document structure independently.",
       "avoid_when": "Do not bind the size to a heading level; do not use for running text (use body).",
       "resolves_to": {
@@ -1977,9 +2021,9 @@
         "letterSpacing": "{nbds.font.letter-spacing.snug}"
       }
     },
-    "type.title.2xl": {
+    "type.title.2xl.strong": {
       "$description": "Heading type — visual hierarchy, decoupled from DOM level.",
-      "meaning": "Type style — title 2xl (40px, display face)",
+      "meaning": "Type style — title 2xl strong (40px, display face)",
       "when_to_use": "Section and page headings; pick the size for visual prominence and set the DOM level (h1–h6) by document structure independently.",
       "avoid_when": "Do not bind the size to a heading level; do not use for running text (use body).",
       "resolves_to": {
@@ -1990,9 +2034,9 @@
         "letterSpacing": "{nbds.font.letter-spacing.snug}"
       }
     },
-    "type.body.sm": {
+    "type.body.sm.default": {
       "$description": "Running text / default UI copy.",
-      "meaning": "Type style — body sm (14px, text face)",
+      "meaning": "Type style — body sm default (14px, text face)",
       "when_to_use": "Paragraphs, descriptions, and default interface text.",
       "avoid_when": "Do not use for headings (use title/display) or dense control labels (use label).",
       "resolves_to": {
@@ -2003,9 +2047,50 @@
         "letterSpacing": "{nbds.font.letter-spacing.normal}"
       }
     },
-    "type.body.md": {
+    "type.body.sm.default-link": {
+      "$description": "Running text / default UI copy (underlined link variant).",
+      "meaning": "Type style — body sm default link (14px, text face)",
+      "when_to_use": "Paragraphs, descriptions, and default interface text. The underlined link variant — pair with the text.link.* colour.",
+      "avoid_when": "Do not use for non-link text (use body.sm without -link).",
+      "resolves_to": {
+        "fontFamily": "{nbds.font.family.text}",
+        "fontSize": "{nbds.font.size.14}",
+        "fontWeight": "{nbds.font.weight-role.default}",
+        "lineHeight": "{nbds.font.line-height.normal}",
+        "letterSpacing": "{nbds.font.letter-spacing.normal}",
+        "textDecoration": "underline"
+      }
+    },
+    "type.body.sm.strong": {
       "$description": "Running text / default UI copy.",
-      "meaning": "Type style — body md (16px, text face)",
+      "meaning": "Type style — body sm strong (14px, text face)",
+      "when_to_use": "Paragraphs, descriptions, and default interface text.",
+      "avoid_when": "Do not use for headings (use title/display) or dense control labels (use label).",
+      "resolves_to": {
+        "fontFamily": "{nbds.font.family.text}",
+        "fontSize": "{nbds.font.size.14}",
+        "fontWeight": "{nbds.font.weight-role.strong}",
+        "lineHeight": "{nbds.font.line-height.normal}",
+        "letterSpacing": "{nbds.font.letter-spacing.normal}"
+      }
+    },
+    "type.body.sm.strong-link": {
+      "$description": "Running text / default UI copy (underlined link variant).",
+      "meaning": "Type style — body sm strong link (14px, text face)",
+      "when_to_use": "Paragraphs, descriptions, and default interface text. The underlined link variant — pair with the text.link.* colour.",
+      "avoid_when": "Do not use for non-link text (use body.sm without -link).",
+      "resolves_to": {
+        "fontFamily": "{nbds.font.family.text}",
+        "fontSize": "{nbds.font.size.14}",
+        "fontWeight": "{nbds.font.weight-role.strong}",
+        "lineHeight": "{nbds.font.line-height.normal}",
+        "letterSpacing": "{nbds.font.letter-spacing.normal}",
+        "textDecoration": "underline"
+      }
+    },
+    "type.body.md.default": {
+      "$description": "Running text / default UI copy.",
+      "meaning": "Type style — body md default (16px, text face)",
       "when_to_use": "Paragraphs, descriptions, and default interface text.",
       "avoid_when": "Do not use for headings (use title/display) or dense control labels (use label).",
       "resolves_to": {
@@ -2016,9 +2101,50 @@
         "letterSpacing": "{nbds.font.letter-spacing.normal}"
       }
     },
-    "type.body.lg": {
+    "type.body.md.default-link": {
+      "$description": "Running text / default UI copy (underlined link variant).",
+      "meaning": "Type style — body md default link (16px, text face)",
+      "when_to_use": "Paragraphs, descriptions, and default interface text. The underlined link variant — pair with the text.link.* colour.",
+      "avoid_when": "Do not use for non-link text (use body.md without -link).",
+      "resolves_to": {
+        "fontFamily": "{nbds.font.family.text}",
+        "fontSize": "{nbds.font.size.16}",
+        "fontWeight": "{nbds.font.weight-role.default}",
+        "lineHeight": "{nbds.font.line-height.normal}",
+        "letterSpacing": "{nbds.font.letter-spacing.normal}",
+        "textDecoration": "underline"
+      }
+    },
+    "type.body.md.strong": {
       "$description": "Running text / default UI copy.",
-      "meaning": "Type style — body lg (18px, text face)",
+      "meaning": "Type style — body md strong (16px, text face)",
+      "when_to_use": "Paragraphs, descriptions, and default interface text.",
+      "avoid_when": "Do not use for headings (use title/display) or dense control labels (use label).",
+      "resolves_to": {
+        "fontFamily": "{nbds.font.family.text}",
+        "fontSize": "{nbds.font.size.16}",
+        "fontWeight": "{nbds.font.weight-role.strong}",
+        "lineHeight": "{nbds.font.line-height.normal}",
+        "letterSpacing": "{nbds.font.letter-spacing.normal}"
+      }
+    },
+    "type.body.md.strong-link": {
+      "$description": "Running text / default UI copy (underlined link variant).",
+      "meaning": "Type style — body md strong link (16px, text face)",
+      "when_to_use": "Paragraphs, descriptions, and default interface text. The underlined link variant — pair with the text.link.* colour.",
+      "avoid_when": "Do not use for non-link text (use body.md without -link).",
+      "resolves_to": {
+        "fontFamily": "{nbds.font.family.text}",
+        "fontSize": "{nbds.font.size.16}",
+        "fontWeight": "{nbds.font.weight-role.strong}",
+        "lineHeight": "{nbds.font.line-height.normal}",
+        "letterSpacing": "{nbds.font.letter-spacing.normal}",
+        "textDecoration": "underline"
+      }
+    },
+    "type.body.lg.default": {
+      "$description": "Running text / default UI copy.",
+      "meaning": "Type style — body lg default (18px, text face)",
       "when_to_use": "Paragraphs, descriptions, and default interface text.",
       "avoid_when": "Do not use for headings (use title/display) or dense control labels (use label).",
       "resolves_to": {
@@ -2029,9 +2155,50 @@
         "letterSpacing": "{nbds.font.letter-spacing.normal}"
       }
     },
-    "type.label.sm": {
+    "type.body.lg.default-link": {
+      "$description": "Running text / default UI copy (underlined link variant).",
+      "meaning": "Type style — body lg default link (18px, text face)",
+      "when_to_use": "Paragraphs, descriptions, and default interface text. The underlined link variant — pair with the text.link.* colour.",
+      "avoid_when": "Do not use for non-link text (use body.lg without -link).",
+      "resolves_to": {
+        "fontFamily": "{nbds.font.family.text}",
+        "fontSize": "{nbds.font.size.18}",
+        "fontWeight": "{nbds.font.weight-role.default}",
+        "lineHeight": "{nbds.font.line-height.normal}",
+        "letterSpacing": "{nbds.font.letter-spacing.normal}",
+        "textDecoration": "underline"
+      }
+    },
+    "type.body.lg.strong": {
+      "$description": "Running text / default UI copy.",
+      "meaning": "Type style — body lg strong (18px, text face)",
+      "when_to_use": "Paragraphs, descriptions, and default interface text.",
+      "avoid_when": "Do not use for headings (use title/display) or dense control labels (use label).",
+      "resolves_to": {
+        "fontFamily": "{nbds.font.family.text}",
+        "fontSize": "{nbds.font.size.18}",
+        "fontWeight": "{nbds.font.weight-role.strong}",
+        "lineHeight": "{nbds.font.line-height.normal}",
+        "letterSpacing": "{nbds.font.letter-spacing.normal}"
+      }
+    },
+    "type.body.lg.strong-link": {
+      "$description": "Running text / default UI copy (underlined link variant).",
+      "meaning": "Type style — body lg strong link (18px, text face)",
+      "when_to_use": "Paragraphs, descriptions, and default interface text. The underlined link variant — pair with the text.link.* colour.",
+      "avoid_when": "Do not use for non-link text (use body.lg without -link).",
+      "resolves_to": {
+        "fontFamily": "{nbds.font.family.text}",
+        "fontSize": "{nbds.font.size.18}",
+        "fontWeight": "{nbds.font.weight-role.strong}",
+        "lineHeight": "{nbds.font.line-height.normal}",
+        "letterSpacing": "{nbds.font.letter-spacing.normal}",
+        "textDecoration": "underline"
+      }
+    },
+    "type.label.sm.emphasis": {
       "$description": "UI label type — buttons, form labels, tabs, chips.",
-      "meaning": "Type style — label sm (12px, display face)",
+      "meaning": "Type style — label sm emphasis (12px, display face)",
       "when_to_use": "Control and form labels, button text, tabs, chips, badges.",
       "avoid_when": "Do not use for running text (use body).",
       "resolves_to": {
@@ -2042,9 +2209,9 @@
         "letterSpacing": "{nbds.font.letter-spacing.normal}"
       }
     },
-    "type.label.md": {
+    "type.label.md.emphasis": {
       "$description": "UI label type — buttons, form labels, tabs, chips.",
-      "meaning": "Type style — label md (14px, display face)",
+      "meaning": "Type style — label md emphasis (14px, display face)",
       "when_to_use": "Control and form labels, button text, tabs, chips, badges.",
       "avoid_when": "Do not use for running text (use body).",
       "resolves_to": {
@@ -2055,9 +2222,63 @@
         "letterSpacing": "{nbds.font.letter-spacing.normal}"
       }
     },
-    "type.caption": {
+    "type.caption.md.default": {
       "$description": "Caption / secondary small text.",
-      "meaning": "Type style — caption (12px, text face)",
+      "meaning": "Type style — caption md default (11px, text face)",
+      "when_to_use": "Image captions, helper text, metadata, footnotes.",
+      "avoid_when": "Do not use for primary reading text (use body).",
+      "resolves_to": {
+        "fontFamily": "{nbds.font.family.text}",
+        "fontSize": "{nbds.font.size.11}",
+        "fontWeight": "{nbds.font.weight-role.default}",
+        "lineHeight": "{nbds.font.line-height.normal}",
+        "letterSpacing": "{nbds.font.letter-spacing.normal}"
+      }
+    },
+    "type.caption.md.default-link": {
+      "$description": "Caption / secondary small text (underlined link variant).",
+      "meaning": "Type style — caption md default link (11px, text face)",
+      "when_to_use": "Image captions, helper text, metadata, footnotes. The underlined link variant — pair with the text.link.* colour.",
+      "avoid_when": "Do not use for non-link text (use caption.md without -link).",
+      "resolves_to": {
+        "fontFamily": "{nbds.font.family.text}",
+        "fontSize": "{nbds.font.size.11}",
+        "fontWeight": "{nbds.font.weight-role.default}",
+        "lineHeight": "{nbds.font.line-height.normal}",
+        "letterSpacing": "{nbds.font.letter-spacing.normal}",
+        "textDecoration": "underline"
+      }
+    },
+    "type.caption.md.strong": {
+      "$description": "Caption / secondary small text.",
+      "meaning": "Type style — caption md strong (11px, text face)",
+      "when_to_use": "Image captions, helper text, metadata, footnotes.",
+      "avoid_when": "Do not use for primary reading text (use body).",
+      "resolves_to": {
+        "fontFamily": "{nbds.font.family.text}",
+        "fontSize": "{nbds.font.size.11}",
+        "fontWeight": "{nbds.font.weight-role.strong}",
+        "lineHeight": "{nbds.font.line-height.normal}",
+        "letterSpacing": "{nbds.font.letter-spacing.normal}"
+      }
+    },
+    "type.caption.md.strong-link": {
+      "$description": "Caption / secondary small text (underlined link variant).",
+      "meaning": "Type style — caption md strong link (11px, text face)",
+      "when_to_use": "Image captions, helper text, metadata, footnotes. The underlined link variant — pair with the text.link.* colour.",
+      "avoid_when": "Do not use for non-link text (use caption.md without -link).",
+      "resolves_to": {
+        "fontFamily": "{nbds.font.family.text}",
+        "fontSize": "{nbds.font.size.11}",
+        "fontWeight": "{nbds.font.weight-role.strong}",
+        "lineHeight": "{nbds.font.line-height.normal}",
+        "letterSpacing": "{nbds.font.letter-spacing.normal}",
+        "textDecoration": "underline"
+      }
+    },
+    "type.caption.lg.default": {
+      "$description": "Caption / secondary small text.",
+      "meaning": "Type style — caption lg default (12px, text face)",
       "when_to_use": "Image captions, helper text, metadata, footnotes.",
       "avoid_when": "Do not use for primary reading text (use body).",
       "resolves_to": {
@@ -2068,9 +2289,50 @@
         "letterSpacing": "{nbds.font.letter-spacing.normal}"
       }
     },
-    "type.eyebrow": {
+    "type.caption.lg.default-link": {
+      "$description": "Caption / secondary small text (underlined link variant).",
+      "meaning": "Type style — caption lg default link (12px, text face)",
+      "when_to_use": "Image captions, helper text, metadata, footnotes. The underlined link variant — pair with the text.link.* colour.",
+      "avoid_when": "Do not use for non-link text (use caption.lg without -link).",
+      "resolves_to": {
+        "fontFamily": "{nbds.font.family.text}",
+        "fontSize": "{nbds.font.size.12}",
+        "fontWeight": "{nbds.font.weight-role.default}",
+        "lineHeight": "{nbds.font.line-height.normal}",
+        "letterSpacing": "{nbds.font.letter-spacing.normal}",
+        "textDecoration": "underline"
+      }
+    },
+    "type.caption.lg.strong": {
+      "$description": "Caption / secondary small text.",
+      "meaning": "Type style — caption lg strong (12px, text face)",
+      "when_to_use": "Image captions, helper text, metadata, footnotes.",
+      "avoid_when": "Do not use for primary reading text (use body).",
+      "resolves_to": {
+        "fontFamily": "{nbds.font.family.text}",
+        "fontSize": "{nbds.font.size.12}",
+        "fontWeight": "{nbds.font.weight-role.strong}",
+        "lineHeight": "{nbds.font.line-height.normal}",
+        "letterSpacing": "{nbds.font.letter-spacing.normal}"
+      }
+    },
+    "type.caption.lg.strong-link": {
+      "$description": "Caption / secondary small text (underlined link variant).",
+      "meaning": "Type style — caption lg strong link (12px, text face)",
+      "when_to_use": "Image captions, helper text, metadata, footnotes. The underlined link variant — pair with the text.link.* colour.",
+      "avoid_when": "Do not use for non-link text (use caption.lg without -link).",
+      "resolves_to": {
+        "fontFamily": "{nbds.font.family.text}",
+        "fontSize": "{nbds.font.size.12}",
+        "fontWeight": "{nbds.font.weight-role.strong}",
+        "lineHeight": "{nbds.font.line-height.normal}",
+        "letterSpacing": "{nbds.font.letter-spacing.normal}",
+        "textDecoration": "underline"
+      }
+    },
+    "type.eyebrow.emphasis": {
       "$description": "Eyebrow / kicker — small uppercase label above a heading.",
-      "meaning": "Type style — eyebrow (12px, display face, uppercase)",
+      "meaning": "Type style — eyebrow emphasis (12px, display face, uppercase)",
       "when_to_use": "A short label sitting above a title or hero (a \"kicker\").",
       "avoid_when": "Do not use as the heading itself (use title) or for body copy.",
       "resolves_to": {
@@ -2082,9 +2344,9 @@
         "textCase": "uppercase"
       }
     },
-    "type.code.inline": {
+    "type.code.inline.default": {
       "$description": "Monospace / code type.",
-      "meaning": "Type style — code inline (14px, mono face)",
+      "meaning": "Type style — code inline default (14px, mono face)",
       "when_to_use": "Inline code, code blocks, and column-aligned values.",
       "avoid_when": "Do not use for prose (use body).",
       "resolves_to": {
@@ -2109,11 +2371,17 @@
       "avoid_when": "Do not hard-code the numeric (400); reference the role.",
       "resolves_to": "{nbds.font.weight.400}",
       "used_by": [
-        "type.body.lg",
-        "type.body.md",
-        "type.body.sm",
-        "type.caption",
-        "type.code.inline"
+        "type.body.lg.default",
+        "type.body.lg.default-link",
+        "type.body.md.default",
+        "type.body.md.default-link",
+        "type.body.sm.default",
+        "type.body.sm.default-link",
+        "type.caption.lg.default",
+        "type.caption.lg.default-link",
+        "type.caption.md.default",
+        "type.caption.md.default-link",
+        "type.code.inline.default"
       ]
     },
     "font.weight-role.emphasis": {
@@ -2123,9 +2391,9 @@
       "avoid_when": "Do not hard-code the numeric (600); reference the role.",
       "resolves_to": "{nbds.font.weight.600}",
       "used_by": [
-        "type.eyebrow",
-        "type.label.md",
-        "type.label.sm"
+        "type.eyebrow.emphasis",
+        "type.label.md.emphasis",
+        "type.label.sm.emphasis"
       ]
     },
     "font.weight-role.strong": {
@@ -2135,18 +2403,28 @@
       "avoid_when": "Do not hard-code the numeric (700); reference the role.",
       "resolves_to": "{nbds.font.weight.700}",
       "used_by": [
-        "type.display.2xl",
-        "type.display.3xl",
-        "type.display.lg",
-        "type.display.md",
-        "type.display.sm",
-        "type.display.xl",
-        "type.title.2xl",
-        "type.title.lg",
-        "type.title.md",
-        "type.title.sm",
-        "type.title.xl",
-        "type.title.xs"
+        "type.body.lg.strong",
+        "type.body.lg.strong-link",
+        "type.body.md.strong",
+        "type.body.md.strong-link",
+        "type.body.sm.strong",
+        "type.body.sm.strong-link",
+        "type.caption.lg.strong",
+        "type.caption.lg.strong-link",
+        "type.caption.md.strong",
+        "type.caption.md.strong-link",
+        "type.display.2xl.strong",
+        "type.display.3xl.strong",
+        "type.display.lg.strong",
+        "type.display.md.strong",
+        "type.display.sm.strong",
+        "type.display.xl.strong",
+        "type.title.2xl.strong",
+        "type.title.lg.strong",
+        "type.title.md.strong",
+        "type.title.sm.strong",
+        "type.title.xl.strong",
+        "type.title.xs.strong"
       ]
     }
   },
@@ -2158,7 +2436,6 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.background.inverse.primary",
         "semantic.hc-dark.background.inverse.primary",
         "semantic.hc-dark.background.inverse.secondary",
         "semantic.hc-dark.background.inverse.tertiary",
@@ -2209,18 +2486,6 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.icon.on-action",
-        "semantic.dark.icon.on-brand",
-        "semantic.dark.icon.on-danger",
-        "semantic.dark.icon.on-info",
-        "semantic.dark.icon.on-success",
-        "semantic.dark.icon.on-warning",
-        "semantic.dark.text.on-action",
-        "semantic.dark.text.on-brand",
-        "semantic.dark.text.on-danger",
-        "semantic.dark.text.on-info",
-        "semantic.dark.text.on-success",
-        "semantic.dark.text.on-warning",
         "semantic.hc-dark.background.primary",
         "semantic.hc-dark.background.secondary",
         "semantic.hc-dark.background.tertiary",
@@ -2248,8 +2513,7 @@
         "semantic.hc-light.foreground.inverse.secondary",
         "semantic.hc-light.foreground.inverse.tertiary",
         "semantic.hc-light.icon.primary",
-        "semantic.hc-light.text.primary",
-        "semantic.light.background.inverse.primary"
+        "semantic.hc-light.text.primary"
       ]
     },
     "color.red.100": {
@@ -2976,7 +3240,9 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
+        "semantic.hc-dark.icon.on-disabled",
         "semantic.hc-dark.icon.secondary",
+        "semantic.hc-dark.text.on-disabled",
         "semantic.hc-dark.text.secondary"
       ]
     },
@@ -3004,7 +3270,9 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
+        "semantic.dark.icon.on-disabled",
         "semantic.dark.icon.secondary",
+        "semantic.dark.text.on-disabled",
         "semantic.dark.text.secondary",
         "semantic.hc-dark.icon.disabled",
         "semantic.hc-dark.icon.tertiary",
@@ -3045,7 +3313,9 @@
         "semantic.hc-light.icon.tertiary",
         "semantic.hc-light.text.disabled",
         "semantic.hc-light.text.tertiary",
+        "semantic.light.icon.on-disabled",
         "semantic.light.icon.secondary",
+        "semantic.light.text.on-disabled",
         "semantic.light.text.secondary"
       ]
     },
@@ -3061,7 +3331,11 @@
       "meaning": "neutral ramp — raw step 650",
       "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.hc-light.icon.on-disabled",
+        "semantic.hc-light.text.on-disabled"
+      ]
     },
     "color.neutral.700": {
       "$description": "neutral 700 — Three-Quarter-Tone band",
@@ -3096,7 +3370,9 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.foreground.tertiary"
+        "semantic.dark.foreground.tertiary",
+        "semantic.light.border.inverse",
+        "semantic.light.foreground.inverse.tertiary"
       ]
     },
     "color.neutral.850": {
@@ -3108,8 +3384,8 @@
       "aliased_by": [
         "semantic.dark.background.tertiary",
         "semantic.dark.foreground.secondary",
-        "semantic.light.border.inverse",
-        "semantic.light.foreground.inverse.tertiary"
+        "semantic.light.background.inverse.tertiary",
+        "semantic.light.foreground.inverse.secondary"
       ]
     },
     "color.neutral.900": {
@@ -3121,8 +3397,8 @@
       "aliased_by": [
         "semantic.dark.background.secondary",
         "semantic.dark.foreground.primary",
-        "semantic.light.background.inverse.tertiary",
-        "semantic.light.foreground.inverse.secondary"
+        "semantic.light.background.inverse.secondary",
+        "semantic.light.foreground.inverse.primary"
       ]
     },
     "color.neutral.950": {
@@ -3133,10 +3409,21 @@
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
         "semantic.dark.background.primary",
+        "semantic.dark.icon.on-action",
+        "semantic.dark.icon.on-brand",
+        "semantic.dark.icon.on-danger",
+        "semantic.dark.icon.on-info",
         "semantic.dark.icon.on-inverse",
+        "semantic.dark.icon.on-success",
+        "semantic.dark.icon.on-warning",
+        "semantic.dark.text.on-action",
+        "semantic.dark.text.on-brand",
+        "semantic.dark.text.on-danger",
+        "semantic.dark.text.on-info",
         "semantic.dark.text.on-inverse",
-        "semantic.light.background.inverse.secondary",
-        "semantic.light.foreground.inverse.primary",
+        "semantic.dark.text.on-success",
+        "semantic.dark.text.on-warning",
+        "semantic.light.background.inverse.primary",
         "semantic.light.icon.primary",
         "semantic.light.text.primary"
       ]
@@ -3148,6 +3435,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
+        "semantic.dark.background.inverse.primary",
         "semantic.dark.icon.primary",
         "semantic.dark.text.primary",
         "semantic.light.icon.on-inverse",
@@ -3733,21 +4021,21 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "type.display.2xl",
-        "type.display.3xl",
-        "type.display.lg",
-        "type.display.md",
-        "type.display.sm",
-        "type.display.xl",
-        "type.eyebrow",
-        "type.label.md",
-        "type.label.sm",
-        "type.title.2xl",
-        "type.title.lg",
-        "type.title.md",
-        "type.title.sm",
-        "type.title.xl",
-        "type.title.xs"
+        "type.display.2xl.strong",
+        "type.display.3xl.strong",
+        "type.display.lg.strong",
+        "type.display.md.strong",
+        "type.display.sm.strong",
+        "type.display.xl.strong",
+        "type.eyebrow.emphasis",
+        "type.label.md.emphasis",
+        "type.label.sm.emphasis",
+        "type.title.2xl.strong",
+        "type.title.lg.strong",
+        "type.title.md.strong",
+        "type.title.sm.strong",
+        "type.title.xl.strong",
+        "type.title.xs.strong"
       ]
     },
     "font.family.text": {
@@ -3756,10 +4044,26 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "type.body.lg",
-        "type.body.md",
-        "type.body.sm",
-        "type.caption"
+        "type.body.lg.default",
+        "type.body.lg.default-link",
+        "type.body.lg.strong",
+        "type.body.lg.strong-link",
+        "type.body.md.default",
+        "type.body.md.default-link",
+        "type.body.md.strong",
+        "type.body.md.strong-link",
+        "type.body.sm.default",
+        "type.body.sm.default-link",
+        "type.body.sm.strong",
+        "type.body.sm.strong-link",
+        "type.caption.lg.default",
+        "type.caption.lg.default-link",
+        "type.caption.lg.strong",
+        "type.caption.lg.strong-link",
+        "type.caption.md.default",
+        "type.caption.md.default-link",
+        "type.caption.md.strong",
+        "type.caption.md.strong-link"
       ]
     },
     "font.family.mono": {
@@ -3768,7 +4072,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "type.code.inline"
+        "type.code.inline.default"
       ]
     },
     "font.size.10": {
@@ -3781,7 +4085,13 @@
       "$description": "font size 11px (0.6875rem) — curated ladder primitive",
       "meaning": "Font size primitive — 11px (rem)",
       "tier": "primitive",
-      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight."
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
+      "aliased_by": [
+        "type.caption.md.default",
+        "type.caption.md.default-link",
+        "type.caption.md.strong",
+        "type.caption.md.strong-link"
+      ]
     },
     "font.size.12": {
       "$description": "font size 12px (0.75rem) — curated ladder primitive",
@@ -3789,9 +4099,12 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "type.caption",
-        "type.eyebrow",
-        "type.label.sm"
+        "type.caption.lg.default",
+        "type.caption.lg.default-link",
+        "type.caption.lg.strong",
+        "type.caption.lg.strong-link",
+        "type.eyebrow.emphasis",
+        "type.label.sm.emphasis"
       ]
     },
     "font.size.14": {
@@ -3800,9 +4113,12 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "type.body.sm",
-        "type.code.inline",
-        "type.label.md"
+        "type.body.sm.default",
+        "type.body.sm.default-link",
+        "type.body.sm.strong",
+        "type.body.sm.strong-link",
+        "type.code.inline.default",
+        "type.label.md.emphasis"
       ]
     },
     "font.size.16": {
@@ -3811,7 +4127,10 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "type.body.md"
+        "type.body.md.default",
+        "type.body.md.default-link",
+        "type.body.md.strong",
+        "type.body.md.strong-link"
       ]
     },
     "font.size.18": {
@@ -3820,8 +4139,11 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "type.body.lg",
-        "type.title.xs"
+        "type.body.lg.default",
+        "type.body.lg.default-link",
+        "type.body.lg.strong",
+        "type.body.lg.strong-link",
+        "type.title.xs.strong"
       ]
     },
     "font.size.20": {
@@ -3830,7 +4152,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "type.title.sm"
+        "type.title.sm.strong"
       ]
     },
     "font.size.24": {
@@ -3839,7 +4161,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "type.title.md"
+        "type.title.md.strong"
       ]
     },
     "font.size.28": {
@@ -3848,7 +4170,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "type.title.lg"
+        "type.title.lg.strong"
       ]
     },
     "font.size.32": {
@@ -3857,7 +4179,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "type.title.xl"
+        "type.title.xl.strong"
       ]
     },
     "font.size.36": {
@@ -3872,7 +4194,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "type.title.2xl"
+        "type.title.2xl.strong"
       ]
     },
     "font.size.48": {
@@ -3881,7 +4203,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "type.display.sm"
+        "type.display.sm.strong"
       ]
     },
     "font.size.56": {
@@ -3896,7 +4218,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "type.display.md"
+        "type.display.md.strong"
       ]
     },
     "font.size.72": {
@@ -3911,7 +4233,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "type.display.lg"
+        "type.display.lg.strong"
       ]
     },
     "font.size.96": {
@@ -3920,7 +4242,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "type.display.xl"
+        "type.display.xl.strong"
       ]
     },
     "font.size.112": {
@@ -3935,7 +4257,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "type.display.2xl"
+        "type.display.2xl.strong"
       ]
     },
     "font.size.144": {
@@ -3950,7 +4272,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "type.display.3xl"
+        "type.display.3xl.strong"
       ]
     },
     "font.weight.100": {
@@ -3981,11 +4303,17 @@
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
         "font.weight-role.default",
-        "type.body.lg",
-        "type.body.md",
-        "type.body.sm",
-        "type.caption",
-        "type.code.inline"
+        "type.body.lg.default",
+        "type.body.lg.default-link",
+        "type.body.md.default",
+        "type.body.md.default-link",
+        "type.body.sm.default",
+        "type.body.sm.default-link",
+        "type.caption.lg.default",
+        "type.caption.lg.default-link",
+        "type.caption.md.default",
+        "type.caption.md.default-link",
+        "type.code.inline.default"
       ]
     },
     "font.weight.500": {
@@ -4001,9 +4329,9 @@
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
         "font.weight-role.emphasis",
-        "type.eyebrow",
-        "type.label.md",
-        "type.label.sm"
+        "type.eyebrow.emphasis",
+        "type.label.md.emphasis",
+        "type.label.sm.emphasis"
       ]
     },
     "font.weight.700": {
@@ -4013,18 +4341,28 @@
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
         "font.weight-role.strong",
-        "type.display.2xl",
-        "type.display.3xl",
-        "type.display.lg",
-        "type.display.md",
-        "type.display.sm",
-        "type.display.xl",
-        "type.title.2xl",
-        "type.title.lg",
-        "type.title.md",
-        "type.title.sm",
-        "type.title.xl",
-        "type.title.xs"
+        "type.body.lg.strong",
+        "type.body.lg.strong-link",
+        "type.body.md.strong",
+        "type.body.md.strong-link",
+        "type.body.sm.strong",
+        "type.body.sm.strong-link",
+        "type.caption.lg.strong",
+        "type.caption.lg.strong-link",
+        "type.caption.md.strong",
+        "type.caption.md.strong-link",
+        "type.display.2xl.strong",
+        "type.display.3xl.strong",
+        "type.display.lg.strong",
+        "type.display.md.strong",
+        "type.display.sm.strong",
+        "type.display.xl.strong",
+        "type.title.2xl.strong",
+        "type.title.lg.strong",
+        "type.title.md.strong",
+        "type.title.sm.strong",
+        "type.title.xl.strong",
+        "type.title.xs.strong"
       ]
     },
     "font.weight.800": {
@@ -4045,12 +4383,12 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "type.display.2xl",
-        "type.display.3xl",
-        "type.display.lg",
-        "type.display.md",
-        "type.display.sm",
-        "type.display.xl"
+        "type.display.2xl.strong",
+        "type.display.3xl.strong",
+        "type.display.lg.strong",
+        "type.display.md.strong",
+        "type.display.sm.strong",
+        "type.display.xl.strong"
       ]
     },
     "font.line-height.snug": {
@@ -4059,12 +4397,12 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "type.eyebrow",
-        "type.label.md",
-        "type.label.sm",
-        "type.title.2xl",
-        "type.title.lg",
-        "type.title.xl"
+        "type.eyebrow.emphasis",
+        "type.label.md.emphasis",
+        "type.label.sm.emphasis",
+        "type.title.2xl.strong",
+        "type.title.lg.strong",
+        "type.title.xl.strong"
       ]
     },
     "font.line-height.compact": {
@@ -4073,9 +4411,9 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "type.title.md",
-        "type.title.sm",
-        "type.title.xs"
+        "type.title.md.strong",
+        "type.title.sm.strong",
+        "type.title.xs.strong"
       ]
     },
     "font.line-height.normal": {
@@ -4084,11 +4422,27 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "type.body.lg",
-        "type.body.md",
-        "type.body.sm",
-        "type.caption",
-        "type.code.inline"
+        "type.body.lg.default",
+        "type.body.lg.default-link",
+        "type.body.lg.strong",
+        "type.body.lg.strong-link",
+        "type.body.md.default",
+        "type.body.md.default-link",
+        "type.body.md.strong",
+        "type.body.md.strong-link",
+        "type.body.sm.default",
+        "type.body.sm.default-link",
+        "type.body.sm.strong",
+        "type.body.sm.strong-link",
+        "type.caption.lg.default",
+        "type.caption.lg.default-link",
+        "type.caption.lg.strong",
+        "type.caption.lg.strong-link",
+        "type.caption.md.default",
+        "type.caption.md.default-link",
+        "type.caption.md.strong",
+        "type.caption.md.strong-link",
+        "type.code.inline.default"
       ]
     },
     "font.line-height.relaxed": {
@@ -4109,9 +4463,9 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "type.display.2xl",
-        "type.display.3xl",
-        "type.display.xl"
+        "type.display.2xl.strong",
+        "type.display.3xl.strong",
+        "type.display.xl.strong"
       ]
     },
     "font.letter-spacing.tight": {
@@ -4120,9 +4474,9 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "type.display.lg",
-        "type.display.md",
-        "type.display.sm"
+        "type.display.lg.strong",
+        "type.display.md.strong",
+        "type.display.sm.strong"
       ]
     },
     "font.letter-spacing.snug": {
@@ -4131,12 +4485,12 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "type.title.2xl",
-        "type.title.lg",
-        "type.title.md",
-        "type.title.sm",
-        "type.title.xl",
-        "type.title.xs"
+        "type.title.2xl.strong",
+        "type.title.lg.strong",
+        "type.title.md.strong",
+        "type.title.sm.strong",
+        "type.title.xl.strong",
+        "type.title.xs.strong"
       ]
     },
     "font.letter-spacing.normal": {
@@ -4145,13 +4499,29 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "type.body.lg",
-        "type.body.md",
-        "type.body.sm",
-        "type.caption",
-        "type.code.inline",
-        "type.label.md",
-        "type.label.sm"
+        "type.body.lg.default",
+        "type.body.lg.default-link",
+        "type.body.lg.strong",
+        "type.body.lg.strong-link",
+        "type.body.md.default",
+        "type.body.md.default-link",
+        "type.body.md.strong",
+        "type.body.md.strong-link",
+        "type.body.sm.default",
+        "type.body.sm.default-link",
+        "type.body.sm.strong",
+        "type.body.sm.strong-link",
+        "type.caption.lg.default",
+        "type.caption.lg.default-link",
+        "type.caption.lg.strong",
+        "type.caption.lg.strong-link",
+        "type.caption.md.default",
+        "type.caption.md.default-link",
+        "type.caption.md.strong",
+        "type.caption.md.strong-link",
+        "type.code.inline.default",
+        "type.label.md.emphasis",
+        "type.label.sm.emphasis"
       ]
     },
     "font.letter-spacing.wide": {
@@ -4166,7 +4536,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "type.eyebrow"
+        "type.eyebrow.emphasis"
       ]
     },
     "shadow.xs": {

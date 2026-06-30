@@ -2330,22 +2330,8 @@
           "inverse": {
             "primary": {
               "$type": "color",
-              "$value": "{nbds.color.black}",
-              "$description": "Inverse page surface — a dark band in light mode",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.black",
-                  "mode": "light",
-                  "contrast": 1,
-                  "against": "self"
-                }
-              }
-            },
-            "secondary": {
-              "$type": "color",
               "$value": "{nbds.color.neutral.950}",
-              "$description": "Inverse page surface, second tier",
+              "$description": "Inverse page surface — a dark band in light mode",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -2356,14 +2342,28 @@
                 }
               }
             },
-            "tertiary": {
+            "secondary": {
               "$type": "color",
               "$value": "{nbds.color.neutral.900}",
-              "$description": "Inverse page surface, third tier",
+              "$description": "Inverse page surface, second tier",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
                   "aliasOf": "nbds.color.neutral.900",
+                  "mode": "light",
+                  "contrast": 1,
+                  "against": "self"
+                }
+              }
+            },
+            "tertiary": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.850}",
+              "$description": "Inverse page surface, third tier",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.color.neutral.850",
                   "mode": "light",
                   "contrast": 1,
                   "against": "self"
@@ -2434,22 +2434,8 @@
           "inverse": {
             "primary": {
               "$type": "color",
-              "$value": "{nbds.color.neutral.950}",
-              "$description": "Inverse / bold surface — a dark fill in light mode",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.950",
-                  "mode": "light",
-                  "contrast": 1,
-                  "against": "self"
-                }
-              }
-            },
-            "secondary": {
-              "$type": "color",
               "$value": "{nbds.color.neutral.900}",
-              "$description": "Inverse surface, second tier",
+              "$description": "Inverse / bold surface — a dark fill in light mode",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -2460,14 +2446,28 @@
                 }
               }
             },
-            "tertiary": {
+            "secondary": {
               "$type": "color",
               "$value": "{nbds.color.neutral.850}",
-              "$description": "Inverse surface, third tier",
+              "$description": "Inverse surface, second tier",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
                   "aliasOf": "nbds.color.neutral.850",
+                  "mode": "light",
+                  "contrast": 1,
+                  "against": "self"
+                }
+              }
+            },
+            "tertiary": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.800}",
+              "$description": "Inverse surface, third tier",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.color.neutral.800",
                   "mode": "light",
                   "contrast": 1,
                   "against": "self"
@@ -3093,9 +3093,24 @@
                 "role": "semantic",
                 "aliasOf": "nbds.color.neutral.025",
                 "mode": "light",
-                "contrast": 19.57,
+                "contrast": 18.11,
                 "against": "background.inverse.primary",
                 "min": 4.5
+              }
+            }
+          },
+          "on-disabled": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.550}",
+            "$description": "text on a disabled fill — muted, clears 3:1",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.neutral.550",
+                "mode": "light",
+                "contrast": 3.04,
+                "against": "action.disabled",
+                "min": 3
               }
             }
           },
@@ -3467,9 +3482,24 @@
                 "role": "semantic",
                 "aliasOf": "nbds.color.neutral.025",
                 "mode": "light",
-                "contrast": 19.57,
+                "contrast": 18.11,
                 "against": "background.inverse.primary",
                 "min": 4.5
+              }
+            }
+          },
+          "on-disabled": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.550}",
+            "$description": "icon on a disabled fill — muted, clears 3:1",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.neutral.550",
+                "mode": "light",
+                "contrast": 3.04,
+                "against": "action.disabled",
+                "min": 3
               }
             }
           },
@@ -3567,14 +3597,14 @@
           },
           "inverse": {
             "$type": "color",
-            "$value": "{nbds.color.neutral.850}",
+            "$value": "{nbds.color.neutral.800}",
             "$description": "Border on inverse surfaces",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.neutral.850",
+                "aliasOf": "nbds.color.neutral.800",
                 "mode": "light",
-                "contrast": 1.31,
+                "contrast": 1.4,
                 "against": "background.inverse.primary"
               }
             }
@@ -3718,12 +3748,12 @@
           "inverse": {
             "primary": {
               "$type": "color",
-              "$value": "{nbds.color.white}",
+              "$value": "{nbds.color.neutral.025}",
               "$description": "Inverse page surface — a dark band in light mode",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
-                  "aliasOf": "nbds.color.white",
+                  "aliasOf": "nbds.color.neutral.025",
                   "mode": "dark",
                   "contrast": 1,
                   "against": "self"
@@ -4384,14 +4414,14 @@
           },
           "on-action": {
             "$type": "color",
-            "$value": "{nbds.color.black}",
+            "$value": "{nbds.color.neutral.950}",
             "$description": "text on the action fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.black",
+                "aliasOf": "nbds.color.neutral.950",
                 "mode": "dark",
-                "contrast": 5.45,
+                "contrast": 5.05,
                 "against": "action.default",
                 "min": 4.5
               }
@@ -4399,14 +4429,14 @@
           },
           "on-brand": {
             "$type": "color",
-            "$value": "{nbds.color.black}",
+            "$value": "{nbds.color.neutral.950}",
             "$description": "text on a solid brand fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.black",
+                "aliasOf": "nbds.color.neutral.950",
                 "mode": "dark",
-                "contrast": 5.45,
+                "contrast": 5.05,
                 "against": "foreground.brand",
                 "min": 4.5
               }
@@ -4414,14 +4444,14 @@
           },
           "on-success": {
             "$type": "color",
-            "$value": "{nbds.color.black}",
+            "$value": "{nbds.color.neutral.950}",
             "$description": "text on a solid success fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.black",
+                "aliasOf": "nbds.color.neutral.950",
                 "mode": "dark",
-                "contrast": 6.05,
+                "contrast": 5.6,
                 "against": "foreground.success",
                 "min": 4.5
               }
@@ -4429,14 +4459,14 @@
           },
           "on-warning": {
             "$type": "color",
-            "$value": "{nbds.color.black}",
+            "$value": "{nbds.color.neutral.950}",
             "$description": "text on a solid warning fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.black",
+                "aliasOf": "nbds.color.neutral.950",
                 "mode": "dark",
-                "contrast": 5.54,
+                "contrast": 5.13,
                 "against": "foreground.warning",
                 "min": 4.5
               }
@@ -4444,14 +4474,14 @@
           },
           "on-danger": {
             "$type": "color",
-            "$value": "{nbds.color.black}",
+            "$value": "{nbds.color.neutral.950}",
             "$description": "text on a solid danger fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.black",
+                "aliasOf": "nbds.color.neutral.950",
                 "mode": "dark",
-                "contrast": 5.45,
+                "contrast": 5.05,
                 "against": "foreground.danger",
                 "min": 4.5
               }
@@ -4459,14 +4489,14 @@
           },
           "on-info": {
             "$type": "color",
-            "$value": "{nbds.color.black}",
+            "$value": "{nbds.color.neutral.950}",
             "$description": "text on a solid info fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.black",
+                "aliasOf": "nbds.color.neutral.950",
                 "mode": "dark",
-                "contrast": 5.43,
+                "contrast": 5.03,
                 "against": "foreground.info",
                 "min": 4.5
               }
@@ -4481,9 +4511,24 @@
                 "role": "semantic",
                 "aliasOf": "nbds.color.neutral.950",
                 "mode": "dark",
-                "contrast": 19.44,
+                "contrast": 18.11,
                 "against": "background.inverse.primary",
                 "min": 4.5
+              }
+            }
+          },
+          "on-disabled": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.450}",
+            "$description": "text on a disabled fill — muted, clears 3:1",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.neutral.450",
+                "mode": "dark",
+                "contrast": 3.08,
+                "against": "action.disabled",
+                "min": 3
               }
             }
           },
@@ -4758,14 +4803,14 @@
           },
           "on-action": {
             "$type": "color",
-            "$value": "{nbds.color.black}",
+            "$value": "{nbds.color.neutral.950}",
             "$description": "icon on the action fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.black",
+                "aliasOf": "nbds.color.neutral.950",
                 "mode": "dark",
-                "contrast": 5.45,
+                "contrast": 5.05,
                 "against": "action.default",
                 "min": 4.5
               }
@@ -4773,14 +4818,14 @@
           },
           "on-brand": {
             "$type": "color",
-            "$value": "{nbds.color.black}",
+            "$value": "{nbds.color.neutral.950}",
             "$description": "icon on a solid brand fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.black",
+                "aliasOf": "nbds.color.neutral.950",
                 "mode": "dark",
-                "contrast": 5.45,
+                "contrast": 5.05,
                 "against": "foreground.brand",
                 "min": 4.5
               }
@@ -4788,14 +4833,14 @@
           },
           "on-success": {
             "$type": "color",
-            "$value": "{nbds.color.black}",
+            "$value": "{nbds.color.neutral.950}",
             "$description": "icon on a solid success fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.black",
+                "aliasOf": "nbds.color.neutral.950",
                 "mode": "dark",
-                "contrast": 6.05,
+                "contrast": 5.6,
                 "against": "foreground.success",
                 "min": 4.5
               }
@@ -4803,14 +4848,14 @@
           },
           "on-warning": {
             "$type": "color",
-            "$value": "{nbds.color.black}",
+            "$value": "{nbds.color.neutral.950}",
             "$description": "icon on a solid warning fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.black",
+                "aliasOf": "nbds.color.neutral.950",
                 "mode": "dark",
-                "contrast": 5.54,
+                "contrast": 5.13,
                 "against": "foreground.warning",
                 "min": 4.5
               }
@@ -4818,14 +4863,14 @@
           },
           "on-danger": {
             "$type": "color",
-            "$value": "{nbds.color.black}",
+            "$value": "{nbds.color.neutral.950}",
             "$description": "icon on a solid danger fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.black",
+                "aliasOf": "nbds.color.neutral.950",
                 "mode": "dark",
-                "contrast": 5.45,
+                "contrast": 5.05,
                 "against": "foreground.danger",
                 "min": 4.5
               }
@@ -4833,14 +4878,14 @@
           },
           "on-info": {
             "$type": "color",
-            "$value": "{nbds.color.black}",
+            "$value": "{nbds.color.neutral.950}",
             "$description": "icon on a solid info fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.black",
+                "aliasOf": "nbds.color.neutral.950",
                 "mode": "dark",
-                "contrast": 5.43,
+                "contrast": 5.03,
                 "against": "foreground.info",
                 "min": 4.5
               }
@@ -4855,9 +4900,24 @@
                 "role": "semantic",
                 "aliasOf": "nbds.color.neutral.950",
                 "mode": "dark",
-                "contrast": 19.44,
+                "contrast": 18.11,
                 "against": "background.inverse.primary",
                 "min": 4.5
+              }
+            }
+          },
+          "on-disabled": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.450}",
+            "$description": "icon on a disabled fill — muted, clears 3:1",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.neutral.450",
+                "mode": "dark",
+                "contrast": 3.08,
+                "against": "action.disabled",
+                "min": 3
               }
             }
           },
@@ -4962,7 +5022,7 @@
                 "role": "semantic",
                 "aliasOf": "nbds.color.neutral.200",
                 "mode": "dark",
-                "contrast": 1.81,
+                "contrast": 1.68,
                 "against": "background.inverse.primary"
               }
             }
@@ -5875,6 +5935,21 @@
               }
             }
           },
+          "on-disabled": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.650}",
+            "$description": "text on a disabled fill — muted, clears 4.5:1",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.neutral.650",
+                "mode": "hc-light",
+                "contrast": 4.51,
+                "against": "action.disabled",
+                "min": 4.5
+              }
+            }
+          },
           "link": {
             "default": {
               "$type": "color",
@@ -6246,6 +6321,21 @@
                 "contrast": 21,
                 "against": "background.inverse.primary",
                 "min": 7
+              }
+            }
+          },
+          "on-disabled": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.650}",
+            "$description": "icon on a disabled fill — muted, clears 4.5:1",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.neutral.650",
+                "mode": "hc-light",
+                "contrast": 4.51,
+                "against": "action.disabled",
+                "min": 4.5
               }
             }
           },
@@ -7263,6 +7353,21 @@
               }
             }
           },
+          "on-disabled": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.300}",
+            "$description": "text on a disabled fill — muted, clears 4.5:1",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.neutral.300",
+                "mode": "hc-dark",
+                "contrast": 4.92,
+                "against": "action.disabled",
+                "min": 4.5
+              }
+            }
+          },
           "link": {
             "default": {
               "$type": "color",
@@ -7634,6 +7739,21 @@
                 "contrast": 21,
                 "against": "background.inverse.primary",
                 "min": 7
+              }
+            }
+          },
+          "on-disabled": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.300}",
+            "$description": "icon on a disabled fill — muted, clears 4.5:1",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.neutral.300",
+                "mode": "hc-dark",
+                "contrast": 4.92,
+                "against": "action.disabled",
+                "min": 4.5
               }
             }
           },
@@ -9212,325 +9332,343 @@
     "type": {
       "display": {
         "sm": {
-          "$type": "typography",
-          "$value": {
-            "fontFamily": "{nbds.font.family.display}",
-            "fontSize": "{nbds.font.size.48}",
-            "fontWeight": "{nbds.font.weight-role.strong}",
-            "lineHeight": "{nbds.font.line-height.tight}",
-            "letterSpacing": "{nbds.font.letter-spacing.tight}"
-          },
-          "$description": "display sm — 36→48px fluid Inter (display role), tight line-height, strong weight, tight tracking — consumer-facing type style",
-          "$extensions": {
-            "prism3": {
-              "role": "composite",
-              "group": "display",
-              "variant": "sm",
-              "sizePx": 48,
-              "responsive": {
-                "fluid": true,
-                "min": {
-                  "px": 36,
-                  "rem": 2.25,
-                  "ref": "{nbds.font.size.36}"
-                },
-                "max": {
-                  "px": 48,
-                  "rem": 3,
-                  "ref": "{nbds.font.size.48}"
-                },
-                "web": "clamp(2.25rem, 1.9392rem + 1.326vw, 3rem)",
-                "figma": {
-                  "field": "fontSize",
-                  "scope": "FONT_SIZE",
-                  "modes": {
-                    "mobile": 36,
-                    "desktop": 48
+          "strong": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{nbds.font.family.display}",
+              "fontSize": "{nbds.font.size.48}",
+              "fontWeight": "{nbds.font.weight-role.strong}",
+              "lineHeight": "{nbds.font.line-height.tight}",
+              "letterSpacing": "{nbds.font.letter-spacing.tight}"
+            },
+            "$description": "display sm strong — 36→48px fluid Inter (display role), tight line-height, strong weight, tight tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "display",
+                "variant": "sm",
+                "weightRole": "strong",
+                "sizePx": 48,
+                "responsive": {
+                  "fluid": true,
+                  "min": {
+                    "px": 36,
+                    "rem": 2.25,
+                    "ref": "{nbds.font.size.36}"
+                  },
+                  "max": {
+                    "px": 48,
+                    "rem": 3,
+                    "ref": "{nbds.font.size.48}"
+                  },
+                  "web": "clamp(2.25rem, 1.9392rem + 1.326vw, 3rem)",
+                  "figma": {
+                    "field": "fontSize",
+                    "scope": "FONT_SIZE",
+                    "modes": {
+                      "mobile": 36,
+                      "desktop": 48
+                    }
                   }
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
                 }
-              },
-              "figma": {
-                "kind": "text-style",
-                "styleType": "TEXT",
-                "binds": [
-                  "fontFamily",
-                  "fontSize",
-                  "fontWeight",
-                  "lineHeight",
-                  "letterSpacing"
-                ],
-                "baked": [],
-                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
             }
           }
         },
         "md": {
-          "$type": "typography",
-          "$value": {
-            "fontFamily": "{nbds.font.family.display}",
-            "fontSize": "{nbds.font.size.64}",
-            "fontWeight": "{nbds.font.weight-role.strong}",
-            "lineHeight": "{nbds.font.line-height.tight}",
-            "letterSpacing": "{nbds.font.letter-spacing.tight}"
-          },
-          "$description": "display md — 40→64px fluid Inter (display role), tight line-height, strong weight, tight tracking — consumer-facing type style",
-          "$extensions": {
-            "prism3": {
-              "role": "composite",
-              "group": "display",
-              "variant": "md",
-              "sizePx": 64,
-              "responsive": {
-                "fluid": true,
-                "min": {
-                  "px": 40,
-                  "rem": 2.5,
-                  "ref": "{nbds.font.size.40}"
-                },
-                "max": {
-                  "px": 64,
-                  "rem": 4,
-                  "ref": "{nbds.font.size.64}"
-                },
-                "web": "clamp(2.5rem, 1.8785rem + 2.6519vw, 4rem)",
-                "figma": {
-                  "field": "fontSize",
-                  "scope": "FONT_SIZE",
-                  "modes": {
-                    "mobile": 40,
-                    "desktop": 64
+          "strong": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{nbds.font.family.display}",
+              "fontSize": "{nbds.font.size.64}",
+              "fontWeight": "{nbds.font.weight-role.strong}",
+              "lineHeight": "{nbds.font.line-height.tight}",
+              "letterSpacing": "{nbds.font.letter-spacing.tight}"
+            },
+            "$description": "display md strong — 40→64px fluid Inter (display role), tight line-height, strong weight, tight tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "display",
+                "variant": "md",
+                "weightRole": "strong",
+                "sizePx": 64,
+                "responsive": {
+                  "fluid": true,
+                  "min": {
+                    "px": 40,
+                    "rem": 2.5,
+                    "ref": "{nbds.font.size.40}"
+                  },
+                  "max": {
+                    "px": 64,
+                    "rem": 4,
+                    "ref": "{nbds.font.size.64}"
+                  },
+                  "web": "clamp(2.5rem, 1.8785rem + 2.6519vw, 4rem)",
+                  "figma": {
+                    "field": "fontSize",
+                    "scope": "FONT_SIZE",
+                    "modes": {
+                      "mobile": 40,
+                      "desktop": 64
+                    }
                   }
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
                 }
-              },
-              "figma": {
-                "kind": "text-style",
-                "styleType": "TEXT",
-                "binds": [
-                  "fontFamily",
-                  "fontSize",
-                  "fontWeight",
-                  "lineHeight",
-                  "letterSpacing"
-                ],
-                "baked": [],
-                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
             }
           }
         },
         "lg": {
-          "$type": "typography",
-          "$value": {
-            "fontFamily": "{nbds.font.family.display}",
-            "fontSize": "{nbds.font.size.80}",
-            "fontWeight": "{nbds.font.weight-role.strong}",
-            "lineHeight": "{nbds.font.line-height.tight}",
-            "letterSpacing": "{nbds.font.letter-spacing.tight}"
-          },
-          "$description": "display lg — 40→80px fluid Inter (display role), tight line-height, strong weight, tight tracking — consumer-facing type style",
-          "$extensions": {
-            "prism3": {
-              "role": "composite",
-              "group": "display",
-              "variant": "lg",
-              "sizePx": 80,
-              "responsive": {
-                "fluid": true,
-                "min": {
-                  "px": 40,
-                  "rem": 2.5,
-                  "ref": "{nbds.font.size.40}"
-                },
-                "max": {
-                  "px": 80,
-                  "rem": 5,
-                  "ref": "{nbds.font.size.80}"
-                },
-                "web": "clamp(2.5rem, 1.4641rem + 4.4199vw, 5rem)",
-                "figma": {
-                  "field": "fontSize",
-                  "scope": "FONT_SIZE",
-                  "modes": {
-                    "mobile": 40,
-                    "desktop": 80
+          "strong": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{nbds.font.family.display}",
+              "fontSize": "{nbds.font.size.80}",
+              "fontWeight": "{nbds.font.weight-role.strong}",
+              "lineHeight": "{nbds.font.line-height.tight}",
+              "letterSpacing": "{nbds.font.letter-spacing.tight}"
+            },
+            "$description": "display lg strong — 40→80px fluid Inter (display role), tight line-height, strong weight, tight tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "display",
+                "variant": "lg",
+                "weightRole": "strong",
+                "sizePx": 80,
+                "responsive": {
+                  "fluid": true,
+                  "min": {
+                    "px": 40,
+                    "rem": 2.5,
+                    "ref": "{nbds.font.size.40}"
+                  },
+                  "max": {
+                    "px": 80,
+                    "rem": 5,
+                    "ref": "{nbds.font.size.80}"
+                  },
+                  "web": "clamp(2.5rem, 1.4641rem + 4.4199vw, 5rem)",
+                  "figma": {
+                    "field": "fontSize",
+                    "scope": "FONT_SIZE",
+                    "modes": {
+                      "mobile": 40,
+                      "desktop": 80
+                    }
                   }
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
                 }
-              },
-              "figma": {
-                "kind": "text-style",
-                "styleType": "TEXT",
-                "binds": [
-                  "fontFamily",
-                  "fontSize",
-                  "fontWeight",
-                  "lineHeight",
-                  "letterSpacing"
-                ],
-                "baked": [],
-                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
             }
           }
         },
         "xl": {
-          "$type": "typography",
-          "$value": {
-            "fontFamily": "{nbds.font.family.display}",
-            "fontSize": "{nbds.font.size.96}",
-            "fontWeight": "{nbds.font.weight-role.strong}",
-            "lineHeight": "{nbds.font.line-height.tight}",
-            "letterSpacing": "{nbds.font.letter-spacing.tighter}"
-          },
-          "$description": "display xl — 48→96px fluid Inter (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
-          "$extensions": {
-            "prism3": {
-              "role": "composite",
-              "group": "display",
-              "variant": "xl",
-              "sizePx": 96,
-              "responsive": {
-                "fluid": true,
-                "min": {
-                  "px": 48,
-                  "rem": 3,
-                  "ref": "{nbds.font.size.48}"
-                },
-                "max": {
-                  "px": 96,
-                  "rem": 6,
-                  "ref": "{nbds.font.size.96}"
-                },
-                "web": "clamp(3rem, 1.7569rem + 5.3039vw, 6rem)",
-                "figma": {
-                  "field": "fontSize",
-                  "scope": "FONT_SIZE",
-                  "modes": {
-                    "mobile": 48,
-                    "desktop": 96
+          "strong": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{nbds.font.family.display}",
+              "fontSize": "{nbds.font.size.96}",
+              "fontWeight": "{nbds.font.weight-role.strong}",
+              "lineHeight": "{nbds.font.line-height.tight}",
+              "letterSpacing": "{nbds.font.letter-spacing.tighter}"
+            },
+            "$description": "display xl strong — 48→96px fluid Inter (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "display",
+                "variant": "xl",
+                "weightRole": "strong",
+                "sizePx": 96,
+                "responsive": {
+                  "fluid": true,
+                  "min": {
+                    "px": 48,
+                    "rem": 3,
+                    "ref": "{nbds.font.size.48}"
+                  },
+                  "max": {
+                    "px": 96,
+                    "rem": 6,
+                    "ref": "{nbds.font.size.96}"
+                  },
+                  "web": "clamp(3rem, 1.7569rem + 5.3039vw, 6rem)",
+                  "figma": {
+                    "field": "fontSize",
+                    "scope": "FONT_SIZE",
+                    "modes": {
+                      "mobile": 48,
+                      "desktop": 96
+                    }
                   }
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
                 }
-              },
-              "figma": {
-                "kind": "text-style",
-                "styleType": "TEXT",
-                "binds": [
-                  "fontFamily",
-                  "fontSize",
-                  "fontWeight",
-                  "lineHeight",
-                  "letterSpacing"
-                ],
-                "baked": [],
-                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
             }
           }
         },
         "2xl": {
-          "$type": "typography",
-          "$value": {
-            "fontFamily": "{nbds.font.family.display}",
-            "fontSize": "{nbds.font.size.128}",
-            "fontWeight": "{nbds.font.weight-role.strong}",
-            "lineHeight": "{nbds.font.line-height.tight}",
-            "letterSpacing": "{nbds.font.letter-spacing.tighter}"
-          },
-          "$description": "display 2xl — 48→128px fluid Inter (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
-          "$extensions": {
-            "prism3": {
-              "role": "composite",
-              "group": "display",
-              "variant": "2xl",
-              "sizePx": 128,
-              "responsive": {
-                "fluid": true,
-                "min": {
-                  "px": 48,
-                  "rem": 3,
-                  "ref": "{nbds.font.size.48}"
-                },
-                "max": {
-                  "px": 128,
-                  "rem": 8,
-                  "ref": "{nbds.font.size.128}"
-                },
-                "web": "clamp(3rem, 0.9282rem + 8.8398vw, 8rem)",
-                "figma": {
-                  "field": "fontSize",
-                  "scope": "FONT_SIZE",
-                  "modes": {
-                    "mobile": 48,
-                    "desktop": 128
+          "strong": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{nbds.font.family.display}",
+              "fontSize": "{nbds.font.size.128}",
+              "fontWeight": "{nbds.font.weight-role.strong}",
+              "lineHeight": "{nbds.font.line-height.tight}",
+              "letterSpacing": "{nbds.font.letter-spacing.tighter}"
+            },
+            "$description": "display 2xl strong — 48→128px fluid Inter (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "display",
+                "variant": "2xl",
+                "weightRole": "strong",
+                "sizePx": 128,
+                "responsive": {
+                  "fluid": true,
+                  "min": {
+                    "px": 48,
+                    "rem": 3,
+                    "ref": "{nbds.font.size.48}"
+                  },
+                  "max": {
+                    "px": 128,
+                    "rem": 8,
+                    "ref": "{nbds.font.size.128}"
+                  },
+                  "web": "clamp(3rem, 0.9282rem + 8.8398vw, 8rem)",
+                  "figma": {
+                    "field": "fontSize",
+                    "scope": "FONT_SIZE",
+                    "modes": {
+                      "mobile": 48,
+                      "desktop": 128
+                    }
                   }
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
                 }
-              },
-              "figma": {
-                "kind": "text-style",
-                "styleType": "TEXT",
-                "binds": [
-                  "fontFamily",
-                  "fontSize",
-                  "fontWeight",
-                  "lineHeight",
-                  "letterSpacing"
-                ],
-                "baked": [],
-                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
             }
           }
         },
         "3xl": {
-          "$type": "typography",
-          "$value": {
-            "fontFamily": "{nbds.font.family.display}",
-            "fontSize": "{nbds.font.size.160}",
-            "fontWeight": "{nbds.font.weight-role.strong}",
-            "lineHeight": "{nbds.font.line-height.tight}",
-            "letterSpacing": "{nbds.font.letter-spacing.tighter}"
-          },
-          "$description": "display 3xl — 48→160px fluid Inter (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
-          "$extensions": {
-            "prism3": {
-              "role": "composite",
-              "group": "display",
-              "variant": "3xl",
-              "sizePx": 160,
-              "responsive": {
-                "fluid": true,
-                "min": {
-                  "px": 48,
-                  "rem": 3,
-                  "ref": "{nbds.font.size.48}"
-                },
-                "max": {
-                  "px": 160,
-                  "rem": 10,
-                  "ref": "{nbds.font.size.160}"
-                },
-                "web": "clamp(3rem, 0.0994rem + 12.3757vw, 10rem)",
-                "figma": {
-                  "field": "fontSize",
-                  "scope": "FONT_SIZE",
-                  "modes": {
-                    "mobile": 48,
-                    "desktop": 160
+          "strong": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{nbds.font.family.display}",
+              "fontSize": "{nbds.font.size.160}",
+              "fontWeight": "{nbds.font.weight-role.strong}",
+              "lineHeight": "{nbds.font.line-height.tight}",
+              "letterSpacing": "{nbds.font.letter-spacing.tighter}"
+            },
+            "$description": "display 3xl strong — 48→160px fluid Inter (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "display",
+                "variant": "3xl",
+                "weightRole": "strong",
+                "sizePx": 160,
+                "responsive": {
+                  "fluid": true,
+                  "min": {
+                    "px": 48,
+                    "rem": 3,
+                    "ref": "{nbds.font.size.48}"
+                  },
+                  "max": {
+                    "px": 160,
+                    "rem": 10,
+                    "ref": "{nbds.font.size.160}"
+                  },
+                  "web": "clamp(3rem, 0.0994rem + 12.3757vw, 10rem)",
+                  "figma": {
+                    "field": "fontSize",
+                    "scope": "FONT_SIZE",
+                    "modes": {
+                      "mobile": 48,
+                      "desktop": 160
+                    }
                   }
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
                 }
-              },
-              "figma": {
-                "kind": "text-style",
-                "styleType": "TEXT",
-                "binds": [
-                  "fontFamily",
-                  "fontSize",
-                  "fontWeight",
-                  "lineHeight",
-                  "letterSpacing"
-                ],
-                "baked": [],
-                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
             }
           }
@@ -9538,289 +9676,307 @@
       },
       "title": {
         "xs": {
-          "$type": "typography",
-          "$value": {
-            "fontFamily": "{nbds.font.family.display}",
-            "fontSize": "{nbds.font.size.18}",
-            "fontWeight": "{nbds.font.weight-role.strong}",
-            "lineHeight": "{nbds.font.line-height.compact}",
-            "letterSpacing": "{nbds.font.letter-spacing.snug}"
-          },
-          "$description": "title xs — 18px Inter (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
-          "$extensions": {
-            "prism3": {
-              "role": "composite",
-              "group": "title",
-              "variant": "xs",
-              "sizePx": 18,
-              "responsive": {
-                "fluid": false,
-                "px": 18
-              },
-              "figma": {
-                "kind": "text-style",
-                "styleType": "TEXT",
-                "binds": [
-                  "fontFamily",
-                  "fontSize",
-                  "fontWeight",
-                  "lineHeight",
-                  "letterSpacing"
-                ],
-                "baked": [],
-                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+          "strong": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{nbds.font.family.display}",
+              "fontSize": "{nbds.font.size.18}",
+              "fontWeight": "{nbds.font.weight-role.strong}",
+              "lineHeight": "{nbds.font.line-height.compact}",
+              "letterSpacing": "{nbds.font.letter-spacing.snug}"
+            },
+            "$description": "title xs strong — 18px Inter (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "title",
+                "variant": "xs",
+                "weightRole": "strong",
+                "sizePx": 18,
+                "responsive": {
+                  "fluid": false,
+                  "px": 18
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
               }
             }
           }
         },
         "sm": {
-          "$type": "typography",
-          "$value": {
-            "fontFamily": "{nbds.font.family.display}",
-            "fontSize": "{nbds.font.size.20}",
-            "fontWeight": "{nbds.font.weight-role.strong}",
-            "lineHeight": "{nbds.font.line-height.compact}",
-            "letterSpacing": "{nbds.font.letter-spacing.snug}"
-          },
-          "$description": "title sm — 20px Inter (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
-          "$extensions": {
-            "prism3": {
-              "role": "composite",
-              "group": "title",
-              "variant": "sm",
-              "sizePx": 20,
-              "responsive": {
-                "fluid": false,
-                "px": 20
-              },
-              "figma": {
-                "kind": "text-style",
-                "styleType": "TEXT",
-                "binds": [
-                  "fontFamily",
-                  "fontSize",
-                  "fontWeight",
-                  "lineHeight",
-                  "letterSpacing"
-                ],
-                "baked": [],
-                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+          "strong": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{nbds.font.family.display}",
+              "fontSize": "{nbds.font.size.20}",
+              "fontWeight": "{nbds.font.weight-role.strong}",
+              "lineHeight": "{nbds.font.line-height.compact}",
+              "letterSpacing": "{nbds.font.letter-spacing.snug}"
+            },
+            "$description": "title sm strong — 20px Inter (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "title",
+                "variant": "sm",
+                "weightRole": "strong",
+                "sizePx": 20,
+                "responsive": {
+                  "fluid": false,
+                  "px": 20
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
               }
             }
           }
         },
         "md": {
-          "$type": "typography",
-          "$value": {
-            "fontFamily": "{nbds.font.family.display}",
-            "fontSize": "{nbds.font.size.24}",
-            "fontWeight": "{nbds.font.weight-role.strong}",
-            "lineHeight": "{nbds.font.line-height.compact}",
-            "letterSpacing": "{nbds.font.letter-spacing.snug}"
-          },
-          "$description": "title md — 20→24px fluid Inter (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
-          "$extensions": {
-            "prism3": {
-              "role": "composite",
-              "group": "title",
-              "variant": "md",
-              "sizePx": 24,
-              "responsive": {
-                "fluid": true,
-                "min": {
-                  "px": 20,
-                  "rem": 1.25,
-                  "ref": "{nbds.font.size.20}"
-                },
-                "max": {
-                  "px": 24,
-                  "rem": 1.5,
-                  "ref": "{nbds.font.size.24}"
-                },
-                "web": "clamp(1.25rem, 1.1464rem + 0.442vw, 1.5rem)",
-                "figma": {
-                  "field": "fontSize",
-                  "scope": "FONT_SIZE",
-                  "modes": {
-                    "mobile": 20,
-                    "desktop": 24
+          "strong": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{nbds.font.family.display}",
+              "fontSize": "{nbds.font.size.24}",
+              "fontWeight": "{nbds.font.weight-role.strong}",
+              "lineHeight": "{nbds.font.line-height.compact}",
+              "letterSpacing": "{nbds.font.letter-spacing.snug}"
+            },
+            "$description": "title md strong — 20→24px fluid Inter (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "title",
+                "variant": "md",
+                "weightRole": "strong",
+                "sizePx": 24,
+                "responsive": {
+                  "fluid": true,
+                  "min": {
+                    "px": 20,
+                    "rem": 1.25,
+                    "ref": "{nbds.font.size.20}"
+                  },
+                  "max": {
+                    "px": 24,
+                    "rem": 1.5,
+                    "ref": "{nbds.font.size.24}"
+                  },
+                  "web": "clamp(1.25rem, 1.1464rem + 0.442vw, 1.5rem)",
+                  "figma": {
+                    "field": "fontSize",
+                    "scope": "FONT_SIZE",
+                    "modes": {
+                      "mobile": 20,
+                      "desktop": 24
+                    }
                   }
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
                 }
-              },
-              "figma": {
-                "kind": "text-style",
-                "styleType": "TEXT",
-                "binds": [
-                  "fontFamily",
-                  "fontSize",
-                  "fontWeight",
-                  "lineHeight",
-                  "letterSpacing"
-                ],
-                "baked": [],
-                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
             }
           }
         },
         "lg": {
-          "$type": "typography",
-          "$value": {
-            "fontFamily": "{nbds.font.family.display}",
-            "fontSize": "{nbds.font.size.28}",
-            "fontWeight": "{nbds.font.weight-role.strong}",
-            "lineHeight": "{nbds.font.line-height.snug}",
-            "letterSpacing": "{nbds.font.letter-spacing.snug}"
-          },
-          "$description": "title lg — 24→28px fluid Inter (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
-          "$extensions": {
-            "prism3": {
-              "role": "composite",
-              "group": "title",
-              "variant": "lg",
-              "sizePx": 28,
-              "responsive": {
-                "fluid": true,
-                "min": {
-                  "px": 24,
-                  "rem": 1.5,
-                  "ref": "{nbds.font.size.24}"
-                },
-                "max": {
-                  "px": 28,
-                  "rem": 1.75,
-                  "ref": "{nbds.font.size.28}"
-                },
-                "web": "clamp(1.5rem, 1.3964rem + 0.442vw, 1.75rem)",
-                "figma": {
-                  "field": "fontSize",
-                  "scope": "FONT_SIZE",
-                  "modes": {
-                    "mobile": 24,
-                    "desktop": 28
+          "strong": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{nbds.font.family.display}",
+              "fontSize": "{nbds.font.size.28}",
+              "fontWeight": "{nbds.font.weight-role.strong}",
+              "lineHeight": "{nbds.font.line-height.snug}",
+              "letterSpacing": "{nbds.font.letter-spacing.snug}"
+            },
+            "$description": "title lg strong — 24→28px fluid Inter (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "title",
+                "variant": "lg",
+                "weightRole": "strong",
+                "sizePx": 28,
+                "responsive": {
+                  "fluid": true,
+                  "min": {
+                    "px": 24,
+                    "rem": 1.5,
+                    "ref": "{nbds.font.size.24}"
+                  },
+                  "max": {
+                    "px": 28,
+                    "rem": 1.75,
+                    "ref": "{nbds.font.size.28}"
+                  },
+                  "web": "clamp(1.5rem, 1.3964rem + 0.442vw, 1.75rem)",
+                  "figma": {
+                    "field": "fontSize",
+                    "scope": "FONT_SIZE",
+                    "modes": {
+                      "mobile": 24,
+                      "desktop": 28
+                    }
                   }
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
                 }
-              },
-              "figma": {
-                "kind": "text-style",
-                "styleType": "TEXT",
-                "binds": [
-                  "fontFamily",
-                  "fontSize",
-                  "fontWeight",
-                  "lineHeight",
-                  "letterSpacing"
-                ],
-                "baked": [],
-                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
             }
           }
         },
         "xl": {
-          "$type": "typography",
-          "$value": {
-            "fontFamily": "{nbds.font.family.display}",
-            "fontSize": "{nbds.font.size.32}",
-            "fontWeight": "{nbds.font.weight-role.strong}",
-            "lineHeight": "{nbds.font.line-height.snug}",
-            "letterSpacing": "{nbds.font.letter-spacing.snug}"
-          },
-          "$description": "title xl — 28→32px fluid Inter (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
-          "$extensions": {
-            "prism3": {
-              "role": "composite",
-              "group": "title",
-              "variant": "xl",
-              "sizePx": 32,
-              "responsive": {
-                "fluid": true,
-                "min": {
-                  "px": 28,
-                  "rem": 1.75,
-                  "ref": "{nbds.font.size.28}"
-                },
-                "max": {
-                  "px": 32,
-                  "rem": 2,
-                  "ref": "{nbds.font.size.32}"
-                },
-                "web": "clamp(1.75rem, 1.6464rem + 0.442vw, 2rem)",
-                "figma": {
-                  "field": "fontSize",
-                  "scope": "FONT_SIZE",
-                  "modes": {
-                    "mobile": 28,
-                    "desktop": 32
+          "strong": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{nbds.font.family.display}",
+              "fontSize": "{nbds.font.size.32}",
+              "fontWeight": "{nbds.font.weight-role.strong}",
+              "lineHeight": "{nbds.font.line-height.snug}",
+              "letterSpacing": "{nbds.font.letter-spacing.snug}"
+            },
+            "$description": "title xl strong — 28→32px fluid Inter (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "title",
+                "variant": "xl",
+                "weightRole": "strong",
+                "sizePx": 32,
+                "responsive": {
+                  "fluid": true,
+                  "min": {
+                    "px": 28,
+                    "rem": 1.75,
+                    "ref": "{nbds.font.size.28}"
+                  },
+                  "max": {
+                    "px": 32,
+                    "rem": 2,
+                    "ref": "{nbds.font.size.32}"
+                  },
+                  "web": "clamp(1.75rem, 1.6464rem + 0.442vw, 2rem)",
+                  "figma": {
+                    "field": "fontSize",
+                    "scope": "FONT_SIZE",
+                    "modes": {
+                      "mobile": 28,
+                      "desktop": 32
+                    }
                   }
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
                 }
-              },
-              "figma": {
-                "kind": "text-style",
-                "styleType": "TEXT",
-                "binds": [
-                  "fontFamily",
-                  "fontSize",
-                  "fontWeight",
-                  "lineHeight",
-                  "letterSpacing"
-                ],
-                "baked": [],
-                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
             }
           }
         },
         "2xl": {
-          "$type": "typography",
-          "$value": {
-            "fontFamily": "{nbds.font.family.display}",
-            "fontSize": "{nbds.font.size.40}",
-            "fontWeight": "{nbds.font.weight-role.strong}",
-            "lineHeight": "{nbds.font.line-height.snug}",
-            "letterSpacing": "{nbds.font.letter-spacing.snug}"
-          },
-          "$description": "title 2xl — 36→40px fluid Inter (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
-          "$extensions": {
-            "prism3": {
-              "role": "composite",
-              "group": "title",
-              "variant": "2xl",
-              "sizePx": 40,
-              "responsive": {
-                "fluid": true,
-                "min": {
-                  "px": 36,
-                  "rem": 2.25,
-                  "ref": "{nbds.font.size.36}"
-                },
-                "max": {
-                  "px": 40,
-                  "rem": 2.5,
-                  "ref": "{nbds.font.size.40}"
-                },
-                "web": "clamp(2.25rem, 2.1464rem + 0.442vw, 2.5rem)",
-                "figma": {
-                  "field": "fontSize",
-                  "scope": "FONT_SIZE",
-                  "modes": {
-                    "mobile": 36,
-                    "desktop": 40
+          "strong": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{nbds.font.family.display}",
+              "fontSize": "{nbds.font.size.40}",
+              "fontWeight": "{nbds.font.weight-role.strong}",
+              "lineHeight": "{nbds.font.line-height.snug}",
+              "letterSpacing": "{nbds.font.letter-spacing.snug}"
+            },
+            "$description": "title 2xl strong — 36→40px fluid Inter (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "title",
+                "variant": "2xl",
+                "weightRole": "strong",
+                "sizePx": 40,
+                "responsive": {
+                  "fluid": true,
+                  "min": {
+                    "px": 36,
+                    "rem": 2.25,
+                    "ref": "{nbds.font.size.36}"
+                  },
+                  "max": {
+                    "px": 40,
+                    "rem": 2.5,
+                    "ref": "{nbds.font.size.40}"
+                  },
+                  "web": "clamp(2.25rem, 2.1464rem + 0.442vw, 2.5rem)",
+                  "figma": {
+                    "field": "fontSize",
+                    "scope": "FONT_SIZE",
+                    "modes": {
+                      "mobile": 36,
+                      "desktop": 40
+                    }
                   }
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
                 }
-              },
-              "figma": {
-                "kind": "text-style",
-                "styleType": "TEXT",
-                "binds": [
-                  "fontFamily",
-                  "fontSize",
-                  "fontWeight",
-                  "lineHeight",
-                  "letterSpacing"
-                ],
-                "baked": [],
-                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
             }
           }
@@ -9828,109 +9984,475 @@
       },
       "body": {
         "sm": {
-          "$type": "typography",
-          "$value": {
-            "fontFamily": "{nbds.font.family.text}",
-            "fontSize": "{nbds.font.size.14}",
-            "fontWeight": "{nbds.font.weight-role.default}",
-            "lineHeight": "{nbds.font.line-height.normal}",
-            "letterSpacing": "{nbds.font.letter-spacing.normal}"
+          "default": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{nbds.font.family.text}",
+              "fontSize": "{nbds.font.size.14}",
+              "fontWeight": "{nbds.font.weight-role.default}",
+              "lineHeight": "{nbds.font.line-height.normal}",
+              "letterSpacing": "{nbds.font.letter-spacing.normal}"
+            },
+            "$description": "body sm default — 14px Inter (text role), normal line-height, default weight, normal tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "body",
+                "variant": "sm",
+                "weightRole": "default",
+                "sizePx": 14,
+                "responsive": {
+                  "fluid": false,
+                  "px": 14
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
           },
-          "$description": "body sm — 14px Inter (text role), normal line-height, default weight, normal tracking — consumer-facing type style",
-          "$extensions": {
-            "prism3": {
-              "role": "composite",
-              "group": "body",
-              "variant": "sm",
-              "sizePx": 14,
-              "responsive": {
-                "fluid": false,
-                "px": 14
-              },
-              "figma": {
-                "kind": "text-style",
-                "styleType": "TEXT",
-                "binds": [
-                  "fontFamily",
-                  "fontSize",
-                  "fontWeight",
-                  "lineHeight",
-                  "letterSpacing"
-                ],
-                "baked": [],
-                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+          "default-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{nbds.font.family.text}",
+              "fontSize": "{nbds.font.size.14}",
+              "fontWeight": "{nbds.font.weight-role.default}",
+              "lineHeight": "{nbds.font.line-height.normal}",
+              "letterSpacing": "{nbds.font.letter-spacing.normal}",
+              "textDecoration": "underline"
+            },
+            "$description": "body sm default link — 14px Inter (text role), normal line-height, default weight, normal tracking, underlined (link — pair with text.link.* colour) — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "body",
+                "variant": "sm",
+                "weightRole": "default",
+                "sizePx": 14,
+                "link": true,
+                "responsive": {
+                  "fluid": false,
+                  "px": 14
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [
+                    "textDecoration"
+                  ],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
+          },
+          "strong": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{nbds.font.family.text}",
+              "fontSize": "{nbds.font.size.14}",
+              "fontWeight": "{nbds.font.weight-role.strong}",
+              "lineHeight": "{nbds.font.line-height.normal}",
+              "letterSpacing": "{nbds.font.letter-spacing.normal}"
+            },
+            "$description": "body sm strong — 14px Inter (text role), normal line-height, strong weight, normal tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "body",
+                "variant": "sm",
+                "weightRole": "strong",
+                "sizePx": 14,
+                "responsive": {
+                  "fluid": false,
+                  "px": 14
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
+          },
+          "strong-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{nbds.font.family.text}",
+              "fontSize": "{nbds.font.size.14}",
+              "fontWeight": "{nbds.font.weight-role.strong}",
+              "lineHeight": "{nbds.font.line-height.normal}",
+              "letterSpacing": "{nbds.font.letter-spacing.normal}",
+              "textDecoration": "underline"
+            },
+            "$description": "body sm strong link — 14px Inter (text role), normal line-height, strong weight, normal tracking, underlined (link — pair with text.link.* colour) — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "body",
+                "variant": "sm",
+                "weightRole": "strong",
+                "sizePx": 14,
+                "link": true,
+                "responsive": {
+                  "fluid": false,
+                  "px": 14
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [
+                    "textDecoration"
+                  ],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
               }
             }
           }
         },
         "md": {
-          "$type": "typography",
-          "$value": {
-            "fontFamily": "{nbds.font.family.text}",
-            "fontSize": "{nbds.font.size.16}",
-            "fontWeight": "{nbds.font.weight-role.default}",
-            "lineHeight": "{nbds.font.line-height.normal}",
-            "letterSpacing": "{nbds.font.letter-spacing.normal}"
+          "default": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{nbds.font.family.text}",
+              "fontSize": "{nbds.font.size.16}",
+              "fontWeight": "{nbds.font.weight-role.default}",
+              "lineHeight": "{nbds.font.line-height.normal}",
+              "letterSpacing": "{nbds.font.letter-spacing.normal}"
+            },
+            "$description": "body md default — 16px Inter (text role), normal line-height, default weight, normal tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "body",
+                "variant": "md",
+                "weightRole": "default",
+                "sizePx": 16,
+                "responsive": {
+                  "fluid": false,
+                  "px": 16
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
           },
-          "$description": "body md — 16px Inter (text role), normal line-height, default weight, normal tracking — consumer-facing type style",
-          "$extensions": {
-            "prism3": {
-              "role": "composite",
-              "group": "body",
-              "variant": "md",
-              "sizePx": 16,
-              "responsive": {
-                "fluid": false,
-                "px": 16
-              },
-              "figma": {
-                "kind": "text-style",
-                "styleType": "TEXT",
-                "binds": [
-                  "fontFamily",
-                  "fontSize",
-                  "fontWeight",
-                  "lineHeight",
-                  "letterSpacing"
-                ],
-                "baked": [],
-                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+          "default-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{nbds.font.family.text}",
+              "fontSize": "{nbds.font.size.16}",
+              "fontWeight": "{nbds.font.weight-role.default}",
+              "lineHeight": "{nbds.font.line-height.normal}",
+              "letterSpacing": "{nbds.font.letter-spacing.normal}",
+              "textDecoration": "underline"
+            },
+            "$description": "body md default link — 16px Inter (text role), normal line-height, default weight, normal tracking, underlined (link — pair with text.link.* colour) — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "body",
+                "variant": "md",
+                "weightRole": "default",
+                "sizePx": 16,
+                "link": true,
+                "responsive": {
+                  "fluid": false,
+                  "px": 16
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [
+                    "textDecoration"
+                  ],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
+          },
+          "strong": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{nbds.font.family.text}",
+              "fontSize": "{nbds.font.size.16}",
+              "fontWeight": "{nbds.font.weight-role.strong}",
+              "lineHeight": "{nbds.font.line-height.normal}",
+              "letterSpacing": "{nbds.font.letter-spacing.normal}"
+            },
+            "$description": "body md strong — 16px Inter (text role), normal line-height, strong weight, normal tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "body",
+                "variant": "md",
+                "weightRole": "strong",
+                "sizePx": 16,
+                "responsive": {
+                  "fluid": false,
+                  "px": 16
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
+          },
+          "strong-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{nbds.font.family.text}",
+              "fontSize": "{nbds.font.size.16}",
+              "fontWeight": "{nbds.font.weight-role.strong}",
+              "lineHeight": "{nbds.font.line-height.normal}",
+              "letterSpacing": "{nbds.font.letter-spacing.normal}",
+              "textDecoration": "underline"
+            },
+            "$description": "body md strong link — 16px Inter (text role), normal line-height, strong weight, normal tracking, underlined (link — pair with text.link.* colour) — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "body",
+                "variant": "md",
+                "weightRole": "strong",
+                "sizePx": 16,
+                "link": true,
+                "responsive": {
+                  "fluid": false,
+                  "px": 16
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [
+                    "textDecoration"
+                  ],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
               }
             }
           }
         },
         "lg": {
-          "$type": "typography",
-          "$value": {
-            "fontFamily": "{nbds.font.family.text}",
-            "fontSize": "{nbds.font.size.18}",
-            "fontWeight": "{nbds.font.weight-role.default}",
-            "lineHeight": "{nbds.font.line-height.normal}",
-            "letterSpacing": "{nbds.font.letter-spacing.normal}"
+          "default": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{nbds.font.family.text}",
+              "fontSize": "{nbds.font.size.18}",
+              "fontWeight": "{nbds.font.weight-role.default}",
+              "lineHeight": "{nbds.font.line-height.normal}",
+              "letterSpacing": "{nbds.font.letter-spacing.normal}"
+            },
+            "$description": "body lg default — 18px Inter (text role), normal line-height, default weight, normal tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "body",
+                "variant": "lg",
+                "weightRole": "default",
+                "sizePx": 18,
+                "responsive": {
+                  "fluid": false,
+                  "px": 18
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
           },
-          "$description": "body lg — 18px Inter (text role), normal line-height, default weight, normal tracking — consumer-facing type style",
-          "$extensions": {
-            "prism3": {
-              "role": "composite",
-              "group": "body",
-              "variant": "lg",
-              "sizePx": 18,
-              "responsive": {
-                "fluid": false,
-                "px": 18
-              },
-              "figma": {
-                "kind": "text-style",
-                "styleType": "TEXT",
-                "binds": [
-                  "fontFamily",
-                  "fontSize",
-                  "fontWeight",
-                  "lineHeight",
-                  "letterSpacing"
-                ],
-                "baked": [],
-                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+          "default-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{nbds.font.family.text}",
+              "fontSize": "{nbds.font.size.18}",
+              "fontWeight": "{nbds.font.weight-role.default}",
+              "lineHeight": "{nbds.font.line-height.normal}",
+              "letterSpacing": "{nbds.font.letter-spacing.normal}",
+              "textDecoration": "underline"
+            },
+            "$description": "body lg default link — 18px Inter (text role), normal line-height, default weight, normal tracking, underlined (link — pair with text.link.* colour) — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "body",
+                "variant": "lg",
+                "weightRole": "default",
+                "sizePx": 18,
+                "link": true,
+                "responsive": {
+                  "fluid": false,
+                  "px": 18
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [
+                    "textDecoration"
+                  ],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
+          },
+          "strong": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{nbds.font.family.text}",
+              "fontSize": "{nbds.font.size.18}",
+              "fontWeight": "{nbds.font.weight-role.strong}",
+              "lineHeight": "{nbds.font.line-height.normal}",
+              "letterSpacing": "{nbds.font.letter-spacing.normal}"
+            },
+            "$description": "body lg strong — 18px Inter (text role), normal line-height, strong weight, normal tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "body",
+                "variant": "lg",
+                "weightRole": "strong",
+                "sizePx": 18,
+                "responsive": {
+                  "fluid": false,
+                  "px": 18
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
+          },
+          "strong-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{nbds.font.family.text}",
+              "fontSize": "{nbds.font.size.18}",
+              "fontWeight": "{nbds.font.weight-role.strong}",
+              "lineHeight": "{nbds.font.line-height.normal}",
+              "letterSpacing": "{nbds.font.letter-spacing.normal}",
+              "textDecoration": "underline"
+            },
+            "$description": "body lg strong link — 18px Inter (text role), normal line-height, strong weight, normal tracking, underlined (link — pair with text.link.* colour) — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "body",
+                "variant": "lg",
+                "weightRole": "strong",
+                "sizePx": 18,
+                "link": true,
+                "responsive": {
+                  "fluid": false,
+                  "px": 18
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [
+                    "textDecoration"
+                  ],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
               }
             }
           }
@@ -9938,21 +10460,422 @@
       },
       "label": {
         "sm": {
+          "emphasis": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{nbds.font.family.display}",
+              "fontSize": "{nbds.font.size.12}",
+              "fontWeight": "{nbds.font.weight-role.emphasis}",
+              "lineHeight": "{nbds.font.line-height.snug}",
+              "letterSpacing": "{nbds.font.letter-spacing.normal}"
+            },
+            "$description": "label sm emphasis — 12px Inter (display role), snug line-height, emphasis weight, normal tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "label",
+                "variant": "sm",
+                "weightRole": "emphasis",
+                "sizePx": 12,
+                "responsive": {
+                  "fluid": false,
+                  "px": 12
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
+          }
+        },
+        "md": {
+          "emphasis": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{nbds.font.family.display}",
+              "fontSize": "{nbds.font.size.14}",
+              "fontWeight": "{nbds.font.weight-role.emphasis}",
+              "lineHeight": "{nbds.font.line-height.snug}",
+              "letterSpacing": "{nbds.font.letter-spacing.normal}"
+            },
+            "$description": "label md emphasis — 14px Inter (display role), snug line-height, emphasis weight, normal tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "label",
+                "variant": "md",
+                "weightRole": "emphasis",
+                "sizePx": 14,
+                "responsive": {
+                  "fluid": false,
+                  "px": 14
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
+          }
+        }
+      },
+      "caption": {
+        "md": {
+          "default": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{nbds.font.family.text}",
+              "fontSize": "{nbds.font.size.11}",
+              "fontWeight": "{nbds.font.weight-role.default}",
+              "lineHeight": "{nbds.font.line-height.normal}",
+              "letterSpacing": "{nbds.font.letter-spacing.normal}"
+            },
+            "$description": "caption md default — 11px Inter (text role), normal line-height, default weight, normal tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "caption",
+                "variant": "md",
+                "weightRole": "default",
+                "sizePx": 11,
+                "responsive": {
+                  "fluid": false,
+                  "px": 11
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
+          },
+          "default-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{nbds.font.family.text}",
+              "fontSize": "{nbds.font.size.11}",
+              "fontWeight": "{nbds.font.weight-role.default}",
+              "lineHeight": "{nbds.font.line-height.normal}",
+              "letterSpacing": "{nbds.font.letter-spacing.normal}",
+              "textDecoration": "underline"
+            },
+            "$description": "caption md default link — 11px Inter (text role), normal line-height, default weight, normal tracking, underlined (link — pair with text.link.* colour) — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "caption",
+                "variant": "md",
+                "weightRole": "default",
+                "sizePx": 11,
+                "link": true,
+                "responsive": {
+                  "fluid": false,
+                  "px": 11
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [
+                    "textDecoration"
+                  ],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
+          },
+          "strong": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{nbds.font.family.text}",
+              "fontSize": "{nbds.font.size.11}",
+              "fontWeight": "{nbds.font.weight-role.strong}",
+              "lineHeight": "{nbds.font.line-height.normal}",
+              "letterSpacing": "{nbds.font.letter-spacing.normal}"
+            },
+            "$description": "caption md strong — 11px Inter (text role), normal line-height, strong weight, normal tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "caption",
+                "variant": "md",
+                "weightRole": "strong",
+                "sizePx": 11,
+                "responsive": {
+                  "fluid": false,
+                  "px": 11
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
+          },
+          "strong-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{nbds.font.family.text}",
+              "fontSize": "{nbds.font.size.11}",
+              "fontWeight": "{nbds.font.weight-role.strong}",
+              "lineHeight": "{nbds.font.line-height.normal}",
+              "letterSpacing": "{nbds.font.letter-spacing.normal}",
+              "textDecoration": "underline"
+            },
+            "$description": "caption md strong link — 11px Inter (text role), normal line-height, strong weight, normal tracking, underlined (link — pair with text.link.* colour) — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "caption",
+                "variant": "md",
+                "weightRole": "strong",
+                "sizePx": 11,
+                "link": true,
+                "responsive": {
+                  "fluid": false,
+                  "px": 11
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [
+                    "textDecoration"
+                  ],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
+          }
+        },
+        "lg": {
+          "default": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{nbds.font.family.text}",
+              "fontSize": "{nbds.font.size.12}",
+              "fontWeight": "{nbds.font.weight-role.default}",
+              "lineHeight": "{nbds.font.line-height.normal}",
+              "letterSpacing": "{nbds.font.letter-spacing.normal}"
+            },
+            "$description": "caption lg default — 12px Inter (text role), normal line-height, default weight, normal tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "caption",
+                "variant": "lg",
+                "weightRole": "default",
+                "sizePx": 12,
+                "responsive": {
+                  "fluid": false,
+                  "px": 12
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
+          },
+          "default-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{nbds.font.family.text}",
+              "fontSize": "{nbds.font.size.12}",
+              "fontWeight": "{nbds.font.weight-role.default}",
+              "lineHeight": "{nbds.font.line-height.normal}",
+              "letterSpacing": "{nbds.font.letter-spacing.normal}",
+              "textDecoration": "underline"
+            },
+            "$description": "caption lg default link — 12px Inter (text role), normal line-height, default weight, normal tracking, underlined (link — pair with text.link.* colour) — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "caption",
+                "variant": "lg",
+                "weightRole": "default",
+                "sizePx": 12,
+                "link": true,
+                "responsive": {
+                  "fluid": false,
+                  "px": 12
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [
+                    "textDecoration"
+                  ],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
+          },
+          "strong": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{nbds.font.family.text}",
+              "fontSize": "{nbds.font.size.12}",
+              "fontWeight": "{nbds.font.weight-role.strong}",
+              "lineHeight": "{nbds.font.line-height.normal}",
+              "letterSpacing": "{nbds.font.letter-spacing.normal}"
+            },
+            "$description": "caption lg strong — 12px Inter (text role), normal line-height, strong weight, normal tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "caption",
+                "variant": "lg",
+                "weightRole": "strong",
+                "sizePx": 12,
+                "responsive": {
+                  "fluid": false,
+                  "px": 12
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
+          },
+          "strong-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{nbds.font.family.text}",
+              "fontSize": "{nbds.font.size.12}",
+              "fontWeight": "{nbds.font.weight-role.strong}",
+              "lineHeight": "{nbds.font.line-height.normal}",
+              "letterSpacing": "{nbds.font.letter-spacing.normal}",
+              "textDecoration": "underline"
+            },
+            "$description": "caption lg strong link — 12px Inter (text role), normal line-height, strong weight, normal tracking, underlined (link — pair with text.link.* colour) — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "caption",
+                "variant": "lg",
+                "weightRole": "strong",
+                "sizePx": 12,
+                "link": true,
+                "responsive": {
+                  "fluid": false,
+                  "px": 12
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [
+                    "textDecoration"
+                  ],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
+          }
+        }
+      },
+      "eyebrow": {
+        "emphasis": {
           "$type": "typography",
           "$value": {
             "fontFamily": "{nbds.font.family.display}",
             "fontSize": "{nbds.font.size.12}",
             "fontWeight": "{nbds.font.weight-role.emphasis}",
             "lineHeight": "{nbds.font.line-height.snug}",
-            "letterSpacing": "{nbds.font.letter-spacing.normal}"
+            "letterSpacing": "{nbds.font.letter-spacing.wider}",
+            "textCase": "uppercase"
           },
-          "$description": "label sm — 12px Inter (display role), snug line-height, emphasis weight, normal tracking — consumer-facing type style",
+          "$description": "eyebrow emphasis — 12px Inter (display role), snug line-height, emphasis weight, wider tracking, uppercase — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
-              "group": "label",
-              "variant": "sm",
+              "group": "eyebrow",
+              "variant": "",
+              "weightRole": "emphasis",
               "sizePx": 12,
+              "textCase": "uppercase",
               "responsive": {
                 "fluid": false,
                 "px": 12
@@ -9967,158 +10890,51 @@
                   "lineHeight",
                   "letterSpacing"
                 ],
-                "baked": [],
-                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
-              }
-            }
-          }
-        },
-        "md": {
-          "$type": "typography",
-          "$value": {
-            "fontFamily": "{nbds.font.family.display}",
-            "fontSize": "{nbds.font.size.14}",
-            "fontWeight": "{nbds.font.weight-role.emphasis}",
-            "lineHeight": "{nbds.font.line-height.snug}",
-            "letterSpacing": "{nbds.font.letter-spacing.normal}"
-          },
-          "$description": "label md — 14px Inter (display role), snug line-height, emphasis weight, normal tracking — consumer-facing type style",
-          "$extensions": {
-            "prism3": {
-              "role": "composite",
-              "group": "label",
-              "variant": "md",
-              "sizePx": 14,
-              "responsive": {
-                "fluid": false,
-                "px": 14
-              },
-              "figma": {
-                "kind": "text-style",
-                "styleType": "TEXT",
-                "binds": [
-                  "fontFamily",
-                  "fontSize",
-                  "fontWeight",
-                  "lineHeight",
-                  "letterSpacing"
+                "baked": [
+                  "textCase"
                 ],
-                "baked": [],
                 "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
-            }
-          }
-        }
-      },
-      "caption": {
-        "$type": "typography",
-        "$value": {
-          "fontFamily": "{nbds.font.family.text}",
-          "fontSize": "{nbds.font.size.12}",
-          "fontWeight": "{nbds.font.weight-role.default}",
-          "lineHeight": "{nbds.font.line-height.normal}",
-          "letterSpacing": "{nbds.font.letter-spacing.normal}"
-        },
-        "$description": "caption — 12px Inter (text role), normal line-height, default weight, normal tracking — consumer-facing type style",
-        "$extensions": {
-          "prism3": {
-            "role": "composite",
-            "group": "caption",
-            "variant": "",
-            "sizePx": 12,
-            "responsive": {
-              "fluid": false,
-              "px": 12
-            },
-            "figma": {
-              "kind": "text-style",
-              "styleType": "TEXT",
-              "binds": [
-                "fontFamily",
-                "fontSize",
-                "fontWeight",
-                "lineHeight",
-                "letterSpacing"
-              ],
-              "baked": [],
-              "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
-            }
-          }
-        }
-      },
-      "eyebrow": {
-        "$type": "typography",
-        "$value": {
-          "fontFamily": "{nbds.font.family.display}",
-          "fontSize": "{nbds.font.size.12}",
-          "fontWeight": "{nbds.font.weight-role.emphasis}",
-          "lineHeight": "{nbds.font.line-height.snug}",
-          "letterSpacing": "{nbds.font.letter-spacing.wider}",
-          "textCase": "uppercase"
-        },
-        "$description": "eyebrow — 12px Inter (display role), snug line-height, emphasis weight, wider tracking, uppercase — consumer-facing type style",
-        "$extensions": {
-          "prism3": {
-            "role": "composite",
-            "group": "eyebrow",
-            "variant": "",
-            "sizePx": 12,
-            "textCase": "uppercase",
-            "responsive": {
-              "fluid": false,
-              "px": 12
-            },
-            "figma": {
-              "kind": "text-style",
-              "styleType": "TEXT",
-              "binds": [
-                "fontFamily",
-                "fontSize",
-                "fontWeight",
-                "lineHeight",
-                "letterSpacing"
-              ],
-              "baked": [
-                "textCase"
-              ],
-              "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
             }
           }
         }
       },
       "code": {
         "inline": {
-          "$type": "typography",
-          "$value": {
-            "fontFamily": "{nbds.font.family.mono}",
-            "fontSize": "{nbds.font.size.14}",
-            "fontWeight": "{nbds.font.weight-role.default}",
-            "lineHeight": "{nbds.font.line-height.normal}",
-            "letterSpacing": "{nbds.font.letter-spacing.normal}"
-          },
-          "$description": "code inline — 14px JetBrains Mono (mono role), normal line-height, default weight, normal tracking — consumer-facing type style",
-          "$extensions": {
-            "prism3": {
-              "role": "composite",
-              "group": "code",
-              "variant": "inline",
-              "sizePx": 14,
-              "responsive": {
-                "fluid": false,
-                "px": 14
-              },
-              "figma": {
-                "kind": "text-style",
-                "styleType": "TEXT",
-                "binds": [
-                  "fontFamily",
-                  "fontSize",
-                  "fontWeight",
-                  "lineHeight",
-                  "letterSpacing"
-                ],
-                "baked": [],
-                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+          "default": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{nbds.font.family.mono}",
+              "fontSize": "{nbds.font.size.14}",
+              "fontWeight": "{nbds.font.weight-role.default}",
+              "lineHeight": "{nbds.font.line-height.normal}",
+              "letterSpacing": "{nbds.font.letter-spacing.normal}"
+            },
+            "$description": "code inline default — 14px JetBrains Mono (mono role), normal line-height, default weight, normal tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "code",
+                "variant": "inline",
+                "weightRole": "default",
+                "sizePx": 14,
+                "responsive": {
+                  "fluid": false,
+                  "px": 14
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
               }
             }
           }

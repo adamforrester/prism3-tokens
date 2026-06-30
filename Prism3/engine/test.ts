@@ -119,8 +119,11 @@ for (const [label, ty] of typeCases) {
   const lh = new Set(t.typography.lineHeights.map((x) => x.key));
   const ls = new Set(t.typography.letterSpacings.map((x) => x.key));
   const wr = new Set(t.typography.weightRoles.map((x) => x.role));
-  ok(comps.length >= 12 && comps.length <= 25, `[type/${label}] composite count ${comps.length} in 12..25`);
-  let bad = '', dup = '', mono = '';
+  // base "style slots" = unique (group, variant); each fans out to weights (× link).
+  const slots = new Set(comps.map((c) => `${c.group}.${c.variant}`));
+  ok(slots.size >= 12 && slots.size <= 30, `[type/${label}] ${slots.size} style slots in 12..30 (×weights×link = ${comps.length} composites)`);
+  ok(new Set(comps.map((c) => c.path)).size === comps.length, `[type/${label}] all composite paths unique`);
+  let bad = '', mono = '';
   const byGroup: Record<string, number[]> = {};
   for (const c of comps) {
     (byGroup[c.group] ??= []).push(c.sizePx);
@@ -129,15 +132,15 @@ for (const [label, ty] of typeCases) {
     if (!wr.has(c.weightRole)) bad ||= `${c.path} bad weight ${c.weightRole}`;
     if (!lh.has(c.lineHeight)) bad ||= `${c.path} bad line-height ${c.lineHeight}`;
     if (!ls.has(c.tracking)) bad ||= `${c.path} bad tracking ${c.tracking}`;
+    // the weight role is always the trailing name segment (minus an optional -link)
+    if (c.path.split('.').pop()!.replace('-link', '') !== c.weightRole) bad ||= `${c.path} weight not in name`;
   }
+  // sizes are size-major within a group (weights repeat a size); DISTINCT sizes ascend.
   for (const [g, sizes] of Object.entries(byGroup)) {
-    const seen = new Set<number>();
-    for (const s of sizes) { if (seen.has(s)) dup ||= `${g}:${s}`; seen.add(s); }
-    for (let i = 1; i < sizes.length; i++) if (sizes[i] <= sizes[i - 1]) mono ||= `${g}:${sizes[i - 1]}->${sizes[i]}`;
+    for (let i = 1; i < sizes.length; i++) if (sizes[i] < sizes[i - 1]) mono ||= `${g}:${sizes[i - 1]}->${sizes[i]}`;
   }
-  ok(!bad, `[type/${label}] all composite refs resolve${bad ? ` — ${bad}` : ''}`);
-  ok(!dup, `[type/${label}] no duplicate size within a group${dup ? ` — ${dup}` : ''}`);
-  ok(!mono, `[type/${label}] sizes monotonic within group${mono ? ` — ${mono}` : ''}`);
+  ok(!bad, `[type/${label}] all composite refs resolve + weight in name${bad ? ` — ${bad}` : ''}`);
+  ok(!mono, `[type/${label}] sizes non-decreasing within group${mono ? ` — ${mono}` : ''}`);
   // fluid (Phase 3): mobile endpoint never above desktop, always a real ladder rung,
   // and only heading groups (display/title) ever go fluid.
   let flbad = '';
@@ -152,14 +155,35 @@ for (const [label, ty] of typeCases) {
 ok(tBrand('static', { responsive: { fluid: false } }).typography.composites.every((c) => c.sizeMinPx === c.sizePx), 'responsive:{fluid:false} → all composites static');
 // default fluid → at least the display tier is fluid (min < max somewhere)
 ok(tBrand('fl', {}).typography.composites.some((c) => c.group === 'display' && c.sizeMinPx < c.sizePx), 'default fluid → display tier shrinks on mobile');
-ok(!tBrand('tf-d', {}).typography.composites.some((c) => c.path === 'title.2xs'), 'titleFloor default 18 → no title.2xs');
+ok(!tBrand('tf-d', {}).typography.composites.some((c) => c.group === 'title' && c.variant === '2xs'), 'titleFloor default 18 → no title.2xs');
 // C1: titleFloor 16 delivers a LITERAL 16px title.2xs under EVERY typeScale (pinned, exempt from the shift).
 for (const scale of ['compact', 'default', 'expressive'] as const) {
-  const c = tBrand('tf16-' + scale, { titleFloor: 16, typeScale: scale }).typography.composites.find((x) => x.path === 'title.2xs');
+  const c = tBrand('tf16-' + scale, { titleFloor: 16, typeScale: scale }).typography.composites.find((x) => x.group === 'title' && x.variant === '2xs');
   ok(!!c && c.sizePx === 16, `titleFloor 16 + ${scale} → title.2xs pinned at 16px (got ${c?.sizePx})`);
 }
 ok(tBrand('dc', { displayCeiling: 96 }).typography.composites.filter((c) => c.group === 'display').every((c) => c.sizePx <= 96), 'displayCeiling 96 → no display composite above 96px');
 ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.textCase === 'uppercase', 'eyebrow carries uppercase textCase');
+
+// ---- weight axis + link modifier ----
+{
+  const d = tBrand('w', {}).typography.composites;
+  const at = (path: string) => d.find((c) => c.path === path);
+  // default body weights: default + strong (2), each with a -link sibling
+  ok(at('body.md.default') && at('body.md.strong'), 'body ships default + strong weights by default');
+  ok(at('body.md.default-link')?.link === true && at('body.md.strong-link')?.link === true, 'body has a -link variant per weight (link=true)');
+  ok(!at('body.md.emphasis'), 'body emphasis is opt-in (not default)');
+  // caption: 2 sizes (md=11, lg=12), 2 weights, + link
+  ok(at('caption.md.default')?.sizePx === 11 && at('caption.lg.default')?.sizePx === 12, 'caption has md=11 + lg=12 sizes');
+  ok(at('caption.lg.strong-link')?.link === true, 'caption gets link variants');
+  // single-weight roles still carry the weight in the name (consistency)
+  ok(at('display.lg.strong') && at('title.md.strong'), 'single-weight roles carry the weight in the name');
+  ok(!d.some((c) => c.group === 'display' && c.link), 'display has no link variants (not a link role)');
+  // weights lever: add emphasis to body, multi-weight display
+  const lev = tBrand('wl', { weights: { body: ['default', 'emphasis', 'strong'], display: ['default', 'strong'] }, links: ['body'] }).typography.composites;
+  ok(lev.some((c) => c.path === 'body.md.emphasis'), 'weights lever → body gains emphasis');
+  ok(lev.some((c) => c.path === 'display.lg.default') && lev.some((c) => c.path === 'display.lg.strong'), 'weights lever → multi-weight display ramp');
+  ok(!lev.some((c) => c.group === 'caption' && c.link), 'links lever → caption link variants removed when not listed');
+}
 
 // ------------------------------------------------- shadow / elevation invariants
 {
@@ -280,6 +304,26 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   // HC carries elevation by border: raised tiers collapse to the base
   ok(p(HCD, 'background.secondary') === p(HCD, 'background.primary'), 'HC flattens background tiers to the base');
   ok(p(HCD, 'foreground.secondary') === p(HCD, 'foreground.primary'), 'HC flattens foreground tiers to the base');
+  // harshness: no pure black anywhere in STANDARD modes; inverse surfaces softened
+  const HCL = byMode['hc-light'];
+  const isBlack = (path?: string) => /\.black$/.test(path ?? '');
+  const isWhite = (path?: string) => /\.white$/.test(path ?? '');
+  for (const m of ['light', 'dark'] as const) {
+    const roles = byMode[m];
+    const blacks = Object.entries(roles).filter(([, r]: any) => isBlack(r.path)).map(([k]) => k);
+    ok(blacks.length === 0, `${m}: no pure black in standard mode (found: ${blacks.join(', ') || 'none'})`);
+  }
+  ok(!isBlack(p(L, 'background.inverse.primary')), 'light inverse surface is near-black, not pure black');
+  ok(!isWhite(p(D, 'background.inverse.primary')), 'dark inverse surface is near-white, not pure white');
+  ok(isWhite(p(L, 'background.primary')), 'light base page stays pure white (the one allowed pure extreme)');
+  // on-* softening: dark on-action is near-black (950), light keeps pure white; HC keeps pure
+  ok(p(D, 'text.on-action') === p(D, 'icon.on-action') && !isBlack(p(D, 'text.on-action')), 'dark on-action is softened (near-black, not pure)');
+  ok(isWhite(p(L, 'text.on-action')), 'light on-action stays pure white (user preference)');
+  ok(isWhite(p(HCD, 'text.on-action')) || isBlack(p(HCD, 'text.on-action')), 'HC keeps pure extremes for on-* (max contrast)');
+  ok(isBlack(p(HCL, 'background.inverse.primary')), 'HC inverse stays a pure extreme (max contrast)');
+  // on-disabled exists for text + icon and is contracted against the disabled fill
+  ok(p(L, 'text.on-disabled') !== undefined && p(L, 'icon.on-disabled') !== undefined, 'text/icon.on-disabled exist');
+  ok(L['text.on-disabled'].against === 'action.disabled', 'on-disabled is resolved against the disabled fill');
 }
 
 // ------------------------------------------------------------------- report

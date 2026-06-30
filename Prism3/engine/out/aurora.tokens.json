@@ -3134,22 +3134,8 @@
           "inverse": {
             "primary": {
               "$type": "color",
-              "$value": "{prism.color.black}",
-              "$description": "Inverse page surface — a dark band in light mode",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "prism.color.black",
-                  "mode": "light",
-                  "contrast": 1,
-                  "against": "self"
-                }
-              }
-            },
-            "secondary": {
-              "$type": "color",
               "$value": "{prism.color.neutral.950}",
-              "$description": "Inverse page surface, second tier",
+              "$description": "Inverse page surface — a dark band in light mode",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -3160,14 +3146,28 @@
                 }
               }
             },
-            "tertiary": {
+            "secondary": {
               "$type": "color",
               "$value": "{prism.color.neutral.900}",
-              "$description": "Inverse page surface, third tier",
+              "$description": "Inverse page surface, second tier",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
                   "aliasOf": "prism.color.neutral.900",
+                  "mode": "light",
+                  "contrast": 1,
+                  "against": "self"
+                }
+              }
+            },
+            "tertiary": {
+              "$type": "color",
+              "$value": "{prism.color.neutral.850}",
+              "$description": "Inverse page surface, third tier",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.color.neutral.850",
                   "mode": "light",
                   "contrast": 1,
                   "against": "self"
@@ -3238,22 +3238,8 @@
           "inverse": {
             "primary": {
               "$type": "color",
-              "$value": "{prism.color.neutral.950}",
-              "$description": "Inverse / bold surface — a dark fill in light mode",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "prism.color.neutral.950",
-                  "mode": "light",
-                  "contrast": 1,
-                  "against": "self"
-                }
-              }
-            },
-            "secondary": {
-              "$type": "color",
               "$value": "{prism.color.neutral.900}",
-              "$description": "Inverse surface, second tier",
+              "$description": "Inverse / bold surface — a dark fill in light mode",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -3264,14 +3250,28 @@
                 }
               }
             },
-            "tertiary": {
+            "secondary": {
               "$type": "color",
               "$value": "{prism.color.neutral.850}",
-              "$description": "Inverse surface, third tier",
+              "$description": "Inverse surface, second tier",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
                   "aliasOf": "prism.color.neutral.850",
+                  "mode": "light",
+                  "contrast": 1,
+                  "against": "self"
+                }
+              }
+            },
+            "tertiary": {
+              "$type": "color",
+              "$value": "{prism.color.neutral.800}",
+              "$description": "Inverse surface, third tier",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.color.neutral.800",
                   "mode": "light",
                   "contrast": 1,
                   "against": "self"
@@ -3897,9 +3897,24 @@
                 "role": "semantic",
                 "aliasOf": "prism.color.neutral.025",
                 "mode": "light",
-                "contrast": 19.6,
+                "contrast": 18.13,
                 "against": "background.inverse.primary",
                 "min": 4.5
+              }
+            }
+          },
+          "on-disabled": {
+            "$type": "color",
+            "$value": "{prism.color.neutral.550}",
+            "$description": "text on a disabled fill — muted, clears 3:1",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "prism.color.neutral.550",
+                "mode": "light",
+                "contrast": 3.08,
+                "against": "action.disabled",
+                "min": 3
               }
             }
           },
@@ -4271,9 +4286,24 @@
                 "role": "semantic",
                 "aliasOf": "prism.color.neutral.025",
                 "mode": "light",
-                "contrast": 19.6,
+                "contrast": 18.13,
                 "against": "background.inverse.primary",
                 "min": 4.5
+              }
+            }
+          },
+          "on-disabled": {
+            "$type": "color",
+            "$value": "{prism.color.neutral.550}",
+            "$description": "icon on a disabled fill — muted, clears 3:1",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "prism.color.neutral.550",
+                "mode": "light",
+                "contrast": 3.08,
+                "against": "action.disabled",
+                "min": 3
               }
             }
           },
@@ -4371,14 +4401,14 @@
           },
           "inverse": {
             "$type": "color",
-            "$value": "{prism.color.neutral.850}",
+            "$value": "{prism.color.neutral.800}",
             "$description": "Border on inverse surfaces",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "prism.color.neutral.850",
+                "aliasOf": "prism.color.neutral.800",
                 "mode": "light",
-                "contrast": 1.31,
+                "contrast": 1.4,
                 "against": "background.inverse.primary"
               }
             }
@@ -4522,12 +4552,12 @@
           "inverse": {
             "primary": {
               "$type": "color",
-              "$value": "{prism.color.white}",
+              "$value": "{prism.color.neutral.025}",
               "$description": "Inverse page surface — a dark band in light mode",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
-                  "aliasOf": "prism.color.white",
+                  "aliasOf": "prism.color.neutral.025",
                   "mode": "dark",
                   "contrast": 1,
                   "against": "self"
@@ -5188,14 +5218,14 @@
           },
           "on-action": {
             "$type": "color",
-            "$value": "{prism.color.black}",
+            "$value": "{prism.color.neutral.950}",
             "$description": "text on the action fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "prism.color.black",
+                "aliasOf": "prism.color.neutral.950",
                 "mode": "dark",
-                "contrast": 6.27,
+                "contrast": 5.8,
                 "against": "action.default",
                 "min": 4.5
               }
@@ -5203,14 +5233,14 @@
           },
           "on-brand": {
             "$type": "color",
-            "$value": "{prism.color.black}",
+            "$value": "{prism.color.neutral.950}",
             "$description": "text on a solid brand fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "prism.color.black",
+                "aliasOf": "prism.color.neutral.950",
                 "mode": "dark",
-                "contrast": 5.4,
+                "contrast": 5,
                 "against": "foreground.brand",
                 "min": 4.5
               }
@@ -5218,14 +5248,14 @@
           },
           "on-success": {
             "$type": "color",
-            "$value": "{prism.color.black}",
+            "$value": "{prism.color.neutral.950}",
             "$description": "text on a solid success fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "prism.color.black",
+                "aliasOf": "prism.color.neutral.950",
                 "mode": "dark",
-                "contrast": 5.48,
+                "contrast": 5.07,
                 "against": "foreground.success",
                 "min": 4.5
               }
@@ -5233,14 +5263,14 @@
           },
           "on-warning": {
             "$type": "color",
-            "$value": "{prism.color.black}",
+            "$value": "{prism.color.neutral.950}",
             "$description": "text on a solid warning fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "prism.color.black",
+                "aliasOf": "prism.color.neutral.950",
                 "mode": "dark",
-                "contrast": 5.4,
+                "contrast": 4.99,
                 "against": "foreground.warning",
                 "min": 4.5
               }
@@ -5248,14 +5278,14 @@
           },
           "on-danger": {
             "$type": "color",
-            "$value": "{prism.color.black}",
+            "$value": "{prism.color.neutral.950}",
             "$description": "text on a solid danger fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "prism.color.black",
+                "aliasOf": "prism.color.neutral.950",
                 "mode": "dark",
-                "contrast": 5.35,
+                "contrast": 4.95,
                 "against": "foreground.danger",
                 "min": 4.5
               }
@@ -5263,14 +5293,14 @@
           },
           "on-info": {
             "$type": "color",
-            "$value": "{prism.color.black}",
+            "$value": "{prism.color.neutral.950}",
             "$description": "text on a solid info fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "prism.color.black",
+                "aliasOf": "prism.color.neutral.950",
                 "mode": "dark",
-                "contrast": 5.43,
+                "contrast": 5.03,
                 "against": "foreground.info",
                 "min": 4.5
               }
@@ -5285,9 +5315,24 @@
                 "role": "semantic",
                 "aliasOf": "prism.color.neutral.950",
                 "mode": "dark",
-                "contrast": 19.43,
+                "contrast": 18.13,
                 "against": "background.inverse.primary",
                 "min": 4.5
+              }
+            }
+          },
+          "on-disabled": {
+            "$type": "color",
+            "$value": "{prism.color.neutral.450}",
+            "$description": "text on a disabled fill — muted, clears 3:1",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "prism.color.neutral.450",
+                "mode": "dark",
+                "contrast": 3.04,
+                "against": "action.disabled",
+                "min": 3
               }
             }
           },
@@ -5562,14 +5607,14 @@
           },
           "on-action": {
             "$type": "color",
-            "$value": "{prism.color.black}",
+            "$value": "{prism.color.neutral.950}",
             "$description": "icon on the action fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "prism.color.black",
+                "aliasOf": "prism.color.neutral.950",
                 "mode": "dark",
-                "contrast": 6.27,
+                "contrast": 5.8,
                 "against": "action.default",
                 "min": 4.5
               }
@@ -5577,14 +5622,14 @@
           },
           "on-brand": {
             "$type": "color",
-            "$value": "{prism.color.black}",
+            "$value": "{prism.color.neutral.950}",
             "$description": "icon on a solid brand fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "prism.color.black",
+                "aliasOf": "prism.color.neutral.950",
                 "mode": "dark",
-                "contrast": 5.4,
+                "contrast": 5,
                 "against": "foreground.brand",
                 "min": 4.5
               }
@@ -5592,14 +5637,14 @@
           },
           "on-success": {
             "$type": "color",
-            "$value": "{prism.color.black}",
+            "$value": "{prism.color.neutral.950}",
             "$description": "icon on a solid success fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "prism.color.black",
+                "aliasOf": "prism.color.neutral.950",
                 "mode": "dark",
-                "contrast": 5.48,
+                "contrast": 5.07,
                 "against": "foreground.success",
                 "min": 4.5
               }
@@ -5607,14 +5652,14 @@
           },
           "on-warning": {
             "$type": "color",
-            "$value": "{prism.color.black}",
+            "$value": "{prism.color.neutral.950}",
             "$description": "icon on a solid warning fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "prism.color.black",
+                "aliasOf": "prism.color.neutral.950",
                 "mode": "dark",
-                "contrast": 5.4,
+                "contrast": 4.99,
                 "against": "foreground.warning",
                 "min": 4.5
               }
@@ -5622,14 +5667,14 @@
           },
           "on-danger": {
             "$type": "color",
-            "$value": "{prism.color.black}",
+            "$value": "{prism.color.neutral.950}",
             "$description": "icon on a solid danger fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "prism.color.black",
+                "aliasOf": "prism.color.neutral.950",
                 "mode": "dark",
-                "contrast": 5.35,
+                "contrast": 4.95,
                 "against": "foreground.danger",
                 "min": 4.5
               }
@@ -5637,14 +5682,14 @@
           },
           "on-info": {
             "$type": "color",
-            "$value": "{prism.color.black}",
+            "$value": "{prism.color.neutral.950}",
             "$description": "icon on a solid info fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "prism.color.black",
+                "aliasOf": "prism.color.neutral.950",
                 "mode": "dark",
-                "contrast": 5.43,
+                "contrast": 5.03,
                 "against": "foreground.info",
                 "min": 4.5
               }
@@ -5659,9 +5704,24 @@
                 "role": "semantic",
                 "aliasOf": "prism.color.neutral.950",
                 "mode": "dark",
-                "contrast": 19.43,
+                "contrast": 18.13,
                 "against": "background.inverse.primary",
                 "min": 4.5
+              }
+            }
+          },
+          "on-disabled": {
+            "$type": "color",
+            "$value": "{prism.color.neutral.450}",
+            "$description": "icon on a disabled fill — muted, clears 3:1",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "prism.color.neutral.450",
+                "mode": "dark",
+                "contrast": 3.04,
+                "against": "action.disabled",
+                "min": 3
               }
             }
           },
@@ -5766,7 +5826,7 @@
                 "role": "semantic",
                 "aliasOf": "prism.color.neutral.200",
                 "mode": "dark",
-                "contrast": 1.8,
+                "contrast": 1.68,
                 "against": "background.inverse.primary"
               }
             }
@@ -6679,6 +6739,21 @@
               }
             }
           },
+          "on-disabled": {
+            "$type": "color",
+            "$value": "{prism.color.neutral.650}",
+            "$description": "text on a disabled fill — muted, clears 4.5:1",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "prism.color.neutral.650",
+                "mode": "hc-light",
+                "contrast": 4.53,
+                "against": "action.disabled",
+                "min": 4.5
+              }
+            }
+          },
           "link": {
             "default": {
               "$type": "color",
@@ -7050,6 +7125,21 @@
                 "contrast": 21,
                 "against": "background.inverse.primary",
                 "min": 7
+              }
+            }
+          },
+          "on-disabled": {
+            "$type": "color",
+            "$value": "{prism.color.neutral.650}",
+            "$description": "icon on a disabled fill — muted, clears 4.5:1",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "prism.color.neutral.650",
+                "mode": "hc-light",
+                "contrast": 4.53,
+                "against": "action.disabled",
+                "min": 4.5
               }
             }
           },
@@ -8067,6 +8157,21 @@
               }
             }
           },
+          "on-disabled": {
+            "$type": "color",
+            "$value": "{prism.color.neutral.300}",
+            "$description": "text on a disabled fill — muted, clears 4.5:1",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "prism.color.neutral.300",
+                "mode": "hc-dark",
+                "contrast": 4.87,
+                "against": "action.disabled",
+                "min": 4.5
+              }
+            }
+          },
           "link": {
             "default": {
               "$type": "color",
@@ -8438,6 +8543,21 @@
                 "contrast": 21,
                 "against": "background.inverse.primary",
                 "min": 7
+              }
+            }
+          },
+          "on-disabled": {
+            "$type": "color",
+            "$value": "{prism.color.neutral.300}",
+            "$description": "icon on a disabled fill — muted, clears 4.5:1",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "prism.color.neutral.300",
+                "mode": "hc-dark",
+                "contrast": 4.87,
+                "against": "action.disabled",
+                "min": 4.5
               }
             }
           },
@@ -10016,217 +10136,229 @@
     "type": {
       "display": {
         "sm": {
-          "$type": "typography",
-          "$value": {
-            "fontFamily": "{prism.font.family.display}",
-            "fontSize": "{prism.font.size.56}",
-            "fontWeight": "{prism.font.weight-role.strong}",
-            "lineHeight": "{prism.font.line-height.tight}",
-            "letterSpacing": "{prism.font.letter-spacing.tight}"
-          },
-          "$description": "display sm — 40→56px fluid Clash Display (display role), tight line-height, strong weight, tight tracking — consumer-facing type style",
-          "$extensions": {
-            "prism3": {
-              "role": "composite",
-              "group": "display",
-              "variant": "sm",
-              "sizePx": 56,
-              "responsive": {
-                "fluid": true,
-                "min": {
-                  "px": 40,
-                  "rem": 2.5,
-                  "ref": "{prism.font.size.40}"
-                },
-                "max": {
-                  "px": 56,
-                  "rem": 3.5,
-                  "ref": "{prism.font.size.56}"
-                },
-                "web": "clamp(2.5rem, 2.1667rem + 1.4815vw, 3.5rem)",
-                "figma": {
-                  "field": "fontSize",
-                  "scope": "FONT_SIZE",
-                  "modes": {
-                    "mobile": 40,
-                    "desktop": 56
+          "strong": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{prism.font.family.display}",
+              "fontSize": "{prism.font.size.56}",
+              "fontWeight": "{prism.font.weight-role.strong}",
+              "lineHeight": "{prism.font.line-height.tight}",
+              "letterSpacing": "{prism.font.letter-spacing.tight}"
+            },
+            "$description": "display sm strong — 40→56px fluid Clash Display (display role), tight line-height, strong weight, tight tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "display",
+                "variant": "sm",
+                "weightRole": "strong",
+                "sizePx": 56,
+                "responsive": {
+                  "fluid": true,
+                  "min": {
+                    "px": 40,
+                    "rem": 2.5,
+                    "ref": "{prism.font.size.40}"
+                  },
+                  "max": {
+                    "px": 56,
+                    "rem": 3.5,
+                    "ref": "{prism.font.size.56}"
+                  },
+                  "web": "clamp(2.5rem, 2.1667rem + 1.4815vw, 3.5rem)",
+                  "figma": {
+                    "field": "fontSize",
+                    "scope": "FONT_SIZE",
+                    "modes": {
+                      "mobile": 40,
+                      "desktop": 56
+                    }
                   }
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
                 }
-              },
-              "figma": {
-                "kind": "text-style",
-                "styleType": "TEXT",
-                "binds": [
-                  "fontFamily",
-                  "fontSize",
-                  "fontWeight",
-                  "lineHeight",
-                  "letterSpacing"
-                ],
-                "baked": [],
-                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
             }
           }
         },
         "md": {
-          "$type": "typography",
-          "$value": {
-            "fontFamily": "{prism.font.family.display}",
-            "fontSize": "{prism.font.size.72}",
-            "fontWeight": "{prism.font.weight-role.strong}",
-            "lineHeight": "{prism.font.line-height.tight}",
-            "letterSpacing": "{prism.font.letter-spacing.tight}"
-          },
-          "$description": "display md — 40→72px fluid Clash Display (display role), tight line-height, strong weight, tight tracking — consumer-facing type style",
-          "$extensions": {
-            "prism3": {
-              "role": "composite",
-              "group": "display",
-              "variant": "md",
-              "sizePx": 72,
-              "responsive": {
-                "fluid": true,
-                "min": {
-                  "px": 40,
-                  "rem": 2.5,
-                  "ref": "{prism.font.size.40}"
-                },
-                "max": {
-                  "px": 72,
-                  "rem": 4.5,
-                  "ref": "{prism.font.size.72}"
-                },
-                "web": "clamp(2.5rem, 1.8333rem + 2.963vw, 4.5rem)",
-                "figma": {
-                  "field": "fontSize",
-                  "scope": "FONT_SIZE",
-                  "modes": {
-                    "mobile": 40,
-                    "desktop": 72
+          "strong": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{prism.font.family.display}",
+              "fontSize": "{prism.font.size.72}",
+              "fontWeight": "{prism.font.weight-role.strong}",
+              "lineHeight": "{prism.font.line-height.tight}",
+              "letterSpacing": "{prism.font.letter-spacing.tight}"
+            },
+            "$description": "display md strong — 40→72px fluid Clash Display (display role), tight line-height, strong weight, tight tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "display",
+                "variant": "md",
+                "weightRole": "strong",
+                "sizePx": 72,
+                "responsive": {
+                  "fluid": true,
+                  "min": {
+                    "px": 40,
+                    "rem": 2.5,
+                    "ref": "{prism.font.size.40}"
+                  },
+                  "max": {
+                    "px": 72,
+                    "rem": 4.5,
+                    "ref": "{prism.font.size.72}"
+                  },
+                  "web": "clamp(2.5rem, 1.8333rem + 2.963vw, 4.5rem)",
+                  "figma": {
+                    "field": "fontSize",
+                    "scope": "FONT_SIZE",
+                    "modes": {
+                      "mobile": 40,
+                      "desktop": 72
+                    }
                   }
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
                 }
-              },
-              "figma": {
-                "kind": "text-style",
-                "styleType": "TEXT",
-                "binds": [
-                  "fontFamily",
-                  "fontSize",
-                  "fontWeight",
-                  "lineHeight",
-                  "letterSpacing"
-                ],
-                "baked": [],
-                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
             }
           }
         },
         "lg": {
-          "$type": "typography",
-          "$value": {
-            "fontFamily": "{prism.font.family.display}",
-            "fontSize": "{prism.font.size.96}",
-            "fontWeight": "{prism.font.weight-role.strong}",
-            "lineHeight": "{prism.font.line-height.tight}",
-            "letterSpacing": "{prism.font.letter-spacing.tighter}"
-          },
-          "$description": "display lg — 48→96px fluid Clash Display (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
-          "$extensions": {
-            "prism3": {
-              "role": "composite",
-              "group": "display",
-              "variant": "lg",
-              "sizePx": 96,
-              "responsive": {
-                "fluid": true,
-                "min": {
-                  "px": 48,
-                  "rem": 3,
-                  "ref": "{prism.font.size.48}"
-                },
-                "max": {
-                  "px": 96,
-                  "rem": 6,
-                  "ref": "{prism.font.size.96}"
-                },
-                "web": "clamp(3rem, 2rem + 4.4444vw, 6rem)",
-                "figma": {
-                  "field": "fontSize",
-                  "scope": "FONT_SIZE",
-                  "modes": {
-                    "mobile": 48,
-                    "desktop": 96
+          "strong": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{prism.font.family.display}",
+              "fontSize": "{prism.font.size.96}",
+              "fontWeight": "{prism.font.weight-role.strong}",
+              "lineHeight": "{prism.font.line-height.tight}",
+              "letterSpacing": "{prism.font.letter-spacing.tighter}"
+            },
+            "$description": "display lg strong — 48→96px fluid Clash Display (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "display",
+                "variant": "lg",
+                "weightRole": "strong",
+                "sizePx": 96,
+                "responsive": {
+                  "fluid": true,
+                  "min": {
+                    "px": 48,
+                    "rem": 3,
+                    "ref": "{prism.font.size.48}"
+                  },
+                  "max": {
+                    "px": 96,
+                    "rem": 6,
+                    "ref": "{prism.font.size.96}"
+                  },
+                  "web": "clamp(3rem, 2rem + 4.4444vw, 6rem)",
+                  "figma": {
+                    "field": "fontSize",
+                    "scope": "FONT_SIZE",
+                    "modes": {
+                      "mobile": 48,
+                      "desktop": 96
+                    }
                   }
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
                 }
-              },
-              "figma": {
-                "kind": "text-style",
-                "styleType": "TEXT",
-                "binds": [
-                  "fontFamily",
-                  "fontSize",
-                  "fontWeight",
-                  "lineHeight",
-                  "letterSpacing"
-                ],
-                "baked": [],
-                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
             }
           }
         },
         "xl": {
-          "$type": "typography",
-          "$value": {
-            "fontFamily": "{prism.font.family.display}",
-            "fontSize": "{prism.font.size.112}",
-            "fontWeight": "{prism.font.weight-role.strong}",
-            "lineHeight": "{prism.font.line-height.tight}",
-            "letterSpacing": "{prism.font.letter-spacing.tighter}"
-          },
-          "$description": "display xl — 48→112px fluid Clash Display (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
-          "$extensions": {
-            "prism3": {
-              "role": "composite",
-              "group": "display",
-              "variant": "xl",
-              "sizePx": 112,
-              "responsive": {
-                "fluid": true,
-                "min": {
-                  "px": 48,
-                  "rem": 3,
-                  "ref": "{prism.font.size.48}"
-                },
-                "max": {
-                  "px": 112,
-                  "rem": 7,
-                  "ref": "{prism.font.size.112}"
-                },
-                "web": "clamp(3rem, 1.6667rem + 5.9259vw, 7rem)",
-                "figma": {
-                  "field": "fontSize",
-                  "scope": "FONT_SIZE",
-                  "modes": {
-                    "mobile": 48,
-                    "desktop": 112
+          "strong": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{prism.font.family.display}",
+              "fontSize": "{prism.font.size.112}",
+              "fontWeight": "{prism.font.weight-role.strong}",
+              "lineHeight": "{prism.font.line-height.tight}",
+              "letterSpacing": "{prism.font.letter-spacing.tighter}"
+            },
+            "$description": "display xl strong — 48→112px fluid Clash Display (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "display",
+                "variant": "xl",
+                "weightRole": "strong",
+                "sizePx": 112,
+                "responsive": {
+                  "fluid": true,
+                  "min": {
+                    "px": 48,
+                    "rem": 3,
+                    "ref": "{prism.font.size.48}"
+                  },
+                  "max": {
+                    "px": 112,
+                    "rem": 7,
+                    "ref": "{prism.font.size.112}"
+                  },
+                  "web": "clamp(3rem, 1.6667rem + 5.9259vw, 7rem)",
+                  "figma": {
+                    "field": "fontSize",
+                    "scope": "FONT_SIZE",
+                    "modes": {
+                      "mobile": 48,
+                      "desktop": 112
+                    }
                   }
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
                 }
-              },
-              "figma": {
-                "kind": "text-style",
-                "styleType": "TEXT",
-                "binds": [
-                  "fontFamily",
-                  "fontSize",
-                  "fontWeight",
-                  "lineHeight",
-                  "letterSpacing"
-                ],
-                "baked": [],
-                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
             }
           }
@@ -10234,343 +10366,364 @@
       },
       "title": {
         "2xs": {
-          "$type": "typography",
-          "$value": {
-            "fontFamily": "{prism.font.family.display}",
-            "fontSize": "{prism.font.size.16}",
-            "fontWeight": "{prism.font.weight-role.strong}",
-            "lineHeight": "{prism.font.line-height.compact}",
-            "letterSpacing": "{prism.font.letter-spacing.snug}"
-          },
-          "$description": "title 2xs — 16px Clash Display (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
-          "$extensions": {
-            "prism3": {
-              "role": "composite",
-              "group": "title",
-              "variant": "2xs",
-              "sizePx": 16,
-              "responsive": {
-                "fluid": false,
-                "px": 16
-              },
-              "figma": {
-                "kind": "text-style",
-                "styleType": "TEXT",
-                "binds": [
-                  "fontFamily",
-                  "fontSize",
-                  "fontWeight",
-                  "lineHeight",
-                  "letterSpacing"
-                ],
-                "baked": [],
-                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+          "strong": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{prism.font.family.display}",
+              "fontSize": "{prism.font.size.16}",
+              "fontWeight": "{prism.font.weight-role.strong}",
+              "lineHeight": "{prism.font.line-height.compact}",
+              "letterSpacing": "{prism.font.letter-spacing.snug}"
+            },
+            "$description": "title 2xs strong — 16px Clash Display (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "title",
+                "variant": "2xs",
+                "weightRole": "strong",
+                "sizePx": 16,
+                "responsive": {
+                  "fluid": false,
+                  "px": 16
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
               }
             }
           }
         },
         "xs": {
-          "$type": "typography",
-          "$value": {
-            "fontFamily": "{prism.font.family.display}",
-            "fontSize": "{prism.font.size.20}",
-            "fontWeight": "{prism.font.weight-role.strong}",
-            "lineHeight": "{prism.font.line-height.compact}",
-            "letterSpacing": "{prism.font.letter-spacing.snug}"
-          },
-          "$description": "title xs — 20px Clash Display (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
-          "$extensions": {
-            "prism3": {
-              "role": "composite",
-              "group": "title",
-              "variant": "xs",
-              "sizePx": 20,
-              "responsive": {
-                "fluid": false,
-                "px": 20
-              },
-              "figma": {
-                "kind": "text-style",
-                "styleType": "TEXT",
-                "binds": [
-                  "fontFamily",
-                  "fontSize",
-                  "fontWeight",
-                  "lineHeight",
-                  "letterSpacing"
-                ],
-                "baked": [],
-                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+          "strong": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{prism.font.family.display}",
+              "fontSize": "{prism.font.size.20}",
+              "fontWeight": "{prism.font.weight-role.strong}",
+              "lineHeight": "{prism.font.line-height.compact}",
+              "letterSpacing": "{prism.font.letter-spacing.snug}"
+            },
+            "$description": "title xs strong — 20px Clash Display (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "title",
+                "variant": "xs",
+                "weightRole": "strong",
+                "sizePx": 20,
+                "responsive": {
+                  "fluid": false,
+                  "px": 20
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
               }
             }
           }
         },
         "sm": {
-          "$type": "typography",
-          "$value": {
-            "fontFamily": "{prism.font.family.display}",
-            "fontSize": "{prism.font.size.24}",
-            "fontWeight": "{prism.font.weight-role.strong}",
-            "lineHeight": "{prism.font.line-height.compact}",
-            "letterSpacing": "{prism.font.letter-spacing.snug}"
-          },
-          "$description": "title sm — 20→24px fluid Clash Display (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
-          "$extensions": {
-            "prism3": {
-              "role": "composite",
-              "group": "title",
-              "variant": "sm",
-              "sizePx": 24,
-              "responsive": {
-                "fluid": true,
-                "min": {
-                  "px": 20,
-                  "rem": 1.25,
-                  "ref": "{prism.font.size.20}"
-                },
-                "max": {
-                  "px": 24,
-                  "rem": 1.5,
-                  "ref": "{prism.font.size.24}"
-                },
-                "web": "clamp(1.25rem, 1.1667rem + 0.3704vw, 1.5rem)",
-                "figma": {
-                  "field": "fontSize",
-                  "scope": "FONT_SIZE",
-                  "modes": {
-                    "mobile": 20,
-                    "desktop": 24
+          "strong": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{prism.font.family.display}",
+              "fontSize": "{prism.font.size.24}",
+              "fontWeight": "{prism.font.weight-role.strong}",
+              "lineHeight": "{prism.font.line-height.compact}",
+              "letterSpacing": "{prism.font.letter-spacing.snug}"
+            },
+            "$description": "title sm strong — 20→24px fluid Clash Display (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "title",
+                "variant": "sm",
+                "weightRole": "strong",
+                "sizePx": 24,
+                "responsive": {
+                  "fluid": true,
+                  "min": {
+                    "px": 20,
+                    "rem": 1.25,
+                    "ref": "{prism.font.size.20}"
+                  },
+                  "max": {
+                    "px": 24,
+                    "rem": 1.5,
+                    "ref": "{prism.font.size.24}"
+                  },
+                  "web": "clamp(1.25rem, 1.1667rem + 0.3704vw, 1.5rem)",
+                  "figma": {
+                    "field": "fontSize",
+                    "scope": "FONT_SIZE",
+                    "modes": {
+                      "mobile": 20,
+                      "desktop": 24
+                    }
                   }
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
                 }
-              },
-              "figma": {
-                "kind": "text-style",
-                "styleType": "TEXT",
-                "binds": [
-                  "fontFamily",
-                  "fontSize",
-                  "fontWeight",
-                  "lineHeight",
-                  "letterSpacing"
-                ],
-                "baked": [],
-                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
             }
           }
         },
         "md": {
-          "$type": "typography",
-          "$value": {
-            "fontFamily": "{prism.font.family.display}",
-            "fontSize": "{prism.font.size.28}",
-            "fontWeight": "{prism.font.weight-role.strong}",
-            "lineHeight": "{prism.font.line-height.snug}",
-            "letterSpacing": "{prism.font.letter-spacing.snug}"
-          },
-          "$description": "title md — 24→28px fluid Clash Display (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
-          "$extensions": {
-            "prism3": {
-              "role": "composite",
-              "group": "title",
-              "variant": "md",
-              "sizePx": 28,
-              "responsive": {
-                "fluid": true,
-                "min": {
-                  "px": 24,
-                  "rem": 1.5,
-                  "ref": "{prism.font.size.24}"
-                },
-                "max": {
-                  "px": 28,
-                  "rem": 1.75,
-                  "ref": "{prism.font.size.28}"
-                },
-                "web": "clamp(1.5rem, 1.4167rem + 0.3704vw, 1.75rem)",
-                "figma": {
-                  "field": "fontSize",
-                  "scope": "FONT_SIZE",
-                  "modes": {
-                    "mobile": 24,
-                    "desktop": 28
+          "strong": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{prism.font.family.display}",
+              "fontSize": "{prism.font.size.28}",
+              "fontWeight": "{prism.font.weight-role.strong}",
+              "lineHeight": "{prism.font.line-height.snug}",
+              "letterSpacing": "{prism.font.letter-spacing.snug}"
+            },
+            "$description": "title md strong — 24→28px fluid Clash Display (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "title",
+                "variant": "md",
+                "weightRole": "strong",
+                "sizePx": 28,
+                "responsive": {
+                  "fluid": true,
+                  "min": {
+                    "px": 24,
+                    "rem": 1.5,
+                    "ref": "{prism.font.size.24}"
+                  },
+                  "max": {
+                    "px": 28,
+                    "rem": 1.75,
+                    "ref": "{prism.font.size.28}"
+                  },
+                  "web": "clamp(1.5rem, 1.4167rem + 0.3704vw, 1.75rem)",
+                  "figma": {
+                    "field": "fontSize",
+                    "scope": "FONT_SIZE",
+                    "modes": {
+                      "mobile": 24,
+                      "desktop": 28
+                    }
                   }
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
                 }
-              },
-              "figma": {
-                "kind": "text-style",
-                "styleType": "TEXT",
-                "binds": [
-                  "fontFamily",
-                  "fontSize",
-                  "fontWeight",
-                  "lineHeight",
-                  "letterSpacing"
-                ],
-                "baked": [],
-                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
             }
           }
         },
         "lg": {
-          "$type": "typography",
-          "$value": {
-            "fontFamily": "{prism.font.family.display}",
-            "fontSize": "{prism.font.size.32}",
-            "fontWeight": "{prism.font.weight-role.strong}",
-            "lineHeight": "{prism.font.line-height.snug}",
-            "letterSpacing": "{prism.font.letter-spacing.snug}"
-          },
-          "$description": "title lg — 28→32px fluid Clash Display (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
-          "$extensions": {
-            "prism3": {
-              "role": "composite",
-              "group": "title",
-              "variant": "lg",
-              "sizePx": 32,
-              "responsive": {
-                "fluid": true,
-                "min": {
-                  "px": 28,
-                  "rem": 1.75,
-                  "ref": "{prism.font.size.28}"
-                },
-                "max": {
-                  "px": 32,
-                  "rem": 2,
-                  "ref": "{prism.font.size.32}"
-                },
-                "web": "clamp(1.75rem, 1.6667rem + 0.3704vw, 2rem)",
-                "figma": {
-                  "field": "fontSize",
-                  "scope": "FONT_SIZE",
-                  "modes": {
-                    "mobile": 28,
-                    "desktop": 32
+          "strong": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{prism.font.family.display}",
+              "fontSize": "{prism.font.size.32}",
+              "fontWeight": "{prism.font.weight-role.strong}",
+              "lineHeight": "{prism.font.line-height.snug}",
+              "letterSpacing": "{prism.font.letter-spacing.snug}"
+            },
+            "$description": "title lg strong — 28→32px fluid Clash Display (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "title",
+                "variant": "lg",
+                "weightRole": "strong",
+                "sizePx": 32,
+                "responsive": {
+                  "fluid": true,
+                  "min": {
+                    "px": 28,
+                    "rem": 1.75,
+                    "ref": "{prism.font.size.28}"
+                  },
+                  "max": {
+                    "px": 32,
+                    "rem": 2,
+                    "ref": "{prism.font.size.32}"
+                  },
+                  "web": "clamp(1.75rem, 1.6667rem + 0.3704vw, 2rem)",
+                  "figma": {
+                    "field": "fontSize",
+                    "scope": "FONT_SIZE",
+                    "modes": {
+                      "mobile": 28,
+                      "desktop": 32
+                    }
                   }
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
                 }
-              },
-              "figma": {
-                "kind": "text-style",
-                "styleType": "TEXT",
-                "binds": [
-                  "fontFamily",
-                  "fontSize",
-                  "fontWeight",
-                  "lineHeight",
-                  "letterSpacing"
-                ],
-                "baked": [],
-                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
             }
           }
         },
         "xl": {
-          "$type": "typography",
-          "$value": {
-            "fontFamily": "{prism.font.family.display}",
-            "fontSize": "{prism.font.size.36}",
-            "fontWeight": "{prism.font.weight-role.strong}",
-            "lineHeight": "{prism.font.line-height.snug}",
-            "letterSpacing": "{prism.font.letter-spacing.snug}"
-          },
-          "$description": "title xl — 32→36px fluid Clash Display (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
-          "$extensions": {
-            "prism3": {
-              "role": "composite",
-              "group": "title",
-              "variant": "xl",
-              "sizePx": 36,
-              "responsive": {
-                "fluid": true,
-                "min": {
-                  "px": 32,
-                  "rem": 2,
-                  "ref": "{prism.font.size.32}"
-                },
-                "max": {
-                  "px": 36,
-                  "rem": 2.25,
-                  "ref": "{prism.font.size.36}"
-                },
-                "web": "clamp(2rem, 1.9167rem + 0.3704vw, 2.25rem)",
-                "figma": {
-                  "field": "fontSize",
-                  "scope": "FONT_SIZE",
-                  "modes": {
-                    "mobile": 32,
-                    "desktop": 36
+          "strong": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{prism.font.family.display}",
+              "fontSize": "{prism.font.size.36}",
+              "fontWeight": "{prism.font.weight-role.strong}",
+              "lineHeight": "{prism.font.line-height.snug}",
+              "letterSpacing": "{prism.font.letter-spacing.snug}"
+            },
+            "$description": "title xl strong — 32→36px fluid Clash Display (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "title",
+                "variant": "xl",
+                "weightRole": "strong",
+                "sizePx": 36,
+                "responsive": {
+                  "fluid": true,
+                  "min": {
+                    "px": 32,
+                    "rem": 2,
+                    "ref": "{prism.font.size.32}"
+                  },
+                  "max": {
+                    "px": 36,
+                    "rem": 2.25,
+                    "ref": "{prism.font.size.36}"
+                  },
+                  "web": "clamp(2rem, 1.9167rem + 0.3704vw, 2.25rem)",
+                  "figma": {
+                    "field": "fontSize",
+                    "scope": "FONT_SIZE",
+                    "modes": {
+                      "mobile": 32,
+                      "desktop": 36
+                    }
                   }
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
                 }
-              },
-              "figma": {
-                "kind": "text-style",
-                "styleType": "TEXT",
-                "binds": [
-                  "fontFamily",
-                  "fontSize",
-                  "fontWeight",
-                  "lineHeight",
-                  "letterSpacing"
-                ],
-                "baked": [],
-                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
             }
           }
         },
         "2xl": {
-          "$type": "typography",
-          "$value": {
-            "fontFamily": "{prism.font.family.display}",
-            "fontSize": "{prism.font.size.48}",
-            "fontWeight": "{prism.font.weight-role.strong}",
-            "lineHeight": "{prism.font.line-height.snug}",
-            "letterSpacing": "{prism.font.letter-spacing.snug}"
-          },
-          "$description": "title 2xl — 40→48px fluid Clash Display (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
-          "$extensions": {
-            "prism3": {
-              "role": "composite",
-              "group": "title",
-              "variant": "2xl",
-              "sizePx": 48,
-              "responsive": {
-                "fluid": true,
-                "min": {
-                  "px": 40,
-                  "rem": 2.5,
-                  "ref": "{prism.font.size.40}"
-                },
-                "max": {
-                  "px": 48,
-                  "rem": 3,
-                  "ref": "{prism.font.size.48}"
-                },
-                "web": "clamp(2.5rem, 2.3333rem + 0.7407vw, 3rem)",
-                "figma": {
-                  "field": "fontSize",
-                  "scope": "FONT_SIZE",
-                  "modes": {
-                    "mobile": 40,
-                    "desktop": 48
+          "strong": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{prism.font.family.display}",
+              "fontSize": "{prism.font.size.48}",
+              "fontWeight": "{prism.font.weight-role.strong}",
+              "lineHeight": "{prism.font.line-height.snug}",
+              "letterSpacing": "{prism.font.letter-spacing.snug}"
+            },
+            "$description": "title 2xl strong — 40→48px fluid Clash Display (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "title",
+                "variant": "2xl",
+                "weightRole": "strong",
+                "sizePx": 48,
+                "responsive": {
+                  "fluid": true,
+                  "min": {
+                    "px": 40,
+                    "rem": 2.5,
+                    "ref": "{prism.font.size.40}"
+                  },
+                  "max": {
+                    "px": 48,
+                    "rem": 3,
+                    "ref": "{prism.font.size.48}"
+                  },
+                  "web": "clamp(2.5rem, 2.3333rem + 0.7407vw, 3rem)",
+                  "figma": {
+                    "field": "fontSize",
+                    "scope": "FONT_SIZE",
+                    "modes": {
+                      "mobile": 40,
+                      "desktop": 48
+                    }
                   }
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
                 }
-              },
-              "figma": {
-                "kind": "text-style",
-                "styleType": "TEXT",
-                "binds": [
-                  "fontFamily",
-                  "fontSize",
-                  "fontWeight",
-                  "lineHeight",
-                  "letterSpacing"
-                ],
-                "baked": [],
-                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
             }
           }
@@ -10578,109 +10731,475 @@
       },
       "body": {
         "sm": {
-          "$type": "typography",
-          "$value": {
-            "fontFamily": "{prism.font.family.text}",
-            "fontSize": "{prism.font.size.14}",
-            "fontWeight": "{prism.font.weight-role.default}",
-            "lineHeight": "{prism.font.line-height.normal}",
-            "letterSpacing": "{prism.font.letter-spacing.normal}"
+          "default": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{prism.font.family.text}",
+              "fontSize": "{prism.font.size.14}",
+              "fontWeight": "{prism.font.weight-role.default}",
+              "lineHeight": "{prism.font.line-height.normal}",
+              "letterSpacing": "{prism.font.letter-spacing.normal}"
+            },
+            "$description": "body sm default — 14px Inter (text role), normal line-height, default weight, normal tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "body",
+                "variant": "sm",
+                "weightRole": "default",
+                "sizePx": 14,
+                "responsive": {
+                  "fluid": false,
+                  "px": 14
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
           },
-          "$description": "body sm — 14px Inter (text role), normal line-height, default weight, normal tracking — consumer-facing type style",
-          "$extensions": {
-            "prism3": {
-              "role": "composite",
-              "group": "body",
-              "variant": "sm",
-              "sizePx": 14,
-              "responsive": {
-                "fluid": false,
-                "px": 14
-              },
-              "figma": {
-                "kind": "text-style",
-                "styleType": "TEXT",
-                "binds": [
-                  "fontFamily",
-                  "fontSize",
-                  "fontWeight",
-                  "lineHeight",
-                  "letterSpacing"
-                ],
-                "baked": [],
-                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+          "default-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{prism.font.family.text}",
+              "fontSize": "{prism.font.size.14}",
+              "fontWeight": "{prism.font.weight-role.default}",
+              "lineHeight": "{prism.font.line-height.normal}",
+              "letterSpacing": "{prism.font.letter-spacing.normal}",
+              "textDecoration": "underline"
+            },
+            "$description": "body sm default link — 14px Inter (text role), normal line-height, default weight, normal tracking, underlined (link — pair with text.link.* colour) — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "body",
+                "variant": "sm",
+                "weightRole": "default",
+                "sizePx": 14,
+                "link": true,
+                "responsive": {
+                  "fluid": false,
+                  "px": 14
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [
+                    "textDecoration"
+                  ],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
+          },
+          "strong": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{prism.font.family.text}",
+              "fontSize": "{prism.font.size.14}",
+              "fontWeight": "{prism.font.weight-role.strong}",
+              "lineHeight": "{prism.font.line-height.normal}",
+              "letterSpacing": "{prism.font.letter-spacing.normal}"
+            },
+            "$description": "body sm strong — 14px Inter (text role), normal line-height, strong weight, normal tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "body",
+                "variant": "sm",
+                "weightRole": "strong",
+                "sizePx": 14,
+                "responsive": {
+                  "fluid": false,
+                  "px": 14
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
+          },
+          "strong-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{prism.font.family.text}",
+              "fontSize": "{prism.font.size.14}",
+              "fontWeight": "{prism.font.weight-role.strong}",
+              "lineHeight": "{prism.font.line-height.normal}",
+              "letterSpacing": "{prism.font.letter-spacing.normal}",
+              "textDecoration": "underline"
+            },
+            "$description": "body sm strong link — 14px Inter (text role), normal line-height, strong weight, normal tracking, underlined (link — pair with text.link.* colour) — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "body",
+                "variant": "sm",
+                "weightRole": "strong",
+                "sizePx": 14,
+                "link": true,
+                "responsive": {
+                  "fluid": false,
+                  "px": 14
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [
+                    "textDecoration"
+                  ],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
               }
             }
           }
         },
         "md": {
-          "$type": "typography",
-          "$value": {
-            "fontFamily": "{prism.font.family.text}",
-            "fontSize": "{prism.font.size.16}",
-            "fontWeight": "{prism.font.weight-role.default}",
-            "lineHeight": "{prism.font.line-height.normal}",
-            "letterSpacing": "{prism.font.letter-spacing.normal}"
+          "default": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{prism.font.family.text}",
+              "fontSize": "{prism.font.size.16}",
+              "fontWeight": "{prism.font.weight-role.default}",
+              "lineHeight": "{prism.font.line-height.normal}",
+              "letterSpacing": "{prism.font.letter-spacing.normal}"
+            },
+            "$description": "body md default — 16px Inter (text role), normal line-height, default weight, normal tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "body",
+                "variant": "md",
+                "weightRole": "default",
+                "sizePx": 16,
+                "responsive": {
+                  "fluid": false,
+                  "px": 16
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
           },
-          "$description": "body md — 16px Inter (text role), normal line-height, default weight, normal tracking — consumer-facing type style",
-          "$extensions": {
-            "prism3": {
-              "role": "composite",
-              "group": "body",
-              "variant": "md",
-              "sizePx": 16,
-              "responsive": {
-                "fluid": false,
-                "px": 16
-              },
-              "figma": {
-                "kind": "text-style",
-                "styleType": "TEXT",
-                "binds": [
-                  "fontFamily",
-                  "fontSize",
-                  "fontWeight",
-                  "lineHeight",
-                  "letterSpacing"
-                ],
-                "baked": [],
-                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+          "default-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{prism.font.family.text}",
+              "fontSize": "{prism.font.size.16}",
+              "fontWeight": "{prism.font.weight-role.default}",
+              "lineHeight": "{prism.font.line-height.normal}",
+              "letterSpacing": "{prism.font.letter-spacing.normal}",
+              "textDecoration": "underline"
+            },
+            "$description": "body md default link — 16px Inter (text role), normal line-height, default weight, normal tracking, underlined (link — pair with text.link.* colour) — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "body",
+                "variant": "md",
+                "weightRole": "default",
+                "sizePx": 16,
+                "link": true,
+                "responsive": {
+                  "fluid": false,
+                  "px": 16
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [
+                    "textDecoration"
+                  ],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
+          },
+          "strong": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{prism.font.family.text}",
+              "fontSize": "{prism.font.size.16}",
+              "fontWeight": "{prism.font.weight-role.strong}",
+              "lineHeight": "{prism.font.line-height.normal}",
+              "letterSpacing": "{prism.font.letter-spacing.normal}"
+            },
+            "$description": "body md strong — 16px Inter (text role), normal line-height, strong weight, normal tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "body",
+                "variant": "md",
+                "weightRole": "strong",
+                "sizePx": 16,
+                "responsive": {
+                  "fluid": false,
+                  "px": 16
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
+          },
+          "strong-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{prism.font.family.text}",
+              "fontSize": "{prism.font.size.16}",
+              "fontWeight": "{prism.font.weight-role.strong}",
+              "lineHeight": "{prism.font.line-height.normal}",
+              "letterSpacing": "{prism.font.letter-spacing.normal}",
+              "textDecoration": "underline"
+            },
+            "$description": "body md strong link — 16px Inter (text role), normal line-height, strong weight, normal tracking, underlined (link — pair with text.link.* colour) — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "body",
+                "variant": "md",
+                "weightRole": "strong",
+                "sizePx": 16,
+                "link": true,
+                "responsive": {
+                  "fluid": false,
+                  "px": 16
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [
+                    "textDecoration"
+                  ],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
               }
             }
           }
         },
         "lg": {
-          "$type": "typography",
-          "$value": {
-            "fontFamily": "{prism.font.family.text}",
-            "fontSize": "{prism.font.size.18}",
-            "fontWeight": "{prism.font.weight-role.default}",
-            "lineHeight": "{prism.font.line-height.normal}",
-            "letterSpacing": "{prism.font.letter-spacing.normal}"
+          "default": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{prism.font.family.text}",
+              "fontSize": "{prism.font.size.18}",
+              "fontWeight": "{prism.font.weight-role.default}",
+              "lineHeight": "{prism.font.line-height.normal}",
+              "letterSpacing": "{prism.font.letter-spacing.normal}"
+            },
+            "$description": "body lg default — 18px Inter (text role), normal line-height, default weight, normal tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "body",
+                "variant": "lg",
+                "weightRole": "default",
+                "sizePx": 18,
+                "responsive": {
+                  "fluid": false,
+                  "px": 18
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
           },
-          "$description": "body lg — 18px Inter (text role), normal line-height, default weight, normal tracking — consumer-facing type style",
-          "$extensions": {
-            "prism3": {
-              "role": "composite",
-              "group": "body",
-              "variant": "lg",
-              "sizePx": 18,
-              "responsive": {
-                "fluid": false,
-                "px": 18
-              },
-              "figma": {
-                "kind": "text-style",
-                "styleType": "TEXT",
-                "binds": [
-                  "fontFamily",
-                  "fontSize",
-                  "fontWeight",
-                  "lineHeight",
-                  "letterSpacing"
-                ],
-                "baked": [],
-                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+          "default-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{prism.font.family.text}",
+              "fontSize": "{prism.font.size.18}",
+              "fontWeight": "{prism.font.weight-role.default}",
+              "lineHeight": "{prism.font.line-height.normal}",
+              "letterSpacing": "{prism.font.letter-spacing.normal}",
+              "textDecoration": "underline"
+            },
+            "$description": "body lg default link — 18px Inter (text role), normal line-height, default weight, normal tracking, underlined (link — pair with text.link.* colour) — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "body",
+                "variant": "lg",
+                "weightRole": "default",
+                "sizePx": 18,
+                "link": true,
+                "responsive": {
+                  "fluid": false,
+                  "px": 18
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [
+                    "textDecoration"
+                  ],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
+          },
+          "strong": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{prism.font.family.text}",
+              "fontSize": "{prism.font.size.18}",
+              "fontWeight": "{prism.font.weight-role.strong}",
+              "lineHeight": "{prism.font.line-height.normal}",
+              "letterSpacing": "{prism.font.letter-spacing.normal}"
+            },
+            "$description": "body lg strong — 18px Inter (text role), normal line-height, strong weight, normal tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "body",
+                "variant": "lg",
+                "weightRole": "strong",
+                "sizePx": 18,
+                "responsive": {
+                  "fluid": false,
+                  "px": 18
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
+          },
+          "strong-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{prism.font.family.text}",
+              "fontSize": "{prism.font.size.18}",
+              "fontWeight": "{prism.font.weight-role.strong}",
+              "lineHeight": "{prism.font.line-height.normal}",
+              "letterSpacing": "{prism.font.letter-spacing.normal}",
+              "textDecoration": "underline"
+            },
+            "$description": "body lg strong link — 18px Inter (text role), normal line-height, strong weight, normal tracking, underlined (link — pair with text.link.* colour) — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "body",
+                "variant": "lg",
+                "weightRole": "strong",
+                "sizePx": 18,
+                "link": true,
+                "responsive": {
+                  "fluid": false,
+                  "px": 18
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [
+                    "textDecoration"
+                  ],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
               }
             }
           }
@@ -10688,21 +11207,422 @@
       },
       "label": {
         "sm": {
+          "emphasis": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{prism.font.family.text}",
+              "fontSize": "{prism.font.size.12}",
+              "fontWeight": "{prism.font.weight-role.emphasis}",
+              "lineHeight": "{prism.font.line-height.snug}",
+              "letterSpacing": "{prism.font.letter-spacing.normal}"
+            },
+            "$description": "label sm emphasis — 12px Inter (text role), snug line-height, emphasis weight, normal tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "label",
+                "variant": "sm",
+                "weightRole": "emphasis",
+                "sizePx": 12,
+                "responsive": {
+                  "fluid": false,
+                  "px": 12
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
+          }
+        },
+        "md": {
+          "emphasis": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{prism.font.family.text}",
+              "fontSize": "{prism.font.size.14}",
+              "fontWeight": "{prism.font.weight-role.emphasis}",
+              "lineHeight": "{prism.font.line-height.snug}",
+              "letterSpacing": "{prism.font.letter-spacing.normal}"
+            },
+            "$description": "label md emphasis — 14px Inter (text role), snug line-height, emphasis weight, normal tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "label",
+                "variant": "md",
+                "weightRole": "emphasis",
+                "sizePx": 14,
+                "responsive": {
+                  "fluid": false,
+                  "px": 14
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
+          }
+        }
+      },
+      "caption": {
+        "md": {
+          "default": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{prism.font.family.text}",
+              "fontSize": "{prism.font.size.11}",
+              "fontWeight": "{prism.font.weight-role.default}",
+              "lineHeight": "{prism.font.line-height.normal}",
+              "letterSpacing": "{prism.font.letter-spacing.normal}"
+            },
+            "$description": "caption md default — 11px Inter (text role), normal line-height, default weight, normal tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "caption",
+                "variant": "md",
+                "weightRole": "default",
+                "sizePx": 11,
+                "responsive": {
+                  "fluid": false,
+                  "px": 11
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
+          },
+          "default-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{prism.font.family.text}",
+              "fontSize": "{prism.font.size.11}",
+              "fontWeight": "{prism.font.weight-role.default}",
+              "lineHeight": "{prism.font.line-height.normal}",
+              "letterSpacing": "{prism.font.letter-spacing.normal}",
+              "textDecoration": "underline"
+            },
+            "$description": "caption md default link — 11px Inter (text role), normal line-height, default weight, normal tracking, underlined (link — pair with text.link.* colour) — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "caption",
+                "variant": "md",
+                "weightRole": "default",
+                "sizePx": 11,
+                "link": true,
+                "responsive": {
+                  "fluid": false,
+                  "px": 11
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [
+                    "textDecoration"
+                  ],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
+          },
+          "strong": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{prism.font.family.text}",
+              "fontSize": "{prism.font.size.11}",
+              "fontWeight": "{prism.font.weight-role.strong}",
+              "lineHeight": "{prism.font.line-height.normal}",
+              "letterSpacing": "{prism.font.letter-spacing.normal}"
+            },
+            "$description": "caption md strong — 11px Inter (text role), normal line-height, strong weight, normal tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "caption",
+                "variant": "md",
+                "weightRole": "strong",
+                "sizePx": 11,
+                "responsive": {
+                  "fluid": false,
+                  "px": 11
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
+          },
+          "strong-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{prism.font.family.text}",
+              "fontSize": "{prism.font.size.11}",
+              "fontWeight": "{prism.font.weight-role.strong}",
+              "lineHeight": "{prism.font.line-height.normal}",
+              "letterSpacing": "{prism.font.letter-spacing.normal}",
+              "textDecoration": "underline"
+            },
+            "$description": "caption md strong link — 11px Inter (text role), normal line-height, strong weight, normal tracking, underlined (link — pair with text.link.* colour) — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "caption",
+                "variant": "md",
+                "weightRole": "strong",
+                "sizePx": 11,
+                "link": true,
+                "responsive": {
+                  "fluid": false,
+                  "px": 11
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [
+                    "textDecoration"
+                  ],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
+          }
+        },
+        "lg": {
+          "default": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{prism.font.family.text}",
+              "fontSize": "{prism.font.size.12}",
+              "fontWeight": "{prism.font.weight-role.default}",
+              "lineHeight": "{prism.font.line-height.normal}",
+              "letterSpacing": "{prism.font.letter-spacing.normal}"
+            },
+            "$description": "caption lg default — 12px Inter (text role), normal line-height, default weight, normal tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "caption",
+                "variant": "lg",
+                "weightRole": "default",
+                "sizePx": 12,
+                "responsive": {
+                  "fluid": false,
+                  "px": 12
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
+          },
+          "default-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{prism.font.family.text}",
+              "fontSize": "{prism.font.size.12}",
+              "fontWeight": "{prism.font.weight-role.default}",
+              "lineHeight": "{prism.font.line-height.normal}",
+              "letterSpacing": "{prism.font.letter-spacing.normal}",
+              "textDecoration": "underline"
+            },
+            "$description": "caption lg default link — 12px Inter (text role), normal line-height, default weight, normal tracking, underlined (link — pair with text.link.* colour) — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "caption",
+                "variant": "lg",
+                "weightRole": "default",
+                "sizePx": 12,
+                "link": true,
+                "responsive": {
+                  "fluid": false,
+                  "px": 12
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [
+                    "textDecoration"
+                  ],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
+          },
+          "strong": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{prism.font.family.text}",
+              "fontSize": "{prism.font.size.12}",
+              "fontWeight": "{prism.font.weight-role.strong}",
+              "lineHeight": "{prism.font.line-height.normal}",
+              "letterSpacing": "{prism.font.letter-spacing.normal}"
+            },
+            "$description": "caption lg strong — 12px Inter (text role), normal line-height, strong weight, normal tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "caption",
+                "variant": "lg",
+                "weightRole": "strong",
+                "sizePx": 12,
+                "responsive": {
+                  "fluid": false,
+                  "px": 12
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
+          },
+          "strong-link": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{prism.font.family.text}",
+              "fontSize": "{prism.font.size.12}",
+              "fontWeight": "{prism.font.weight-role.strong}",
+              "lineHeight": "{prism.font.line-height.normal}",
+              "letterSpacing": "{prism.font.letter-spacing.normal}",
+              "textDecoration": "underline"
+            },
+            "$description": "caption lg strong link — 12px Inter (text role), normal line-height, strong weight, normal tracking, underlined (link — pair with text.link.* colour) — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "caption",
+                "variant": "lg",
+                "weightRole": "strong",
+                "sizePx": 12,
+                "link": true,
+                "responsive": {
+                  "fluid": false,
+                  "px": 12
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [
+                    "textDecoration"
+                  ],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
+          }
+        }
+      },
+      "eyebrow": {
+        "emphasis": {
           "$type": "typography",
           "$value": {
-            "fontFamily": "{prism.font.family.text}",
+            "fontFamily": "{prism.font.family.display}",
             "fontSize": "{prism.font.size.12}",
             "fontWeight": "{prism.font.weight-role.emphasis}",
             "lineHeight": "{prism.font.line-height.snug}",
-            "letterSpacing": "{prism.font.letter-spacing.normal}"
+            "letterSpacing": "{prism.font.letter-spacing.wider}",
+            "textCase": "uppercase"
           },
-          "$description": "label sm — 12px Inter (text role), snug line-height, emphasis weight, normal tracking — consumer-facing type style",
+          "$description": "eyebrow emphasis — 12px Clash Display (display role), snug line-height, emphasis weight, wider tracking, uppercase — consumer-facing type style",
           "$extensions": {
             "prism3": {
               "role": "composite",
-              "group": "label",
-              "variant": "sm",
+              "group": "eyebrow",
+              "variant": "",
+              "weightRole": "emphasis",
               "sizePx": 12,
+              "textCase": "uppercase",
               "responsive": {
                 "fluid": false,
                 "px": 12
@@ -10717,158 +11637,51 @@
                   "lineHeight",
                   "letterSpacing"
                 ],
-                "baked": [],
-                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
-              }
-            }
-          }
-        },
-        "md": {
-          "$type": "typography",
-          "$value": {
-            "fontFamily": "{prism.font.family.text}",
-            "fontSize": "{prism.font.size.14}",
-            "fontWeight": "{prism.font.weight-role.emphasis}",
-            "lineHeight": "{prism.font.line-height.snug}",
-            "letterSpacing": "{prism.font.letter-spacing.normal}"
-          },
-          "$description": "label md — 14px Inter (text role), snug line-height, emphasis weight, normal tracking — consumer-facing type style",
-          "$extensions": {
-            "prism3": {
-              "role": "composite",
-              "group": "label",
-              "variant": "md",
-              "sizePx": 14,
-              "responsive": {
-                "fluid": false,
-                "px": 14
-              },
-              "figma": {
-                "kind": "text-style",
-                "styleType": "TEXT",
-                "binds": [
-                  "fontFamily",
-                  "fontSize",
-                  "fontWeight",
-                  "lineHeight",
-                  "letterSpacing"
+                "baked": [
+                  "textCase"
                 ],
-                "baked": [],
                 "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
               }
-            }
-          }
-        }
-      },
-      "caption": {
-        "$type": "typography",
-        "$value": {
-          "fontFamily": "{prism.font.family.text}",
-          "fontSize": "{prism.font.size.12}",
-          "fontWeight": "{prism.font.weight-role.default}",
-          "lineHeight": "{prism.font.line-height.normal}",
-          "letterSpacing": "{prism.font.letter-spacing.normal}"
-        },
-        "$description": "caption — 12px Inter (text role), normal line-height, default weight, normal tracking — consumer-facing type style",
-        "$extensions": {
-          "prism3": {
-            "role": "composite",
-            "group": "caption",
-            "variant": "",
-            "sizePx": 12,
-            "responsive": {
-              "fluid": false,
-              "px": 12
-            },
-            "figma": {
-              "kind": "text-style",
-              "styleType": "TEXT",
-              "binds": [
-                "fontFamily",
-                "fontSize",
-                "fontWeight",
-                "lineHeight",
-                "letterSpacing"
-              ],
-              "baked": [],
-              "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
-            }
-          }
-        }
-      },
-      "eyebrow": {
-        "$type": "typography",
-        "$value": {
-          "fontFamily": "{prism.font.family.display}",
-          "fontSize": "{prism.font.size.12}",
-          "fontWeight": "{prism.font.weight-role.emphasis}",
-          "lineHeight": "{prism.font.line-height.snug}",
-          "letterSpacing": "{prism.font.letter-spacing.wider}",
-          "textCase": "uppercase"
-        },
-        "$description": "eyebrow — 12px Clash Display (display role), snug line-height, emphasis weight, wider tracking, uppercase — consumer-facing type style",
-        "$extensions": {
-          "prism3": {
-            "role": "composite",
-            "group": "eyebrow",
-            "variant": "",
-            "sizePx": 12,
-            "textCase": "uppercase",
-            "responsive": {
-              "fluid": false,
-              "px": 12
-            },
-            "figma": {
-              "kind": "text-style",
-              "styleType": "TEXT",
-              "binds": [
-                "fontFamily",
-                "fontSize",
-                "fontWeight",
-                "lineHeight",
-                "letterSpacing"
-              ],
-              "baked": [
-                "textCase"
-              ],
-              "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
             }
           }
         }
       },
       "code": {
         "inline": {
-          "$type": "typography",
-          "$value": {
-            "fontFamily": "{prism.font.family.mono}",
-            "fontSize": "{prism.font.size.14}",
-            "fontWeight": "{prism.font.weight-role.default}",
-            "lineHeight": "{prism.font.line-height.normal}",
-            "letterSpacing": "{prism.font.letter-spacing.normal}"
-          },
-          "$description": "code inline — 14px JetBrains Mono (mono role), normal line-height, default weight, normal tracking — consumer-facing type style",
-          "$extensions": {
-            "prism3": {
-              "role": "composite",
-              "group": "code",
-              "variant": "inline",
-              "sizePx": 14,
-              "responsive": {
-                "fluid": false,
-                "px": 14
-              },
-              "figma": {
-                "kind": "text-style",
-                "styleType": "TEXT",
-                "binds": [
-                  "fontFamily",
-                  "fontSize",
-                  "fontWeight",
-                  "lineHeight",
-                  "letterSpacing"
-                ],
-                "baked": [],
-                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+          "default": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{prism.font.family.mono}",
+              "fontSize": "{prism.font.size.14}",
+              "fontWeight": "{prism.font.weight-role.default}",
+              "lineHeight": "{prism.font.line-height.normal}",
+              "letterSpacing": "{prism.font.letter-spacing.normal}"
+            },
+            "$description": "code inline default — 14px JetBrains Mono (mono role), normal line-height, default weight, normal tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "code",
+                "variant": "inline",
+                "weightRole": "default",
+                "sizePx": 14,
+                "responsive": {
+                  "fluid": false,
+                  "px": 14
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
               }
             }
           }
@@ -12821,7 +13634,7 @@
         "shadow: 6-step ramp (xs–2xl) + inset, 2-layer (key+ambient), softness 1.3; tinted base (hue 285, amount 0.5). Mode-aware, LIFT-primary: full shadow in light; reduced (faded, top-weighted) in dark — the surface ladder carries dark elevation. Composite shadow → Figma Effect Style.",
         "gradient: 2 brand gradient(s) [brand linear 135° 2-stop, glow radial 2-stop] — OPT-IN. DTCG composite spine, stop colours alias the ramp; kind/angle/oklch interpolation in $extensions (DTCG omits them — issue #101). OKLCH-interpolated + 5-stop sRGB pre-sample for Figma (sRGB-only); materializes as a Figma Paint Style (only stop colours bind). Worst-case-stop contrast computed for text-on-gradient.",
         "layout: 6 breakpoints (xs 0, sm 480, md 768, lg 1024, xl 1440, 2xl 1920); grid base 12 cols (ladder 4/8/12/12/12/12); gutter/margin alias the spacing scale (16/16/24/24/32/32 · 16/24/24/32/48/48); container max 1280px + narrow 720px (fluid-first + cap). Breakpoints → a separate Figma layout collection (modes), composing with colour light/dark.",
-        "typography: curated rem size ladder (22 steps, 10–160px — NOT ratio-derived; covers all bases, clean values); weight roles subtle/default/emphasis/strong → 300/400/500/700; families display=Clash Display, text=Inter, mono=JetBrains Mono (variable: display/text); typeScale 'expressive'. 19 semantic composites (title/display sizes shifted by typeScale; display capped at 128px; title floor 16px) — NOTE: requested ceiling 128px; effective top display is 112px (typeScale shifts sizes off the exact ladder rung). responsive: 9 fluid composites (size-dependent mobile shrink — research-validated, Carbon fluid-display curve: body static, titles ~1 rung, display converges to ~40–48px; one min/max pair → web clamp() 360–1440px + Figma desktop/mobile modes). Line-height unitless multiplier in $value; px-from-ratio materialization for Figma in $extensions.",
+        "typography: curated rem size ladder (22 steps, 10–160px — NOT ratio-derived; covers all bases, clean values); weight roles subtle/default/emphasis/strong → 300/400/500/700; families display=Clash Display, text=Inter, mono=JetBrains Mono (variable: display/text); typeScale 'expressive'. 35 semantic composites (title/display sizes shifted by typeScale; display capped at 128px; title floor 16px) — NOTE: requested ceiling 128px; effective top display is 112px (typeScale shifts sizes off the exact ladder rung). responsive: 9 fluid composites (size-dependent mobile shrink — research-validated, Carbon fluid-display curve: body static, titles ~1 rung, display converges to ~40–48px; one min/max pair → web clamp() 360–1440px + Figma desktop/mobile modes). Line-height unitless multiplier in $value; px-from-ratio materialization for Figma in $extensions.",
         "disabled: 'accessible' — disabled text/icon/border clears 3:1 on the floor (legible, contrast-preserving; the field-rare default). Set disabledStrategy:'conventional' for the sub-AA exempt look.",
         "light primary surface is NON-default (neutral.50) — CONFIRM this is the page colour; the contrast floor moves with it"
       ]

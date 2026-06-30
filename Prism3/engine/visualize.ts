@@ -22,7 +22,6 @@ const here = dirname(fileURLToPath(import.meta.url));
 const outDir = resolve(here, 'out');
 
 type Node = any;
-const isToken = (n: Node) => n && typeof n === 'object' && n.$type !== undefined;
 
 /** Resolve a dotted token path to its node. */
 const at = (tree: Node, path: string): Node => path.split('.').reduce((n, s) => n?.[s], tree);
@@ -50,14 +49,6 @@ const subNode = (tree: Node, aliasStr: any): Node => at(tree, String(aliasStr).r
 const numOf = (tree: Node, node: Node): number => { const t = deref(tree, node); return typeof t?.$value === 'number' ? t.$value : parseFloat(String(t?.$value)) || 0; };
 const remPxOf = (tree: Node, node: Node): number => { const t = deref(tree, node); const px = t?.$extensions?.prism3?.px; if (px) return px; const v = String(t?.$value); return v.endsWith('rem') ? parseFloat(v) * 16 : parseFloat(v) || 0; };
 const familyOf = (tree: Node, node: Node): string => { const t = deref(tree, node); return Array.isArray(t?.$value) ? t.$value.join(', ') : String(t?.$value ?? 'sans-serif'); };
-// Resolve a shadow node (possibly an alias chain) to a CSS box-shadow string.
-const shadowCssOf = (tree: Node, node: Node): string => {
-  let cur = node, guard = 0;
-  while (cur && typeof cur.$value === 'string' && /^\{.+\}$/.test(cur.$value) && guard++ < 10) cur = at(tree, cur.$value.slice(1, -1));
-  const layers = Array.isArray(cur?.$value) ? cur.$value : [];
-  const inset = /inner|inset|well/i.test(String(cur?.$description ?? ''));
-  return layers.map((l: any) => `${inset ? 'inset ' : ''}${l.offsetX} ${l.offsetY} ${l.blur} ${l.spread} ${l.color}`).join(', ') || 'none';
-};
 
 type Brand = { id: string; root: string; tree: Node; data: Node };
 const load = (id: string, root: string): Brand => {
@@ -189,19 +180,23 @@ for (const b of brands) {
     const lh = numOf(tree, subNode(tree, v.lineHeight));
     const ls = String(deref(tree, subNode(tree, v.letterSpacing))?.$value ?? '0');
     const tc = v.textCase ?? ext.textCase ?? 'none';
+    const deco = v.textDecoration === 'underline' || ext.link ? 'underline' : 'none';
     const sizePx = ext.sizePx ?? remPxOf(tree, subNode(tree, v.fontSize));
     const r = ext.responsive ?? {};
     const range = r.fluid ? `${r.min.px}→${r.max.px}px fluid` : `${r.px ?? sizePx}px`;
     const shown = Math.min(sizePx, 64);
-    const style = `font-family:${family};font-size:${shown}px;font-weight:${weight};line-height:${lh};letter-spacing:${ls};text-transform:${tc}`;
-    txt.push(`  ${path.padEnd(16)} ${range} · w${weight} · lh${lh} · ${family.split(',')[0]}`);
-    html.push(`<div class="trow"><div class="tmeta"><b>${path}</b><span>${range} · w${weight} · lh ${lh} · ls ${ls}${tc !== 'none' ? ' · ' + tc : ''}</span><span class="tfam">${esc(family.split(',')[0])}</span></div><div class="tsample" style="${style}">${esc(path.split('.').slice(1).join(' '))}</div></div>`);
+    const style = `font-family:${family};font-size:${shown}px;font-weight:${weight};line-height:${lh};letter-spacing:${ls};text-transform:${tc};text-decoration:${deco}`;
+    txt.push(`  ${path.padEnd(24)} ${range} · w${weight} · lh${lh}${deco === 'underline' ? ' · link' : ''} · ${family.split(',')[0]}`);
+    html.push(`<div class="trow"><div class="tmeta"><b>${path.replace(/^type\./, '')}</b><span>${range} · w${weight} · lh ${lh} · ls ${ls}${tc !== 'none' ? ' · ' + tc : ''}${deco === 'underline' ? ' · link' : ''}</span><span class="tfam">${esc(family.split(',')[0])}</span></div><div class="tsample" style="${style}">${esc(path.split('.').slice(1).join(' '))}</div></div>`);
   };
-  for (const g of Object.keys(data.type)) {
-    const grp = data.type[g];
-    if ('$value' in grp) renderType(`type.${g}`, grp);
-    else for (const vk of Object.keys(grp)) renderType(`type.${g}.${vk}`, grp[vk]);
-  }
+  // Recurse to every composite leaf ($value-bearing); the tree is now group/size/weight[-link].
+  const walkType = (node: Node, path: string) => {
+    if (node && typeof node === 'object') {
+      if ('$value' in node) { renderType(path, node); return; }
+      for (const k of Object.keys(node)) walkType(node[k], `${path}.${k}`);
+    }
+  };
+  for (const g of Object.keys(data.type)) walkType(data.type[g], `type.${g}`);
   html.push('</div>');
 
   // type primitives: families, weight roles, line-height, tracking, size ladder

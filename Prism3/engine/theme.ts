@@ -272,6 +272,7 @@ export type TypeComposite = {
   sizeMinPx: number;                               // mobile / min (== sizePx when static)
   family: FamilyRoleName; lineHeight: string; weightRole: WeightRoleName; tracking: string;
   textCase: 'none' | 'uppercase' | 'lowercase';   // baked style (not Figma-bindable; code/style-side)
+  link: boolean;                                   // underlined link variant (textDecoration baked)
 };
 export type Typography = {
   families: FontFamilyRole[];
@@ -332,6 +333,16 @@ export type TypographyInput = {
   /** Smallest title size. Default 18 (`title.xs`). Set 16 to add `title.2xs` — a
    *  16px brand-font heading that deliberately overlaps `body.md`. */
   titleFloor?: 16 | 18;
+  /** Per-role weight set. Weight is an axis on every type role (every composite
+   *  carries the weight in its name). Defaults: display/title `[strong]`, body
+   *  `[default, strong]` (add `emphasis` for a 3rd), caption `[default, strong]`,
+   *  label/eyebrow `[emphasis]`, code `[default]`. Override a role to ship a
+   *  multi-weight ramp (e.g. `display: ['default','strong']`). Roles use the 4
+   *  weight-role names (subtle/default/emphasis/strong). */
+  weights?: Partial<Record<TypeGroup, WeightRoleName[]>>;
+  /** Which roles get an underlined `.link` variant for every size×weight. Default
+   *  `['body','caption']`. Underline is baked; the link colour stays `text.link.*`. */
+  links?: TypeGroup[];
   /** Responsive sizing (Phase 3). `fluid` (default true) gives heading groups a
    *  mobile endpoint (= desktop × a per-group factor, snapped to the ladder); the
    *  same min/max pair drives the web `clamp()` and the Figma desktop/mobile modes.
@@ -346,10 +357,21 @@ const TYPE_FAMILY_DEFAULT: Record<TypeGroup, FamilyRoleName> = {
   display: 'display', title: 'display', label: 'display', eyebrow: 'display',
   body: 'text', caption: 'text', code: 'mono',
 };
-const TYPE_WEIGHT_DEFAULT: Record<TypeGroup, WeightRoleName> = {
-  display: 'strong', title: 'strong', label: 'emphasis', eyebrow: 'emphasis',
-  body: 'default', caption: 'default', code: 'default',
+// Weight is a CONFIGURABLE AXIS on every role (not a single baked weight): each
+// role declares which weight roles it ships, and every composite carries the
+// weight in its name (`type.body.md.strong`) so adding weights later never
+// renames. Defaults stay lean — display/title single-weight (expandable: brands
+// that ship multi-weight hero ramps just list more), body 2 (default + strong;
+// `emphasis` is the opt-in 3rd), caption 2. Override per role via `weights`.
+const TYPE_WEIGHTS_DEFAULT: Record<TypeGroup, WeightRoleName[]> = {
+  display: ['strong'], title: ['strong'], label: ['emphasis'], eyebrow: ['emphasis'],
+  body: ['default', 'strong'], caption: ['default', 'strong'], code: ['default'],
 };
+// Which roles get an underlined `.link` variant for EVERY size×weight (inline
+// links inherit the surrounding text's size + weight). Underline is baked
+// (textDecoration isn't Figma-bindable — a separate text style); the link COLOUR
+// stays `text.link.*` and is applied alongside.
+const TYPE_LINK_DEFAULT: TypeGroup[] = ['body', 'caption'];
 const TYPE_TRACK_DEFAULT: Record<TypeGroup, string> = {
   display: 'tight', title: 'snug', label: 'normal', eyebrow: 'wider',
   body: 'normal', caption: 'normal', code: 'normal',
@@ -363,7 +385,7 @@ const TYPE_VARIANTS: Record<TypeGroup, [string, number][]> = {
   title: [['xs', 18], ['sm', 20], ['md', 24], ['lg', 28], ['xl', 32], ['2xl', 40]],
   body: [['sm', 14], ['md', 16], ['lg', 18]],
   label: [['sm', 12], ['md', 14]],
-  caption: [['', 12]],
+  caption: [['md', 11], ['lg', 12]],          // small print; lg=12 (standard), md=11 (denser). sm=10 (fine print) is a future opt-in.
   eyebrow: [['', 12]],
   code: [['inline', 14]],
 };
@@ -408,15 +430,31 @@ const buildComposites = (ladder: number[], t: TypographyInput, fluid: boolean): 
     if (i < 0) return px;
     return ladder[Math.max(0, Math.min(ladder.length - 1, i + shift))];
   };
+  const weightsMap = { ...TYPE_WEIGHTS_DEFAULT, ...(t.weights ?? {}) };
+  const linkGroups = new Set(t.links ?? TYPE_LINK_DEFAULT);
   const out: TypeComposite[] = [];
+  // One (group, size) fans out to every weight the role ships, and — for link
+  // roles — an underlined variant of each. The weight (and `link`) are the trailing
+  // name segments: `type.<group>.<size>.<weight>[.link]` (size omitted for sizeless
+  // roles like eyebrow). Adding a weight later is purely additive — no renames.
   const push = (group: TypeGroup, variant: string, sizePx: number) => {
     const sizeMinPx = fluid ? mobileEndpoint(ladder, group, sizePx) : sizePx;
-    out.push({
-      group, variant, path: variant ? `${group}.${variant}` : group, sizePx, sizeMinPx,
-      family: familyMap[group], lineHeight: lineHeightFor(group, sizePx),
-      weightRole: TYPE_WEIGHT_DEFAULT[group], tracking: trackingFor(group, sizePx),
-      textCase: group === 'eyebrow' ? 'uppercase' : 'none',
-    });
+    const emit = (weightRole: WeightRoleName, link: boolean) => {
+      // Link is a hyphenated suffix on the weight (`strong-link`), a clean SIBLING
+      // leaf of the bare weight — not a `.link` child (that would make `strong` a
+      // token-with-children, non-DTCG). Matches the `-subtle`/`on-disabled` convention.
+      const weightSeg = link ? `${weightRole}-link` : weightRole;
+      const segs = [group, variant, weightSeg].filter(Boolean);
+      out.push({
+        group, variant, weightRole, link, path: segs.join('.'), sizePx, sizeMinPx,
+        family: familyMap[group], lineHeight: lineHeightFor(group, sizePx),
+        tracking: trackingFor(group, sizePx), textCase: group === 'eyebrow' ? 'uppercase' : 'none',
+      });
+    };
+    for (const weightRole of weightsMap[group]) {
+      emit(weightRole, false);
+      if (linkGroups.has(group)) emit(weightRole, true);
+    }
   };
   for (const group of Object.keys(TYPE_VARIANTS) as TypeGroup[]) {
     const isHeading = group === 'display' || group === 'title';

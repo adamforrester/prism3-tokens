@@ -69,12 +69,6 @@ const aliasLeaf = (path: string, description: string, extra: Record<string, unkn
   $type: 'color', $value: `{${path}}`, $description: description,
   $extensions: { prism3: { role: 'semantic', aliasOf: path, ...extra } },
 });
-// Generic typed alias (used by the elevation layer: a colour alias to a surface
-// tier + a shadow alias to a shadow step).
-const typedAlias = (type: Token['$type'], path: string, description: string, extra: Record<string, unknown> = {}): Token => ({
-  $type: type, $value: `{${path}}`, $description: description,
-  $extensions: { prism3: { role: 'semantic', aliasOf: path, ...extra } },
-});
 // Alpha colour (composites over any surface — scrims, overlays, shadows).
 const alphaLeaf = (theme: Theme, rgb: RGB, a: number, description: string): Token => ({
   $type: 'color', $value: alphaColorValue(rgb, a, theme.colorFormat), $description: description,
@@ -235,7 +229,7 @@ const fluidClamp = (minPx: number, maxPx: number, minVW: number, maxVW: number):
   const preferred = `${interceptRem}rem + ${slopeVw}vw`;
   return { clamp: `clamp(${round(minPx / 16, 4)}rem, ${preferred}, ${round(maxPx / 16, 4)}rem)`, preferred };
 };
-const typographyLeaf = (root: string, c: { group: string; variant: string; sizePx: number; sizeMinPx: number; family: string; weightRole: string; lineHeight: string; tracking: string; textCase: string }, face: string, minVW: number, maxVW: number): Token => {
+const typographyLeaf = (root: string, c: { group: string; variant: string; sizePx: number; sizeMinPx: number; family: string; weightRole: string; lineHeight: string; tracking: string; textCase: string; link: boolean }, face: string, minVW: number, maxVW: number): Token => {
   const a = (seg: string) => `{${root}.font.${seg}}`;
   const value: Record<string, unknown> = {
     fontFamily: a(`family.${c.family}`),
@@ -245,6 +239,7 @@ const typographyLeaf = (root: string, c: { group: string; variant: string; sizeP
     letterSpacing: a(`letter-spacing.${c.tracking}`),
   };
   if (c.textCase !== 'none') value.textCase = c.textCase;          // literal, baked (not a variable)
+  if (c.link) value.textDecoration = 'underline';                 // link variant — baked (not Figma-bindable)
   // Responsive directive (Phase 3): one min/max pair → web clamp() + Figma modes.
   // Canonical $value.fontSize stays the desktop alias; the exporter reads this.
   const isFluid = c.sizeMinPx !== c.sizePx;
@@ -259,8 +254,8 @@ const typographyLeaf = (root: string, c: { group: string; variant: string; sizeP
     : { fluid: false, px: c.sizePx };
   return {
     $type: 'typography', $value: value,
-    $description: `${c.group}${c.variant ? ' ' + c.variant : ''} — ${isFluid ? `${c.sizeMinPx}→${c.sizePx}px fluid` : `${c.sizePx}px`} ${face} (${c.family} role), ${c.lineHeight} line-height, ${c.weightRole} weight, ${c.tracking} tracking${c.textCase !== 'none' ? `, ${c.textCase}` : ''} — consumer-facing type style`,
-    $extensions: { prism3: { role: 'composite', group: c.group, variant: c.variant, sizePx: c.sizePx, ...(c.textCase !== 'none' ? { textCase: c.textCase } : {}), responsive, figma: { kind: 'text-style', styleType: 'TEXT', binds: ['fontFamily', 'fontSize', 'fontWeight', 'lineHeight', 'letterSpacing'], baked: c.textCase !== 'none' ? ['textCase'] : [], note: 'Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)' } } },
+    $description: `${c.group}${c.variant ? ' ' + c.variant : ''} ${c.weightRole}${c.link ? ' link' : ''} — ${isFluid ? `${c.sizeMinPx}→${c.sizePx}px fluid` : `${c.sizePx}px`} ${face} (${c.family} role), ${c.lineHeight} line-height, ${c.weightRole} weight, ${c.tracking} tracking${c.textCase !== 'none' ? `, ${c.textCase}` : ''}${c.link ? ', underlined (link — pair with text.link.* colour)' : ''} — consumer-facing type style`,
+    $extensions: { prism3: { role: 'composite', group: c.group, variant: c.variant, weightRole: c.weightRole, sizePx: c.sizePx, ...(c.link ? { link: true } : {}), ...(c.textCase !== 'none' ? { textCase: c.textCase } : {}), responsive, figma: { kind: 'text-style', styleType: 'TEXT', binds: ['fontFamily', 'fontSize', 'fontWeight', 'lineHeight', 'letterSpacing'], baked: [...(c.textCase !== 'none' ? ['textCase'] : []), ...(c.link ? ['textDecoration'] : [])], note: 'Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)' } } },
   };
 };
 
@@ -412,8 +407,11 @@ const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats: Stats
   const typeGroup: Record<string, any> = {};
   for (const c of ty.composites) {
     const leaf = typographyLeaf(root, c, faceOf[c.family], ty.minViewport, ty.maxViewport);
-    if (c.variant) (typeGroup[c.group] ??= {})[c.variant] = leaf;
-    else typeGroup[c.group] = leaf;
+    // Nest by the full composite path (group / size? / weight / link?).
+    const parts = c.path.split('.');
+    let node: Record<string, any> = typeGroup;
+    for (let i = 0; i < parts.length - 1; i++) node = (node[parts[i]] ??= {});
+    node[parts[parts.length - 1]] = leaf;
   }
 
   // ---- shadow / elevation axis (Phase A) ----
@@ -579,9 +577,14 @@ for (const theme of themes) {
   console.log(`  typography: ${stats.fontSizes} size primitives (${theme.typography.sizesPx[0]}–${theme.typography.sizesPx[theme.typography.sizesPx.length - 1]}px, rem), ${stats.fontWeights} weights + ${theme.typography.weightRoles.length} roles (${theme.typography.weightRoles.map((w) => `${w.role}=${w.value}`).join(' ')}), ${theme.typography.lineHeights.length} line-heights, ${theme.typography.letterSpacings.length} tracking`);
   console.log(`    families: ${theme.typography.families.map((f) => `${f.role}=${f.stack[0]}`).join(' ')}${theme.typography.families[0].variable ? ' [variable]' : ''} · scale '${theme.typography.typeScale}'`);
   {
-    const byGroup: Record<string, string[]> = {};
-    for (const c of theme.typography.composites) (byGroup[c.group] ??= []).push(c.variant ? `${c.variant}=${c.sizePx}` : String(c.sizePx));
-    console.log(`  type: ${stats.typeComposites} composites — ${Object.entries(byGroup).map(([g, v]) => `${g}[${v.join(' ')}]`).join(' ')}`);
+    // one line per group: sizes (unique) × the weight set it ships (+link marker).
+    const byGroup: Record<string, { sizes: Set<string>; weights: Set<string>; link: boolean }> = {};
+    for (const c of theme.typography.composites) {
+      const e = (byGroup[c.group] ??= { sizes: new Set(), weights: new Set(), link: false });
+      e.sizes.add(c.variant ? `${c.variant}=${c.sizePx}` : String(c.sizePx));
+      e.weights.add(c.weightRole); if (c.link) e.link = true;
+    }
+    console.log(`  type: ${stats.typeComposites} composites — ${Object.entries(byGroup).map(([g, e]) => `${g}[${[...e.sizes].join(' ')} · w:${[...e.weights].join('/')}${e.link ? ' +link' : ''}]`).join(' ')}`);
     const fl = theme.typography.composites.filter((c) => c.sizeMinPx !== c.sizePx);
     console.log(`  fluid: ${theme.typography.fluid ? `${fl.length} composites ${theme.typography.minViewport}–${theme.typography.maxViewport}px (e.g. ${fl.slice(0, 3).map((c) => `${c.path} ${c.sizeMinPx}→${c.sizePx}`).join(', ')})` : 'OFF (static)'}`);
   }

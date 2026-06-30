@@ -111,7 +111,7 @@ So "elevation" is a **shadow** decision; "which fill" is a **surface ladder** de
 
 ## Item 1 — Elevation / surface naming  ·  **RESOLVED (2026-06-25)**
 
-> **Resolved:** ordinal ladder `background.{primary,secondary,tertiary,quaternary}` (page→floating) + `subtle`/`sunken`/`inverse` + tints; `overlay` tier name dropped (overloaded); component→tier mapping is documentation; light tiers shadow-carried, dark tiers lift. Shadows deferred to a future effects pass. Shipped.
+> **Resolved (then SUPERSEDED — see `06-surface-and-content-color-model.md`):** the first cut shipped an ordinal `background.{primary,secondary,tertiary,quaternary}` ladder + `subtle`/`sunken`/`inverse` + tints with light tiers shadow-carried. A later UI-designer review reworked it: the surface ladder is split into **`background`** (thin page canvas) + **`foreground`** (the surfaces/fills on it, Prism2's `surface`), both **tonal in light and dark**; `quaternary`/`subtle`/`sunken` and the `elevation.*` colour group are dropped (elevation = a foreground tier + a shadow). This item is resolved by that rework.
 
 **The question.** How do we name non-interactive container fills? Numbered depth (`primary/secondary/tertiary/quaternary`, the shape you've used before) vs semantic-role (`raised/overlay/sunken`) vs component-specific (`card`, `popover`)? How many tiers? And is `overlay` a surface at all?
 
