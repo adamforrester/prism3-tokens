@@ -333,6 +333,43 @@ for (const b of brands) {
   }
   html.push('</div>');
 
+  // ---- full taxonomy table (every token, full path, filterable) ----
+  txt.push('\n— FULL TAXONOMY —');
+  html.push('<h3>Full taxonomy <span class="muted">every token · full path · type one to filter · click a path to copy</span></h3>');
+  html.push(`<input class="taxfilter" type="text" placeholder="filter ${root}.* by path…" autocomplete="off">`);
+  const leaves: { path: string; type: string; node: Node }[] = [];
+  const collect = (node: Node, segs: string[]) => {
+    if (node && typeof node === 'object') {
+      if (node.$type !== undefined) { leaves.push({ path: segs.join('.'), type: String(node.$type), node }); return; }
+      for (const k of Object.keys(node)) if (!k.startsWith('$')) collect(node[k], [...segs, k]);
+    }
+  };
+  collect(data, [root]);
+  const byCat: Record<string, typeof leaves> = {};
+  for (const lf of leaves) (byCat[lf.path.split('.')[1]] ??= []).push(lf);
+  txt.push(`  ${leaves.length} tokens across ${Object.keys(byCat).length} categories`);
+  for (const cat of Object.keys(byCat)) {
+    html.push(`<details class="taxgroup"><summary>${cat} <span class="muted">${byCat[cat].length}</span></summary><table class="tax"><thead><tr><th>path</th><th>type</th><th>value</th><th>description</th></tr></thead><tbody>`);
+    for (const lf of byCat[cat]) {
+      const v = lf.node.$value;
+      const isAlias = typeof v === 'string' && /^\{.+\}$/.test(v);
+      let valCell: string;
+      if (lf.type === 'color') {
+        const hx = hexOf(tree, lf.node);
+        valCell = `<span class="taxsw" style="background:${hx}"></span>${isAlias ? '<span class="taxal">→ ' + esc(aliasTarget(lf.node).replace(root + '.', '')) + '</span> ' : ''}<code>${hx}</code>`;
+      } else if (isAlias) {
+        valCell = `<span class="taxal">→ ${esc(aliasTarget(lf.node).replace(root + '.', ''))}</span>`;
+      } else {
+        const s = typeof v === 'object' ? (Array.isArray(v) ? `[${v.length}-layer]` : '{composite}') : String(v);
+        valCell = `<code>${esc(s.length > 44 ? s.slice(0, 44) + '…' : s)}</code>`;
+      }
+      const desc = lf.node.$description ? esc(String(lf.node.$description).split(' — ')[0].slice(0, 72)) : '';
+      txt.push(`    ${lf.path.padEnd(46)} ${lf.type}`);
+      html.push(`<tr class="taxrow"><td class="taxpath"><code class="copy" title="click to copy">${esc(lf.path)}</code></td><td class="taxtype">${lf.type}</td><td class="taxval">${valCell}</td><td class="taxdesc">${desc}</td></tr>`);
+    }
+    html.push('</tbody></table></details>');
+  }
+
   html.push('</section>');
 }
 
@@ -427,10 +464,46 @@ const page = `<!doctype html><html lang="en"><head><meta charset="utf-8">
   .bwcell{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;color:#9aa1ad;width:96px}
   .bwline{width:96px;border-top-style:solid;border-top-color:#4f8cff}
   .bwcell small{color:#6b7280}
+  /* full taxonomy table */
+  .taxfilter{width:100%;max-width:520px;box-sizing:border-box;margin:0 0 12px;padding:8px 12px;background:#1c2027;border:1px solid #2a2e37;border-radius:7px;color:#e6e7eb;font-size:13px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  .taxfilter:focus{outline:none;border-color:#4f8cff}
+  details.taxgroup{border:1px solid #1c2027;border-radius:7px;margin:0 0 6px;overflow:hidden}
+  details.taxgroup summary{cursor:pointer;padding:8px 12px;background:#161922;font-size:12px;font-weight:600;color:#cbd1db;text-transform:uppercase;letter-spacing:.04em;user-select:none}
+  details.taxgroup summary .muted{margin-left:6px}
+  table.tax{border-collapse:collapse;width:100%;font-size:11.5px}
+  table.tax thead th{position:sticky;top:0;text-align:left;color:#6b7280;font-weight:600;padding:6px 12px;background:#0f1115;font-size:10px;text-transform:uppercase;letter-spacing:.05em}
+  table.tax td{padding:4px 12px;border-top:1px solid #15181f;vertical-align:middle}
+  .taxpath code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#cbd1db;white-space:nowrap}
+  code.copy{cursor:pointer;border-radius:3px;padding:1px 3px;transition:background .12s}
+  code.copy:hover{background:#2a2e37;color:#fff} code.copy.copied{background:#36c08f33;color:#36c08f}
+  .taxtype{color:#8089a0;font-size:10px;white-space:nowrap}
+  .taxval code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#aeb4c0;font-variant-numeric:tabular-nums}
+  .taxval .taxal{color:#d98ad0;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  .taxsw{display:inline-block;width:13px;height:13px;border-radius:3px;border:1px solid #ffffff22;vertical-align:-2px;margin-right:6px}
+  .taxdesc{color:#6b7280;max-width:48ch}
 </style></head><body>
 <h1>Prism3 — generated token taxonomy</h1>
-<p class="lead">Every value below is engine-generated from a small theme input and read back from the emitted DTCG files (<code>out/*.tokens.json</code>) — colour, semantic roles, dimension, typography, shadow, motion, layout, gradient (opt-in), opacity and border-width. ★ marks the exact brand anchor. Type styles, shadows and easing curves are rendered live from the resolved tokens. Regenerate with <code>npx tsx Prism3/engine/visualize.ts</code>.</p>
+<p class="lead">Every value below is engine-generated from a small theme input and read back from the emitted DTCG files (<code>out/*.tokens.json</code>) — colour, semantic roles, dimension, typography, shadow, motion, layout, gradient (opt-in), opacity and border-width. ★ marks the exact brand anchor. Type styles, shadows and easing curves are rendered live from the resolved tokens. Each brand section ends with a <b>full taxonomy table</b> — every token with its complete path (filter by typing, click a path to copy). Regenerate with <code>npx tsx Prism3/engine/visualize.ts</code>.</p>
 ${html.join('\n')}
+<script>
+  // taxonomy filter — scoped to each brand section; opens groups while filtering
+  document.querySelectorAll('.taxfilter').forEach(function(f){
+    f.addEventListener('input', function(){
+      var q = f.value.toLowerCase(), scope = f.closest('section');
+      scope.querySelectorAll('.taxrow').forEach(function(r){
+        r.style.display = r.querySelector('.taxpath').textContent.toLowerCase().indexOf(q) >= 0 ? '' : 'none';
+      });
+      if (q) scope.querySelectorAll('details.taxgroup').forEach(function(d){ d.open = true; });
+    });
+  });
+  // click a path to copy it
+  document.querySelectorAll('code.copy').forEach(function(c){
+    c.addEventListener('click', function(){
+      if (navigator.clipboard) navigator.clipboard.writeText(c.textContent);
+      c.classList.add('copied'); setTimeout(function(){ c.classList.remove('copied'); }, 800);
+    });
+  });
+</script>
 </body></html>`;
 
 writeFileSync(resolve(outDir, 'tokens.html'), page);
