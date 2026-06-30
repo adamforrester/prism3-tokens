@@ -280,6 +280,26 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   // HC carries elevation by border: raised tiers collapse to the base
   ok(p(HCD, 'background.secondary') === p(HCD, 'background.primary'), 'HC flattens background tiers to the base');
   ok(p(HCD, 'foreground.secondary') === p(HCD, 'foreground.primary'), 'HC flattens foreground tiers to the base');
+  // harshness: no pure black anywhere in STANDARD modes; inverse surfaces softened
+  const HCL = byMode['hc-light'];
+  const isBlack = (path?: string) => /\.black$/.test(path ?? '');
+  const isWhite = (path?: string) => /\.white$/.test(path ?? '');
+  for (const m of ['light', 'dark'] as const) {
+    const roles = byMode[m];
+    const blacks = Object.entries(roles).filter(([, r]: any) => isBlack(r.path)).map(([k]) => k);
+    ok(blacks.length === 0, `${m}: no pure black in standard mode (found: ${blacks.join(', ') || 'none'})`);
+  }
+  ok(!isBlack(p(L, 'background.inverse.primary')), 'light inverse surface is near-black, not pure black');
+  ok(!isWhite(p(D, 'background.inverse.primary')), 'dark inverse surface is near-white, not pure white');
+  ok(isWhite(p(L, 'background.primary')), 'light base page stays pure white (the one allowed pure extreme)');
+  // on-* softening: dark on-action is near-black (950), light keeps pure white; HC keeps pure
+  ok(p(D, 'text.on-action') === p(D, 'icon.on-action') && !isBlack(p(D, 'text.on-action')), 'dark on-action is softened (near-black, not pure)');
+  ok(isWhite(p(L, 'text.on-action')), 'light on-action stays pure white (user preference)');
+  ok(isWhite(p(HCD, 'text.on-action')) || isBlack(p(HCD, 'text.on-action')), 'HC keeps pure extremes for on-* (max contrast)');
+  ok(isBlack(p(HCL, 'background.inverse.primary')), 'HC inverse stays a pure extreme (max contrast)');
+  // on-disabled exists for text + icon and is contracted against the disabled fill
+  ok(p(L, 'text.on-disabled') !== undefined && p(L, 'icon.on-disabled') !== undefined, 'text/icon.on-disabled exist');
+  ok(L['text.on-disabled'].against === 'action.disabled', 'on-disabled is resolved against the disabled fill');
 }
 
 // ------------------------------------------------------------------- report

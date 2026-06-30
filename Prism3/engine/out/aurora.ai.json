@@ -86,8 +86,8 @@
       "when_to_use": "Inverted page sections — a dark band on a light page (or vice-versa).",
       "avoid_when": "Do not place mode-default ink on it — use text.on-inverse.",
       "mode_overrides": {
-        "light": "{prism.color.black}",
-        "dark": "{prism.color.white}",
+        "light": "{prism.color.neutral.950}",
+        "dark": "{prism.color.neutral.025}",
         "hc-light": "{prism.color.black}",
         "hc-dark": "{prism.color.white}"
       },
@@ -102,7 +102,7 @@
       "when_to_use": "Inverted page sections — a dark band on a light page (or vice-versa).",
       "avoid_when": "Do not place mode-default ink on it — use text.on-inverse.",
       "mode_overrides": {
-        "light": "{prism.color.neutral.950}",
+        "light": "{prism.color.neutral.900}",
         "dark": "{prism.color.neutral.050}",
         "hc-light": "{prism.color.black}",
         "hc-dark": "{prism.color.white}"
@@ -118,7 +118,7 @@
       "when_to_use": "Inverted page sections — a dark band on a light page (or vice-versa).",
       "avoid_when": "Do not place mode-default ink on it — use text.on-inverse.",
       "mode_overrides": {
-        "light": "{prism.color.neutral.900}",
+        "light": "{prism.color.neutral.850}",
         "dark": "{prism.color.neutral.100}",
         "hc-light": "{prism.color.black}",
         "hc-dark": "{prism.color.white}"
@@ -197,7 +197,7 @@
       "when_to_use": "Strong / inverse fills — a dark callout, a solid neutral button, an emphasis surface in light mode.",
       "avoid_when": "Do not use for the page (use background.*) or for ink (use text/icon).",
       "mode_overrides": {
-        "light": "{prism.color.neutral.950}",
+        "light": "{prism.color.neutral.900}",
         "dark": "{prism.color.neutral.050}",
         "hc-light": "{prism.color.black}",
         "hc-dark": "{prism.color.white}"
@@ -212,7 +212,7 @@
       "when_to_use": "Strong / inverse fills — a dark callout, a solid neutral button, an emphasis surface in light mode.",
       "avoid_when": "Do not use for the page (use background.*) or for ink (use text/icon).",
       "mode_overrides": {
-        "light": "{prism.color.neutral.900}",
+        "light": "{prism.color.neutral.850}",
         "dark": "{prism.color.neutral.100}",
         "hc-light": "{prism.color.black}",
         "hc-dark": "{prism.color.white}"
@@ -227,7 +227,7 @@
       "when_to_use": "Strong / inverse fills — a dark callout, a solid neutral button, an emphasis surface in light mode.",
       "avoid_when": "Do not use for the page (use background.*) or for ink (use text/icon).",
       "mode_overrides": {
-        "light": "{prism.color.neutral.850}",
+        "light": "{prism.color.neutral.800}",
         "dark": "{prism.color.neutral.150}",
         "hc-light": "{prism.color.black}",
         "hc-dark": "{prism.color.white}"
@@ -950,7 +950,7 @@
       "avoid_when": "Do not use on standard surfaces — use text.primary/secondary.",
       "mode_overrides": {
         "light": "{prism.color.white}",
-        "dark": "{prism.color.black}",
+        "dark": "{prism.color.neutral.950}",
         "hc-light": "{prism.color.white}",
         "hc-dark": "{prism.color.black}"
       },
@@ -972,7 +972,7 @@
       "avoid_when": "Do not use on standard surfaces — use text.primary/secondary.",
       "mode_overrides": {
         "light": "{prism.color.white}",
-        "dark": "{prism.color.black}",
+        "dark": "{prism.color.neutral.950}",
         "hc-light": "{prism.color.white}",
         "hc-dark": "{prism.color.black}"
       },
@@ -994,7 +994,7 @@
       "avoid_when": "Do not use on standard surfaces — use text.primary/secondary.",
       "mode_overrides": {
         "light": "{prism.color.white}",
-        "dark": "{prism.color.black}",
+        "dark": "{prism.color.neutral.950}",
         "hc-light": "{prism.color.white}",
         "hc-dark": "{prism.color.black}"
       },
@@ -1016,7 +1016,7 @@
       "avoid_when": "Do not use on standard surfaces — use text.primary/secondary.",
       "mode_overrides": {
         "light": "{prism.color.white}",
-        "dark": "{prism.color.black}",
+        "dark": "{prism.color.neutral.950}",
         "hc-light": "{prism.color.white}",
         "hc-dark": "{prism.color.black}"
       },
@@ -1038,7 +1038,7 @@
       "avoid_when": "Do not use on standard surfaces — use text.primary/secondary.",
       "mode_overrides": {
         "light": "{prism.color.white}",
-        "dark": "{prism.color.black}",
+        "dark": "{prism.color.neutral.950}",
         "hc-light": "{prism.color.white}",
         "hc-dark": "{prism.color.black}"
       },
@@ -1060,7 +1060,7 @@
       "avoid_when": "Do not use on standard surfaces — use text.primary/secondary.",
       "mode_overrides": {
         "light": "{prism.color.white}",
-        "dark": "{prism.color.black}",
+        "dark": "{prism.color.neutral.950}",
         "hc-light": "{prism.color.white}",
         "hc-dark": "{prism.color.black}"
       },
@@ -1093,7 +1093,29 @@
         {
           "token": "background.inverse.primary",
           "min": "4.5:1",
-          "ratio": 19.6
+          "ratio": 18.13
+        }
+      ]
+    },
+    "text.on-disabled": {
+      "$description": "Text on a disabled fill (muted).",
+      "meaning": "Legible content on a disabled fill",
+      "when_to_use": "The label/text on a disabled control's fill — muted but legible (paired with action.disabled / foreground.danger.disabled).",
+      "avoid_when": "Do not use on an enabled fill (use text.on-action / on-{semantic}) or on the page (use text.disabled).",
+      "mode_overrides": {
+        "light": "{prism.color.neutral.550}",
+        "dark": "{prism.color.neutral.450}",
+        "hc-light": "{prism.color.neutral.650}",
+        "hc-dark": "{prism.color.neutral.300}"
+      },
+      "paired_with": [
+        "action.disabled"
+      ],
+      "contrast_with": [
+        {
+          "token": "action.disabled",
+          "min": "3:1",
+          "ratio": 3.08
         }
       ]
     },
@@ -1453,7 +1475,7 @@
       "avoid_when": "Do not use on standard surfaces — use icon.primary/secondary.",
       "mode_overrides": {
         "light": "{prism.color.white}",
-        "dark": "{prism.color.black}",
+        "dark": "{prism.color.neutral.950}",
         "hc-light": "{prism.color.white}",
         "hc-dark": "{prism.color.black}"
       },
@@ -1475,7 +1497,7 @@
       "avoid_when": "Do not use on standard surfaces — use icon.primary/secondary.",
       "mode_overrides": {
         "light": "{prism.color.white}",
-        "dark": "{prism.color.black}",
+        "dark": "{prism.color.neutral.950}",
         "hc-light": "{prism.color.white}",
         "hc-dark": "{prism.color.black}"
       },
@@ -1497,7 +1519,7 @@
       "avoid_when": "Do not use on standard surfaces — use icon.primary/secondary.",
       "mode_overrides": {
         "light": "{prism.color.white}",
-        "dark": "{prism.color.black}",
+        "dark": "{prism.color.neutral.950}",
         "hc-light": "{prism.color.white}",
         "hc-dark": "{prism.color.black}"
       },
@@ -1519,7 +1541,7 @@
       "avoid_when": "Do not use on standard surfaces — use icon.primary/secondary.",
       "mode_overrides": {
         "light": "{prism.color.white}",
-        "dark": "{prism.color.black}",
+        "dark": "{prism.color.neutral.950}",
         "hc-light": "{prism.color.white}",
         "hc-dark": "{prism.color.black}"
       },
@@ -1541,7 +1563,7 @@
       "avoid_when": "Do not use on standard surfaces — use icon.primary/secondary.",
       "mode_overrides": {
         "light": "{prism.color.white}",
-        "dark": "{prism.color.black}",
+        "dark": "{prism.color.neutral.950}",
         "hc-light": "{prism.color.white}",
         "hc-dark": "{prism.color.black}"
       },
@@ -1563,7 +1585,7 @@
       "avoid_when": "Do not use on standard surfaces — use icon.primary/secondary.",
       "mode_overrides": {
         "light": "{prism.color.white}",
-        "dark": "{prism.color.black}",
+        "dark": "{prism.color.neutral.950}",
         "hc-light": "{prism.color.white}",
         "hc-dark": "{prism.color.black}"
       },
@@ -1596,7 +1618,29 @@
         {
           "token": "background.inverse.primary",
           "min": "4.5:1",
-          "ratio": 19.6
+          "ratio": 18.13
+        }
+      ]
+    },
+    "icon.on-disabled": {
+      "$description": "Icon on a disabled fill (muted).",
+      "meaning": "Legible content on a disabled fill",
+      "when_to_use": "The label/icon on a disabled control's fill — muted but legible (paired with action.disabled / foreground.danger.disabled).",
+      "avoid_when": "Do not use on an enabled fill (use icon.on-action / on-{semantic}) or on the page (use icon.disabled).",
+      "mode_overrides": {
+        "light": "{prism.color.neutral.550}",
+        "dark": "{prism.color.neutral.450}",
+        "hc-light": "{prism.color.neutral.650}",
+        "hc-dark": "{prism.color.neutral.300}"
+      },
+      "paired_with": [
+        "action.disabled"
+      ],
+      "contrast_with": [
+        {
+          "token": "action.disabled",
+          "min": "3:1",
+          "ratio": 3.08
         }
       ]
     },
@@ -1706,7 +1750,7 @@
       "when_to_use": "Borders on background.inverse / foreground.inverse.",
       "avoid_when": "Do not use on default surfaces.",
       "mode_overrides": {
-        "light": "{prism.color.neutral.850}",
+        "light": "{prism.color.neutral.800}",
         "dark": "{prism.color.neutral.200}",
         "hc-light": "{prism.color.neutral.500}",
         "hc-dark": "{prism.color.neutral.500}"
@@ -2182,7 +2226,6 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.background.inverse.primary",
         "semantic.hc-dark.background.inverse.primary",
         "semantic.hc-dark.background.inverse.secondary",
         "semantic.hc-dark.background.inverse.tertiary",
@@ -2232,18 +2275,6 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.icon.on-action",
-        "semantic.dark.icon.on-brand",
-        "semantic.dark.icon.on-danger",
-        "semantic.dark.icon.on-info",
-        "semantic.dark.icon.on-success",
-        "semantic.dark.icon.on-warning",
-        "semantic.dark.text.on-action",
-        "semantic.dark.text.on-brand",
-        "semantic.dark.text.on-danger",
-        "semantic.dark.text.on-info",
-        "semantic.dark.text.on-success",
-        "semantic.dark.text.on-warning",
         "semantic.hc-dark.background.primary",
         "semantic.hc-dark.background.secondary",
         "semantic.hc-dark.background.tertiary",
@@ -2271,8 +2302,7 @@
         "semantic.hc-light.foreground.inverse.secondary",
         "semantic.hc-light.foreground.inverse.tertiary",
         "semantic.hc-light.icon.primary",
-        "semantic.hc-light.text.primary",
-        "semantic.light.background.inverse.primary"
+        "semantic.hc-light.text.primary"
       ]
     },
     "color.primary.100": {
@@ -2520,6 +2550,8 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
+        "semantic.hc-dark.icon.on-disabled",
+        "semantic.hc-dark.text.on-disabled",
         "semantic.hc-dark.text.secondary"
       ]
     },
@@ -2544,6 +2576,8 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
+        "semantic.dark.icon.on-disabled",
+        "semantic.dark.text.on-disabled",
         "semantic.dark.text.secondary",
         "semantic.hc-dark.icon.disabled",
         "semantic.hc-dark.icon.secondary",
@@ -2583,7 +2617,9 @@
         "semantic.dark.icon.secondary",
         "semantic.dark.icon.tertiary",
         "semantic.dark.text.disabled",
-        "semantic.dark.text.tertiary"
+        "semantic.dark.text.tertiary",
+        "semantic.light.icon.on-disabled",
+        "semantic.light.text.on-disabled"
       ]
     },
     "color.neutral.600": {
@@ -2606,7 +2642,11 @@
       "meaning": "neutral ramp — raw step 650",
       "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "semantic.hc-light.icon.on-disabled",
+        "semantic.hc-light.text.on-disabled"
+      ]
     },
     "color.neutral.700": {
       "$description": "Neutral 700 — Three-Quarter-Tone band",
@@ -2640,7 +2680,9 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.foreground.tertiary"
+        "semantic.dark.foreground.tertiary",
+        "semantic.light.border.inverse",
+        "semantic.light.foreground.inverse.tertiary"
       ]
     },
     "color.neutral.850": {
@@ -2652,8 +2694,8 @@
       "aliased_by": [
         "semantic.dark.background.tertiary",
         "semantic.dark.foreground.secondary",
-        "semantic.light.border.inverse",
-        "semantic.light.foreground.inverse.tertiary"
+        "semantic.light.background.inverse.tertiary",
+        "semantic.light.foreground.inverse.secondary"
       ]
     },
     "color.neutral.900": {
@@ -2665,8 +2707,8 @@
       "aliased_by": [
         "semantic.dark.background.secondary",
         "semantic.dark.foreground.primary",
-        "semantic.light.background.inverse.tertiary",
-        "semantic.light.foreground.inverse.secondary"
+        "semantic.light.background.inverse.secondary",
+        "semantic.light.foreground.inverse.primary"
       ]
     },
     "color.neutral.950": {
@@ -2677,10 +2719,21 @@
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
         "semantic.dark.background.primary",
+        "semantic.dark.icon.on-action",
+        "semantic.dark.icon.on-brand",
+        "semantic.dark.icon.on-danger",
+        "semantic.dark.icon.on-info",
         "semantic.dark.icon.on-inverse",
+        "semantic.dark.icon.on-success",
+        "semantic.dark.icon.on-warning",
+        "semantic.dark.text.on-action",
+        "semantic.dark.text.on-brand",
+        "semantic.dark.text.on-danger",
+        "semantic.dark.text.on-info",
         "semantic.dark.text.on-inverse",
-        "semantic.light.background.inverse.secondary",
-        "semantic.light.foreground.inverse.primary",
+        "semantic.dark.text.on-success",
+        "semantic.dark.text.on-warning",
+        "semantic.light.background.inverse.primary",
         "semantic.light.icon.primary",
         "semantic.light.text.primary"
       ]
@@ -2692,6 +2745,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
       "aliased_by": [
+        "semantic.dark.background.inverse.primary",
         "semantic.dark.icon.primary",
         "semantic.dark.text.primary",
         "semantic.light.icon.on-inverse",

@@ -46,7 +46,7 @@ Node ≥ 20. No `npm install` needed — the color math is self-contained
 - `emit-dtcg.ts` — emits a DTCG tree per theme (`out/<id>.tokens.json`), generates the per-mode semantic layer, validates every alias resolves, every mode contrast contract holds, and the BrandInput conforms to the schema; writes `modes-report.md` + the `.ai.json` sidecar.
 - `ai-metadata.ts` — generates `out/<id>.ai.json`, the agent-readable metadata sidecar. Two tiers: **semantic** (full schema — `meaning`, `when_to_use`, `avoid_when`, `paired_with`, `contrast_with`, `mode_overrides`, per KB 31-color-systems §9) and **primitive** (simplified — `meaning`, `tier`, `consume`, and `aliased_by`, the reverse index of which tokens resolve to it, **computed transitively** across multi-hop alias chains → a bidirectional graph for impact analysis). Also carries the typography tier (`type.*` composites + `font.weight-role.*`) and, when a brand opts in, the gradient tier (`gradient.*` with stop refs + worst-case-stop a11y). All fields generated/contract-true; keeps `tokens.json` DTCG-pure.
 - `visualize.ts` — renders `out/tokens.html`, a single self-contained visual style guide read back from the emitted DTCG (every axis: colour, semantic roles, dimension, typography rendered live, shadow, motion with animated easing curves, layout, opt-in gradients, opacity, border-width). No deps; also prints a plain-text taxonomy.
-- `test.ts` — colour-math invariants + extreme-brand contract smoke tests + typography/shadow/layout/gradient/surface-model invariants (151 checks).
+- `test.ts` — colour-math invariants + extreme-brand contract smoke tests + typography/shadow/layout/gradient/surface-model + harshness invariants (162 checks).
 - generated outputs (committed so results are reviewable without running): `nb-regression-report.md`, `modes-report.md`, `out/nb.tokens.json`, `out/aurora.tokens.json`, `out/tokens.html`.
 
 ## Modes (`modes-report.md`)
@@ -60,7 +60,7 @@ palette* nearest its anchor that clears AA on this surface" — both resolve
 correctly in any mode for free. The action palette is whatever
 `roleToPalette.action` points at (NB: `red`, decoupled-by-default but here same as
 brand; aurora: `accent`, a different palette from the violet brand). The run
-verifies every mode's contrast contracts (currently 240/240).
+verifies every mode's contrast contracts (currently 248/248).
 
 **Semantic vocabulary — the surface & content model** (see `docs/06`). Decided
 against a nine-system field survey + the practice KB, refined by a UI-designer
@@ -77,13 +77,24 @@ review. `background` is the canvas; `foreground` is what sits on it:
   sits on `background.primary`.
 - `action.*` — the interactive fill + states (top-level).
 - `text.*` / `icon.*` — **ink**: `primary/secondary/tertiary/disabled`, semantic +
-  `{semantic}-subtle` (muted), `on-action`/`on-{semantic}`/`on-inverse` pairs, and
-  `link.*` (no disabled). `icon` mirrors `text` unless `iconContrast: '3:1'`.
+  `{semantic}-subtle` (muted), `on-action`/`on-{semantic}`/`on-inverse` pairs, an
+  `on-disabled` pair (the label on a disabled fill — Carbon's `text-on-color-
+  disabled`, resolved against that fill), and `link.*` (no disabled). `icon`
+  mirrors `text` unless `iconContrast: '3:1'`.
 - `border.*` — `primary`/`secondary` (neutral), `inverse`, semantic, and `focus`.
 
 Elevation is **not** a colour group: a component composes a `foreground` tier + a
 `shadow` step. In high contrast the neutral surface ladders flatten to the base —
 HC carries elevation by **border** (escalated to ≥4.5:1), not by faint tints.
+
+**Harshness — no pure extremes in standard modes.** Pure black reads muddy and
+pure white halates on a dark ground (KB 31 §halation/§tint-not-black), so the
+engine softens the extremes: inverse surfaces resolve to `neutral.950`/`025`
+(not `#000`/`#fff`), and the `on-*` contrast pick uses the near-extreme — pure
+white survives only as the light **base page** (universal, not harsh), while dark
+mode softens white→`025` and black→`950` everywhere. **HC modes keep pure black &
+white** for low-vision maximum contrast (with a pure-extreme fallback if a
+softened pick can't clear AA on a fill).
 
 Mode-invariant siblings of the dimension axis: **`border-width`** (`none/hairline/
 thick/heavy` → dim 0/1/2/4, 1px hairline floor) and **`focus.ring`** (width 2px /
@@ -277,8 +288,8 @@ breakpoints + grid-as-artifact + spacing-aliased gutter/margin + fluid container
 **opt-in OKLCH gradients** (DTCG composite + ramp-aliased stops + sRGB pre-sample
 for Figma + worst-case-stop contrast); border-width, focus, opacity/alpha + scrim
 primitives; two-brand emit in two dialects; a live HTML style guide
-(`visualize.ts`). nb 537/537 + aurora 538/538 aliases resolve, 240/240 mode
-contracts hold, 151/151 unit tests pass, both brands schema-conform.
+(`visualize.ts`). nb 545/545 + aurora 546/546 aliases resolve, 248/248 mode
+contracts hold, 162/162 unit tests pass, both brands schema-conform.
 
 **Deliberately not reproduced:**
 - *NB's per-step hue kinks* (amber.600, red.300). Following them would require

@@ -108,7 +108,11 @@ const modeConfigs = (ns: string, neutralPalette: string, neutral: Step[], surfac
       : baseSpec === 'white' ? 50 : 950;
     const floorStep = cfg.floorStep ?? defFloor;
     const dir = family === 'light' ? +1 : -1;           // light steps darker; dark steps lighter
-    const invBaseNum = family === 'light' ? 1000 : 0;   // inverse anchors at the opposite extreme
+    // Inverse anchors NEAR the opposite extreme, not AT it — pure black reads
+    // harsh/muddy and pure white halates in dark UIs (KB 31 §halation, §tint-not-
+    // black). Light inverse = near-black 950; dark inverse = near-white 25. HC
+    // restores the pure extremes (below) for low-vision max contrast.
+    const invBaseNum = family === 'light' ? 950 : 25;
     const invDir = -dir;
     return {
       base: surfAt(baseNum), floor: n(floorStep),
@@ -168,7 +172,22 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
     const s = steps.reduce((a, b) => (Math.abs(b.num - num) < Math.abs(a.num - num) ? b : a));
     return cand(`${ns}.${palette}.${s.key}`, s.rgb);
   };
-  const onColor = (fill: RGB): Rated => pickMostExtreme([cand(`${ns}.white`, WHITE), cand(`${ns}.black`, BLACK)], fill);
+  // Ink on a solid fill. The pure black/white extremes are softened to near-
+  // extremes in standard modes (pure black reads harsh; pure white halates on a
+  // dark ground) — but only where it applies: pure white survives in LIGHT mode
+  // (the light fill isn't a dark ground), while DARK mode softens white → 025.
+  // Black always softens → 950. HC keeps the pure extremes (low-vision contrast).
+  // A pure-extreme fallback fires only if the softened pick can't clear `onMin`.
+  const N025 = (): Cand => pStep(r2p.neutral, 25);
+  const N950 = (): Cand => pStep(r2p.neutral, 950);
+  const onColor = (fill: RGB): Rated => {
+    if (hc) return pickMostExtreme([cand(`${ns}.white`, WHITE), cand(`${ns}.black`, BLACK)], fill);
+    const lightCand = cfg.family === 'light' ? cand(`${ns}.white`, WHITE) : N025();  // light side: pure white in light, soft in dark
+    const cL = rated(lightCand, fill), cD = rated(N950(), fill);
+    const win = cL.ratio >= cD.ratio ? cL : cD;
+    if (win.ratio >= onMin) return win;
+    return rated(win === cL ? cand(`${ns}.white`, WHITE) : cand(`${ns}.black`, BLACK), fill); // pure fallback
+  };
   const paletteRole = (r: Role, surf: RGB, min: number): RatedNum =>
     pickBrand(ramps.get(r2p[r])!, ns, r2p[r], theme.roleAnchorStep[r], surf, min);
   const dir = cfg.family === 'light' ? +1 : -1;
@@ -185,6 +204,16 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
     accessibleDisabled
       ? { r: pickMinPass(textCands, floorRgb, disabledTarget), against: cfg.floorName, min: disabledTarget }
       : { r: pickClosest(textCands, baseRgb, 2), against: 'background.primary', min: 0 };
+  // The label/ink on a DISABLED fill (action.disabled / foreground.danger.disabled,
+  // both a muted neutral). A dedicated pair — Carbon's `text-on-color-disabled` —
+  // resolved against the disabled FILL (not the page), so it stays muted-but-
+  // legible on it rather than landing at the wrong contrast like `text.disabled`.
+  const onDisabled = (): { r: Rated; against: string; min: number } => {
+    const fill = neutralLow().rgb;                       // the shared disabled-fill colour
+    return accessibleDisabled
+      ? { r: pickMinPass(textCands, fill, disabledTarget), against: 'action.disabled', min: disabledTarget }
+      : { r: pickClosest(textCands, fill, 2), against: 'action.disabled', min: 0 };
+  };
 
   // -------------------------------------------------------------- backgrounds
   // The canvas: thin, page-level, tonal in both modes. `inverse.*` is the opposite-
@@ -268,6 +297,7 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
     for (const r of SEMANTICS)
       T(`on-${r}`, onColor(fills[r]!.rgb), `${p.label} on a solid ${r} fill`, `foreground.${r}`, onMin);
     T('on-inverse', pickMostExtreme(textCands, invRgb), `${p.label} on an inverse surface`, 'background.inverse.primary', cfg.secondaryMin);
+    { const d = onDisabled(); T('on-disabled', d.r, `${p.label} on a disabled fill — muted, clears ${d.min}:1`, d.against, d.min); }
     // link (interactive text) + states — no disabled.
     const linkStateCand = (st: typeof LINK_STATES[number]): Cand =>
       st === 'default' || st === 'focused' ? actionRest

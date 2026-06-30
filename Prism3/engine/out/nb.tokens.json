@@ -2330,22 +2330,8 @@
           "inverse": {
             "primary": {
               "$type": "color",
-              "$value": "{nbds.color.black}",
-              "$description": "Inverse page surface — a dark band in light mode",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.black",
-                  "mode": "light",
-                  "contrast": 1,
-                  "against": "self"
-                }
-              }
-            },
-            "secondary": {
-              "$type": "color",
               "$value": "{nbds.color.neutral.950}",
-              "$description": "Inverse page surface, second tier",
+              "$description": "Inverse page surface — a dark band in light mode",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -2356,14 +2342,28 @@
                 }
               }
             },
-            "tertiary": {
+            "secondary": {
               "$type": "color",
               "$value": "{nbds.color.neutral.900}",
-              "$description": "Inverse page surface, third tier",
+              "$description": "Inverse page surface, second tier",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
                   "aliasOf": "nbds.color.neutral.900",
+                  "mode": "light",
+                  "contrast": 1,
+                  "against": "self"
+                }
+              }
+            },
+            "tertiary": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.850}",
+              "$description": "Inverse page surface, third tier",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.color.neutral.850",
                   "mode": "light",
                   "contrast": 1,
                   "against": "self"
@@ -2434,22 +2434,8 @@
           "inverse": {
             "primary": {
               "$type": "color",
-              "$value": "{nbds.color.neutral.950}",
-              "$description": "Inverse / bold surface — a dark fill in light mode",
-              "$extensions": {
-                "prism3": {
-                  "role": "semantic",
-                  "aliasOf": "nbds.color.neutral.950",
-                  "mode": "light",
-                  "contrast": 1,
-                  "against": "self"
-                }
-              }
-            },
-            "secondary": {
-              "$type": "color",
               "$value": "{nbds.color.neutral.900}",
-              "$description": "Inverse surface, second tier",
+              "$description": "Inverse / bold surface — a dark fill in light mode",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -2460,14 +2446,28 @@
                 }
               }
             },
-            "tertiary": {
+            "secondary": {
               "$type": "color",
               "$value": "{nbds.color.neutral.850}",
-              "$description": "Inverse surface, third tier",
+              "$description": "Inverse surface, second tier",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
                   "aliasOf": "nbds.color.neutral.850",
+                  "mode": "light",
+                  "contrast": 1,
+                  "against": "self"
+                }
+              }
+            },
+            "tertiary": {
+              "$type": "color",
+              "$value": "{nbds.color.neutral.800}",
+              "$description": "Inverse surface, third tier",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.color.neutral.800",
                   "mode": "light",
                   "contrast": 1,
                   "against": "self"
@@ -3093,9 +3093,24 @@
                 "role": "semantic",
                 "aliasOf": "nbds.color.neutral.025",
                 "mode": "light",
-                "contrast": 19.57,
+                "contrast": 18.11,
                 "against": "background.inverse.primary",
                 "min": 4.5
+              }
+            }
+          },
+          "on-disabled": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.550}",
+            "$description": "text on a disabled fill — muted, clears 3:1",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.neutral.550",
+                "mode": "light",
+                "contrast": 3.04,
+                "against": "action.disabled",
+                "min": 3
               }
             }
           },
@@ -3467,9 +3482,24 @@
                 "role": "semantic",
                 "aliasOf": "nbds.color.neutral.025",
                 "mode": "light",
-                "contrast": 19.57,
+                "contrast": 18.11,
                 "against": "background.inverse.primary",
                 "min": 4.5
+              }
+            }
+          },
+          "on-disabled": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.550}",
+            "$description": "icon on a disabled fill — muted, clears 3:1",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.neutral.550",
+                "mode": "light",
+                "contrast": 3.04,
+                "against": "action.disabled",
+                "min": 3
               }
             }
           },
@@ -3567,14 +3597,14 @@
           },
           "inverse": {
             "$type": "color",
-            "$value": "{nbds.color.neutral.850}",
+            "$value": "{nbds.color.neutral.800}",
             "$description": "Border on inverse surfaces",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.neutral.850",
+                "aliasOf": "nbds.color.neutral.800",
                 "mode": "light",
-                "contrast": 1.31,
+                "contrast": 1.4,
                 "against": "background.inverse.primary"
               }
             }
@@ -3718,12 +3748,12 @@
           "inverse": {
             "primary": {
               "$type": "color",
-              "$value": "{nbds.color.white}",
+              "$value": "{nbds.color.neutral.025}",
               "$description": "Inverse page surface — a dark band in light mode",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
-                  "aliasOf": "nbds.color.white",
+                  "aliasOf": "nbds.color.neutral.025",
                   "mode": "dark",
                   "contrast": 1,
                   "against": "self"
@@ -4384,14 +4414,14 @@
           },
           "on-action": {
             "$type": "color",
-            "$value": "{nbds.color.black}",
+            "$value": "{nbds.color.neutral.950}",
             "$description": "text on the action fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.black",
+                "aliasOf": "nbds.color.neutral.950",
                 "mode": "dark",
-                "contrast": 5.45,
+                "contrast": 5.05,
                 "against": "action.default",
                 "min": 4.5
               }
@@ -4399,14 +4429,14 @@
           },
           "on-brand": {
             "$type": "color",
-            "$value": "{nbds.color.black}",
+            "$value": "{nbds.color.neutral.950}",
             "$description": "text on a solid brand fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.black",
+                "aliasOf": "nbds.color.neutral.950",
                 "mode": "dark",
-                "contrast": 5.45,
+                "contrast": 5.05,
                 "against": "foreground.brand",
                 "min": 4.5
               }
@@ -4414,14 +4444,14 @@
           },
           "on-success": {
             "$type": "color",
-            "$value": "{nbds.color.black}",
+            "$value": "{nbds.color.neutral.950}",
             "$description": "text on a solid success fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.black",
+                "aliasOf": "nbds.color.neutral.950",
                 "mode": "dark",
-                "contrast": 6.05,
+                "contrast": 5.6,
                 "against": "foreground.success",
                 "min": 4.5
               }
@@ -4429,14 +4459,14 @@
           },
           "on-warning": {
             "$type": "color",
-            "$value": "{nbds.color.black}",
+            "$value": "{nbds.color.neutral.950}",
             "$description": "text on a solid warning fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.black",
+                "aliasOf": "nbds.color.neutral.950",
                 "mode": "dark",
-                "contrast": 5.54,
+                "contrast": 5.13,
                 "against": "foreground.warning",
                 "min": 4.5
               }
@@ -4444,14 +4474,14 @@
           },
           "on-danger": {
             "$type": "color",
-            "$value": "{nbds.color.black}",
+            "$value": "{nbds.color.neutral.950}",
             "$description": "text on a solid danger fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.black",
+                "aliasOf": "nbds.color.neutral.950",
                 "mode": "dark",
-                "contrast": 5.45,
+                "contrast": 5.05,
                 "against": "foreground.danger",
                 "min": 4.5
               }
@@ -4459,14 +4489,14 @@
           },
           "on-info": {
             "$type": "color",
-            "$value": "{nbds.color.black}",
+            "$value": "{nbds.color.neutral.950}",
             "$description": "text on a solid info fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.black",
+                "aliasOf": "nbds.color.neutral.950",
                 "mode": "dark",
-                "contrast": 5.43,
+                "contrast": 5.03,
                 "against": "foreground.info",
                 "min": 4.5
               }
@@ -4481,9 +4511,24 @@
                 "role": "semantic",
                 "aliasOf": "nbds.color.neutral.950",
                 "mode": "dark",
-                "contrast": 19.44,
+                "contrast": 18.11,
                 "against": "background.inverse.primary",
                 "min": 4.5
+              }
+            }
+          },
+          "on-disabled": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.450}",
+            "$description": "text on a disabled fill — muted, clears 3:1",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.neutral.450",
+                "mode": "dark",
+                "contrast": 3.08,
+                "against": "action.disabled",
+                "min": 3
               }
             }
           },
@@ -4758,14 +4803,14 @@
           },
           "on-action": {
             "$type": "color",
-            "$value": "{nbds.color.black}",
+            "$value": "{nbds.color.neutral.950}",
             "$description": "icon on the action fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.black",
+                "aliasOf": "nbds.color.neutral.950",
                 "mode": "dark",
-                "contrast": 5.45,
+                "contrast": 5.05,
                 "against": "action.default",
                 "min": 4.5
               }
@@ -4773,14 +4818,14 @@
           },
           "on-brand": {
             "$type": "color",
-            "$value": "{nbds.color.black}",
+            "$value": "{nbds.color.neutral.950}",
             "$description": "icon on a solid brand fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.black",
+                "aliasOf": "nbds.color.neutral.950",
                 "mode": "dark",
-                "contrast": 5.45,
+                "contrast": 5.05,
                 "against": "foreground.brand",
                 "min": 4.5
               }
@@ -4788,14 +4833,14 @@
           },
           "on-success": {
             "$type": "color",
-            "$value": "{nbds.color.black}",
+            "$value": "{nbds.color.neutral.950}",
             "$description": "icon on a solid success fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.black",
+                "aliasOf": "nbds.color.neutral.950",
                 "mode": "dark",
-                "contrast": 6.05,
+                "contrast": 5.6,
                 "against": "foreground.success",
                 "min": 4.5
               }
@@ -4803,14 +4848,14 @@
           },
           "on-warning": {
             "$type": "color",
-            "$value": "{nbds.color.black}",
+            "$value": "{nbds.color.neutral.950}",
             "$description": "icon on a solid warning fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.black",
+                "aliasOf": "nbds.color.neutral.950",
                 "mode": "dark",
-                "contrast": 5.54,
+                "contrast": 5.13,
                 "against": "foreground.warning",
                 "min": 4.5
               }
@@ -4818,14 +4863,14 @@
           },
           "on-danger": {
             "$type": "color",
-            "$value": "{nbds.color.black}",
+            "$value": "{nbds.color.neutral.950}",
             "$description": "icon on a solid danger fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.black",
+                "aliasOf": "nbds.color.neutral.950",
                 "mode": "dark",
-                "contrast": 5.45,
+                "contrast": 5.05,
                 "against": "foreground.danger",
                 "min": 4.5
               }
@@ -4833,14 +4878,14 @@
           },
           "on-info": {
             "$type": "color",
-            "$value": "{nbds.color.black}",
+            "$value": "{nbds.color.neutral.950}",
             "$description": "icon on a solid info fill",
             "$extensions": {
               "prism3": {
                 "role": "semantic",
-                "aliasOf": "nbds.color.black",
+                "aliasOf": "nbds.color.neutral.950",
                 "mode": "dark",
-                "contrast": 5.43,
+                "contrast": 5.03,
                 "against": "foreground.info",
                 "min": 4.5
               }
@@ -4855,9 +4900,24 @@
                 "role": "semantic",
                 "aliasOf": "nbds.color.neutral.950",
                 "mode": "dark",
-                "contrast": 19.44,
+                "contrast": 18.11,
                 "against": "background.inverse.primary",
                 "min": 4.5
+              }
+            }
+          },
+          "on-disabled": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.450}",
+            "$description": "icon on a disabled fill — muted, clears 3:1",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.neutral.450",
+                "mode": "dark",
+                "contrast": 3.08,
+                "against": "action.disabled",
+                "min": 3
               }
             }
           },
@@ -4962,7 +5022,7 @@
                 "role": "semantic",
                 "aliasOf": "nbds.color.neutral.200",
                 "mode": "dark",
-                "contrast": 1.81,
+                "contrast": 1.68,
                 "against": "background.inverse.primary"
               }
             }
@@ -5875,6 +5935,21 @@
               }
             }
           },
+          "on-disabled": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.650}",
+            "$description": "text on a disabled fill — muted, clears 4.5:1",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.neutral.650",
+                "mode": "hc-light",
+                "contrast": 4.51,
+                "against": "action.disabled",
+                "min": 4.5
+              }
+            }
+          },
           "link": {
             "default": {
               "$type": "color",
@@ -6246,6 +6321,21 @@
                 "contrast": 21,
                 "against": "background.inverse.primary",
                 "min": 7
+              }
+            }
+          },
+          "on-disabled": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.650}",
+            "$description": "icon on a disabled fill — muted, clears 4.5:1",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.neutral.650",
+                "mode": "hc-light",
+                "contrast": 4.51,
+                "against": "action.disabled",
+                "min": 4.5
               }
             }
           },
@@ -7263,6 +7353,21 @@
               }
             }
           },
+          "on-disabled": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.300}",
+            "$description": "text on a disabled fill — muted, clears 4.5:1",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.neutral.300",
+                "mode": "hc-dark",
+                "contrast": 4.92,
+                "against": "action.disabled",
+                "min": 4.5
+              }
+            }
+          },
           "link": {
             "default": {
               "$type": "color",
@@ -7634,6 +7739,21 @@
                 "contrast": 21,
                 "against": "background.inverse.primary",
                 "min": 7
+              }
+            }
+          },
+          "on-disabled": {
+            "$type": "color",
+            "$value": "{nbds.color.neutral.300}",
+            "$description": "icon on a disabled fill — muted, clears 4.5:1",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.color.neutral.300",
+                "mode": "hc-dark",
+                "contrast": 4.92,
+                "against": "action.disabled",
+                "min": 4.5
               }
             }
           },

@@ -161,6 +161,33 @@ the disabled-link removal and the first hc-elevation fix.
 4. **Exact light surface steps** — go with the engine's recommended values; **tune
    visually** once the style guide renders the new model.
 
+## 6b. Harshness & `on-disabled` (2026-06-29 follow-up)
+
+A second UI-designer review pass, validated against a field survey (Material,
+Carbon, Apple HIG, Tailwind, Primer) + KB 31 §halation/§tint-not-black:
+
+- **No pure extremes in standard modes.** Pure black reads muddy/heavy and pure
+  white halates on a dark ground. So **inverse surfaces** resolve to `neutral.950`
+  (light) / `neutral.025` (dark) instead of `#000`/`#fff`, and the **`on-*`
+  contrast pick** uses the near-extreme. The one kept pure extreme is the **light
+  base page** (`background.primary` = white — universal, not perceived as harsh);
+  dark mode keeps **no** pure extremes (base `neutral.950`, already near-black —
+  field-aligned: M3 `#121212`, Carbon `#161616`, Tailwind `#0a0a0a`).
+- **White vs black is asymmetric but both soften.** Pure white survives in **light**
+  on-fill text (a coloured fill isn't a dark ground); **dark** mode softens white
+  → `neutral.025` (halation, which Material codifies as 87% white). Black always
+  softens → `neutral.950`.
+- **HC keeps the pure extremes.** Softening can *hurt* low-vision users (who often
+  read pure black better), so `hc-light`/`hc-dark` retain pure black & white for
+  maximum contrast — with a pure-extreme fallback in standard modes too if a
+  softened `on-*` pick can't clear AA on a given fill.
+- **`text.on-disabled` + `icon.on-disabled`** — a dedicated label/ink for a
+  **disabled fill** (Carbon's `text-on-color-disabled`), resolved against that
+  fill (not the page) so it stays muted-but-legible (clears the disabled target,
+  ~3:1). One pair covers `action.disabled` and `foreground.danger.disabled` (same
+  neutral fill). The rest of the field uses a blanket disabled-opacity rule; the
+  dedicated token is the more rigorous model.
+
 ## 7. Engine impact
 
 - **`modes.ts`** — the bulk: rewrite the role set (background/foreground/text/icon/
