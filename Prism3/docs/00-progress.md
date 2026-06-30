@@ -108,8 +108,23 @@ npx tsx Prism3/engine/test.ts            # unit tests: colour math + extreme-bra
   the mode's surface. The brand anchor is preserved where it can be and
   auto-adjusted where it can't (a dark-mode action lightens when the anchor can't
   clear AA on a near-black surface).
+- **Surface & content colour model (2026-06-29 — SUPERSEDES the property-led
+  vocabulary entry below).** A UI-designer review of the generated style guide
+  reworked the semantic layer (full spec: `01` §4.1 As-built + `06-surface-and-
+  content-color-model.md`). `background` = the thin page **canvas** (`primary/
+  secondary/tertiary` **tonal in both modes** — light is no longer all-white +
+  an `inverse.*` ladder); `foreground` = the **surfaces/fills** on it (Prism2's
+  `surface`, renamed: tonal ladder + `inverse.*` + bold semantic + `-subtle`
+  tints + stateful `danger`); `text`/`icon` = **ink**; `action.*` = the
+  interactive fill (now **top-level**); `border` = `primary/secondary/inverse/
+  {semantic}/focus`. Dropped the `elevation.*` colour group (elevation = a
+  foreground tier + a shadow), `background.subtle`/`sunken`/`quaternary`. Renamed
+  `on-emphasis→on-inverse`, `interactive→action`. Fixed the incoherent
+  `foreground.primary=950`/`secondary=200` (now a real tonal ladder; the dark
+  fill is `foreground.inverse.primary`). HC carries elevation by **border**.
 - **Semantic vocabulary: PROPERTY-LED — `background` / `foreground`(fill) /
-  `text` / `icon` / `border`, with per-property interactive states.** Decided
+  `text` / `icon` / `border`, with per-property interactive states.** *(Historical
+  — superseded by the surface & content model entry above.)* Decided
   against a nine-system field survey (M3, Carbon, Atlassian, Fluent, Polaris,
   Primer, Spectrum, Radix, Tailwind/shadcn) cross-referenced with the practice KB,
   and aligned to New Balance's actual taxonomy. Top level is the *property* you're

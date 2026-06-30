@@ -69,12 +69,6 @@ const aliasLeaf = (path: string, description: string, extra: Record<string, unkn
   $type: 'color', $value: `{${path}}`, $description: description,
   $extensions: { prism3: { role: 'semantic', aliasOf: path, ...extra } },
 });
-// Generic typed alias (used by the elevation layer: a colour alias to a surface
-// tier + a shadow alias to a shadow step).
-const typedAlias = (type: Token['$type'], path: string, description: string, extra: Record<string, unknown> = {}): Token => ({
-  $type: type, $value: `{${path}}`, $description: description,
-  $extensions: { prism3: { role: 'semantic', aliasOf: path, ...extra } },
-});
 // Alpha colour (composites over any surface — scrims, overlays, shadows).
 const alphaLeaf = (theme: Theme, rgb: RGB, a: number, description: string): Token => ({
   $type: 'color', $value: alphaColorValue(rgb, a, theme.colorFormat), $description: description,

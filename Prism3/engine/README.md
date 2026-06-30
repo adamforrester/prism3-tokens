@@ -199,19 +199,20 @@ line-height as px, not unitless). `title` is allowed to bleed into body sizes; a
 16px title is an opt-in floor entry (pinned, exempt from the scale shift).
 Grounded in KB `23-typography-tokenisation` + a Carbon/Utopia/Material survey.
 
-## Shadow & elevation axis (key+ambient · two-axis elevation)
+## Shadow axis (key+ambient · mode-aware)
 
 A six-step `shadow` ladder (`xs…2xl`) plus an `inset`, each a **two-layer**
 DTCG `shadow` composite (a tight **key** + a soft **ambient**), colour a **tinted
 near-black** (not pure black — pure black reads grey and muddy). One `softness`
 lever scales blur/spread. Dark mode is **mode-aware**: the shadow is *reduced*
 (carried under `$extensions.prism3.modes.dark`) because **surface lift** does the
-dark-mode elevation work — neither NB's heavier-dark shadow nor a null. Elevation
-is **two axes joined**: a surface ladder (`background.*`) and the shadow ladder,
-bound per mode by semantic `elevation.<level>` tokens (`sunken`/`flat`/`raised`/
-`overlay`/`floating`) each carrying a `{surface, shadow}` pair, with component
-aliases (`card`/`dropdown`/`dialog`/…) pointing at a level (Atlassian's split).
-Emits as a Figma **Effect Style** (colour + numerics bindable per layer).
+dark-mode elevation work — neither NB's heavier-dark shadow nor a null. Emits as a
+Figma **Effect Style** (colour + numerics bindable per layer).
+
+**Elevation is not a colour group.** A component composes a `foreground` surface
+tier + one of these shadow steps (see `docs/06`). A semantic `elevation.*` colour
+ladder was briefly shipped then removed in the surface & content model rework —
+the foreground tonal ladder + the shadow ramp carry it without a parallel group.
 Grounded in KB `31-color-systems` (lift pattern + the shadow subsection).
 
 ## Layout axis (breakpoints · grid · containers)

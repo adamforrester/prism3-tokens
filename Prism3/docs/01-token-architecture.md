@@ -171,7 +171,7 @@ Merges Prism2's role/weight composites with NB's viewport handling. Three-tier (
 ### 4.6 Elevation / shadow
 - **Semantic composite:** `elevation.{0,1,2,3,4}` multi-layer shadows, with `default` and `inverse` (dark-surface) variants. Generated from a tier curve, not hand-placed. Figma sync via effect `styleId` (variables can't hold shadow objects).
 
-> **As built** (see README "Shadow & elevation axis"): a six-step `shadow` ladder (`xs…2xl` + `inset`), each a **two-layer** key+ambient composite with a **tinted near-black** colour (not pure black) and one `softness` lever. Elevation is **two axes joined** — a surface ladder and the shadow ladder — bound per mode by **named** `elevation.<level>` tokens (`sunken/flat/raised/overlay/floating`, each a `{surface, shadow}` pair) with component aliases (`card`/`dialog`/…). Dark mode **reduces** the shadow (surface lift carries dark elevation) rather than shipping a heavier "inverse".
+> **As built** (see README "Shadow axis"): a six-step `shadow` ladder (`xs…2xl` + `inset`), each a **two-layer** key+ambient composite with a **tinted near-black** colour (not pure black) and one `softness` lever. Dark mode **reduces** the shadow (surface lift carries dark elevation) rather than shipping a heavier "inverse". **Elevation is NOT a colour group** — a component composes a `foreground` surface tier + a `shadow` step. (A `elevation.*` colour ladder was briefly shipped then removed in the surface & content model rework — see `06-surface-and-content-color-model.md`.)
 
 ### 4.7 Focus (adopt NB)
 - `focus.ring.{width,offset,color,color-inverse}` — first-class, not an afterthought. Width/offset from `core.dimension.*`; color is the luminance-aware focus token.

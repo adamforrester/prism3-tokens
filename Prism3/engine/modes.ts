@@ -185,10 +185,6 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
     accessibleDisabled
       ? { r: pickMinPass(textCands, floorRgb, disabledTarget), against: cfg.floorName, min: disabledTarget }
       : { r: pickClosest(textCands, baseRgb, 2), against: 'background.primary', min: 0 };
-  const disabledBorder = (): { r: Rated; against: string; min: number } =>
-    accessibleDisabled
-      ? { r: pickMinPass(ramp, baseRgb, Math.min(disabledTarget, cfg.nonTextMin)), against: 'background.primary', min: Math.min(disabledTarget, cfg.nonTextMin) }
-      : { r: rated(neutralLow(), baseRgb), against: 'background.primary', min: 0 };
 
   // -------------------------------------------------------------- backgrounds
   // The canvas: thin, page-level, tonal in both modes. `inverse.*` is the opposite-

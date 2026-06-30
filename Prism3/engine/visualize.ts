@@ -22,7 +22,6 @@ const here = dirname(fileURLToPath(import.meta.url));
 const outDir = resolve(here, 'out');
 
 type Node = any;
-const isToken = (n: Node) => n && typeof n === 'object' && n.$type !== undefined;
 
 /** Resolve a dotted token path to its node. */
 const at = (tree: Node, path: string): Node => path.split('.').reduce((n, s) => n?.[s], tree);
@@ -50,14 +49,6 @@ const subNode = (tree: Node, aliasStr: any): Node => at(tree, String(aliasStr).r
 const numOf = (tree: Node, node: Node): number => { const t = deref(tree, node); return typeof t?.$value === 'number' ? t.$value : parseFloat(String(t?.$value)) || 0; };
 const remPxOf = (tree: Node, node: Node): number => { const t = deref(tree, node); const px = t?.$extensions?.prism3?.px; if (px) return px; const v = String(t?.$value); return v.endsWith('rem') ? parseFloat(v) * 16 : parseFloat(v) || 0; };
 const familyOf = (tree: Node, node: Node): string => { const t = deref(tree, node); return Array.isArray(t?.$value) ? t.$value.join(', ') : String(t?.$value ?? 'sans-serif'); };
-// Resolve a shadow node (possibly an alias chain) to a CSS box-shadow string.
-const shadowCssOf = (tree: Node, node: Node): string => {
-  let cur = node, guard = 0;
-  while (cur && typeof cur.$value === 'string' && /^\{.+\}$/.test(cur.$value) && guard++ < 10) cur = at(tree, cur.$value.slice(1, -1));
-  const layers = Array.isArray(cur?.$value) ? cur.$value : [];
-  const inset = /inner|inset|well/i.test(String(cur?.$description ?? ''));
-  return layers.map((l: any) => `${inset ? 'inset ' : ''}${l.offsetX} ${l.offsetY} ${l.blur} ${l.spread} ${l.color}`).join(', ') || 'none';
-};
 
 type Brand = { id: string; root: string; tree: Node; data: Node };
 const load = (id: string, root: string): Brand => {

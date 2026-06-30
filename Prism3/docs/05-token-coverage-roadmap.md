@@ -15,12 +15,12 @@
 | Colour (primitives + property-led semantic + alpha/scrim/opacity) | NB `color`, Prism2 | ✅ Done | OKLCH ramps + contrast roles | — |
 | Dimension grid · space · radius · sizes | NB `core-dimension`, `space-size`, `radius` | ✅ Done | 4px grid + density + radius scale | — |
 | **Border width** | NB `border-width` (in `space-size`) | ✅ Done | `none/hairline/thick/heavy` → dim 0/1/2/4 | — |
-| **Focus** | NB `focus` | ✅ Done | ring width/offset/offset-field/style; colour = `border.interactive.focused` | — |
+| **Focus** | NB `focus` | ✅ Done | ring width/offset/offset-field/style; colour = `border.focus` | — |
 | **Icon 3:1 toggle** | (colour sub-item) | ✅ Done | `iconContrast: 'text' \| '3:1'` theme input | — |
 | **Breakpoints** | NB `core-breakpoint` | ✅ Done (with layout) | 5 t-shirt min-width floors; fluid-vs-fixed RESOLVED → fluid-first + cap | — |
 | **Motion** | NB `core-motion`, `motion` | ✅ Done | `motionPersonality.tempo` → duration ramp; easing roles + springs + composites + derived reduce-motion | — |
 | **Layout** | NB `layout` | ✅ Done | breakpoints + grid (12-col design ladder) + containers; gutter/margin alias the spacing scale; Figma breakpoint-modes | — |
-| **Shadow / elevation** | NB `shadows` | ✅ Done (shadow ramp + elevation) | 6-step 2-layer shadow ramp + inset (`softness`+`tint` levers, mode-aware lift-primary, Figma Effect Style) + semantic `elevation.*` (sunken/flat/raised/overlay/floating) pairing surface-lift + shadow per mode + component aliases (Atlassian split) | — |
+| **Shadow** | NB `shadows` | ✅ Done | 6-step 2-layer shadow ramp + inset (`softness`+`tint` levers, mode-aware lift-primary, Figma Effect Style). Elevation = a foreground tier + a shadow at the component layer (no `elevation.*` colour group — removed in the docs/06 rework) | — |
 | **Typography** | NB `core-typography`, `typography` | ✅ Done (primitives + composites + fluid) | curated rem ladder + weight roles + family triad; semantic composites (display/title/body/label/caption/eyebrow/code); levers typeScale/displayCeiling/titleFloor/familyMap/responsive; fluid clamp() + Figma desktop/mobile modes from one min/max pair | — |
 | **Gradients** | Prism2 `color/gradient/*` | ✅ Done (opt-in) | OFF by default (field abstains); `gradients: true` ships one default brand gradient, or an explicit list. DTCG `gradient` composite, stops alias the ramp; kind/angle/interpolation in `$extensions` (DTCG omits them); OKLCH interpolation + N-stop sRGB pre-sample for Figma; Figma Paint Style (only stop colours bind); worst-case-stop contrast for text-on-gradient | — |
 
@@ -137,16 +137,13 @@
   **reduced** shadow in dark (`$extensions.prism3.modes.dark`, top-weighted) — the
   surface ladder carries dark elevation; rejected NB's heavier-`inverse` as the
   default. Materializes as a Figma **Effect Style** (colour + numerics bindable).
-  112/112 tests (incl. shadow invariants). **Phase B SHIPPED (2026-06-28):** the
-  semantic `elevation.*` ladder — `sunken/flat/raised/overlay/floating` — emitted
-  **per mode**, each level pairing a **surface alias** (this mode's background
-  tier) with a **shadow alias** (a shadow step); `flat` carries no shadow. The
-  mode-awareness needs no conditional: in light the surface tiers converge so the
-  shadow carries elevation, in dark they lift and the shadow token is reduced —
-  one mapping, correct in both. **Component aliases** (`card→raised`,
-  `dropdown/popover/menu→overlay`, `dialog/modal/tooltip→floating`, `well→sunken`)
-  reference the level, never the raw surface/shadow (Atlassian/Primer). 611/611
-  (nb) / 606/606 (aurora) aliases. **Elevation complete.** *Research:* KB
+  112/112 tests (incl. shadow invariants). **Phase B (semantic `elevation.*`
+  colour ladder) was SHIPPED 2026-06-28 then REMOVED 2026-06-29** by the surface
+  & content model rework (`06-surface-and-content-color-model.md`): a UI-designer
+  review found the `elevation.*` group (`sunken/flat/raised/overlay/floating` +
+  component aliases) mostly re-aliased the surface tiers. Elevation is now **a
+  `foreground` surface tier + a `shadow` step, composed at the component layer** —
+  no parallel colour group. The shadow ramp itself (Phase A) stands. *Research:* KB
   `_research/_inbound/2026-06-28-shadow-elevation-tokens` (10-system survey) +
   31-color-systems §"Shadow tokens — shape, colour, and the elevation lever".
   Original note:

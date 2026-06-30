@@ -45,7 +45,7 @@ preview in one client, no backend.
 
 The engine already validates contrast contracts (currently 268/268). The
 playground can surface **pass/fail badges live as you theme** —
-`text.secondary 4.6:1 ✓`, `foreground.interactive.default` AA on the floor,
+`text.secondary 4.6:1 ✓`, `action.default` AA on the floor,
 `scrim 40%`, disabled-floor status. The reference reskins but can't tell you if a
 custom palette is still accessible; ours can, in real time. This is the feature
 that makes it more than a swatch toy and showcases the engine's whole thesis.
