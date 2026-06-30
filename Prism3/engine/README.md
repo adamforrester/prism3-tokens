@@ -46,7 +46,7 @@ Node ≥ 20. No `npm install` needed — the color math is self-contained
 - `emit-dtcg.ts` — emits a DTCG tree per theme (`out/<id>.tokens.json`), generates the per-mode semantic layer, validates every alias resolves, every mode contrast contract holds, and the BrandInput conforms to the schema; writes `modes-report.md` + the `.ai.json` sidecar.
 - `ai-metadata.ts` — generates `out/<id>.ai.json`, the agent-readable metadata sidecar. Two tiers: **semantic** (full schema — `meaning`, `when_to_use`, `avoid_when`, `paired_with`, `contrast_with`, `mode_overrides`, per KB 31-color-systems §9) and **primitive** (simplified — `meaning`, `tier`, `consume`, and `aliased_by`, the reverse index of which tokens resolve to it, **computed transitively** across multi-hop alias chains → a bidirectional graph for impact analysis). Also carries the typography tier (`type.*` composites + `font.weight-role.*`) and, when a brand opts in, the gradient tier (`gradient.*` with stop refs + worst-case-stop a11y). All fields generated/contract-true; keeps `tokens.json` DTCG-pure.
 - `visualize.ts` — renders `out/tokens.html`, a single self-contained visual style guide read back from the emitted DTCG (every axis: colour, semantic roles, dimension, typography rendered live, shadow, motion with animated easing curves, layout, opt-in gradients, opacity, border-width). No deps; also prints a plain-text taxonomy.
-- `test.ts` — colour-math invariants + extreme-brand contract smoke tests + typography/shadow/layout/gradient/surface-model + harshness invariants (162 checks).
+- `test.ts` — colour-math invariants + extreme-brand contract smoke tests + typography/shadow/layout/gradient/surface-model + harshness + typography-weights/links invariants (172 checks).
 - generated outputs (committed so results are reviewable without running): `nb-regression-report.md`, `modes-report.md`, `out/nb.tokens.json`, `out/aurora.tokens.json`, `out/tokens.html`.
 
 ## Modes (`modes-report.md`)
@@ -199,7 +199,17 @@ without touching consumers; unitless `font.line-height.*`; `font.letter-spacing.
 in em; and `font.family.*` (`display`/`text`/`mono`). **Composites:** DTCG
 `typography` tokens grouped by role — `display`/`title`/`body`/`label`/`caption`/
 `eyebrow`/`code` — each binding family + size + weight-role + line-height +
-tracking (+ baked `textCase` where applicable). **Fluid is size-dependent, not a
+tracking (+ baked `textCase` where applicable). **Weight is an axis on every role**
+— each role declares its weight set and every composite carries the weight in its
+name (`type.body.md.strong`), so adding a weight later is purely additive (never a
+rename). Defaults stay lean (display/title `[strong]`, body `[default, strong]`
+with `emphasis` opt-in, caption `[default, strong]`); a brand ships a multi-weight
+hero ramp with one line (`weights: { display: ['default','strong'] }`). **Links are
+a `-link` suffix variant** (e.g. `type.body.md.strong-link`) generated for every
+body + caption size×weight, with `textDecoration: underline` **baked** (not
+Figma-bindable — a separate text style); the link *colour* stays `text.link.*` and
+pairs at apply-time. The link roles are a lever (`links: ['body','caption']`).
+**Fluid is size-dependent, not a
 flat factor** (the wrong model — research showed bigger shrinks more): `display`
 runs a convergent mobile curve toward a ~40–48px hero band, `title` drops ~one rung
 floored, `body` stays static; every `clamp()` is rem-floored for WCAG 1.4.4. The
@@ -288,8 +298,8 @@ breakpoints + grid-as-artifact + spacing-aliased gutter/margin + fluid container
 **opt-in OKLCH gradients** (DTCG composite + ramp-aliased stops + sRGB pre-sample
 for Figma + worst-case-stop contrast); border-width, focus, opacity/alpha + scrim
 primitives; two-brand emit in two dialects; a live HTML style guide
-(`visualize.ts`). nb 545/545 + aurora 546/546 aliases resolve, 248/248 mode
-contracts hold, 162/162 unit tests pass, both brands schema-conform.
+(`visualize.ts`). nb 625/625 + aurora 626/626 aliases resolve, 248/248 mode
+contracts hold, 172/172 unit tests pass, both brands schema-conform.
 
 **Deliberately not reproduced:**
 - *NB's per-step hue kinks* (amber.600, red.300). Following them would require

@@ -180,19 +180,23 @@ for (const b of brands) {
     const lh = numOf(tree, subNode(tree, v.lineHeight));
     const ls = String(deref(tree, subNode(tree, v.letterSpacing))?.$value ?? '0');
     const tc = v.textCase ?? ext.textCase ?? 'none';
+    const deco = v.textDecoration === 'underline' || ext.link ? 'underline' : 'none';
     const sizePx = ext.sizePx ?? remPxOf(tree, subNode(tree, v.fontSize));
     const r = ext.responsive ?? {};
     const range = r.fluid ? `${r.min.px}→${r.max.px}px fluid` : `${r.px ?? sizePx}px`;
     const shown = Math.min(sizePx, 64);
-    const style = `font-family:${family};font-size:${shown}px;font-weight:${weight};line-height:${lh};letter-spacing:${ls};text-transform:${tc}`;
-    txt.push(`  ${path.padEnd(16)} ${range} · w${weight} · lh${lh} · ${family.split(',')[0]}`);
-    html.push(`<div class="trow"><div class="tmeta"><b>${path}</b><span>${range} · w${weight} · lh ${lh} · ls ${ls}${tc !== 'none' ? ' · ' + tc : ''}</span><span class="tfam">${esc(family.split(',')[0])}</span></div><div class="tsample" style="${style}">${esc(path.split('.').slice(1).join(' '))}</div></div>`);
+    const style = `font-family:${family};font-size:${shown}px;font-weight:${weight};line-height:${lh};letter-spacing:${ls};text-transform:${tc};text-decoration:${deco}`;
+    txt.push(`  ${path.padEnd(24)} ${range} · w${weight} · lh${lh}${deco === 'underline' ? ' · link' : ''} · ${family.split(',')[0]}`);
+    html.push(`<div class="trow"><div class="tmeta"><b>${path.replace(/^type\./, '')}</b><span>${range} · w${weight} · lh ${lh} · ls ${ls}${tc !== 'none' ? ' · ' + tc : ''}${deco === 'underline' ? ' · link' : ''}</span><span class="tfam">${esc(family.split(',')[0])}</span></div><div class="tsample" style="${style}">${esc(path.split('.').slice(1).join(' '))}</div></div>`);
   };
-  for (const g of Object.keys(data.type)) {
-    const grp = data.type[g];
-    if ('$value' in grp) renderType(`type.${g}`, grp);
-    else for (const vk of Object.keys(grp)) renderType(`type.${g}.${vk}`, grp[vk]);
-  }
+  // Recurse to every composite leaf ($value-bearing); the tree is now group/size/weight[-link].
+  const walkType = (node: Node, path: string) => {
+    if (node && typeof node === 'object') {
+      if ('$value' in node) { renderType(path, node); return; }
+      for (const k of Object.keys(node)) walkType(node[k], `${path}.${k}`);
+    }
+  };
+  for (const g of Object.keys(data.type)) walkType(data.type[g], `type.${g}`);
   html.push('</div>');
 
   // type primitives: families, weight roles, line-height, tracking, size ladder

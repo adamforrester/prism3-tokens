@@ -165,6 +165,25 @@
             "minViewport": { "type": "number", "default": 375, "description": "Viewport (px) at which fluid type reaches its min." },
             "maxViewport": { "type": "number", "default": 1280, "description": "Viewport (px) at which fluid type reaches its max." }
           }
+        },
+        "weights": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Per-role weight set — weight is an axis on every type role, and every composite carries the weight in its name (type.<group>.<size>.<weight>). Defaults: display/title ['strong'], body ['default','strong'] (add 'emphasis' for a 3rd), caption ['default','strong'], label/eyebrow ['emphasis'], code ['default']. Override a role to ship a multi-weight ramp (e.g. display: ['default','strong']). Adding a weight is additive — never renames.",
+          "properties": {
+            "display": { "type": "array", "items": { "type": "string", "enum": ["subtle", "default", "emphasis", "strong"] } },
+            "title": { "type": "array", "items": { "type": "string", "enum": ["subtle", "default", "emphasis", "strong"] } },
+            "body": { "type": "array", "items": { "type": "string", "enum": ["subtle", "default", "emphasis", "strong"] } },
+            "label": { "type": "array", "items": { "type": "string", "enum": ["subtle", "default", "emphasis", "strong"] } },
+            "caption": { "type": "array", "items": { "type": "string", "enum": ["subtle", "default", "emphasis", "strong"] } },
+            "eyebrow": { "type": "array", "items": { "type": "string", "enum": ["subtle", "default", "emphasis", "strong"] } },
+            "code": { "type": "array", "items": { "type": "string", "enum": ["subtle", "default", "emphasis", "strong"] } }
+          }
+        },
+        "links": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["display", "title", "body", "label", "caption", "eyebrow", "code"] },
+          "description": "Which roles get an underlined `.<weight>-link` variant for every size×weight (inline links inherit the surrounding size+weight). Default ['body','caption']. Underline is baked (not Figma-bindable); the link colour stays text.link.*."
         }
       }
     },

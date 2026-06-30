@@ -28,8 +28,8 @@ Headline numbers (regenerate with the commands below):
 | Tonal-band contrast contracts | **11/11** | (same engine) |
 | Cross-mode contrast contracts | **248/248** | **248/248** |
 | **Dimension axis, exact** (Prism2 space + NB radius) | **21/21** | n/a |
-| DTCG semantic aliases resolve (color + dim + size + type + layout + gradient) | **545/545** | **546/546** |
-| Engine unit tests (colour math + extreme brands + typography + fluid + shadow + layout + gradient + surface-model + harshness/on-disabled invariants) | **162/162** | (same engine) |
+| DTCG semantic aliases resolve (color + dim + size + type + layout + gradient) | **625/625** | **626/626** |
+| Engine unit tests (colour math + extreme brands + typography + fluid + shadow + layout + gradient + surface-model + harshness + typography-weights/links invariants) | **172/172** | (same engine) |
 | Color primitives / dim grid emitted | 122 / 37 | 162 / 36 |
 | Brand palettes / action source | red / **action = brand** (red) | primary+accent+… / **action = accent ≠ brand** |
 | Form factor | comfortable / radius 1 (sharp) | compact / radius 2 (soft) |
@@ -63,7 +63,7 @@ Prism3/
     ├── modes.ts                    ← light/dark/hc-light/hc-dark, roles resolved by contrast target, brand-agnostic
     ├── nb-regression.ts            ← diffs generated vs real NB, checks contracts → nb-regression-report.md
     ├── emit-dtcg.ts                ← emits out/<id>.tokens.json per theme (NB + aurora) + modes-report.md, validates aliases, mode contracts & BrandInput schema conformance
-    ├── test.ts                     ← unit tests: colour-math invariants + 5 extreme-brand contracts + typography/shadow/layout/gradient/surface-model + harshness invariants (162 checks)
+    ├── test.ts                     ← unit tests: colour-math invariants + 5 extreme-brand contracts + typography/shadow/layout/gradient/surface-model + harshness + typography invariants (172 checks)
     ├── ai-metadata.ts              ← generates the AI-readable metadata sidecar (meaning/when/avoid/paired_with/contrast_with/mode_overrides) for the semantic layer
     ├── README.md                   ← how the engine works / how to run
     ├── nb-regression-report.md     ← generated (committed for review)
