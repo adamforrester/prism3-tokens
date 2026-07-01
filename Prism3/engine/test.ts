@@ -20,6 +20,7 @@ import { parseDesignMd, parseYamlSubset } from './design-md';
 import { parseStandardDesignMd, standardToBrandInput, applyXPrism3 } from './standard-design-md';
 import { classifyColors } from './classify-colors';
 import { leverManifest, leverGroups, buildLeverManifest, identityFields } from './levers';
+import { previewSpec, previewTokenRefs, buildPreviewSpec } from './preview';
 import { buildTree, validateBrandInput } from './emit-dtcg';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -472,7 +473,50 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
 
   const committed = readFileSync(resolve(HERE, '../schema/lever-manifest.json'), 'utf8');
   ok(committed === JSON.stringify(buildLeverManifest(), null, 2) + '\n',
-    'lever manifest: schema/lever-manifest.json is up to date (run `npx tsx engine/levers.ts`)');
+    'lever manifest: schema/lever-manifest.json is up to date (run `npx tsx engine/emit-levers.ts`)');
+}
+// (8) PREVIEW SPEC — the shared live-preview contract (docs/08 §7, B1a). Every bound
+// token path (bindings + contract endpoints) must resolve to a real leaf in the
+// emitted token tree (binding-validity), contract mins are sane, and the committed
+// JSON stays current. The semantic role layer is brand-agnostic, so harbor's tree
+// is representative.
+{
+  const previewTheme = brandTheme(parseDesignMd(readFileSync(resolve(HERE, '../examples/harbor.design.md'), 'utf8')).input);
+  const tree = buildTree(previewTheme).tree;
+  const root = Object.keys(tree)[0];
+  const isLeaf = (path: string): boolean => {
+    let node: any = tree[root];
+    for (const seg of path.split('.')) { node = node?.[seg]; if (node == null) return false; }
+    return node.$value !== undefined;
+  };
+  const missing = previewTokenRefs().filter((p) => !isLeaf(p));
+  ok(missing.length === 0, 'preview spec: every bound token path resolves to a leaf in the token tree' + (missing.length ? ` — MISSING: ${missing.join(', ')}` : ''));
+
+  const badContracts: string[] = [];
+  for (const c of previewSpec.components) for (const v of c.variants) for (const ct of v.contracts ?? []) {
+    if (![3, 4.5].includes(ct.min) || ct.fg === ct.bg) badContracts.push(`${c.id}/${v.name}`);
+  }
+  ok(badContracts.length === 0, 'preview spec: every contract has a sane min (3|4.5) and distinct fg/bg' + (badContracts.length ? ` — BAD: ${badContracts.join(', ')}` : ''));
+
+  // A declared contract must not CLAIM MORE than the engine guarantees. For any pair
+  // whose (fg role, bg) equals an engine role's (path key, `against`), require
+  // declared min ≤ the engine's min — so a component can't assert a 3:1 boundary on a
+  // role the engine ships decorative (the input/border.primary defect, PR #20 review).
+  const modes = resolveAllModes(previewTheme);
+  const strip = (p: string) => p.replace(/^color\./, '');
+  const overclaims: string[] = [];
+  for (const c of previewSpec.components) for (const v of c.variants) for (const ct of v.contracts ?? []) {
+    const fgRole = strip(ct.fg), bgRole = strip(ct.bg);
+    for (const m of modes) {
+      const role = m.roles[fgRole];
+      if (role && role.against === bgRole && ct.min > role.min) overclaims.push(`${c.id}/${v.name} ${fgRole}-on-${bgRole} ${m.mode}: declares ${ct.min} > engine ${role.min}`);
+    }
+  }
+  ok(overclaims.length === 0, 'preview spec: no contract over-claims the engine guarantee' + (overclaims.length ? ` — ${overclaims.join('; ')}` : ''));
+
+  const committedPreview = readFileSync(resolve(HERE, '../schema/preview-spec.json'), 'utf8');
+  ok(committedPreview === JSON.stringify(buildPreviewSpec(), null, 2) + '\n',
+    'preview spec: schema/preview-spec.json is up to date (run `npx tsx engine/emit-preview.ts`)');
 }
 
 // ------------------------------------------------------------------- report

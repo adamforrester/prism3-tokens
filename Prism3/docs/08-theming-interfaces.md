@@ -131,8 +131,14 @@ honoured from the start rather than retrofitted:
    gate asserts it stays in sync with `theme-schema.json` (keys resolve, enums + defaults
    match, committed JSON current). Serves the plugin, playground, and MCP tool schema.
 2. **Live-preview model** — the token→sample-component rendering (`04`'s canvas),
-   shared by the plugin and the playground. The interactive successor to
+   shared by the plugin and the playground; the interactive successor to
    `engine/visualize.ts`, with the contrast-contract overlay as the differentiator.
+   - **B1a ✅ BUILT (2026-07-01)** — `engine/preview.ts` → `schema/preview-spec.json`:
+     the portable preview spec (8 components / 22 variants, each binding UI props to
+     semantic token paths + contrast pairs; 52 token refs). Pure; a `test.ts`
+     binding-validity gate asserts every path resolves in the emitted token tree.
+   - B1b — a resolved-preview projection (theme+mode → values + live contrast).
+   - B1c — the host renderers (DOM playground / Figma-node plugin), with B2/B3.
 3. **New Figma plugin shell** — bundles the core, renders knobs from the manifest,
    materialises via `$extensions.prism3.figma` (§2/§5).
 4. **Web playground** — same manifest + preview model, DOM/CSS-var host (§3).
