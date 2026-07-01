@@ -29,7 +29,7 @@ Headline numbers (regenerate with the commands below):
 | Cross-mode contrast contracts | **248/248** | **248/248** |
 | **Dimension axis, exact** (Prism2 space + NB radius) | **23/23** | n/a |
 | DTCG semantic aliases resolve (color + dim + size + type + layout + gradient) | **627/627** | **628/628** |
-| Engine unit tests (colour math + extreme brands + typography + fluid + shadow + layout + gradient + surface-model + harshness + typography-weights/links invariants) | **172/172** | (same engine) |
+| Engine unit tests (colour math + extreme brands + typography + fluid + shadow + layout + gradient + surface-model + harshness + typography-weights/links + design.md-parser/CLI invariants) | **189/189** | (same engine) |
 | Color primitives / dim grid emitted | 122 / 37 | 162 / 36 |
 | Brand palettes / action source | red / **action = brand** (red) | primary+accent+… / **action = accent ≠ brand** |
 | Form factor | comfortable / radius 1 (sharp) | compact / radius 2 (soft) |
@@ -39,6 +39,20 @@ Work now ships as **one PR per feature branch off `main`** (confirmed workflow).
 All work through 2026-07-01 is merged to `main`.
 
 **Structural work since the token layer completed (2026-07-01):**
+- **`design.md` + CLI adapter shipped (build step A — the first adapter over the
+  portable core).** A brand brief authored as YAML frontmatter (`engine/design-md.ts`,
+  a dependency-free block-style YAML-subset parser + frontmatter/prose split)
+  compiled by `engine/cli.ts` (`tsx cli.ts <design.md> [--out <dir>]`): parse →
+  schema-validate → `brandTheme` (the pure core) → reuse the existing emit. No new
+  token logic — `emit-dtcg.ts` now exports the reusable core (`buildTree` /
+  `emitTheme` / `validateBrandInput`) and its two example brands are compiled
+  **from** `examples/*.design.md`, so those files are the single source of truth.
+  Two examples exercise complementary corners of the input space: `aurora.design.md`
+  (**faithfulness** — reproduces the golden `out/aurora.tokens.json` **byte-for-byte**)
+  and the net-new `harbor.design.md` (**coverage** — deep-teal, `action = primary`,
+  warm-neutral greys + tinted page, measured status, comfortable/sharp, system
+  stack + compact scale, gradients off; validated behaviourally: schema-conforms,
+  622/622 aliases resolve, 248/248 contrasts hold). See `07-e2e-journey.md` §6.
 - **Portable pure core.** The theming brain (`theme.ts` + `color`/`ramp`/`scale`/
   `modes`) is now Node-free — the only filesystem coupling (the NB fixture) moved
   to an I/O shell, `nb-fixture.ts`. Precondition for running the engine inside a
@@ -75,16 +89,21 @@ Prism3/
 │   ├── theme-schema.json           ← the white-label BrandInput contract (JSON Schema; validated on every emit)
 │   ├── theme-schema.example.json   ← a worked BrandInput (aurora) that conforms to the contract
 │   └── nb-measured.json            ← NB regression measurement fixture (reverse-engineered anchors; a DIFFERENT shape, consumed only by nbTheme)
+├── examples/                      ← authored brand briefs (design.md front door)
+│   ├── aurora.design.md           ← faithfulness example (compiles to the aurora golden, byte-exact)
+│   └── harbor.design.md           ← coverage example (net-new brand; behavioural acceptance)
 └── engine/                         ← dependency-free TypeScript prototype
     ├── color.ts                    ← sRGB↔OKLCH, CIELAB, CIEDE2000, WCAG contrast, gamut-aware max chroma
+    ├── design-md.ts               ← design.md parser: block-style YAML-subset → BrandInput + prose (pure, no I/O)
+    ├── cli.ts                     ← CLI adapter: tsx cli.ts <design.md> [--out] — parse → validate → core → emit (I/O shell)
     ├── ramp.ts                     ← color ramp generation: exact anchor, 20 steps, chroma arc, 5 bands, contrast-role placement
     ├── scale.ts                    ← dimension axis: 4px grid + numbered space scale (8px rhythm) + radius + component sizes
     ├── theme.ts                    ← Theme builder: nbTheme() (measured) + brandTheme() (white-label: open brandColors[], action role decoupled from brand, status synthesis + danger carve + form factor)
     ├── modes.ts                    ← light/dark/hc-light/hc-dark, roles resolved by contrast target, brand-agnostic
     ├── nb-fixture.ts               ← I/O shell: reads the NB fixture off disk + defers to the pure core (keeps theme.ts Node-free / portable)
     ├── nb-regression.ts            ← diffs generated vs real NB, checks contracts → nb-regression-report.md
-    ├── emit-dtcg.ts                ← emits out/<id>.tokens.json per theme (NB + aurora) + modes-report.md, validates aliases, mode contracts & BrandInput schema conformance
-    ├── test.ts                     ← unit tests: colour-math invariants + 5 extreme-brand contracts + typography/shadow/layout/gradient/surface-model + harshness + typography invariants (172 checks)
+    ├── emit-dtcg.ts                ← emits out/<id>.tokens.json per theme (NB + aurora + harbor, the last two compiled from examples/*.design.md) + modes-report.md; EXPORTS the reusable core (buildTree/emitTheme/validateBrandInput); validates aliases, mode contracts & BrandInput schema conformance
+    ├── test.ts                     ← unit tests: colour-math invariants + 5 extreme-brand contracts + typography/shadow/layout/gradient/surface-model + harshness + typography + design.md-parser/CLI (faithfulness + coverage) invariants (189 checks)
     ├── ai-metadata.ts              ← generates the AI-readable metadata sidecar (meaning/when/avoid/paired_with/contrast_with/mode_overrides) for the semantic layer
     ├── README.md                   ← how the engine works / how to run
     ├── nb-regression-report.md     ← generated (committed for review)
@@ -98,14 +117,35 @@ Prism3/
 ```bash
 # Node ≥ 20. No npm install — color math is self-contained.
 npx tsx Prism3/engine/nb-regression.ts   # regression vs real NB
-npx tsx Prism3/engine/emit-dtcg.ts       # emit DTCG + modes, validate (+ schema conformance)
-npx tsx Prism3/engine/test.ts            # unit tests: colour math + extreme-brand contracts
+npx tsx Prism3/engine/emit-dtcg.ts       # emit DTCG + modes, validate (+ schema conformance) — NB + aurora + harbor
+npx tsx Prism3/engine/test.ts            # unit tests: colour math + extreme-brand contracts + design.md/CLI
+npx tsx Prism3/engine/visualize.ts       # regenerate the style-guide HTML (out/tokens.html)
+
+# CLI adapter — theme an arbitrary brand brief:
+npx tsx Prism3/engine/cli.ts Prism3/examples/harbor.design.md [--out <dir>]
 ```
 
 ---
 
 ## Decisions log (why things are the way they are)
 
+- **`design.md`: block-style YAML frontmatter + hand-rolled parser; the CLI reuses
+  the emit core; examples are the single source of truth (2026-07-01).** The locked
+  plan called for YAML frontmatter + a minimal parser; on build, a *block-style*
+  subset (indentation nesting + `- ` sequences + flow `{}`/`[]` leaves) beat a
+  flow-heavy minimal parser because the whole point of `design.md` is human- *and*
+  agent-authorability, and the doc's own example uses block-at-top + flow-for-leaves
+  (owner chose "what do you recommend"). Rather than let the CLI duplicate the emit
+  pipeline, `emit-dtcg.ts` was made the home of the reusable core (`buildTree` /
+  `emitTheme` / `validateBrandInput`) behind an `isMain` guard, and its example
+  brands are compiled **from** `examples/*.design.md` — so "faithfulness" is
+  structural (the golden IS generated from the brief) and the explicit byte-diff
+  test is belt-and-suspenders. Harbor uses **warm-neutral greys** (neutral hue ~65)
+  against its cool teal brand (owner decision) so the brief's "warm off-white page"
+  is honest, not aspirational — the neutral ramp hue is independent of the brand
+  hue, a real teal-brand-with-warm-greys pairing, and it genuinely exercises the
+  surface floor-shift lever. *Rationale:* user decisions after surfacing both forks
+  before building.
 - **Portable pure core, not a plugin/CLI (2026-07-01).** The engine is a
   dependency-free *library* wrapped by thin adapters (Figma plugin / CLI / MCP /
   API), not a single app. Kept the core I/O-free so it can run in a Figma sandbox;
@@ -354,21 +394,29 @@ The goal is a designer↔developer↔agent workflow ending in production-ready U
 i.e. completing layers 2–4 of the practice's four-layer AI stack (the engine is
 layer 1). Agreed build sequence (owner confirmed "safest path to a working plugin"):
 
-- **A. `design.md` + CLI adapter (next).** A brand brief (`design.md` frontmatter →
-  `BrandInput`, prose for agent latitude) compiled by the CLI over the pure core.
-  Proves the core-as-a-library and the authoring on-ramp in the easy Node
-  environment before the Figma sandbox. No LLM required to use it; agent-draftable.
-  **Locked (2026-07-01):** YAML frontmatter + a hand-rolled minimal parser (~30
-  lines, dependency-free) validated against `theme-schema.json`. Build shape:
-  `engine/design-md.ts` (parser) + `engine/cli.ts` (entry point reusing the
-  existing emit) + `examples/aurora.design.md` (reproduces the current aurora
-  `BrandInput` → diff against `out/aurora.tokens.json` as the byte-exact
-  **faithfulness** test) **plus a second, net-new brand** authored through the CLI
-  (e.g. "Harbor" — teal, `action = primary`, warm off-white surface, gradients off,
-  comfortable/sharp) as the **coverage** test: no golden file, so it's validated
-  behaviourally (runs, schema-conforms, all aliases resolve, 248/248 contrasts hold).
-  The two exercise complementary corners of the input space. Full spec + lever table
-  in `07-e2e-journey.md` §6.
+- **A. `design.md` + CLI adapter — ✅ DONE (2026-07-01).** A brand brief
+  (`design.md` frontmatter → `BrandInput`, prose for agent latitude) compiled by
+  the CLI over the pure core. Proves the core-as-a-library and the authoring
+  on-ramp in the easy Node environment before the Figma sandbox. No LLM required to
+  use it; agent-draftable. **As built:** `engine/design-md.ts` (a dependency-free
+  block-style YAML-subset parser — indentation nesting + block sequences + flow
+  `{}`/`[]` leaves + scalar typing + frontmatter/prose split) → `BrandInput`,
+  validated against `theme-schema.json`; `engine/cli.ts` (`tsx cli.ts <design.md>
+  [--out <dir>]`) parses → validates → `brandTheme` → `emitTheme`, exiting non-zero
+  on a schema violation, a broken alias, or a failed contrast contract.
+  `emit-dtcg.ts` was refactored to **export the reusable core** (`buildTree` /
+  `emitTheme` / `validateBrandInput`) behind an `isMain` guard, and now compiles
+  both example brands **from** `examples/*.design.md` (single source of truth).
+  `examples/aurora.design.md` is the **faithfulness** test — it reproduces
+  `out/aurora.tokens.json` **byte-for-byte** (verified: empty `git diff`; the CLI
+  path is byte-identical to the regression path); `examples/harbor.design.md` is
+  the net-new **coverage** brand (deep-teal, `action = primary`, warm-neutral greys
+  + tinted page, measured status, comfortable/sharp, system stack + compact scale,
+  gradients off), validated behaviourally (schema-conforms, 622/622 aliases resolve,
+  248/248 contrasts hold). Both are wired into `test.ts` (189/189). Full spec + lever
+  table in `07-e2e-journey.md` §6. NOTE: the "~30 line parser" estimate in the
+  locked plan was optimistic given the nested typography/gradients surface — the
+  block-style parser is ~200 lines, still dependency-free and scoped to `BrandInput`.
 - **B. Figma plugin.** Fold the pure core in as the Figma *materialization adapter*
   (one brain, two targets — `07` §5). The plugin becomes a consumer of engine
   output, resolving today's pain points (missing options, namespace lock, font-weight

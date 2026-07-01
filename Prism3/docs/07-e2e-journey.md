@@ -152,6 +152,15 @@ The plugin's ability to read Figma-loaded fonts stays a **strength** — it beco
 
 ## 6. `design.md` — the authoring front door (new practice IP)
 
+> **✅ BUILT (2026-07-01).** `engine/design-md.ts` (block-style YAML-subset parser
+> → `BrandInput` + prose split) + `engine/cli.ts` (`tsx cli.ts <design.md> [--out]`)
+> over the pure core; `emit-dtcg.ts` now exports the reusable core and compiles the
+> two example briefs from `examples/*.design.md`. `aurora.design.md` reproduces the
+> golden byte-for-byte (faithfulness); `harbor.design.md` is the net-new coverage
+> brand (schema-conforms, aliases resolve, 248/248 contrasts hold). Wired into
+> `test.ts` (189/189). See `00-progress.md`. The build shape below is the as-built
+> record.
+
 The KB has **no committed POV** on "a design brief as a file that drives generation" (closest:
 §30 "component data file is source", §04 "voice-and-tone matrix as a system prompt"). So this
 is greenfield and worth a KB write-up + targeted research once proven — it would be defensible IP.
@@ -256,9 +265,9 @@ the token engine.
 
 ## 9. Suggested sequence (not a commitment)
 
-1. **Extract the pure core** (I/O-shell split). Precondition; small.
+1. **Extract the pure core** (I/O-shell split). Precondition; small. ✅ done.
 2. **`design.md` + CLI adapter.** Authoring on-ramp; proves the front door; no LLM required
-   to use it, agent-draftable when wanted.
+   to use it, agent-draftable when wanted. ✅ done (2026-07-01) — see §6.
 3. **MCP adapter over the core.** Turns "agent themes Prism3" from aspiration to a callable
    surface — the §15 MCP-first payoff.
 4. **Fold the core into the Prism3 Figma plugin** as the Figma materialization adapter
