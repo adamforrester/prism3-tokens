@@ -13,7 +13,8 @@
  */
 import { rgbToOklch, oklchToRgb, hex, contrast, luminance, maxChroma, inGamut, deltaE2000, RGB } from './color';
 import { generateRamp, autoPlaceStep, STEP_NUMS } from './ramp';
-import { brandTheme, nbTheme, BrandInput } from './theme';
+import { brandTheme, BrandInput } from './theme';
+import { nbTheme } from './nb-fixture';
 import { resolveAllModes } from './modes';
 
 let pass = 0; const fails: string[] = [];
