@@ -84,7 +84,8 @@ Prism3/
 │   ├── 04-theming-playground.md     ← direction note: live theming dashboard / preview surface (web + Figma)
 │   ├── 05-token-coverage-roadmap.md ← build backlog: remaining token categories (type, motion, shadow, layout, …)
 │   ├── 06-surface-and-content-color-model.md ← the surface/content colour model + §7b as-built naming (palette/color) & mode encoding
-│   └── 07-e2e-journey.md            ← the designer↔developer↔agent pipeline; portable-core architecture; design.md; component layer (layers 2–3 of the AI stack)
+│   ├── 07-e2e-journey.md            ← the designer↔developer↔agent pipeline; portable-core architecture; design.md; component layer (layers 2–3 of the AI stack)
+│   └── 08-theming-interfaces.md     ← the customization surfaces (plugin/playground/CLI/MCP/Figma-MCP); new-plugin + shared-lever-manifest decisions; two-route materialization; revised build sequence
 ├── schema/
 │   ├── theme-schema.json           ← the white-label BrandInput contract (JSON Schema; validated on every emit)
 │   ├── theme-schema.example.json   ← a worked BrandInput (aurora) that conforms to the contract
@@ -134,6 +135,22 @@ npx tsx Prism3/engine/cli.ts Prism3/examples/wendys.design.md --fidelity      # 
 
 ## Decisions log (why things are the way they are)
 
+- **Theming interfaces: new plugin + shared lever manifest (2026-07-01).** The customization
+  surfaces (Figma plugin, web playground, CLI, MCP, Figma MCP) are five adapters over one core,
+  not five products (`08-theming-interfaces`). Decisions: (A) the Prism3 Figma plugin is a **new**
+  build on the engine core, not an evolution of the existing theming plugin — the core is reused
+  (never re-implemented, the KB round-trip drift trap), the plugin is a fresh materialization +
+  control shell that inherits every engine option and dissolves the existing plugin's namespace/
+  options/font-weight pain points; (B) the web playground and Figma plugin aim for **near-continuity**
+  — one shared **lever manifest** + live-preview model, not two hand-maintained UIs (two visual
+  editors = two surfaces of drift). The manifest is the *presentation* half (labels/groups/UI
+  ranges/knob type) that `theme-schema.json` (validation half) lacks; the plugin, playground, and
+  MCP tool schema all render from it, so continuity is structural, not a manual sync. Materialization
+  has two routes over the same output — plugin knobs (manual) and Figma MCP (agentic) — within the
+  Figma variable-type ceilings (COLOR/FLOAT/STRING; typography→atoms+Text Style; shadow→Effect/code).
+  *Rationale:* owner decisions — "build new on the new engine"; "strive for near-continuity, a lot is
+  possible inside a Figma plugin." Resolves `07 §8` open decision #3. Full shape + build sequence in
+  `08`; next increment is the lever manifest.
 - **`design.md` is the E2E interchange contract; adopt the open spec (2026-07-01).**
   The pipeline tools (all owner-built: `brand-skills` extractor, this engine, Token Press,
   three *separate* Figma plugins, the CLI templating system) connect through **one shared
@@ -471,13 +488,27 @@ layer 1). Agreed build sequence (owner confirmed "safest path to a working plugi
   table in `07-e2e-journey.md` §6. NOTE: the "~30 line parser" estimate in the
   locked plan was optimistic given the nested typography/gradients surface — the
   block-style parser is ~200 lines, still dependency-free and scoped to `BrandInput`.
-- **B. Figma plugin.** Fold the pure core in as the Figma *materialization adapter*
-  (one brain, two targets — `07` §5). The plugin becomes a consumer of engine
-  output, resolving today's pain points (missing options, namespace lock, font-weight
-  mapping). The colour output is already shaped like Figma's variable-with-modes, so
-  this is a direct mapping. NB: Figma component work does **not** depend on the plugin.
+- **★ NEXT — Theming interfaces (`08-theming-interfaces`, 2026-07-01).** The customization
+  surfaces are now a committed shape, not a direction note. Locked: (1) a **NEW** Prism3 Figma
+  plugin built on the engine core (not an evolution of the existing theming plugin — the core is
+  reused, the plugin is a fresh materialization + control shell); (2) **near-continuity** between
+  the Figma plugin and the web playground — one shared **lever manifest** + live-preview model,
+  not two hand-maintained UIs. Revised build sequence (`08` §7):
+  - **B0. Lever manifest** — the shared-control contract in the core: a machine-readable
+    description of the `BrandInput` knobs (grouped/labelled/typed/ranged/defaulted) that the
+    plugin, the playground, and the MCP tool schema all render from. Adds the *presentation* half
+    that `schema/theme-schema.json` (validation half) lacks. Pure, dependency-free, buildable now.
+    **← the immediate next increment.**
+  - **B1. Live-preview model** — token→sample-component rendering (`04`'s canvas + contrast
+    overlay), shared by plugin + playground; the interactive successor to `visualize.ts`.
+  - **B2. New Figma plugin shell** — bundles the core, renders knobs from the manifest,
+    materialises via `$extensions.prism3.figma` (`08` §2/§5).
+  - **B3. Web playground** — same manifest + preview, DOM/CSS-var host.
+  - **Parallel validation:** Style Dictionary consumption (owner-driven) + **Figma-MCP import** of
+    `out/*.tokens.json` (validates the Figma directives, de-risks plugin materialization, and
+    unblocks Token Press testing — highest-value near-term).
 - **C. MCP adapter** over the core — "an agent themes Prism3" as a callable surface
-  (the KB's MCP-first payoff).
+  (the KB's MCP-first payoff). Its tool schema derives from the B0 lever manifest.
 - **D. (later) Component library** — components-as-data → Web Components + React +
   Storybook + `.ai.json` + Figma Code Connect (layers 2–3). In scope eventually;
   mapped now so upstream choices don't foreclose it. Heavy per-component research
