@@ -180,6 +180,21 @@ compiles; prose is the latitude an agent reads.** An agent drafting `design.md` 
 brand brief becomes the natural on-ramp at the authoring end — "agents operate the whole
 thing" starting from the very first step, while a human can still write or edit the same file.
 
+**Locked build decision (2026-07-01): YAML frontmatter + a hand-rolled parser.**
+`design.md` uses **YAML frontmatter** (nicest for a human *and* an agent to author). Because
+the engine is dependency-free (no npm install) and Node ships no YAML parser, the CLI owns a
+**minimal YAML-subset parser** (~30 lines) scoped to the `BrandInput` shape — in the same
+spirit as owning the colour math rather than pulling a library. The parsed frontmatter is
+validated against `schema/theme-schema.json` (the existing `BrandInput` contract) before the
+core builds the theme. MVP consumes the frontmatter only; the prose is agent/human input, not
+yet parsed. (Alternatives considered and rejected: JSON frontmatter — uglier to author;
+`design.json` + prose companion — two files.)
+
+**Build shape for step A (the CLI adapter):**
+- `engine/design-md.ts` — the YAML-subset parser + `parseDesignMd(text) → BrandInput`.
+- `engine/cli.ts` — `tsx cli.ts <design.md> [--out <dir>]`: parse → schema-validate → `brandTheme(input)` (the pure core) → reuse the existing emit (`emit-dtcg`) + `ai-metadata` + optional `visualize`. No new token logic; it's a new *entry point* over the core, replacing the hardcoded `nb`/`aurora` themes with a file-driven one.
+- A worked `examples/aurora.design.md` whose frontmatter reproduces the current `aurora` `BrandInput`, so the CLI output can be diffed against `out/aurora.tokens.json` as the acceptance test.
+
 ---
 
 ## 7. Downstream: the component library, components-as-data, and Code Connect
