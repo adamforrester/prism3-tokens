@@ -60,8 +60,12 @@ export const previewSpec: PreviewSpec = {
     {
       id: 'input', label: 'Text input', description: 'A form field — default, focused (brand ring), and disabled.',
       variants: [
+        // `border.primary` is bound for rendering but NOT contracted: the engine
+        // ships it decorative (min 0, ~1.5:1) — the input's 3:1 obligation is carried
+        // by the focus ring (border.focus, contracted on the focus variant), not the
+        // resting border. (Same as `card`'s decorative border.secondary — bound, not contracted.)
         { name: 'default', bindings: { bg: 'color.background.primary', border: 'color.border.primary', text: 'color.text.primary', placeholder: 'color.text.tertiary', radius: 'radius.sm', padX: 'space.200', padY: 'space.150', type: 'type.body.md.default' },
-          contracts: [{ fg: 'color.text.primary', bg: 'color.background.primary', min: TEXT, label: 'value on field' }, { fg: 'color.border.primary', bg: 'color.background.primary', min: UI, label: 'border on page' }] },
+          contracts: [{ fg: 'color.text.primary', bg: 'color.background.primary', min: TEXT, label: 'value on field' }] },
         { name: 'focus', bindings: { bg: 'color.background.primary', border: 'color.border.focus', text: 'color.text.primary', radius: 'radius.sm', padX: 'space.200', padY: 'space.150', type: 'type.body.md.default' },
           contracts: [{ fg: 'color.border.focus', bg: 'color.background.primary', min: UI, label: 'focus ring' }] },
         { name: 'disabled', bindings: { bg: 'color.background.secondary', border: 'color.border.secondary', text: 'color.text.disabled', radius: 'radius.sm', padX: 'space.200', padY: 'space.150', type: 'type.body.md.default' },

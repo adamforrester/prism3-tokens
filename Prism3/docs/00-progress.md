@@ -29,7 +29,7 @@ Headline numbers (regenerate with the commands below):
 | Cross-mode contrast contracts | **248/248** | **248/248** |
 | **Dimension axis, exact** (Prism2 space + NB radius) | **23/23** | n/a |
 | DTCG semantic aliases resolve (color + dim + size + type + layout + gradient) | **627/627** | **628/628** |
-| Engine unit tests (colour math + extreme brands + typography + fluid + shadow + layout + gradient + surface-model + harshness + typography-weights/links + design.md-parser/CLI + standard-dialect/classifier/x-prism3 + lever-manifest↔schema drift + preview-spec binding-validity invariants) | **211/211** | (same engine) |
+| Engine unit tests (colour math + extreme brands + typography + fluid + shadow + layout + gradient + surface-model + harshness + typography-weights/links + design.md-parser/CLI + standard-dialect/classifier/x-prism3 + lever-manifest↔schema drift + preview-spec binding-validity invariants) | **212/212** | (same engine) |
 | Color primitives / dim grid emitted | 122 / 37 | 162 / 36 |
 | Brand palettes / action source | red / **action = brand** (red) | primary+accent+… / **action = accent ≠ brand** |
 | Form factor | comfortable / radius 1 (sharp) | compact / radius 2 (soft) |
@@ -112,7 +112,7 @@ Prism3/
     ├── emit-levers.ts              ← I/O shell: writes schema/lever-manifest.json from the pure levers.ts (sandbox-portable split)
     ├── preview.ts                  ← the PREVIEW SPEC (PURE): sample components bound to semantic token paths + contrast pairs; plugin + playground render the same live preview from it (docs/08 §7 B1a)
     ├── emit-preview.ts             ← I/O shell: writes schema/preview-spec.json from the pure preview.ts
-    ├── test.ts                     ← unit tests: colour-math invariants + 5 extreme-brand contracts + typography/shadow/layout/gradient/surface-model + harshness + typography + design.md-parser/CLI + standard-dialect/classifier/x-prism3 + lever-manifest↔schema drift + preview-spec binding-validity invariants (211 checks)
+    ├── test.ts                     ← unit tests: colour-math invariants + 5 extreme-brand contracts + typography/shadow/layout/gradient/surface-model + harshness + typography + design.md-parser/CLI + standard-dialect/classifier/x-prism3 + lever-manifest↔schema drift + preview-spec binding-validity invariants (212 checks)
     ├── ai-metadata.ts              ← generates the AI-readable metadata sidecar (meaning/when/avoid/paired_with/contrast_with/mode_overrides) for the semantic layer
     ├── README.md                   ← how the engine works / how to run
     ├── nb-regression-report.md     ← generated (committed for review)
@@ -515,9 +515,11 @@ layer 1). Agreed build sequence (owner confirmed "safest path to a working plugi
     secondary button, input, card, alert per semantic, nav item, badge, type specimen), each binding
     UI props to root-relative semantic token paths + the contrast pairs to overlay (52 token refs).
     The plugin and playground render the SAME live preview from it (extracts the binding knowledge
-    latent in `visualize.ts`). **Pure — no `node:*`** (write step = `emit-preview.ts`). **Binding-validity
-    gate:** `test.ts` asserts every referenced token path resolves to a real leaf in the emitted token
-    tree, contract mins are sane, committed JSON current (211/211). Run `npx tsx Prism3/engine/emit-preview.ts`.
+    latent in `visualize.ts`). **Pure — no `node:*`** (write step = `emit-preview.ts`). **Gates
+    (`test.ts`):** every referenced token path resolves to a real leaf in the emitted token tree
+    (binding-validity), contract mins are sane, **no contract over-claims the engine guarantee**
+    (declared min ≤ the engine's min for that role+surface — the PR #20 review hardening), committed
+    JSON current (212/212). Run `npx tsx Prism3/engine/emit-preview.ts`.
     **← next: B1b resolved-preview projection, then B1c host renderers (B2/B3).**
   - **B1b/c. Live-preview rendering** — B1b: a resolved-preview projection (theme+mode → concrete
     values + live contrast results) the surfaces consume reactively; B1c: the DOM (playground) + Figma-node

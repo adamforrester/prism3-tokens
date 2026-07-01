@@ -141,12 +141,6 @@
               "bg": "color.background.primary",
               "min": 4.5,
               "label": "value on field"
-            },
-            {
-              "fg": "color.border.primary",
-              "bg": "color.background.primary",
-              "min": 3,
-              "label": "border on page"
             }
           ]
         },
