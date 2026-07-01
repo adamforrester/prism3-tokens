@@ -364,13 +364,26 @@ Two shared vocabularies make the bridge deterministic (no guessing in the classi
   `caption` / `button`; it moves to the engine's set (`mega`→top of `display`; `button`→`label`).
   **(Decision: align, not map.)**
 
-### 11.6 Next step — the Wendy's spike (validation before rework)
+### 11.6 The Wendy's spike (validation before rework) — ✅ DONE (2026-07-01)
 
-Before reworking step A's format, build a spike **here** (prism3-tokens): a standard-`design.md`
-reader + the colour-role classifier, run the real Wendy's `design.md` through the engine →
-a full Wendy's token system **+ a fidelity report** vs its provided values. Evidence-first: the
-spike tells us exactly what the contract and the `brand-skills` changes should be. It does not
-touch the shipped step-A pipeline.
+Built **here** (prism3-tokens), additive to the shipped step-A pipeline:
+- `engine/standard-design-md.ts` — reader for the STANDARD (brand-skills / google-labs) `design.md`
+  frontmatter (`colors`/`typography`/`rounded`/`spacing`/`elevation`/`name`), reusing the format-agnostic
+  `parseYamlSubset` from `design-md.ts`. A shape mapper, not a second parser.
+- `engine/classify-colors.ts` — the **colour-role classifier** (§11.5): the flat `colors:` map →
+  engine anchors by naming convention (`primary`→pinned; `secondary`/`tertiary`→`brandColors[]`;
+  `neutral-<step>`→derived `{hue,chroma}`; `success`/`warning`/`error`→`danger`→status; `info`/`white`/
+  variants → report-only). Deterministic + pure; adds `hexToRgb` to `color.ts`.
+- `engine/spike-wendys.ts` — the runner: read → classify → `BrandInput` → `brandTheme` → `emitTheme`
+  (shipped core, unchanged) → `out/wendys.*` + **`engine/wendys-fidelity-report.md`**. Self-verifies its
+  own gates and exits non-zero on failure. Run: `npx tsx Prism3/engine/spike-wendys.ts`.
+
+Input: a **real** `brand-skills` Wendy's `design.md` (`examples/wendys.design.md`). **Result:** anchor
+reproduced at **ΔE00 0.00**, 627/627 aliases, 248/248 contrasts, `error`→`danger` carved distinct; aggregate
+colour ΔE00 **2.02** across 24 swatches (divergence on regenerated ramp/status/neutral is the point — Decision A).
+The report is a full-parity pass across **every** axis (colour ΔE00, typography role-map, spacing, radius,
+elevation). Evidence-first delivered: it tells us exactly what the `brand-skills` alignment spec (§11.7) must
+change, all confirmed against a live file rather than predicted.
 
 ### 11.7 The `brand-skills` alignment spec (for the brand-skills-provisioned thread)
 
@@ -379,6 +392,9 @@ is proxy-blocked, 403). The owner will open a **new thread with prism3 + knowled
 brand-skills provisioned** to do that work. Deliverable from *this* side: an **alignment spec**
 (derived from the spike) listing what `brand-skills` should change — type-role rename, the
 colour-role naming contract, the optional `x-prism3:` block — so both tools speak the same
-contract. **Token Press** provisioning is deferred (it's a private, different-org repo and sits
+contract. The spike's concrete, evidence-backed findings for that spec live in the fidelity report's
+§6 (`engine/wendys-fidelity-report.md`): the type-role rename map, the `error`→`danger` colour-role
+rename, the observed `info`/`error` dups, and the `x-prism3:` lever candidates (`radiusScale`,
+`typeScale`). **Token Press** provisioning is deferred (it's a private, different-org repo and sits
 at the *export* stage, downstream of this work); its I/O is captured in §11.1 so the contract
 accounts for it without needing its code yet.

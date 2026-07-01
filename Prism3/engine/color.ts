@@ -78,6 +78,18 @@ export const hex = ({ r, g, b }: RGB): string =>
   '#' + [r, g, b].map((v) => v.toString(16).padStart(2, '0')).join('');
 
 /**
+ * Parse a hex colour string → RGB (0..255). Accepts `#rgb`, `#rrggbb`, with or
+ * without the leading `#`. The inverse of `hex()`. Used by the standard-design.md
+ * reader / colour-role classifier, which receive brand anchors as sRGB hex.
+ */
+export const hexToRgb = (s: string): RGB => {
+  let h = s.trim().replace(/^#/, '');
+  if (h.length === 3) h = h.split('').map((c) => c + c).join('');
+  if (h.length !== 6 || /[^0-9a-fA-F]/.test(h)) throw new Error(`invalid hex colour: '${s}'`);
+  return { r: parseInt(h.slice(0, 2), 16), g: parseInt(h.slice(2, 4), 16), b: parseInt(h.slice(4, 6), 16) };
+};
+
+/**
  * Largest in-gamut chroma at a given L and H, capped at `ceiling`.
  * Binary search — this is what makes vivid hues taper naturally at the
  * light/dark extremes instead of clamping to mud.
