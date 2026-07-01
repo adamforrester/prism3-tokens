@@ -362,8 +362,13 @@ layer 1). Agreed build sequence (owner confirmed "safest path to a working plugi
   lines, dependency-free) validated against `theme-schema.json`. Build shape:
   `engine/design-md.ts` (parser) + `engine/cli.ts` (entry point reusing the
   existing emit) + `examples/aurora.design.md` (reproduces the current aurora
-  `BrandInput` → diff against `out/aurora.tokens.json` as the acceptance test).
-  Full spec in `07-e2e-journey.md` §6.
+  `BrandInput` → diff against `out/aurora.tokens.json` as the byte-exact
+  **faithfulness** test) **plus a second, net-new brand** authored through the CLI
+  (e.g. "Harbor" — teal, `action = primary`, warm off-white surface, gradients off,
+  comfortable/sharp) as the **coverage** test: no golden file, so it's validated
+  behaviourally (runs, schema-conforms, all aliases resolve, 248/248 contrasts hold).
+  The two exercise complementary corners of the input space. Full spec + lever table
+  in `07-e2e-journey.md` §6.
 - **B. Figma plugin.** Fold the pure core in as the Figma *materialization adapter*
   (one brain, two targets — `07` §5). The plugin becomes a consumer of engine
   output, resolving today's pain points (missing options, namespace lock, font-weight

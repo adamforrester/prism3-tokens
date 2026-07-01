@@ -193,7 +193,20 @@ yet parsed. (Alternatives considered and rejected: JSON frontmatter — uglier t
 **Build shape for step A (the CLI adapter):**
 - `engine/design-md.ts` — the YAML-subset parser + `parseDesignMd(text) → BrandInput`.
 - `engine/cli.ts` — `tsx cli.ts <design.md> [--out <dir>]`: parse → schema-validate → `brandTheme(input)` (the pure core) → reuse the existing emit (`emit-dtcg`) + `ai-metadata` + optional `visualize`. No new token logic; it's a new *entry point* over the core, replacing the hardcoded `nb`/`aurora` themes with a file-driven one.
-- A worked `examples/aurora.design.md` whose frontmatter reproduces the current `aurora` `BrandInput`, so the CLI output can be diffed against `out/aurora.tokens.json` as the acceptance test.
+- A worked `examples/aurora.design.md` whose frontmatter reproduces the current `aurora` `BrandInput`, so the CLI output can be diffed against `out/aurora.tokens.json` as the acceptance test (the **faithfulness** check — CLI path ≡ hardcoded path, byte-for-byte).
+- A **second, net-new brand** authored from scratch through the CLI (the **coverage** check — the engine has never seen it via this path). It should deliberately exercise the *complementary* corner of the input space from Aurora, so between the two the levers are well covered:
+
+| lever | Aurora (existing) | second brand (new) |
+|---|---|---|
+| action source | `accent` (decoupled from brand) | **default** (`action = primary`) |
+| brandColors[] | present (accent) | **minimal / none** (bare-input path) |
+| surfaces | white/black defaults | **warm off-white surface override** (moves the contrast floor) |
+| status | synthesised | **measured status overrides** |
+| form factor | compact / soft (radius 2) | **comfortable / sharp (radius 1)** |
+| type | expressive scale, variable display face | **compact/standard scale, system stack** |
+| gradients | on (linear + radial) | **off** (the field-default abstain) |
+
+  A concrete candidate: **"Harbor"** — a restrained deep-teal primary, `action = primary`, a warm off-white page, gradients off, comfortable density. (Name/values final at build.) Since there's no golden file, its acceptance test is **behavioural, not byte-exact**: it runs, schema-conforms, every alias resolves, and all 248 contrast contracts hold. Wire both examples into the test run so the two together are a regression on the CLI path.
 
 ---
 
