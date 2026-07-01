@@ -27,9 +27,12 @@ rest is derived.
 
 ```bash
 npx tsx Prism3/engine/nb-regression.ts   # regression: generated vs real NB
-npx tsx Prism3/engine/emit-dtcg.ts       # emit a DTCG token tree + validate aliases + schema
-npx tsx Prism3/engine/test.ts            # unit tests: colour math + extreme-brand contracts
+npx tsx Prism3/engine/emit-dtcg.ts       # emit a DTCG token tree + validate aliases + schema (NB + aurora + harbor)
+npx tsx Prism3/engine/test.ts            # unit tests: colour math + extreme-brand contracts + design.md/CLI
 npx tsx Prism3/engine/visualize.ts       # render out/tokens.html — a live visual style guide
+
+# CLI adapter — compile an arbitrary brand brief (design.md) into tokens:
+npx tsx Prism3/engine/cli.ts Prism3/examples/harbor.design.md [--out <dir>]
 ```
 
 Node ≥ 20. No `npm install` needed — the color math is self-contained
@@ -43,11 +46,14 @@ Node ≥ 20. No `npm install` needed — the color math is self-contained
 - `theme.ts` — builds a brand-agnostic `Theme` (palettes, role→palette map, namespace, color format, dimension axis). Two entry points: `nbTheme()` (measured NB anchors, `nbds.*`/rgb) and `brandTheme(input)` (white-label: synthesises status hues, carves a danger red, applies a form factor, `prism.*`/hex).
 - `modes.ts` — appearance modes (light / dark / hc-light / hc-dark). Resolves each semantic role to a primitive step by contrast target against the mode's surface. Brand-agnostic — paths/palette names come from the `Theme`.
 - `nb-regression.ts` — diffs generated NB ramps against the real NB tokens (ΔE00 per step), checks the contrast contracts, writes `nb-regression-report.md`.
-- `emit-dtcg.ts` — emits a DTCG tree per theme (`out/<id>.tokens.json`), generates the per-mode semantic layer, validates every alias resolves, every mode contrast contract holds, and the BrandInput conforms to the schema; writes `modes-report.md` + the `.ai.json` sidecar.
+- `emit-dtcg.ts` — emits a DTCG tree per theme (`out/<id>.tokens.json`), generates the per-mode semantic layer, validates every alias resolves, every mode contrast contract holds, and the BrandInput conforms to the schema; writes `modes-report.md` + the `.ai.json` sidecar. Also **exports the reusable core** (`buildTree` / `emitTheme` / `validateBrandInput`) behind an `isMain` guard, so the CLI is a thin entry point over it, not a second pipeline; the aurora + harbor themes are compiled from `examples/*.design.md`.
+- `design-md.ts` — the `design.md` parser (pure, no I/O): a dependency-free block-style YAML-subset parser (indentation nesting + `- ` block sequences + flow `{}`/`[]` leaves + scalar typing) → `BrandInput`, plus the frontmatter/prose split. Scoped to the `BrandInput` shape (owns YAML like `color.ts` owns the colour math).
+- `cli.ts` — the CLI adapter (I/O shell): `tsx cli.ts <design.md> [--out <dir>]` — read → `parseDesignMd` → `validateBrandInput` → `brandTheme` (pure core) → `emitTheme`. Exits non-zero on a schema violation, a broken alias, or a failed contrast contract.
 - `ai-metadata.ts` — generates `out/<id>.ai.json`, the agent-readable metadata sidecar. Two tiers: **semantic** (full schema — `meaning`, `when_to_use`, `avoid_when`, `paired_with`, `contrast_with`, `mode_overrides`, per KB 31-color-systems §9) and **primitive** (simplified — `meaning`, `tier`, `consume`, and `aliased_by`, the reverse index of which tokens resolve to it, **computed transitively** across multi-hop alias chains → a bidirectional graph for impact analysis). Also carries the typography tier (`type.*` composites + `font.weight-role.*`) and, when a brand opts in, the gradient tier (`gradient.*` with stop refs + worst-case-stop a11y). All fields generated/contract-true; keeps `tokens.json` DTCG-pure.
 - `visualize.ts` — renders `out/tokens.html`, a single self-contained visual style guide read back from the emitted DTCG (every axis: colour, semantic roles, dimension, typography rendered live, shadow, motion with animated easing curves, layout, opt-in gradients, opacity, border-width). No deps; also prints a plain-text taxonomy.
-- `test.ts` — colour-math invariants + extreme-brand contract smoke tests + typography/shadow/layout/gradient/surface-model + harshness + typography-weights/links invariants (172 checks).
-- generated outputs (committed so results are reviewable without running): `nb-regression-report.md`, `modes-report.md`, `out/nb.tokens.json`, `out/aurora.tokens.json`, `out/tokens.html`.
+- `test.ts` — colour-math invariants + extreme-brand contract smoke tests + typography/shadow/layout/gradient/surface-model + harshness + typography-weights/links + design.md-parser/CLI (aurora faithfulness byte-diff + harbor coverage) invariants (189 checks).
+- `../examples/*.design.md` — authored brand briefs (the front door): `aurora.design.md` (faithfulness — compiles to the aurora golden byte-for-byte) and `harbor.design.md` (net-new coverage brand).
+- generated outputs (committed so results are reviewable without running): `nb-regression-report.md`, `modes-report.md`, `out/{nb,aurora,harbor}.tokens.json`, `out/{nb,aurora,harbor}.ai.json`, `out/tokens.html`.
 
 ## Modes (`modes-report.md`)
 
@@ -302,9 +308,12 @@ tier + role composites + size-dependent fluid); **shadow & two-axis elevation**
 breakpoints + grid-as-artifact + spacing-aliased gutter/margin + fluid containers);
 **opt-in OKLCH gradients** (DTCG composite + ramp-aliased stops + sRGB pre-sample
 for Figma + worst-case-stop contrast); border-width, focus, opacity/alpha + scrim
-primitives; two-brand emit in two dialects; a live HTML style guide
-(`visualize.ts`). nb 627/627 + aurora 628/628 aliases resolve, 248/248 mode
-contracts hold, 172/172 unit tests pass, both brands schema-conform.
+primitives; three-brand emit in two dialects; a live HTML style guide
+(`visualize.ts`); **a `design.md` + CLI authoring front door** (block-style
+YAML-subset parser → the pure core, aurora reproduced byte-for-byte + harbor as a
+net-new coverage brand). nb 627/627 + aurora 628/628 + harbor 622/622 aliases
+resolve, 248/248 mode contracts hold per brand, 189/189 unit tests pass, all
+brands schema-conform.
 
 **Deliberately not reproduced:**
 - *NB's per-step hue kinks* (amber.600, red.300). Following them would require

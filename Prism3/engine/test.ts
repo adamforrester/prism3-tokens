@@ -16,6 +16,12 @@ import { generateRamp, autoPlaceStep, STEP_NUMS } from './ramp';
 import { brandTheme, BrandInput } from './theme';
 import { nbTheme } from './nb-fixture';
 import { resolveAllModes } from './modes';
+import { parseDesignMd, parseYamlSubset } from './design-md';
+import { buildTree, validateBrandInput } from './emit-dtcg';
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { resolve, dirname } from 'node:path';
+const HERE = dirname(fileURLToPath(import.meta.url));
 
 let pass = 0; const fails: string[] = [];
 const ok = (cond: boolean, msg: string) => { if (cond) pass++; else fails.push(msg); };
@@ -325,6 +331,67 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   // on-disabled exists for text + icon and is contracted against the disabled fill
   ok(p(L, 'text.on-disabled') !== undefined && p(L, 'icon.on-disabled') !== undefined, 'text/icon.on-disabled exist');
   ok(L['text.on-disabled'].against === 'action.disabled', 'on-disabled is resolved against the disabled fill');
+}
+
+// -------------------------------------------------- design.md + CLI adapter
+// The authoring front door (docs/07 §6): the YAML-subset parser, then the two
+// example briefs as regressions on the CLI path — Aurora (faithfulness: byte-
+// exact vs the committed golden) and Harbor (coverage: net-new, behavioural).
+
+// (1) YAML-subset parser — every shape BrandInput actually uses.
+{
+  const y = parseYamlSubset([
+    'id: demo',
+    'primary: { l: 0.5, c: 0.18, h: 285 }',
+    'flag: true',
+    'count: 3',
+    'name: "3:1"',
+    'list: [0, 480, 768]',
+    'brandColors:',
+    '  - name: accent',
+    '    oklch: { l: 0.55, c: 0.15, h: 235 }',
+    'nested:',
+    '  a: 1',
+    '  b: two words',
+  ].join('\n')) as any;
+  ok(y.id === 'demo' && typeof y.id === 'string', 'parser: bare string scalar');
+  ok(y.primary && y.primary.l === 0.5 && y.primary.h === 285, 'parser: flow map of numbers');
+  ok(y.flag === true && typeof y.flag === 'boolean', 'parser: boolean scalar');
+  ok(y.count === 3 && typeof y.count === 'number', 'parser: number scalar');
+  ok(y.name === '3:1', 'parser: quoted string keeps its colon (3:1)');
+  ok(Array.isArray(y.list) && y.list.length === 3 && y.list[1] === 480, 'parser: flow sequence of numbers');
+  ok(Array.isArray(y.brandColors) && y.brandColors.length === 1 && y.brandColors[0].name === 'accent' && y.brandColors[0].oklch.h === 235,
+    'parser: block sequence of maps + nested flow map');
+  ok(y.nested && y.nested.a === 1 && y.nested.b === 'two words', 'parser: nested block map + multi-word bare string');
+}
+// (2) parseDesignMd — frontmatter/prose split; a missing fence is an error.
+{
+  const { input, prose } = parseDesignMd('---\nid: x\nprimary: { l: 0.5, c: 0.1, h: 200 }\n---\n\n# Title\n\nBody prose.\n');
+  ok((input as any).id === 'x' && (input as any).primary.h === 200, 'parseDesignMd: frontmatter → BrandInput');
+  ok(prose.includes('Body prose.') && !prose.includes('id: x'), 'parseDesignMd: prose separated from frontmatter');
+  let threw = false;
+  try { parseDesignMd('no fence here\nid: x\n'); } catch { threw = true; }
+  ok(threw, 'parseDesignMd: missing frontmatter fence throws');
+}
+// (3) FAITHFULNESS — aurora.design.md compiles to the committed golden, byte-for-byte.
+{
+  const { input } = parseDesignMd(readFileSync(resolve(HERE, '../examples/aurora.design.md'), 'utf8'));
+  ok(validateBrandInput(input).length === 0, 'aurora.design.md: schema-conforms');
+  const generated = JSON.stringify(buildTree(brandTheme(input)).tree, null, 2) + '\n';
+  const committed = readFileSync(resolve(HERE, 'out/aurora.tokens.json'), 'utf8');
+  ok(generated === committed, 'aurora.design.md → byte-identical to out/aurora.tokens.json (CLI path ≡ hardcoded path)');
+}
+// (4) COVERAGE — harbor.design.md (net-new, no golden): conforms, resolves, all contracts hold.
+{
+  const { input } = parseDesignMd(readFileSync(resolve(HERE, '../examples/harbor.design.md'), 'utf8'));
+  ok(validateBrandInput(input).length === 0, 'harbor.design.md: schema-conforms');
+  const theme = brandTheme(input);
+  const modes = resolveAllModes(theme);
+  const broken = modes.flatMap((m) => Object.entries(m.roles).filter(([, r]) => r.min > 0 && r.ratio < r.min).map(([k]) => `${m.mode}.${k}`));
+  ok(broken.length === 0, 'harbor: all mode contrast contracts hold' + (broken.length ? ` — FAILED: ${broken.join(', ')}` : ''));
+  const built = buildTree(theme);
+  ok(built.stats.broken.length === 0 && built.stats.aliases > 0, `harbor: all ${built.stats.aliases} aliases resolve`);
+  ok(theme.notes.some((n) => n.toLowerCase().includes('action colour defaults to the primary')), 'harbor: default action=primary flagged in notes');
 }
 
 // ------------------------------------------------------------------- report

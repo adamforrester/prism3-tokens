@@ -63,7 +63,7 @@ const textOn = (hex: string) => {
 };
 
 // ---------------------------------------------------------------------------
-const brands = [load('nb', 'nbds'), load('aurora', 'prism')];
+const brands = [load('nb', 'nbds'), load('aurora', 'prism'), load('harbor', 'prism')];
 const txt: string[] = [];
 const html: string[] = [];
 

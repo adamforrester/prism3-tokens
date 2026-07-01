@@ -924,3 +924,469 @@ Component sizes — t-shirt, density `compact` (height + paired padding from the
 | size.lg | 48px | 16px | 8px |
 | size.xl | 56px | 24px | 8px |
 
+# Theme: harbor (prism.* / hex)
+
+- primary anchor (h195) pinned exactly at step 600
+- success: brand-supplied hue 150
+- warning: brand-supplied hue 70
+- info: engine default hue 245
+- action colour defaults to the PRIMARY brand palette — CONFIRM this hue is the intended interactive colour for this brand
+- danger: brand-supplied hue 27
+- dimension axis: 4px grid, 8px space rhythm, density 'comfortable' (drives component sizes), radius scale 1 (baseMd 4px)
+- motion: tempo 'relaxed' scales the duration ramp; easing roles + springs + composite transitions generated; reduce-motion variants derived (informational preserved, vestibular → 0)
+- shadow: 6-step ramp (xs–2xl) + inset, 2-layer (key+ambient), softness 1; tinted base (hue 65, amount 0.15). Mode-aware, LIFT-primary: full shadow in light; reduced (faded, top-weighted) in dark — the surface ladder carries dark elevation. Composite shadow → Figma Effect Style.
+- gradient: none (opt-in axis; brand declared no gradients — the field-common default).
+- layout: 5 breakpoints (sm 0, md 768, lg 1024, xl 1440, 2xl 1920); grid base 12 cols (ladder 4/8/12/12/12); gutter/margin alias the spacing scale (16/16/24/24/32 · 16/24/24/32/48); container max 1440px + narrow 720px (fluid-first + cap). Breakpoints → a separate Figma layout collection (modes), composing with colour light/dark.
+- typography: curated rem size ladder (22 steps, 10–160px — NOT ratio-derived; covers all bases, clean values); weight roles subtle/default/emphasis/strong → 300/400/600/700; families display=Inter, text=Inter, mono=JetBrains Mono; typeScale 'compact'. 35 semantic composites (title/display sizes shifted by typeScale; display capped at 160px; title floor 18px) — NOTE: requested ceiling 160px; effective top display is 144px (typeScale shifts sizes off the exact ladder rung). responsive: 9 fluid composites (size-dependent mobile shrink — research-validated, Carbon fluid-display curve: body static, titles ~1 rung, display converges to ~40–48px; one min/max pair → web clamp() 375–1280px + Figma desktop/mobile modes). Line-height unitless multiplier in $value; px-from-ratio materialization for Figma in $extensions.
+- disabled: 'accessible' — disabled text/icon/border clears 3:1 on the floor (legible, contrast-preserving; the field-rare default). Set disabledStrategy:'conventional' for the sub-AA exempt look.
+- light primary surface is NON-default (neutral.50) — CONFIRM this is the page colour; the contrast floor moves with it
+
+Palettes: primary, neutral, success, warning, info, danger. Danger draws from `danger`.
+
+## harbor — colour mode: light
+
+| role | → step | contrast | floor | result |
+|---|---|---|---|---|
+| background.primary | neutral.050 | — | — | · |
+| background.secondary | neutral.100 | — | — | · |
+| background.tertiary | neutral.150 | — | — | · |
+| background.inverse.primary | neutral.950 | — | — | · |
+| background.inverse.secondary | neutral.900 | — | — | · |
+| background.inverse.tertiary | neutral.850 | — | — | · |
+| scrim.default | black-alpha.40 | — | — | · |
+| foreground.primary | neutral.100 | — | — | · |
+| foreground.secondary | neutral.150 | — | — | · |
+| foreground.tertiary | neutral.200 | — | — | · |
+| foreground.inverse.primary | neutral.900 | — | — | · |
+| foreground.inverse.secondary | neutral.850 | — | — | · |
+| foreground.inverse.tertiary | neutral.800 | — | — | · |
+| foreground.brand | primary.600 | 4.91 | 4.5 | ✅ |
+| foreground.success | success.600 | 4.85 | 4.5 | ✅ |
+| foreground.warning | warning.600 | 4.86 | 4.5 | ✅ |
+| foreground.info | info.600 | 4.85 | 4.5 | ✅ |
+| foreground.brand-subtle | primary.100 | — | — | · |
+| foreground.success-subtle | success.100 | — | — | · |
+| foreground.warning-subtle | warning.100 | — | — | · |
+| foreground.danger-subtle | danger.100 | — | — | · |
+| foreground.info-subtle | info.100 | — | — | · |
+| foreground.danger.default | danger.600 | 4.92 | 4.5 | ✅ |
+| foreground.danger.hover | danger.650 | 5.97 | 4.5 | ✅ |
+| foreground.danger.pressed | danger.700 | 7.24 | 4.5 | ✅ |
+| foreground.danger.focused | danger.650 | 5.97 | 4.5 | ✅ |
+| foreground.danger.selected | danger.700 | 7.24 | 4.5 | ✅ |
+| foreground.danger.disabled | neutral.200 | — | — | · |
+| action.default | primary.600 | 4.91 | 4.5 | ✅ |
+| action.hover | primary.650 | 5.99 | 4.5 | ✅ |
+| action.pressed | primary.700 | 7.21 | 4.5 | ✅ |
+| action.focused | primary.650 | 5.99 | 4.5 | ✅ |
+| action.selected | primary.700 | 7.21 | 4.5 | ✅ |
+| action.disabled | neutral.200 | — | — | · |
+| text.primary | neutral.950 | 15.98 | 7 | ✅ |
+| text.secondary | neutral.600 | 4.88 | 4.5 | ✅ |
+| text.tertiary | neutral.500 | 3.32 | 3 | ✅ |
+| text.disabled | neutral.500 | 3.32 | 3 | ✅ |
+| text.brand | primary.600 | 4.91 | 4.5 | ✅ |
+| text.success | success.600 | 4.85 | 4.5 | ✅ |
+| text.warning | warning.600 | 4.86 | 4.5 | ✅ |
+| text.danger | danger.600 | 4.92 | 4.5 | ✅ |
+| text.info | info.600 | 4.85 | 4.5 | ✅ |
+| text.brand-subtle | primary.450 | — | — | · |
+| text.success-subtle | success.450 | — | — | · |
+| text.warning-subtle | warning.450 | — | — | · |
+| text.danger-subtle | danger.450 | — | — | · |
+| text.info-subtle | info.450 | — | — | · |
+| text.on-action | white | 6.79 | 4.5 | ✅ |
+| text.on-brand | white | 6.79 | 4.5 | ✅ |
+| text.on-success | white | 6.70 | 4.5 | ✅ |
+| text.on-warning | white | 6.72 | 4.5 | ✅ |
+| text.on-danger | white | 6.80 | 4.5 | ✅ |
+| text.on-info | white | 6.70 | 4.5 | ✅ |
+| text.on-inverse | neutral.025 | 18.11 | 4.5 | ✅ |
+| text.on-disabled | neutral.550 | 3.08 | 3 | ✅ |
+| text.link.default | primary.600 | 4.91 | 4.5 | ✅ |
+| text.link.hover | primary.650 | 5.99 | 4.5 | ✅ |
+| text.link.visited | primary.700 | 7.21 | 4.5 | ✅ |
+| text.link.focused | primary.600 | 4.91 | 4.5 | ✅ |
+| icon.primary | neutral.950 | 15.98 | 7 | ✅ |
+| icon.secondary | neutral.600 | 4.88 | 4.5 | ✅ |
+| icon.tertiary | neutral.500 | 3.32 | 3 | ✅ |
+| icon.disabled | neutral.500 | 3.32 | 3 | ✅ |
+| icon.brand | primary.600 | 4.91 | 4.5 | ✅ |
+| icon.success | success.600 | 4.85 | 4.5 | ✅ |
+| icon.warning | warning.600 | 4.86 | 4.5 | ✅ |
+| icon.danger | danger.600 | 4.92 | 4.5 | ✅ |
+| icon.info | info.600 | 4.85 | 4.5 | ✅ |
+| icon.brand-subtle | primary.450 | — | — | · |
+| icon.success-subtle | success.450 | — | — | · |
+| icon.warning-subtle | warning.450 | — | — | · |
+| icon.danger-subtle | danger.450 | — | — | · |
+| icon.info-subtle | info.450 | — | — | · |
+| icon.on-action | white | 6.79 | 4.5 | ✅ |
+| icon.on-brand | white | 6.79 | 4.5 | ✅ |
+| icon.on-success | white | 6.70 | 4.5 | ✅ |
+| icon.on-warning | white | 6.72 | 4.5 | ✅ |
+| icon.on-danger | white | 6.80 | 4.5 | ✅ |
+| icon.on-info | white | 6.70 | 4.5 | ✅ |
+| icon.on-inverse | neutral.025 | 18.11 | 4.5 | ✅ |
+| icon.on-disabled | neutral.550 | 3.08 | 3 | ✅ |
+| icon.link.default | primary.600 | 4.91 | 4.5 | ✅ |
+| icon.link.hover | primary.650 | 5.99 | 4.5 | ✅ |
+| icon.link.visited | primary.700 | 7.21 | 4.5 | ✅ |
+| icon.link.focused | primary.600 | 4.91 | 4.5 | ✅ |
+| border.primary | neutral.200 | — | — | · |
+| border.secondary | neutral.450 | — | — | · |
+| border.inverse | neutral.800 | — | — | · |
+| border.brand | primary.500 | 3.77 | 3 | ✅ |
+| border.success | success.500 | 3.79 | 3 | ✅ |
+| border.warning | warning.500 | 3.79 | 3 | ✅ |
+| border.danger | danger.500 | 3.76 | 3 | ✅ |
+| border.info | info.500 | 3.75 | 3 | ✅ |
+| border.focus | primary.600 | 5.59 | 3 | ✅ |
+
+## harbor — colour mode: dark
+
+| role | → step | contrast | floor | result |
+|---|---|---|---|---|
+| background.primary | neutral.950 | — | — | · |
+| background.secondary | neutral.900 | — | — | · |
+| background.tertiary | neutral.850 | — | — | · |
+| background.inverse.primary | neutral.025 | — | — | · |
+| background.inverse.secondary | neutral.050 | — | — | · |
+| background.inverse.tertiary | neutral.100 | — | — | · |
+| scrim.default | black-alpha.60 | — | — | · |
+| foreground.primary | neutral.900 | — | — | · |
+| foreground.secondary | neutral.850 | — | — | · |
+| foreground.tertiary | neutral.800 | — | — | · |
+| foreground.inverse.primary | neutral.050 | — | — | · |
+| foreground.inverse.secondary | neutral.100 | — | — | · |
+| foreground.inverse.tertiary | neutral.150 | — | — | · |
+| foreground.brand | primary.450 | 4.61 | 4.5 | ✅ |
+| foreground.success | success.450 | 4.67 | 4.5 | ✅ |
+| foreground.warning | warning.450 | 4.62 | 4.5 | ✅ |
+| foreground.info | info.450 | 4.63 | 4.5 | ✅ |
+| foreground.brand-subtle | primary.900 | — | — | · |
+| foreground.success-subtle | success.900 | — | — | · |
+| foreground.warning-subtle | warning.900 | — | — | · |
+| foreground.danger-subtle | danger.900 | — | — | · |
+| foreground.info-subtle | info.900 | — | — | · |
+| foreground.danger.default | danger.450 | 4.56 | 4.5 | ✅ |
+| foreground.danger.hover | danger.400 | 5.38 | 4.5 | ✅ |
+| foreground.danger.pressed | danger.350 | 6.36 | 4.5 | ✅ |
+| foreground.danger.focused | danger.400 | 5.38 | 4.5 | ✅ |
+| foreground.danger.selected | danger.350 | 6.36 | 4.5 | ✅ |
+| foreground.danger.disabled | neutral.750 | — | — | · |
+| action.default | primary.450 | 4.61 | 4.5 | ✅ |
+| action.hover | primary.400 | 5.46 | 4.5 | ✅ |
+| action.pressed | primary.350 | 6.37 | 4.5 | ✅ |
+| action.focused | primary.400 | 5.46 | 4.5 | ✅ |
+| action.selected | primary.350 | 6.37 | 4.5 | ✅ |
+| action.disabled | neutral.750 | — | — | · |
+| text.primary | neutral.025 | 18.11 | 7 | ✅ |
+| text.secondary | neutral.450 | 4.61 | 4.5 | ✅ |
+| text.tertiary | neutral.550 | 3.23 | 3 | ✅ |
+| text.disabled | neutral.550 | 3.23 | 3 | ✅ |
+| text.brand | primary.450 | 4.61 | 4.5 | ✅ |
+| text.success | success.450 | 4.67 | 4.5 | ✅ |
+| text.warning | warning.450 | 4.62 | 4.5 | ✅ |
+| text.danger | danger.450 | 4.56 | 4.5 | ✅ |
+| text.info | info.450 | 4.63 | 4.5 | ✅ |
+| text.brand-subtle | primary.350 | — | — | · |
+| text.success-subtle | success.350 | — | — | · |
+| text.warning-subtle | warning.350 | — | — | · |
+| text.danger-subtle | danger.350 | — | — | · |
+| text.info-subtle | info.350 | — | — | · |
+| text.on-action | neutral.950 | 5.00 | 4.5 | ✅ |
+| text.on-brand | neutral.950 | 5.00 | 4.5 | ✅ |
+| text.on-success | neutral.950 | 5.06 | 4.5 | ✅ |
+| text.on-warning | neutral.950 | 5.02 | 4.5 | ✅ |
+| text.on-danger | neutral.950 | 4.94 | 4.5 | ✅ |
+| text.on-info | neutral.950 | 5.02 | 4.5 | ✅ |
+| text.on-inverse | neutral.950 | 18.11 | 4.5 | ✅ |
+| text.on-disabled | neutral.450 | 3.05 | 3 | ✅ |
+| text.link.default | primary.450 | 4.61 | 4.5 | ✅ |
+| text.link.hover | primary.400 | 5.46 | 4.5 | ✅ |
+| text.link.visited | primary.350 | 6.37 | 4.5 | ✅ |
+| text.link.focused | primary.450 | 4.61 | 4.5 | ✅ |
+| icon.primary | neutral.025 | 18.11 | 7 | ✅ |
+| icon.secondary | neutral.450 | 4.61 | 4.5 | ✅ |
+| icon.tertiary | neutral.550 | 3.23 | 3 | ✅ |
+| icon.disabled | neutral.550 | 3.23 | 3 | ✅ |
+| icon.brand | primary.450 | 4.61 | 4.5 | ✅ |
+| icon.success | success.450 | 4.67 | 4.5 | ✅ |
+| icon.warning | warning.450 | 4.62 | 4.5 | ✅ |
+| icon.danger | danger.450 | 4.56 | 4.5 | ✅ |
+| icon.info | info.450 | 4.63 | 4.5 | ✅ |
+| icon.brand-subtle | primary.350 | — | — | · |
+| icon.success-subtle | success.350 | — | — | · |
+| icon.warning-subtle | warning.350 | — | — | · |
+| icon.danger-subtle | danger.350 | — | — | · |
+| icon.info-subtle | info.350 | — | — | · |
+| icon.on-action | neutral.950 | 5.00 | 4.5 | ✅ |
+| icon.on-brand | neutral.950 | 5.00 | 4.5 | ✅ |
+| icon.on-success | neutral.950 | 5.06 | 4.5 | ✅ |
+| icon.on-warning | neutral.950 | 5.02 | 4.5 | ✅ |
+| icon.on-danger | neutral.950 | 4.94 | 4.5 | ✅ |
+| icon.on-info | neutral.950 | 5.02 | 4.5 | ✅ |
+| icon.on-inverse | neutral.950 | 18.11 | 4.5 | ✅ |
+| icon.on-disabled | neutral.450 | 3.05 | 3 | ✅ |
+| icon.link.default | primary.450 | 4.61 | 4.5 | ✅ |
+| icon.link.hover | primary.400 | 5.46 | 4.5 | ✅ |
+| icon.link.visited | primary.350 | 6.37 | 4.5 | ✅ |
+| icon.link.focused | primary.450 | 4.61 | 4.5 | ✅ |
+| border.primary | neutral.750 | — | — | · |
+| border.secondary | neutral.500 | — | — | · |
+| border.inverse | neutral.200 | — | — | · |
+| border.brand | primary.500 | 4.24 | 3 | ✅ |
+| border.success | success.500 | 4.22 | 3 | ✅ |
+| border.warning | warning.500 | 4.22 | 3 | ✅ |
+| border.danger | danger.500 | 4.25 | 3 | ✅ |
+| border.info | info.500 | 4.26 | 3 | ✅ |
+| border.focus | primary.450 | 5.00 | 3 | ✅ |
+
+## harbor — colour mode: hc-light
+
+| role | → step | contrast | floor | result |
+|---|---|---|---|---|
+| background.primary | white | — | — | · |
+| background.secondary | white | — | — | · |
+| background.tertiary | white | — | — | · |
+| background.inverse.primary | black | — | — | · |
+| background.inverse.secondary | black | — | — | · |
+| background.inverse.tertiary | black | — | — | · |
+| scrim.default | black-alpha.60 | — | — | · |
+| foreground.primary | white | — | — | · |
+| foreground.secondary | white | — | — | · |
+| foreground.tertiary | white | — | — | · |
+| foreground.inverse.primary | black | — | — | · |
+| foreground.inverse.secondary | black | — | — | · |
+| foreground.inverse.tertiary | black | — | — | · |
+| foreground.brand | primary.700 | 7.21 | 7 | ✅ |
+| foreground.success | success.700 | 7.00 | 7 | ✅ |
+| foreground.warning | warning.700 | 7.12 | 7 | ✅ |
+| foreground.info | info.700 | 7.08 | 7 | ✅ |
+| foreground.brand-subtle | primary.100 | — | — | · |
+| foreground.success-subtle | success.100 | — | — | · |
+| foreground.warning-subtle | warning.100 | — | — | · |
+| foreground.danger-subtle | danger.100 | — | — | · |
+| foreground.info-subtle | info.100 | — | — | · |
+| foreground.danger.default | danger.700 | 7.24 | 7 | ✅ |
+| foreground.danger.hover | danger.750 | 8.73 | 7 | ✅ |
+| foreground.danger.pressed | danger.800 | 10.32 | 7 | ✅ |
+| foreground.danger.focused | danger.750 | 8.73 | 7 | ✅ |
+| foreground.danger.selected | danger.800 | 10.32 | 7 | ✅ |
+| foreground.danger.disabled | neutral.200 | — | — | · |
+| action.default | primary.700 | 7.21 | 7 | ✅ |
+| action.hover | primary.750 | 8.53 | 7 | ✅ |
+| action.pressed | primary.800 | 10.11 | 7 | ✅ |
+| action.focused | primary.750 | 8.53 | 7 | ✅ |
+| action.selected | primary.800 | 10.11 | 7 | ✅ |
+| action.disabled | neutral.200 | — | — | · |
+| text.primary | black | 21.00 | 15 | ✅ |
+| text.secondary | neutral.700 | 7.13 | 7 | ✅ |
+| text.tertiary | neutral.600 | 4.88 | 4.5 | ✅ |
+| text.disabled | neutral.600 | 4.88 | 4.5 | ✅ |
+| text.brand | primary.700 | 7.21 | 7 | ✅ |
+| text.success | success.700 | 7.00 | 7 | ✅ |
+| text.warning | warning.700 | 7.12 | 7 | ✅ |
+| text.danger | danger.700 | 7.24 | 7 | ✅ |
+| text.info | info.700 | 7.08 | 7 | ✅ |
+| text.brand-subtle | primary.450 | — | — | · |
+| text.success-subtle | success.450 | — | — | · |
+| text.warning-subtle | warning.450 | — | — | · |
+| text.danger-subtle | danger.450 | — | — | · |
+| text.info-subtle | info.450 | — | — | · |
+| text.on-action | white | 9.96 | 4.5 | ✅ |
+| text.on-brand | white | 9.96 | 4.5 | ✅ |
+| text.on-success | white | 9.67 | 4.5 | ✅ |
+| text.on-warning | white | 9.84 | 4.5 | ✅ |
+| text.on-danger | white | 10.01 | 4.5 | ✅ |
+| text.on-info | white | 9.78 | 4.5 | ✅ |
+| text.on-inverse | white | 21.00 | 7 | ✅ |
+| text.on-disabled | neutral.650 | 4.54 | 4.5 | ✅ |
+| text.link.default | primary.700 | 7.21 | 7 | ✅ |
+| text.link.hover | primary.750 | 8.53 | 7 | ✅ |
+| text.link.visited | primary.800 | 10.11 | 7 | ✅ |
+| text.link.focused | primary.700 | 7.21 | 7 | ✅ |
+| icon.primary | black | 21.00 | 15 | ✅ |
+| icon.secondary | neutral.700 | 7.13 | 7 | ✅ |
+| icon.tertiary | neutral.600 | 4.88 | 4.5 | ✅ |
+| icon.disabled | neutral.600 | 4.88 | 4.5 | ✅ |
+| icon.brand | primary.700 | 7.21 | 7 | ✅ |
+| icon.success | success.700 | 7.00 | 7 | ✅ |
+| icon.warning | warning.700 | 7.12 | 7 | ✅ |
+| icon.danger | danger.700 | 7.24 | 7 | ✅ |
+| icon.info | info.700 | 7.08 | 7 | ✅ |
+| icon.brand-subtle | primary.450 | — | — | · |
+| icon.success-subtle | success.450 | — | — | · |
+| icon.warning-subtle | warning.450 | — | — | · |
+| icon.danger-subtle | danger.450 | — | — | · |
+| icon.info-subtle | info.450 | — | — | · |
+| icon.on-action | white | 9.96 | 4.5 | ✅ |
+| icon.on-brand | white | 9.96 | 4.5 | ✅ |
+| icon.on-success | white | 9.67 | 4.5 | ✅ |
+| icon.on-warning | white | 9.84 | 4.5 | ✅ |
+| icon.on-danger | white | 10.01 | 4.5 | ✅ |
+| icon.on-info | white | 9.78 | 4.5 | ✅ |
+| icon.on-inverse | white | 21.00 | 7 | ✅ |
+| icon.on-disabled | neutral.650 | 4.54 | 4.5 | ✅ |
+| icon.link.default | primary.700 | 7.21 | 7 | ✅ |
+| icon.link.hover | primary.750 | 8.53 | 7 | ✅ |
+| icon.link.visited | primary.800 | 10.11 | 7 | ✅ |
+| icon.link.focused | primary.700 | 7.21 | 7 | ✅ |
+| border.primary | neutral.500 | — | — | · |
+| border.secondary | neutral.700 | — | — | · |
+| border.inverse | neutral.500 | — | — | · |
+| border.brand | primary.500 | 4.58 | 4.5 | ✅ |
+| border.success | success.500 | 4.60 | 4.5 | ✅ |
+| border.warning | warning.500 | 4.60 | 4.5 | ✅ |
+| border.danger | danger.500 | 4.57 | 4.5 | ✅ |
+| border.info | info.500 | 4.56 | 4.5 | ✅ |
+| border.focus | primary.700 | 9.96 | 4.5 | ✅ |
+
+## harbor — colour mode: hc-dark
+
+| role | → step | contrast | floor | result |
+|---|---|---|---|---|
+| background.primary | black | — | — | · |
+| background.secondary | black | — | — | · |
+| background.tertiary | black | — | — | · |
+| background.inverse.primary | white | — | — | · |
+| background.inverse.secondary | white | — | — | · |
+| background.inverse.tertiary | white | — | — | · |
+| scrim.default | black-alpha.70 | — | — | · |
+| foreground.primary | black | — | — | · |
+| foreground.secondary | black | — | — | · |
+| foreground.tertiary | black | — | — | · |
+| foreground.inverse.primary | white | — | — | · |
+| foreground.inverse.secondary | white | — | — | · |
+| foreground.inverse.tertiary | white | — | — | · |
+| foreground.brand | primary.300 | 7.44 | 7 | ✅ |
+| foreground.success | success.300 | 7.65 | 7 | ✅ |
+| foreground.warning | warning.300 | 7.34 | 7 | ✅ |
+| foreground.info | info.300 | 7.50 | 7 | ✅ |
+| foreground.brand-subtle | primary.900 | — | — | · |
+| foreground.success-subtle | success.900 | — | — | · |
+| foreground.warning-subtle | warning.900 | — | — | · |
+| foreground.danger-subtle | danger.900 | — | — | · |
+| foreground.info-subtle | info.900 | — | — | · |
+| foreground.danger.default | danger.300 | 7.39 | 7 | ✅ |
+| foreground.danger.hover | danger.250 | 8.63 | 7 | ✅ |
+| foreground.danger.pressed | danger.200 | 9.95 | 7 | ✅ |
+| foreground.danger.focused | danger.250 | 8.63 | 7 | ✅ |
+| foreground.danger.selected | danger.200 | 9.95 | 7 | ✅ |
+| foreground.danger.disabled | neutral.750 | — | — | · |
+| action.default | primary.300 | 7.44 | 7 | ✅ |
+| action.hover | primary.250 | 8.62 | 7 | ✅ |
+| action.pressed | primary.200 | 9.93 | 7 | ✅ |
+| action.focused | primary.250 | 8.62 | 7 | ✅ |
+| action.selected | primary.200 | 9.93 | 7 | ✅ |
+| action.disabled | neutral.750 | — | — | · |
+| text.primary | white | 21.00 | 15 | ✅ |
+| text.secondary | neutral.300 | 7.39 | 7 | ✅ |
+| text.tertiary | neutral.450 | 4.61 | 4.5 | ✅ |
+| text.disabled | neutral.450 | 4.61 | 4.5 | ✅ |
+| text.brand | primary.300 | 7.44 | 7 | ✅ |
+| text.success | success.300 | 7.65 | 7 | ✅ |
+| text.warning | warning.300 | 7.34 | 7 | ✅ |
+| text.danger | danger.300 | 7.39 | 7 | ✅ |
+| text.info | info.300 | 7.50 | 7 | ✅ |
+| text.brand-subtle | primary.350 | — | — | · |
+| text.success-subtle | success.350 | — | — | · |
+| text.warning-subtle | warning.350 | — | — | · |
+| text.danger-subtle | danger.350 | — | — | · |
+| text.info-subtle | info.350 | — | — | · |
+| text.on-action | black | 8.72 | 4.5 | ✅ |
+| text.on-brand | black | 8.72 | 4.5 | ✅ |
+| text.on-success | black | 8.98 | 4.5 | ✅ |
+| text.on-warning | black | 8.61 | 4.5 | ✅ |
+| text.on-danger | black | 8.67 | 4.5 | ✅ |
+| text.on-info | black | 8.80 | 4.5 | ✅ |
+| text.on-inverse | black | 21.00 | 7 | ✅ |
+| text.on-disabled | neutral.300 | 4.89 | 4.5 | ✅ |
+| text.link.default | primary.300 | 7.44 | 7 | ✅ |
+| text.link.hover | primary.250 | 8.62 | 7 | ✅ |
+| text.link.visited | primary.200 | 9.93 | 7 | ✅ |
+| text.link.focused | primary.300 | 7.44 | 7 | ✅ |
+| icon.primary | white | 21.00 | 15 | ✅ |
+| icon.secondary | neutral.300 | 7.39 | 7 | ✅ |
+| icon.tertiary | neutral.450 | 4.61 | 4.5 | ✅ |
+| icon.disabled | neutral.450 | 4.61 | 4.5 | ✅ |
+| icon.brand | primary.300 | 7.44 | 7 | ✅ |
+| icon.success | success.300 | 7.65 | 7 | ✅ |
+| icon.warning | warning.300 | 7.34 | 7 | ✅ |
+| icon.danger | danger.300 | 7.39 | 7 | ✅ |
+| icon.info | info.300 | 7.50 | 7 | ✅ |
+| icon.brand-subtle | primary.350 | — | — | · |
+| icon.success-subtle | success.350 | — | — | · |
+| icon.warning-subtle | warning.350 | — | — | · |
+| icon.danger-subtle | danger.350 | — | — | · |
+| icon.info-subtle | info.350 | — | — | · |
+| icon.on-action | black | 8.72 | 4.5 | ✅ |
+| icon.on-brand | black | 8.72 | 4.5 | ✅ |
+| icon.on-success | black | 8.98 | 4.5 | ✅ |
+| icon.on-warning | black | 8.61 | 4.5 | ✅ |
+| icon.on-danger | black | 8.67 | 4.5 | ✅ |
+| icon.on-info | black | 8.80 | 4.5 | ✅ |
+| icon.on-inverse | black | 21.00 | 7 | ✅ |
+| icon.on-disabled | neutral.300 | 4.89 | 4.5 | ✅ |
+| icon.link.default | primary.300 | 7.44 | 7 | ✅ |
+| icon.link.hover | primary.250 | 8.62 | 7 | ✅ |
+| icon.link.visited | primary.200 | 9.93 | 7 | ✅ |
+| icon.link.focused | primary.300 | 7.44 | 7 | ✅ |
+| border.primary | neutral.500 | — | — | · |
+| border.secondary | neutral.250 | — | — | · |
+| border.inverse | neutral.500 | — | — | · |
+| border.brand | primary.500 | 4.58 | 4.5 | ✅ |
+| border.success | success.500 | 4.56 | 4.5 | ✅ |
+| border.warning | warning.500 | 4.56 | 4.5 | ✅ |
+| border.danger | danger.500 | 4.60 | 4.5 | ✅ |
+| border.info | info.500 | 4.61 | 4.5 | ✅ |
+| border.focus | primary.300 | 8.72 | 4.5 | ✅ |
+
+## harbor — dimension axis
+
+Grid (36 primitives, px): 0, 1, 2, 4, 6, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 64, 68, 72, 76, 80, 84, 88, 92, 96, 100, 104, 108, 112, 116, 120, 124, 128
+
+Space — numbered multiplier, `8px` rhythm (reference tier, density-free):
+
+| token | px | × base |
+|---|---|---|
+| space.0 | 0 | 0× |
+| space.025 | 2 | 0.25× |
+| space.050 | 4 | 0.5× |
+| space.075 | 6 | 0.75× |
+| space.100 | 8 | 1× |
+| space.150 | 12 | 1.5× |
+| space.200 | 16 | 2× |
+| space.250 | 20 | 2.5× |
+| space.300 | 24 | 3× |
+| space.400 | 32 | 4× |
+| space.500 | 40 | 5× |
+| space.600 | 48 | 6× |
+| space.700 | 56 | 7× |
+| space.800 | 64 | 8× |
+| space.900 | 72 | 9× |
+| space.1000 | 80 | 10× |
+| space.1100 | 88 | 11× |
+| space.1200 | 96 | 12× |
+
+Radius — scale `1`:
+
+| token | px |
+|---|---|
+| radius.none | 0 |
+| radius.sm | 2 |
+| radius.md | 4 |
+| radius.lg | 6 |
+| radius.round | 128 (pill) |
+
+Component sizes — t-shirt, density `comfortable` (height + paired padding from the shared scales):
+
+| size | height | padding-x | padding-y |
+|---|---|---|---|
+| size.xs | 32px | 8px | 4px |
+| size.sm | 40px | 16px | 6px |
+| size.md | 48px | 16px | 8px |
+| size.lg | 56px | 24px | 8px |
+| size.xl | 64px | 24px | 16px |
+
