@@ -29,7 +29,7 @@ Headline numbers (regenerate with the commands below):
 | Cross-mode contrast contracts | **248/248** | **248/248** |
 | **Dimension axis, exact** (Prism2 space + NB radius) | **23/23** | n/a |
 | DTCG semantic aliases resolve (color + dim + size + type + layout + gradient) | **627/627** | **628/628** |
-| Engine unit tests (colour math + extreme brands + typography + fluid + shadow + layout + gradient + surface-model + harshness + typography-weights/links + design.md-parser/CLI + standard-dialect/classifier/x-prism3 + lever-manifest↔schema drift + preview-spec binding-validity invariants) | **212/212** | (same engine) |
+| Engine unit tests (colour math + extreme brands + typography + fluid + shadow + layout + gradient + surface-model + harshness + typography-weights/links + design.md-parser/CLI + standard-dialect/classifier/x-prism3 + lever-manifest↔schema drift + preview-spec binding-validity + resolved-preview contrast invariants) | **215/215** | (same engine) |
 | Color primitives / dim grid emitted | 122 / 37 | 162 / 36 |
 | Brand palettes / action source | red / **action = brand** (red) | primary+accent+… / **action = accent ≠ brand** |
 | Form factor | comfortable / radius 1 (sharp) | compact / radius 2 (soft) |
@@ -112,7 +112,8 @@ Prism3/
     ├── emit-levers.ts              ← I/O shell: writes schema/lever-manifest.json from the pure levers.ts (sandbox-portable split)
     ├── preview.ts                  ← the PREVIEW SPEC (PURE): sample components bound to semantic token paths + contrast pairs; plugin + playground render the same live preview from it (docs/08 §7 B1a)
     ├── emit-preview.ts             ← I/O shell: writes schema/preview-spec.json from the pure preview.ts
-    ├── test.ts                     ← unit tests: colour-math invariants + 5 extreme-brand contracts + typography/shadow/layout/gradient/surface-model + harshness + typography + design.md-parser/CLI + standard-dialect/classifier/x-prism3 + lever-manifest↔schema drift + preview-spec binding-validity invariants (212 checks)
+    ├── resolve-preview.ts          ← the RESOLVED-PREVIEW projection (PURE, docs/08 §7 B1b): resolvePreview(theme) → concrete colours per mode + live contrast overlay; the runtime read-model surfaces consume
+    ├── test.ts                     ← unit tests: colour-math invariants + 5 extreme-brand contracts + typography/shadow/layout/gradient/surface-model + harshness + typography + design.md-parser/CLI + standard-dialect/classifier/x-prism3 + lever-manifest↔schema drift + preview-spec binding-validity + resolved-preview contrast invariants (215 checks)
     ├── ai-metadata.ts              ← generates the AI-readable metadata sidecar (meaning/when/avoid/paired_with/contrast_with/mode_overrides) for the semantic layer
     ├── README.md                   ← how the engine works / how to run
     ├── nb-regression-report.md     ← generated (committed for review)
@@ -519,11 +520,20 @@ layer 1). Agreed build sequence (owner confirmed "safest path to a working plugi
     (`test.ts`):** every referenced token path resolves to a real leaf in the emitted token tree
     (binding-validity), contract mins are sane, **no contract over-claims the engine guarantee**
     (declared min ≤ the engine's min for that role+surface — the PR #20 review hardening), committed
-    JSON current (212/212). Run `npx tsx Prism3/engine/emit-preview.ts`.
-    **← next: B1b resolved-preview projection, then B1c host renderers (B2/B3).**
-  - **B1b/c. Live-preview rendering** — B1b: a resolved-preview projection (theme+mode → concrete
-    values + live contrast results) the surfaces consume reactively; B1c: the DOM (playground) + Figma-node
-    (plugin) renderers. The interactive successor to `visualize.ts` (`04`'s canvas + contrast overlay).
+    JSON current (215/215). Run `npx tsx Prism3/engine/emit-preview.ts`.
+  - **B1b. Resolved-preview projection — ✅ DONE (2026-07-01).** `engine/resolve-preview.ts`:
+    `resolvePreview(theme)` — the runtime read-model the surfaces consume reactively. Projects the
+    preview spec to **concrete colours per mode** (every referenced role → its hex in light/dark/
+    hc-light/hc-dark) + **live contrast results** (each declared contract computed on the REAL
+    resolved fg-on-bg, per mode, with pass/fail — the contrast overlay, `04`'s differentiator).
+    **Pure — no `node:*`**: resolves via `resolveAllModes` (which now carries each role's `hex`,
+    a small additive enrichment to `modes.ts`) + the pure spec, not `buildTree`. **Gate:** every
+    referenced role resolves to a hex in every mode, and **every declared a11y contract actually
+    holds on the resolved colours in all 4 modes** — the automated version of the PR #20 manual
+    contrast check. 215/215; `out/*` unchanged (the `hex` field is emit-invisible). It's a
+    per-live-theme read-model, not a committed artifact. **← next: B1c host renderers (with B2/B3).**
+  - **B1c. Host renderers** — the DOM (playground) + Figma-node (plugin) renderers that paint the
+    components from `resolvePreview`'s output. Land with B2/B3.
   - **B2. New Figma plugin shell** — bundles the core, renders knobs from the manifest,
     materialises via `$extensions.prism3.figma` (`08` §2/§5).
   - **B3. Web playground** — same manifest + preview, DOM/CSS-var host.

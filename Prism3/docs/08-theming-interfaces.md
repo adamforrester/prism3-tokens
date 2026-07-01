@@ -137,7 +137,11 @@ honoured from the start rather than retrofitted:
      the portable preview spec (8 components / 22 variants, each binding UI props to
      semantic token paths + contrast pairs; 52 token refs). Pure; a `test.ts`
      binding-validity gate asserts every path resolves in the emitted token tree.
-   - B1b — a resolved-preview projection (theme+mode → values + live contrast).
+   - **B1b ✅ BUILT (2026-07-01)** — `engine/resolve-preview.ts`: `resolvePreview(theme)`,
+     the runtime read-model — concrete colours per mode + each contract computed on the
+     real resolved colours (the live overlay). Pure (resolves via `resolveAllModes`, which
+     now carries each role's `hex`). A `test.ts` gate asserts every declared contract holds
+     on the resolved colours in all 4 modes.
    - B1c — the host renderers (DOM playground / Figma-node plugin), with B2/B3.
 3. **New Figma plugin shell** — bundles the core, renders knobs from the manifest,
    materialises via `$extensions.prism3.figma` (§2/§5).

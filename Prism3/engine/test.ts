@@ -21,6 +21,7 @@ import { parseStandardDesignMd, standardToBrandInput, applyXPrism3 } from './sta
 import { classifyColors } from './classify-colors';
 import { leverManifest, leverGroups, buildLeverManifest, identityFields } from './levers';
 import { previewSpec, previewTokenRefs, buildPreviewSpec } from './preview';
+import { resolvePreview } from './resolve-preview';
 import { buildTree, validateBrandInput } from './emit-dtcg';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -517,6 +518,22 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   const committedPreview = readFileSync(resolve(HERE, '../schema/preview-spec.json'), 'utf8');
   ok(committedPreview === JSON.stringify(buildPreviewSpec(), null, 2) + '\n',
     'preview spec: schema/preview-spec.json is up to date (run `npx tsx engine/emit-preview.ts`)');
+}
+// (9) RESOLVED PREVIEW (docs/08 §7, B1b) — project the spec to concrete colours per
+// mode + compute each declared contract on the REAL resolved colours. Gates: every
+// referenced colour role resolves to a hex in every mode, and every declared a11y
+// contract actually HOLDS in every mode — the automated version of the PR #20 manual
+// contrast check (the overlay's claims are true on the resolved colours, not assumed).
+{
+  const rp = resolvePreview(brandTheme(parseDesignMd(readFileSync(resolve(HERE, '../examples/harbor.design.md'), 'utf8')).input));
+  ok(rp.modes.length === 4, 'resolved preview: all four modes projected' + (rp.modes.length !== 4 ? ` — got ${rp.modes.length}` : ''));
+
+  const noHex = Object.entries(rp.colors).filter(([, byMode]) => rp.modes.some((m) => !byMode[m])).map(([k]) => k);
+  ok(noHex.length === 0, 'resolved preview: every referenced colour role resolves to a hex in every mode' + (noHex.length ? ` — MISSING: ${noHex.join(', ')}` : ''));
+
+  const failures = rp.contracts.flatMap((c) =>
+    rp.modes.filter((m) => c.byMode[m] && !c.byMode[m].pass).map((m) => `${c.component}/${c.variant} ${c.fg.replace('color.', '')}-on-${c.bg.replace('color.', '')} ${m}: ${c.byMode[m].ratio}<${c.min}`));
+  ok(failures.length === 0, 'resolved preview: every declared contract holds on the resolved colours (all 4 modes)' + (failures.length ? ` — FAIL: ${failures.join('; ')}` : ''));
 }
 
 // ------------------------------------------------------------------- report
