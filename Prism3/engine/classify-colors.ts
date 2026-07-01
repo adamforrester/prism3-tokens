@@ -20,7 +20,8 @@
  *   white / black                → primitives; report-only
  *   <base>-<variant> (primary-dark, secondary-light, …) → report-only, tied to <base>
  *
- * ADDITIVE spike module — does not touch the shipped step-A pipeline.
+ * Pure + deterministic. Consumed by `standardToBrandInput` (standard-design-md.ts),
+ * which `cli.ts` routes to for the standard `design.md` dialect.
  */
 import { hexToRgb, rgbToOklch, RGB } from './color';
 import { OKLCH } from './theme';

@@ -1,27 +1,26 @@
 /**
  * Prism3 engine — reader for the STANDARD `design.md` interchange format.
  *
- * This is the spike (docs/07 §11.6): the engine's front door for a `design.md`
- * authored by `brand-skills` (the extractor) following the open
- * `google-labs-code/design.md` spec — a DIFFERENT shape from the engine's own
- * `BrandInput` frontmatter that `design-md.ts` parses. The standard file carries
- * RESOLVED, observed values:
+ * The engine's front door for a `design.md` authored by `brand-skills` (the
+ * extractor) following the open `google-labs-code/design.md` spec — a DIFFERENT
+ * shape from the engine's own `BrandInput` frontmatter that `design-md.ts` parses.
+ * `cli.ts` auto-detects this dialect and routes to it (docs/07 §11). The standard
+ * file carries RESOLVED, observed values:
  *   - `colors`     — a FLAT map of token-name → sRGB hex ("#C8102E")
  *   - `typography` — a map of token-name → { fontFamily, fontSize, fontWeight, … }
  *   - `rounded` / `spacing` / `elevation` — flat maps of resolved dimensions/CSS
  *   - `name` / `version` — brand identity
  * plus `##` prose sections the spec leaves human-authored.
  *
- * This module does NOT classify or generate — it only reads the file into a typed
- * `StandardDesignMd`. The colour-role classifier (`classify-colors.ts`) turns the
- * flat `colors` map into engine anchors; the runner (`spike-wendys.ts`) drives the
- * whole chain. It reuses `parseYamlSubset` from `design-md.ts` (the YAML-subset
+ * `parseStandardDesignMd` reads the file into a typed `StandardDesignMd`;
+ * `standardToBrandInput` then runs the colour-role classifier (`classify-colors.ts`),
+ * derives the type families, and applies the optional `x-prism3` levers to produce a
+ * `BrandInput`. It reuses `parseYamlSubset` from `design-md.ts` (the YAML-subset
  * parser is format-agnostic), so this is a shape mapper, not a second parser.
- *
- * IMPORTANT: this reader is ADDITIVE and does not touch the shipped step-A
- * pipeline (`design-md.ts` / `cli.ts` / `emit-dtcg.ts`).
  */
 import { parseYamlSubset } from './design-md';
+import { BrandInput } from './theme';
+import { classifyColors, ColorClassification } from './classify-colors';
 
 export type StandardTypeToken = {
   fontFamily?: string;
@@ -89,4 +88,62 @@ export const parseStandardDesignMd = (text: string): StandardDesignMd => {
     xPrism3: asRecord(raw['x-prism3']),
     prose,
   };
+};
+
+// --- standard design.md → BrandInput -----------------------------------------
+// The full conversion the CLI (and the fidelity report) run: classify the flat
+// colours into anchors, derive the type families, and apply the optional x-prism3
+// levers. Pure; the caller owns validation + emit.
+
+/** Slug a brand `name` into an emit id (`Wendy's` → `wendys`, `Acme Corp` →
+ *  `acme-corp`). The standard format carries no `id`; the engine needs one. */
+export const idFromName = (name: string): string =>
+  name.toLowerCase().replace(/['’]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'brand';
+
+/** The family used by body/caption tokens is the TEXT face; the family used by
+ *  the display/heading tokens is the DISPLAY face. */
+export const deriveFamilies = (typography: StandardDesignMd['typography']): { display?: string; text?: string } => {
+  const firstFamilyFor = (pred: (name: string) => boolean): string | undefined => {
+    for (const [name, tok] of Object.entries(typography)) if (pred(name.toLowerCase()) && tok.fontFamily) return tok.fontFamily;
+    return undefined;
+  };
+  return {
+    display: firstFamilyFor((n) => /^(mega|display|title|button|label|eyebrow)/.test(n)),
+    text: firstFamilyFor((n) => /^(body|caption|paragraph)/.test(n)),
+  };
+};
+
+/** Map the optional namespaced `x-prism3` block (docs/07 §11.4) onto a BrandInput.
+ *  Mutates `input`; returns the human-readable list of levers applied. An absent
+ *  block applies nothing → the engine runs on defaults (the plain-spec guarantee).
+ *  Passed through as-is; the engine's schema validates the values. */
+export const applyXPrism3 = (input: BrandInput, x: Record<string, unknown>): string[] => {
+  const applied: string[] = [];
+  if (x.radiusScale != null) { input.radiusScale = Number(x.radiusScale); applied.push(`radiusScale=${input.radiusScale}`); }
+  if (x.typeScale != null) { input.typography = { ...input.typography, typeScale: x.typeScale as any }; applied.push(`typeScale=${x.typeScale}`); }
+  if (x.density != null) { input.density = x.density as any; applied.push(`density=${x.density}`); }
+  if (x.motionTempo != null) { input.motionPersonality = { tempo: x.motionTempo as any }; applied.push(`motionTempo=${x.motionTempo}`); }
+  if (x.actionPalette != null) { input.actionPalette = String(x.actionPalette); applied.push(`actionPalette=${x.actionPalette}`); }
+  if (x.iconContrast != null) { input.iconContrast = x.iconContrast as any; applied.push(`iconContrast=${x.iconContrast}`); }
+  if (x.surfaces != null) { input.surfaces = x.surfaces as any; applied.push('surfaces'); }
+  if (x.gradients != null) { input.gradients = x.gradients as any; applied.push('gradients'); }
+  return applied;
+};
+
+export type StandardConversion = { input: BrandInput; classification: ColorClassification; xApplied: string[] };
+
+/** Convert a parsed standard `design.md` into a `BrandInput` (+ the classification
+ *  and applied levers, for reporting). `id` overrides the name-derived slug. */
+export const standardToBrandInput = (std: StandardDesignMd, id?: string): StandardConversion => {
+  const classification = classifyColors(std.colors);
+  const input: BrandInput = {
+    id: id ?? idFromName(std.name),
+    primary: classification.input.primary,
+    neutral: classification.input.neutral,
+    brandColors: classification.input.brandColors,
+    status: classification.input.status,
+    typography: { families: deriveFamilies(std.typography) },   // typeScale via x-prism3 or engine default
+  };
+  const xApplied = Object.keys(std.xPrism3).length ? applyXPrism3(input, std.xPrism3) : [];
+  return { input, classification, xApplied };
 };
