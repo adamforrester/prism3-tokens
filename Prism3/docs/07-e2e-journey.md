@@ -375,12 +375,17 @@ Built **here** (prism3-tokens), additive to the shipped step-A pipeline:
   engine anchors by naming convention (`primary`→pinned; `secondary`/`tertiary`→`brandColors[]`;
   `neutral-<step>`→derived `{hue,chroma}`; `success`/`warning`/`error`→`danger`→status; `info`/`white`/
   variants → report-only). Deterministic + pure; adds `hexToRgb` to `color.ts`.
-- `engine/spike-wendys.ts` — the runner: read → classify → map `x-prism3` levers → `BrandInput` →
-  `brandTheme` → `emitTheme` (shipped core, unchanged) → `out/wendys.*` + **`engine/wendys-fidelity-report.md`**.
-  Self-verifies its gates and exits non-zero on failure. Run: `npx tsx Prism3/engine/spike-wendys.ts`.
-  The `x-prism3` map (radiusScale/typeScale/density/motionTempo/actionPalette/iconContrast/surfaces/
-  gradients → `BrandInput`) closes the round-trip: brand-skills emits the block, the engine consumes it.
-  Wendy's carries no block, so it compiles on engine defaults — the §11.4 plain-spec guarantee.
+- `engine/fidelity.ts` — the full-parity fidelity report builder (colour ΔE00 + typography + spacing +
+  radius + elevation), pure and brand-agnostic; the Decision-A regression artefact.
+- **Promoted into the shipped CLI (2026-07-01).** The reader + classifier are no longer spike-only:
+  `engine/cli.ts` **auto-detects the dialect** (a top-level flat `colors:` map ⇒ standard; else
+  engine-native) and runs either through the same core — `standardToBrandInput` (classify + families +
+  `x-prism3` levers) → `brandTheme` → `emitTheme`; `--fidelity` writes `out/<id>-fidelity-report.md`. The
+  `x-prism3` map (radiusScale/typeScale/density/motionTempo/actionPalette/iconContrast/surfaces/gradients
+  → `BrandInput`) closes the round-trip: brand-skills emits the block, the engine CLI consumes it (Wendy's
+  carries none → engine defaults, the §11.4 plain-spec guarantee). The bespoke `spike-wendys.ts` runner
+  was retired; its self-verify folded into `test.ts` (189 → 202).
+  Run: `npx tsx Prism3/engine/cli.ts Prism3/examples/wendys.design.md --fidelity`.
 
 Input: a **real** `brand-skills` Wendy's `design.md` (`examples/wendys.design.md`). **Result:** anchor
 reproduced at **ΔE00 0.00**, 627/627 aliases, 248/248 contrasts, `error`→`danger` carved distinct; aggregate
@@ -398,9 +403,9 @@ custom names still allowed + SKILL mapping guidance; (2) **colour-role contract*
 the `error`→`danger` bridge + scale-variant provenance); (3) **optional `x-prism3:` block** — hand-authored
 in `surfaces.md`, passed through verbatim by `refresh-design` to a top-level `x-prism3` key, scoring-neutral.
 Spec: `brand-skills/docs/superpowers/specs/2026-07-01-prism3-engine-alignment-design.md`; tests 159 → 162,
-no version bump. The engine side already consumes it (§11.6). Both tools now speak one contract. The spike's concrete, evidence-backed findings for that spec live in the fidelity report's
-§6 (`engine/wendys-fidelity-report.md`): the type-role rename map, the `error`→`danger` colour-role
-rename, the observed `info`/`error` dups, and the `x-prism3:` lever candidates (`radiusScale`,
-`typeScale`). **Token Press** provisioning is deferred (it's a private, different-org repo and sits
+no version bump. The engine side already consumes it (§11.6) and the CLI now speaks both dialects. Both
+tools speak one contract. The evidence that drove the spec — the classification log, the `error`→`danger`
+rename, the observed `info`/`error` dups, and the `x-prism3` lever candidates — is regenerated in the
+fidelity report (`engine/out/wendys-fidelity-report.md`, §6). **Token Press** provisioning is deferred (it's a private, different-org repo and sits
 at the *export* stage, downstream of this work); its I/O is captured in §11.1 so the contract
 accounts for it without needing its code yet.

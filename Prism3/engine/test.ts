@@ -11,12 +11,14 @@
  *     Each must build and clear EVERY mode contract — the real robustness test.
  * Exits non-zero on any failure.
  */
-import { rgbToOklch, oklchToRgb, hex, contrast, luminance, maxChroma, inGamut, deltaE2000, RGB } from './color';
+import { rgbToOklch, oklchToRgb, hex, hexToRgb, contrast, luminance, maxChroma, inGamut, deltaE2000, RGB } from './color';
 import { generateRamp, autoPlaceStep, STEP_NUMS } from './ramp';
 import { brandTheme, BrandInput } from './theme';
 import { nbTheme } from './nb-fixture';
 import { resolveAllModes } from './modes';
 import { parseDesignMd, parseYamlSubset } from './design-md';
+import { parseStandardDesignMd, standardToBrandInput, applyXPrism3 } from './standard-design-md';
+import { classifyColors } from './classify-colors';
 import { buildTree, validateBrandInput } from './emit-dtcg';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -392,6 +394,39 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   const built = buildTree(theme);
   ok(built.stats.broken.length === 0 && built.stats.aliases > 0, `harbor: all ${built.stats.aliases} aliases resolve`);
   ok(theme.notes.some((n) => n.toLowerCase().includes('action colour defaults to the primary')), 'harbor: default action=primary flagged in notes');
+}
+// (5) STANDARD dialect — the brand-skills / google-labs design.md path (docs/07 §11):
+// the reader + colour-role classifier + x-prism3 levers, on the real Wendy's file.
+{
+  const std = parseStandardDesignMd(readFileSync(resolve(HERE, '../examples/wendys.design.md'), 'utf8'));
+  ok(Object.keys(std.colors).length === 24 && Object.keys(std.typography).length === 25, 'wendys standard: reader sees 24 colours + 25 type tokens');
+  const cls = classifyColors(std.colors);
+  ok(!!cls.input.status.danger, 'classifier: error → status.danger (the one rename)');
+  ok(!!cls.input.status.success && !!cls.input.status.warning, 'classifier: success + warning classified from the flat map');
+  ok(cls.input.brandColors.some((b) => b.name === 'secondary') && cls.input.brandColors.some((b) => b.name === 'tertiary'), 'classifier: secondary + tertiary → brandColors[]');
+  const { input, xApplied } = standardToBrandInput(std);
+  ok(input.id === 'wendys', "standardToBrandInput: id derived from name (Wendy's → wendys)");
+  ok(xApplied.length === 0, 'wendys: no x-prism3 block → engine defaults (the plain-spec guarantee)');
+  ok(validateBrandInput(input).length === 0, 'wendys standard: classified BrandInput schema-conforms');
+  const theme = brandTheme(input);
+  ok(theme.roleToPalette.danger === 'danger', 'wendys: error→danger carved as a distinct palette');
+  const built = buildTree(theme);
+  ok(built.stats.broken.length === 0 && built.stats.aliases > 0, `wendys: all ${built.stats.aliases} aliases resolve`);
+  const broken = resolveAllModes(theme).flatMap((m) => Object.entries(m.roles).filter(([, r]) => r.min > 0 && r.ratio < r.min).map(([k]) => `${m.mode}.${k}`));
+  ok(broken.length === 0, 'wendys: all mode contrast contracts hold' + (broken.length ? ` — FAILED: ${broken.join(', ')}` : ''));
+  // exact-anchor preservation: the generated primary ramp contains the observed hex at ΔE00 ~0.
+  const pPal = theme.palettes.find((p) => p.palette === 'primary')!;
+  const bestDe = Math.min(...pPal.steps.map((s) => deltaE2000(s.rgb, hexToRgb(std.colors.primary))));
+  ok(bestDe < 0.5, `wendys: primary anchor reproduced at ΔE00 ${bestDe.toFixed(2)} (< 0.5, exact-anchor preservation)`);
+}
+// (6) x-prism3 lever mapping + dialect detection.
+{
+  const probe = { id: 'p', primary: { l: 0.5, c: 0.1, h: 20 }, neutral: { hue: 20, chroma: 0.01 } } as BrandInput;
+  const applied = applyXPrism3(probe, { radiusScale: 2, typeScale: 'expressive', motionTempo: 'snappy', density: 'compact' });
+  ok(probe.radiusScale === 2 && probe.typography?.typeScale === 'expressive' && probe.motionPersonality?.tempo === 'snappy' && probe.density === 'compact' && applied.length === 4,
+    'applyXPrism3: levers map onto BrandInput (brand-skills → engine round-trip)');
+  const nativeStd = parseStandardDesignMd(readFileSync(resolve(HERE, '../examples/harbor.design.md'), 'utf8'));
+  ok(Object.keys(nativeStd.colors).length === 0, 'dialect detection: an engine-native brief has no top-level colors map (routes native)');
 }
 
 // ------------------------------------------------------------------- report

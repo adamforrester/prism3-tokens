@@ -29,7 +29,7 @@ Headline numbers (regenerate with the commands below):
 | Cross-mode contrast contracts | **248/248** | **248/248** |
 | **Dimension axis, exact** (Prism2 space + NB radius) | **23/23** | n/a |
 | DTCG semantic aliases resolve (color + dim + size + type + layout + gradient) | **627/627** | **628/628** |
-| Engine unit tests (colour math + extreme brands + typography + fluid + shadow + layout + gradient + surface-model + harshness + typography-weights/links + design.md-parser/CLI invariants) | **189/189** | (same engine) |
+| Engine unit tests (colour math + extreme brands + typography + fluid + shadow + layout + gradient + surface-model + harshness + typography-weights/links + design.md-parser/CLI + standard-dialect/classifier/x-prism3 invariants) | **202/202** | (same engine) |
 | Color primitives / dim grid emitted | 122 / 37 | 162 / 36 |
 | Brand palettes / action source | red / **action = brand** (red) | primary+accent+… / **action = accent ≠ brand** |
 | Form factor | comfortable / radius 1 (sharp) | compact / radius 2 (soft) |
@@ -103,7 +103,11 @@ Prism3/
     ├── nb-fixture.ts               ← I/O shell: reads the NB fixture off disk + defers to the pure core (keeps theme.ts Node-free / portable)
     ├── nb-regression.ts            ← diffs generated vs real NB, checks contracts → nb-regression-report.md
     ├── emit-dtcg.ts                ← emits out/<id>.tokens.json per theme (NB + aurora + harbor, the last two compiled from examples/*.design.md) + modes-report.md; EXPORTS the reusable core (buildTree/emitTheme/validateBrandInput); validates aliases, mode contracts & BrandInput schema conformance
-    ├── test.ts                     ← unit tests: colour-math invariants + 5 extreme-brand contracts + typography/shadow/layout/gradient/surface-model + harshness + typography + design.md-parser/CLI (faithfulness + coverage) invariants (189 checks)
+    ├── cli.ts                      ← CLI adapter: dual-dialect (engine-native + standard brand-skills design.md, auto-detected) → the core; --fidelity writes the report
+    ├── standard-design-md.ts       ← reader + classifier→BrandInput (standardToBrandInput) + x-prism3 lever mapping for the STANDARD design.md dialect
+    ├── classify-colors.ts          ← colour-role classifier: flat colors: hex map → engine anchors by naming convention
+    ├── fidelity.ts                 ← full-parity fidelity report builder (observed vs generated; cli.ts --fidelity)
+    ├── test.ts                     ← unit tests: colour-math invariants + 5 extreme-brand contracts + typography/shadow/layout/gradient/surface-model + harshness + typography + design.md-parser/CLI + standard-dialect/classifier/x-prism3 invariants (202 checks)
     ├── ai-metadata.ts              ← generates the AI-readable metadata sidecar (meaning/when/avoid/paired_with/contrast_with/mode_overrides) for the semantic layer
     ├── README.md                   ← how the engine works / how to run
     ├── nb-regression-report.md     ← generated (committed for review)
@@ -122,7 +126,8 @@ npx tsx Prism3/engine/test.ts            # unit tests: colour math + extreme-bra
 npx tsx Prism3/engine/visualize.ts       # regenerate the style-guide HTML (out/tokens.html)
 
 # CLI adapter — theme an arbitrary brand brief:
-npx tsx Prism3/engine/cli.ts Prism3/examples/harbor.design.md [--out <dir>]
+npx tsx Prism3/engine/cli.ts Prism3/examples/harbor.design.md [--out <dir>]   # engine-native dialect
+npx tsx Prism3/engine/cli.ts Prism3/examples/wendys.design.md --fidelity      # standard brand-skills dialect + fidelity report
 ```
 
 ---
@@ -410,27 +415,28 @@ layer 1). Agreed build sequence (owner confirmed "safest path to a working plugi
 - **★ NOW — E2E integration (`07` §11).** The direction shifted from "build the next
   adapter" to "connect the tools we already own through the `design.md` contract." Two
   active tracks:
-  - **Here (prism3-tokens): the Wendy's spike — ✅ DONE (2026-07-01).** A standard-`design.md`
-    reader (`engine/standard-design-md.ts`) + colour-role classifier (`engine/classify-colors.ts`,
-    the one genuinely new parser piece) + runner (`engine/spike-wendys.ts`), run against a **real
+  - **Here (prism3-tokens): the Wendy's spike — ✅ DONE, then PROMOTED to the shipped CLI (2026-07-01).**
+    A standard-`design.md` reader (`engine/standard-design-md.ts`) + colour-role classifier
+    (`engine/classify-colors.ts`, the one genuinely new parser piece), run against a **real
     `brand-skills` Wendy's `design.md`** (`examples/wendys.design.md`, 24 colours + 25 type tokens)
     → a full token system (`out/wendys.tokens.json` + `.ai.json`) + a **full-parity fidelity report**
-    (`engine/wendys-fidelity-report.md`). Additive — the shipped step-A pipeline + all gates are
-    untouched (test 189/189, NB regression, aurora 628 / harbor 622). Spike self-verifies:
-    **anchor reproduced ΔE00 0.00** (exact-anchor preservation), 627/627 aliases, 248/248 contrasts,
-    `error`→`danger` carved as a distinct palette. **Results:** primary/secondary/tertiary pin exactly;
-    neutral ramp fits the 11 observed greys at mean ΔE00 <1.5 (derived hue/chroma); status hues pinned
-    (L placed by the ramp); aggregate colour ΔE00 **2.02** across 24 swatches — the ramp/status/neutral
-    divergence is the point (Decision A). Every predicted alignment finding confirmed with evidence
-    (see §11.6/§11.7): type roles `mega-*`→`display`/`button-*`→`label`; `error`≡`primary-dark` `#9E0D24`
-    and `info`≡`secondary` `#0077A3` (observed dups the engine doesn't propagate); the file's stated
-    `primary`-on-white "~4.6:1" is stale for its own `#C8102E` (measured **5.88:1**, clears small-text AA).
-    Run: `npx tsx Prism3/engine/spike-wendys.ts`. The spike reader now also **consumes the optional
-    `x-prism3` block** (§11.4): `standard-design-md.ts` reads the top-level key and the runner maps its
-    levers → `BrandInput` (radiusScale/typeScale/density/motionTempo/actionPalette/iconContrast/surfaces/
-    gradients). Wendy's carries no block → engine defaults, the plain-spec guarantee; the mapping path is
-    self-verified on an inline fixture. This closes the round-trip: brand-skills emits `x-prism3`, the
-    engine consumes it.
+    (`engine/out/wendys-fidelity-report.md`). **Results:** anchor reproduced **ΔE00 0.00**
+    (exact-anchor preservation), 627/627 aliases, 248/248 contrasts, `error`→`danger` carved as a
+    distinct palette; primary/secondary/tertiary pin exactly; neutral ramp fits the 11 observed greys at
+    mean ΔE00 <1.5 (derived hue/chroma); status hues pinned (L placed by the ramp); aggregate colour ΔE00
+    **2.02** across 24 swatches — the ramp/status/neutral divergence is the point (Decision A). Every
+    predicted alignment finding confirmed: type roles `mega-*`→`display`/`button-*`→`label`;
+    `error`≡`primary-dark`, `info`≡`secondary` (observed dups the engine doesn't propagate); the file's
+    stated `primary`-on-white "~4.6:1" is stale for its own `#C8102E` (engine measures **5.88:1**). The
+    optional **`x-prism3` block** (§11.4) round-trips: the reader maps its levers → `BrandInput`
+    (radiusScale/typeScale/density/motionTempo/actionPalette/iconContrast/surfaces/gradients); Wendy's
+    carries no block → engine defaults (the plain-spec guarantee). **Promotion:** the reader + classifier
+    are no longer spike-only — `cli.ts` now **auto-detects the dialect** (a top-level flat `colors:` map ⇒
+    standard; else engine-native) and runs either through the same core, with `--fidelity` writing the
+    report; `standardToBrandInput` (classify + families + x-prism3) and `fidelity.ts` (report builder)
+    are the shared modules. The bespoke `spike-wendys.ts` runner was retired; its self-verify folded into
+    `test.ts` (189 → **202**). Run: `npx tsx Prism3/engine/cli.ts Prism3/examples/wendys.design.md --fidelity`.
+    This closes the round-trip: brand-skills emits `x-prism3`, the shipped engine CLI consumes it.
   - **brand-skills alignment — ✅ DONE (2026-07-01, this thread).** Implemented in `brand-skills`
     (branch `claude/prism3-e2e-integration-8fwul4`), across its three layers (schema → SKILL → CLI):
     (1) **type-role rename** — recommended typography names moved to the engine's vocabulary
@@ -461,7 +467,7 @@ layer 1). Agreed build sequence (owner confirmed "safest path to a working plugi
   the net-new **coverage** brand (deep-teal, `action = primary`, warm-neutral greys
   + tinted page, measured status, comfortable/sharp, system stack + compact scale,
   gradients off), validated behaviourally (schema-conforms, 622/622 aliases resolve,
-  248/248 contrasts hold). Both are wired into `test.ts` (189/189). Full spec + lever
+  248/248 contrasts hold). Both are wired into `test.ts` (202/202). Full spec + lever
   table in `07-e2e-journey.md` §6. NOTE: the "~30 line parser" estimate in the
   locked plan was optimistic given the nested typography/gradients surface — the
   block-style parser is ~200 lines, still dependency-free and scoped to `BrandInput`.
