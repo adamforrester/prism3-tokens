@@ -290,3 +290,95 @@ the token engine.
 **New IP not yet in the vault (research + write-up candidates):** `design.md` as a
 generation-driving brief; the "engine core as portable brain, plugin as materialization
 adapter" convergence; declaring font-weight/named-instance mapping once and resolving it in Figma.
+
+---
+
+## 11. Integration contract — `design.md` as the interchange language (2026-07-01)
+
+The owner (Adam) built several of the pipeline tools already; we own all of them, so the
+job is to make them **understand each other** through one shared contract rather than a pile
+of converters. Locked decisions in this section.
+
+### 11.1 The tools we own, and each one's role
+
+| Tool | Stage | Role | Status |
+|---|---|---|---|
+| **brand-skills** (CLI + Claude skill) | ① Author | **EXTRACT** — assets (Figma/site/PDF) → a `design.md` + `.brand/` package (observed colours/type/space + rich brand prose) | exists; public repo |
+| **Prism3 engine** | ① Author | **GENERATE** — `design.md` anchors → a complete, contract-verified, moded token system | this repo |
+| **Token Press** (Figma plugin) | ③ Export | Figma → Style Dictionary / DTCG export | exists; **private, different org** — not provisioned here yet |
+| **Theming plugin** (Figma) | ② Materialize | themes a duplicated Figma file (variables) | exists; **separate** project |
+| **Text-style plugin** (Figma) | ② Materialize | updates variable bindings in text styles | exists; **separate** project |
+| **Style-guide generator** (Figma) | ②/view | generates a style guide inside Figma | exists; **separate** project |
+| **CLI templating system** | ④ Consume | dupes the code component library, drops tokens/fonts, runs SD → Storybook | exists |
+
+The three Figma plugins are confirmed **separate** codebases → the consolidation target (§5 /
+§11.5) is real, not hypothetical.
+
+### 11.2 `design.md` is the interchange contract — follow the spec, don't fork it
+
+**Decision:** the single interchange format across the whole system is
+**[`google-labs-code/design.md`](https://github.com/google-labs-code/design.md)** (an open
+standard). `brand-skills` already emits it; the engine will **consume** it. We stay
+spec-conformant so the pipeline is portable, not bespoke. Verified against a real extraction
+(a Wendy's `design.md`): the base spec carries `colors` / `typography` / `rounded` / `spacing`
+/ `elevation` as resolved values + `##` prose.
+
+### 11.3 One generator (and why `brand-skills` still stands alone)
+
+**Decision A:** the engine **regenerates from anchors + emits a fidelity report** — it reads
+the anchor-level values (primary, neutral hue, brand + status colours, families), generates
+its *complete* verified system (light/dark/HC modes, contrast contracts, `on-*` pairs,
+gradients, motion — everything extraction can't produce), pins the exact brand anchor, and
+reports where its generated ramp diverges from the provided values (the NB-regression pattern —
+nothing changes silently).
+
+**The "one generator" principle does NOT strip `brand-skills`.** It stays a *complete
+descriptive extractor* — it emits the full observed snapshot (ramps, scales, type roles), so a
+user who runs `brand-skills` **without** going on to the engine still gets a usable colour
+system. The distinction is provenance, not completeness: `brand-skills` values are *observed*
+(descriptive); the engine's are *generated + contrast-verified*. The engine simply does not
+treat `brand-skills`' ramps as the final system — it regenerates and reports. (This is the
+answer to "will a brand-skills-only user get the colours they need?" — **yes**.)
+
+### 11.4 Staying spec-true while the engine needs more levers
+
+The base `design.md` stays **pure spec**. The engine's extra generative knobs that the base
+spec has no home for (motion tempo, density, action-decoupling, icon-contrast, gradients,
+surface overrides) are handled two ways, both additive:
+- **sensible defaults** — a plain spec file compiles with zero extra keys; and
+- an **optional, namespaced `x-prism3:` extension block** the base spec ignores, for full
+  control when a human/agent wants it.
+
+So a `brand-skills` file works untouched; power users opt into `x-prism3:`. Spec-true, not
+spec-limited. **(Decision: approved.)**
+
+### 11.5 The "understand each other" layer — naming conventions
+
+Two shared vocabularies make the bridge deterministic (no guessing in the classifier):
+- **Colour-role names** — `primary`, `secondary`, `tertiary`, `neutral-<step>`,
+  `success` / `warning` / `error` / `info`. The engine's **colour-role classifier** reads the
+  flat `colors:` map into anchors using these conventions (the one genuinely new parser piece).
+- **Type-role vocabulary** — **align `brand-skills` to the engine's semantic roles**
+  (`display` / `title` / `body` / `label` / `caption` / `eyebrow` / `code`), i.e. one vocabulary
+  across the system. `brand-skills` currently emits `mega` / `display` / `title` / `body` /
+  `caption` / `button`; it moves to the engine's set (`mega`→top of `display`; `button`→`label`).
+  **(Decision: align, not map.)**
+
+### 11.6 Next step — the Wendy's spike (validation before rework)
+
+Before reworking step A's format, build a spike **here** (prism3-tokens): a standard-`design.md`
+reader + the colour-role classifier, run the real Wendy's `design.md` through the engine →
+a full Wendy's token system **+ a fidelity report** vs its provided values. Evidence-first: the
+spike tells us exactly what the contract and the `brand-skills` changes should be. It does not
+touch the shipped step-A pipeline.
+
+### 11.7 The `brand-skills` alignment spec (for the brand-skills-provisioned thread)
+
+`brand-skills` can't be edited from a session scoped to prism3-tokens + knowledge-base (its git
+is proxy-blocked, 403). The owner will open a **new thread with prism3 + knowledge-base +
+brand-skills provisioned** to do that work. Deliverable from *this* side: an **alignment spec**
+(derived from the spike) listing what `brand-skills` should change — type-role rename, the
+colour-role naming contract, the optional `x-prism3:` block — so both tools speak the same
+contract. **Token Press** provisioning is deferred (it's a private, different-org repo and sits
+at the *export* stage, downstream of this work); its I/O is captured in §11.1 so the contract
+accounts for it without needing its code yet.

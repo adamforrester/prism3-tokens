@@ -129,6 +129,19 @@ npx tsx Prism3/engine/cli.ts Prism3/examples/harbor.design.md [--out <dir>]
 
 ## Decisions log (why things are the way they are)
 
+- **`design.md` is the E2E interchange contract; adopt the open spec (2026-07-01).**
+  The pipeline tools (all owner-built: `brand-skills` extractor, this engine, Token Press,
+  three *separate* Figma plugins, the CLI templating system) connect through **one shared
+  format — `google-labs-code/design.md`** — which we follow, not fork. Decisions: (A) the
+  engine **regenerates from anchors + emits a fidelity report** (NB-regression pattern) and
+  does not trust extracted ramps as final; **one generator** — `brand-skills` *describes*
+  (stays standalone-complete, so a brand-skills-only user still gets usable colours), the
+  engine *generates* the verified system; the base file stays pure spec, engine-only levers
+  via **defaults + an optional `x-prism3:` extension**; **align `brand-skills` type-role names
+  to the engine's semantic vocabulary**. The one new parser piece is a **colour-role
+  classifier** (flat `colors:` map → anchors by naming convention). Full contract in
+  `07-e2e-journey.md` §11. Validated (real Wendy's `design.md`) that every anchor the engine
+  needs is present. Next: a Wendy's spike before any step-A rework.
 - **`design.md`: block-style YAML frontmatter + hand-rolled parser; the CLI reuses
   the emit core; examples are the single source of truth (2026-07-01).** The locked
   plan called for YAML frontmatter + a minimal parser; on build, a *block-style*
@@ -394,6 +407,17 @@ The goal is a designer↔developer↔agent workflow ending in production-ready U
 i.e. completing layers 2–4 of the practice's four-layer AI stack (the engine is
 layer 1). Agreed build sequence (owner confirmed "safest path to a working plugin"):
 
+- **★ NOW — E2E integration (`07` §11).** The direction shifted from "build the next
+  adapter" to "connect the tools we already own through the `design.md` contract." Two
+  active tracks:
+  - **Here (prism3-tokens): the Wendy's spike** — a standard-`design.md` reader + colour-role
+    classifier, run the real Wendy's `design.md` (uploaded) through the engine → tokens +
+    a **fidelity report** vs provided values. Evidence before reworking step A's format.
+  - **New thread (prism3 + knowledge-base + brand-skills provisioned): the alignment spec** —
+    edit `brand-skills` to align type-role names + the colour-role naming contract + an
+    optional `x-prism3:` block. `brand-skills` git is 403-blocked in a prism3-only session,
+    so this needs its own provisioned thread. **Token Press provisioning deferred** (private,
+    different-org, export-stage — downstream of this work).
 - **A. `design.md` + CLI adapter — ✅ DONE (2026-07-01).** A brand brief
   (`design.md` frontmatter → `BrandInput`, prose for agent latitude) compiled by
   the CLI over the pure core. Proves the core-as-a-library and the authoring
