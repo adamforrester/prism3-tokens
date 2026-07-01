@@ -1,0 +1,517 @@
+{
+  "$schema": "https://prism3.dev/schema/preview-spec.json",
+  "description": "Portable sample-component preview spec (docs/08 §7 B1a). Each element binds UI props to root-relative semantic token paths + the contrast pairs to overlay. The Figma plugin and web playground render the same live preview from it. Kept in sync with the emitted token tree by engine/test.ts (binding-validity gate). Emitted by engine/emit-preview.ts.",
+  "components": [
+    {
+      "id": "button",
+      "label": "Button (primary)",
+      "description": "The primary action — filled, on the action palette, across its states.",
+      "variants": [
+        {
+          "name": "default",
+          "bindings": {
+            "bg": "color.action.default",
+            "text": "color.text.on-action",
+            "radius": "radius.md",
+            "padX": "space.300",
+            "padY": "space.150",
+            "type": "type.label.md.emphasis"
+          },
+          "contracts": [
+            {
+              "fg": "color.text.on-action",
+              "bg": "color.action.default",
+              "min": 4.5,
+              "label": "label on fill"
+            }
+          ]
+        },
+        {
+          "name": "hover",
+          "bindings": {
+            "bg": "color.action.hover",
+            "text": "color.text.on-action",
+            "radius": "radius.md",
+            "padX": "space.300",
+            "padY": "space.150",
+            "type": "type.label.md.emphasis"
+          },
+          "contracts": [
+            {
+              "fg": "color.text.on-action",
+              "bg": "color.action.hover",
+              "min": 4.5,
+              "label": "label on fill"
+            }
+          ]
+        },
+        {
+          "name": "pressed",
+          "bindings": {
+            "bg": "color.action.pressed",
+            "text": "color.text.on-action",
+            "radius": "radius.md",
+            "padX": "space.300",
+            "padY": "space.150",
+            "type": "type.label.md.emphasis"
+          },
+          "contracts": [
+            {
+              "fg": "color.text.on-action",
+              "bg": "color.action.pressed",
+              "min": 4.5,
+              "label": "label on fill"
+            }
+          ]
+        },
+        {
+          "name": "disabled",
+          "bindings": {
+            "bg": "color.action.disabled",
+            "text": "color.text.on-disabled",
+            "radius": "radius.md",
+            "padX": "space.300",
+            "padY": "space.150",
+            "type": "type.label.md.emphasis"
+          },
+          "contracts": [
+            {
+              "fg": "color.text.on-disabled",
+              "bg": "color.action.disabled",
+              "min": 3,
+              "label": "label on fill"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "button-secondary",
+      "label": "Button (secondary)",
+      "description": "White-fill + brand border and label — the demoted action.",
+      "variants": [
+        {
+          "name": "default",
+          "bindings": {
+            "bg": "color.background.primary",
+            "border": "color.border.brand",
+            "text": "color.foreground.brand",
+            "radius": "radius.md",
+            "padX": "space.300",
+            "padY": "space.150",
+            "type": "type.label.md.emphasis"
+          },
+          "contracts": [
+            {
+              "fg": "color.foreground.brand",
+              "bg": "color.background.primary",
+              "min": 4.5,
+              "label": "label on page"
+            },
+            {
+              "fg": "color.border.brand",
+              "bg": "color.background.primary",
+              "min": 3,
+              "label": "border on page"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "input",
+      "label": "Text input",
+      "description": "A form field — default, focused (brand ring), and disabled.",
+      "variants": [
+        {
+          "name": "default",
+          "bindings": {
+            "bg": "color.background.primary",
+            "border": "color.border.primary",
+            "text": "color.text.primary",
+            "placeholder": "color.text.tertiary",
+            "radius": "radius.sm",
+            "padX": "space.200",
+            "padY": "space.150",
+            "type": "type.body.md.default"
+          },
+          "contracts": [
+            {
+              "fg": "color.text.primary",
+              "bg": "color.background.primary",
+              "min": 4.5,
+              "label": "value on field"
+            },
+            {
+              "fg": "color.border.primary",
+              "bg": "color.background.primary",
+              "min": 3,
+              "label": "border on page"
+            }
+          ]
+        },
+        {
+          "name": "focus",
+          "bindings": {
+            "bg": "color.background.primary",
+            "border": "color.border.focus",
+            "text": "color.text.primary",
+            "radius": "radius.sm",
+            "padX": "space.200",
+            "padY": "space.150",
+            "type": "type.body.md.default"
+          },
+          "contracts": [
+            {
+              "fg": "color.border.focus",
+              "bg": "color.background.primary",
+              "min": 3,
+              "label": "focus ring"
+            }
+          ]
+        },
+        {
+          "name": "disabled",
+          "bindings": {
+            "bg": "color.background.secondary",
+            "border": "color.border.secondary",
+            "text": "color.text.disabled",
+            "radius": "radius.sm",
+            "padX": "space.200",
+            "padY": "space.150",
+            "type": "type.body.md.default"
+          },
+          "contracts": [
+            {
+              "fg": "color.text.disabled",
+              "bg": "color.background.secondary",
+              "min": 3,
+              "label": "disabled value"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "card",
+      "label": "Card",
+      "description": "A surface with a title, body, and a nested action — the elevation + ink workhorse.",
+      "variants": [
+        {
+          "name": "default",
+          "bindings": {
+            "bg": "color.foreground.primary",
+            "border": "color.border.secondary",
+            "title": "type.title.md.strong",
+            "titleText": "color.text.primary",
+            "body": "type.body.md.default",
+            "bodyText": "color.text.secondary",
+            "radius": "radius.lg",
+            "shadow": "shadow.sm",
+            "pad": "space.300"
+          },
+          "contracts": [
+            {
+              "fg": "color.text.primary",
+              "bg": "color.foreground.primary",
+              "min": 4.5,
+              "label": "title on card"
+            },
+            {
+              "fg": "color.text.secondary",
+              "bg": "color.foreground.primary",
+              "min": 4.5,
+              "label": "body on card"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "alert",
+      "label": "Alert / banner",
+      "description": "A semantic banner per status — tinted fill, matching border, ink, and icon.",
+      "variants": [
+        {
+          "name": "success",
+          "bindings": {
+            "bg": "color.foreground.success-subtle",
+            "border": "color.border.success",
+            "text": "color.text.success",
+            "icon": "color.icon.success",
+            "radius": "radius.md",
+            "pad": "space.200",
+            "type": "type.body.md.default"
+          },
+          "contracts": [
+            {
+              "fg": "color.text.success",
+              "bg": "color.foreground.success-subtle",
+              "min": 4.5,
+              "label": "success text on tint"
+            },
+            {
+              "fg": "color.border.success",
+              "bg": "color.background.primary",
+              "min": 3,
+              "label": "border on page"
+            }
+          ]
+        },
+        {
+          "name": "warning",
+          "bindings": {
+            "bg": "color.foreground.warning-subtle",
+            "border": "color.border.warning",
+            "text": "color.text.warning",
+            "icon": "color.icon.warning",
+            "radius": "radius.md",
+            "pad": "space.200",
+            "type": "type.body.md.default"
+          },
+          "contracts": [
+            {
+              "fg": "color.text.warning",
+              "bg": "color.foreground.warning-subtle",
+              "min": 4.5,
+              "label": "warning text on tint"
+            },
+            {
+              "fg": "color.border.warning",
+              "bg": "color.background.primary",
+              "min": 3,
+              "label": "border on page"
+            }
+          ]
+        },
+        {
+          "name": "danger",
+          "bindings": {
+            "bg": "color.foreground.danger-subtle",
+            "border": "color.border.danger",
+            "text": "color.text.danger",
+            "icon": "color.icon.danger",
+            "radius": "radius.md",
+            "pad": "space.200",
+            "type": "type.body.md.default"
+          },
+          "contracts": [
+            {
+              "fg": "color.text.danger",
+              "bg": "color.foreground.danger-subtle",
+              "min": 4.5,
+              "label": "danger text on tint"
+            },
+            {
+              "fg": "color.border.danger",
+              "bg": "color.background.primary",
+              "min": 3,
+              "label": "border on page"
+            }
+          ]
+        },
+        {
+          "name": "info",
+          "bindings": {
+            "bg": "color.foreground.info-subtle",
+            "border": "color.border.info",
+            "text": "color.text.info",
+            "icon": "color.icon.info",
+            "radius": "radius.md",
+            "pad": "space.200",
+            "type": "type.body.md.default"
+          },
+          "contracts": [
+            {
+              "fg": "color.text.info",
+              "bg": "color.foreground.info-subtle",
+              "min": 4.5,
+              "label": "info text on tint"
+            },
+            {
+              "fg": "color.border.info",
+              "bg": "color.background.primary",
+              "min": 3,
+              "label": "border on page"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nav-item",
+      "label": "Nav item",
+      "description": "A top-nav link — resting and selected (brand ink + action indicator).",
+      "variants": [
+        {
+          "name": "default",
+          "bindings": {
+            "text": "color.text.secondary",
+            "type": "type.label.md.emphasis",
+            "padX": "space.200",
+            "padY": "space.150"
+          },
+          "contracts": [
+            {
+              "fg": "color.text.secondary",
+              "bg": "color.background.primary",
+              "min": 4.5,
+              "label": "label on page"
+            }
+          ]
+        },
+        {
+          "name": "selected",
+          "bindings": {
+            "text": "color.text.brand",
+            "indicator": "color.action.default",
+            "type": "type.label.md.emphasis",
+            "padX": "space.200",
+            "padY": "space.150"
+          },
+          "contracts": [
+            {
+              "fg": "color.text.brand",
+              "bg": "color.background.primary",
+              "min": 4.5,
+              "label": "selected label"
+            },
+            {
+              "fg": "color.action.default",
+              "bg": "color.background.primary",
+              "min": 3,
+              "label": "indicator"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "badge",
+      "label": "Badge / tag",
+      "description": "A compact status pill — filled brand and subtle-info variants.",
+      "variants": [
+        {
+          "name": "brand",
+          "bindings": {
+            "bg": "color.foreground.brand",
+            "text": "color.text.on-brand",
+            "radius": "radius.round",
+            "padX": "space.150",
+            "padY": "space.100",
+            "type": "type.label.sm.emphasis"
+          },
+          "contracts": [
+            {
+              "fg": "color.text.on-brand",
+              "bg": "color.foreground.brand",
+              "min": 4.5,
+              "label": "label on fill"
+            }
+          ]
+        },
+        {
+          "name": "info-subtle",
+          "bindings": {
+            "bg": "color.foreground.info-subtle",
+            "text": "color.text.info",
+            "radius": "radius.round",
+            "padX": "space.150",
+            "padY": "space.100",
+            "type": "type.label.sm.emphasis"
+          },
+          "contracts": [
+            {
+              "fg": "color.text.info",
+              "bg": "color.foreground.info-subtle",
+              "min": 4.5,
+              "label": "label on tint"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "typography",
+      "label": "Type specimen",
+      "description": "The reading hierarchy — display, title, body, secondary, and a link.",
+      "variants": [
+        {
+          "name": "display",
+          "bindings": {
+            "type": "type.display.lg.strong",
+            "text": "color.text.primary"
+          },
+          "contracts": [
+            {
+              "fg": "color.text.primary",
+              "bg": "color.background.primary",
+              "min": 3,
+              "label": "display (large)"
+            }
+          ]
+        },
+        {
+          "name": "title",
+          "bindings": {
+            "type": "type.title.lg.strong",
+            "text": "color.text.primary"
+          },
+          "contracts": [
+            {
+              "fg": "color.text.primary",
+              "bg": "color.background.primary",
+              "min": 4.5,
+              "label": "title on page"
+            }
+          ]
+        },
+        {
+          "name": "body",
+          "bindings": {
+            "type": "type.body.md.default",
+            "text": "color.text.primary"
+          },
+          "contracts": [
+            {
+              "fg": "color.text.primary",
+              "bg": "color.background.primary",
+              "min": 4.5,
+              "label": "body on page"
+            }
+          ]
+        },
+        {
+          "name": "secondary",
+          "bindings": {
+            "type": "type.body.md.default",
+            "text": "color.text.secondary"
+          },
+          "contracts": [
+            {
+              "fg": "color.text.secondary",
+              "bg": "color.background.primary",
+              "min": 4.5,
+              "label": "secondary on page"
+            }
+          ]
+        },
+        {
+          "name": "link",
+          "bindings": {
+            "type": "type.body.md.default",
+            "text": "color.text.link.default"
+          },
+          "contracts": [
+            {
+              "fg": "color.text.link.default",
+              "bg": "color.background.primary",
+              "min": 4.5,
+              "label": "link on page"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

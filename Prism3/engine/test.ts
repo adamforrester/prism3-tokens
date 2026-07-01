@@ -20,6 +20,7 @@ import { parseDesignMd, parseYamlSubset } from './design-md';
 import { parseStandardDesignMd, standardToBrandInput, applyXPrism3 } from './standard-design-md';
 import { classifyColors } from './classify-colors';
 import { leverManifest, leverGroups, buildLeverManifest, identityFields } from './levers';
+import { previewSpec, previewTokenRefs, buildPreviewSpec } from './preview';
 import { buildTree, validateBrandInput } from './emit-dtcg';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -472,7 +473,33 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
 
   const committed = readFileSync(resolve(HERE, '../schema/lever-manifest.json'), 'utf8');
   ok(committed === JSON.stringify(buildLeverManifest(), null, 2) + '\n',
-    'lever manifest: schema/lever-manifest.json is up to date (run `npx tsx engine/levers.ts`)');
+    'lever manifest: schema/lever-manifest.json is up to date (run `npx tsx engine/emit-levers.ts`)');
+}
+// (8) PREVIEW SPEC — the shared live-preview contract (docs/08 §7, B1a). Every bound
+// token path (bindings + contract endpoints) must resolve to a real leaf in the
+// emitted token tree (binding-validity), contract mins are sane, and the committed
+// JSON stays current. The semantic role layer is brand-agnostic, so harbor's tree
+// is representative.
+{
+  const tree = buildTree(brandTheme(parseDesignMd(readFileSync(resolve(HERE, '../examples/harbor.design.md'), 'utf8')).input)).tree;
+  const root = Object.keys(tree)[0];
+  const isLeaf = (path: string): boolean => {
+    let node: any = tree[root];
+    for (const seg of path.split('.')) { node = node?.[seg]; if (node == null) return false; }
+    return node.$value !== undefined;
+  };
+  const missing = previewTokenRefs().filter((p) => !isLeaf(p));
+  ok(missing.length === 0, 'preview spec: every bound token path resolves to a leaf in the token tree' + (missing.length ? ` — MISSING: ${missing.join(', ')}` : ''));
+
+  const badContracts: string[] = [];
+  for (const c of previewSpec.components) for (const v of c.variants) for (const ct of v.contracts ?? []) {
+    if (![3, 4.5].includes(ct.min) || ct.fg === ct.bg) badContracts.push(`${c.id}/${v.name}`);
+  }
+  ok(badContracts.length === 0, 'preview spec: every contract has a sane min (3|4.5) and distinct fg/bg' + (badContracts.length ? ` — BAD: ${badContracts.join(', ')}` : ''));
+
+  const committedPreview = readFileSync(resolve(HERE, '../schema/preview-spec.json'), 'utf8');
+  ok(committedPreview === JSON.stringify(buildPreviewSpec(), null, 2) + '\n',
+    'preview spec: schema/preview-spec.json is up to date (run `npx tsx engine/emit-preview.ts`)');
 }
 
 // ------------------------------------------------------------------- report
