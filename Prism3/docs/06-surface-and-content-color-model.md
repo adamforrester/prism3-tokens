@@ -204,6 +204,33 @@ Carbon, Apple HIG, Tailwind, Primer) + KB 31 §halation/§tint-not-black:
   becomes the reference once accepted.
 - **outputs** — regenerate `out/*` and the modes-report.
 
+## 7b. As-built: two-tier colour naming + mode encoding (locked)
+
+Settled during a style-guide review (do not re-litigate):
+
+**Two colour tiers, named for what they are.**
+- **`palette.*`** — the colour **primitives** (ramps, `white`/`black`, alpha). Private:
+  reach them through a role, never raw. (Was `color.*`.)
+- **`color.*`** — the **semantic role** layer consumers use (background / foreground /
+  text / icon / action / border …). (Was `semantic.*`.)
+
+The word *semantic* is a tier concept, not a name segment — it never appears in a
+token path (matches the KB's `surface/action/primary` convention, which leads with the
+category). The tier a designer reaches for gets the intuitive name (`color.*`); the
+reference tier gets `palette.*` (the Material/Tokens-Studio ref-vs-sys split).
+
+**Mode is a value dimension, not a name segment.** Each `color.*` role is **one
+mode-agnostic token**. The `light` value is canonical in `$value`; `dark`, `hc-light`,
+and `hc-dark` are value overrides in `$extensions.prism3.modes.<mode>` (each carrying
+its own `contrast`/`against`/`min` contract). This matches how `shadow` already encodes
+its dark variant, and maps 1:1 to a **single Figma colour variable** with Light/Dark/
+HC-Light/HC-Dark modes — the earlier `semantic.<mode>.…` name-nesting is gone. A
+`figma: { collection: 'color', modes: [...] }` directive on each role tells the exporter
+how to materialize it. Rejected the alternative (mode in the token name) because it
+breaks the "same name, different value per mode" expectation and fights the Figma
+round-trip. 4 flat modes for now; a 2×2 (theme × contrast) collection split is a noted
+future refinement.
+
 ## 8. Note back to the KB
 
 This **reaffirms** the KB's committed `background`/`foreground` antonym decision

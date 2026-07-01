@@ -78,13 +78,13 @@ for (const b of brands) {
   // ---- colour primitives ----
   txt.push('\n— COLOUR PRIMITIVES —');
   html.push('<h3>Colour primitives</h3>');
-  const palettes = Object.keys(data.color).filter((k) => k !== 'white' && k !== 'black');
+  const palettes = Object.keys(data.palette).filter((k) => k !== 'white' && k !== 'black');
   for (const pal of palettes) {
-    const steps = STEP_ORDER(Object.keys(data.color[pal]));
+    const steps = STEP_ORDER(Object.keys(data.palette[pal]));
     txt.push(`\n  ${pal}`);
     html.push(`<div class="palette"><div class="plabel">${pal}</div><div class="ramp">`);
     for (const k of steps) {
-      const node = data.color[pal][k];
+      const node = data.palette[pal][k];
       const hex = hexOf(tree, node);
       const anchor = node.$extensions?.prism3?.anchor;
       txt.push(`    ${(pal + '.' + k).padEnd(18)} ${hex}${anchor ? '   ← brand anchor' : ''}`);
@@ -93,31 +93,36 @@ for (const b of brands) {
     html.push('</div></div>');
   }
 
-  // ---- semantic colour per mode ----
-  txt.push('\n— SEMANTIC COLOUR (per mode) —');
-  html.push('<h3>Semantic roles <span class="muted">(resolved per mode)</span></h3>');
-  const modes = Object.keys(data.semantic);
+  // ---- semantic colour roles (one mode-agnostic token, resolved per mode) ----
+  // Each `color.*` role token carries the canonical `light` value in `$value` and
+  // the dark / hc-light / hc-dark values as overrides in `$extensions.prism3.modes`.
+  txt.push('\n— SEMANTIC COLOUR ROLES (per mode) —');
+  html.push('<h3>Semantic roles <span class="muted">(one token · resolved per mode)</span></h3>');
+  const MODES = ['light', 'dark', 'hc-light', 'hc-dark'];
   // Role keys are property-led and nest (group / variant / state); flatten to
   // dotted paths that point at leaves (`$value`-bearing nodes).
   const roleKeys: string[] = [];
   const flatten = (o: any, prefix: string) => {
     for (const k of Object.keys(o)) {
+      if (k.startsWith('$')) continue;
       const node = o[k]; const path = prefix ? `${prefix}.${k}` : k;
       if (node && typeof node === 'object' && '$value' in node) roleKeys.push(path);
       else if (node && typeof node === 'object') flatten(node, path);
     }
   };
-  flatten(data.semantic[modes[0]], '');
-  // text table
-  html.push('<table class="sem"><thead><tr><th>role</th>' + modes.map((m) => `<th>${m}</th>`).join('') + '</tr></thead><tbody>');
+  flatten(data.color, '');
+  html.push('<table class="sem"><thead><tr><th>role</th>' + MODES.map((m) => `<th>${m}</th>`).join('') + '</tr></thead><tbody>');
   for (const rk of roleKeys) {
+    const roleNode = rk.split('.').reduce((acc: any, s) => acc?.[s], data.color);
+    const overrides = roleNode.$extensions?.prism3?.modes ?? {};
     txt.push(`\n  ${rk}`);
     html.push(`<tr><td class="rk">${rk}</td>`);
-    for (const m of modes) {
-      const node = rk.split('.').reduce((acc: any, s) => acc?.[s], data.semantic[m]);
+    for (const m of MODES) {
+      const node = m === 'light' ? roleNode : overrides[m];       // light = canonical $value; others in $extensions.modes
+      if (!node) { html.push('<td class="cell"><small>—</small></td>'); continue; }
       const hex = hexOf(tree, node);
-      const tgt = aliasTarget(node).replace(`${root}.color.`, '');
-      const ratio = node.$extensions?.prism3?.contrast;
+      const tgt = aliasTarget(node).replace(`${root}.palette.`, '');
+      const ratio = m === 'light' ? roleNode.$extensions?.prism3?.contrast : node.contrast;
       txt.push(`    ${m.padEnd(9)} → ${tgt.padEnd(14)} ${hex}${ratio ? `  (${ratio}:1)` : ''}`);
       html.push(`<td class="cell" style="background:${hex};color:${textOn(hex)}"><span>${tgt}</span><small>${hex}${ratio ? ` · ${ratio}:1` : ''}</small></td>`);
     }
@@ -257,7 +262,7 @@ for (const b of brands) {
         ? `radial-gradient(${ext.shape} at ${Math.round(ext.center[0] * 100)}% ${Math.round(ext.center[1] * 100)}%, ${stopList})`
         : `linear-gradient(${ext.angle}deg, ${stopList})`;
       const aa = ext.a11y ?? {};
-      const stopAliases = (node.$value as any[]).map((s) => `${String(s.color).replace(/^\{|\}$/g, '').replace(`${root}.color.`, '')} ${Math.round(s.position * 100)}%`).join(' → ');
+      const stopAliases = (node.$value as any[]).map((s) => `${String(s.color).replace(/^\{|\}$/g, '').replace(`${root}.palette.`, '')} ${Math.round(s.position * 100)}%`).join(' → ');
       txt.push(`  gradient.${k.padEnd(8)} ${ext.kind}${ext.kind === 'linear' ? ` ${ext.angle}°` : ''} · ${stopAliases} · worst-on-white ${aa.worstOnWhite}:1`);
       html.push(`<div class="gradrow"><div class="gradmeta"><b>${k}</b><span>${ext.kind}${ext.kind === 'linear' ? ` · ${ext.angle}°` : ` · ${ext.shape}`} · ${ext.interpolation}</span><span class="tfam">${esc(stopAliases)}</span><span class="gradaa">text-on: white ${aa.worstOnWhite}:1 · black ${aa.worstOnBlack}:1${Math.min(aa.worstOnWhite, aa.worstOnBlack) < 4.5 ? ' · scrim for body text' : ''}</span></div>`);
       html.push(`<div class="gradpair"><div class="gradcell"><div class="gradbox" style="background:${css}"></div><small>OKLCH (web)</small></div><div class="gradcell"><div class="gradbox" style="background:${srgbCss}"></div><small>sRGB ${samp.length}-stop (Figma)</small></div></div>`);

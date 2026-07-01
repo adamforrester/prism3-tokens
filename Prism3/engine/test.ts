@@ -247,14 +247,14 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   // `true` → exactly one default brand gradient (primary.600→primary.350, linear).
   const def = grBrand('gr-true', true).gradient.gradients;
   ok(def.length === 1 && def[0].name === 'brand' && def[0].kind === 'linear', '`gradients: true` ships one default linear brand gradient');
-  ok(def[0].stops.length === 2 && def[0].stops[0].aliasOf === 'prism.color.primary.600' && def[0].stops[1].aliasOf === 'prism.color.primary.350', 'default gradient stops alias primary.600 → primary.350');
+  ok(def[0].stops.length === 2 && def[0].stops[0].aliasOf === 'prism.palette.primary.600' && def[0].stops[1].aliasOf === 'prism.palette.primary.350', 'default gradient stops alias primary.600 → primary.350');
   // explicit array: linear + radial, cross-palette, stop colours alias the ramp.
   const ex = grBrand('gr-ex', [
     { name: 'brand', kind: 'linear', angle: 135, stops: [{ palette: 'primary', step: 600, position: 0 }, { palette: 'accent', step: 500, position: 1 }] },
     { name: 'glow', kind: 'radial', center: [0.5, 0.4], shape: 'circle', stops: [{ palette: 'accent', step: 400, position: 0 }, { palette: 'accent', step: 700, position: 1 }] },
   ]).gradient.gradients;
   ok(ex.length === 2 && ex[0].kind === 'linear' && ex[1].kind === 'radial', 'explicit array → both linear + radial kinds');
-  ok(ex.every((g) => g.stops.every((s) => s.aliasOf.startsWith('prism.color.'))), 'every gradient stop aliases the colour ramp (never raw hex)');
+  ok(ex.every((g) => g.stops.every((s) => s.aliasOf.startsWith('prism.palette.'))), 'every gradient stop aliases the colour ramp (never raw hex)');
   // stops sorted ascending by position; positions in [0,1].
   ok(ex.every((g) => g.stops.every((s, i) => i === 0 || s.position >= g.stops[i - 1].position)), 'stops are ordered ascending by position');
   ok(ex.every((g) => g.stops.every((s) => s.position >= 0 && s.position <= 1)), 'stop positions are within [0,1]');

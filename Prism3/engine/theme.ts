@@ -4,14 +4,14 @@
  * Two entry points:
  *  - nbTheme()      — the New Balance regression theme: reads measured anchors
  *                     from the schema, names palettes by hue (red/green/amber),
- *                     emits in NB's dialect (nbds.color / rgb). Used to prove the
+ *                     emits in NB's dialect (nbds.* / rgb; primitives under palette). Used to prove the
  *                     engine reproduces a real brand.
  *  - brandTheme()   — the white-label path: a brand supplies primary + neutral
  *                     (+ optional status overrides) and the engine SYNTHESISES
  *                     status palettes from canonical hues, carving a separate
  *                     danger red when the primary isn't already red. Names
- *                     palettes by role and emits the product dialect (prism.color
- *                     / hex). This is what makes the system white-label.
+ *                     palettes by role and emits the product dialect (prism.*
+ *                     / hex; primitives under palette). This is what makes the system white-label.
  */
 import { generateRamp, peakChromaL, autoPlaceStep, Step } from './ramp';
 import { dimensionGrid, spaceScale, radiusScale, componentSizes, SpaceStep, RadiusStep, SizeStep, Density } from './scale';
@@ -55,7 +55,7 @@ export type Dims = {
 export type Theme = {
   id: string;
   root: string;                      // 'nbds' | 'prism' (brand root namespace)
-  namespace: string;                 // '<root>.color'
+  namespace: string;                 // '<root>.palette' — the colour PRIMITIVE root (ramps live here; the semantic role layer is emitted under '<root>.color')
   colorFormat: 'rgb' | 'hex';
   palettes: PaletteBuild[];
   roleToPalette: Record<Role, string>;
@@ -692,7 +692,7 @@ const buildGradient = (spec: BrandInput['gradients'], palettes: PaletteBuild[], 
       .slice().sort((a, b) => a.position - b.position)
       .map((st) => {
         const s = stepOf(st.palette, st.step);
-        return { aliasOf: `${root}.color.${st.palette}.${s.key}`, position: st.position, rgb: s.rgb, hex: s.hex, oklch: s.oklch };
+        return { aliasOf: `${root}.palette.${st.palette}.${s.key}`, position: st.position, rgb: s.rgb, hex: s.hex, oklch: s.oklch };
       });
     // Pre-sample the curve at N evenly-spaced positions (the chosen interpolation
     // space), output sRGB — the baked stops Figma needs (it can't interpolate OKLCH).
@@ -815,7 +815,7 @@ export const brandTheme = (input: BrandInput): Theme => {
   }
 
   return {
-    id: input.id, root: 'prism', namespace: 'prism.color', colorFormat: 'hex', palettes, roleToPalette, notes,
+    id: input.id, root: 'prism', namespace: 'prism.palette', colorFormat: 'hex', palettes, roleToPalette, notes,
     roleAnchorStep: { brand: anchorStep, neutral: 500, success: 500, warning: 500, danger: 500, info: 500, action: actionPalette === 'primary' ? anchorStep : 500 },
     surfaces: input.surfaces,
     disabledStrategy: input.disabledStrategy ?? 'accessible',
@@ -867,7 +867,7 @@ export const nbThemeFrom = (s: NbMeasured): Theme => {
   // a 720px layout outlier.
   const dims = buildDims(baseUnit, 8, 'comfortable', 1, baseMd, [720]);
   return {
-    id: 'nb', root: 'nbds', namespace: 'nbds.color', colorFormat: 'rgb', palettes,
+    id: 'nb', root: 'nbds', namespace: 'nbds.palette', colorFormat: 'rgb', palettes,
     roleToPalette: { brand: 'red', neutral: 'neutral', success: 'green', warning: 'amber', danger: 'red', info: 'info', action: 'red' },
     roleAnchorStep: { brand: 550, neutral: 500, success: 500, warning: 500, danger: 550, info: 500, action: 550 },
     disabledStrategy: 'accessible', disabledMin: 3, iconContrast: 'text',

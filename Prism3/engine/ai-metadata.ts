@@ -123,7 +123,7 @@ const BAND_INTENT: Record<string, string> = {
   Shadows: 'Highest-contrast text and strong foreground',
 };
 const colorIntent = (seg: string[], node: any): string | undefined => {
-  if (seg[0] !== 'color') return undefined;                       // scale-role intent is colour-specific
+  if (seg[0] !== 'palette') return undefined;                     // scale-role intent is colour-primitive-specific
   if (seg[1] === 'white') return 'Pure highlight base — default light surface / on-colour text';
   if (seg[1] === 'black') return 'Shadow base — scrim & shadow source / on-colour text';
   if (seg[1] === 'black-alpha' || seg[1] === 'white-alpha') return 'Overlay / scrim / shadow compositing (alpha — composites over any surface)';
@@ -138,7 +138,7 @@ const colorIntent = (seg: string[], node: any): string | undefined => {
 // `consume` differs by family: colour/dimension are PRIVATE (reach them through a
 // semantic alias); opacity/motion are consumable directly (their semantic layer is thin).
 const CONSUME: Record<string, string> = {
-  color: 'Private primitive — reference a semantic token that aliases this, not the raw step.',
+  palette: 'Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.',
   dimension: 'Private primitive — reference via space / radius / size / border-width / focus.',
   opacity: 'Consumable — reference directly for custom alpha (or use the scrim / disabled tokens).',
   motion: 'Consumable — motion durations/easings/springs are used directly; transitions compose them.',
@@ -146,7 +146,7 @@ const CONSUME: Record<string, string> = {
   shadow: 'Consumable — apply the elevation step directly (mode-aware: light shadow / reduced in dark, surface lift carries dark elevation).',
 };
 const primMeaning = (seg: string[]): string => {
-  if (seg[0] === 'color') {
+  if (seg[0] === 'palette') {
     if (seg[1] === 'white' || seg[1] === undefined) return 'Pure white primitive';
     if (seg.length === 2) return `Pure ${seg[1]} primitive`;
     if (seg[1] === 'black-alpha' || seg[1] === 'white-alpha') return `${seg[1].startsWith('black') ? 'Black' : 'White'} at ${seg[2]}% alpha (composites over any surface)`;
@@ -183,7 +183,7 @@ export const buildAiMetadata = (theme: Theme, tree: any) => {
   const byRole: Record<string, Record<string, any>> = {};
   for (const m of modes) for (const [k, r] of Object.entries(m.roles)) (byRole[k] ??= {})[m.mode] = r;
 
-  const semantic: Record<string, AiToken> = {};
+  const colorRoles: Record<string, AiToken> = {};
   for (const [roleKey, perMode] of Object.entries(byRole)) {
     const [group, variant, state] = roleKey.split('.');
     const light = perMode.light;
@@ -199,7 +199,7 @@ export const buildAiMetadata = (theme: Theme, tree: any) => {
     };
     if (d.paired_with) ai.paired_with = d.paired_with;
     if (light.min > 0) ai.contrast_with = [{ token: light.against, min: `${light.min}:1`, ratio: light.ratio }];
-    semantic[roleKey] = ai;
+    colorRoles[roleKey] = ai;
   }
 
   // ---- primitive tier (simplified) + the reverse alias index (aliased_by) ----
@@ -318,15 +318,15 @@ export const buildAiMetadata = (theme: Theme, tree: any) => {
     $schema: 'prism3-ai-metadata/0.1',
     brand: theme.id,
     generated: true,
-    note: 'Agent-readable metadata, companion to ' + `${theme.id}.tokens.json` + '. The semantic (colour) tier and the ' +
+    note: 'Agent-readable metadata, companion to ' + `${theme.id}.tokens.json` + '. The colour (semantic role) tier and the ' +
       'typography tier (type composites + weight roles) carry the rich schema; the primitive tier a simplified set + ' +
       'colour-scale `intent` and `aliased_by` (the reverse index — which tokens resolve to it, TRANSITIVELY, so the ' +
       'two-hop weight chain composite→role→numeric is visible). `aliased_by` is recomputed from the token tree on every ' +
       'build (authoritative at build time, never hand-maintained — it cannot drift). All fields generated and contract-true.',
-    semantic_fields: ['$description', 'meaning', 'when_to_use', 'avoid_when', 'paired_with', 'contrast_with', 'mode_overrides'],
+    color_fields: ['$description', 'meaning', 'when_to_use', 'avoid_when', 'paired_with', 'contrast_with', 'mode_overrides'],
     typography_fields: ['$description', 'meaning', 'when_to_use', 'avoid_when', 'resolves_to', 'used_by'],
     primitive_fields: ['$description', 'meaning', 'intent', 'tier', 'consume', 'aliased_by'],
-    semantic,
+    color: colorRoles,
     typography,
     ...(Object.keys(gradient).length ? { gradient_fields: ['$description', 'meaning', 'when_to_use', 'avoid_when', 'resolves_to', 'a11y'], gradient } : {}),
     primitives,
