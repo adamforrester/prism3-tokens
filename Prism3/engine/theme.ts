@@ -13,19 +13,23 @@
  *                     palettes by role and emits the product dialect (prism.color
  *                     / hex). This is what makes the system white-label.
  */
-import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
-import { dirname, resolve } from 'node:path';
 import { generateRamp, peakChromaL, autoPlaceStep, Step } from './ramp';
 import { dimensionGrid, spaceScale, radiusScale, componentSizes, SpaceStep, RadiusStep, SizeStep, Density } from './scale';
 import { oklchToRgb, RGB, contrast, hex as rgbHex } from './color';
 
-const here = dirname(fileURLToPath(import.meta.url));
 // The NB *measurement* fixture (reverse-engineered NB anchors) — the regression
-// input for nbTheme(). This is a DIFFERENT shape from the white-label BrandInput
+// input for nbThemeFrom(). A DIFFERENT shape from the white-label BrandInput
 // contract (schema/theme-schema.json + .example.json); it carries measured OKLCH
-// + $source provenance and is consumed only here, never by brandTheme().
-export const NB_MEASURED = resolve(here, '../schema/nb-measured.json');
+// + $source provenance and is consumed only by the NB regression, never by
+// brandTheme(). The engine core stays pure: it takes the *parsed* fixture as an
+// argument. File I/O (reading nb-measured.json) lives in the shell — nb-fixture.ts.
+export type NbMeasured = {
+  primaryColor: { oklch: OKLCH };
+  statusColors: { success: { oklch: OKLCH }; warning: { oklch: OKLCH } };
+  neutralHue: { hue: number; chroma: number };
+  density?: { baseUnit?: number };
+  radius?: { baseMd?: number };
+};
 
 // Semantic colour roles. `action` is FIRST-CLASS and distinct from `brand`:
 // the brand's hero colour is not always the right interactive colour (poor
@@ -836,9 +840,8 @@ export type RampSpec = {
   anchor?: { oklch: OKLCH; stepNum: number };
 };
 
-/** NB regression specs (kept stable so the regression stays comparable). */
-export const loadSpecs = (): RampSpec[] => {
-  const s = JSON.parse(readFileSync(NB_MEASURED, 'utf8'));
+/** NB regression specs from parsed measured data (kept stable so the regression stays comparable). */
+export const nbSpecsFrom = (s: NbMeasured): RampSpec[] => {
   return [
     { name: 'brand (red)', palette: 'red', role: 'brand', hue: s.primaryColor.oklch.h, chroma: s.primaryColor.oklch.c, anchor: { oklch: oklchOf(s.primaryColor.oklch), stepNum: 550 } },
     { name: 'success (green)', palette: 'green', role: 'success', hue: s.statusColors.success.oklch.h, chroma: s.statusColors.success.oklch.c, anchor: { oklch: oklchOf(s.statusColors.success.oklch), stepNum: 500 } },
@@ -850,14 +853,13 @@ export const loadSpecs = (): RampSpec[] => {
 export const buildRamp = (spec: RampSpec): Step[] =>
   generateRamp({ hue: spec.hue, chroma: spec.chroma, anchor: spec.anchor });
 
-export const nbTheme = (): Theme => {
-  const specs = loadSpecs();
-  const palettes: PaletteBuild[] = specs.map((s) => ({
-    palette: s.palette, role: s.role, description: s.name, steps: buildRamp(s),
+export const nbThemeFrom = (s: NbMeasured): Theme => {
+  const specs = nbSpecsFrom(s);
+  const palettes: PaletteBuild[] = specs.map((spec) => ({
+    palette: spec.palette, role: spec.role, description: spec.name, steps: buildRamp(spec),
   }));
   // NB ships no blue; synthesise an info palette so the semantic layer is complete.
   palettes.push({ palette: 'info', role: 'info', description: 'info status (engine-synthesised — NB has no blue)', steps: statusRamp(STATUS_DEFAULTS.info.h, STATUS_DEFAULTS.info.chroma) });
-  const s = JSON.parse(readFileSync(NB_MEASURED, 'utf8'));
   const baseUnit = s.density?.baseUnit ?? 4;
   const baseMd = s.radius?.baseMd ?? 4;
   // Engine taxonomy (not NB's): 8px space rhythm reproducing Prism2's numbered

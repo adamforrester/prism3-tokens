@@ -20,7 +20,8 @@ import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 import { RGB, contrast, hex } from './color';
 import { Step } from './ramp';
-import { Theme, nbTheme, brandTheme, BrandInput, ShadowStep, ShadowLayer, ResolvedGradient } from './theme';
+import { Theme, brandTheme, BrandInput, ShadowStep, ShadowLayer, ResolvedGradient } from './theme';
+import { nbTheme } from './nb-fixture';
 import { resolveAllModes, ModeResult } from './modes';
 import { buildAiMetadata } from './ai-metadata';
 

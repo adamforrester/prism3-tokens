@@ -15,7 +15,8 @@ import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 import { RGB, contrast, deltaE2000 } from './color';
 import { stepKey, autoPlaceStep, Step } from './ramp';
-import { loadSpecs, buildRamp, nbTheme } from './theme';
+import { buildRamp } from './theme';
+import { loadSpecs, nbTheme } from './nb-fixture';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const repo = resolve(here, '../..');
