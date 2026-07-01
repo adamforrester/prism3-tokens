@@ -19,6 +19,7 @@ import { resolveAllModes } from './modes';
 import { parseDesignMd, parseYamlSubset } from './design-md';
 import { parseStandardDesignMd, standardToBrandInput, applyXPrism3 } from './standard-design-md';
 import { classifyColors } from './classify-colors';
+import { leverManifest, leverGroups, buildLeverManifest, identityFields } from './levers';
 import { buildTree, validateBrandInput } from './emit-dtcg';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -427,6 +428,51 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
     'applyXPrism3: levers map onto BrandInput (brand-skills → engine round-trip)');
   const nativeStd = parseStandardDesignMd(readFileSync(resolve(HERE, '../examples/harbor.design.md'), 'utf8'));
   ok(Object.keys(nativeStd.colors).length === 0, 'dialect detection: an engine-native brief has no top-level colors map (routes native)');
+}
+// (7) LEVER MANIFEST — the shared-control contract (docs/08 §4). The presentation
+// half must NOT drift from theme-schema.json (the validation half): every key
+// resolves, every enum's options match the schema enum (as a set), every default
+// matches the schema default, and the committed JSON is up to date.
+{
+  const schema = JSON.parse(readFileSync(resolve(HERE, '../schema/theme-schema.json'), 'utf8'));
+  const resolveNode = (key: string): any => {
+    let node: any = schema;
+    for (const p of key.split('.')) { const props = node?.properties; if (!props || !props[p]) return undefined; node = props[p]; }
+    return node;
+  };
+  const setEq = (a: unknown[], b: unknown[]) => JSON.stringify([...a].map(String).sort()) === JSON.stringify([...b].map(String).sort());
+  const groups = new Set(leverGroups.map((g) => g.group));
+  const controls = new Set(['color', 'slider', 'enum', 'toggle', 'list', 'palette-ref', 'object', 'text']);
+
+  const unresolved = leverManifest.filter((l) => !resolveNode(l.key)).map((l) => l.key);
+  ok(unresolved.length === 0, 'lever manifest: every key resolves in theme-schema.json' + (unresolved.length ? ` — MISSING: ${unresolved.join(', ')}` : ''));
+
+  const badGC = leverManifest.filter((l) => !groups.has(l.group) || !controls.has(l.control)).map((l) => l.key);
+  ok(badGC.length === 0, 'lever manifest: every group + control is from the allowed set' + (badGC.length ? ` — BAD: ${badGC.join(', ')}` : ''));
+
+  const enumDrift = leverManifest.filter((l) => l.control === 'enum').filter((l) => {
+    const e = resolveNode(l.key)?.enum;
+    return !e || !setEq(e, (l.options ?? []).map((o) => o.value));
+  }).map((l) => l.key);
+  ok(enumDrift.length === 0, 'lever manifest: every enum lever’s options match the schema enum (as a set)' + (enumDrift.length ? ` — DRIFT: ${enumDrift.join(', ')}` : ''));
+
+  const defDrift = leverManifest.filter((l) => {
+    const n = resolveNode(l.key);
+    return n && n.default !== undefined && l.default !== undefined && JSON.stringify(n.default) !== JSON.stringify(l.default);
+  }).map((l) => l.key);
+  ok(defDrift.length === 0, 'lever manifest: every lever default matches the schema default' + (defDrift.length ? ` — DRIFT: ${defDrift.join(', ')}` : ''));
+
+  // Every schema-root-required field (minus host-supplied identity, e.g. `id`) must be
+  // covered by a required lever — as an exact key, or (for object fields like `neutral`)
+  // by a required lever nested under it. Catches a NEW required field or a dropped one.
+  const req = new Set(leverManifest.filter((l) => l.required).map((l) => l.key));
+  const schemaRequired: string[] = (schema.required ?? []).filter((k: string) => !(identityFields as readonly string[]).includes(k));
+  const uncovered = schemaRequired.filter((k) => !req.has(k) && ![...req].some((rk) => rk.startsWith(k + '.')));
+  ok(uncovered.length === 0, 'lever manifest: every required BrandInput field (minus identity) is a required lever' + (uncovered.length ? ` — UNCOVERED: ${uncovered.join(', ')}` : ''));
+
+  const committed = readFileSync(resolve(HERE, '../schema/lever-manifest.json'), 'utf8');
+  ok(committed === JSON.stringify(buildLeverManifest(), null, 2) + '\n',
+    'lever manifest: schema/lever-manifest.json is up to date (run `npx tsx engine/levers.ts`)');
 }
 
 // ------------------------------------------------------------------- report

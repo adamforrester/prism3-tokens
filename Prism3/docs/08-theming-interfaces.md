@@ -126,9 +126,10 @@ underneath both.
 Ordered so each step unblocks the next and the shared-control decision (§3/§4) is
 honoured from the start rather than retrofitted:
 
-1. **Lever manifest** in the core (§4). The shared-control contract; serves the
-   plugin, the playground, and the MCP tool schema at once. Pure, testable,
-   dependency-free — buildable in this repo now. **← the next increment.**
+1. **Lever manifest** in the core (§4). **✅ BUILT (2026-07-01)** — `engine/levers.ts` →
+   `schema/lever-manifest.json` (35 levers, 7 groups, 20 `advanced`). A `test.ts` drift
+   gate asserts it stays in sync with `theme-schema.json` (keys resolve, enums + defaults
+   match, committed JSON current). Serves the plugin, playground, and MCP tool schema.
 2. **Live-preview model** — the token→sample-component rendering (`04`'s canvas),
    shared by the plugin and the playground. The interactive successor to
    `engine/visualize.ts`, with the contrast-contract overlay as the differentiator.

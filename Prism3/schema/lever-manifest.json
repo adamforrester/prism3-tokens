@@ -1,0 +1,441 @@
+{
+  "$schema": "https://prism3.dev/schema/lever-manifest.json",
+  "description": "Presentation contract for the BrandInput controls (labels/groups/UI ranges/knob types). Rendered by the Figma plugin, the web playground, and the MCP tool schema. Kept in sync with theme-schema.json by engine/test.ts. Emitted by engine/emit-levers.ts. Note: brand `id` is host-supplied identity, not a lever.",
+  "groups": [
+    {
+      "group": "color",
+      "label": "Colour"
+    },
+    {
+      "group": "form",
+      "label": "Form factor"
+    },
+    {
+      "group": "type",
+      "label": "Typography"
+    },
+    {
+      "group": "motion",
+      "label": "Motion"
+    },
+    {
+      "group": "elevation",
+      "label": "Elevation"
+    },
+    {
+      "group": "layout",
+      "label": "Layout"
+    },
+    {
+      "group": "advanced",
+      "label": "Advanced"
+    }
+  ],
+  "levers": [
+    {
+      "key": "primary",
+      "group": "color",
+      "label": "Primary brand colour",
+      "control": "color",
+      "required": true,
+      "description": "The exact brand anchor. Pinned, never shifted; the engine places it on the ramp by its lightness."
+    },
+    {
+      "key": "neutral.hue",
+      "group": "color",
+      "label": "Neutral hue",
+      "control": "slider",
+      "required": true,
+      "min": 0,
+      "max": 360,
+      "step": 1,
+      "unit": "°",
+      "description": "Hue the greys lean toward (a small chroma tints them to the brand for cohesion)."
+    },
+    {
+      "key": "neutral.chroma",
+      "group": "color",
+      "label": "Neutral chroma",
+      "control": "slider",
+      "required": true,
+      "min": 0,
+      "max": 0.03,
+      "step": 0.001,
+      "description": "Peak neutral chroma (~0.004–0.02); tapers to near-0 at the ramp ends. 0 = pure grey."
+    },
+    {
+      "key": "brandColors",
+      "group": "color",
+      "label": "Additional brand colours",
+      "control": "list",
+      "itemLabel": "brand colour (name + OKLCH)",
+      "description": "Secondary / tertiary / accents — any number; each becomes its own ramp and can drive actions."
+    },
+    {
+      "key": "actionPalette",
+      "group": "color",
+      "label": "Action palette",
+      "control": "palette-ref",
+      "default": "primary",
+      "description": "Which palette drives interactive/action colour. Defaults to primary; point at an accent when the hero colour is a poor CTA."
+    },
+    {
+      "key": "status.success",
+      "group": "color",
+      "label": "Success colour",
+      "control": "color",
+      "advanced": true,
+      "description": "Optional measured override; omit to let the engine synthesise from a canonical hue."
+    },
+    {
+      "key": "status.warning",
+      "group": "color",
+      "label": "Warning colour",
+      "control": "color",
+      "advanced": true,
+      "description": "Optional measured override; omit to synthesise."
+    },
+    {
+      "key": "status.danger",
+      "group": "color",
+      "label": "Danger colour",
+      "control": "color",
+      "advanced": true,
+      "description": "Optional measured override; omit to reuse the brand red (if red) or carve a dedicated one."
+    },
+    {
+      "key": "surfaces",
+      "group": "color",
+      "label": "Page surfaces",
+      "control": "object",
+      "advanced": true,
+      "description": "Non-default page surface per mode (e.g. a warm off-white). The contrast floor moves with it."
+    },
+    {
+      "key": "radiusScale",
+      "group": "form",
+      "label": "Corner softness",
+      "control": "slider",
+      "default": 1,
+      "min": 0,
+      "max": 2,
+      "step": 0.5,
+      "description": "0 = sharp, 1 = default, 2 = soft. Scales the radius ramp."
+    },
+    {
+      "key": "density",
+      "group": "form",
+      "label": "Density",
+      "control": "enum",
+      "default": "comfortable",
+      "options": [
+        {
+          "value": "comfortable",
+          "label": "Comfortable"
+        },
+        {
+          "value": "compact",
+          "label": "Compact"
+        },
+        {
+          "value": "spacious",
+          "label": "Spacious"
+        }
+      ],
+      "description": "Drives component sizes (control height + paired padding). The name stays stable; the metrics shift."
+    },
+    {
+      "key": "baseMd",
+      "group": "form",
+      "label": "Radius anchor",
+      "control": "slider",
+      "advanced": true,
+      "default": 4,
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "unit": "px",
+      "description": "The radius.md value (px) at scale 1."
+    },
+    {
+      "key": "spaceBase",
+      "group": "form",
+      "label": "Spacing rhythm",
+      "control": "slider",
+      "advanced": true,
+      "default": 8,
+      "min": 4,
+      "max": 12,
+      "step": 1,
+      "unit": "px",
+      "description": "Base of the numbered-multiplier space scale (space.100 = 1×)."
+    },
+    {
+      "key": "baseUnit",
+      "group": "form",
+      "label": "Fine grid base",
+      "control": "slider",
+      "advanced": true,
+      "default": 4,
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "unit": "px",
+      "description": "Fine dimension-grid base backing radius/borders."
+    },
+    {
+      "key": "typography.typeScale",
+      "group": "type",
+      "label": "Type scale",
+      "control": "enum",
+      "default": "default",
+      "options": [
+        {
+          "value": "compact",
+          "label": "Compact"
+        },
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "expressive",
+          "label": "Expressive"
+        }
+      ],
+      "description": "Shifts heading sizes (display + title) up/down the ladder; body/label/caption stay put."
+    },
+    {
+      "key": "typography.families",
+      "group": "type",
+      "label": "Font families",
+      "control": "object",
+      "description": "Display / text / mono faces (+ a variable-font flag). A single name auto-pads a system fallback stack."
+    },
+    {
+      "key": "typography.weightRoles",
+      "group": "type",
+      "label": "Weight roles → numeric",
+      "control": "object",
+      "advanced": true,
+      "description": "Map subtle/default/emphasis/strong to the brand’s numeric weights (defaults 300/400/600/700)."
+    },
+    {
+      "key": "typography.displayCeiling",
+      "group": "type",
+      "label": "Display size ceiling",
+      "control": "slider",
+      "advanced": true,
+      "default": 160,
+      "min": 48,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "description": "Cap the display tier; brands with no mega heroes stop lower (e.g. 96)."
+    },
+    {
+      "key": "typography.titleFloor",
+      "group": "type",
+      "label": "Title floor",
+      "control": "enum",
+      "advanced": true,
+      "default": 18,
+      "options": [
+        {
+          "value": 18,
+          "label": "18px (title.xs)"
+        },
+        {
+          "value": 16,
+          "label": "16px (adds title.2xs)"
+        }
+      ],
+      "description": "Smallest title size. 16 adds a 16px brand-font heading that overlaps body.md."
+    },
+    {
+      "key": "typography.responsive",
+      "group": "type",
+      "label": "Responsive type",
+      "control": "object",
+      "advanced": true,
+      "description": "Fluid heading sizing on/off + the min/max viewport pair driving clamp() and the Figma modes."
+    },
+    {
+      "key": "typography.weights",
+      "group": "type",
+      "label": "Per-role weight sets",
+      "control": "object",
+      "advanced": true,
+      "description": "Which weights each type role ships (weight is an axis on every role; adding one is additive)."
+    },
+    {
+      "key": "typography.familyMap",
+      "group": "type",
+      "label": "Role → family map",
+      "control": "object",
+      "advanced": true,
+      "description": "Which family role each semantic group consumes (e.g. neutral buttons: label → text)."
+    },
+    {
+      "key": "typography.links",
+      "group": "type",
+      "label": "Underlined link roles",
+      "control": "list",
+      "advanced": true,
+      "itemLabel": "type role",
+      "description": "Which roles get an underlined .*-link variant. Default body + caption."
+    },
+    {
+      "key": "motionPersonality.tempo",
+      "group": "motion",
+      "label": "Motion tempo",
+      "control": "enum",
+      "default": "standard",
+      "options": [
+        {
+          "value": "snappy",
+          "label": "Snappy"
+        },
+        {
+          "value": "standard",
+          "label": "Standard"
+        },
+        {
+          "value": "relaxed",
+          "label": "Relaxed"
+        }
+      ],
+      "description": "Scales the duration ramp (snappy ×0.8, standard ×1.0, relaxed ×1.3). Reduce-motion is derived."
+    },
+    {
+      "key": "motionPersonality.easingEmphasized",
+      "group": "motion",
+      "label": "Emphasized easing",
+      "control": "list",
+      "advanced": true,
+      "itemLabel": "cubic-bezier value",
+      "description": "Optional 4-number cubic-bezier override for the expressive easing curve."
+    },
+    {
+      "key": "shadow.softness",
+      "group": "elevation",
+      "label": "Shadow softness",
+      "control": "slider",
+      "default": 1,
+      "min": 0,
+      "max": 2,
+      "step": 0.1,
+      "description": "Blur:offset dial. Low → crisp/product; high → soft/marketing."
+    },
+    {
+      "key": "shadow.tint",
+      "group": "elevation",
+      "label": "Shadow tint",
+      "control": "object",
+      "advanced": true,
+      "description": "Hue-shift the shadow base off pure black (hue + amount). Defaults to a subtle neutral tint."
+    },
+    {
+      "key": "layout.breakpoints",
+      "group": "layout",
+      "label": "Breakpoints",
+      "control": "list",
+      "advanced": true,
+      "itemLabel": "min-width (px)",
+      "description": "Min-width floors (px), ascending. Names auto sm/md/lg/xl/2xl. Default [0,768,1024,1440,1920]."
+    },
+    {
+      "key": "layout.columns",
+      "group": "layout",
+      "label": "Grid columns",
+      "control": "slider",
+      "advanced": true,
+      "default": 12,
+      "min": 4,
+      "max": 24,
+      "step": 1,
+      "description": "Base column count for the design grid (16/24 for dense-data brands)."
+    },
+    {
+      "key": "layout.containerMax",
+      "group": "layout",
+      "label": "Container max",
+      "control": "slider",
+      "advanced": true,
+      "default": 1440,
+      "min": 960,
+      "max": 1920,
+      "step": 40,
+      "unit": "px",
+      "description": "Content max-width cap; layout is fluid below it."
+    },
+    {
+      "key": "layout.containerNarrow",
+      "group": "layout",
+      "label": "Narrow container",
+      "control": "slider",
+      "advanced": true,
+      "default": 720,
+      "min": 480,
+      "max": 960,
+      "step": 20,
+      "unit": "px",
+      "description": "Reading-measure container (~65–75ch)."
+    },
+    {
+      "key": "iconContrast",
+      "group": "advanced",
+      "label": "Icon contrast floor",
+      "control": "enum",
+      "default": "text",
+      "options": [
+        {
+          "value": "text",
+          "label": "Match text (4.5:1)"
+        },
+        {
+          "value": "3:1",
+          "label": "Non-text floor (3:1)"
+        }
+      ],
+      "description": "Whether icons mirror text contrast or run against the WCAG 1.4.11 non-text floor."
+    },
+    {
+      "key": "disabledStrategy",
+      "group": "advanced",
+      "label": "Disabled strategy",
+      "control": "enum",
+      "default": "accessible",
+      "options": [
+        {
+          "value": "accessible",
+          "label": "Accessible (contrast-preserving)"
+        },
+        {
+          "value": "conventional",
+          "label": "Conventional (sub-AA, exempt)"
+        }
+      ],
+      "description": "Accessible keeps disabled text legible on the floor; conventional uses the field-standard dimmed look."
+    },
+    {
+      "key": "disabledMin",
+      "group": "advanced",
+      "label": "Disabled contrast floor",
+      "control": "slider",
+      "default": 3,
+      "min": 2,
+      "max": 4.5,
+      "step": 0.5,
+      "description": "Contrast floor for the accessible disabled strategy (escalates to 4.5:1 in high-contrast)."
+    },
+    {
+      "key": "gradients",
+      "group": "advanced",
+      "label": "Gradients",
+      "control": "toggle",
+      "default": false,
+      "description": "Opt-in (off by default). On ships one default brand gradient; an explicit array ships specific ones."
+    }
+  ]
+}
