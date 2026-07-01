@@ -12127,6 +12127,19 @@
           }
         }
       },
+      "150": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.12}",
+        "$description": "space.150 — 12px (1.5× 8px base)",
+        "$extensions": {
+          "prism3": {
+            "role": "semantic",
+            "aliasOf": "nbds.dimension.12",
+            "px": 12,
+            "mult": 1.5
+          }
+        }
+      },
       "200": {
         "$type": "dimension",
         "$value": "{nbds.dimension.16}",
@@ -12137,6 +12150,19 @@
             "aliasOf": "nbds.dimension.16",
             "px": 16,
             "mult": 2
+          }
+        }
+      },
+      "250": {
+        "$type": "dimension",
+        "$value": "{nbds.dimension.20}",
+        "$description": "space.250 — 20px (2.5× 8px base)",
+        "$extensions": {
+          "prism3": {
+            "role": "semantic",
+            "aliasOf": "nbds.dimension.20",
+            "px": 20,
+            "mult": 2.5
           }
         }
       },

@@ -171,7 +171,7 @@ Two bases by design: a **4px fine grid** backs radius/borders; an **8px rhythm**
 backs spacing (Prism2's split). NB is a *fidelity test*, not the taxonomy
 authority — so `space` validates against **Prism2** (the numbered scale we
 adopted) and `radius` against **NB** (t-shirt in both). Integer px → exact
-equality, not ΔE: **21/21** (16 space + 5 radius) from `spaceBase=8` /
+equality, not ΔE: **23/23** (18 space + 5 radius) from `spaceBase=8` /
 `radius.scale=1`. Aurora runs a different form factor (compact / soft) through
 the identical code path.
 
@@ -289,7 +289,7 @@ gradient round-trip research.
 gamut-aware chroma; **contrast-role-targeted placement** (Mid-Tone 500 pinned to
 the dual-side AA luminance pivot so all band contracts pass); band classification;
 WCAG contract checks; **the dimension axis** (grid + numbered space + radius +
-density-driven component sizes, 21/21 exact vs Prism2 space + NB radius); **the
+density-driven component sizes, 23/23 exact vs Prism2 space + NB radius); **the
 motion axis** (tempo-generated durations + easing/spring/composite-transition +
 derived reduce-motion); **the typography axis** (curated rem ladder + weight-role
 tier + role composites + size-dependent fluid); **shadow & two-axis elevation**
@@ -298,7 +298,7 @@ breakpoints + grid-as-artifact + spacing-aliased gutter/margin + fluid container
 **opt-in OKLCH gradients** (DTCG composite + ramp-aliased stops + sRGB pre-sample
 for Figma + worst-case-stop contrast); border-width, focus, opacity/alpha + scrim
 primitives; two-brand emit in two dialects; a live HTML style guide
-(`visualize.ts`). nb 625/625 + aurora 626/626 aliases resolve, 248/248 mode
+(`visualize.ts`). nb 627/627 + aurora 628/628 aliases resolve, 248/248 mode
 contracts hold, 172/172 unit tests pass, both brands schema-conform.
 
 **Deliberately not reproduced:**

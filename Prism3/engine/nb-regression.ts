@@ -144,7 +144,13 @@ p('|---|---|---|---|---|---|');
 let dimChecks = 0, dimPass = 0;
 for (const s of dims.space) {
   const av = p2Space[s.key] ? aliasPx(p2Space[s.key].$value) : null;
-  if (av == null) continue;
+  if (av == null) {
+    // Defensive: a step the engine emits that Prism2 has no equivalent for would be
+    // an intentional extension — shown for transparency, not counted against the
+    // exact-match denominator. (Currently none: the engine reproduces all 18 keys.)
+    p(`| space.${s.key} | space | — | ${s.px} | (engine addition) | ⊕ |`);
+    continue;
+  }
   dimChecks++; const okMatch = av === s.px; if (okMatch) dimPass++;
   p(`| space.${s.key} | space | Prism2 | ${s.px} | ${av} | ${okMatch ? '✅' : '❌'} |`);
 }
