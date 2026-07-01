@@ -5084,7 +5084,8 @@
       "tier": "primitive",
       "consume": "Private primitive — reference via space / radius / size / border-width / focus.",
       "aliased_by": [
-        "radius.lg"
+        "radius.lg",
+        "space.150"
       ]
     },
     "dimension.16": {
@@ -5105,7 +5106,10 @@
       "$description": "20px — dimension primitive",
       "meaning": "20px grid primitive",
       "tier": "primitive",
-      "consume": "Private primitive — reference via space / radius / size / border-width / focus."
+      "consume": "Private primitive — reference via space / radius / size / border-width / focus.",
+      "aliased_by": [
+        "space.250"
+      ]
     },
     "dimension.24": {
       "$description": "24px — dimension primitive",

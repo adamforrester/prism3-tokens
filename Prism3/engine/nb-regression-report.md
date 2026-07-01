@@ -143,7 +143,9 @@ Integer px, so the bar is **exact equality**, not ΔE. Space follows Prism2's nu
 | space.050 | space | Prism2 | 4 | 4 | ✅ |
 | space.075 | space | Prism2 | 6 | 6 | ✅ |
 | space.100 | space | Prism2 | 8 | 8 | ✅ |
+| space.150 | space | Prism2 | 12 | 12 | ✅ |
 | space.200 | space | Prism2 | 16 | 16 | ✅ |
+| space.250 | space | Prism2 | 20 | 20 | ✅ |
 | space.300 | space | Prism2 | 24 | 24 | ✅ |
 | space.400 | space | Prism2 | 32 | 32 | ✅ |
 | space.500 | space | Prism2 | 40 | 40 | ✅ |
@@ -160,7 +162,7 @@ Integer px, so the bar is **exact equality**, not ΔE. Space follows Prism2's nu
 | radius.lg | radius | NB | 6 | 6 | ✅ |
 | radius.round | radius | NB | 128 | 128 | ✅ |
 
-**Dimension axis: 21/21 exact matches** — Prism2's full numbered space scale + NB's radius ramp, both generated from the engine's two dimension levers.
+**Dimension axis: 23/23 exact matches** — Prism2's full numbered space scale + NB's radius ramp, both generated from the engine's two dimension levers.
 
 ## Verdict
 
@@ -172,7 +174,7 @@ Integer px, so the bar is **exact equality**, not ΔE. Space follows Prism2's nu
 - Aggregate ΔE00 mean across ramps: **1.95**.
 - Worst step overall: **warning (amber) 600** at ΔE00 9.15 (an NB hand-applied hue kink — see docs/02 §4).
 - Contrast contracts: **11/11 pass**.
-- Dimension axis (Prism2 space + NB radius): **21/21 exact matches**.
+- Dimension axis (Prism2 space + NB radius): **23/23 exact matches**.
 
 > Aggregate mean within ΔE00 ≤ 3: the engine reproduces NB perceptually from the schema alone. Residual per-step outliers are NB hand-nudges (hue kinks), not engine error.
 

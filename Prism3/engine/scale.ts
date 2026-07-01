@@ -14,7 +14,8 @@
  * a *scale* (handles "between" sizes, extends, and the number means "n×base"
  * invariantly across brands — white-label-honest). T-shirt is reserved for the
  * *component* layer, where it maps to a `size="md"` prop. spaceBase=8 reproduces
- * Prism2's space scale exactly; the 4px grid still backs radius/borders.
+ * Prism2's full space scale (18 keys, incl. the 12px/20px half-steps); the 4px
+ * grid still backs radius/borders.
  */
 
 export type Density = 'comfortable' | 'compact' | 'spacious';
@@ -32,8 +33,11 @@ export const dimensionGrid = (base = 4, max = 128, extras: number[] = []): numbe
 };
 
 // Numbered-multiplier space scale (reference tier). key/100 = multiplier of
-// spaceBase: 025=0.25× … 100=1× … 1200=12×. Linear, density-independent.
-const SPACE_KEYS = ['0', '025', '050', '075', '100', '200', '300', '400', '500', '600', '700', '800', '900', '1000', '1100', '1200'];
+// spaceBase: 025=0.25× … 100=1× … 150=1.5× … 250=2.5× … 1200=12×. Linear, density-free.
+// 150 (=12px) and 250 (=20px) are the UI-critical half-steps in the 8→16 and 16→24
+// gaps; Prism2 ships both and the engine had been omitting them — restoring them
+// makes the Prism2 space reproduction complete (18/18 keys).
+const SPACE_KEYS = ['0', '025', '050', '075', '100', '150', '200', '250', '300', '400', '500', '600', '700', '800', '900', '1000', '1100', '1200'];
 
 /** The space scale for a given rhythm. spaceBase=8 reproduces Prism2 exactly. */
 export const spaceScale = (spaceBase = 8): SpaceStep[] =>

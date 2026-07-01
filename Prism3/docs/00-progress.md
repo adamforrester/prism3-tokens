@@ -27,8 +27,8 @@ Headline numbers (regenerate with the commands below):
 | Aggregate ΔE00 vs real NB (color) | **1.95** | n/a |
 | Tonal-band contrast contracts | **11/11** | (same engine) |
 | Cross-mode contrast contracts | **248/248** | **248/248** |
-| **Dimension axis, exact** (Prism2 space + NB radius) | **21/21** | n/a |
-| DTCG semantic aliases resolve (color + dim + size + type + layout + gradient) | **625/625** | **626/626** |
+| **Dimension axis, exact** (Prism2 space + NB radius) | **23/23** | n/a |
+| DTCG semantic aliases resolve (color + dim + size + type + layout + gradient) | **627/627** | **628/628** |
 | Engine unit tests (colour math + extreme brands + typography + fluid + shadow + layout + gradient + surface-model + harshness + typography-weights/links invariants) | **172/172** | (same engine) |
 | Color primitives / dim grid emitted | 122 / 37 | 162 / 36 |
 | Brand palettes / action source | red / **action = brand** (red) | primary+accent+… / **action = accent ≠ brand** |
@@ -278,7 +278,7 @@ npx tsx Prism3/engine/test.ts            # unit tests: colour math + extreme-bra
 - **Dimension axis mirrors the color architecture: primitives + semantic
   aliases.** A primitive `dimension` grid (4px: 0,1,2,4,6,8,…,128) with `space`,
   `radius`, and component `size` tokens aliasing into it — the same shape as
-  color ramps + semantic roles. Reproduces our chosen targets **exactly** (21/21)
+  color ramps + semantic roles. Reproduces our chosen targets **exactly** (23/23)
   and aurora runs a *different* form factor (compact / scale 2) through the same
   code. Integer px, so the bar is exact equality, not perceptual ΔE.
 - **Naming taxonomy POV — numbered-multiplier space, t-shirt only at the

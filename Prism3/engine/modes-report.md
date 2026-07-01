@@ -423,7 +423,9 @@ Space — numbered multiplier, `8px` rhythm (reference tier, density-free):
 | space.050 | 4 | 0.5× |
 | space.075 | 6 | 0.75× |
 | space.100 | 8 | 1× |
+| space.150 | 12 | 1.5× |
 | space.200 | 16 | 2× |
+| space.250 | 20 | 2.5× |
 | space.300 | 24 | 3× |
 | space.400 | 32 | 4× |
 | space.500 | 40 | 5× |
@@ -888,7 +890,9 @@ Space — numbered multiplier, `8px` rhythm (reference tier, density-free):
 | space.050 | 4 | 0.5× |
 | space.075 | 6 | 0.75× |
 | space.100 | 8 | 1× |
+| space.150 | 12 | 1.5× |
 | space.200 | 16 | 2× |
+| space.250 | 20 | 2.5× |
 | space.300 | 24 | 3× |
 | space.400 | 32 | 4× |
 | space.500 | 40 | 5× |

@@ -16,7 +16,7 @@ emitting a non-standard `$type:"string"` → now DTCG `strokeStyle` (Style-Dicti
 -supported, confirmed via the Style Dictionary docs). **Strong:** cross-mode role
 parity 89/89 in both brands, 0 contract failures, *identical* top-level groups and
 semantic role sets across NB and aurora (a real white-label signal), no stubs/TODOs,
-clean renames, regression stable (ΔE00 1.95, 11/11, 21/21) across all the churn.
+clean renames, regression stable (ΔE00 1.95, 11/11, 23/23) across all the churn.
 Three findings left to decide:
 
 ### Item 6 — Schema ↔ BrandInput drift  ·  **RESOLVED (2026-06-27)**
