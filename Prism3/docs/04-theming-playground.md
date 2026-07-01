@@ -5,6 +5,11 @@
 > real components and composed pages live as token values change. Prompted by a
 > r/DesignSystems playground (below) that mirrors where we want to go. Not slated
 > for build yet — documented so the direction survives.
+>
+> **Update (2026-07-01):** the playground now has a committed shape in
+> `08-theming-interfaces` — it shares one **lever manifest** + live-preview model
+> with the (new) Figma plugin (near-continuity, `08` §3/§4), rather than being a
+> standalone surface. This file stays the reference/why; `08` is the architecture.
 
 ---
 
