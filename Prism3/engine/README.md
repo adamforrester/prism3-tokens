@@ -130,24 +130,29 @@ surface override, so it keeps the white/`neutral.950` defaults unchanged.
 
 Two emit profiles prove the same engine serves both regression and product:
 
-- **`out/nb.tokens.json`** — NB's own dialect (`nbds.color.<palette>.<step>`,
+- **`out/nb.tokens.json`** — NB's own dialect (primitives `nbds.palette.<name>.<step>`,
   `rgb(r, g, b)`, padded steps) so it is byte-comparable with the hand-built NB
   tokens.
-- **`out/aurora.tokens.json`** — the product dialect (`prism.color.*`, hex,
+- **`out/aurora.tokens.json`** — the product dialect (`prism.*`, hex,
   DTCG-aligned, Style-Dictionary-ingestible) for a synthetic violet brand that
   declared a primary + neutral + an azure `accent`. The engine added
   `success`/`warning` from canonical hues and a `danger` red carved at hue 27
   (because violet is not red), and — because the brand named `accent` as its
-  `actionPalette` — `action.default` → `{prism.color.accent.600}` while the
-  brand hue lives at `foreground.brand` → `{prism.color.primary.*}` and
-  `foreground.danger.default` → `{prism.color.danger.*}`. Action, brand, and danger are
+  `actionPalette` — `action.default` → `{prism.palette.accent.600}` while the
+  brand hue lives at `foreground.brand` → `{prism.palette.primary.*}` and
+  `foreground.danger.default` → `{prism.palette.danger.*}`. Action, brand, and danger are
   three distinct palettes: the white-label requirement, with action decoupled
   from brand.
 
-Every primitive leaf carries provenance under `$extensions.prism3` (OKLCH source,
-hex, tonal band, anchor flag, on-white contrast). A per-mode `…semantic.<mode>.*`
-layer maps the contract roles to primitive steps via DTCG brace aliases; the run
-validates every alias resolves and every mode contrast contract holds.
+The colour layer is two tiers: **`palette.*`** — the colour primitives (ramps +
+white/black + alpha), private — and **`color.*`** — the semantic role layer
+consumers use. Every primitive leaf carries provenance under `$extensions.prism3`
+(OKLCH source, hex, tonal band, anchor flag, on-white contrast). Each `color.*`
+role is **one mode-agnostic token**: the `light` value is canonical in `$value`,
+and `dark`/`hc-light`/`hc-dark` are value overrides in `$extensions.prism3.modes`
+(each keeping its own contrast contract) — mapping 1:1 to a single Figma colour
+variable with Light/Dark/HC modes. The run validates every alias resolves and
+every mode contrast contract holds.
 
 ## Dimension axis (space · radius · component sizes)
 

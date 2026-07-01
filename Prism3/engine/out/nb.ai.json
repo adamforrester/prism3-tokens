@@ -2,8 +2,8 @@
   "$schema": "prism3-ai-metadata/0.1",
   "brand": "nb",
   "generated": true,
-  "note": "Agent-readable metadata, companion to nb.tokens.json. The semantic (colour) tier and the typography tier (type composites + weight roles) carry the rich schema; the primitive tier a simplified set + colour-scale `intent` and `aliased_by` (the reverse index — which tokens resolve to it, TRANSITIVELY, so the two-hop weight chain composite→role→numeric is visible). `aliased_by` is recomputed from the token tree on every build (authoritative at build time, never hand-maintained — it cannot drift). All fields generated and contract-true.",
-  "semantic_fields": [
+  "note": "Agent-readable metadata, companion to nb.tokens.json. The colour (semantic role) tier and the typography tier (type composites + weight roles) carry the rich schema; the primitive tier a simplified set + colour-scale `intent` and `aliased_by` (the reverse index — which tokens resolve to it, TRANSITIVELY, so the two-hop weight chain composite→role→numeric is visible). `aliased_by` is recomputed from the token tree on every build (authoritative at build time, never hand-maintained — it cannot drift). All fields generated and contract-true.",
+  "color_fields": [
     "$description",
     "meaning",
     "when_to_use",
@@ -28,17 +28,17 @@
     "consume",
     "aliased_by"
   ],
-  "semantic": {
+  "color": {
     "background.primary": {
       "$description": "Page / canvas surface (tier 1).",
       "meaning": "Page / canvas surface",
       "when_to_use": "The page / base canvas.",
       "avoid_when": "Do not use for surfaces placed on the page (use foreground.*) or for ink (use text/icon).",
       "mode_overrides": {
-        "light": "{nbds.color.white}",
-        "dark": "{nbds.color.neutral.950}",
-        "hc-light": "{nbds.color.white}",
-        "hc-dark": "{nbds.color.black}"
+        "light": "{nbds.palette.white}",
+        "dark": "{nbds.palette.neutral.950}",
+        "hc-light": "{nbds.palette.white}",
+        "hc-dark": "{nbds.palette.black}"
       },
       "paired_with": [
         "foreground.primary",
@@ -52,10 +52,10 @@
       "when_to_use": "A slightly tinted page or page band.",
       "avoid_when": "Do not use for surfaces placed on the page (use foreground.*) or for ink (use text/icon).",
       "mode_overrides": {
-        "light": "{nbds.color.neutral.050}",
-        "dark": "{nbds.color.neutral.900}",
-        "hc-light": "{nbds.color.white}",
-        "hc-dark": "{nbds.color.black}"
+        "light": "{nbds.palette.neutral.050}",
+        "dark": "{nbds.palette.neutral.900}",
+        "hc-light": "{nbds.palette.white}",
+        "hc-dark": "{nbds.palette.black}"
       },
       "paired_with": [
         "foreground.primary",
@@ -69,10 +69,10 @@
       "when_to_use": "A third page-level surface step.",
       "avoid_when": "Do not use for surfaces placed on the page (use foreground.*) or for ink (use text/icon).",
       "mode_overrides": {
-        "light": "{nbds.color.neutral.100}",
-        "dark": "{nbds.color.neutral.850}",
-        "hc-light": "{nbds.color.white}",
-        "hc-dark": "{nbds.color.black}"
+        "light": "{nbds.palette.neutral.100}",
+        "dark": "{nbds.palette.neutral.850}",
+        "hc-light": "{nbds.palette.white}",
+        "hc-dark": "{nbds.palette.black}"
       },
       "paired_with": [
         "foreground.primary",
@@ -86,10 +86,10 @@
       "when_to_use": "Inverted page sections — a dark band on a light page (or vice-versa).",
       "avoid_when": "Do not place mode-default ink on it — use text.on-inverse.",
       "mode_overrides": {
-        "light": "{nbds.color.neutral.950}",
-        "dark": "{nbds.color.neutral.025}",
-        "hc-light": "{nbds.color.black}",
-        "hc-dark": "{nbds.color.white}"
+        "light": "{nbds.palette.neutral.950}",
+        "dark": "{nbds.palette.neutral.025}",
+        "hc-light": "{nbds.palette.black}",
+        "hc-dark": "{nbds.palette.white}"
       },
       "paired_with": [
         "text.on-inverse",
@@ -102,10 +102,10 @@
       "when_to_use": "Inverted page sections — a dark band on a light page (or vice-versa).",
       "avoid_when": "Do not place mode-default ink on it — use text.on-inverse.",
       "mode_overrides": {
-        "light": "{nbds.color.neutral.900}",
-        "dark": "{nbds.color.neutral.050}",
-        "hc-light": "{nbds.color.black}",
-        "hc-dark": "{nbds.color.white}"
+        "light": "{nbds.palette.neutral.900}",
+        "dark": "{nbds.palette.neutral.050}",
+        "hc-light": "{nbds.palette.black}",
+        "hc-dark": "{nbds.palette.white}"
       },
       "paired_with": [
         "text.on-inverse",
@@ -118,10 +118,10 @@
       "when_to_use": "Inverted page sections — a dark band on a light page (or vice-versa).",
       "avoid_when": "Do not place mode-default ink on it — use text.on-inverse.",
       "mode_overrides": {
-        "light": "{nbds.color.neutral.850}",
-        "dark": "{nbds.color.neutral.100}",
-        "hc-light": "{nbds.color.black}",
-        "hc-dark": "{nbds.color.white}"
+        "light": "{nbds.palette.neutral.850}",
+        "dark": "{nbds.palette.neutral.100}",
+        "hc-light": "{nbds.palette.black}",
+        "hc-dark": "{nbds.palette.white}"
       },
       "paired_with": [
         "text.on-inverse",
@@ -134,10 +134,10 @@
       "when_to_use": "The dimming layer behind a modal, dialog, or drawer.",
       "avoid_when": "Do not use as a solid surface or for any opaque element.",
       "mode_overrides": {
-        "light": "{nbds.color.black-alpha.40}",
-        "dark": "{nbds.color.black-alpha.60}",
-        "hc-light": "{nbds.color.black-alpha.60}",
-        "hc-dark": "{nbds.color.black-alpha.70}"
+        "light": "{nbds.palette.black-alpha.40}",
+        "dark": "{nbds.palette.black-alpha.60}",
+        "hc-light": "{nbds.palette.black-alpha.60}",
+        "hc-dark": "{nbds.palette.black-alpha.70}"
       },
       "paired_with": [
         "foreground.inverse.primary"
@@ -149,10 +149,10 @@
       "when_to_use": "Cards — the default surface placed on the page.",
       "avoid_when": "Do not use for the page itself (use background.*) or for ink (use text/icon).",
       "mode_overrides": {
-        "light": "{nbds.color.neutral.050}",
-        "dark": "{nbds.color.neutral.900}",
-        "hc-light": "{nbds.color.white}",
-        "hc-dark": "{nbds.color.black}"
+        "light": "{nbds.palette.neutral.050}",
+        "dark": "{nbds.palette.neutral.900}",
+        "hc-light": "{nbds.palette.white}",
+        "hc-dark": "{nbds.palette.black}"
       },
       "paired_with": [
         "text.primary",
@@ -165,10 +165,10 @@
       "when_to_use": "Panels / nested containers.",
       "avoid_when": "Do not use for the page itself (use background.*) or for ink (use text/icon).",
       "mode_overrides": {
-        "light": "{nbds.color.neutral.100}",
-        "dark": "{nbds.color.neutral.850}",
-        "hc-light": "{nbds.color.white}",
-        "hc-dark": "{nbds.color.black}"
+        "light": "{nbds.palette.neutral.100}",
+        "dark": "{nbds.palette.neutral.850}",
+        "hc-light": "{nbds.palette.white}",
+        "hc-dark": "{nbds.palette.black}"
       },
       "paired_with": [
         "text.primary",
@@ -181,10 +181,10 @@
       "when_to_use": "A third surface step.",
       "avoid_when": "Do not use for the page itself (use background.*) or for ink (use text/icon).",
       "mode_overrides": {
-        "light": "{nbds.color.neutral.150}",
-        "dark": "{nbds.color.neutral.800}",
-        "hc-light": "{nbds.color.white}",
-        "hc-dark": "{nbds.color.black}"
+        "light": "{nbds.palette.neutral.150}",
+        "dark": "{nbds.palette.neutral.800}",
+        "hc-light": "{nbds.palette.white}",
+        "hc-dark": "{nbds.palette.black}"
       },
       "paired_with": [
         "text.primary",
@@ -197,10 +197,10 @@
       "when_to_use": "Strong / inverse fills — a dark callout, a solid neutral button, an emphasis surface in light mode.",
       "avoid_when": "Do not use for the page (use background.*) or for ink (use text/icon).",
       "mode_overrides": {
-        "light": "{nbds.color.neutral.900}",
-        "dark": "{nbds.color.neutral.050}",
-        "hc-light": "{nbds.color.black}",
-        "hc-dark": "{nbds.color.white}"
+        "light": "{nbds.palette.neutral.900}",
+        "dark": "{nbds.palette.neutral.050}",
+        "hc-light": "{nbds.palette.black}",
+        "hc-dark": "{nbds.palette.white}"
       },
       "paired_with": [
         "text.on-inverse"
@@ -212,10 +212,10 @@
       "when_to_use": "Strong / inverse fills — a dark callout, a solid neutral button, an emphasis surface in light mode.",
       "avoid_when": "Do not use for the page (use background.*) or for ink (use text/icon).",
       "mode_overrides": {
-        "light": "{nbds.color.neutral.850}",
-        "dark": "{nbds.color.neutral.100}",
-        "hc-light": "{nbds.color.black}",
-        "hc-dark": "{nbds.color.white}"
+        "light": "{nbds.palette.neutral.850}",
+        "dark": "{nbds.palette.neutral.100}",
+        "hc-light": "{nbds.palette.black}",
+        "hc-dark": "{nbds.palette.white}"
       },
       "paired_with": [
         "text.on-inverse"
@@ -227,10 +227,10 @@
       "when_to_use": "Strong / inverse fills — a dark callout, a solid neutral button, an emphasis surface in light mode.",
       "avoid_when": "Do not use for the page (use background.*) or for ink (use text/icon).",
       "mode_overrides": {
-        "light": "{nbds.color.neutral.800}",
-        "dark": "{nbds.color.neutral.150}",
-        "hc-light": "{nbds.color.black}",
-        "hc-dark": "{nbds.color.white}"
+        "light": "{nbds.palette.neutral.800}",
+        "dark": "{nbds.palette.neutral.150}",
+        "hc-light": "{nbds.palette.black}",
+        "hc-dark": "{nbds.palette.white}"
       },
       "paired_with": [
         "text.on-inverse"
@@ -242,10 +242,10 @@
       "when_to_use": "Filled brand elements — badges, banners, status chips.",
       "avoid_when": "Do not use for brand ink (use text.brand) or as a subtle tint (use foreground.brand-subtle).",
       "mode_overrides": {
-        "light": "{nbds.color.red.550}",
-        "dark": "{nbds.color.red.450}",
-        "hc-light": "{nbds.color.red.700}",
-        "hc-dark": "{nbds.color.red.300}"
+        "light": "{nbds.palette.red.550}",
+        "dark": "{nbds.palette.red.450}",
+        "hc-light": "{nbds.palette.red.700}",
+        "hc-dark": "{nbds.palette.red.300}"
       },
       "paired_with": [
         "text.on-brand",
@@ -265,10 +265,10 @@
       "when_to_use": "Filled success elements — badges, banners, status chips.",
       "avoid_when": "Do not use for success ink (use text.success) or as a subtle tint (use foreground.success-subtle).",
       "mode_overrides": {
-        "light": "{nbds.color.green.550}",
-        "dark": "{nbds.color.green.400}",
-        "hc-light": "{nbds.color.green.700}",
-        "hc-dark": "{nbds.color.green.300}"
+        "light": "{nbds.palette.green.550}",
+        "dark": "{nbds.palette.green.400}",
+        "hc-light": "{nbds.palette.green.700}",
+        "hc-dark": "{nbds.palette.green.300}"
       },
       "paired_with": [
         "text.on-success",
@@ -288,10 +288,10 @@
       "when_to_use": "Filled warning elements — badges, banners, status chips.",
       "avoid_when": "Do not use for warning ink (use text.warning) or as a subtle tint (use foreground.warning-subtle).",
       "mode_overrides": {
-        "light": "{nbds.color.amber.600}",
-        "dark": "{nbds.color.amber.450}",
-        "hc-light": "{nbds.color.amber.700}",
-        "hc-dark": "{nbds.color.amber.300}"
+        "light": "{nbds.palette.amber.600}",
+        "dark": "{nbds.palette.amber.450}",
+        "hc-light": "{nbds.palette.amber.700}",
+        "hc-dark": "{nbds.palette.amber.300}"
       },
       "paired_with": [
         "text.on-warning",
@@ -311,10 +311,10 @@
       "when_to_use": "Filled info elements — badges, banners, status chips.",
       "avoid_when": "Do not use for info ink (use text.info) or as a subtle tint (use foreground.info-subtle).",
       "mode_overrides": {
-        "light": "{nbds.color.info.550}",
-        "dark": "{nbds.color.info.450}",
-        "hc-light": "{nbds.color.info.700}",
-        "hc-dark": "{nbds.color.info.300}"
+        "light": "{nbds.palette.info.550}",
+        "dark": "{nbds.palette.info.450}",
+        "hc-light": "{nbds.palette.info.700}",
+        "hc-dark": "{nbds.palette.info.300}"
       },
       "paired_with": [
         "text.on-info",
@@ -334,10 +334,10 @@
       "when_to_use": "Low-emphasis brand surfaces — banners, badges, selected rows.",
       "avoid_when": "Do not use as a solid brand fill (use foreground.brand) or for brand ink (use text.brand).",
       "mode_overrides": {
-        "light": "{nbds.color.red.100}",
-        "dark": "{nbds.color.red.900}",
-        "hc-light": "{nbds.color.red.100}",
-        "hc-dark": "{nbds.color.red.900}"
+        "light": "{nbds.palette.red.100}",
+        "dark": "{nbds.palette.red.900}",
+        "hc-light": "{nbds.palette.red.100}",
+        "hc-dark": "{nbds.palette.red.900}"
       },
       "paired_with": [
         "text.brand",
@@ -350,10 +350,10 @@
       "when_to_use": "Low-emphasis success surfaces — banners, badges, selected rows.",
       "avoid_when": "Do not use as a solid success fill (use foreground.success) or for success ink (use text.success).",
       "mode_overrides": {
-        "light": "{nbds.color.green.100}",
-        "dark": "{nbds.color.green.900}",
-        "hc-light": "{nbds.color.green.100}",
-        "hc-dark": "{nbds.color.green.900}"
+        "light": "{nbds.palette.green.100}",
+        "dark": "{nbds.palette.green.900}",
+        "hc-light": "{nbds.palette.green.100}",
+        "hc-dark": "{nbds.palette.green.900}"
       },
       "paired_with": [
         "text.success",
@@ -366,10 +366,10 @@
       "when_to_use": "Low-emphasis warning surfaces — banners, badges, selected rows.",
       "avoid_when": "Do not use as a solid warning fill (use foreground.warning) or for warning ink (use text.warning).",
       "mode_overrides": {
-        "light": "{nbds.color.amber.100}",
-        "dark": "{nbds.color.amber.900}",
-        "hc-light": "{nbds.color.amber.100}",
-        "hc-dark": "{nbds.color.amber.900}"
+        "light": "{nbds.palette.amber.100}",
+        "dark": "{nbds.palette.amber.900}",
+        "hc-light": "{nbds.palette.amber.100}",
+        "hc-dark": "{nbds.palette.amber.900}"
       },
       "paired_with": [
         "text.warning",
@@ -382,10 +382,10 @@
       "when_to_use": "Low-emphasis danger surfaces — banners, badges, selected rows.",
       "avoid_when": "Do not use as a solid danger fill (use foreground.danger) or for danger ink (use text.danger).",
       "mode_overrides": {
-        "light": "{nbds.color.red.100}",
-        "dark": "{nbds.color.red.900}",
-        "hc-light": "{nbds.color.red.100}",
-        "hc-dark": "{nbds.color.red.900}"
+        "light": "{nbds.palette.red.100}",
+        "dark": "{nbds.palette.red.900}",
+        "hc-light": "{nbds.palette.red.100}",
+        "hc-dark": "{nbds.palette.red.900}"
       },
       "paired_with": [
         "text.danger",
@@ -398,10 +398,10 @@
       "when_to_use": "Low-emphasis info surfaces — banners, badges, selected rows.",
       "avoid_when": "Do not use as a solid info fill (use foreground.info) or for info ink (use text.info).",
       "mode_overrides": {
-        "light": "{nbds.color.info.100}",
-        "dark": "{nbds.color.info.900}",
-        "hc-light": "{nbds.color.info.100}",
-        "hc-dark": "{nbds.color.info.900}"
+        "light": "{nbds.palette.info.100}",
+        "dark": "{nbds.palette.info.900}",
+        "hc-light": "{nbds.palette.info.100}",
+        "hc-dark": "{nbds.palette.info.900}"
       },
       "paired_with": [
         "text.info",
@@ -414,10 +414,10 @@
       "when_to_use": "Destructive actions — delete/remove buttons, error fills.",
       "avoid_when": "Do not use for non-destructive actions (use action.*) or warnings (use foreground.warning).",
       "mode_overrides": {
-        "light": "{nbds.color.red.550}",
-        "dark": "{nbds.color.red.450}",
-        "hc-light": "{nbds.color.red.700}",
-        "hc-dark": "{nbds.color.red.300}"
+        "light": "{nbds.palette.red.550}",
+        "dark": "{nbds.palette.red.450}",
+        "hc-light": "{nbds.palette.red.700}",
+        "hc-dark": "{nbds.palette.red.300}"
       },
       "paired_with": [
         "text.on-danger",
@@ -437,10 +437,10 @@
       "when_to_use": "Destructive actions — delete/remove buttons, error fills on pointer hover.",
       "avoid_when": "Do not use for non-destructive actions (use action.*) or warnings (use foreground.warning).",
       "mode_overrides": {
-        "light": "{nbds.color.red.600}",
-        "dark": "{nbds.color.red.400}",
-        "hc-light": "{nbds.color.red.750}",
-        "hc-dark": "{nbds.color.red.250}"
+        "light": "{nbds.palette.red.600}",
+        "dark": "{nbds.palette.red.400}",
+        "hc-light": "{nbds.palette.red.750}",
+        "hc-dark": "{nbds.palette.red.250}"
       },
       "paired_with": [
         "text.on-danger",
@@ -460,10 +460,10 @@
       "when_to_use": "Destructive actions — delete/remove buttons, error fills while pressed.",
       "avoid_when": "Do not use for non-destructive actions (use action.*) or warnings (use foreground.warning).",
       "mode_overrides": {
-        "light": "{nbds.color.red.650}",
-        "dark": "{nbds.color.red.350}",
-        "hc-light": "{nbds.color.red.800}",
-        "hc-dark": "{nbds.color.red.200}"
+        "light": "{nbds.palette.red.650}",
+        "dark": "{nbds.palette.red.350}",
+        "hc-light": "{nbds.palette.red.800}",
+        "hc-dark": "{nbds.palette.red.200}"
       },
       "paired_with": [
         "text.on-danger",
@@ -483,10 +483,10 @@
       "when_to_use": "Destructive actions — delete/remove buttons, error fills when keyboard-focused.",
       "avoid_when": "Do not use for non-destructive actions (use action.*) or warnings (use foreground.warning).",
       "mode_overrides": {
-        "light": "{nbds.color.red.600}",
-        "dark": "{nbds.color.red.400}",
-        "hc-light": "{nbds.color.red.750}",
-        "hc-dark": "{nbds.color.red.250}"
+        "light": "{nbds.palette.red.600}",
+        "dark": "{nbds.palette.red.400}",
+        "hc-light": "{nbds.palette.red.750}",
+        "hc-dark": "{nbds.palette.red.250}"
       },
       "paired_with": [
         "text.on-danger",
@@ -506,10 +506,10 @@
       "when_to_use": "Destructive actions — delete/remove buttons, error fills when selected / active.",
       "avoid_when": "Do not use for non-destructive actions (use action.*) or warnings (use foreground.warning).",
       "mode_overrides": {
-        "light": "{nbds.color.red.650}",
-        "dark": "{nbds.color.red.350}",
-        "hc-light": "{nbds.color.red.800}",
-        "hc-dark": "{nbds.color.red.200}"
+        "light": "{nbds.palette.red.650}",
+        "dark": "{nbds.palette.red.350}",
+        "hc-light": "{nbds.palette.red.800}",
+        "hc-dark": "{nbds.palette.red.200}"
       },
       "paired_with": [
         "text.on-danger",
@@ -529,10 +529,10 @@
       "when_to_use": "Destructive actions — delete/remove buttons, error fills when disabled / unavailable.",
       "avoid_when": "Do not use for non-destructive actions (use action.*) or warnings (use foreground.warning).",
       "mode_overrides": {
-        "light": "{nbds.color.neutral.200}",
-        "dark": "{nbds.color.neutral.750}",
-        "hc-light": "{nbds.color.neutral.200}",
-        "hc-dark": "{nbds.color.neutral.750}"
+        "light": "{nbds.palette.neutral.200}",
+        "dark": "{nbds.palette.neutral.750}",
+        "hc-light": "{nbds.palette.neutral.200}",
+        "hc-dark": "{nbds.palette.neutral.750}"
       },
       "paired_with": [
         "text.on-danger",
@@ -545,10 +545,10 @@
       "when_to_use": "Primary interactive surfaces — buttons, toggles, controls.",
       "avoid_when": "Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background/foreground).",
       "mode_overrides": {
-        "light": "{nbds.color.red.550}",
-        "dark": "{nbds.color.red.450}",
-        "hc-light": "{nbds.color.red.700}",
-        "hc-dark": "{nbds.color.red.300}"
+        "light": "{nbds.palette.red.550}",
+        "dark": "{nbds.palette.red.450}",
+        "hc-light": "{nbds.palette.red.700}",
+        "hc-dark": "{nbds.palette.red.300}"
       },
       "paired_with": [
         "text.on-action",
@@ -568,10 +568,10 @@
       "when_to_use": "Primary interactive surfaces — buttons, toggles, controls on pointer hover.",
       "avoid_when": "Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background/foreground).",
       "mode_overrides": {
-        "light": "{nbds.color.red.600}",
-        "dark": "{nbds.color.red.400}",
-        "hc-light": "{nbds.color.red.750}",
-        "hc-dark": "{nbds.color.red.250}"
+        "light": "{nbds.palette.red.600}",
+        "dark": "{nbds.palette.red.400}",
+        "hc-light": "{nbds.palette.red.750}",
+        "hc-dark": "{nbds.palette.red.250}"
       },
       "paired_with": [
         "text.on-action",
@@ -591,10 +591,10 @@
       "when_to_use": "Primary interactive surfaces — buttons, toggles, controls while pressed.",
       "avoid_when": "Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background/foreground).",
       "mode_overrides": {
-        "light": "{nbds.color.red.650}",
-        "dark": "{nbds.color.red.350}",
-        "hc-light": "{nbds.color.red.800}",
-        "hc-dark": "{nbds.color.red.200}"
+        "light": "{nbds.palette.red.650}",
+        "dark": "{nbds.palette.red.350}",
+        "hc-light": "{nbds.palette.red.800}",
+        "hc-dark": "{nbds.palette.red.200}"
       },
       "paired_with": [
         "text.on-action",
@@ -614,10 +614,10 @@
       "when_to_use": "Primary interactive surfaces — buttons, toggles, controls when keyboard-focused.",
       "avoid_when": "Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background/foreground).",
       "mode_overrides": {
-        "light": "{nbds.color.red.600}",
-        "dark": "{nbds.color.red.400}",
-        "hc-light": "{nbds.color.red.750}",
-        "hc-dark": "{nbds.color.red.250}"
+        "light": "{nbds.palette.red.600}",
+        "dark": "{nbds.palette.red.400}",
+        "hc-light": "{nbds.palette.red.750}",
+        "hc-dark": "{nbds.palette.red.250}"
       },
       "paired_with": [
         "text.on-action",
@@ -637,10 +637,10 @@
       "when_to_use": "Primary interactive surfaces — buttons, toggles, controls when selected / active.",
       "avoid_when": "Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background/foreground).",
       "mode_overrides": {
-        "light": "{nbds.color.red.650}",
-        "dark": "{nbds.color.red.350}",
-        "hc-light": "{nbds.color.red.800}",
-        "hc-dark": "{nbds.color.red.200}"
+        "light": "{nbds.palette.red.650}",
+        "dark": "{nbds.palette.red.350}",
+        "hc-light": "{nbds.palette.red.800}",
+        "hc-dark": "{nbds.palette.red.200}"
       },
       "paired_with": [
         "text.on-action",
@@ -660,10 +660,10 @@
       "when_to_use": "Primary interactive surfaces — buttons, toggles, controls when disabled / unavailable.",
       "avoid_when": "Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background/foreground).",
       "mode_overrides": {
-        "light": "{nbds.color.neutral.200}",
-        "dark": "{nbds.color.neutral.750}",
-        "hc-light": "{nbds.color.neutral.200}",
-        "hc-dark": "{nbds.color.neutral.750}"
+        "light": "{nbds.palette.neutral.200}",
+        "dark": "{nbds.palette.neutral.750}",
+        "hc-light": "{nbds.palette.neutral.200}",
+        "hc-dark": "{nbds.palette.neutral.750}"
       },
       "paired_with": [
         "text.on-action",
@@ -676,10 +676,10 @@
       "when_to_use": "Primary text on any surface (holds across the tonal ladder).",
       "avoid_when": "Do not use on solid/vivid fills — use text.on-*.",
       "mode_overrides": {
-        "light": "{nbds.color.neutral.950}",
-        "dark": "{nbds.color.neutral.025}",
-        "hc-light": "{nbds.color.black}",
-        "hc-dark": "{nbds.color.white}"
+        "light": "{nbds.palette.neutral.950}",
+        "dark": "{nbds.palette.neutral.025}",
+        "hc-light": "{nbds.palette.black}",
+        "hc-dark": "{nbds.palette.white}"
       },
       "paired_with": [
         "background.primary",
@@ -699,10 +699,10 @@
       "when_to_use": "Secondary text on any surface (holds across the tonal ladder).",
       "avoid_when": "Do not use on solid/vivid fills — use text.on-*.",
       "mode_overrides": {
-        "light": "{nbds.color.neutral.550}",
-        "dark": "{nbds.color.neutral.450}",
-        "hc-light": "{nbds.color.neutral.700}",
-        "hc-dark": "{nbds.color.neutral.300}"
+        "light": "{nbds.palette.neutral.550}",
+        "dark": "{nbds.palette.neutral.450}",
+        "hc-light": "{nbds.palette.neutral.700}",
+        "hc-dark": "{nbds.palette.neutral.300}"
       },
       "paired_with": [
         "background.primary",
@@ -722,10 +722,10 @@
       "when_to_use": "Tertiary text on any surface (holds across the tonal ladder).",
       "avoid_when": "Do not use on solid/vivid fills — use text.on-*.",
       "mode_overrides": {
-        "light": "{nbds.color.neutral.450}",
-        "dark": "{nbds.color.neutral.550}",
-        "hc-light": "{nbds.color.neutral.550}",
-        "hc-dark": "{nbds.color.neutral.450}"
+        "light": "{nbds.palette.neutral.450}",
+        "dark": "{nbds.palette.neutral.550}",
+        "hc-light": "{nbds.palette.neutral.550}",
+        "hc-dark": "{nbds.palette.neutral.450}"
       },
       "paired_with": [
         "background.primary",
@@ -745,10 +745,10 @@
       "when_to_use": "Text for disabled or inactive elements.",
       "avoid_when": "Do not use for active content.",
       "mode_overrides": {
-        "light": "{nbds.color.neutral.450}",
-        "dark": "{nbds.color.neutral.550}",
-        "hc-light": "{nbds.color.neutral.550}",
-        "hc-dark": "{nbds.color.neutral.450}"
+        "light": "{nbds.palette.neutral.450}",
+        "dark": "{nbds.palette.neutral.550}",
+        "hc-light": "{nbds.palette.neutral.550}",
+        "hc-dark": "{nbds.palette.neutral.450}"
       },
       "contrast_with": [
         {
@@ -764,10 +764,10 @@
       "when_to_use": "Brand text on standard surfaces (e.g. inline error/success text).",
       "avoid_when": "Do not use on a solid brand fill — use text.on-brand.",
       "mode_overrides": {
-        "light": "{nbds.color.red.550}",
-        "dark": "{nbds.color.red.450}",
-        "hc-light": "{nbds.color.red.700}",
-        "hc-dark": "{nbds.color.red.300}"
+        "light": "{nbds.palette.red.550}",
+        "dark": "{nbds.palette.red.450}",
+        "hc-light": "{nbds.palette.red.700}",
+        "hc-dark": "{nbds.palette.red.300}"
       },
       "paired_with": [
         "background.primary"
@@ -786,10 +786,10 @@
       "when_to_use": "Success text on standard surfaces (e.g. inline error/success text).",
       "avoid_when": "Do not use on a solid success fill — use text.on-success.",
       "mode_overrides": {
-        "light": "{nbds.color.green.550}",
-        "dark": "{nbds.color.green.400}",
-        "hc-light": "{nbds.color.green.700}",
-        "hc-dark": "{nbds.color.green.300}"
+        "light": "{nbds.palette.green.550}",
+        "dark": "{nbds.palette.green.400}",
+        "hc-light": "{nbds.palette.green.700}",
+        "hc-dark": "{nbds.palette.green.300}"
       },
       "paired_with": [
         "background.primary"
@@ -808,10 +808,10 @@
       "when_to_use": "Warning text on standard surfaces (e.g. inline error/success text).",
       "avoid_when": "Do not use on a solid warning fill — use text.on-warning.",
       "mode_overrides": {
-        "light": "{nbds.color.amber.600}",
-        "dark": "{nbds.color.amber.450}",
-        "hc-light": "{nbds.color.amber.700}",
-        "hc-dark": "{nbds.color.amber.300}"
+        "light": "{nbds.palette.amber.600}",
+        "dark": "{nbds.palette.amber.450}",
+        "hc-light": "{nbds.palette.amber.700}",
+        "hc-dark": "{nbds.palette.amber.300}"
       },
       "paired_with": [
         "background.primary"
@@ -830,10 +830,10 @@
       "when_to_use": "Danger text on standard surfaces (e.g. inline error/success text).",
       "avoid_when": "Do not use on a solid danger fill — use text.on-danger.",
       "mode_overrides": {
-        "light": "{nbds.color.red.550}",
-        "dark": "{nbds.color.red.450}",
-        "hc-light": "{nbds.color.red.700}",
-        "hc-dark": "{nbds.color.red.300}"
+        "light": "{nbds.palette.red.550}",
+        "dark": "{nbds.palette.red.450}",
+        "hc-light": "{nbds.palette.red.700}",
+        "hc-dark": "{nbds.palette.red.300}"
       },
       "paired_with": [
         "background.primary"
@@ -852,10 +852,10 @@
       "when_to_use": "Info text on standard surfaces (e.g. inline error/success text).",
       "avoid_when": "Do not use on a solid info fill — use text.on-info.",
       "mode_overrides": {
-        "light": "{nbds.color.info.550}",
-        "dark": "{nbds.color.info.450}",
-        "hc-light": "{nbds.color.info.700}",
-        "hc-dark": "{nbds.color.info.300}"
+        "light": "{nbds.palette.info.550}",
+        "dark": "{nbds.palette.info.450}",
+        "hc-light": "{nbds.palette.info.700}",
+        "hc-dark": "{nbds.palette.info.300}"
       },
       "paired_with": [
         "background.primary"
@@ -874,10 +874,10 @@
       "when_to_use": "Low-emphasis brand text — secondary status text / quiet accents.",
       "avoid_when": "For safety-critical brand messaging use the bold text.brand; verify contrast for body text.",
       "mode_overrides": {
-        "light": "{nbds.color.red.450}",
-        "dark": "{nbds.color.red.350}",
-        "hc-light": "{nbds.color.red.450}",
-        "hc-dark": "{nbds.color.red.350}"
+        "light": "{nbds.palette.red.450}",
+        "dark": "{nbds.palette.red.350}",
+        "hc-light": "{nbds.palette.red.450}",
+        "hc-dark": "{nbds.palette.red.350}"
       },
       "paired_with": [
         "background.primary"
@@ -889,10 +889,10 @@
       "when_to_use": "Low-emphasis success text — secondary status text / quiet accents.",
       "avoid_when": "For safety-critical success messaging use the bold text.success; verify contrast for body text.",
       "mode_overrides": {
-        "light": "{nbds.color.green.450}",
-        "dark": "{nbds.color.green.350}",
-        "hc-light": "{nbds.color.green.450}",
-        "hc-dark": "{nbds.color.green.350}"
+        "light": "{nbds.palette.green.450}",
+        "dark": "{nbds.palette.green.350}",
+        "hc-light": "{nbds.palette.green.450}",
+        "hc-dark": "{nbds.palette.green.350}"
       },
       "paired_with": [
         "background.primary"
@@ -904,10 +904,10 @@
       "when_to_use": "Low-emphasis warning text — secondary status text / quiet accents.",
       "avoid_when": "For safety-critical warning messaging use the bold text.warning; verify contrast for body text.",
       "mode_overrides": {
-        "light": "{nbds.color.amber.450}",
-        "dark": "{nbds.color.amber.350}",
-        "hc-light": "{nbds.color.amber.450}",
-        "hc-dark": "{nbds.color.amber.350}"
+        "light": "{nbds.palette.amber.450}",
+        "dark": "{nbds.palette.amber.350}",
+        "hc-light": "{nbds.palette.amber.450}",
+        "hc-dark": "{nbds.palette.amber.350}"
       },
       "paired_with": [
         "background.primary"
@@ -919,10 +919,10 @@
       "when_to_use": "Low-emphasis danger text — secondary status text / quiet accents.",
       "avoid_when": "For safety-critical danger messaging use the bold text.danger; verify contrast for body text.",
       "mode_overrides": {
-        "light": "{nbds.color.red.450}",
-        "dark": "{nbds.color.red.350}",
-        "hc-light": "{nbds.color.red.450}",
-        "hc-dark": "{nbds.color.red.350}"
+        "light": "{nbds.palette.red.450}",
+        "dark": "{nbds.palette.red.350}",
+        "hc-light": "{nbds.palette.red.450}",
+        "hc-dark": "{nbds.palette.red.350}"
       },
       "paired_with": [
         "background.primary"
@@ -934,10 +934,10 @@
       "when_to_use": "Low-emphasis info text — secondary status text / quiet accents.",
       "avoid_when": "For safety-critical info messaging use the bold text.info; verify contrast for body text.",
       "mode_overrides": {
-        "light": "{nbds.color.info.450}",
-        "dark": "{nbds.color.info.350}",
-        "hc-light": "{nbds.color.info.450}",
-        "hc-dark": "{nbds.color.info.350}"
+        "light": "{nbds.palette.info.450}",
+        "dark": "{nbds.palette.info.350}",
+        "hc-light": "{nbds.palette.info.450}",
+        "hc-dark": "{nbds.palette.info.350}"
       },
       "paired_with": [
         "background.primary"
@@ -949,10 +949,10 @@
       "when_to_use": "Text placed on the action fill it is paired with.",
       "avoid_when": "Do not use on standard surfaces — use text.primary/secondary.",
       "mode_overrides": {
-        "light": "{nbds.color.white}",
-        "dark": "{nbds.color.neutral.950}",
-        "hc-light": "{nbds.color.white}",
-        "hc-dark": "{nbds.color.black}"
+        "light": "{nbds.palette.white}",
+        "dark": "{nbds.palette.neutral.950}",
+        "hc-light": "{nbds.palette.white}",
+        "hc-dark": "{nbds.palette.black}"
       },
       "paired_with": [
         "action.default"
@@ -971,10 +971,10 @@
       "when_to_use": "Text placed on the brand fill it is paired with.",
       "avoid_when": "Do not use on standard surfaces — use text.primary/secondary.",
       "mode_overrides": {
-        "light": "{nbds.color.white}",
-        "dark": "{nbds.color.neutral.950}",
-        "hc-light": "{nbds.color.white}",
-        "hc-dark": "{nbds.color.black}"
+        "light": "{nbds.palette.white}",
+        "dark": "{nbds.palette.neutral.950}",
+        "hc-light": "{nbds.palette.white}",
+        "hc-dark": "{nbds.palette.black}"
       },
       "paired_with": [
         "foreground.brand"
@@ -993,10 +993,10 @@
       "when_to_use": "Text placed on the success fill it is paired with.",
       "avoid_when": "Do not use on standard surfaces — use text.primary/secondary.",
       "mode_overrides": {
-        "light": "{nbds.color.white}",
-        "dark": "{nbds.color.neutral.950}",
-        "hc-light": "{nbds.color.white}",
-        "hc-dark": "{nbds.color.black}"
+        "light": "{nbds.palette.white}",
+        "dark": "{nbds.palette.neutral.950}",
+        "hc-light": "{nbds.palette.white}",
+        "hc-dark": "{nbds.palette.black}"
       },
       "paired_with": [
         "foreground.success"
@@ -1015,10 +1015,10 @@
       "when_to_use": "Text placed on the warning fill it is paired with.",
       "avoid_when": "Do not use on standard surfaces — use text.primary/secondary.",
       "mode_overrides": {
-        "light": "{nbds.color.white}",
-        "dark": "{nbds.color.neutral.950}",
-        "hc-light": "{nbds.color.white}",
-        "hc-dark": "{nbds.color.black}"
+        "light": "{nbds.palette.white}",
+        "dark": "{nbds.palette.neutral.950}",
+        "hc-light": "{nbds.palette.white}",
+        "hc-dark": "{nbds.palette.black}"
       },
       "paired_with": [
         "foreground.warning"
@@ -1037,10 +1037,10 @@
       "when_to_use": "Text placed on the danger fill it is paired with.",
       "avoid_when": "Do not use on standard surfaces — use text.primary/secondary.",
       "mode_overrides": {
-        "light": "{nbds.color.white}",
-        "dark": "{nbds.color.neutral.950}",
-        "hc-light": "{nbds.color.white}",
-        "hc-dark": "{nbds.color.black}"
+        "light": "{nbds.palette.white}",
+        "dark": "{nbds.palette.neutral.950}",
+        "hc-light": "{nbds.palette.white}",
+        "hc-dark": "{nbds.palette.black}"
       },
       "paired_with": [
         "foreground.danger"
@@ -1059,10 +1059,10 @@
       "when_to_use": "Text placed on the info fill it is paired with.",
       "avoid_when": "Do not use on standard surfaces — use text.primary/secondary.",
       "mode_overrides": {
-        "light": "{nbds.color.white}",
-        "dark": "{nbds.color.neutral.950}",
-        "hc-light": "{nbds.color.white}",
-        "hc-dark": "{nbds.color.black}"
+        "light": "{nbds.palette.white}",
+        "dark": "{nbds.palette.neutral.950}",
+        "hc-light": "{nbds.palette.white}",
+        "hc-dark": "{nbds.palette.black}"
       },
       "paired_with": [
         "foreground.info"
@@ -1081,10 +1081,10 @@
       "when_to_use": "Text placed on the inverse surface it is paired with.",
       "avoid_when": "Do not use on standard surfaces — use text.primary/secondary.",
       "mode_overrides": {
-        "light": "{nbds.color.neutral.025}",
-        "dark": "{nbds.color.neutral.950}",
-        "hc-light": "{nbds.color.white}",
-        "hc-dark": "{nbds.color.black}"
+        "light": "{nbds.palette.neutral.025}",
+        "dark": "{nbds.palette.neutral.950}",
+        "hc-light": "{nbds.palette.white}",
+        "hc-dark": "{nbds.palette.black}"
       },
       "paired_with": [
         "background.inverse.primary"
@@ -1103,10 +1103,10 @@
       "when_to_use": "The label/text on a disabled control's fill — muted but legible (paired with action.disabled / foreground.danger.disabled).",
       "avoid_when": "Do not use on an enabled fill (use text.on-action / on-{semantic}) or on the page (use text.disabled).",
       "mode_overrides": {
-        "light": "{nbds.color.neutral.550}",
-        "dark": "{nbds.color.neutral.450}",
-        "hc-light": "{nbds.color.neutral.650}",
-        "hc-dark": "{nbds.color.neutral.300}"
+        "light": "{nbds.palette.neutral.550}",
+        "dark": "{nbds.palette.neutral.450}",
+        "hc-light": "{nbds.palette.neutral.650}",
+        "hc-dark": "{nbds.palette.neutral.300}"
       },
       "paired_with": [
         "action.disabled"
@@ -1125,10 +1125,10 @@
       "when_to_use": "Hyperlinks and interactive text.",
       "avoid_when": "Do not use for non-interactive text (use text.primary).",
       "mode_overrides": {
-        "light": "{nbds.color.red.550}",
-        "dark": "{nbds.color.red.450}",
-        "hc-light": "{nbds.color.red.700}",
-        "hc-dark": "{nbds.color.red.300}"
+        "light": "{nbds.palette.red.550}",
+        "dark": "{nbds.palette.red.450}",
+        "hc-light": "{nbds.palette.red.700}",
+        "hc-dark": "{nbds.palette.red.300}"
       },
       "contrast_with": [
         {
@@ -1144,10 +1144,10 @@
       "when_to_use": "Hyperlinks and interactive text on pointer hover.",
       "avoid_when": "Do not use for non-interactive text (use text.primary).",
       "mode_overrides": {
-        "light": "{nbds.color.red.600}",
-        "dark": "{nbds.color.red.400}",
-        "hc-light": "{nbds.color.red.750}",
-        "hc-dark": "{nbds.color.red.250}"
+        "light": "{nbds.palette.red.600}",
+        "dark": "{nbds.palette.red.400}",
+        "hc-light": "{nbds.palette.red.750}",
+        "hc-dark": "{nbds.palette.red.250}"
       },
       "contrast_with": [
         {
@@ -1163,10 +1163,10 @@
       "when_to_use": "Hyperlinks and interactive text after it has been visited.",
       "avoid_when": "Do not use for non-interactive text (use text.primary).",
       "mode_overrides": {
-        "light": "{nbds.color.red.650}",
-        "dark": "{nbds.color.red.350}",
-        "hc-light": "{nbds.color.red.800}",
-        "hc-dark": "{nbds.color.red.200}"
+        "light": "{nbds.palette.red.650}",
+        "dark": "{nbds.palette.red.350}",
+        "hc-light": "{nbds.palette.red.800}",
+        "hc-dark": "{nbds.palette.red.200}"
       },
       "contrast_with": [
         {
@@ -1182,10 +1182,10 @@
       "when_to_use": "Hyperlinks and interactive text when keyboard-focused.",
       "avoid_when": "Do not use for non-interactive text (use text.primary).",
       "mode_overrides": {
-        "light": "{nbds.color.red.550}",
-        "dark": "{nbds.color.red.450}",
-        "hc-light": "{nbds.color.red.700}",
-        "hc-dark": "{nbds.color.red.300}"
+        "light": "{nbds.palette.red.550}",
+        "dark": "{nbds.palette.red.450}",
+        "hc-light": "{nbds.palette.red.700}",
+        "hc-dark": "{nbds.palette.red.300}"
       },
       "contrast_with": [
         {
@@ -1201,10 +1201,10 @@
       "when_to_use": "Primary icon on any surface (holds across the tonal ladder).",
       "avoid_when": "Do not use on solid/vivid fills — use icon.on-*.",
       "mode_overrides": {
-        "light": "{nbds.color.neutral.950}",
-        "dark": "{nbds.color.neutral.025}",
-        "hc-light": "{nbds.color.black}",
-        "hc-dark": "{nbds.color.white}"
+        "light": "{nbds.palette.neutral.950}",
+        "dark": "{nbds.palette.neutral.025}",
+        "hc-light": "{nbds.palette.black}",
+        "hc-dark": "{nbds.palette.white}"
       },
       "paired_with": [
         "background.primary",
@@ -1224,10 +1224,10 @@
       "when_to_use": "Secondary icon on any surface (holds across the tonal ladder).",
       "avoid_when": "Do not use on solid/vivid fills — use icon.on-*.",
       "mode_overrides": {
-        "light": "{nbds.color.neutral.550}",
-        "dark": "{nbds.color.neutral.450}",
-        "hc-light": "{nbds.color.neutral.700}",
-        "hc-dark": "{nbds.color.neutral.300}"
+        "light": "{nbds.palette.neutral.550}",
+        "dark": "{nbds.palette.neutral.450}",
+        "hc-light": "{nbds.palette.neutral.700}",
+        "hc-dark": "{nbds.palette.neutral.300}"
       },
       "paired_with": [
         "background.primary",
@@ -1247,10 +1247,10 @@
       "when_to_use": "Tertiary icon on any surface (holds across the tonal ladder).",
       "avoid_when": "Do not use on solid/vivid fills — use icon.on-*.",
       "mode_overrides": {
-        "light": "{nbds.color.neutral.450}",
-        "dark": "{nbds.color.neutral.550}",
-        "hc-light": "{nbds.color.neutral.550}",
-        "hc-dark": "{nbds.color.neutral.450}"
+        "light": "{nbds.palette.neutral.450}",
+        "dark": "{nbds.palette.neutral.550}",
+        "hc-light": "{nbds.palette.neutral.550}",
+        "hc-dark": "{nbds.palette.neutral.450}"
       },
       "paired_with": [
         "background.primary",
@@ -1270,10 +1270,10 @@
       "when_to_use": "Icon for disabled or inactive elements.",
       "avoid_when": "Do not use for active content.",
       "mode_overrides": {
-        "light": "{nbds.color.neutral.450}",
-        "dark": "{nbds.color.neutral.550}",
-        "hc-light": "{nbds.color.neutral.550}",
-        "hc-dark": "{nbds.color.neutral.450}"
+        "light": "{nbds.palette.neutral.450}",
+        "dark": "{nbds.palette.neutral.550}",
+        "hc-light": "{nbds.palette.neutral.550}",
+        "hc-dark": "{nbds.palette.neutral.450}"
       },
       "contrast_with": [
         {
@@ -1289,10 +1289,10 @@
       "when_to_use": "Brand icon on standard surfaces (e.g. inline error/success text).",
       "avoid_when": "Do not use on a solid brand fill — use icon.on-brand.",
       "mode_overrides": {
-        "light": "{nbds.color.red.550}",
-        "dark": "{nbds.color.red.450}",
-        "hc-light": "{nbds.color.red.700}",
-        "hc-dark": "{nbds.color.red.300}"
+        "light": "{nbds.palette.red.550}",
+        "dark": "{nbds.palette.red.450}",
+        "hc-light": "{nbds.palette.red.700}",
+        "hc-dark": "{nbds.palette.red.300}"
       },
       "paired_with": [
         "background.primary"
@@ -1311,10 +1311,10 @@
       "when_to_use": "Success icon on standard surfaces (e.g. inline error/success text).",
       "avoid_when": "Do not use on a solid success fill — use icon.on-success.",
       "mode_overrides": {
-        "light": "{nbds.color.green.550}",
-        "dark": "{nbds.color.green.400}",
-        "hc-light": "{nbds.color.green.700}",
-        "hc-dark": "{nbds.color.green.300}"
+        "light": "{nbds.palette.green.550}",
+        "dark": "{nbds.palette.green.400}",
+        "hc-light": "{nbds.palette.green.700}",
+        "hc-dark": "{nbds.palette.green.300}"
       },
       "paired_with": [
         "background.primary"
@@ -1333,10 +1333,10 @@
       "when_to_use": "Warning icon on standard surfaces (e.g. inline error/success text).",
       "avoid_when": "Do not use on a solid warning fill — use icon.on-warning.",
       "mode_overrides": {
-        "light": "{nbds.color.amber.600}",
-        "dark": "{nbds.color.amber.450}",
-        "hc-light": "{nbds.color.amber.700}",
-        "hc-dark": "{nbds.color.amber.300}"
+        "light": "{nbds.palette.amber.600}",
+        "dark": "{nbds.palette.amber.450}",
+        "hc-light": "{nbds.palette.amber.700}",
+        "hc-dark": "{nbds.palette.amber.300}"
       },
       "paired_with": [
         "background.primary"
@@ -1355,10 +1355,10 @@
       "when_to_use": "Danger icon on standard surfaces (e.g. inline error/success text).",
       "avoid_when": "Do not use on a solid danger fill — use icon.on-danger.",
       "mode_overrides": {
-        "light": "{nbds.color.red.550}",
-        "dark": "{nbds.color.red.450}",
-        "hc-light": "{nbds.color.red.700}",
-        "hc-dark": "{nbds.color.red.300}"
+        "light": "{nbds.palette.red.550}",
+        "dark": "{nbds.palette.red.450}",
+        "hc-light": "{nbds.palette.red.700}",
+        "hc-dark": "{nbds.palette.red.300}"
       },
       "paired_with": [
         "background.primary"
@@ -1377,10 +1377,10 @@
       "when_to_use": "Info icon on standard surfaces (e.g. inline error/success text).",
       "avoid_when": "Do not use on a solid info fill — use icon.on-info.",
       "mode_overrides": {
-        "light": "{nbds.color.info.550}",
-        "dark": "{nbds.color.info.450}",
-        "hc-light": "{nbds.color.info.700}",
-        "hc-dark": "{nbds.color.info.300}"
+        "light": "{nbds.palette.info.550}",
+        "dark": "{nbds.palette.info.450}",
+        "hc-light": "{nbds.palette.info.700}",
+        "hc-dark": "{nbds.palette.info.300}"
       },
       "paired_with": [
         "background.primary"
@@ -1399,10 +1399,10 @@
       "when_to_use": "Low-emphasis brand icon — secondary status text / quiet accents.",
       "avoid_when": "For safety-critical brand messaging use the bold icon.brand; verify contrast for body text.",
       "mode_overrides": {
-        "light": "{nbds.color.red.450}",
-        "dark": "{nbds.color.red.350}",
-        "hc-light": "{nbds.color.red.450}",
-        "hc-dark": "{nbds.color.red.350}"
+        "light": "{nbds.palette.red.450}",
+        "dark": "{nbds.palette.red.350}",
+        "hc-light": "{nbds.palette.red.450}",
+        "hc-dark": "{nbds.palette.red.350}"
       },
       "paired_with": [
         "background.primary"
@@ -1414,10 +1414,10 @@
       "when_to_use": "Low-emphasis success icon — secondary status text / quiet accents.",
       "avoid_when": "For safety-critical success messaging use the bold icon.success; verify contrast for body text.",
       "mode_overrides": {
-        "light": "{nbds.color.green.450}",
-        "dark": "{nbds.color.green.350}",
-        "hc-light": "{nbds.color.green.450}",
-        "hc-dark": "{nbds.color.green.350}"
+        "light": "{nbds.palette.green.450}",
+        "dark": "{nbds.palette.green.350}",
+        "hc-light": "{nbds.palette.green.450}",
+        "hc-dark": "{nbds.palette.green.350}"
       },
       "paired_with": [
         "background.primary"
@@ -1429,10 +1429,10 @@
       "when_to_use": "Low-emphasis warning icon — secondary status text / quiet accents.",
       "avoid_when": "For safety-critical warning messaging use the bold icon.warning; verify contrast for body text.",
       "mode_overrides": {
-        "light": "{nbds.color.amber.450}",
-        "dark": "{nbds.color.amber.350}",
-        "hc-light": "{nbds.color.amber.450}",
-        "hc-dark": "{nbds.color.amber.350}"
+        "light": "{nbds.palette.amber.450}",
+        "dark": "{nbds.palette.amber.350}",
+        "hc-light": "{nbds.palette.amber.450}",
+        "hc-dark": "{nbds.palette.amber.350}"
       },
       "paired_with": [
         "background.primary"
@@ -1444,10 +1444,10 @@
       "when_to_use": "Low-emphasis danger icon — secondary status text / quiet accents.",
       "avoid_when": "For safety-critical danger messaging use the bold icon.danger; verify contrast for body text.",
       "mode_overrides": {
-        "light": "{nbds.color.red.450}",
-        "dark": "{nbds.color.red.350}",
-        "hc-light": "{nbds.color.red.450}",
-        "hc-dark": "{nbds.color.red.350}"
+        "light": "{nbds.palette.red.450}",
+        "dark": "{nbds.palette.red.350}",
+        "hc-light": "{nbds.palette.red.450}",
+        "hc-dark": "{nbds.palette.red.350}"
       },
       "paired_with": [
         "background.primary"
@@ -1459,10 +1459,10 @@
       "when_to_use": "Low-emphasis info icon — secondary status text / quiet accents.",
       "avoid_when": "For safety-critical info messaging use the bold icon.info; verify contrast for body text.",
       "mode_overrides": {
-        "light": "{nbds.color.info.450}",
-        "dark": "{nbds.color.info.350}",
-        "hc-light": "{nbds.color.info.450}",
-        "hc-dark": "{nbds.color.info.350}"
+        "light": "{nbds.palette.info.450}",
+        "dark": "{nbds.palette.info.350}",
+        "hc-light": "{nbds.palette.info.450}",
+        "hc-dark": "{nbds.palette.info.350}"
       },
       "paired_with": [
         "background.primary"
@@ -1474,10 +1474,10 @@
       "when_to_use": "Icon placed on the action fill it is paired with.",
       "avoid_when": "Do not use on standard surfaces — use icon.primary/secondary.",
       "mode_overrides": {
-        "light": "{nbds.color.white}",
-        "dark": "{nbds.color.neutral.950}",
-        "hc-light": "{nbds.color.white}",
-        "hc-dark": "{nbds.color.black}"
+        "light": "{nbds.palette.white}",
+        "dark": "{nbds.palette.neutral.950}",
+        "hc-light": "{nbds.palette.white}",
+        "hc-dark": "{nbds.palette.black}"
       },
       "paired_with": [
         "action.default"
@@ -1496,10 +1496,10 @@
       "when_to_use": "Icon placed on the brand fill it is paired with.",
       "avoid_when": "Do not use on standard surfaces — use icon.primary/secondary.",
       "mode_overrides": {
-        "light": "{nbds.color.white}",
-        "dark": "{nbds.color.neutral.950}",
-        "hc-light": "{nbds.color.white}",
-        "hc-dark": "{nbds.color.black}"
+        "light": "{nbds.palette.white}",
+        "dark": "{nbds.palette.neutral.950}",
+        "hc-light": "{nbds.palette.white}",
+        "hc-dark": "{nbds.palette.black}"
       },
       "paired_with": [
         "foreground.brand"
@@ -1518,10 +1518,10 @@
       "when_to_use": "Icon placed on the success fill it is paired with.",
       "avoid_when": "Do not use on standard surfaces — use icon.primary/secondary.",
       "mode_overrides": {
-        "light": "{nbds.color.white}",
-        "dark": "{nbds.color.neutral.950}",
-        "hc-light": "{nbds.color.white}",
-        "hc-dark": "{nbds.color.black}"
+        "light": "{nbds.palette.white}",
+        "dark": "{nbds.palette.neutral.950}",
+        "hc-light": "{nbds.palette.white}",
+        "hc-dark": "{nbds.palette.black}"
       },
       "paired_with": [
         "foreground.success"
@@ -1540,10 +1540,10 @@
       "when_to_use": "Icon placed on the warning fill it is paired with.",
       "avoid_when": "Do not use on standard surfaces — use icon.primary/secondary.",
       "mode_overrides": {
-        "light": "{nbds.color.white}",
-        "dark": "{nbds.color.neutral.950}",
-        "hc-light": "{nbds.color.white}",
-        "hc-dark": "{nbds.color.black}"
+        "light": "{nbds.palette.white}",
+        "dark": "{nbds.palette.neutral.950}",
+        "hc-light": "{nbds.palette.white}",
+        "hc-dark": "{nbds.palette.black}"
       },
       "paired_with": [
         "foreground.warning"
@@ -1562,10 +1562,10 @@
       "when_to_use": "Icon placed on the danger fill it is paired with.",
       "avoid_when": "Do not use on standard surfaces — use icon.primary/secondary.",
       "mode_overrides": {
-        "light": "{nbds.color.white}",
-        "dark": "{nbds.color.neutral.950}",
-        "hc-light": "{nbds.color.white}",
-        "hc-dark": "{nbds.color.black}"
+        "light": "{nbds.palette.white}",
+        "dark": "{nbds.palette.neutral.950}",
+        "hc-light": "{nbds.palette.white}",
+        "hc-dark": "{nbds.palette.black}"
       },
       "paired_with": [
         "foreground.danger"
@@ -1584,10 +1584,10 @@
       "when_to_use": "Icon placed on the info fill it is paired with.",
       "avoid_when": "Do not use on standard surfaces — use icon.primary/secondary.",
       "mode_overrides": {
-        "light": "{nbds.color.white}",
-        "dark": "{nbds.color.neutral.950}",
-        "hc-light": "{nbds.color.white}",
-        "hc-dark": "{nbds.color.black}"
+        "light": "{nbds.palette.white}",
+        "dark": "{nbds.palette.neutral.950}",
+        "hc-light": "{nbds.palette.white}",
+        "hc-dark": "{nbds.palette.black}"
       },
       "paired_with": [
         "foreground.info"
@@ -1606,10 +1606,10 @@
       "when_to_use": "Icon placed on the inverse surface it is paired with.",
       "avoid_when": "Do not use on standard surfaces — use icon.primary/secondary.",
       "mode_overrides": {
-        "light": "{nbds.color.neutral.025}",
-        "dark": "{nbds.color.neutral.950}",
-        "hc-light": "{nbds.color.white}",
-        "hc-dark": "{nbds.color.black}"
+        "light": "{nbds.palette.neutral.025}",
+        "dark": "{nbds.palette.neutral.950}",
+        "hc-light": "{nbds.palette.white}",
+        "hc-dark": "{nbds.palette.black}"
       },
       "paired_with": [
         "background.inverse.primary"
@@ -1628,10 +1628,10 @@
       "when_to_use": "The label/icon on a disabled control's fill — muted but legible (paired with action.disabled / foreground.danger.disabled).",
       "avoid_when": "Do not use on an enabled fill (use icon.on-action / on-{semantic}) or on the page (use icon.disabled).",
       "mode_overrides": {
-        "light": "{nbds.color.neutral.550}",
-        "dark": "{nbds.color.neutral.450}",
-        "hc-light": "{nbds.color.neutral.650}",
-        "hc-dark": "{nbds.color.neutral.300}"
+        "light": "{nbds.palette.neutral.550}",
+        "dark": "{nbds.palette.neutral.450}",
+        "hc-light": "{nbds.palette.neutral.650}",
+        "hc-dark": "{nbds.palette.neutral.300}"
       },
       "paired_with": [
         "action.disabled"
@@ -1650,10 +1650,10 @@
       "when_to_use": "Hyperlinks and interactive icon.",
       "avoid_when": "Do not use for non-interactive icon (use icon.primary).",
       "mode_overrides": {
-        "light": "{nbds.color.red.550}",
-        "dark": "{nbds.color.red.450}",
-        "hc-light": "{nbds.color.red.700}",
-        "hc-dark": "{nbds.color.red.300}"
+        "light": "{nbds.palette.red.550}",
+        "dark": "{nbds.palette.red.450}",
+        "hc-light": "{nbds.palette.red.700}",
+        "hc-dark": "{nbds.palette.red.300}"
       },
       "contrast_with": [
         {
@@ -1669,10 +1669,10 @@
       "when_to_use": "Hyperlinks and interactive icon on pointer hover.",
       "avoid_when": "Do not use for non-interactive icon (use icon.primary).",
       "mode_overrides": {
-        "light": "{nbds.color.red.600}",
-        "dark": "{nbds.color.red.400}",
-        "hc-light": "{nbds.color.red.750}",
-        "hc-dark": "{nbds.color.red.250}"
+        "light": "{nbds.palette.red.600}",
+        "dark": "{nbds.palette.red.400}",
+        "hc-light": "{nbds.palette.red.750}",
+        "hc-dark": "{nbds.palette.red.250}"
       },
       "contrast_with": [
         {
@@ -1688,10 +1688,10 @@
       "when_to_use": "Hyperlinks and interactive icon after it has been visited.",
       "avoid_when": "Do not use for non-interactive icon (use icon.primary).",
       "mode_overrides": {
-        "light": "{nbds.color.red.650}",
-        "dark": "{nbds.color.red.350}",
-        "hc-light": "{nbds.color.red.800}",
-        "hc-dark": "{nbds.color.red.200}"
+        "light": "{nbds.palette.red.650}",
+        "dark": "{nbds.palette.red.350}",
+        "hc-light": "{nbds.palette.red.800}",
+        "hc-dark": "{nbds.palette.red.200}"
       },
       "contrast_with": [
         {
@@ -1707,10 +1707,10 @@
       "when_to_use": "Hyperlinks and interactive icon when keyboard-focused.",
       "avoid_when": "Do not use for non-interactive icon (use icon.primary).",
       "mode_overrides": {
-        "light": "{nbds.color.red.550}",
-        "dark": "{nbds.color.red.450}",
-        "hc-light": "{nbds.color.red.700}",
-        "hc-dark": "{nbds.color.red.300}"
+        "light": "{nbds.palette.red.550}",
+        "dark": "{nbds.palette.red.450}",
+        "hc-light": "{nbds.palette.red.700}",
+        "hc-dark": "{nbds.palette.red.300}"
       },
       "contrast_with": [
         {
@@ -1726,10 +1726,10 @@
       "when_to_use": "Dividers, card outlines, low-emphasis separation.",
       "avoid_when": "Do not use where a 3:1 non-text contrast is required (use border.secondary / border.focus).",
       "mode_overrides": {
-        "light": "{nbds.color.neutral.100}",
-        "dark": "{nbds.color.neutral.750}",
-        "hc-light": "{nbds.color.neutral.500}",
-        "hc-dark": "{nbds.color.neutral.500}"
+        "light": "{nbds.palette.neutral.100}",
+        "dark": "{nbds.palette.neutral.750}",
+        "hc-light": "{nbds.palette.neutral.500}",
+        "hc-dark": "{nbds.palette.neutral.500}"
       }
     },
     "border.secondary": {
@@ -1738,10 +1738,10 @@
       "when_to_use": "Higher-emphasis dividers and separators; control borders.",
       "avoid_when": "Do not use as a faint hairline (use border.primary).",
       "mode_overrides": {
-        "light": "{nbds.color.neutral.400}",
-        "dark": "{nbds.color.neutral.500}",
-        "hc-light": "{nbds.color.neutral.700}",
-        "hc-dark": "{nbds.color.neutral.250}"
+        "light": "{nbds.palette.neutral.400}",
+        "dark": "{nbds.palette.neutral.500}",
+        "hc-light": "{nbds.palette.neutral.700}",
+        "hc-dark": "{nbds.palette.neutral.250}"
       }
     },
     "border.inverse": {
@@ -1750,10 +1750,10 @@
       "when_to_use": "Borders on background.inverse / foreground.inverse.",
       "avoid_when": "Do not use on default surfaces.",
       "mode_overrides": {
-        "light": "{nbds.color.neutral.800}",
-        "dark": "{nbds.color.neutral.200}",
-        "hc-light": "{nbds.color.neutral.500}",
-        "hc-dark": "{nbds.color.neutral.500}"
+        "light": "{nbds.palette.neutral.800}",
+        "dark": "{nbds.palette.neutral.200}",
+        "hc-light": "{nbds.palette.neutral.500}",
+        "hc-dark": "{nbds.palette.neutral.500}"
       },
       "paired_with": [
         "background.inverse.primary"
@@ -1765,10 +1765,10 @@
       "when_to_use": "Validation/state borders for brand (e.g. invalid fields).",
       "avoid_when": "Do not use as brand ink or fill — use text.brand / foreground.brand.",
       "mode_overrides": {
-        "light": "{nbds.color.red.500}",
-        "dark": "{nbds.color.red.500}",
-        "hc-light": "{nbds.color.red.500}",
-        "hc-dark": "{nbds.color.red.500}"
+        "light": "{nbds.palette.red.500}",
+        "dark": "{nbds.palette.red.500}",
+        "hc-light": "{nbds.palette.red.500}",
+        "hc-dark": "{nbds.palette.red.500}"
       },
       "contrast_with": [
         {
@@ -1784,10 +1784,10 @@
       "when_to_use": "Validation/state borders for success (e.g. invalid fields).",
       "avoid_when": "Do not use as success ink or fill — use text.success / foreground.success.",
       "mode_overrides": {
-        "light": "{nbds.color.green.500}",
-        "dark": "{nbds.color.green.500}",
-        "hc-light": "{nbds.color.green.500}",
-        "hc-dark": "{nbds.color.green.450}"
+        "light": "{nbds.palette.green.500}",
+        "dark": "{nbds.palette.green.500}",
+        "hc-light": "{nbds.palette.green.500}",
+        "hc-dark": "{nbds.palette.green.450}"
       },
       "contrast_with": [
         {
@@ -1803,10 +1803,10 @@
       "when_to_use": "Validation/state borders for warning (e.g. invalid fields).",
       "avoid_when": "Do not use as warning ink or fill — use text.warning / foreground.warning.",
       "mode_overrides": {
-        "light": "{nbds.color.amber.500}",
-        "dark": "{nbds.color.amber.500}",
-        "hc-light": "{nbds.color.amber.500}",
-        "hc-dark": "{nbds.color.amber.500}"
+        "light": "{nbds.palette.amber.500}",
+        "dark": "{nbds.palette.amber.500}",
+        "hc-light": "{nbds.palette.amber.500}",
+        "hc-dark": "{nbds.palette.amber.500}"
       },
       "contrast_with": [
         {
@@ -1822,10 +1822,10 @@
       "when_to_use": "Validation/state borders for danger (e.g. invalid fields).",
       "avoid_when": "Do not use as danger ink or fill — use text.danger / foreground.danger.",
       "mode_overrides": {
-        "light": "{nbds.color.red.500}",
-        "dark": "{nbds.color.red.500}",
-        "hc-light": "{nbds.color.red.500}",
-        "hc-dark": "{nbds.color.red.500}"
+        "light": "{nbds.palette.red.500}",
+        "dark": "{nbds.palette.red.500}",
+        "hc-light": "{nbds.palette.red.500}",
+        "hc-dark": "{nbds.palette.red.500}"
       },
       "contrast_with": [
         {
@@ -1841,10 +1841,10 @@
       "when_to_use": "Validation/state borders for info (e.g. invalid fields).",
       "avoid_when": "Do not use as info ink or fill — use text.info / foreground.info.",
       "mode_overrides": {
-        "light": "{nbds.color.info.500}",
-        "dark": "{nbds.color.info.500}",
-        "hc-light": "{nbds.color.info.500}",
-        "hc-dark": "{nbds.color.info.500}"
+        "light": "{nbds.palette.info.500}",
+        "dark": "{nbds.palette.info.500}",
+        "hc-light": "{nbds.palette.info.500}",
+        "hc-dark": "{nbds.palette.info.500}"
       },
       "contrast_with": [
         {
@@ -1860,10 +1860,10 @@
       "when_to_use": "The keyboard-focus indicator on interactive elements.",
       "avoid_when": "Do not use as a decorative divider (use border.primary).",
       "mode_overrides": {
-        "light": "{nbds.color.red.550}",
-        "dark": "{nbds.color.red.450}",
-        "hc-light": "{nbds.color.red.700}",
-        "hc-dark": "{nbds.color.red.300}"
+        "light": "{nbds.palette.red.550}",
+        "dark": "{nbds.palette.red.450}",
+        "hc-light": "{nbds.palette.red.700}",
+        "hc-dark": "{nbds.palette.red.300}"
       },
       "paired_with": [
         "background.primary"
@@ -2429,1365 +2429,1018 @@
     }
   },
   "primitives": {
-    "color.white": {
+    "palette.white": {
       "$description": "Pure white — Highlight base / default surface",
       "meaning": "Pure white primitive",
       "intent": "Pure highlight base — default light surface / on-colour text",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.hc-dark.background.inverse.primary",
-        "semantic.hc-dark.background.inverse.secondary",
-        "semantic.hc-dark.background.inverse.tertiary",
-        "semantic.hc-dark.foreground.inverse.primary",
-        "semantic.hc-dark.foreground.inverse.secondary",
-        "semantic.hc-dark.foreground.inverse.tertiary",
-        "semantic.hc-dark.icon.primary",
-        "semantic.hc-dark.text.primary",
-        "semantic.hc-light.background.primary",
-        "semantic.hc-light.background.secondary",
-        "semantic.hc-light.background.tertiary",
-        "semantic.hc-light.foreground.primary",
-        "semantic.hc-light.foreground.secondary",
-        "semantic.hc-light.foreground.tertiary",
-        "semantic.hc-light.icon.on-action",
-        "semantic.hc-light.icon.on-brand",
-        "semantic.hc-light.icon.on-danger",
-        "semantic.hc-light.icon.on-info",
-        "semantic.hc-light.icon.on-inverse",
-        "semantic.hc-light.icon.on-success",
-        "semantic.hc-light.icon.on-warning",
-        "semantic.hc-light.text.on-action",
-        "semantic.hc-light.text.on-brand",
-        "semantic.hc-light.text.on-danger",
-        "semantic.hc-light.text.on-info",
-        "semantic.hc-light.text.on-inverse",
-        "semantic.hc-light.text.on-success",
-        "semantic.hc-light.text.on-warning",
-        "semantic.light.background.primary",
-        "semantic.light.icon.on-action",
-        "semantic.light.icon.on-brand",
-        "semantic.light.icon.on-danger",
-        "semantic.light.icon.on-info",
-        "semantic.light.icon.on-success",
-        "semantic.light.icon.on-warning",
-        "semantic.light.text.on-action",
-        "semantic.light.text.on-brand",
-        "semantic.light.text.on-danger",
-        "semantic.light.text.on-info",
-        "semantic.light.text.on-success",
-        "semantic.light.text.on-warning"
+        "color.background.primary",
+        "color.icon.on-action",
+        "color.icon.on-brand",
+        "color.icon.on-danger",
+        "color.icon.on-info",
+        "color.icon.on-success",
+        "color.icon.on-warning",
+        "color.text.on-action",
+        "color.text.on-brand",
+        "color.text.on-danger",
+        "color.text.on-info",
+        "color.text.on-success",
+        "color.text.on-warning"
       ]
     },
-    "color.black": {
+    "palette.black": {
       "$description": "Pure black — Shadow base",
       "meaning": "Pure black primitive",
       "intent": "Shadow base — scrim & shadow source / on-colour text",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
-      "aliased_by": [
-        "semantic.hc-dark.background.primary",
-        "semantic.hc-dark.background.secondary",
-        "semantic.hc-dark.background.tertiary",
-        "semantic.hc-dark.foreground.primary",
-        "semantic.hc-dark.foreground.secondary",
-        "semantic.hc-dark.foreground.tertiary",
-        "semantic.hc-dark.icon.on-action",
-        "semantic.hc-dark.icon.on-brand",
-        "semantic.hc-dark.icon.on-danger",
-        "semantic.hc-dark.icon.on-info",
-        "semantic.hc-dark.icon.on-inverse",
-        "semantic.hc-dark.icon.on-success",
-        "semantic.hc-dark.icon.on-warning",
-        "semantic.hc-dark.text.on-action",
-        "semantic.hc-dark.text.on-brand",
-        "semantic.hc-dark.text.on-danger",
-        "semantic.hc-dark.text.on-info",
-        "semantic.hc-dark.text.on-inverse",
-        "semantic.hc-dark.text.on-success",
-        "semantic.hc-dark.text.on-warning",
-        "semantic.hc-light.background.inverse.primary",
-        "semantic.hc-light.background.inverse.secondary",
-        "semantic.hc-light.background.inverse.tertiary",
-        "semantic.hc-light.foreground.inverse.primary",
-        "semantic.hc-light.foreground.inverse.secondary",
-        "semantic.hc-light.foreground.inverse.tertiary",
-        "semantic.hc-light.icon.primary",
-        "semantic.hc-light.text.primary"
-      ]
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.red.100": {
+    "palette.red.100": {
       "$description": "brand (red) 100 — Quarter-Tone band",
       "meaning": "red ramp — raw step 100",
       "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.hc-light.foreground.brand-subtle",
-        "semantic.hc-light.foreground.danger-subtle",
-        "semantic.light.foreground.brand-subtle",
-        "semantic.light.foreground.danger-subtle"
+        "color.foreground.brand-subtle",
+        "color.foreground.danger-subtle"
       ]
     },
-    "color.red.150": {
+    "palette.red.150": {
       "$description": "brand (red) 150 — Quarter-Tone band",
       "meaning": "red ramp — raw step 150",
       "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.red.200": {
+    "palette.red.200": {
       "$description": "brand (red) 200 — Quarter-Tone band",
       "meaning": "red ramp — raw step 200",
       "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
-      "aliased_by": [
-        "semantic.hc-dark.action.pressed",
-        "semantic.hc-dark.action.selected",
-        "semantic.hc-dark.foreground.danger.pressed",
-        "semantic.hc-dark.foreground.danger.selected",
-        "semantic.hc-dark.icon.link.visited",
-        "semantic.hc-dark.text.link.visited"
-      ]
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.red.250": {
+    "palette.red.250": {
       "$description": "brand (red) 250 — Quarter-Tone band",
       "meaning": "red ramp — raw step 250",
       "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
-      "aliased_by": [
-        "semantic.hc-dark.action.focused",
-        "semantic.hc-dark.action.hover",
-        "semantic.hc-dark.foreground.danger.focused",
-        "semantic.hc-dark.foreground.danger.hover",
-        "semantic.hc-dark.icon.link.hover",
-        "semantic.hc-dark.text.link.hover"
-      ]
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.red.300": {
+    "palette.red.300": {
       "$description": "brand (red) 300 — Quarter-Tone band",
       "meaning": "red ramp — raw step 300",
       "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
-      "aliased_by": [
-        "semantic.hc-dark.action.default",
-        "semantic.hc-dark.border.focus",
-        "semantic.hc-dark.foreground.brand",
-        "semantic.hc-dark.foreground.danger.default",
-        "semantic.hc-dark.icon.brand",
-        "semantic.hc-dark.icon.danger",
-        "semantic.hc-dark.icon.link.default",
-        "semantic.hc-dark.icon.link.focused",
-        "semantic.hc-dark.text.brand",
-        "semantic.hc-dark.text.danger",
-        "semantic.hc-dark.text.link.default",
-        "semantic.hc-dark.text.link.focused"
-      ]
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.red.350": {
+    "palette.red.350": {
       "$description": "brand (red) 350 — Quarter-Tone band",
       "meaning": "red ramp — raw step 350",
       "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
-      "aliased_by": [
-        "semantic.dark.action.pressed",
-        "semantic.dark.action.selected",
-        "semantic.dark.foreground.danger.pressed",
-        "semantic.dark.foreground.danger.selected",
-        "semantic.dark.icon.brand-subtle",
-        "semantic.dark.icon.danger-subtle",
-        "semantic.dark.icon.link.visited",
-        "semantic.dark.text.brand-subtle",
-        "semantic.dark.text.danger-subtle",
-        "semantic.dark.text.link.visited",
-        "semantic.hc-dark.icon.brand-subtle",
-        "semantic.hc-dark.icon.danger-subtle",
-        "semantic.hc-dark.text.brand-subtle",
-        "semantic.hc-dark.text.danger-subtle"
-      ]
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.red.400": {
+    "palette.red.400": {
       "$description": "brand (red) 400 — Mid-Tone band",
       "meaning": "red ramp — raw step 400",
       "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
-      "aliased_by": [
-        "semantic.dark.action.focused",
-        "semantic.dark.action.hover",
-        "semantic.dark.foreground.danger.focused",
-        "semantic.dark.foreground.danger.hover",
-        "semantic.dark.icon.link.hover",
-        "semantic.dark.text.link.hover"
-      ]
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.red.450": {
+    "palette.red.450": {
       "$description": "brand (red) 450 — Mid-Tone band",
       "meaning": "red ramp — raw step 450",
       "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.action.default",
-        "semantic.dark.border.focus",
-        "semantic.dark.foreground.brand",
-        "semantic.dark.foreground.danger.default",
-        "semantic.dark.icon.brand",
-        "semantic.dark.icon.danger",
-        "semantic.dark.icon.link.default",
-        "semantic.dark.icon.link.focused",
-        "semantic.dark.text.brand",
-        "semantic.dark.text.danger",
-        "semantic.dark.text.link.default",
-        "semantic.dark.text.link.focused",
-        "semantic.hc-light.icon.brand-subtle",
-        "semantic.hc-light.icon.danger-subtle",
-        "semantic.hc-light.text.brand-subtle",
-        "semantic.hc-light.text.danger-subtle",
-        "semantic.light.icon.brand-subtle",
-        "semantic.light.icon.danger-subtle",
-        "semantic.light.text.brand-subtle",
-        "semantic.light.text.danger-subtle"
+        "color.icon.brand-subtle",
+        "color.icon.danger-subtle",
+        "color.text.brand-subtle",
+        "color.text.danger-subtle"
       ]
     },
-    "color.red.500": {
+    "palette.red.500": {
       "$description": "brand (red) 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
       "meaning": "red ramp — raw step 500",
       "intent": "Solid fills & UI-element backgrounds — the one mid step that reads as text or icons over both light and dark fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.border.brand",
-        "semantic.dark.border.danger",
-        "semantic.hc-dark.border.brand",
-        "semantic.hc-dark.border.danger",
-        "semantic.hc-light.border.brand",
-        "semantic.hc-light.border.danger",
-        "semantic.light.border.brand",
-        "semantic.light.border.danger"
+        "color.border.brand",
+        "color.border.danger"
       ]
     },
-    "color.red.550": {
+    "palette.red.550": {
       "$description": "brand (red) 550 — Mid-Tone band — brand anchor (exact, pinned)",
       "meaning": "red ramp — raw step 550",
       "intent": "Solid fills & UI-element backgrounds — reach for this when fidelity to the source brand colour matters",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.light.action.default",
-        "semantic.light.border.focus",
-        "semantic.light.foreground.brand",
-        "semantic.light.foreground.danger.default",
-        "semantic.light.icon.brand",
-        "semantic.light.icon.danger",
-        "semantic.light.icon.link.default",
-        "semantic.light.icon.link.focused",
-        "semantic.light.text.brand",
-        "semantic.light.text.danger",
-        "semantic.light.text.link.default",
-        "semantic.light.text.link.focused"
+        "color.action.default",
+        "color.border.focus",
+        "color.foreground.brand",
+        "color.foreground.danger.default",
+        "color.icon.brand",
+        "color.icon.danger",
+        "color.icon.link.default",
+        "color.icon.link.focused",
+        "color.text.brand",
+        "color.text.danger",
+        "color.text.link.default",
+        "color.text.link.focused"
       ]
     },
-    "color.red.600": {
+    "palette.red.600": {
       "$description": "brand (red) 600 — Mid-Tone band",
       "meaning": "red ramp — raw step 600",
       "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.light.action.focused",
-        "semantic.light.action.hover",
-        "semantic.light.foreground.danger.focused",
-        "semantic.light.foreground.danger.hover",
-        "semantic.light.icon.link.hover",
-        "semantic.light.text.link.hover"
+        "color.action.focused",
+        "color.action.hover",
+        "color.foreground.danger.focused",
+        "color.foreground.danger.hover",
+        "color.icon.link.hover",
+        "color.text.link.hover"
       ]
     },
-    "color.red.650": {
+    "palette.red.650": {
       "$description": "brand (red) 650 — Three-Quarter-Tone band",
       "meaning": "red ramp — raw step 650",
       "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.light.action.pressed",
-        "semantic.light.action.selected",
-        "semantic.light.foreground.danger.pressed",
-        "semantic.light.foreground.danger.selected",
-        "semantic.light.icon.link.visited",
-        "semantic.light.text.link.visited"
+        "color.action.pressed",
+        "color.action.selected",
+        "color.foreground.danger.pressed",
+        "color.foreground.danger.selected",
+        "color.icon.link.visited",
+        "color.text.link.visited"
       ]
     },
-    "color.red.700": {
+    "palette.red.700": {
       "$description": "brand (red) 700 — Three-Quarter-Tone band",
       "meaning": "red ramp — raw step 700",
       "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
-      "aliased_by": [
-        "semantic.hc-light.action.default",
-        "semantic.hc-light.border.focus",
-        "semantic.hc-light.foreground.brand",
-        "semantic.hc-light.foreground.danger.default",
-        "semantic.hc-light.icon.brand",
-        "semantic.hc-light.icon.danger",
-        "semantic.hc-light.icon.link.default",
-        "semantic.hc-light.icon.link.focused",
-        "semantic.hc-light.text.brand",
-        "semantic.hc-light.text.danger",
-        "semantic.hc-light.text.link.default",
-        "semantic.hc-light.text.link.focused"
-      ]
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.red.750": {
+    "palette.red.750": {
       "$description": "brand (red) 750 — Three-Quarter-Tone band",
       "meaning": "red ramp — raw step 750",
       "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
-      "aliased_by": [
-        "semantic.hc-light.action.focused",
-        "semantic.hc-light.action.hover",
-        "semantic.hc-light.foreground.danger.focused",
-        "semantic.hc-light.foreground.danger.hover",
-        "semantic.hc-light.icon.link.hover",
-        "semantic.hc-light.text.link.hover"
-      ]
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.red.800": {
+    "palette.red.800": {
       "$description": "brand (red) 800 — Three-Quarter-Tone band",
       "meaning": "red ramp — raw step 800",
       "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
-      "aliased_by": [
-        "semantic.hc-light.action.pressed",
-        "semantic.hc-light.action.selected",
-        "semantic.hc-light.foreground.danger.pressed",
-        "semantic.hc-light.foreground.danger.selected",
-        "semantic.hc-light.icon.link.visited",
-        "semantic.hc-light.text.link.visited"
-      ]
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.red.850": {
+    "palette.red.850": {
       "$description": "brand (red) 850 — Three-Quarter-Tone band",
       "meaning": "red ramp — raw step 850",
       "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.red.900": {
+    "palette.red.900": {
       "$description": "brand (red) 900 — Three-Quarter-Tone band",
       "meaning": "red ramp — raw step 900",
       "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
-      "aliased_by": [
-        "semantic.dark.foreground.brand-subtle",
-        "semantic.dark.foreground.danger-subtle",
-        "semantic.hc-dark.foreground.brand-subtle",
-        "semantic.hc-dark.foreground.danger-subtle"
-      ]
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.red.950": {
+    "palette.red.950": {
       "$description": "brand (red) 950 — Shadow band",
       "meaning": "red ramp — raw step 950",
       "intent": "Highest-contrast text and strong foreground",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.red.025": {
+    "palette.red.025": {
       "$description": "brand (red) 025 — Highlight band",
       "meaning": "red ramp — raw step 025",
       "intent": "Lightest tints — app / subtle backgrounds, hover & selected fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.red.050": {
+    "palette.red.050": {
       "$description": "brand (red) 050 — Highlight band",
       "meaning": "red ramp — raw step 050",
       "intent": "Lightest tints — app / subtle backgrounds, hover & selected fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.green.100": {
+    "palette.green.100": {
       "$description": "success (green) 100 — Quarter-Tone band",
       "meaning": "green ramp — raw step 100",
       "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.hc-light.foreground.success-subtle",
-        "semantic.light.foreground.success-subtle"
+        "color.foreground.success-subtle"
       ]
     },
-    "color.green.150": {
+    "palette.green.150": {
       "$description": "success (green) 150 — Quarter-Tone band",
       "meaning": "green ramp — raw step 150",
       "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.green.200": {
+    "palette.green.200": {
       "$description": "success (green) 200 — Quarter-Tone band",
       "meaning": "green ramp — raw step 200",
       "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.green.250": {
+    "palette.green.250": {
       "$description": "success (green) 250 — Quarter-Tone band",
       "meaning": "green ramp — raw step 250",
       "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.green.300": {
+    "palette.green.300": {
       "$description": "success (green) 300 — Quarter-Tone band",
       "meaning": "green ramp — raw step 300",
       "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
-      "aliased_by": [
-        "semantic.hc-dark.foreground.success",
-        "semantic.hc-dark.icon.success",
-        "semantic.hc-dark.text.success"
-      ]
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.green.350": {
+    "palette.green.350": {
       "$description": "success (green) 350 — Quarter-Tone band",
       "meaning": "green ramp — raw step 350",
       "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
-      "aliased_by": [
-        "semantic.dark.icon.success-subtle",
-        "semantic.dark.text.success-subtle",
-        "semantic.hc-dark.icon.success-subtle",
-        "semantic.hc-dark.text.success-subtle"
-      ]
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.green.400": {
+    "palette.green.400": {
       "$description": "success (green) 400 — Mid-Tone band",
       "meaning": "green ramp — raw step 400",
       "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
-      "aliased_by": [
-        "semantic.dark.foreground.success",
-        "semantic.dark.icon.success",
-        "semantic.dark.text.success"
-      ]
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.green.450": {
+    "palette.green.450": {
       "$description": "success (green) 450 — Mid-Tone band",
       "meaning": "green ramp — raw step 450",
       "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.hc-dark.border.success",
-        "semantic.hc-light.icon.success-subtle",
-        "semantic.hc-light.text.success-subtle",
-        "semantic.light.icon.success-subtle",
-        "semantic.light.text.success-subtle"
+        "color.icon.success-subtle",
+        "color.text.success-subtle"
       ]
     },
-    "color.green.500": {
+    "palette.green.500": {
       "$description": "success (green) 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
       "meaning": "green ramp — raw step 500",
       "intent": "Solid fills & UI-element backgrounds — the one mid step that reads as text or icons over both light and dark fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.border.success",
-        "semantic.hc-light.border.success",
-        "semantic.light.border.success"
+        "color.border.success"
       ]
     },
-    "color.green.550": {
+    "palette.green.550": {
       "$description": "success (green) 550 — Mid-Tone band",
       "meaning": "green ramp — raw step 550",
       "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.light.foreground.success",
-        "semantic.light.icon.success",
-        "semantic.light.text.success"
+        "color.foreground.success",
+        "color.icon.success",
+        "color.text.success"
       ]
     },
-    "color.green.600": {
+    "palette.green.600": {
       "$description": "success (green) 600 — Mid-Tone band",
       "meaning": "green ramp — raw step 600",
       "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.green.650": {
+    "palette.green.650": {
       "$description": "success (green) 650 — Three-Quarter-Tone band",
       "meaning": "green ramp — raw step 650",
       "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.green.700": {
+    "palette.green.700": {
       "$description": "success (green) 700 — Three-Quarter-Tone band",
       "meaning": "green ramp — raw step 700",
       "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
-      "aliased_by": [
-        "semantic.hc-light.foreground.success",
-        "semantic.hc-light.icon.success",
-        "semantic.hc-light.text.success"
-      ]
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.green.750": {
+    "palette.green.750": {
       "$description": "success (green) 750 — Three-Quarter-Tone band",
       "meaning": "green ramp — raw step 750",
       "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.green.800": {
+    "palette.green.800": {
       "$description": "success (green) 800 — Three-Quarter-Tone band",
       "meaning": "green ramp — raw step 800",
       "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.green.850": {
+    "palette.green.850": {
       "$description": "success (green) 850 — Three-Quarter-Tone band",
       "meaning": "green ramp — raw step 850",
       "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.green.900": {
+    "palette.green.900": {
       "$description": "success (green) 900 — Three-Quarter-Tone band",
       "meaning": "green ramp — raw step 900",
       "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
-      "aliased_by": [
-        "semantic.dark.foreground.success-subtle",
-        "semantic.hc-dark.foreground.success-subtle"
-      ]
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.green.950": {
+    "palette.green.950": {
       "$description": "success (green) 950 — Shadow band",
       "meaning": "green ramp — raw step 950",
       "intent": "Highest-contrast text and strong foreground",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.green.025": {
+    "palette.green.025": {
       "$description": "success (green) 025 — Highlight band",
       "meaning": "green ramp — raw step 025",
       "intent": "Lightest tints — app / subtle backgrounds, hover & selected fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.green.050": {
+    "palette.green.050": {
       "$description": "success (green) 050 — Highlight band",
       "meaning": "green ramp — raw step 050",
       "intent": "Lightest tints — app / subtle backgrounds, hover & selected fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.amber.100": {
+    "palette.amber.100": {
       "$description": "warning (amber) 100 — Quarter-Tone band",
       "meaning": "amber ramp — raw step 100",
       "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.hc-light.foreground.warning-subtle",
-        "semantic.light.foreground.warning-subtle"
+        "color.foreground.warning-subtle"
       ]
     },
-    "color.amber.150": {
+    "palette.amber.150": {
       "$description": "warning (amber) 150 — Quarter-Tone band",
       "meaning": "amber ramp — raw step 150",
       "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.amber.200": {
+    "palette.amber.200": {
       "$description": "warning (amber) 200 — Quarter-Tone band",
       "meaning": "amber ramp — raw step 200",
       "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.amber.250": {
+    "palette.amber.250": {
       "$description": "warning (amber) 250 — Quarter-Tone band",
       "meaning": "amber ramp — raw step 250",
       "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.amber.300": {
+    "palette.amber.300": {
       "$description": "warning (amber) 300 — Quarter-Tone band",
       "meaning": "amber ramp — raw step 300",
       "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
-      "aliased_by": [
-        "semantic.hc-dark.foreground.warning",
-        "semantic.hc-dark.icon.warning",
-        "semantic.hc-dark.text.warning"
-      ]
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.amber.350": {
+    "palette.amber.350": {
       "$description": "warning (amber) 350 — Quarter-Tone band",
       "meaning": "amber ramp — raw step 350",
       "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
-      "aliased_by": [
-        "semantic.dark.icon.warning-subtle",
-        "semantic.dark.text.warning-subtle",
-        "semantic.hc-dark.icon.warning-subtle",
-        "semantic.hc-dark.text.warning-subtle"
-      ]
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.amber.400": {
+    "palette.amber.400": {
       "$description": "warning (amber) 400 — Mid-Tone band",
       "meaning": "amber ramp — raw step 400",
       "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.amber.450": {
+    "palette.amber.450": {
       "$description": "warning (amber) 450 — Mid-Tone band",
       "meaning": "amber ramp — raw step 450",
       "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.foreground.warning",
-        "semantic.dark.icon.warning",
-        "semantic.dark.text.warning",
-        "semantic.hc-light.icon.warning-subtle",
-        "semantic.hc-light.text.warning-subtle",
-        "semantic.light.icon.warning-subtle",
-        "semantic.light.text.warning-subtle"
+        "color.icon.warning-subtle",
+        "color.text.warning-subtle"
       ]
     },
-    "color.amber.500": {
+    "palette.amber.500": {
       "$description": "warning (amber) 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
       "meaning": "amber ramp — raw step 500",
       "intent": "Solid fills & UI-element backgrounds — the one mid step that reads as text or icons over both light and dark fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.border.warning",
-        "semantic.hc-dark.border.warning",
-        "semantic.hc-light.border.warning",
-        "semantic.light.border.warning"
+        "color.border.warning"
       ]
     },
-    "color.amber.550": {
+    "palette.amber.550": {
       "$description": "warning (amber) 550 — Mid-Tone band",
       "meaning": "amber ramp — raw step 550",
       "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.amber.600": {
+    "palette.amber.600": {
       "$description": "warning (amber) 600 — Mid-Tone band",
       "meaning": "amber ramp — raw step 600",
       "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.light.foreground.warning",
-        "semantic.light.icon.warning",
-        "semantic.light.text.warning"
+        "color.foreground.warning",
+        "color.icon.warning",
+        "color.text.warning"
       ]
     },
-    "color.amber.650": {
+    "palette.amber.650": {
       "$description": "warning (amber) 650 — Three-Quarter-Tone band",
       "meaning": "amber ramp — raw step 650",
       "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.amber.700": {
+    "palette.amber.700": {
       "$description": "warning (amber) 700 — Three-Quarter-Tone band",
       "meaning": "amber ramp — raw step 700",
       "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
-      "aliased_by": [
-        "semantic.hc-light.foreground.warning",
-        "semantic.hc-light.icon.warning",
-        "semantic.hc-light.text.warning"
-      ]
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.amber.750": {
+    "palette.amber.750": {
       "$description": "warning (amber) 750 — Three-Quarter-Tone band",
       "meaning": "amber ramp — raw step 750",
       "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.amber.800": {
+    "palette.amber.800": {
       "$description": "warning (amber) 800 — Three-Quarter-Tone band",
       "meaning": "amber ramp — raw step 800",
       "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.amber.850": {
+    "palette.amber.850": {
       "$description": "warning (amber) 850 — Three-Quarter-Tone band",
       "meaning": "amber ramp — raw step 850",
       "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.amber.900": {
+    "palette.amber.900": {
       "$description": "warning (amber) 900 — Three-Quarter-Tone band",
       "meaning": "amber ramp — raw step 900",
       "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
-      "aliased_by": [
-        "semantic.dark.foreground.warning-subtle",
-        "semantic.hc-dark.foreground.warning-subtle"
-      ]
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.amber.950": {
+    "palette.amber.950": {
       "$description": "warning (amber) 950 — Shadow band",
       "meaning": "amber ramp — raw step 950",
       "intent": "Highest-contrast text and strong foreground",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.amber.025": {
+    "palette.amber.025": {
       "$description": "warning (amber) 025 — Highlight band",
       "meaning": "amber ramp — raw step 025",
       "intent": "Lightest tints — app / subtle backgrounds, hover & selected fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.amber.050": {
+    "palette.amber.050": {
       "$description": "warning (amber) 050 — Highlight band",
       "meaning": "amber ramp — raw step 050",
       "intent": "Lightest tints — app / subtle backgrounds, hover & selected fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.neutral.100": {
+    "palette.neutral.100": {
       "$description": "neutral 100 — Quarter-Tone band",
       "meaning": "neutral ramp — raw step 100",
       "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.background.inverse.tertiary",
-        "semantic.dark.foreground.inverse.secondary",
-        "semantic.light.background.tertiary",
-        "semantic.light.border.primary",
-        "semantic.light.foreground.secondary"
+        "color.background.tertiary",
+        "color.border.primary",
+        "color.foreground.secondary"
       ]
     },
-    "color.neutral.150": {
+    "palette.neutral.150": {
       "$description": "neutral 150 — Quarter-Tone band",
       "meaning": "neutral ramp — raw step 150",
       "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.foreground.inverse.tertiary",
-        "semantic.light.foreground.tertiary"
+        "color.foreground.tertiary"
       ]
     },
-    "color.neutral.200": {
+    "palette.neutral.200": {
       "$description": "neutral 200 — Quarter-Tone band",
       "meaning": "neutral ramp — raw step 200",
       "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.border.inverse",
-        "semantic.hc-light.action.disabled",
-        "semantic.hc-light.foreground.danger.disabled",
-        "semantic.light.action.disabled",
-        "semantic.light.foreground.danger.disabled"
+        "color.action.disabled",
+        "color.foreground.danger.disabled"
       ]
     },
-    "color.neutral.250": {
+    "palette.neutral.250": {
       "$description": "neutral 250 — Quarter-Tone band",
       "meaning": "neutral ramp — raw step 250",
       "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
-      "aliased_by": [
-        "semantic.hc-dark.border.secondary"
-      ]
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.neutral.300": {
+    "palette.neutral.300": {
       "$description": "neutral 300 — Quarter-Tone band",
       "meaning": "neutral ramp — raw step 300",
       "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
-      "aliased_by": [
-        "semantic.hc-dark.icon.on-disabled",
-        "semantic.hc-dark.icon.secondary",
-        "semantic.hc-dark.text.on-disabled",
-        "semantic.hc-dark.text.secondary"
-      ]
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.neutral.350": {
+    "palette.neutral.350": {
       "$description": "neutral 350 — Quarter-Tone band",
       "meaning": "neutral ramp — raw step 350",
       "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.neutral.400": {
+    "palette.neutral.400": {
       "$description": "neutral 400 — Mid-Tone band",
       "meaning": "neutral ramp — raw step 400",
       "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.light.border.secondary"
+        "color.border.secondary"
       ]
     },
-    "color.neutral.450": {
+    "palette.neutral.450": {
       "$description": "neutral 450 — Mid-Tone band",
       "meaning": "neutral ramp — raw step 450",
       "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.icon.on-disabled",
-        "semantic.dark.icon.secondary",
-        "semantic.dark.text.on-disabled",
-        "semantic.dark.text.secondary",
-        "semantic.hc-dark.icon.disabled",
-        "semantic.hc-dark.icon.tertiary",
-        "semantic.hc-dark.text.disabled",
-        "semantic.hc-dark.text.tertiary",
-        "semantic.light.icon.disabled",
-        "semantic.light.icon.tertiary",
-        "semantic.light.text.disabled",
-        "semantic.light.text.tertiary"
+        "color.icon.disabled",
+        "color.icon.tertiary",
+        "color.text.disabled",
+        "color.text.tertiary"
       ]
     },
-    "color.neutral.500": {
+    "palette.neutral.500": {
       "$description": "neutral 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
       "meaning": "neutral ramp — raw step 500",
       "intent": "Solid fills & UI-element backgrounds — the one mid step that reads as text or icons over both light and dark fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
-      "aliased_by": [
-        "semantic.dark.border.secondary",
-        "semantic.hc-dark.border.inverse",
-        "semantic.hc-dark.border.primary",
-        "semantic.hc-light.border.inverse",
-        "semantic.hc-light.border.primary"
-      ]
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.neutral.550": {
+    "palette.neutral.550": {
       "$description": "neutral 550 — Mid-Tone band",
       "meaning": "neutral ramp — raw step 550",
       "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.icon.disabled",
-        "semantic.dark.icon.tertiary",
-        "semantic.dark.text.disabled",
-        "semantic.dark.text.tertiary",
-        "semantic.hc-light.icon.disabled",
-        "semantic.hc-light.icon.tertiary",
-        "semantic.hc-light.text.disabled",
-        "semantic.hc-light.text.tertiary",
-        "semantic.light.icon.on-disabled",
-        "semantic.light.icon.secondary",
-        "semantic.light.text.on-disabled",
-        "semantic.light.text.secondary"
+        "color.icon.on-disabled",
+        "color.icon.secondary",
+        "color.text.on-disabled",
+        "color.text.secondary"
       ]
     },
-    "color.neutral.600": {
+    "palette.neutral.600": {
       "$description": "neutral 600 — Mid-Tone band",
       "meaning": "neutral ramp — raw step 600",
       "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.neutral.650": {
+    "palette.neutral.650": {
       "$description": "neutral 650 — Three-Quarter-Tone band",
       "meaning": "neutral ramp — raw step 650",
       "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
-      "aliased_by": [
-        "semantic.hc-light.icon.on-disabled",
-        "semantic.hc-light.text.on-disabled"
-      ]
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.neutral.700": {
+    "palette.neutral.700": {
       "$description": "neutral 700 — Three-Quarter-Tone band",
       "meaning": "neutral ramp — raw step 700",
       "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
-      "aliased_by": [
-        "semantic.hc-light.border.secondary",
-        "semantic.hc-light.icon.secondary",
-        "semantic.hc-light.text.secondary"
-      ]
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.neutral.750": {
+    "palette.neutral.750": {
       "$description": "neutral 750 — Three-Quarter-Tone band",
       "meaning": "neutral ramp — raw step 750",
       "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
-      "aliased_by": [
-        "semantic.dark.action.disabled",
-        "semantic.dark.border.primary",
-        "semantic.dark.foreground.danger.disabled",
-        "semantic.hc-dark.action.disabled",
-        "semantic.hc-dark.foreground.danger.disabled"
-      ]
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.neutral.800": {
+    "palette.neutral.800": {
       "$description": "neutral 800 — Three-Quarter-Tone band",
       "meaning": "neutral ramp — raw step 800",
       "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.foreground.tertiary",
-        "semantic.light.border.inverse",
-        "semantic.light.foreground.inverse.tertiary"
+        "color.border.inverse",
+        "color.foreground.inverse.tertiary"
       ]
     },
-    "color.neutral.850": {
+    "palette.neutral.850": {
       "$description": "neutral 850 — Three-Quarter-Tone band",
       "meaning": "neutral ramp — raw step 850",
       "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.background.tertiary",
-        "semantic.dark.foreground.secondary",
-        "semantic.light.background.inverse.tertiary",
-        "semantic.light.foreground.inverse.secondary"
+        "color.background.inverse.tertiary",
+        "color.foreground.inverse.secondary"
       ]
     },
-    "color.neutral.900": {
+    "palette.neutral.900": {
       "$description": "neutral 900 — Three-Quarter-Tone band",
       "meaning": "neutral ramp — raw step 900",
       "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.background.secondary",
-        "semantic.dark.foreground.primary",
-        "semantic.light.background.inverse.secondary",
-        "semantic.light.foreground.inverse.primary"
+        "color.background.inverse.secondary",
+        "color.foreground.inverse.primary"
       ]
     },
-    "color.neutral.950": {
+    "palette.neutral.950": {
       "$description": "neutral 950 — Shadow band",
       "meaning": "neutral ramp — raw step 950",
       "intent": "Highest-contrast text and strong foreground",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.background.primary",
-        "semantic.dark.icon.on-action",
-        "semantic.dark.icon.on-brand",
-        "semantic.dark.icon.on-danger",
-        "semantic.dark.icon.on-info",
-        "semantic.dark.icon.on-inverse",
-        "semantic.dark.icon.on-success",
-        "semantic.dark.icon.on-warning",
-        "semantic.dark.text.on-action",
-        "semantic.dark.text.on-brand",
-        "semantic.dark.text.on-danger",
-        "semantic.dark.text.on-info",
-        "semantic.dark.text.on-inverse",
-        "semantic.dark.text.on-success",
-        "semantic.dark.text.on-warning",
-        "semantic.light.background.inverse.primary",
-        "semantic.light.icon.primary",
-        "semantic.light.text.primary"
+        "color.background.inverse.primary",
+        "color.icon.primary",
+        "color.text.primary"
       ]
     },
-    "color.neutral.025": {
+    "palette.neutral.025": {
       "$description": "neutral 025 — Highlight band",
       "meaning": "neutral ramp — raw step 025",
       "intent": "Lightest tints — app / subtle backgrounds, hover & selected fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.background.inverse.primary",
-        "semantic.dark.icon.primary",
-        "semantic.dark.text.primary",
-        "semantic.light.icon.on-inverse",
-        "semantic.light.text.on-inverse"
+        "color.icon.on-inverse",
+        "color.text.on-inverse"
       ]
     },
-    "color.neutral.050": {
+    "palette.neutral.050": {
       "$description": "neutral 050 — Highlight band",
       "meaning": "neutral ramp — raw step 050",
       "intent": "Lightest tints — app / subtle backgrounds, hover & selected fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.background.inverse.secondary",
-        "semantic.dark.foreground.inverse.primary",
-        "semantic.light.background.secondary",
-        "semantic.light.foreground.primary"
+        "color.background.secondary",
+        "color.foreground.primary"
       ]
     },
-    "color.info.100": {
+    "palette.info.100": {
       "$description": "info status (engine-synthesised — NB has no blue) 100 — Quarter-Tone band",
       "meaning": "info ramp — raw step 100",
       "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.hc-light.foreground.info-subtle",
-        "semantic.light.foreground.info-subtle"
+        "color.foreground.info-subtle"
       ]
     },
-    "color.info.150": {
+    "palette.info.150": {
       "$description": "info status (engine-synthesised — NB has no blue) 150 — Quarter-Tone band",
       "meaning": "info ramp — raw step 150",
       "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.info.200": {
+    "palette.info.200": {
       "$description": "info status (engine-synthesised — NB has no blue) 200 — Quarter-Tone band",
       "meaning": "info ramp — raw step 200",
       "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.info.250": {
+    "palette.info.250": {
       "$description": "info status (engine-synthesised — NB has no blue) 250 — Quarter-Tone band",
       "meaning": "info ramp — raw step 250",
       "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.info.300": {
+    "palette.info.300": {
       "$description": "info status (engine-synthesised — NB has no blue) 300 — Quarter-Tone band",
       "meaning": "info ramp — raw step 300",
       "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
-      "aliased_by": [
-        "semantic.hc-dark.foreground.info",
-        "semantic.hc-dark.icon.info",
-        "semantic.hc-dark.text.info"
-      ]
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.info.350": {
+    "palette.info.350": {
       "$description": "info status (engine-synthesised — NB has no blue) 350 — Quarter-Tone band",
       "meaning": "info ramp — raw step 350",
       "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
-      "aliased_by": [
-        "semantic.dark.icon.info-subtle",
-        "semantic.dark.text.info-subtle",
-        "semantic.hc-dark.icon.info-subtle",
-        "semantic.hc-dark.text.info-subtle"
-      ]
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.info.400": {
+    "palette.info.400": {
       "$description": "info status (engine-synthesised — NB has no blue) 400 — Mid-Tone band",
       "meaning": "info ramp — raw step 400",
       "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.info.450": {
+    "palette.info.450": {
       "$description": "info status (engine-synthesised — NB has no blue) 450 — Mid-Tone band",
       "meaning": "info ramp — raw step 450",
       "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.foreground.info",
-        "semantic.dark.icon.info",
-        "semantic.dark.text.info",
-        "semantic.hc-light.icon.info-subtle",
-        "semantic.hc-light.text.info-subtle",
-        "semantic.light.icon.info-subtle",
-        "semantic.light.text.info-subtle"
+        "color.icon.info-subtle",
+        "color.text.info-subtle"
       ]
     },
-    "color.info.500": {
+    "palette.info.500": {
       "$description": "info status (engine-synthesised — NB has no blue) 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
       "meaning": "info ramp — raw step 500",
       "intent": "Solid fills & UI-element backgrounds — the one mid step that reads as text or icons over both light and dark fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.dark.border.info",
-        "semantic.hc-dark.border.info",
-        "semantic.hc-light.border.info",
-        "semantic.light.border.info"
+        "color.border.info"
       ]
     },
-    "color.info.550": {
+    "palette.info.550": {
       "$description": "info status (engine-synthesised — NB has no blue) 550 — Mid-Tone band",
       "meaning": "info ramp — raw step 550",
       "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.light.foreground.info",
-        "semantic.light.icon.info",
-        "semantic.light.text.info"
+        "color.foreground.info",
+        "color.icon.info",
+        "color.text.info"
       ]
     },
-    "color.info.600": {
+    "palette.info.600": {
       "$description": "info status (engine-synthesised — NB has no blue) 600 — Mid-Tone band",
       "meaning": "info ramp — raw step 600",
       "intent": "Solid fills & UI-element backgrounds",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.info.650": {
+    "palette.info.650": {
       "$description": "info status (engine-synthesised — NB has no blue) 650 — Three-Quarter-Tone band",
       "meaning": "info ramp — raw step 650",
       "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.info.700": {
+    "palette.info.700": {
       "$description": "info status (engine-synthesised — NB has no blue) 700 — Three-Quarter-Tone band",
       "meaning": "info ramp — raw step 700",
       "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
-      "aliased_by": [
-        "semantic.hc-light.foreground.info",
-        "semantic.hc-light.icon.info",
-        "semantic.hc-light.text.info"
-      ]
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.info.750": {
+    "palette.info.750": {
       "$description": "info status (engine-synthesised — NB has no blue) 750 — Three-Quarter-Tone band",
       "meaning": "info ramp — raw step 750",
       "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.info.800": {
+    "palette.info.800": {
       "$description": "info status (engine-synthesised — NB has no blue) 800 — Three-Quarter-Tone band",
       "meaning": "info ramp — raw step 800",
       "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.info.850": {
+    "palette.info.850": {
       "$description": "info status (engine-synthesised — NB has no blue) 850 — Three-Quarter-Tone band",
       "meaning": "info ramp — raw step 850",
       "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.info.900": {
+    "palette.info.900": {
       "$description": "info status (engine-synthesised — NB has no blue) 900 — Three-Quarter-Tone band",
       "meaning": "info ramp — raw step 900",
       "intent": "Strong borders, secondary text, and hover/active states of solid fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
-      "aliased_by": [
-        "semantic.dark.foreground.info-subtle",
-        "semantic.hc-dark.foreground.info-subtle"
-      ]
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.info.950": {
+    "palette.info.950": {
       "$description": "info status (engine-synthesised — NB has no blue) 950 — Shadow band",
       "meaning": "info ramp — raw step 950",
       "intent": "Highest-contrast text and strong foreground",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.info.025": {
+    "palette.info.025": {
       "$description": "info status (engine-synthesised — NB has no blue) 025 — Highlight band",
       "meaning": "info ramp — raw step 025",
       "intent": "Lightest tints — app / subtle backgrounds, hover & selected fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.info.050": {
+    "palette.info.050": {
       "$description": "info status (engine-synthesised — NB has no blue) 050 — Highlight band",
       "meaning": "info ramp — raw step 050",
       "intent": "Lightest tints — app / subtle backgrounds, hover & selected fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.black-alpha.5": {
+    "palette.black-alpha.5": {
       "$description": "Black alpha 5% — alpha, composites over any surface",
       "meaning": "Black at 5% alpha (composites over any surface)",
       "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.black-alpha.10": {
+    "palette.black-alpha.10": {
       "$description": "Black alpha 10% — alpha, composites over any surface",
       "meaning": "Black at 10% alpha (composites over any surface)",
       "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.black-alpha.20": {
+    "palette.black-alpha.20": {
       "$description": "Black alpha 20% — alpha, composites over any surface",
       "meaning": "Black at 20% alpha (composites over any surface)",
       "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.black-alpha.30": {
+    "palette.black-alpha.30": {
       "$description": "Black alpha 30% — alpha, composites over any surface",
       "meaning": "Black at 30% alpha (composites over any surface)",
       "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.black-alpha.40": {
+    "palette.black-alpha.40": {
       "$description": "Black alpha 40% — alpha, composites over any surface",
       "meaning": "Black at 40% alpha (composites over any surface)",
       "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "semantic.light.scrim.default"
+        "color.scrim.default"
       ]
     },
-    "color.black-alpha.50": {
+    "palette.black-alpha.50": {
       "$description": "Black alpha 50% — alpha, composites over any surface",
       "meaning": "Black at 50% alpha (composites over any surface)",
       "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.black-alpha.60": {
+    "palette.black-alpha.60": {
       "$description": "Black alpha 60% — alpha, composites over any surface",
       "meaning": "Black at 60% alpha (composites over any surface)",
       "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
-      "aliased_by": [
-        "semantic.dark.scrim.default",
-        "semantic.hc-light.scrim.default"
-      ]
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.black-alpha.70": {
+    "palette.black-alpha.70": {
       "$description": "Black alpha 70% — alpha, composites over any surface",
       "meaning": "Black at 70% alpha (composites over any surface)",
       "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step.",
-      "aliased_by": [
-        "semantic.hc-dark.scrim.default"
-      ]
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.black-alpha.80": {
+    "palette.black-alpha.80": {
       "$description": "Black alpha 80% — alpha, composites over any surface",
       "meaning": "Black at 80% alpha (composites over any surface)",
       "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.black-alpha.90": {
+    "palette.black-alpha.90": {
       "$description": "Black alpha 90% — alpha, composites over any surface",
       "meaning": "Black at 90% alpha (composites over any surface)",
       "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.white-alpha.5": {
+    "palette.white-alpha.5": {
       "$description": "White alpha 5% — alpha, composites over any surface",
       "meaning": "White at 5% alpha (composites over any surface)",
       "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.white-alpha.10": {
+    "palette.white-alpha.10": {
       "$description": "White alpha 10% — alpha, composites over any surface",
       "meaning": "White at 10% alpha (composites over any surface)",
       "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.white-alpha.20": {
+    "palette.white-alpha.20": {
       "$description": "White alpha 20% — alpha, composites over any surface",
       "meaning": "White at 20% alpha (composites over any surface)",
       "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.white-alpha.30": {
+    "palette.white-alpha.30": {
       "$description": "White alpha 30% — alpha, composites over any surface",
       "meaning": "White at 30% alpha (composites over any surface)",
       "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.white-alpha.40": {
+    "palette.white-alpha.40": {
       "$description": "White alpha 40% — alpha, composites over any surface",
       "meaning": "White at 40% alpha (composites over any surface)",
       "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.white-alpha.50": {
+    "palette.white-alpha.50": {
       "$description": "White alpha 50% — alpha, composites over any surface",
       "meaning": "White at 50% alpha (composites over any surface)",
       "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.white-alpha.60": {
+    "palette.white-alpha.60": {
       "$description": "White alpha 60% — alpha, composites over any surface",
       "meaning": "White at 60% alpha (composites over any surface)",
       "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.white-alpha.70": {
+    "palette.white-alpha.70": {
       "$description": "White alpha 70% — alpha, composites over any surface",
       "meaning": "White at 70% alpha (composites over any surface)",
       "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.white-alpha.80": {
+    "palette.white-alpha.80": {
       "$description": "White alpha 80% — alpha, composites over any surface",
       "meaning": "White at 80% alpha (composites over any surface)",
       "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
-    "color.white-alpha.90": {
+    "palette.white-alpha.90": {
       "$description": "White alpha 90% — alpha, composites over any surface",
       "meaning": "White at 90% alpha (composites over any surface)",
       "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
-      "consume": "Private primitive — reference a semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
     },
     "opacity.0": {
       "$description": "opacity 0% (0)",

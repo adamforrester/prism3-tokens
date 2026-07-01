@@ -269,8 +269,8 @@ type Stats = {
 const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats: Stats } => {
   const root = theme.root;
 
-  // ---- colour primitives ----
-  const color: Record<string, any> = {
+  // ---- colour primitives (the reference tier) → `palette.*` ----
+  const palette: Record<string, any> = {
     white: baseLeaf(theme, WHITE, 'Pure white — Highlight base / default surface', 'Highlights'),
     black: baseLeaf(theme, BLACK, 'Pure black — Shadow base', 'Shadows'),
   };
@@ -279,7 +279,7 @@ const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats: Stats
   for (const p of theme.palettes) {
     const node: Record<string, Token> = {};
     for (const s of p.steps) node[s.key] = primitiveLeaf(theme, p.description, s, p.palette === brandPalette && s.num === brandAnchorStep);
-    color[p.palette] = node;
+    palette[p.palette] = node;
   }
   // alpha colour ramps — black/white at increasing opacity, for scrims/overlays
   // that must composite correctly over ANY surface (the Radix/Fluent pattern).
@@ -288,28 +288,42 @@ const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats: Stats
     for (const s of ALPHA_STEPS) if (s > 0 && s < 100) node[String(s)] = alphaLeaf(theme, rgb, s / 100, `${label} ${s}% — alpha, composites over any surface`);
     return node;
   };
-  color['black-alpha'] = alphaRamp(BLACK, 'Black alpha');
-  color['white-alpha'] = alphaRamp(WHITE, 'White alpha');
+  palette['black-alpha'] = alphaRamp(BLACK, 'Black alpha');
+  palette['white-alpha'] = alphaRamp(WHITE, 'White alpha');
 
   // ---- opacity primitive scale (dimensionless 0..1) ----
   const opacity: Record<string, Token> = {};
   for (const s of ALPHA_STEPS) opacity[String(s)] = numLeaf(round(s / 100, 2), `opacity ${s}% (${round(s / 100, 2)})`);
 
-  // ---- colour semantic layer (per mode) ----
+  // ---- colour semantic (role) layer → `color.*` ----
+  // Mode-AGNOSTIC token names: one token per role, `light` is the canonical
+  // `$value`, and dark / hc-light / hc-dark are value overrides in
+  // `$extensions.prism3.modes` (each keeping its own contrast contract). This is
+  // the same shape `shadow` already uses, and it maps 1:1 to a single Figma
+  // colour variable with Light/Dark/HC modes. See docs/06 + docs/07.
   const modes = resolveAllModes(theme);
-  const semantic: Record<string, any> = {};
-  for (const mr of modes) {
-    const modeTree: Record<string, any> = {};
-    for (const [roleKey, r] of Object.entries(mr.roles)) {
-      // Role keys are property-led and may nest (group / variant / state).
-      const parts = roleKey.split('.');
-      let node = modeTree;
-      for (let i = 0; i < parts.length - 1; i++) node = (node[parts[i]] ??= {});
-      node[parts[parts.length - 1]] = aliasLeaf(r.path, r.description, { mode: mr.mode, contrast: r.ratio, against: r.against, ...(r.min > 0 ? { min: r.min } : {}) });
+  const OVERRIDE_MODES: ModeResult['mode'][] = ['dark', 'hc-light', 'hc-dark']; // canonical = light
+  const byMode = new Map(modes.map((m) => [m.mode, m]));
+  const lightMode = byMode.get('light')!;
+  const colorRoles: Record<string, any> = {};
+  for (const [roleKey, lr] of Object.entries(lightMode.roles)) {
+    const modeOverrides: Record<string, any> = {};
+    for (const m of OVERRIDE_MODES) {
+      const rr = byMode.get(m)?.roles[roleKey];
+      if (!rr) continue; // defensive — every mode resolves the same role set today
+      modeOverrides[m] = { $value: `{${rr.path}}`, contrast: rr.ratio, against: rr.against, ...(rr.min > 0 ? { min: rr.min } : {}) };
     }
     // Elevation is not a colour group — a component composes a foreground tier +
     // a shadow step (see docs/06). No parallel `elevation.*` tree is emitted.
-    semantic[mr.mode] = modeTree;
+    const leaf = aliasLeaf(lr.path, lr.description, {
+      contrast: lr.ratio, against: lr.against, ...(lr.min > 0 ? { min: lr.min } : {}),
+      modes: modeOverrides,
+      figma: { collection: 'color', modes: ['light', ...OVERRIDE_MODES], note: 'one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*' },
+    });
+    const parts = roleKey.split('.'); // property-led, may nest (group / variant / state)
+    let node = colorRoles;
+    for (let i = 0; i < parts.length - 1; i++) node = (node[parts[i]] ??= {});
+    node[parts[parts.length - 1]] = leaf;
   }
 
   // ---- dimension axis ----
@@ -359,7 +373,7 @@ const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats: Stats
   // ---- focus ring — WCAG 2.2 SC 2.4.13 (AAA) / 2.4.11 (AA) ----
   // width ≥2px floor (bump to 3 for clarity); offset separates the ring from the
   // element edge (0 for form fields, per Primer); style solid. Ring COLOUR is the
-  // per-mode `semantic.<mode>.border.interactive.focused` (surface-aware). For an
+  // `color.border.focus` role (surface-aware; resolved per mode in $extensions). For an
   // any-background 3:1 guarantee, pair with a ≥9:1-contrasting outer band (W3C C40).
   const focus = {
     ring: {
@@ -455,7 +469,7 @@ const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats: Stats
   // ---- assemble under the brand root ----
   // `gradient` is included only when the brand opted in (kept off the tree for
   // brands that declare none — gradients are an opt-in axis, not a default group).
-  const brand = { color, semantic, opacity, motion, font, type: typeGroup, shadow, ...(Object.keys(gradient).length ? { gradient } : {}), breakpoint, grid, container, dimension, space, radius, 'border-width': borderWidth, focus, size };
+  const brand = { palette, color: colorRoles, opacity, motion, font, type: typeGroup, shadow, ...(Object.keys(gradient).length ? { gradient } : {}), breakpoint, grid, container, dimension, space, radius, 'border-width': borderWidth, focus, size };
   const tree = {
     [root]: brand,
     $extensions: {
@@ -490,6 +504,16 @@ const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats: Stats
           for (const item of v) if (item && typeof item === 'object') for (const sv of Object.values(item)) if (typeof sv === 'string') {
             const m = sv.match(/^\{(.+)\}$/);
             if (m) aliases.push({ path: path.join('.'), ref: m[1] });
+          }
+        }
+        // Per-mode value overrides (colour role layer): each $extensions.prism3.modes.<m>
+        // carries a `$value` alias for that mode. (shadow's modes.* is a layer ARRAY with
+        // raw colours — no `$value` string — so it's correctly skipped here.)
+        const modeOv = node.$extensions?.prism3?.modes;
+        if (modeOv && typeof modeOv === 'object' && !Array.isArray(modeOv)) {
+          for (const mv of Object.values(modeOv)) {
+            const sv = (mv as any)?.$value;
+            if (typeof sv === 'string') { const m = sv.match(/^\{(.+)\}$/); if (m) aliases.push({ path: path.join('.'), ref: m[1] }); }
           }
         }
         return;

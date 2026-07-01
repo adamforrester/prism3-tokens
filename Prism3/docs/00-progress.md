@@ -267,8 +267,8 @@ npx tsx Prism3/engine/test.ts            # unit tests: colour math + extreme-bra
   user direction — "action is not always the primary brand colour; needs
   flexibility built in, and the system should confirm which colour drives
   actions."
-- **Two emit profiles, one engine.** `nbds.color`/rgb for the NB regression
-  (byte-comparable to real NB) and `prism.color`/hex for product output
+- **Two emit profiles, one engine.** `nbds.*`/rgb for the NB regression
+  (byte-comparable to real NB) and `prism.*`/hex for product output
   (DTCG-aligned, Style-Dictionary-ingestible). Resolves the namespace + value-format
   review notes without losing NB comparability.
 - **NB's per-step hue kinks are NOT reproduced, by design.** Per-step hue drift
