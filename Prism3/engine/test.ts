@@ -19,7 +19,7 @@ import { resolveAllModes } from './modes';
 import { parseDesignMd, parseYamlSubset } from './design-md';
 import { parseStandardDesignMd, standardToBrandInput, applyXPrism3 } from './standard-design-md';
 import { classifyColors } from './classify-colors';
-import { leverManifest, leverGroups, buildLeverManifest } from './levers';
+import { leverManifest, leverGroups, buildLeverManifest, identityFields } from './levers';
 import { buildTree, validateBrandInput } from './emit-dtcg';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -462,9 +462,13 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   }).map((l) => l.key);
   ok(defDrift.length === 0, 'lever manifest: every lever default matches the schema default' + (defDrift.length ? ` — DRIFT: ${defDrift.join(', ')}` : ''));
 
+  // Every schema-root-required field (minus host-supplied identity, e.g. `id`) must be
+  // covered by a required lever — as an exact key, or (for object fields like `neutral`)
+  // by a required lever nested under it. Catches a NEW required field or a dropped one.
   const req = new Set(leverManifest.filter((l) => l.required).map((l) => l.key));
-  ok(req.has('primary') && req.has('neutral.hue') && req.has('neutral.chroma'),
-    'lever manifest: required fields (primary + neutral.hue/chroma) are marked required');
+  const schemaRequired: string[] = (schema.required ?? []).filter((k: string) => !(identityFields as readonly string[]).includes(k));
+  const uncovered = schemaRequired.filter((k) => !req.has(k) && ![...req].some((rk) => rk.startsWith(k + '.')));
+  ok(uncovered.length === 0, 'lever manifest: every required BrandInput field (minus identity) is a required lever' + (uncovered.length ? ` — UNCOVERED: ${uncovered.join(', ')}` : ''));
 
   const committed = readFileSync(resolve(HERE, '../schema/lever-manifest.json'), 'utf8');
   ok(committed === JSON.stringify(buildLeverManifest(), null, 2) + '\n',

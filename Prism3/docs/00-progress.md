@@ -108,7 +108,8 @@ Prism3/
     ├── standard-design-md.ts       ← reader + classifier→BrandInput (standardToBrandInput) + x-prism3 lever mapping for the STANDARD design.md dialect
     ├── classify-colors.ts          ← colour-role classifier: flat colors: hex map → engine anchors by naming convention
     ├── fidelity.ts                 ← full-parity fidelity report builder (observed vs generated; cli.ts --fidelity)
-    ├── levers.ts                   ← the LEVER MANIFEST: presentation contract for the BrandInput knobs (grouped/labelled/typed/ranged; 35 levers, 20 advanced) → schema/lever-manifest.json; rendered by plugin/playground/MCP (docs/08 §4)
+    ├── levers.ts                   ← the LEVER MANIFEST (PURE, no node:*): presentation contract for the BrandInput knobs (grouped/labelled/typed/ranged; 35 levers, 20 advanced); rendered by plugin/playground/MCP (docs/08 §4)
+    ├── emit-levers.ts              ← I/O shell: writes schema/lever-manifest.json from the pure levers.ts (sandbox-portable split)
     ├── test.ts                     ← unit tests: colour-math invariants + 5 extreme-brand contracts + typography/shadow/layout/gradient/surface-model + harshness + typography + design.md-parser/CLI + standard-dialect/classifier/x-prism3 + lever-manifest↔schema drift invariants (208 checks)
     ├── ai-metadata.ts              ← generates the AI-readable metadata sidecar (meaning/when/avoid/paired_with/contrast_with/mode_overrides) for the semantic layer
     ├── README.md                   ← how the engine works / how to run
@@ -125,7 +126,7 @@ Prism3/
 npx tsx Prism3/engine/nb-regression.ts   # regression vs real NB
 npx tsx Prism3/engine/emit-dtcg.ts       # emit DTCG + modes, validate (+ schema conformance) — NB + aurora + harbor
 npx tsx Prism3/engine/test.ts            # unit tests: colour math + extreme-brand contracts + design.md/CLI + lever-manifest drift
-npx tsx Prism3/engine/levers.ts          # (re)emit schema/lever-manifest.json — the shared-control contract
+npx tsx Prism3/engine/emit-levers.ts     # (re)emit schema/lever-manifest.json — the shared-control contract
 npx tsx Prism3/engine/visualize.ts       # regenerate the style-guide HTML (out/tokens.html)
 
 # CLI adapter — theme an arbitrary brand brief:
@@ -502,8 +503,10 @@ layer 1). Agreed build sequence (owner confirmed "safest path to a working plugi
     + defaults + UI ranges/enum options. The plugin, playground, and MCP tool schema all render from
     it — the *presentation* half that `theme-schema.json` (validation half) lacks. **Can't drift:**
     `test.ts` asserts every key resolves in the schema, every enum matches the schema enum (as a set),
-    every default matches, and the committed JSON is up to date (208/208). Pure + dependency-free.
-    Run `npx tsx Prism3/engine/levers.ts`. **← next: B1 live-preview model.**
+    every default matches, and the committed JSON is up to date (208/208). **Pure — no `node:*`**
+    (the plugin/playground/MCP bundle it into a browser/Figma sandbox); the write step is the
+    `emit-levers.ts` I/O shell. `id` is host-supplied identity, not a lever; the gate asserts every
+    *other* required field is a lever. Run `npx tsx Prism3/engine/emit-levers.ts`. **← next: B1 live-preview model.**
   - **B1. Live-preview model** — token→sample-component rendering (`04`'s canvas + contrast
     overlay), shared by plugin + playground; the interactive successor to `visualize.ts`.
   - **B2. New Figma plugin shell** — bundles the core, renders knobs from the manifest,
