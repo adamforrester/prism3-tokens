@@ -368,15 +368,19 @@ Two shared vocabularies make the bridge deterministic (no guessing in the classi
 
 Built **here** (prism3-tokens), additive to the shipped step-A pipeline:
 - `engine/standard-design-md.ts` — reader for the STANDARD (brand-skills / google-labs) `design.md`
-  frontmatter (`colors`/`typography`/`rounded`/`spacing`/`elevation`/`name`), reusing the format-agnostic
-  `parseYamlSubset` from `design-md.ts`. A shape mapper, not a second parser.
+  frontmatter (`colors`/`typography`/`rounded`/`spacing`/`elevation`/`name` + the optional namespaced
+  `x-prism3` levers block, §11.4), reusing the format-agnostic `parseYamlSubset` from `design-md.ts`.
+  A shape mapper, not a second parser.
 - `engine/classify-colors.ts` — the **colour-role classifier** (§11.5): the flat `colors:` map →
   engine anchors by naming convention (`primary`→pinned; `secondary`/`tertiary`→`brandColors[]`;
   `neutral-<step>`→derived `{hue,chroma}`; `success`/`warning`/`error`→`danger`→status; `info`/`white`/
   variants → report-only). Deterministic + pure; adds `hexToRgb` to `color.ts`.
-- `engine/spike-wendys.ts` — the runner: read → classify → `BrandInput` → `brandTheme` → `emitTheme`
-  (shipped core, unchanged) → `out/wendys.*` + **`engine/wendys-fidelity-report.md`**. Self-verifies its
-  own gates and exits non-zero on failure. Run: `npx tsx Prism3/engine/spike-wendys.ts`.
+- `engine/spike-wendys.ts` — the runner: read → classify → map `x-prism3` levers → `BrandInput` →
+  `brandTheme` → `emitTheme` (shipped core, unchanged) → `out/wendys.*` + **`engine/wendys-fidelity-report.md`**.
+  Self-verifies its gates and exits non-zero on failure. Run: `npx tsx Prism3/engine/spike-wendys.ts`.
+  The `x-prism3` map (radiusScale/typeScale/density/motionTempo/actionPalette/iconContrast/surfaces/
+  gradients → `BrandInput`) closes the round-trip: brand-skills emits the block, the engine consumes it.
+  Wendy's carries no block, so it compiles on engine defaults — the §11.4 plain-spec guarantee.
 
 Input: a **real** `brand-skills` Wendy's `design.md` (`examples/wendys.design.md`). **Result:** anchor
 reproduced at **ΔE00 0.00**, 627/627 aliases, 248/248 contrasts, `error`→`danger` carved distinct; aggregate
@@ -385,14 +389,16 @@ The report is a full-parity pass across **every** axis (colour ΔE00, typography
 elevation). Evidence-first delivered: it tells us exactly what the `brand-skills` alignment spec (§11.7) must
 change, all confirmed against a live file rather than predicted.
 
-### 11.7 The `brand-skills` alignment spec (for the brand-skills-provisioned thread)
+### 11.7 The `brand-skills` alignment — ✅ DONE (2026-07-01)
 
-`brand-skills` can't be edited from a session scoped to prism3-tokens + knowledge-base (its git
-is proxy-blocked, 403). The owner will open a **new thread with prism3 + knowledge-base +
-brand-skills provisioned** to do that work. Deliverable from *this* side: an **alignment spec**
-(derived from the spike) listing what `brand-skills` should change — type-role rename, the
-colour-role naming contract, the optional `x-prism3:` block — so both tools speak the same
-contract. The spike's concrete, evidence-backed findings for that spec live in the fidelity report's
+Implemented in `brand-skills` (branch `claude/prism3-e2e-integration-8fwul4`), derived from the spike,
+across its three layers (schema → SKILL → CLI): (1) **type-role rename** — recommended typography names
+moved to the engine vocabulary (`display/title/body/label/caption/eyebrow/code`), `headline-*` retired,
+custom names still allowed + SKILL mapping guidance; (2) **colour-role contract** documented (no rename;
+the `error`→`danger` bridge + scale-variant provenance); (3) **optional `x-prism3:` block** — hand-authored
+in `surfaces.md`, passed through verbatim by `refresh-design` to a top-level `x-prism3` key, scoring-neutral.
+Spec: `brand-skills/docs/superpowers/specs/2026-07-01-prism3-engine-alignment-design.md`; tests 159 → 162,
+no version bump. The engine side already consumes it (§11.6). Both tools now speak one contract. The spike's concrete, evidence-backed findings for that spec live in the fidelity report's
 §6 (`engine/wendys-fidelity-report.md`): the type-role rename map, the `error`→`danger` colour-role
 rename, the observed `info`/`error` dups, and the `x-prism3:` lever candidates (`radiusScale`,
 `typeScale`). **Token Press** provisioning is deferred (it's a private, different-org repo and sits

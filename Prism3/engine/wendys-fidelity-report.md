@@ -79,19 +79,19 @@ is **the headline alignment finding** — `mega`→top of `display`, `button`→
 
 | observed token | family · size · weight | → engine group | nearest engine composite | Δsize |
 |---|---|---|---|---|
-| `mega-xl` | wendysFresh · 94px · 900 | `display` | `display.lg.strong` (96px, wendysFresh, w:strong) | +2px |
-| `mega-l` | wendysFresh · 83px · 900 | `display` | `display.md.strong` (72px, wendysFresh, w:strong) | -11px |
-| `mega-m` | wendysFresh · 66px · 900 | `display` | `display.md.strong` (72px, wendysFresh, w:strong) | +6px |
-| `mega-s` | wendysFresh · 58px · 900 | `display` | `display.sm.strong` (56px, wendysFresh, w:strong) | -2px |
-| `display-l` | wendysFresh · 46px · 900 | `display` | `display.sm.strong` (56px, wendysFresh, w:strong) | +10px |
-| `display-m` | wendysFresh · 41px · 900 | `display` | `display.sm.strong` (56px, wendysFresh, w:strong) | +15px |
-| `display-s` | wendysFresh · 32px · 900 | `display` | `display.sm.strong` (56px, wendysFresh, w:strong) | +24px |
-| `title-l` | wendysFresh · 26px · 900 | `title` | `title.sm.strong` (24px, wendysFresh, w:strong) | -2px |
-| `title-m` | wendysFresh · 20px · 900 | `title` | `title.xs.strong` (20px, wendysFresh, w:strong) | 0px |
-| `title-s` | wendysFresh · 18px · 900 | `title` | `title.xs.strong` (20px, wendysFresh, w:strong) | +2px |
-| `title-xs` | wendysFresh · 16px · 700 | `title` | `title.xs.strong` (20px, wendysFresh, w:strong) | +4px |
-| `title-2xs` | wendysFresh · 14px · 700 | `title` | `title.xs.strong` (20px, wendysFresh, w:strong) | +6px |
-| `title-3xs` | wendysFresh · 12px · 700 | `title` | `title.xs.strong` (20px, wendysFresh, w:strong) | +8px |
+| `mega-xl` | wendysFresh · 94px · 900 | `display` | `display.xl.strong` (96px, wendysFresh, w:strong) | +2px |
+| `mega-l` | wendysFresh · 83px · 900 | `display` | `display.lg.strong` (80px, wendysFresh, w:strong) | -3px |
+| `mega-m` | wendysFresh · 66px · 900 | `display` | `display.md.strong` (64px, wendysFresh, w:strong) | -2px |
+| `mega-s` | wendysFresh · 58px · 900 | `display` | `display.md.strong` (64px, wendysFresh, w:strong) | +6px |
+| `display-l` | wendysFresh · 46px · 900 | `display` | `display.sm.strong` (48px, wendysFresh, w:strong) | +2px |
+| `display-m` | wendysFresh · 41px · 900 | `display` | `display.sm.strong` (48px, wendysFresh, w:strong) | +7px |
+| `display-s` | wendysFresh · 32px · 900 | `display` | `display.sm.strong` (48px, wendysFresh, w:strong) | +16px |
+| `title-l` | wendysFresh · 26px · 900 | `title` | `title.md.strong` (24px, wendysFresh, w:strong) | -2px |
+| `title-m` | wendysFresh · 20px · 900 | `title` | `title.sm.strong` (20px, wendysFresh, w:strong) | 0px |
+| `title-s` | wendysFresh · 18px · 900 | `title` | `title.xs.strong` (18px, wendysFresh, w:strong) | 0px |
+| `title-xs` | wendysFresh · 16px · 700 | `title` | `title.xs.strong` (18px, wendysFresh, w:strong) | +2px |
+| `title-2xs` | wendysFresh · 14px · 700 | `title` | `title.xs.strong` (18px, wendysFresh, w:strong) | +4px |
+| `title-3xs` | wendysFresh · 12px · 700 | `title` | `title.xs.strong` (18px, wendysFresh, w:strong) | +6px |
 | `button-l` | wendysFresh · 18px · 700 | `label` | `label.md.emphasis` (14px, wendysFresh, w:emphasis) | -4px |
 | `button-s` | wendysFresh · 14px · 700 | `label` | `label.md.emphasis` (14px, wendysFresh, w:emphasis) | 0px |
 | `body-l` | Roboto · 18px · 400 | `body` | `body.lg.default` (18px, Roboto, w:default) | 0px |
@@ -202,7 +202,7 @@ Observed elevation is single-layer CSS `box-shadow` strings; the engine generate
 - shadow: 6-step ramp (xs–2xl) + inset, 2-layer (key+ambient), softness 1; tinted base (hue 249.14, amount 0.15). Mode-aware, LIFT-primary: full shadow in light; reduced (faded, top-weighted) in dark — the surface ladder carries dark elevation. Composite shadow → Figma Effect Style.
 - gradient: none (opt-in axis; brand declared no gradients — the field-common default).
 - layout: 5 breakpoints (sm 0, md 768, lg 1024, xl 1440, 2xl 1920); grid base 12 cols (ladder 4/8/12/12/12); gutter/margin alias the spacing scale (16/16/24/24/32 · 16/24/24/32/48); container max 1440px + narrow 720px (fluid-first + cap). Breakpoints → a separate Figma layout collection (modes), composing with colour light/dark.
-- typography: curated rem size ladder (22 steps, 10–160px — NOT ratio-derived; covers all bases, clean values); weight roles subtle/default/emphasis/strong → 300/400/600/700; families display=wendysFresh, text=Roboto, mono=JetBrains Mono; typeScale 'expressive'. 36 semantic composites (title/display sizes shifted by typeScale; display capped at 160px; title floor 18px). responsive: 11 fluid composites (size-dependent mobile shrink — research-validated, Carbon fluid-display curve: body static, titles ~1 rung, display converges to ~40–48px; one min/max pair → web clamp() 375–1280px + Figma desktop/mobile modes). Line-height unitless multiplier in $value; px-from-ratio materialization for Figma in $extensions.
+- typography: curated rem size ladder (22 steps, 10–160px — NOT ratio-derived; covers all bases, clean values); weight roles subtle/default/emphasis/strong → 300/400/600/700; families display=wendysFresh, text=Roboto, mono=JetBrains Mono; typeScale 'default'. 36 semantic composites (title/display sizes shifted by typeScale; display capped at 160px; title floor 18px). responsive: 10 fluid composites (size-dependent mobile shrink — research-validated, Carbon fluid-display curve: body static, titles ~1 rung, display converges to ~40–48px; one min/max pair → web clamp() 375–1280px + Figma desktop/mobile modes). Line-height unitless multiplier in $value; px-from-ratio materialization for Figma in $extensions.
 - disabled: 'accessible' — disabled text/icon/border clears 3:1 on the floor (legible, contrast-preserving; the field-rare default). Set disabledStrategy:'conventional' for the sub-AA exempt look.
 
 ### Alignment findings for the `brand-skills` spec (§11.7)
@@ -211,6 +211,6 @@ Observed elevation is single-layer CSS `box-shadow` strings; the engine generate
 2. **Colour-role naming:** the classifier reads `primary/secondary/tertiary/neutral-<step>/success/warning/error/info` by convention. `error`→`danger` is the one rename the engine applies (its status role is `danger`); the colour-role contract should state this explicitly.
 3. **`info` duplicates `secondary`** (both `#0077A3`) and **`error` duplicates `primary-dark`** (both `#9E0D24`). The engine synthesises `info` and regenerates `danger` from the anchor, so these observed dups don't propagate — but they confirm brand-skills should keep emitting them (descriptive completeness) while the engine treats them as non-final.
 4. **Scale/state variants** (`primary-dark/darker/darkest`, `secondary-light/dark`) are observed ramp points; the engine regenerates the full ramp and reports divergence rather than consuming them. No contract change — they stay descriptive.
-5. **`x-prism3:` levers unused here** (no motion tempo, density, surface, gradient, action-decouple overrides): a plain spec file compiled with engine defaults, exactly as §11.4 intends. Wendy's would benefit from `radiusScale: 2` and `typeScale: expressive` (used here) — candidates for the optional block.
+5. **`x-prism3:` block — absent → engine defaults.** This plain-spec file carries no block, so the engine compiled on defaults — exactly the §11.4 guarantee. The engine now READS a top-level `x-prism3` (brand-skills emits it from `surfaces.md`); Wendy's would benefit from `radiusScale: 2` (→ 8px default radius) and `typeScale: expressive` (its 94px hero) — a practitioner adds those to opt into the fuller system.
 6. **Spacing/radius/elevation taxonomies diverge by design** (t-shirt/CSS vs numbered/bounded/two-layer). These are translations the engine + exporter own, not alignment changes to brand-skills.
 

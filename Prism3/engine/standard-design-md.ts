@@ -41,6 +41,10 @@ export type StandardDesignMd = {
   rounded: Record<string, string | number>;          // token → px string / 0
   spacing: Record<string, string | number>;
   elevation: Record<string, string>;                 // token → CSS box-shadow / "none"
+  /** Optional Prism3 engine-levers block (docs/07 §11.4). A namespaced extension
+   *  the base spec ignores; brand-skills emits it verbatim from surfaces.md. Empty
+   *  when absent — a plain spec file then compiles on engine defaults. */
+  xPrism3: Record<string, unknown>;
   prose: string;
 };
 
@@ -82,6 +86,7 @@ export const parseStandardDesignMd = (text: string): StandardDesignMd => {
     rounded: asRecord(raw.rounded),
     spacing: asRecord(raw.spacing),
     elevation: asRecord(raw.elevation) as Record<string, string>,
+    xPrism3: asRecord(raw['x-prism3']),
     prose,
   };
 };

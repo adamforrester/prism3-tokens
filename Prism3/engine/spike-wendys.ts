@@ -58,6 +58,24 @@ const deriveFamilies = (typography: StandardDesignMd['typography']): { display?:
   };
 };
 
+// --- x-prism3 levers → BrandInput (docs/07 §11.4) --------------------------
+// The optional namespaced block brand-skills emits verbatim. Map the recognised
+// levers onto BrandInput; return the human-readable list of what was applied.
+// Absent block → nothing applied → the engine runs on defaults (the plain-spec
+// path §11.4 guarantees). Passed through as-is; the engine's schema validates.
+const applyXPrism3 = (input: BrandInput, x: Record<string, unknown>): string[] => {
+  const applied: string[] = [];
+  if (x.radiusScale != null) { input.radiusScale = Number(x.radiusScale); applied.push(`radiusScale=${input.radiusScale}`); }
+  if (x.typeScale != null) { input.typography = { ...input.typography, typeScale: x.typeScale as any }; applied.push(`typeScale=${x.typeScale}`); }
+  if (x.density != null) { input.density = x.density as any; applied.push(`density=${x.density}`); }
+  if (x.motionTempo != null) { input.motionPersonality = { tempo: x.motionTempo as any }; applied.push(`motionTempo=${x.motionTempo}`); }
+  if (x.actionPalette != null) { input.actionPalette = String(x.actionPalette); applied.push(`actionPalette=${x.actionPalette}`); }
+  if (x.iconContrast != null) { input.iconContrast = x.iconContrast as any; applied.push(`iconContrast=${x.iconContrast}`); }
+  if (x.surfaces != null) { input.surfaces = x.surfaces as any; applied.push('surfaces'); }
+  if (x.gradients != null) { input.gradients = x.gradients as any; applied.push('gradients'); }
+  return applied;
+};
+
 // --- tier → engine type group (the headline alignment finding) -------------
 const TIER_TO_GROUP: Record<string, string> = {
   mega: 'display', display: 'display', title: 'title', button: 'label',
@@ -72,7 +90,8 @@ const pxNum = (v: string | number | undefined): number | null => {
 
 // --- report builder --------------------------------------------------------
 const buildReport = (std: StandardDesignMd, cls: ColorClassification, input: BrandInput, theme: Theme,
-                     stats: { resolved: number; aliases: number; modePass: number; modeChecks: number }): { md: string; anchorDe: number } => {
+                     stats: { resolved: number; aliases: number; modePass: number; modeChecks: number },
+                     xApplied: string[]): { md: string; anchorDe: number } => {
   const md: string[] = [];
   const P = (...l: string[]) => md.push(...l);
 
@@ -205,7 +224,7 @@ const buildReport = (std: StandardDesignMd, cls: ColorClassification, input: Bra
     `2. **Colour-role naming:** the classifier reads \`primary/secondary/tertiary/neutral-<step>/success/warning/error/info\` by convention. \`error\`→\`danger\` is the one rename the engine applies (its status role is \`danger\`); the colour-role contract should state this explicitly.`,
     `3. **\`info\` duplicates \`secondary\`** (both \`${std.colors.info}\`) and **\`error\` duplicates \`primary-dark\`** (both \`${std.colors.error}\`). The engine synthesises \`info\` and regenerates \`danger\` from the anchor, so these observed dups don't propagate — but they confirm brand-skills should keep emitting them (descriptive completeness) while the engine treats them as non-final.`,
     `4. **Scale/state variants** (\`primary-dark/darker/darkest\`, \`secondary-light/dark\`) are observed ramp points; the engine regenerates the full ramp and reports divergence rather than consuming them. No contract change — they stay descriptive.`,
-    `5. **\`x-prism3:\` levers unused here** (no motion tempo, density, surface, gradient, action-decouple overrides): a plain spec file compiled with engine defaults, exactly as §11.4 intends. Wendy's would benefit from \`radiusScale: 2\` and \`typeScale: expressive\` (used here) — candidates for the optional block.`,
+    `5. **\`x-prism3:\` block — ${xApplied.length ? `levers applied: ${xApplied.join(', ')}` : 'absent → engine defaults'}.** ${xApplied.length ? 'The engine consumed the namespaced block verbatim.' : 'This plain-spec file carries no block, so the engine compiled on defaults — exactly the §11.4 guarantee.'} The engine now READS a top-level \`x-prism3\` (brand-skills emits it from \`surfaces.md\`); Wendy's would benefit from \`radiusScale: 2\` (→ 8px default radius) and \`typeScale: expressive\` (its 94px hero) — a practitioner adds those to opt into the fuller system.`,
     `6. **Spacing/radius/elevation taxonomies diverge by design** (t-shirt/CSS vs numbered/bounded/two-layer). These are translations the engine + exporter own, not alignment changes to brand-skills.`, '');
 
   return { md: md.join('\n') + '\n', anchorDe: anchor.de };
@@ -224,8 +243,12 @@ const run = () => {
     neutral: cls.input.neutral,
     brandColors: cls.input.brandColors,
     status: cls.input.status,
-    typography: { families: deriveFamilies(std.typography), typeScale: 'expressive' },
+    typography: { families: deriveFamilies(std.typography) },   // typeScale via x-prism3 (or engine default)
   };
+  // Consume the optional x-prism3 engine-levers block (docs/07 §11.4). Absent for
+  // this plain-spec Wendy's file → engine defaults, exactly as intended.
+  const xApplied = Object.keys(std.xPrism3).length ? applyXPrism3(input, std.xPrism3) : [];
+  console.log(`[spike] x-prism3 levers: ${xApplied.length ? xApplied.join(', ') : 'none (plain spec → engine defaults)'}`);
 
   const errs = validateBrandInput(input);
   if (errs.length) { console.error(`[spike] ❌ classified BrandInput violates the schema:`); errs.forEach((e) => console.error(`   ${e}`)); process.exit(1); }
@@ -235,7 +258,7 @@ const run = () => {
   const { stats } = emitTheme(theme, outDir);
   console.log(`[spike] emitted out/wendys.tokens.json + out/wendys.ai.json — aliases ${stats.resolved}/${stats.aliases}, mode contracts ${stats.modePass}/${stats.modeChecks}`);
 
-  const { md, anchorDe } = buildReport(std, cls, input, theme, stats);
+  const { md, anchorDe } = buildReport(std, cls, input, theme, stats, xApplied);
   const reportPath = resolve(here, 'wendys-fidelity-report.md');
   writeFileSync(reportPath, md);
   console.log(`[spike] wrote ${reportPath}`);
@@ -247,6 +270,12 @@ const run = () => {
   check(stats.broken.length === 0, `${stats.broken.length} unresolved aliases`);
   check(stats.modePass === stats.modeChecks, `contrast contracts ${stats.modePass}/${stats.modeChecks}`);
   check(theme.roleToPalette.danger === 'danger', `error→danger not carved as a distinct palette (danger draws from '${theme.roleToPalette.danger}')`);
+  // Exercise the x-prism3 lever-mapping path even though the real Wendy's file omits
+  // the block — proves the round-trip (brand-skills emits → engine consumes).
+  { const probe = { id: 'p', primary: input.primary, neutral: input.neutral } as BrandInput;
+    const ap = applyXPrism3(probe, { radiusScale: 2, typeScale: 'expressive', motionTempo: 'snappy' });
+    check(probe.radiusScale === 2 && probe.typography?.typeScale === 'expressive' && probe.motionPersonality?.tempo === 'snappy' && ap.length === 3,
+      `x-prism3 lever mapping broken (applied: ${ap.join(', ')})`); }
   if (!ok) { console.error('[spike] FAILED'); process.exit(1); }
   console.log(`[spike] ✓ all gates green — anchor ΔE00 ${anchorDe.toFixed(2)}, aliases ${stats.resolved}/${stats.aliases}, contracts ${stats.modePass}/${stats.modeChecks}`);
 };

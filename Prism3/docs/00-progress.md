@@ -425,12 +425,23 @@ layer 1). Agreed build sequence (owner confirmed "safest path to a working plugi
     (see §11.6/§11.7): type roles `mega-*`→`display`/`button-*`→`label`; `error`≡`primary-dark` `#9E0D24`
     and `info`≡`secondary` `#0077A3` (observed dups the engine doesn't propagate); the file's stated
     `primary`-on-white "~4.6:1" is stale for its own `#C8102E` (measured **5.88:1**, clears small-text AA).
-    Run: `npx tsx Prism3/engine/spike-wendys.ts`. Next: the alignment spec (below) uses these findings.
-  - **New thread (prism3 + knowledge-base + brand-skills provisioned): the alignment spec** —
-    edit `brand-skills` to align type-role names + the colour-role naming contract + an
-    optional `x-prism3:` block. `brand-skills` git is 403-blocked in a prism3-only session,
-    so this needs its own provisioned thread. **Token Press provisioning deferred** (private,
-    different-org, export-stage — downstream of this work).
+    Run: `npx tsx Prism3/engine/spike-wendys.ts`. The spike reader now also **consumes the optional
+    `x-prism3` block** (§11.4): `standard-design-md.ts` reads the top-level key and the runner maps its
+    levers → `BrandInput` (radiusScale/typeScale/density/motionTempo/actionPalette/iconContrast/surfaces/
+    gradients). Wendy's carries no block → engine defaults, the plain-spec guarantee; the mapping path is
+    self-verified on an inline fixture. This closes the round-trip: brand-skills emits `x-prism3`, the
+    engine consumes it.
+  - **brand-skills alignment — ✅ DONE (2026-07-01, this thread).** Implemented in `brand-skills`
+    (branch `claude/prism3-e2e-integration-8fwul4`), across its three layers (schema → SKILL → CLI):
+    (1) **type-role rename** — recommended typography names moved to the engine's vocabulary
+    (`display/title/body/label/caption/eyebrow/code`), retiring `headline-*`; custom names still
+    allowed + SKILL mapping guidance (`mega-*`→`display-*`, `button-*`→`label-*`). (2) **colour-role
+    contract** — documented (no rename): the classifier convention + `error`→`danger` bridge (keep
+    emitting `error`). (3) **optional `x-prism3:` block** — hand-authored in `surfaces.md`, passed
+    through verbatim by `refresh-design` to a top-level `x-prism3` key; scoring-neutral (no new
+    `.brand/` file, no manifest/health impact). Spec: `brand-skills/docs/superpowers/specs/
+    2026-07-01-prism3-engine-alignment-design.md`. Tests 159 → 162 green; no version bump.
+    **Token Press provisioning deferred** (private, different-org, export-stage — downstream).
 - **A. `design.md` + CLI adapter — ✅ DONE (2026-07-01).** A brand brief
   (`design.md` frontmatter → `BrandInput`, prose for agent latitude) compiled by
   the CLI over the pure core. Proves the core-as-a-library and the authoring

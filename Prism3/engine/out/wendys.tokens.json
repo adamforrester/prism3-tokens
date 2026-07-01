@@ -8942,38 +8942,38 @@
             "$type": "typography",
             "$value": {
               "fontFamily": "{prism.font.family.display}",
-              "fontSize": "{prism.font.size.56}",
+              "fontSize": "{prism.font.size.48}",
               "fontWeight": "{prism.font.weight-role.strong}",
               "lineHeight": "{prism.font.line-height.tight}",
               "letterSpacing": "{prism.font.letter-spacing.tight}"
             },
-            "$description": "display sm strong — 40→56px fluid wendysFresh (display role), tight line-height, strong weight, tight tracking — consumer-facing type style",
+            "$description": "display sm strong — 36→48px fluid wendysFresh (display role), tight line-height, strong weight, tight tracking — consumer-facing type style",
             "$extensions": {
               "prism3": {
                 "role": "composite",
                 "group": "display",
                 "variant": "sm",
                 "weightRole": "strong",
-                "sizePx": 56,
+                "sizePx": 48,
                 "responsive": {
                   "fluid": true,
                   "min": {
-                    "px": 40,
-                    "rem": 2.5,
-                    "ref": "{prism.font.size.40}"
+                    "px": 36,
+                    "rem": 2.25,
+                    "ref": "{prism.font.size.36}"
                   },
                   "max": {
-                    "px": 56,
-                    "rem": 3.5,
-                    "ref": "{prism.font.size.56}"
+                    "px": 48,
+                    "rem": 3,
+                    "ref": "{prism.font.size.48}"
                   },
-                  "web": "clamp(2.5rem, 2.0856rem + 1.768vw, 3.5rem)",
+                  "web": "clamp(2.25rem, 1.9392rem + 1.326vw, 3rem)",
                   "figma": {
                     "field": "fontSize",
                     "scope": "FONT_SIZE",
                     "modes": {
-                      "mobile": 40,
-                      "desktop": 56
+                      "mobile": 36,
+                      "desktop": 48
                     }
                   }
                 },
@@ -8999,19 +8999,19 @@
             "$type": "typography",
             "$value": {
               "fontFamily": "{prism.font.family.display}",
-              "fontSize": "{prism.font.size.72}",
+              "fontSize": "{prism.font.size.64}",
               "fontWeight": "{prism.font.weight-role.strong}",
               "lineHeight": "{prism.font.line-height.tight}",
               "letterSpacing": "{prism.font.letter-spacing.tight}"
             },
-            "$description": "display md strong — 40→72px fluid wendysFresh (display role), tight line-height, strong weight, tight tracking — consumer-facing type style",
+            "$description": "display md strong — 40→64px fluid wendysFresh (display role), tight line-height, strong weight, tight tracking — consumer-facing type style",
             "$extensions": {
               "prism3": {
                 "role": "composite",
                 "group": "display",
                 "variant": "md",
                 "weightRole": "strong",
-                "sizePx": 72,
+                "sizePx": 64,
                 "responsive": {
                   "fluid": true,
                   "min": {
@@ -9020,17 +9020,17 @@
                     "ref": "{prism.font.size.40}"
                   },
                   "max": {
-                    "px": 72,
-                    "rem": 4.5,
-                    "ref": "{prism.font.size.72}"
+                    "px": 64,
+                    "rem": 4,
+                    "ref": "{prism.font.size.64}"
                   },
-                  "web": "clamp(2.5rem, 1.6713rem + 3.5359vw, 4.5rem)",
+                  "web": "clamp(2.5rem, 1.8785rem + 2.6519vw, 4rem)",
                   "figma": {
                     "field": "fontSize",
                     "scope": "FONT_SIZE",
                     "modes": {
                       "mobile": 40,
-                      "desktop": 72
+                      "desktop": 64
                     }
                   }
                 },
@@ -9056,17 +9056,74 @@
             "$type": "typography",
             "$value": {
               "fontFamily": "{prism.font.family.display}",
-              "fontSize": "{prism.font.size.96}",
+              "fontSize": "{prism.font.size.80}",
               "fontWeight": "{prism.font.weight-role.strong}",
               "lineHeight": "{prism.font.line-height.tight}",
-              "letterSpacing": "{prism.font.letter-spacing.tighter}"
+              "letterSpacing": "{prism.font.letter-spacing.tight}"
             },
-            "$description": "display lg strong — 48→96px fluid wendysFresh (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
+            "$description": "display lg strong — 40→80px fluid wendysFresh (display role), tight line-height, strong weight, tight tracking — consumer-facing type style",
             "$extensions": {
               "prism3": {
                 "role": "composite",
                 "group": "display",
                 "variant": "lg",
+                "weightRole": "strong",
+                "sizePx": 80,
+                "responsive": {
+                  "fluid": true,
+                  "min": {
+                    "px": 40,
+                    "rem": 2.5,
+                    "ref": "{prism.font.size.40}"
+                  },
+                  "max": {
+                    "px": 80,
+                    "rem": 5,
+                    "ref": "{prism.font.size.80}"
+                  },
+                  "web": "clamp(2.5rem, 1.4641rem + 4.4199vw, 5rem)",
+                  "figma": {
+                    "field": "fontSize",
+                    "scope": "FONT_SIZE",
+                    "modes": {
+                      "mobile": 40,
+                      "desktop": 80
+                    }
+                  }
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
+          }
+        },
+        "xl": {
+          "strong": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{prism.font.family.display}",
+              "fontSize": "{prism.font.size.96}",
+              "fontWeight": "{prism.font.weight-role.strong}",
+              "lineHeight": "{prism.font.line-height.tight}",
+              "letterSpacing": "{prism.font.letter-spacing.tighter}"
+            },
+            "$description": "display xl strong — 48→96px fluid wendysFresh (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "display",
+                "variant": "xl",
                 "weightRole": "strong",
                 "sizePx": 96,
                 "responsive": {
@@ -9108,81 +9165,24 @@
             }
           }
         },
-        "xl": {
-          "strong": {
-            "$type": "typography",
-            "$value": {
-              "fontFamily": "{prism.font.family.display}",
-              "fontSize": "{prism.font.size.112}",
-              "fontWeight": "{prism.font.weight-role.strong}",
-              "lineHeight": "{prism.font.line-height.tight}",
-              "letterSpacing": "{prism.font.letter-spacing.tighter}"
-            },
-            "$description": "display xl strong — 48→112px fluid wendysFresh (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
-            "$extensions": {
-              "prism3": {
-                "role": "composite",
-                "group": "display",
-                "variant": "xl",
-                "weightRole": "strong",
-                "sizePx": 112,
-                "responsive": {
-                  "fluid": true,
-                  "min": {
-                    "px": 48,
-                    "rem": 3,
-                    "ref": "{prism.font.size.48}"
-                  },
-                  "max": {
-                    "px": 112,
-                    "rem": 7,
-                    "ref": "{prism.font.size.112}"
-                  },
-                  "web": "clamp(3rem, 1.3425rem + 7.0718vw, 7rem)",
-                  "figma": {
-                    "field": "fontSize",
-                    "scope": "FONT_SIZE",
-                    "modes": {
-                      "mobile": 48,
-                      "desktop": 112
-                    }
-                  }
-                },
-                "figma": {
-                  "kind": "text-style",
-                  "styleType": "TEXT",
-                  "binds": [
-                    "fontFamily",
-                    "fontSize",
-                    "fontWeight",
-                    "lineHeight",
-                    "letterSpacing"
-                  ],
-                  "baked": [],
-                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
-                }
-              }
-            }
-          }
-        },
         "2xl": {
           "strong": {
             "$type": "typography",
             "$value": {
               "fontFamily": "{prism.font.family.display}",
-              "fontSize": "{prism.font.size.144}",
+              "fontSize": "{prism.font.size.128}",
               "fontWeight": "{prism.font.weight-role.strong}",
               "lineHeight": "{prism.font.line-height.tight}",
               "letterSpacing": "{prism.font.letter-spacing.tighter}"
             },
-            "$description": "display 2xl strong — 48→144px fluid wendysFresh (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
+            "$description": "display 2xl strong — 48→128px fluid wendysFresh (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
             "$extensions": {
               "prism3": {
                 "role": "composite",
                 "group": "display",
                 "variant": "2xl",
                 "weightRole": "strong",
-                "sizePx": 144,
+                "sizePx": 128,
                 "responsive": {
                   "fluid": true,
                   "min": {
@@ -9191,17 +9191,17 @@
                     "ref": "{prism.font.size.48}"
                   },
                   "max": {
-                    "px": 144,
-                    "rem": 9,
-                    "ref": "{prism.font.size.144}"
+                    "px": 128,
+                    "rem": 8,
+                    "ref": "{prism.font.size.128}"
                   },
-                  "web": "clamp(3rem, 0.5138rem + 10.6077vw, 9rem)",
+                  "web": "clamp(3rem, 0.9282rem + 8.8398vw, 8rem)",
                   "figma": {
                     "field": "fontSize",
                     "scope": "FONT_SIZE",
                     "modes": {
                       "mobile": 48,
-                      "desktop": 144
+                      "desktop": 128
                     }
                   }
                 },
@@ -9286,22 +9286,22 @@
             "$type": "typography",
             "$value": {
               "fontFamily": "{prism.font.family.display}",
-              "fontSize": "{prism.font.size.20}",
+              "fontSize": "{prism.font.size.18}",
               "fontWeight": "{prism.font.weight-role.strong}",
               "lineHeight": "{prism.font.line-height.compact}",
               "letterSpacing": "{prism.font.letter-spacing.snug}"
             },
-            "$description": "title xs strong — 20px wendysFresh (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
+            "$description": "title xs strong — 18px wendysFresh (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
             "$extensions": {
               "prism3": {
                 "role": "composite",
                 "group": "title",
                 "variant": "xs",
                 "weightRole": "strong",
-                "sizePx": 20,
+                "sizePx": 18,
                 "responsive": {
                   "fluid": false,
-                  "px": 20
+                  "px": 18
                 },
                 "figma": {
                   "kind": "text-style",
@@ -9325,17 +9325,56 @@
             "$type": "typography",
             "$value": {
               "fontFamily": "{prism.font.family.display}",
-              "fontSize": "{prism.font.size.24}",
+              "fontSize": "{prism.font.size.20}",
               "fontWeight": "{prism.font.weight-role.strong}",
               "lineHeight": "{prism.font.line-height.compact}",
               "letterSpacing": "{prism.font.letter-spacing.snug}"
             },
-            "$description": "title sm strong — 20→24px fluid wendysFresh (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
+            "$description": "title sm strong — 20px wendysFresh (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
             "$extensions": {
               "prism3": {
                 "role": "composite",
                 "group": "title",
                 "variant": "sm",
+                "weightRole": "strong",
+                "sizePx": 20,
+                "responsive": {
+                  "fluid": false,
+                  "px": 20
+                },
+                "figma": {
+                  "kind": "text-style",
+                  "styleType": "TEXT",
+                  "binds": [
+                    "fontFamily",
+                    "fontSize",
+                    "fontWeight",
+                    "lineHeight",
+                    "letterSpacing"
+                  ],
+                  "baked": [],
+                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                }
+              }
+            }
+          }
+        },
+        "md": {
+          "strong": {
+            "$type": "typography",
+            "$value": {
+              "fontFamily": "{prism.font.family.display}",
+              "fontSize": "{prism.font.size.24}",
+              "fontWeight": "{prism.font.weight-role.strong}",
+              "lineHeight": "{prism.font.line-height.compact}",
+              "letterSpacing": "{prism.font.letter-spacing.snug}"
+            },
+            "$description": "title md strong — 20→24px fluid wendysFresh (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
+            "$extensions": {
+              "prism3": {
+                "role": "composite",
+                "group": "title",
+                "variant": "md",
                 "weightRole": "strong",
                 "sizePx": 24,
                 "responsive": {
@@ -9377,7 +9416,7 @@
             }
           }
         },
-        "md": {
+        "lg": {
           "strong": {
             "$type": "typography",
             "$value": {
@@ -9387,12 +9426,12 @@
               "lineHeight": "{prism.font.line-height.snug}",
               "letterSpacing": "{prism.font.letter-spacing.snug}"
             },
-            "$description": "title md strong — 24→28px fluid wendysFresh (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
+            "$description": "title lg strong — 24→28px fluid wendysFresh (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
             "$extensions": {
               "prism3": {
                 "role": "composite",
                 "group": "title",
-                "variant": "md",
+                "variant": "lg",
                 "weightRole": "strong",
                 "sizePx": 28,
                 "responsive": {
@@ -9434,7 +9473,7 @@
             }
           }
         },
-        "lg": {
+        "xl": {
           "strong": {
             "$type": "typography",
             "$value": {
@@ -9444,12 +9483,12 @@
               "lineHeight": "{prism.font.line-height.snug}",
               "letterSpacing": "{prism.font.letter-spacing.snug}"
             },
-            "$description": "title lg strong — 28→32px fluid wendysFresh (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
+            "$description": "title xl strong — 28→32px fluid wendysFresh (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
             "$extensions": {
               "prism3": {
                 "role": "composite",
                 "group": "title",
-                "variant": "lg",
+                "variant": "xl",
                 "weightRole": "strong",
                 "sizePx": 32,
                 "responsive": {
@@ -9491,100 +9530,43 @@
             }
           }
         },
-        "xl": {
-          "strong": {
-            "$type": "typography",
-            "$value": {
-              "fontFamily": "{prism.font.family.display}",
-              "fontSize": "{prism.font.size.36}",
-              "fontWeight": "{prism.font.weight-role.strong}",
-              "lineHeight": "{prism.font.line-height.snug}",
-              "letterSpacing": "{prism.font.letter-spacing.snug}"
-            },
-            "$description": "title xl strong — 32→36px fluid wendysFresh (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
-            "$extensions": {
-              "prism3": {
-                "role": "composite",
-                "group": "title",
-                "variant": "xl",
-                "weightRole": "strong",
-                "sizePx": 36,
-                "responsive": {
-                  "fluid": true,
-                  "min": {
-                    "px": 32,
-                    "rem": 2,
-                    "ref": "{prism.font.size.32}"
-                  },
-                  "max": {
-                    "px": 36,
-                    "rem": 2.25,
-                    "ref": "{prism.font.size.36}"
-                  },
-                  "web": "clamp(2rem, 1.8964rem + 0.442vw, 2.25rem)",
-                  "figma": {
-                    "field": "fontSize",
-                    "scope": "FONT_SIZE",
-                    "modes": {
-                      "mobile": 32,
-                      "desktop": 36
-                    }
-                  }
-                },
-                "figma": {
-                  "kind": "text-style",
-                  "styleType": "TEXT",
-                  "binds": [
-                    "fontFamily",
-                    "fontSize",
-                    "fontWeight",
-                    "lineHeight",
-                    "letterSpacing"
-                  ],
-                  "baked": [],
-                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
-                }
-              }
-            }
-          }
-        },
         "2xl": {
           "strong": {
             "$type": "typography",
             "$value": {
               "fontFamily": "{prism.font.family.display}",
-              "fontSize": "{prism.font.size.48}",
+              "fontSize": "{prism.font.size.40}",
               "fontWeight": "{prism.font.weight-role.strong}",
               "lineHeight": "{prism.font.line-height.snug}",
               "letterSpacing": "{prism.font.letter-spacing.snug}"
             },
-            "$description": "title 2xl strong — 40→48px fluid wendysFresh (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
+            "$description": "title 2xl strong — 36→40px fluid wendysFresh (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
             "$extensions": {
               "prism3": {
                 "role": "composite",
                 "group": "title",
                 "variant": "2xl",
                 "weightRole": "strong",
-                "sizePx": 48,
+                "sizePx": 40,
                 "responsive": {
                   "fluid": true,
                   "min": {
+                    "px": 36,
+                    "rem": 2.25,
+                    "ref": "{prism.font.size.36}"
+                  },
+                  "max": {
                     "px": 40,
                     "rem": 2.5,
                     "ref": "{prism.font.size.40}"
                   },
-                  "max": {
-                    "px": 48,
-                    "rem": 3,
-                    "ref": "{prism.font.size.48}"
-                  },
-                  "web": "clamp(2.5rem, 2.2928rem + 0.884vw, 3rem)",
+                  "web": "clamp(2.25rem, 2.1464rem + 0.442vw, 2.5rem)",
                   "figma": {
                     "field": "fontSize",
                     "scope": "FONT_SIZE",
                     "modes": {
-                      "mobile": 40,
-                      "desktop": 48
+                      "mobile": 36,
+                      "desktop": 40
                     }
                   }
                 },
@@ -12337,7 +12319,7 @@
         "shadow: 6-step ramp (xs–2xl) + inset, 2-layer (key+ambient), softness 1; tinted base (hue 249.14, amount 0.15). Mode-aware, LIFT-primary: full shadow in light; reduced (faded, top-weighted) in dark — the surface ladder carries dark elevation. Composite shadow → Figma Effect Style.",
         "gradient: none (opt-in axis; brand declared no gradients — the field-common default).",
         "layout: 5 breakpoints (sm 0, md 768, lg 1024, xl 1440, 2xl 1920); grid base 12 cols (ladder 4/8/12/12/12); gutter/margin alias the spacing scale (16/16/24/24/32 · 16/24/24/32/48); container max 1440px + narrow 720px (fluid-first + cap). Breakpoints → a separate Figma layout collection (modes), composing with colour light/dark.",
-        "typography: curated rem size ladder (22 steps, 10–160px — NOT ratio-derived; covers all bases, clean values); weight roles subtle/default/emphasis/strong → 300/400/600/700; families display=wendysFresh, text=Roboto, mono=JetBrains Mono; typeScale 'expressive'. 36 semantic composites (title/display sizes shifted by typeScale; display capped at 160px; title floor 18px). responsive: 11 fluid composites (size-dependent mobile shrink — research-validated, Carbon fluid-display curve: body static, titles ~1 rung, display converges to ~40–48px; one min/max pair → web clamp() 375–1280px + Figma desktop/mobile modes). Line-height unitless multiplier in $value; px-from-ratio materialization for Figma in $extensions.",
+        "typography: curated rem size ladder (22 steps, 10–160px — NOT ratio-derived; covers all bases, clean values); weight roles subtle/default/emphasis/strong → 300/400/600/700; families display=wendysFresh, text=Roboto, mono=JetBrains Mono; typeScale 'default'. 36 semantic composites (title/display sizes shifted by typeScale; display capped at 160px; title floor 18px). responsive: 10 fluid composites (size-dependent mobile shrink — research-validated, Carbon fluid-display curve: body static, titles ~1 rung, display converges to ~40–48px; one min/max pair → web clamp() 375–1280px + Figma desktop/mobile modes). Line-height unitless multiplier in $value; px-from-ratio materialization for Figma in $extensions.",
         "disabled: 'accessible' — disabled text/icon/border clears 3:1 on the floor (legible, contrast-preserving; the field-rare default). Set disabledStrategy:'conventional' for the sub-AA exempt look."
       ]
     }

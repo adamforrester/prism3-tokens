@@ -1880,12 +1880,12 @@
   "typography": {
     "type.display.sm.strong": {
       "$description": "Hero / marketing display type.",
-      "meaning": "Type style — display sm strong (56px, display face)",
+      "meaning": "Type style — display sm strong (48px, display face)",
       "when_to_use": "Large expressive headlines and hero moments.",
       "avoid_when": "Do not use for product-UI headings (use title) or running text (use body).",
       "resolves_to": {
         "fontFamily": "{prism.font.family.display}",
-        "fontSize": "{prism.font.size.56}",
+        "fontSize": "{prism.font.size.48}",
         "fontWeight": "{prism.font.weight-role.strong}",
         "lineHeight": "{prism.font.line-height.tight}",
         "letterSpacing": "{prism.font.letter-spacing.tight}"
@@ -1893,12 +1893,12 @@
     },
     "type.display.md.strong": {
       "$description": "Hero / marketing display type.",
-      "meaning": "Type style — display md strong (72px, display face)",
+      "meaning": "Type style — display md strong (64px, display face)",
       "when_to_use": "Large expressive headlines and hero moments.",
       "avoid_when": "Do not use for product-UI headings (use title) or running text (use body).",
       "resolves_to": {
         "fontFamily": "{prism.font.family.display}",
-        "fontSize": "{prism.font.size.72}",
+        "fontSize": "{prism.font.size.64}",
         "fontWeight": "{prism.font.weight-role.strong}",
         "lineHeight": "{prism.font.line-height.tight}",
         "letterSpacing": "{prism.font.letter-spacing.tight}"
@@ -1906,7 +1906,20 @@
     },
     "type.display.lg.strong": {
       "$description": "Hero / marketing display type.",
-      "meaning": "Type style — display lg strong (96px, display face)",
+      "meaning": "Type style — display lg strong (80px, display face)",
+      "when_to_use": "Large expressive headlines and hero moments.",
+      "avoid_when": "Do not use for product-UI headings (use title) or running text (use body).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.display}",
+        "fontSize": "{prism.font.size.80}",
+        "fontWeight": "{prism.font.weight-role.strong}",
+        "lineHeight": "{prism.font.line-height.tight}",
+        "letterSpacing": "{prism.font.letter-spacing.tight}"
+      }
+    },
+    "type.display.xl.strong": {
+      "$description": "Hero / marketing display type.",
+      "meaning": "Type style — display xl strong (96px, display face)",
       "when_to_use": "Large expressive headlines and hero moments.",
       "avoid_when": "Do not use for product-UI headings (use title) or running text (use body).",
       "resolves_to": {
@@ -1917,27 +1930,14 @@
         "letterSpacing": "{prism.font.letter-spacing.tighter}"
       }
     },
-    "type.display.xl.strong": {
-      "$description": "Hero / marketing display type.",
-      "meaning": "Type style — display xl strong (112px, display face)",
-      "when_to_use": "Large expressive headlines and hero moments.",
-      "avoid_when": "Do not use for product-UI headings (use title) or running text (use body).",
-      "resolves_to": {
-        "fontFamily": "{prism.font.family.display}",
-        "fontSize": "{prism.font.size.112}",
-        "fontWeight": "{prism.font.weight-role.strong}",
-        "lineHeight": "{prism.font.line-height.tight}",
-        "letterSpacing": "{prism.font.letter-spacing.tighter}"
-      }
-    },
     "type.display.2xl.strong": {
       "$description": "Hero / marketing display type.",
-      "meaning": "Type style — display 2xl strong (144px, display face)",
+      "meaning": "Type style — display 2xl strong (128px, display face)",
       "when_to_use": "Large expressive headlines and hero moments.",
       "avoid_when": "Do not use for product-UI headings (use title) or running text (use body).",
       "resolves_to": {
         "fontFamily": "{prism.font.family.display}",
-        "fontSize": "{prism.font.size.144}",
+        "fontSize": "{prism.font.size.128}",
         "fontWeight": "{prism.font.weight-role.strong}",
         "lineHeight": "{prism.font.line-height.tight}",
         "letterSpacing": "{prism.font.letter-spacing.tighter}"
@@ -1958,7 +1958,20 @@
     },
     "type.title.xs.strong": {
       "$description": "Heading type — visual hierarchy, decoupled from DOM level.",
-      "meaning": "Type style — title xs strong (20px, display face)",
+      "meaning": "Type style — title xs strong (18px, display face)",
+      "when_to_use": "Section and page headings; pick the size for visual prominence and set the DOM level (h1–h6) by document structure independently.",
+      "avoid_when": "Do not bind the size to a heading level; do not use for running text (use body).",
+      "resolves_to": {
+        "fontFamily": "{prism.font.family.display}",
+        "fontSize": "{prism.font.size.18}",
+        "fontWeight": "{prism.font.weight-role.strong}",
+        "lineHeight": "{prism.font.line-height.compact}",
+        "letterSpacing": "{prism.font.letter-spacing.snug}"
+      }
+    },
+    "type.title.sm.strong": {
+      "$description": "Heading type — visual hierarchy, decoupled from DOM level.",
+      "meaning": "Type style — title sm strong (20px, display face)",
       "when_to_use": "Section and page headings; pick the size for visual prominence and set the DOM level (h1–h6) by document structure independently.",
       "avoid_when": "Do not bind the size to a heading level; do not use for running text (use body).",
       "resolves_to": {
@@ -1969,9 +1982,9 @@
         "letterSpacing": "{prism.font.letter-spacing.snug}"
       }
     },
-    "type.title.sm.strong": {
+    "type.title.md.strong": {
       "$description": "Heading type — visual hierarchy, decoupled from DOM level.",
-      "meaning": "Type style — title sm strong (24px, display face)",
+      "meaning": "Type style — title md strong (24px, display face)",
       "when_to_use": "Section and page headings; pick the size for visual prominence and set the DOM level (h1–h6) by document structure independently.",
       "avoid_when": "Do not bind the size to a heading level; do not use for running text (use body).",
       "resolves_to": {
@@ -1982,9 +1995,9 @@
         "letterSpacing": "{prism.font.letter-spacing.snug}"
       }
     },
-    "type.title.md.strong": {
+    "type.title.lg.strong": {
       "$description": "Heading type — visual hierarchy, decoupled from DOM level.",
-      "meaning": "Type style — title md strong (28px, display face)",
+      "meaning": "Type style — title lg strong (28px, display face)",
       "when_to_use": "Section and page headings; pick the size for visual prominence and set the DOM level (h1–h6) by document structure independently.",
       "avoid_when": "Do not bind the size to a heading level; do not use for running text (use body).",
       "resolves_to": {
@@ -1995,9 +2008,9 @@
         "letterSpacing": "{prism.font.letter-spacing.snug}"
       }
     },
-    "type.title.lg.strong": {
+    "type.title.xl.strong": {
       "$description": "Heading type — visual hierarchy, decoupled from DOM level.",
-      "meaning": "Type style — title lg strong (32px, display face)",
+      "meaning": "Type style — title xl strong (32px, display face)",
       "when_to_use": "Section and page headings; pick the size for visual prominence and set the DOM level (h1–h6) by document structure independently.",
       "avoid_when": "Do not bind the size to a heading level; do not use for running text (use body).",
       "resolves_to": {
@@ -2008,27 +2021,14 @@
         "letterSpacing": "{prism.font.letter-spacing.snug}"
       }
     },
-    "type.title.xl.strong": {
-      "$description": "Heading type — visual hierarchy, decoupled from DOM level.",
-      "meaning": "Type style — title xl strong (36px, display face)",
-      "when_to_use": "Section and page headings; pick the size for visual prominence and set the DOM level (h1–h6) by document structure independently.",
-      "avoid_when": "Do not bind the size to a heading level; do not use for running text (use body).",
-      "resolves_to": {
-        "fontFamily": "{prism.font.family.display}",
-        "fontSize": "{prism.font.size.36}",
-        "fontWeight": "{prism.font.weight-role.strong}",
-        "lineHeight": "{prism.font.line-height.snug}",
-        "letterSpacing": "{prism.font.letter-spacing.snug}"
-      }
-    },
     "type.title.2xl.strong": {
       "$description": "Heading type — visual hierarchy, decoupled from DOM level.",
-      "meaning": "Type style — title 2xl strong (48px, display face)",
+      "meaning": "Type style — title 2xl strong (40px, display face)",
       "when_to_use": "Section and page headings; pick the size for visual prominence and set the DOM level (h1–h6) by document structure independently.",
       "avoid_when": "Do not bind the size to a heading level; do not use for running text (use body).",
       "resolves_to": {
         "fontFamily": "{prism.font.family.display}",
-        "fontSize": "{prism.font.size.48}",
+        "fontSize": "{prism.font.size.40}",
         "fontWeight": "{prism.font.weight-role.strong}",
         "lineHeight": "{prism.font.line-height.snug}",
         "letterSpacing": "{prism.font.letter-spacing.snug}"
@@ -4225,7 +4225,8 @@
         "type.body.lg.default",
         "type.body.lg.default-link",
         "type.body.lg.strong",
-        "type.body.lg.strong-link"
+        "type.body.lg.strong-link",
+        "type.title.xs.strong"
       ]
     },
     "font.size.20": {
@@ -4234,7 +4235,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "type.title.xs.strong"
+        "type.title.sm.strong"
       ]
     },
     "font.size.24": {
@@ -4243,7 +4244,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "type.title.sm.strong"
+        "type.title.md.strong"
       ]
     },
     "font.size.28": {
@@ -4252,7 +4253,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "type.title.md.strong"
+        "type.title.lg.strong"
       ]
     },
     "font.size.32": {
@@ -4261,23 +4262,23 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "type.title.lg.strong"
+        "type.title.xl.strong"
       ]
     },
     "font.size.36": {
       "$description": "font size 36px (2.25rem) — curated ladder primitive",
       "meaning": "Font size primitive — 36px (rem)",
       "tier": "primitive",
-      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
-      "aliased_by": [
-        "type.title.xl.strong"
-      ]
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight."
     },
     "font.size.40": {
       "$description": "font size 40px (2.5rem) — curated ladder primitive",
       "meaning": "Font size primitive — 40px (rem)",
       "tier": "primitive",
-      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight."
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
+      "aliased_by": [
+        "type.title.2xl.strong"
+      ]
     },
     "font.size.48": {
       "$description": "font size 48px (3rem) — curated ladder primitive",
@@ -4285,38 +4286,38 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "type.title.2xl.strong"
+        "type.display.sm.strong"
       ]
     },
     "font.size.56": {
       "$description": "font size 56px (3.5rem) — curated ladder primitive",
       "meaning": "Font size primitive — 56px (rem)",
       "tier": "primitive",
-      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
-      "aliased_by": [
-        "type.display.sm.strong"
-      ]
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight."
     },
     "font.size.64": {
       "$description": "font size 64px (4rem) — curated ladder primitive",
       "meaning": "Font size primitive — 64px (rem)",
-      "tier": "primitive",
-      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight."
-    },
-    "font.size.72": {
-      "$description": "font size 72px (4.5rem) — curated ladder primitive",
-      "meaning": "Font size primitive — 72px (rem)",
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
         "type.display.md.strong"
       ]
     },
+    "font.size.72": {
+      "$description": "font size 72px (4.5rem) — curated ladder primitive",
+      "meaning": "Font size primitive — 72px (rem)",
+      "tier": "primitive",
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight."
+    },
     "font.size.80": {
       "$description": "font size 80px (5rem) — curated ladder primitive",
       "meaning": "Font size primitive — 80px (rem)",
       "tier": "primitive",
-      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight."
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
+      "aliased_by": [
+        "type.display.lg.strong"
+      ]
     },
     "font.size.96": {
       "$description": "font size 96px (6rem) — curated ladder primitive",
@@ -4324,32 +4325,29 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
-        "type.display.lg.strong"
+        "type.display.xl.strong"
       ]
     },
     "font.size.112": {
       "$description": "font size 112px (7rem) — curated ladder primitive",
       "meaning": "Font size primitive — 112px (rem)",
       "tier": "primitive",
-      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
-      "aliased_by": [
-        "type.display.xl.strong"
-      ]
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight."
     },
     "font.size.128": {
       "$description": "font size 128px (8rem) — curated ladder primitive",
       "meaning": "Font size primitive — 128px (rem)",
       "tier": "primitive",
-      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight."
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
+      "aliased_by": [
+        "type.display.2xl.strong"
+      ]
     },
     "font.size.144": {
       "$description": "font size 144px (9rem) — curated ladder primitive",
       "meaning": "Font size primitive — 144px (rem)",
       "tier": "primitive",
-      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
-      "aliased_by": [
-        "type.display.2xl.strong"
-      ]
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight."
     },
     "font.size.160": {
       "$description": "font size 160px (10rem) — curated ladder primitive",
@@ -4487,7 +4485,6 @@
         "type.label.sm.emphasis",
         "type.title.2xl.strong",
         "type.title.lg.strong",
-        "type.title.md.strong",
         "type.title.xl.strong"
       ]
     },
@@ -4497,6 +4494,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
+        "type.title.md.strong",
         "type.title.sm.strong",
         "type.title.xs.strong"
       ]
@@ -4550,7 +4548,6 @@
       "aliased_by": [
         "type.display.2xl.strong",
         "type.display.3xl.strong",
-        "type.display.lg.strong",
         "type.display.xl.strong"
       ]
     },
@@ -4560,6 +4557,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
       "aliased_by": [
+        "type.display.lg.strong",
         "type.display.md.strong",
         "type.display.sm.strong"
       ]
