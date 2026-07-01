@@ -7,7 +7,7 @@
 
 ---
 
-## Current status (2026-06-29)
+## Current status (2026-07-01)
 
 **Every token category NB and Prism2 ship is now generated** — colour, dimension,
 typography, motion, shadow/elevation, layout, and (opt-in) gradients — proven
@@ -35,8 +35,26 @@ Headline numbers (regenerate with the commands below):
 | Form factor | comfortable / radius 1 (sharp) | compact / radius 2 (soft) |
 | Emit profile | `nbds.*` / rgb | `prism.*` / hex |
 
-Work lives on branch `claude/prism3-token-architecture-leipq2` and is merged to
-`main` for review.
+Work now ships as **one PR per feature branch off `main`** (confirmed workflow).
+All work through 2026-07-01 is merged to `main`.
+
+**Structural work since the token layer completed (2026-07-01):**
+- **Portable pure core.** The theming brain (`theme.ts` + `color`/`ramp`/`scale`/
+  `modes`) is now Node-free — the only filesystem coupling (the NB fixture) moved
+  to an I/O shell, `nb-fixture.ts`. Precondition for running the engine inside a
+  Figma plugin sandbox, an MCP server, or a CLI. See `07-e2e-journey.md` §3.
+- **Colour two-tier naming + mode-flattening.** Primitives `color.*` → **`palette.*`**;
+  the semantic role layer `semantic.*` → **`color.*`** (the word "semantic" no
+  longer appears in any path). Each role is now **one mode-agnostic token**: light
+  canonical in `$value`, dark/hc modes as overrides in `$extensions.prism3.modes`
+  (same shape as `shadow`; maps 1:1 to a Figma colour variable with modes). Locked
+  convention in `06` §7b.
+- **Space fidelity fix.** Restored Prism2's `space.150` (12px) and `space.250`
+  (20px) — the engine had silently dropped them; dimension axis 21/21 → **23/23**.
+- **E2E journey mapped** (`07-e2e-journey.md`): the designer↔developer↔agent
+  pipeline, the portable-core architecture, `design.md` authoring brief, and the
+  component-library layer (components-as-data + Code Connect) as layers 2–3 of the
+  practice's four-layer AI stack.
 
 ---
 
@@ -50,7 +68,9 @@ Prism3/
 │   ├── 02-nb-regression-pass.md    ← the NB regression: method + measured results
 │   ├── 03-open-questions.md         ← semantic-layer decision backlog (elevation, scrim/opacity, disabled, white/black)
 │   ├── 04-theming-playground.md     ← direction note: live theming dashboard / preview surface (web + Figma)
-│   └── 05-token-coverage-roadmap.md ← build backlog: remaining token categories (type, motion, shadow, layout, …)
+│   ├── 05-token-coverage-roadmap.md ← build backlog: remaining token categories (type, motion, shadow, layout, …)
+│   ├── 06-surface-and-content-color-model.md ← the surface/content colour model + §7b as-built naming (palette/color) & mode encoding
+│   └── 07-e2e-journey.md            ← the designer↔developer↔agent pipeline; portable-core architecture; design.md; component layer (layers 2–3 of the AI stack)
 ├── schema/
 │   ├── theme-schema.json           ← the white-label BrandInput contract (JSON Schema; validated on every emit)
 │   ├── theme-schema.example.json   ← a worked BrandInput (aurora) that conforms to the contract
@@ -61,6 +81,7 @@ Prism3/
     ├── scale.ts                    ← dimension axis: 4px grid + numbered space scale (8px rhythm) + radius + component sizes
     ├── theme.ts                    ← Theme builder: nbTheme() (measured) + brandTheme() (white-label: open brandColors[], action role decoupled from brand, status synthesis + danger carve + form factor)
     ├── modes.ts                    ← light/dark/hc-light/hc-dark, roles resolved by contrast target, brand-agnostic
+    ├── nb-fixture.ts               ← I/O shell: reads the NB fixture off disk + defers to the pure core (keeps theme.ts Node-free / portable)
     ├── nb-regression.ts            ← diffs generated vs real NB, checks contracts → nb-regression-report.md
     ├── emit-dtcg.ts                ← emits out/<id>.tokens.json per theme (NB + aurora) + modes-report.md, validates aliases, mode contracts & BrandInput schema conformance
     ├── test.ts                     ← unit tests: colour-math invariants + 5 extreme-brand contracts + typography/shadow/layout/gradient/surface-model + harshness + typography invariants (172 checks)
@@ -85,6 +106,24 @@ npx tsx Prism3/engine/test.ts            # unit tests: colour math + extreme-bra
 
 ## Decisions log (why things are the way they are)
 
+- **Portable pure core, not a plugin/CLI (2026-07-01).** The engine is a
+  dependency-free *library* wrapped by thin adapters (Figma plugin / CLI / MCP /
+  API), not a single app. Kept the core I/O-free so it can run in a Figma sandbox;
+  the NB fixture read lives in `nb-fixture.ts`. Same brain everywhere → the plugin
+  inherits every engine option, and no forced LLM (knob-turning, a `design.md`
+  file, or an agent all feed the same core). Rationale in `07-e2e-journey.md` §3–4.
+- **Colour: `palette` primitives + `color` roles, mode as a value (2026-07-01).**
+  "semantic" is a tier concept, not a name segment — it left the paths. The tier
+  designers use got the intuitive `color.*`; the reference tier got `palette.*`
+  (ref-vs-sys split). Mode is no longer nested in the name: one token per role,
+  light canonical in `$value`, other modes in `$extensions.prism3.modes` (matches
+  `shadow`; maps 1:1 to a Figma colour variable with modes). Rejected mode-in-name
+  because it breaks "same name, different value per mode" and fights the Figma
+  round-trip. Full note: `06` §7b.
+- **Space scale reproduces Prism2 in full (2026-07-01).** An audit for a requested
+  12px spacer found `SPACE_KEYS` had silently dropped Prism2's `150` (12px) and
+  `250` (20px). Restored both — the "reproduces Prism2's full space scale" claim is
+  now true, not aspirational (dimension axis 21/21 → 23/23).
 - **Build a real prototype, validate against NB.** The thesis ("a brand is a
   small input set the engine expands") is only credible if the engine can
   reproduce an existing hand-built brand. NB is the regression target.
@@ -310,8 +349,31 @@ npx tsx Prism3/engine/test.ts            # unit tests: colour math + extreme-bra
 
 ## Open items / next steps (roughly prioritized)
 
-Reordered per external review: prove breadth (a second brand through the full
-stack) before pipeline plumbing — it tests the white-label thesis harder.
+**The token layer is complete; the next phase is the E2E pipeline (`07-e2e-journey.md`).**
+The goal is a designer↔developer↔agent workflow ending in production-ready UI —
+i.e. completing layers 2–4 of the practice's four-layer AI stack (the engine is
+layer 1). Agreed build sequence (owner confirmed "safest path to a working plugin"):
+
+- **A. `design.md` + CLI adapter (next).** A brand brief (`design.md` frontmatter →
+  `BrandInput`, prose for agent latitude) compiled by the CLI over the pure core.
+  Proves the core-as-a-library and the authoring on-ramp in the easy Node
+  environment before the Figma sandbox. No LLM required to use it; agent-draftable.
+- **B. Figma plugin.** Fold the pure core in as the Figma *materialization adapter*
+  (one brain, two targets — `07` §5). The plugin becomes a consumer of engine
+  output, resolving today's pain points (missing options, namespace lock, font-weight
+  mapping). The colour output is already shaped like Figma's variable-with-modes, so
+  this is a direct mapping. NB: Figma component work does **not** depend on the plugin.
+- **C. MCP adapter** over the core — "an agent themes Prism3" as a callable surface
+  (the KB's MCP-first payoff).
+- **D. (later) Component library** — components-as-data → Web Components + React +
+  Storybook + `.ai.json` + Figma Code Connect (layers 2–3). In scope eventually;
+  mapped now so upstream choices don't foreclose it. Heavy per-component research
+  already in the KB (UIC series).
+
+Parked, owner-flagged: **light-grey surface value tuning** — done visually once real
+UI layouts exist, not against swatches.
+
+Older backlog (still valid, lower priority than the pipeline above):
 
 1. **"Beyond color" is COMPLETE — see `05-token-coverage-roadmap.md`.** Every token
    category NB + Prism2 ship is now generated: colour + the dimension axis
