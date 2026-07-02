@@ -142,6 +142,16 @@ npx tsx Prism3/engine/cli.ts Prism3/examples/wendys.design.md --fidelity      # 
 
 ## Decisions log (why things are the way they are)
 
+- **Dogfood the shared preview model in `visualize.ts` before building the hosts (2026-07-02).**
+  Rather than take the leap straight from the B1a/B1b portable model to two new live hosts (DOM
+  playground + Figma-node plugin) in a fresh repo, the static style-guide generator was made the
+  first consumer of `previewSpec` + `resolvePreview(theme)` — it renders each component/variant from
+  the resolved role colours + token-tree dims + resolved type composite, with the per-mode contrast
+  overlay driven by the same `byMode.pass` results. *Rationale:* prove the "define once, render
+  everywhere" contract composes a real UI + live overlay from one source **in-repo, behind the
+  existing gates**, so the host renderers (B1c/B2/B3) start from a validated binding+overlay pattern
+  instead of an unproven one. Additive and output-scoped (only `visualize.ts` + regenerated
+  `out/tokens.html`; pure core untouched, tokens byte-identical, 215/215). PR #22.
 - **Theming interfaces: new plugin + shared lever manifest (2026-07-01).** The customization
   surfaces (Figma plugin, web playground, CLI, MCP, Figma MCP) are five adapters over one core,
   not five products (`08-theming-interfaces`). Decisions: (A) the Prism3 Figma plugin is a **new**
@@ -531,9 +541,20 @@ layer 1). Agreed build sequence (owner confirmed "safest path to a working plugi
     referenced role resolves to a hex in every mode, and **every declared a11y contract actually
     holds on the resolved colours in all 4 modes** — the automated version of the PR #20 manual
     contrast check. 215/215; `out/*` unchanged (the `hex` field is emit-invisible). It's a
-    per-live-theme read-model, not a committed artifact. **← next: B1c host renderers (with B2/B3).**
+    per-live-theme read-model, not a committed artifact.
+  - **B1 dogfood — ✅ DONE (2026-07-02, PR #22).** `engine/visualize.ts` now renders the shared
+    preview model in-repo before the host renderers exist: for each brand it resolves `previewSpec`
+    (B1a) + `resolvePreview(theme)` (B1b) and paints every component/variant as a styled chip —
+    bg/text/border from the resolved role colours, radius/padding from the token tree, type from the
+    resolved composite — with the per-mode L/D/HL/HD contrast overlay driven by the same `byMode.pass`
+    results. Proves the "define once, render everywhere" model composes a real UI + live overlay from
+    one source, de-risking the leap to a separate plugin/playground repo. **Additive, output-scoped:**
+    only `visualize.ts` (+ regenerated `out/tokens.html`) changed; pure core untouched, `out/*.tokens.json`
+    byte-identical, 215/215. **← next: B1c-proper — the host renderers (DOM playground + Figma-node
+    plugin) that paint from the same `resolvePreview` output; land with B2/B3.**
   - **B1c. Host renderers** — the DOM (playground) + Figma-node (plugin) renderers that paint the
-    components from `resolvePreview`'s output. Land with B2/B3.
+    components from `resolvePreview`'s output. The binding + overlay logic is now proven via the B1
+    dogfood above; B1c ports it to the two live hosts. Land with B2/B3.
   - **B2. New Figma plugin shell** — bundles the core, renders knobs from the manifest,
     materialises via `$extensions.prism3.figma` (`08` §2/§5).
   - **B3. Web playground** — same manifest + preview, DOM/CSS-var host.

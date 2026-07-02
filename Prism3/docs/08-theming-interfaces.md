@@ -142,7 +142,14 @@ honoured from the start rather than retrofitted:
      real resolved colours (the live overlay). Pure (resolves via `resolveAllModes`, which
      now carries each role's `hex`). A `test.ts` gate asserts every declared contract holds
      on the resolved colours in all 4 modes.
-   - B1c — the host renderers (DOM playground / Figma-node plugin), with B2/B3.
+   - **B1 dogfood ✅ BUILT (2026-07-02, PR #22)** — `engine/visualize.ts` now renders the shared
+     preview model in-repo: it resolves `previewSpec` + `resolvePreview(theme)` per brand and paints
+     each component/variant (bg/text/border from resolved role colours, radius/padding from the token
+     tree, type from the resolved composite) with the per-mode contrast overlay. Proves the model
+     composes a real UI + live overlay from one source before the host renderers exist — additive,
+     output-scoped, 215/215.
+   - B1c — the host renderers (DOM playground / Figma-node plugin), with B2/B3. The binding + overlay
+     pattern is now proven via the B1 dogfood above; B1c ports it to the two live hosts.
 3. **New Figma plugin shell** — bundles the core, renders knobs from the manifest,
    materialises via `$extensions.prism3.figma` (§2/§5).
 4. **Web playground** — same manifest + preview model, DOM/CSS-var host (§3).
