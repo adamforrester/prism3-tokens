@@ -36,8 +36,8 @@ Since the token layer completed, work has been the **designer↔developer↔agen
   contracts the surfaces render from.
 - **`design.md` interchange + CLI** (dual-dialect) + the colour-role classifier + fidelity report.
 
-Engine gates as of 2026-07-02: `test.ts` **265/265** (240 pre-typography + 25 new typography
-gates); `emit-dtcg` 248/248 contracts per brand; `nb-regression` ΔE00 1.95. The snapshot below
+Engine gates as of 2026-07-02: `test.ts` **273/273** (240 colour + 25 typography + 8 namespace,
+block 13); `emit-dtcg` 248/248 contracts per brand; `nb-regression` ΔE00 1.95. The snapshot below
 is the 2026-07-01 token-layer baseline.
 
 ## Current status (2026-07-01)
@@ -191,6 +191,30 @@ npx tsx Prism3/engine/cli.ts Prism3/examples/wendys.design.md --fidelity      # 
 
 ## Decisions log (why things are the way they are)
 
+- **Namespace is a customizable lever — `root` on `BrandInput`, default placeholder `prism` (2026-07-02).**
+  The emit namespace was hardcoded to `prism` in `brandTheme` (only the NB fixture used its own
+  `nbds`). It's now `BrandInput.root` (optional, default `'prism'`): a single, mode-invariant token
+  namespace, one segment only — every token emits under `<root>.*` (primitives `<root>.palette`,
+  semantics `<root>.color`). Threaded through the one place that had leaked past `theme.root`
+  (gradient stop aliases were hardcoded `prism` — fixed) and gated: a custom root re-homes **every**
+  alias to `{<root>.…}` with zero `prism` leakage (test.ts block 13), a dotted/spaced root throws at
+  the engine boundary *and* fails schema (added `pattern` support to the hand-rolled validator so the
+  schema's `^[a-z][a-z0-9-]*$` is enforced, not decorative). `root` joins `id` in `identityFields`
+  (host-supplied identity, not a lever-form knob). Default output is **byte-identical** (out/* did not
+  change). *Rationale:* `prism` is a placeholder every engagement should override; making it a lever is
+  the minimum change and keeps the single-brand-root invariant fully intact (see the "no two-segment /
+  no removal *yet*" note below). Decisions: (A) **single segment, no two-segment** namespaces
+  (`nbds.pds.*`-style) — the user's call; the legacy two-segment convention is not reproduced.
+  (B) **Namespace is forced** — always present. Removing it entirely (un-prefixed `color.*`) is a
+  *deferred* option, NOT built. When we revisit, the clean method is an **emit-time flatten**: keep the
+  tree namespaced internally (so `Object.keys(tree)[0]`-as-root, the alias resolver, emit-figma, and
+  resolve-preview all keep working unchanged), and drop the wrapping key + rewrite `{prism.x}`→`{x}`
+  in every alias **at the `emit-dtcg`/`emit-figma` boundary only**. Do *not* model "none" as an empty
+  `root` — that yields a `{ '': … }` key and malformed `{.palette.x}` aliases across ~8 sites. Tradeoff
+  to weigh then: a namespace prevents collisions and preserves provenance when a brand's tokens are
+  consumed alongside others (the multi-brand case this engine serves), and DTCG/Figma consumers expect
+  a top group — so "none" is a deliberate, informed opt-out, never a default. (C) UI to set/change the
+  namespace is a later web increment (brand-setup surface, alongside `id` — not the primitives page).
 - **`emit-figma` colour axis built — byte-reproduces the NB Figma fixtures (2026-07-02).**
   First increment of the materialization adapter (`10 §5`): `engine/emit-figma.ts`, an I/O shell
   over the pure `tree.ts`, walks the DTCG tree → the Figma import artifact

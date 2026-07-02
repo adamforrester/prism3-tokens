@@ -72,6 +72,7 @@ const validate = (data: any, schema: any, defs: any, path = ''): string[] => {
   } else if (t === 'string') {
     if (typeof data !== 'string') e.push(`${path}: expected string`);
     else if (schema.enum && !schema.enum.includes(data)) e.push(`${path}: '${data}' not in [${schema.enum.join(', ')}]`);
+    else if (schema.pattern && !new RegExp(schema.pattern).test(data)) e.push(`${path}: '${data}' does not match /${schema.pattern}/`);
   }
   return e;
 };

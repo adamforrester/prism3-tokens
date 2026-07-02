@@ -731,6 +731,46 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   ok(fontStyleName('mono', 600) === 'Medium' && fontStyleName('mono', 400) === 'Regular', 'figma fontStyleName: mono collapses 600→Medium (JetBrains Mono lacks Semi Bold)');
 }
 
+// (13) NAMESPACE (docs/00 "Namespace") — `root` is the single, customizable, mode-
+// invariant token namespace. Default is the 'prism' placeholder; a custom root re-homes
+// EVERY token under `<root>.*` with no 'prism' leaking into any alias (the gradient-stop
+// hardcode class of bug). One segment only — a dotted/spaced root is rejected.
+{
+  const { input } = parseDesignMd(readFileSync(resolve(HERE, '../examples/aurora.design.md'), 'utf8'));
+
+  // default: no root → the 'prism' placeholder, byte-identical world (asserted in block 3)
+  const def = brandTheme(input);
+  ok(def.root === 'prism' && def.namespace === 'prism.palette', 'namespace: omitted root defaults to the prism placeholder');
+  ok(Object.keys(buildTree(def).tree)[0] === 'prism', 'namespace: default tree is rooted at prism');
+
+  // custom: re-home under 'acme'
+  const custom = brandTheme({ ...input, root: 'acme' });
+  ok(custom.root === 'acme' && custom.namespace === 'acme.palette', 'namespace: custom root sets root + <root>.palette');
+  const ctree = buildTree(custom).tree;
+  ok(Object.keys(ctree)[0] === 'acme' && !('prism' in ctree), 'namespace: custom tree is rooted at acme, no prism key');
+
+  // the load-bearing assertion: every alias in the tree re-homes to {acme.…} — nothing
+  // keeps a {prism.…} target (walks composite $values: typography/gradient/shadow/motion).
+  const aliases: string[] = [];
+  const walk = (n: any): void => {
+    if (typeof n === 'string') { if (/^\{[^}]+\}$/.test(n)) aliases.push(n); return; }
+    if (Array.isArray(n)) { n.forEach(walk); return; }
+    if (n && typeof n === 'object') { for (const v of Object.values(n)) walk(v); }
+  };
+  walk(ctree.acme);
+  const leaked = aliases.filter((a) => !a.startsWith('{acme.'));
+  ok(aliases.length > 0 && leaked.length === 0, `namespace: every alias re-homes to {acme.…} (${aliases.length} aliases)` + (leaked.length ? ` — LEAKED ${leaked.slice(0, 3).join(', ')}` : ''));
+
+  // one segment only — a dotted or spaced root is rejected at the engine boundary
+  let threw = false;
+  try { brandTheme({ ...input, root: 'ac.me' }); } catch { threw = true; }
+  ok(threw, 'namespace: a two-segment (dotted) root throws');
+
+  // schema half agrees: accepts a clean root, rejects a dotted one
+  ok(validateBrandInput({ ...input, root: 'acme' }).length === 0, 'namespace: schema accepts a single-segment root');
+  ok(validateBrandInput({ ...input, root: 'ac.me' }).length > 0, 'namespace: schema rejects a dotted root');
+}
+
 // ------------------------------------------------------------------- report
 console.log(`\nPrism3 engine tests: ${pass} passed, ${fails.length} failed`);
 if (fails.length) { fails.forEach((f) => console.log(`  ❌ ${f}`)); process.exitCode = 1; }
