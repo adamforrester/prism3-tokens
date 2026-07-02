@@ -23,6 +23,7 @@ import { leverManifest, leverGroups, buildLeverManifest, identityFields } from '
 import { previewSpec, previewTokenRefs, buildPreviewSpec } from './preview';
 import { resolvePreview } from './resolve-preview';
 import { exampleBrands, exampleBrandsJson, EXAMPLE_IDS } from './emit-brandinput';
+import { buildFigmaColor, COLOR_MODES } from './emit-figma';
 import { buildTree, validateBrandInput } from './emit-dtcg';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -559,6 +560,39 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
     const broken = rp.contracts.flatMap((c) =>
       rp.modes.filter((m) => c.byMode[m] && !c.byMode[m].pass).map((m) => `${c.component}/${c.variant} ${m}:${c.byMode[m].ratio}<${c.min}`));
     ok(broken.length === 0, `example brand '${id}': every preview contract holds (all 4 modes)` + (broken.length ? ` — FAIL: ${broken.join('; ')}` : ''));
+  }
+}
+
+// (11) EMIT-FIGMA COLOUR (docs/10) — buildFigmaColor(nbTheme) must reproduce the frozen
+// Token Press export (fixtures/figma/nb): same variable names per collection/mode, same
+// scopes, and — the load-bearing property — every semantic aliases the SAME palette
+// variable by name in every mode (0 broken/mismatched). Values compared to float32
+// tolerance (Figma stores colour as float32; the importer's rounding differs by ~5e-7).
+{
+  const FIXDIR = resolve(HERE, '../fixtures/figma/nb');
+  const { palette, color } = buildFigmaColor(nbTheme());
+  const emitted: Record<string, any> = { palette };
+  for (const c of color) emitted[`color.${c.$mode}`] = c;
+
+  for (const key of ['palette', ...COLOR_MODES.map((m) => `color.${m}`)]) {
+    const fix = JSON.parse(readFileSync(resolve(FIXDIR, `${key}.json`), 'utf8'));
+    const out = emitted[key];
+    const fixByName = new Map<string, any>(fix.variables.map((v: any) => [v.name, v]));
+    const outByName = new Map<string, any>(out.variables.map((v: any) => [v.name, v]));
+    const missing = [...fixByName.keys()].filter((n) => !outByName.has(n));
+    const extra = [...outByName.keys()].filter((n) => !fixByName.has(n));
+    ok(missing.length === 0 && extra.length === 0, `figma ${key}: variable names match fixture (${fix.variables.length})` + (missing.length ? ` — MISSING ${missing.slice(0, 3).join(',')}` : '') + (extra.length ? ` — EXTRA ${extra.slice(0, 3).join(',')}` : ''));
+
+    const scopeBad: string[] = [], aliasBad: string[] = [], valBad: string[] = [];
+    for (const [name, fv] of fixByName) {
+      const ov = outByName.get(name); if (!ov) continue;
+      if (JSON.stringify([...fv.scopes].sort()) !== JSON.stringify([...ov.scopes].sort())) scopeBad.push(name);
+      if ((fv.alias?.name ?? null) !== (ov.alias?.name ?? null)) aliasBad.push(name);
+      for (const ch of ['r', 'g', 'b', 'a']) if (Math.abs((fv.value?.[ch] ?? 0) - (ov.value?.[ch] ?? 0)) > 1e-5) valBad.push(`${name}.${ch}`);
+    }
+    ok(scopeBad.length === 0, `figma ${key}: scopes match fixture` + (scopeBad.length ? ` — ${scopeBad.slice(0, 3).join(',')}` : ''));
+    ok(aliasBad.length === 0, `figma ${key}: every alias targets the same palette var as the fixture` + (aliasBad.length ? ` — ${aliasBad.slice(0, 3).join(',')}` : ''));
+    ok(valBad.length === 0, `figma ${key}: resolved values match fixture (float32 tol)` + (valBad.length ? ` — ${valBad.slice(0, 3).join(',')}` : ''));
   }
 }
 

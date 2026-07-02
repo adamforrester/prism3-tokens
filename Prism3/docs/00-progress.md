@@ -122,7 +122,8 @@ Prism3/
     ├── emit-preview.ts             ← I/O shell: writes schema/preview-spec.json from the pure preview.ts
     ├── resolve-preview.ts          ← the RESOLVED-PREVIEW projection (PURE, docs/08 §7 B1b): resolvePreview(theme) → concrete colours per mode + live contrast overlay + dims (radius/space → px) + type (composite → family/weight/size, via the pure tree.ts buildTree); the runtime read-model surfaces consume
     ├── emit-brandinput.ts          ← I/O shell: writes schema/example-brands.json (parsed aurora/harbor BrandInputs) so the browser hosts boot from a VALIDATED brand without the node-only design.md parser (docs/09)
-    ├── test.ts                     ← unit tests: colour-math invariants + 5 extreme-brand contracts + typography/shadow/layout/gradient/surface-model + harshness + typography + design.md-parser/CLI + standard-dialect/classifier/x-prism3 + lever-manifest↔schema drift + preview-spec binding-validity + resolved-preview contrast invariants + resolved dims/type validity + example-brands drift & all-green (220 checks)
+    ├── emit-figma.ts               ← I/O shell (docs/10): DTCG tree → Figma import artifact (out/figma/<id>/). COLOUR axis built — palette + color×4 modes, aliased, scopes derived from role family; reproduces fixtures/figma/nb exactly (names/scopes/aliases; values to float32 tol). Typography next
+    ├── test.ts                     ← unit tests: colour-math invariants + 5 extreme-brand contracts + typography/shadow/layout/gradient/surface-model + harshness + typography + design.md-parser/CLI + standard-dialect/classifier/x-prism3 + lever-manifest↔schema drift + preview-spec binding-validity + resolved-preview contrast invariants + resolved dims/type validity + example-brands drift & all-green + emit-figma colour↔fixture reproduction (240 checks)
     ├── ai-metadata.ts              ← generates the AI-readable metadata sidecar (meaning/when/avoid/paired_with/contrast_with/mode_overrides) for the semantic layer
     ├── README.md                   ← how the engine works / how to run
     ├── nb-regression-report.md     ← generated (committed for review)
@@ -141,6 +142,7 @@ npx tsx Prism3/engine/test.ts            # unit tests: colour math + extreme-bra
 npx tsx Prism3/engine/emit-levers.ts     # (re)emit schema/lever-manifest.json — the shared-control contract
 npx tsx Prism3/engine/emit-preview.ts    # (re)emit schema/preview-spec.json — the shared live-preview spec
 npx tsx Prism3/engine/emit-brandinput.ts # (re)emit schema/example-brands.json — the browser hosts' validated boot brands
+npx tsx Prism3/engine/emit-figma.ts      # (re)emit out/figma/<id>/ — the Figma import artifact (colour axis; docs/10)
 npx tsx Prism3/engine/visualize.ts       # regenerate the style-guide HTML (out/tokens.html)
 
 # Web dashboard adapter (the monorepo's first rendering host — docs/09). NEEDS npm install (esbuild).

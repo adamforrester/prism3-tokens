@@ -112,12 +112,26 @@ value. A separate engine typography refinement.
 
 ## 5. `emit-figma` — the build
 
-An I/O shell over the pure `tree.ts` (`buildTree`): walk the DTCG tree + directives → emit
-per-`collection`/`mode` `variables[]` files (colour/dims/opacity/border as variables; typography
-as `font`+`font-responsive` variables + text-style specs; shadow→Effect, gradient→Paint specs).
-Gate: the colour output **byte-reproduces `fixtures/figma/nb/`** (then aurora/wendys prove
-brand-agnostic). Open engine tasks it exposes: add per-leaf **scopes** + **collection** to the
-colour directives (verify what's emitted today); apply the six typography fixes.
+An I/O shell over the pure `tree.ts` (`buildTree`): walk the DTCG tree → emit
+per-`collection`/`mode` `variables[]` files. The DTCG carries the semantic facts; the
+Figma-target rendering (role→scopes, name transform, per-mode alias) lives in the adapter.
+
+- **Colour — ✅ BUILT (2026-07-02).** `engine/emit-figma.ts` → `out/figma/nb/{palette,`
+  `color.light,color.dark,color.hc-light,color.hc-dark}.json`. Reproduces the fixtures
+  **exactly** on variable names (122 palette + 95×4 colour), scopes, and every per-mode
+  alias target; values match to float32 tolerance (~5e-7 — Figma stores colour as float32).
+  A `test.ts` gate asserts all of that against `fixtures/figma/nb/` (240/240). Scopes are
+  **derived here** from the role family (the DTCG doesn't emit them); ids are omitted (Figma
+  assigns them and resolves aliases by name at import). Aliases are name-based → the
+  materialiser's two-pass (palette first, then colour) resolves them.
+- **Typography — next.** `font` + `font-fluid` variable collections (byte-reproduce targets)
+  + the 36 text styles with the six §4 fixes applied (so they *differ* from the as-imported
+  `text-styles.json` snapshot by design). Then dims/opacity/border variables; shadow→Effect,
+  gradient→Paint specs; and generalize (emit aurora/wendys).
+
+Optional cleanup surfaced: correct the now-stale `px-from-ratio`/`px-from-em` line-height/
+letter-spacing directive *notes* in `tree.ts` (the contract an ad-hoc reader follows) when the
+typography pass lands.
 
 ## 6. Thread split
 
