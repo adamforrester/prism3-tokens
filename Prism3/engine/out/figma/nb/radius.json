@@ -8,7 +8,7 @@
       "scopes": [
         "CORNER_RADIUS"
       ],
-      "description": "",
+      "description": "radius none — 0px",
       "value": 0,
       "alias": {
         "type": "VARIABLE_ALIAS",
@@ -21,7 +21,7 @@
       "scopes": [
         "CORNER_RADIUS"
       ],
-      "description": "",
+      "description": "radius sm — 2px",
       "value": 2,
       "alias": {
         "type": "VARIABLE_ALIAS",
@@ -34,7 +34,7 @@
       "scopes": [
         "CORNER_RADIUS"
       ],
-      "description": "",
+      "description": "radius md — 4px",
       "value": 4,
       "alias": {
         "type": "VARIABLE_ALIAS",
@@ -47,7 +47,7 @@
       "scopes": [
         "CORNER_RADIUS"
       ],
-      "description": "",
+      "description": "radius lg — 6px",
       "value": 6,
       "alias": {
         "type": "VARIABLE_ALIAS",
@@ -60,7 +60,7 @@
       "scopes": [
         "CORNER_RADIUS"
       ],
-      "description": "",
+      "description": "radius round — 128px (pill)",
       "value": 128,
       "alias": {
         "type": "VARIABLE_ALIAS",

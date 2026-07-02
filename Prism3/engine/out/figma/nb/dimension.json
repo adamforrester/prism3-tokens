@@ -11,7 +11,7 @@
         "CORNER_RADIUS",
         "STROKE_FLOAT"
       ],
-      "description": "",
+      "description": "0px — dimension primitive",
       "value": 0,
       "alias": null
     },
@@ -24,7 +24,7 @@
         "CORNER_RADIUS",
         "STROKE_FLOAT"
       ],
-      "description": "",
+      "description": "1px — dimension primitive",
       "value": 1,
       "alias": null
     },
@@ -37,7 +37,7 @@
         "CORNER_RADIUS",
         "STROKE_FLOAT"
       ],
-      "description": "",
+      "description": "2px — dimension primitive",
       "value": 2,
       "alias": null
     },
@@ -50,7 +50,7 @@
         "CORNER_RADIUS",
         "STROKE_FLOAT"
       ],
-      "description": "",
+      "description": "4px — dimension primitive",
       "value": 4,
       "alias": null
     },
@@ -63,7 +63,7 @@
         "CORNER_RADIUS",
         "STROKE_FLOAT"
       ],
-      "description": "",
+      "description": "6px — dimension primitive",
       "value": 6,
       "alias": null
     },
@@ -76,7 +76,7 @@
         "CORNER_RADIUS",
         "STROKE_FLOAT"
       ],
-      "description": "",
+      "description": "8px — dimension primitive",
       "value": 8,
       "alias": null
     },
@@ -89,7 +89,7 @@
         "CORNER_RADIUS",
         "STROKE_FLOAT"
       ],
-      "description": "",
+      "description": "12px — dimension primitive",
       "value": 12,
       "alias": null
     },
@@ -102,7 +102,7 @@
         "CORNER_RADIUS",
         "STROKE_FLOAT"
       ],
-      "description": "",
+      "description": "16px — dimension primitive",
       "value": 16,
       "alias": null
     },
@@ -115,7 +115,7 @@
         "CORNER_RADIUS",
         "STROKE_FLOAT"
       ],
-      "description": "",
+      "description": "20px — dimension primitive",
       "value": 20,
       "alias": null
     },
@@ -128,7 +128,7 @@
         "CORNER_RADIUS",
         "STROKE_FLOAT"
       ],
-      "description": "",
+      "description": "24px — dimension primitive",
       "value": 24,
       "alias": null
     },
@@ -141,7 +141,7 @@
         "CORNER_RADIUS",
         "STROKE_FLOAT"
       ],
-      "description": "",
+      "description": "28px — dimension primitive",
       "value": 28,
       "alias": null
     },
@@ -154,7 +154,7 @@
         "CORNER_RADIUS",
         "STROKE_FLOAT"
       ],
-      "description": "",
+      "description": "32px — dimension primitive",
       "value": 32,
       "alias": null
     },
@@ -167,7 +167,7 @@
         "CORNER_RADIUS",
         "STROKE_FLOAT"
       ],
-      "description": "",
+      "description": "36px — dimension primitive",
       "value": 36,
       "alias": null
     },
@@ -180,7 +180,7 @@
         "CORNER_RADIUS",
         "STROKE_FLOAT"
       ],
-      "description": "",
+      "description": "40px — dimension primitive",
       "value": 40,
       "alias": null
     },
@@ -193,7 +193,7 @@
         "CORNER_RADIUS",
         "STROKE_FLOAT"
       ],
-      "description": "",
+      "description": "44px — dimension primitive",
       "value": 44,
       "alias": null
     },
@@ -206,7 +206,7 @@
         "CORNER_RADIUS",
         "STROKE_FLOAT"
       ],
-      "description": "",
+      "description": "48px — dimension primitive",
       "value": 48,
       "alias": null
     },
@@ -219,7 +219,7 @@
         "CORNER_RADIUS",
         "STROKE_FLOAT"
       ],
-      "description": "",
+      "description": "52px — dimension primitive",
       "value": 52,
       "alias": null
     },
@@ -232,7 +232,7 @@
         "CORNER_RADIUS",
         "STROKE_FLOAT"
       ],
-      "description": "",
+      "description": "56px — dimension primitive",
       "value": 56,
       "alias": null
     },
@@ -245,7 +245,7 @@
         "CORNER_RADIUS",
         "STROKE_FLOAT"
       ],
-      "description": "",
+      "description": "60px — dimension primitive",
       "value": 60,
       "alias": null
     },
@@ -258,7 +258,7 @@
         "CORNER_RADIUS",
         "STROKE_FLOAT"
       ],
-      "description": "",
+      "description": "64px — dimension primitive",
       "value": 64,
       "alias": null
     },
@@ -271,7 +271,7 @@
         "CORNER_RADIUS",
         "STROKE_FLOAT"
       ],
-      "description": "",
+      "description": "68px — dimension primitive",
       "value": 68,
       "alias": null
     },
@@ -284,7 +284,7 @@
         "CORNER_RADIUS",
         "STROKE_FLOAT"
       ],
-      "description": "",
+      "description": "72px — dimension primitive",
       "value": 72,
       "alias": null
     },
@@ -297,7 +297,7 @@
         "CORNER_RADIUS",
         "STROKE_FLOAT"
       ],
-      "description": "",
+      "description": "76px — dimension primitive",
       "value": 76,
       "alias": null
     },
@@ -310,7 +310,7 @@
         "CORNER_RADIUS",
         "STROKE_FLOAT"
       ],
-      "description": "",
+      "description": "80px — dimension primitive",
       "value": 80,
       "alias": null
     },
@@ -323,7 +323,7 @@
         "CORNER_RADIUS",
         "STROKE_FLOAT"
       ],
-      "description": "",
+      "description": "84px — dimension primitive",
       "value": 84,
       "alias": null
     },
@@ -336,7 +336,7 @@
         "CORNER_RADIUS",
         "STROKE_FLOAT"
       ],
-      "description": "",
+      "description": "88px — dimension primitive",
       "value": 88,
       "alias": null
     },
@@ -349,7 +349,7 @@
         "CORNER_RADIUS",
         "STROKE_FLOAT"
       ],
-      "description": "",
+      "description": "92px — dimension primitive",
       "value": 92,
       "alias": null
     },
@@ -362,7 +362,7 @@
         "CORNER_RADIUS",
         "STROKE_FLOAT"
       ],
-      "description": "",
+      "description": "96px — dimension primitive",
       "value": 96,
       "alias": null
     },
@@ -375,7 +375,7 @@
         "CORNER_RADIUS",
         "STROKE_FLOAT"
       ],
-      "description": "",
+      "description": "100px — dimension primitive",
       "value": 100,
       "alias": null
     },
@@ -388,7 +388,7 @@
         "CORNER_RADIUS",
         "STROKE_FLOAT"
       ],
-      "description": "",
+      "description": "104px — dimension primitive",
       "value": 104,
       "alias": null
     },
@@ -401,7 +401,7 @@
         "CORNER_RADIUS",
         "STROKE_FLOAT"
       ],
-      "description": "",
+      "description": "108px — dimension primitive",
       "value": 108,
       "alias": null
     },
@@ -414,7 +414,7 @@
         "CORNER_RADIUS",
         "STROKE_FLOAT"
       ],
-      "description": "",
+      "description": "112px — dimension primitive",
       "value": 112,
       "alias": null
     },
@@ -427,7 +427,7 @@
         "CORNER_RADIUS",
         "STROKE_FLOAT"
       ],
-      "description": "",
+      "description": "116px — dimension primitive",
       "value": 116,
       "alias": null
     },
@@ -440,7 +440,7 @@
         "CORNER_RADIUS",
         "STROKE_FLOAT"
       ],
-      "description": "",
+      "description": "120px — dimension primitive",
       "value": 120,
       "alias": null
     },
@@ -453,7 +453,7 @@
         "CORNER_RADIUS",
         "STROKE_FLOAT"
       ],
-      "description": "",
+      "description": "124px — dimension primitive",
       "value": 124,
       "alias": null
     },
@@ -466,7 +466,7 @@
         "CORNER_RADIUS",
         "STROKE_FLOAT"
       ],
-      "description": "",
+      "description": "128px — dimension primitive",
       "value": 128,
       "alias": null
     },
@@ -479,7 +479,7 @@
         "CORNER_RADIUS",
         "STROKE_FLOAT"
       ],
-      "description": "",
+      "description": "720px — dimension primitive",
       "value": 720,
       "alias": null
     }

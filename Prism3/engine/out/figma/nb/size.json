@@ -8,7 +8,7 @@
       "scopes": [
         "WIDTH_HEIGHT"
       ],
-      "description": "",
+      "description": "size.xs control height — 32px (density: comfortable)",
       "value": 32,
       "alias": {
         "type": "VARIABLE_ALIAS",
@@ -21,7 +21,7 @@
       "scopes": [
         "GAP"
       ],
-      "description": "",
+      "description": "size.xs horizontal inset — 8px (density: comfortable)",
       "value": 8,
       "alias": {
         "type": "VARIABLE_ALIAS",
@@ -34,7 +34,7 @@
       "scopes": [
         "GAP"
       ],
-      "description": "",
+      "description": "size.xs vertical inset — 4px (density: comfortable)",
       "value": 4,
       "alias": {
         "type": "VARIABLE_ALIAS",
@@ -47,7 +47,7 @@
       "scopes": [
         "WIDTH_HEIGHT"
       ],
-      "description": "",
+      "description": "size.sm control height — 40px (density: comfortable)",
       "value": 40,
       "alias": {
         "type": "VARIABLE_ALIAS",
@@ -60,7 +60,7 @@
       "scopes": [
         "GAP"
       ],
-      "description": "",
+      "description": "size.sm horizontal inset — 16px (density: comfortable)",
       "value": 16,
       "alias": {
         "type": "VARIABLE_ALIAS",
@@ -73,7 +73,7 @@
       "scopes": [
         "GAP"
       ],
-      "description": "",
+      "description": "size.sm vertical inset — 6px (density: comfortable)",
       "value": 6,
       "alias": {
         "type": "VARIABLE_ALIAS",
@@ -86,7 +86,7 @@
       "scopes": [
         "WIDTH_HEIGHT"
       ],
-      "description": "",
+      "description": "size.md control height — 48px (density: comfortable)",
       "value": 48,
       "alias": {
         "type": "VARIABLE_ALIAS",
@@ -99,7 +99,7 @@
       "scopes": [
         "GAP"
       ],
-      "description": "",
+      "description": "size.md horizontal inset — 16px (density: comfortable)",
       "value": 16,
       "alias": {
         "type": "VARIABLE_ALIAS",
@@ -112,7 +112,7 @@
       "scopes": [
         "GAP"
       ],
-      "description": "",
+      "description": "size.md vertical inset — 8px (density: comfortable)",
       "value": 8,
       "alias": {
         "type": "VARIABLE_ALIAS",
@@ -125,7 +125,7 @@
       "scopes": [
         "WIDTH_HEIGHT"
       ],
-      "description": "",
+      "description": "size.lg control height — 56px (density: comfortable)",
       "value": 56,
       "alias": {
         "type": "VARIABLE_ALIAS",
@@ -138,7 +138,7 @@
       "scopes": [
         "GAP"
       ],
-      "description": "",
+      "description": "size.lg horizontal inset — 24px (density: comfortable)",
       "value": 24,
       "alias": {
         "type": "VARIABLE_ALIAS",
@@ -151,7 +151,7 @@
       "scopes": [
         "GAP"
       ],
-      "description": "",
+      "description": "size.lg vertical inset — 8px (density: comfortable)",
       "value": 8,
       "alias": {
         "type": "VARIABLE_ALIAS",
@@ -164,7 +164,7 @@
       "scopes": [
         "WIDTH_HEIGHT"
       ],
-      "description": "",
+      "description": "size.xl control height — 64px (density: comfortable)",
       "value": 64,
       "alias": {
         "type": "VARIABLE_ALIAS",
@@ -177,7 +177,7 @@
       "scopes": [
         "GAP"
       ],
-      "description": "",
+      "description": "size.xl horizontal inset — 24px (density: comfortable)",
       "value": 24,
       "alias": {
         "type": "VARIABLE_ALIAS",
@@ -190,7 +190,7 @@
       "scopes": [
         "GAP"
       ],
-      "description": "",
+      "description": "size.xl vertical inset — 16px (density: comfortable)",
       "value": 16,
       "alias": {
         "type": "VARIABLE_ALIAS",

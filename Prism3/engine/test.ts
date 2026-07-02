@@ -831,6 +831,16 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   // for strokeStyle — 'solid' stays a code-side literal).
   const hasStrokeStyle = dims.focus.variables.some((v) => v.name === 'focus/ring/style');
   ok(!hasStrokeStyle, `figma focus: strokeStyle leaf skipped (no Figma primitive for strokeStyle; the 'solid' literal stays code-side)`);
+
+  // (h) Every dims var carries a non-empty description from the DTCG tree — the
+  // source-of-truth prose lands in Figma's Variables-panel sidebar (namespace
+  // stays out of the variable name per §3, but the DTCG `nbds.space.100 — 8px
+  // (1× 8px base)` prose is visible on hover).
+  const emptyDescs: string[] = [];
+  for (const c of allDimColls) for (const v of c.variables) {
+    if (!v.description || v.description.length === 0) emptyDescs.push(`${c.$collection}:${v.name}`);
+  }
+  ok(emptyDescs.length === 0, 'figma dims: every variable carries the DTCG $description (namespace-stripped names + rich prose in the Variables sidebar)' + (emptyDescs.length ? ` — ${emptyDescs.slice(0, 3).join(', ')}` : ''));
 }
 
 // (14) NAMESPACE (docs/00 "Namespace") — `root` is the single, customizable, mode-
