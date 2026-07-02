@@ -1,0 +1,71 @@
+{
+  "$collection": "radius",
+  "$mode": "Default",
+  "variables": [
+    {
+      "name": "radius/none",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "CORNER_RADIUS"
+      ],
+      "description": "radius none — 0px",
+      "value": 0,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/0"
+      }
+    },
+    {
+      "name": "radius/sm",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "CORNER_RADIUS"
+      ],
+      "description": "radius sm — 2px",
+      "value": 2,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/2"
+      }
+    },
+    {
+      "name": "radius/md",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "CORNER_RADIUS"
+      ],
+      "description": "radius md — 4px",
+      "value": 4,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/4"
+      }
+    },
+    {
+      "name": "radius/lg",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "CORNER_RADIUS"
+      ],
+      "description": "radius lg — 6px",
+      "value": 6,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/6"
+      }
+    },
+    {
+      "name": "radius/round",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "CORNER_RADIUS"
+      ],
+      "description": "radius round — 128px (pill)",
+      "value": 128,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/128"
+      }
+    }
+  ]
+}

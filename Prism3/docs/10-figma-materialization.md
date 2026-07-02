@@ -144,6 +144,22 @@ Figma-target rendering (role→scopes, name transform, per-mode alias) lives in 
   a typography specimen frame with container/section fills bound to real
   `color/background|foreground/primary` (spike lesson). Next: dims/opacity/border variables;
   shadow→Effect, gradient→Paint specs; and generalize (emit aurora/wendys).
+- **Dims — ✅ BUILT (2026-07-02).** `engine/emit-figma.ts` → seven FLOAT collections under
+  `out/figma/nb/`: `dimension` (37 primitives — the fine-grid, standalone), `space` (18
+  aliased to dimension), `radius` (5), `size` (15 — 5 t-shirts × height/padding-x/padding-y;
+  heights alias dimension, paddings alias space — the component tier composes shared
+  primitives), `border-width` (4), `focus` (3; the `strokeStyle: 'solid'` leaf is
+  intentionally skipped — no Figma variable primitive for strokeStyle), `opacity` (12
+  dimensionless in [0,1]). 94 vars total. No fixtures for this axis (§2 covers colour +
+  typography only), so the gate is **structural**: variable counts vs the DTCG tree, every
+  alias resolves within the emitted collections, scopes narrow per family (space→GAP,
+  radius→CORNER_RADIUS, border-width/focus→STROKE_FLOAT, opacity→OPACITY, dimension broad).
+  `test.ts` block 13: **14 new gates → 279/279 total**. Materialised into the Figma test
+  file via the MCP: all 7 collections created, 45/45 aliases bound (including 3-level chains
+  like `size/xs/padding-x → space/100 → dimension/8`), and a dims specimen frame renders
+  swatches with `cornerRadius`, `width`, `height`, `padding*`, `opacity`, `strokeWeight`
+  bound to their respective FLOAT vars. Container fills bound to `color/background|foreground/*`
+  (spike lesson).
 
 Optional cleanup surfaced: correct the now-stale `px-from-ratio`/`px-from-em` line-height/
 letter-spacing directive *notes* in `tree.ts` (the contract an ad-hoc reader follows) when the
@@ -190,8 +206,11 @@ fixture shape; **omit ids** (Figma assigns them; alias **by name**).
    directive notes corrected (§5). 25 new gates; materialised to Figma via MCP and rendered
    a specimen frame with real container-fill bindings. Fix 3b bindable form (a `font-tracking`
    FLOAT collection) deferred to a follow-up so this PR byte-reproduces the 38-var `font.json`.
-2. **★ NEXT — Dims / opacity / border** — FLOAT variable collections (space/radius/size, opacity, border-width).
-3. **Shadow → Effect Style specs; gradient → Paint Style specs** (styles, not variables; §5/`08 §5`).
+2. **Dims / opacity / border — ✅ DONE (2026-07-02).** Seven FLOAT collections (dimension + space +
+   radius + size + border-width + focus + opacity — 94 vars, 45 aliases). No fixtures for this axis,
+   so gated structurally (14 new gates). Materialised via MCP; specimen frame renders geometry
+   bindings. Focus's `strokeStyle: 'solid'` leaf skipped (no Figma variable primitive).
+3. **★ NEXT — Shadow → Effect Style specs; gradient → Paint Style specs** (styles, not variables; §5/`08 §5`).
 4. **Generalise** — emit aurora + wendys too (prove brand-agnostic). No fixtures for those, so gate
    on structural validity (aliases resolve, scopes present) + **materialise-to-verify** in Figma.
 

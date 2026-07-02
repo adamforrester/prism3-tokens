@@ -1,0 +1,487 @@
+{
+  "$collection": "dimension",
+  "$mode": "Default",
+  "variables": [
+    {
+      "name": "dimension/0",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "0px — dimension primitive",
+      "value": 0,
+      "alias": null
+    },
+    {
+      "name": "dimension/1",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "1px — dimension primitive",
+      "value": 1,
+      "alias": null
+    },
+    {
+      "name": "dimension/2",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "2px — dimension primitive",
+      "value": 2,
+      "alias": null
+    },
+    {
+      "name": "dimension/4",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "4px — dimension primitive",
+      "value": 4,
+      "alias": null
+    },
+    {
+      "name": "dimension/6",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "6px — dimension primitive",
+      "value": 6,
+      "alias": null
+    },
+    {
+      "name": "dimension/8",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "8px — dimension primitive",
+      "value": 8,
+      "alias": null
+    },
+    {
+      "name": "dimension/12",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "12px — dimension primitive",
+      "value": 12,
+      "alias": null
+    },
+    {
+      "name": "dimension/16",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "16px — dimension primitive",
+      "value": 16,
+      "alias": null
+    },
+    {
+      "name": "dimension/20",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "20px — dimension primitive",
+      "value": 20,
+      "alias": null
+    },
+    {
+      "name": "dimension/24",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "24px — dimension primitive",
+      "value": 24,
+      "alias": null
+    },
+    {
+      "name": "dimension/28",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "28px — dimension primitive",
+      "value": 28,
+      "alias": null
+    },
+    {
+      "name": "dimension/32",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "32px — dimension primitive",
+      "value": 32,
+      "alias": null
+    },
+    {
+      "name": "dimension/36",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "36px — dimension primitive",
+      "value": 36,
+      "alias": null
+    },
+    {
+      "name": "dimension/40",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "40px — dimension primitive",
+      "value": 40,
+      "alias": null
+    },
+    {
+      "name": "dimension/44",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "44px — dimension primitive",
+      "value": 44,
+      "alias": null
+    },
+    {
+      "name": "dimension/48",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "48px — dimension primitive",
+      "value": 48,
+      "alias": null
+    },
+    {
+      "name": "dimension/52",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "52px — dimension primitive",
+      "value": 52,
+      "alias": null
+    },
+    {
+      "name": "dimension/56",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "56px — dimension primitive",
+      "value": 56,
+      "alias": null
+    },
+    {
+      "name": "dimension/60",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "60px — dimension primitive",
+      "value": 60,
+      "alias": null
+    },
+    {
+      "name": "dimension/64",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "64px — dimension primitive",
+      "value": 64,
+      "alias": null
+    },
+    {
+      "name": "dimension/68",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "68px — dimension primitive",
+      "value": 68,
+      "alias": null
+    },
+    {
+      "name": "dimension/72",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "72px — dimension primitive",
+      "value": 72,
+      "alias": null
+    },
+    {
+      "name": "dimension/76",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "76px — dimension primitive",
+      "value": 76,
+      "alias": null
+    },
+    {
+      "name": "dimension/80",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "80px — dimension primitive",
+      "value": 80,
+      "alias": null
+    },
+    {
+      "name": "dimension/84",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "84px — dimension primitive",
+      "value": 84,
+      "alias": null
+    },
+    {
+      "name": "dimension/88",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "88px — dimension primitive",
+      "value": 88,
+      "alias": null
+    },
+    {
+      "name": "dimension/92",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "92px — dimension primitive",
+      "value": 92,
+      "alias": null
+    },
+    {
+      "name": "dimension/96",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "96px — dimension primitive",
+      "value": 96,
+      "alias": null
+    },
+    {
+      "name": "dimension/100",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "100px — dimension primitive",
+      "value": 100,
+      "alias": null
+    },
+    {
+      "name": "dimension/104",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "104px — dimension primitive",
+      "value": 104,
+      "alias": null
+    },
+    {
+      "name": "dimension/108",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "108px — dimension primitive",
+      "value": 108,
+      "alias": null
+    },
+    {
+      "name": "dimension/112",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "112px — dimension primitive",
+      "value": 112,
+      "alias": null
+    },
+    {
+      "name": "dimension/116",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "116px — dimension primitive",
+      "value": 116,
+      "alias": null
+    },
+    {
+      "name": "dimension/120",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "120px — dimension primitive",
+      "value": 120,
+      "alias": null
+    },
+    {
+      "name": "dimension/124",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "124px — dimension primitive",
+      "value": 124,
+      "alias": null
+    },
+    {
+      "name": "dimension/128",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "128px — dimension primitive",
+      "value": 128,
+      "alias": null
+    },
+    {
+      "name": "dimension/720",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "720px — dimension primitive",
+      "value": 720,
+      "alias": null
+    }
+  ]
+}
