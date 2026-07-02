@@ -12,6 +12,16 @@
 Since the token layer completed, work has been the **designer↔developer↔agent E2E pipeline**
 (`07`/`08`/`09`/`10`). Shipped to `main`, newest first (see the decisions log for the why):
 
+- **`emit-figma` — typography axis** (`engine/emit-figma.ts` + `test.ts` block 12): the
+  `font` (38 vars) + `font-fluid.{desktop,mobile}` (10 vars/mode) variable collections
+  byte-reproduce the NB fixtures, and 36 text styles apply the six §4 fixes (no `text/`
+  wrapper, prescribed collection names, lineHeight PERCENT, letterSpacing PERCENT baked,
+  primary family bound + full stack in description, fontStyle derived from weight-role via
+  a named-instance table). Corrected the pre-fix `px-from-ratio`/`px-from-em` directive
+  notes in `tree.ts` so an ad-hoc reader gets the current contract. **Materialised to Figma
+  via MCP** — all 36 corrected styles bind fontFamily/fontSize/fontWeight to the real font
+  vars, verification specimen renders on a fresh page with container fills bound to real
+  `color/background|foreground/primary` (spike lesson). 25 new gates → `test.ts` **265/265**.
 - **`emit-figma` — colour axis** (`engine/emit-figma.ts`): DTCG tree → Figma import artifact
   (`out/figma/nb/`), byte-reproduces the NB Figma fixtures (names/scopes/aliases exact). **Now
   handed off** — the Figma-emitter agent owns the rest (typography → remaining axes); see
@@ -26,8 +36,9 @@ Since the token layer completed, work has been the **designer↔developer↔agen
   contracts the surfaces render from.
 - **`design.md` interchange + CLI** (dual-dialect) + the colour-role classifier + fidelity report.
 
-Engine gates as of 2026-07-02: `test.ts` **240/240**; `emit-dtcg` 248/248 contracts per brand;
-`nb-regression` ΔE00 1.95. The snapshot below is the 2026-07-01 token-layer baseline.
+Engine gates as of 2026-07-02: `test.ts` **265/265** (240 pre-typography + 25 new typography
+gates); `emit-dtcg` 248/248 contracts per brand; `nb-regression` ΔE00 1.95. The snapshot below
+is the 2026-07-01 token-layer baseline.
 
 ## Current status (2026-07-01)
 
