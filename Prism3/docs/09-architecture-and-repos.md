@@ -104,9 +104,19 @@ Two principles behind the split:
 ## 5. Sequencing & triggers
 
 1. **Record this** (done — this doc + `00-progress`).
-2. **Scaffold the monorepo workspace + `web/` package** against the existing contracts.
-3. **B1c/B3 — web dashboard host**: render knobs from the lever manifest + the live preview
-   from `resolvePreview`. First real proof of the shared-contract UI.
+2. **Scaffold the monorepo workspace + `web/` package** — **✅ DONE (2026-07-02).** Root
+   `package.json` (workspaces `["web"]`, `type: module` — safe, the engine is already fully
+   ESM); `web/` is an esbuild + vanilla-DOM adapter (one dev-dependency; no framework) that
+   imports the pure engine modules by relative path and renders **15 knobs from the lever
+   manifest + 22 preview chips + a 4-mode contrast overlay from `resolvePreview`**. Verified
+   by headless Chromium: boots all-green. The engine stays buildless; only the adapter bundles.
+   New I/O shell `engine/emit-brandinput.ts` → `schema/example-brands.json` gives the browser a
+   **validated** boot brand without the node-only `design.md` parser (a `test.ts` gate keeps it
+   current + asserts every example resolves all-green; 218/218).
+3. **B1c/B3 — web dashboard host (in progress)**: knobs render (read-only) + preview + overlay
+   are live. **Next:** wire the knobs to mutate the `BrandInput` and re-resolve (the real
+   interactive loop); resolve geometry/type bindings from the token tree (needs a pure tree
+   accessor in the core); promote the engine to a named `@prism3/engine` workspace package.
 4. **B2 — Figma plugin host**: same renderer, Figma face; begins absorbing the three Figma
    plugins (variables → text styles → canvas style-guide, in that order of parity).
 5. **C — MCP adapter**: tool schema derived from the same lever manifest.

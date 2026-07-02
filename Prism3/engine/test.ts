@@ -22,6 +22,7 @@ import { classifyColors } from './classify-colors';
 import { leverManifest, leverGroups, buildLeverManifest, identityFields } from './levers';
 import { previewSpec, previewTokenRefs, buildPreviewSpec } from './preview';
 import { resolvePreview } from './resolve-preview';
+import { exampleBrands, exampleBrandsJson, EXAMPLE_IDS } from './emit-brandinput';
 import { buildTree, validateBrandInput } from './emit-dtcg';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -534,6 +535,23 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   const failures = rp.contracts.flatMap((c) =>
     rp.modes.filter((m) => c.byMode[m] && !c.byMode[m].pass).map((m) => `${c.component}/${c.variant} ${c.fg.replace('color.', '')}-on-${c.bg.replace('color.', '')} ${m}: ${c.byMode[m].ratio}<${c.min}`));
   ok(failures.length === 0, 'resolved preview: every declared contract holds on the resolved colours (all 4 modes)' + (failures.length ? ` — FAIL: ${failures.join('; ')}` : ''));
+}
+// (10) EXAMPLE-BRANDS ARTIFACT (docs/09) — the browser hosts boot from
+// schema/example-brands.json (the design.md parser is node-only). Gate that the
+// committed JSON is current AND that EVERY emitted brand resolves all-green on the
+// preview contracts — so a host can trust whatever it boots from (extends the B1b
+// check beyond harbor to every host-facing example, incl. the web's aurora default).
+{
+  const committed = readFileSync(resolve(HERE, '../schema/example-brands.json'), 'utf8');
+  ok(committed === exampleBrandsJson(), 'example brands: schema/example-brands.json is up to date (run `npx tsx engine/emit-brandinput.ts`)');
+
+  const brands = exampleBrands();
+  for (const id of EXAMPLE_IDS) {
+    const rp = resolvePreview(brandTheme(brands[id] as BrandInput));
+    const broken = rp.contracts.flatMap((c) =>
+      rp.modes.filter((m) => c.byMode[m] && !c.byMode[m].pass).map((m) => `${c.component}/${c.variant} ${m}:${c.byMode[m].ratio}<${c.min}`));
+    ok(broken.length === 0, `example brand '${id}': every preview contract holds (all 4 modes)` + (broken.length ? ` — FAIL: ${broken.join('; ')}` : ''));
+  }
 }
 
 // ------------------------------------------------------------------- report
