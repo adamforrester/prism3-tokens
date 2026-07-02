@@ -158,6 +158,20 @@ npx tsx Prism3/engine/cli.ts Prism3/examples/wendys.design.md --fidelity      # 
 
 ## Decisions log (why things are the way they are)
 
+- **`emit-figma` colour axis built — byte-reproduces the NB Figma fixtures (2026-07-02).**
+  First increment of the materialization adapter (`10 §5`): `engine/emit-figma.ts`, an I/O shell
+  over the pure `tree.ts`, walks the DTCG tree → the Figma import artifact
+  (`out/figma/nb/{palette,color.<mode>}.json`) — `palette` (122 primitives) + `color` (95
+  semantics × 4 modes), every semantic a name-based `VARIABLE_ALIAS` into `palette`. The split
+  the contract calls for holds in code: the DTCG carries the *semantic* facts (per-mode
+  `aliasOf`), the adapter owns the *Figma-target rendering* (role-family→scopes, name transform,
+  `rgb→{r,g,b,a}` via `Math.fround` for Figma's float32, two-pass alias-by-name; ids omitted,
+  Figma assigns them). A `test.ts` gate reproduces `fixtures/figma/nb/` exactly — names, scopes,
+  and every per-mode alias target (0 mismatches, all 4 modes), values to float32 tol (~5e-7);
+  240/240. Scopes are derived in the adapter (the DTCG doesn't emit them) — correct per the
+  contract, not a directive gap. *Rationale:* the colour axis was the spike-proven byte-target;
+  now owned once + gated. Next: typography (`font`/`font-fluid` vars + text styles with the six
+  §4 fixes), then the remaining axes + generalize.
 - **Freeze the `emit-figma` contract + NB Figma fixtures as the regression target (2026-07-02).**
   Two hand-run Figma-MCP import spikes (colour, then typography) proved the engine's
   `$extensions.prism3.figma` directives are directly usable, so the DTCG→Figma translation is
