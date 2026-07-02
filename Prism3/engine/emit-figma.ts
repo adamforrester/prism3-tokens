@@ -465,12 +465,18 @@ export const buildFigmaDims = (theme: Theme): FigmaDimsCollections => {
   const root = Object.keys(tree)[0];
   const brand = tree[root];
 
+  // Every dims var carries the DTCG leaf's $description into Figma's `description`
+  // field — so designers see the source-of-truth prose in the Variables panel
+  // sidebar (`space.100 — 8px (1× 8px base)` etc.) without polluting the Figma
+  // name (which stays namespace-stripped per §3).
+  const desc = (leaf: any): string => String(leaf?.$description ?? '');
+
   // dimension primitives — value is the numeric px; no alias.
   const dimVars: FigmaVar[] = Object.keys(brand.dimension).map((key) => ({
     name: `dimension/${key}`,
     resolvedType: 'FLOAT' as const,
     scopes: DIMENSION_SCOPES,
-    description: '',
+    description: desc(brand.dimension[key]),
     value: pxFromValue(tree, brand.dimension[key].$value),
     alias: null,
   }));
@@ -482,7 +488,7 @@ export const buildFigmaDims = (theme: Theme): FigmaDimsCollections => {
       name: `space/${key}`,
       resolvedType: 'FLOAT' as const,
       scopes: SPACE_SCOPES,
-      description: '',
+      description: desc(leaf),
       value: pxFromValue(tree, leaf.$value),
       alias: { type: 'VARIABLE_ALIAS' as const, name: aliasFigName(leaf.$value) },
     };
@@ -495,7 +501,7 @@ export const buildFigmaDims = (theme: Theme): FigmaDimsCollections => {
       name: `radius/${key}`,
       resolvedType: 'FLOAT' as const,
       scopes: RADIUS_SCOPES,
-      description: '',
+      description: desc(leaf),
       value: pxFromValue(tree, leaf.$value),
       alias: isAlias ? { type: 'VARIABLE_ALIAS' as const, name: aliasFigName(leaf.$value) } : null,
     };
@@ -513,7 +519,7 @@ export const buildFigmaDims = (theme: Theme): FigmaDimsCollections => {
         name: `size/${t}/${prop}`,
         resolvedType: 'FLOAT',
         scopes: prop === 'height' ? SIZE_HEIGHT_SCOPES : SIZE_PADDING_SCOPES,
-        description: '',
+        description: desc(leaf),
         value: pxFromValue(tree, leaf.$value),
         alias: isAlias ? { type: 'VARIABLE_ALIAS', name: aliasFigName(leaf.$value) } : null,
       });
@@ -527,7 +533,7 @@ export const buildFigmaDims = (theme: Theme): FigmaDimsCollections => {
       name: `border-width/${key}`,
       resolvedType: 'FLOAT' as const,
       scopes: BORDER_WIDTH_SCOPES,
-      description: '',
+      description: desc(leaf),
       value: pxFromValue(tree, leaf.$value),
       alias: isAlias ? { type: 'VARIABLE_ALIAS' as const, name: aliasFigName(leaf.$value) } : null,
     };
@@ -545,7 +551,7 @@ export const buildFigmaDims = (theme: Theme): FigmaDimsCollections => {
       name: `focus/ring/${key}`,
       resolvedType: 'FLOAT',
       scopes: FOCUS_SCOPES,
-      description: '',
+      description: desc(leaf),
       value: pxFromValue(tree, leaf.$value),
       alias: isAlias ? { type: 'VARIABLE_ALIAS', name: aliasFigName(leaf.$value) } : null,
     });
@@ -555,7 +561,7 @@ export const buildFigmaDims = (theme: Theme): FigmaDimsCollections => {
     name: `opacity/${key}`,
     resolvedType: 'FLOAT' as const,
     scopes: OPACITY_SCOPES,
-    description: '',
+    description: desc(brand.opacity[key]),
     value: brand.opacity[key].$value as number,
     alias: null,
   }));
