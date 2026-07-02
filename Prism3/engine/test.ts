@@ -23,7 +23,7 @@ import { leverManifest, leverGroups, buildLeverManifest, identityFields } from '
 import { previewSpec, previewTokenRefs, buildPreviewSpec } from './preview';
 import { resolvePreview } from './resolve-preview';
 import { exampleBrands, exampleBrandsJson, EXAMPLE_IDS } from './emit-brandinput';
-import { buildFigmaColor, COLOR_MODES } from './emit-figma';
+import { buildFigmaColor, buildFigmaFont, buildFigmaFontFluid, buildFigmaTextStyles, fontStyleName, COLOR_MODES, FONT_FLUID_MODES } from './emit-figma';
 import { buildTree, validateBrandInput } from './emit-dtcg';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -594,6 +594,141 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
     ok(aliasBad.length === 0, `figma ${key}: every alias targets the same palette var as the fixture` + (aliasBad.length ? ` — ${aliasBad.slice(0, 3).join(',')}` : ''));
     ok(valBad.length === 0, `figma ${key}: resolved values match fixture (float32 tol)` + (valBad.length ? ` — ${valBad.slice(0, 3).join(',')}` : ''));
   }
+}
+
+// (12) EMIT-FIGMA TYPOGRAPHY (docs/10 §4) — byte-reproduce the frozen font.json +
+// font-fluid.{desktop,mobile}.json (names/scopes/values/aliases exact), and gate
+// the 36 text styles against the CORRECTED expectation (NOT the pre-fix
+// text-styles.json fixture — that's a structural reference only; the six §4
+// fixes intentionally diverge). Fixes checked: (1) no `text/` wrapper prefix;
+// (2) prescribed collection names (`font`, `font-fluid`); (3a) lineHeight
+// PERCENT; (3b) letterSpacing PERCENT baked; (4) primary family bound; (5)
+// fontStyle derived from weight-role via the named-instance table.
+{
+  const FIXDIR = resolve(HERE, '../fixtures/figma/nb');
+  const theme = nbTheme();
+
+  // (a) font.json — byte-reproduce (38 vars: 3 family + 22 size + 9 weight + 4 weight-role).
+  const font = buildFigmaFont(theme);
+  const fontFix = JSON.parse(readFileSync(resolve(FIXDIR, 'font.json'), 'utf8'));
+  const fontByName = new Map<string, any>(fontFix.variables.map((v: any) => [v.name, v]));
+  const emitByName = new Map<string, any>(font.variables.map((v: any) => [v.name, v]));
+  const missingF = [...fontByName.keys()].filter((n) => !emitByName.has(n));
+  const extraF = [...emitByName.keys()].filter((n) => !fontByName.has(n));
+  ok(missingF.length === 0 && extraF.length === 0, `figma font: variable names match fixture (${fontFix.variables.length})` + (missingF.length ? ` — MISSING ${missingF.slice(0, 3).join(',')}` : '') + (extraF.length ? ` — EXTRA ${extraF.slice(0, 3).join(',')}` : ''));
+
+  const badFT: string[] = [], badFS: string[] = [], badFV: string[] = [], badFA: string[] = [], badFD: string[] = [];
+  for (const [name, fv] of fontByName) {
+    const ov = emitByName.get(name); if (!ov) continue;
+    if (fv.resolvedType !== ov.resolvedType) badFT.push(name);
+    if (JSON.stringify([...fv.scopes].sort()) !== JSON.stringify([...ov.scopes].sort())) badFS.push(name);
+    if (fv.value !== ov.value) badFV.push(name);
+    if ((fv.alias?.name ?? null) !== (ov.alias?.name ?? null)) badFA.push(name);
+    if (fv.description !== ov.description) badFD.push(name);
+  }
+  ok(badFT.length === 0, 'figma font: resolvedType matches fixture' + (badFT.length ? ` — ${badFT.slice(0, 3).join(',')}` : ''));
+  ok(badFS.length === 0, 'figma font: scopes match fixture' + (badFS.length ? ` — ${badFS.slice(0, 3).join(',')}` : ''));
+  ok(badFV.length === 0, 'figma font: values match fixture' + (badFV.length ? ` — ${badFV.slice(0, 3).join(',')}` : ''));
+  ok(badFA.length === 0, 'figma font: weight-role aliases target the same numeric weight as fixture' + (badFA.length ? ` — ${badFA.slice(0, 3).join(',')}` : ''));
+  ok(badFD.length === 0, 'figma font: family descriptions carry the full fallback stack (fix #4)' + (badFD.length ? ` — ${badFD.slice(0, 3).join(',')}` : ''));
+
+  // (b) font-fluid.{mobile,desktop} — byte-reproduce (10 vars per mode).
+  const fluid = buildFigmaFontFluid(theme);
+  for (const mode of FONT_FLUID_MODES) {
+    const emitted = fluid.find((f) => f.$mode === mode)!;
+    const fx = JSON.parse(readFileSync(resolve(FIXDIR, `font-fluid.${mode}.json`), 'utf8'));
+    const fxByName = new Map<string, any>(fx.variables.map((v: any) => [v.name, v]));
+    const outByName = new Map<string, any>(emitted.variables.map((v: any) => [v.name, v]));
+    const missing = [...fxByName.keys()].filter((n) => !outByName.has(n));
+    const extra = [...outByName.keys()].filter((n) => !fxByName.has(n));
+    ok(missing.length === 0 && extra.length === 0, `figma font-fluid.${mode}: variable names match fixture (${fx.variables.length})` + (missing.length ? ` — MISSING ${missing.slice(0, 3).join(',')}` : '') + (extra.length ? ` — EXTRA ${extra.slice(0, 3).join(',')}` : ''));
+    const scBad: string[] = [], vBad: string[] = [], tBad: string[] = [];
+    for (const [name, fv] of fxByName) {
+      const ov = outByName.get(name); if (!ov) continue;
+      if (fv.resolvedType !== ov.resolvedType) tBad.push(name);
+      if (JSON.stringify([...fv.scopes].sort()) !== JSON.stringify([...ov.scopes].sort())) scBad.push(name);
+      if (fv.value !== ov.value) vBad.push(name);
+    }
+    ok(tBad.length === 0 && scBad.length === 0, `figma font-fluid.${mode}: scopes + resolvedType match fixture` + (tBad.length ? ` — types: ${tBad.slice(0, 3).join(',')}` : '') + (scBad.length ? ` — scopes: ${scBad.slice(0, 3).join(',')}` : ''));
+    ok(vBad.length === 0, `figma font-fluid.${mode}: per-mode FONT_SIZE values match fixture` + (vBad.length ? ` — ${vBad.slice(0, 3).join(',')}` : ''));
+  }
+
+  // (c) text-styles — the six §4 fixes, gated against the CORRECTED expectation
+  // (the pre-fix fixture is a structural reference; use it to build the expected
+  // fluid/underline set + resolved fontSize per mode, then verify the fixes).
+  const ts = buildFigmaTextStyles(theme);
+  const preFix = JSON.parse(readFileSync(resolve(FIXDIR, 'text-styles.json'), 'utf8'));
+  // Fixture strips the `text/` prefix → the corrected name is the composite path.
+  const expectedByCorrectedName = new Map<string, any>(preFix.styles.map((s: any) => [String(s.name).replace(/^text\//, ''), s]));
+  const emittedByName = new Map<string, any>(ts.styles.map((s: any) => [s.name, s]));
+  const missS = [...expectedByCorrectedName.keys()].filter((n) => !emittedByName.has(n));
+  const extraS = [...emittedByName.keys()].filter((n) => !expectedByCorrectedName.has(n));
+  ok(missS.length === 0 && extraS.length === 0, `figma text-styles: same 36 styles as fixture — fix #1 (no \`text/\` wrapper)` + (missS.length ? ` — MISSING ${missS.slice(0, 3).join(',')}` : '') + (extraS.length ? ` — EXTRA ${extraS.slice(0, 3).join(',')}` : ''));
+
+  // fix #1 sanity — no emitted style starts with `text/`.
+  const wrapped = ts.styles.filter((s) => s.name.startsWith('text/'));
+  ok(wrapped.length === 0, 'figma text-styles: fix #1 — no emitted style name starts with `text/`');
+
+  const collBad: string[] = [], famBad: string[] = [], sizeBind: string[] = [], weightBind: string[] = [];
+  const lhWrong: string[] = [], lsWrong: string[] = [], styleWrong: string[] = [];
+  const upperMismatch: string[] = [], decoMismatch: string[] = [];
+  for (const s of ts.styles) {
+    const p = s.properties;
+    // fix #2 — collection is `font` or `font-fluid`, matching what the fixture bound.
+    const fx = expectedByCorrectedName.get(s.name);
+    if (!fx) continue;
+    if (!(p.fontFamily as any).bound || (p.fontFamily as any).collection !== 'font') collBad.push(`${s.name}:family`);
+    if (!(p.fontSize as any).bound || !['font', 'font-fluid'].includes((p.fontSize as any).collection)) collBad.push(`${s.name}:size`);
+    if (!(p.fontWeight as any).bound || (p.fontWeight as any).collection !== 'font') collBad.push(`${s.name}:weight`);
+    // The pre-fix fixture bound fontSize to the same collection the corrected
+    // emit chooses (font-fluid for fluid composites, font for static) — that
+    // structure survives the fixes. Verify same binding target.
+    if ((p.fontSize as any).variable !== fx.properties.fontSize.variable) sizeBind.push(`${s.name}: ${(p.fontSize as any).variable} ≠ ${fx.properties.fontSize.variable}`);
+    if ((p.fontWeight as any).variable !== fx.properties.fontWeight.variable) weightBind.push(`${s.name}: ${(p.fontWeight as any).variable} ≠ ${fx.properties.fontWeight.variable}`);
+    if ((p.fontFamily as any).variable !== fx.properties.fontFamily.variable) famBad.push(`${s.name}: ${(p.fontFamily as any).variable} ≠ ${fx.properties.fontFamily.variable}`);
+
+    // fix #3a — lineHeight PERCENT, matches fontSize×multiplier / fontSize×100.
+    const lh = (p.lineHeight as any).value;
+    if (lh.unit !== 'PERCENT') lhWrong.push(`${s.name}:unit=${lh.unit}`);
+    // Compare to the pre-fix PIXELS bake: percent × (fixture fontSize) / 100 should equal fixture PIXELS,
+    // within a rounding tolerance (fixture bakes at desktop size for fluid composites).
+    const fxLhPx = fx.properties.lineHeight.value.value;
+    // Reconstruct the multiplier the fixture implies: fx px / fx desktop fontSize.
+    const fxDesktopSize = (fx.properties.fontSize.resolvedByMode?.desktop ?? fx.properties.fontSize.resolvedByMode?.Default) as number;
+    const expectedPercent = Math.round((fxLhPx / fxDesktopSize) * 100);
+    if (Math.abs(lh.value - expectedPercent) > 1) lhWrong.push(`${s.name}:${lh.value}%≠${expectedPercent}% (fixture ${fxLhPx}px/${fxDesktopSize}px)`);
+
+    // fix #3b (partial: PERCENT baked, not yet bindable). Same reconstruction —
+    // fixture LS px / fx desktop size → PERCENT × 100 rounded.
+    const ls = (p.letterSpacing as any).value;
+    if (ls.unit !== 'PERCENT') lsWrong.push(`${s.name}:unit=${ls.unit}`);
+    const fxLsPx = fx.properties.letterSpacing.value.value;
+    const expectedLsPct = Math.round((fxLsPx / fxDesktopSize) * 10000) / 100;
+    if (Math.abs(ls.value - expectedLsPct) > 0.01) lsWrong.push(`${s.name}:${ls.value}%≠${expectedLsPct}% (fixture ${fxLsPx}px/${fxDesktopSize}px)`);
+
+    // fix #5 — fontStyle derived from weight-role numeric via named-instance table.
+    // Compare against the derived expectation (not the fixture's baked string —
+    // it happens to agree today for NB's weights + Inter).
+    const fxStyle = fx.properties.fontStyle.value;
+    if ((p.fontStyle as any).value !== fxStyle) styleWrong.push(`${s.name}: emitted ${(p.fontStyle as any).value} ≠ fixture ${fxStyle}`);
+
+    // Preserved from spec: eyebrow uppercase + link underline.
+    if ((p.textCase as any).value !== fx.properties.textCase.value) upperMismatch.push(`${s.name}: ${(p.textCase as any).value} ≠ ${fx.properties.textCase.value}`);
+    if ((p.textDecoration as any).value !== fx.properties.textDecoration.value) decoMismatch.push(`${s.name}: ${(p.textDecoration as any).value} ≠ ${fx.properties.textDecoration.value}`);
+  }
+  ok(collBad.length === 0, 'figma text-styles: fix #2 — every bound property uses the prescribed collection (font / font-fluid)' + (collBad.length ? ` — ${collBad.slice(0, 3).join(', ')}` : ''));
+  ok(famBad.length === 0, 'figma text-styles: fix #4 — fontFamily binds font/family/<role> (primary face; full stack in variable description)' + (famBad.length ? ` — ${famBad.slice(0, 3).join('; ')}` : ''));
+  ok(sizeBind.length === 0, 'figma text-styles: fontSize binds the same var as the fixture (font/<size> or font-fluid/<path>)' + (sizeBind.length ? ` — ${sizeBind.slice(0, 3).join('; ')}` : ''));
+  ok(weightBind.length === 0, 'figma text-styles: fontWeight binds font/weight-role/<role>' + (weightBind.length ? ` — ${weightBind.slice(0, 3).join('; ')}` : ''));
+  ok(lhWrong.length === 0, 'figma text-styles: fix #3a — lineHeight baked as PERCENT (unit=PERCENT, value = round(multiplier×100))' + (lhWrong.length ? ` — ${lhWrong.slice(0, 3).join('; ')}` : ''));
+  ok(lsWrong.length === 0, 'figma text-styles: fix #3b — letterSpacing baked as PERCENT (unit=PERCENT, value = em×100)' + (lsWrong.length ? ` — ${lsWrong.slice(0, 3).join('; ')}` : ''));
+  ok(styleWrong.length === 0, 'figma text-styles: fix #5 — fontStyle derived from weight-role via the named-instance table' + (styleWrong.length ? ` — ${styleWrong.slice(0, 3).join('; ')}` : ''));
+  ok(upperMismatch.length === 0, 'figma text-styles: textCase preserved (eyebrow UPPER, else ORIGINAL)' + (upperMismatch.length ? ` — ${upperMismatch.slice(0, 3).join('; ')}` : ''));
+  ok(decoMismatch.length === 0, 'figma text-styles: textDecoration preserved (-link → UNDERLINE, else NONE)' + (decoMismatch.length ? ` — ${decoMismatch.slice(0, 3).join('; ')}` : ''));
+
+  // fontStyleName table sanity — mono collapses 600 to Medium (JetBrains Mono has no Semi Bold).
+  ok(fontStyleName('text', 700) === 'Bold' && fontStyleName('display', 600) === 'Semi Bold', 'figma fontStyleName: sans/display weight → real style name (700=Bold, 600=Semi Bold)');
+  ok(fontStyleName('mono', 600) === 'Medium' && fontStyleName('mono', 400) === 'Regular', 'figma fontStyleName: mono collapses 600→Medium (JetBrains Mono lacks Semi Bold)');
 }
 
 // ------------------------------------------------------------------- report

@@ -8324,9 +8324,9 @@
               "figma": {
                 "kind": "style-part",
                 "field": "lineHeight",
-                "unit": "px-from-ratio",
-                "basis": "fontSize",
-                "note": "Figma binds line-height as px; multiply by the bound fontSize per mode"
+                "unit": "PERCENT",
+                "percent": 105,
+                "note": "Figma has no unitless line-height variable; the exporter bakes lineHeight as PERCENT (multiplier × 100) — mode/size-independent, so one bake covers desktop + mobile fluid modes"
               }
             }
           }
@@ -8342,9 +8342,9 @@
               "figma": {
                 "kind": "style-part",
                 "field": "lineHeight",
-                "unit": "px-from-ratio",
-                "basis": "fontSize",
-                "note": "Figma binds line-height as px; multiply by the bound fontSize per mode"
+                "unit": "PERCENT",
+                "percent": 115,
+                "note": "Figma has no unitless line-height variable; the exporter bakes lineHeight as PERCENT (multiplier × 100) — mode/size-independent, so one bake covers desktop + mobile fluid modes"
               }
             }
           }
@@ -8360,9 +8360,9 @@
               "figma": {
                 "kind": "style-part",
                 "field": "lineHeight",
-                "unit": "px-from-ratio",
-                "basis": "fontSize",
-                "note": "Figma binds line-height as px; multiply by the bound fontSize per mode"
+                "unit": "PERCENT",
+                "percent": 125,
+                "note": "Figma has no unitless line-height variable; the exporter bakes lineHeight as PERCENT (multiplier × 100) — mode/size-independent, so one bake covers desktop + mobile fluid modes"
               }
             }
           }
@@ -8378,9 +8378,9 @@
               "figma": {
                 "kind": "style-part",
                 "field": "lineHeight",
-                "unit": "px-from-ratio",
-                "basis": "fontSize",
-                "note": "Figma binds line-height as px; multiply by the bound fontSize per mode"
+                "unit": "PERCENT",
+                "percent": 150,
+                "note": "Figma has no unitless line-height variable; the exporter bakes lineHeight as PERCENT (multiplier × 100) — mode/size-independent, so one bake covers desktop + mobile fluid modes"
               }
             }
           }
@@ -8396,9 +8396,9 @@
               "figma": {
                 "kind": "style-part",
                 "field": "lineHeight",
-                "unit": "px-from-ratio",
-                "basis": "fontSize",
-                "note": "Figma binds line-height as px; multiply by the bound fontSize per mode"
+                "unit": "PERCENT",
+                "percent": 165,
+                "note": "Figma has no unitless line-height variable; the exporter bakes lineHeight as PERCENT (multiplier × 100) — mode/size-independent, so one bake covers desktop + mobile fluid modes"
               }
             }
           }
@@ -8414,9 +8414,9 @@
               "figma": {
                 "kind": "style-part",
                 "field": "lineHeight",
-                "unit": "px-from-ratio",
-                "basis": "fontSize",
-                "note": "Figma binds line-height as px; multiply by the bound fontSize per mode"
+                "unit": "PERCENT",
+                "percent": 175,
+                "note": "Figma has no unitless line-height variable; the exporter bakes lineHeight as PERCENT (multiplier × 100) — mode/size-independent, so one bake covers desktop + mobile fluid modes"
               }
             }
           }
@@ -8434,9 +8434,9 @@
               "figma": {
                 "kind": "style-part",
                 "field": "letterSpacing",
-                "unit": "px-from-em",
-                "basis": "fontSize",
-                "note": "Figma binds letter-spacing as px; multiply em by the bound fontSize"
+                "unit": "PERCENT",
+                "percent": -3,
+                "note": "Figma binds letter-spacing as PERCENT or PIXELS; the exporter bakes as PERCENT (em × 100) — mode/size-independent. A future pass ships FLOAT tracking variables so brands can retune tracking without style edits (§4 fix 3b bindable form)"
               }
             }
           }
@@ -8452,9 +8452,9 @@
               "figma": {
                 "kind": "style-part",
                 "field": "letterSpacing",
-                "unit": "px-from-em",
-                "basis": "fontSize",
-                "note": "Figma binds letter-spacing as px; multiply em by the bound fontSize"
+                "unit": "PERCENT",
+                "percent": -2,
+                "note": "Figma binds letter-spacing as PERCENT or PIXELS; the exporter bakes as PERCENT (em × 100) — mode/size-independent. A future pass ships FLOAT tracking variables so brands can retune tracking without style edits (§4 fix 3b bindable form)"
               }
             }
           }
@@ -8470,9 +8470,9 @@
               "figma": {
                 "kind": "style-part",
                 "field": "letterSpacing",
-                "unit": "px-from-em",
-                "basis": "fontSize",
-                "note": "Figma binds letter-spacing as px; multiply em by the bound fontSize"
+                "unit": "PERCENT",
+                "percent": -1,
+                "note": "Figma binds letter-spacing as PERCENT or PIXELS; the exporter bakes as PERCENT (em × 100) — mode/size-independent. A future pass ships FLOAT tracking variables so brands can retune tracking without style edits (§4 fix 3b bindable form)"
               }
             }
           }
@@ -8488,9 +8488,9 @@
               "figma": {
                 "kind": "style-part",
                 "field": "letterSpacing",
-                "unit": "px-from-em",
-                "basis": "fontSize",
-                "note": "Figma binds letter-spacing as px; multiply em by the bound fontSize"
+                "unit": "PERCENT",
+                "percent": 0,
+                "note": "Figma binds letter-spacing as PERCENT or PIXELS; the exporter bakes as PERCENT (em × 100) — mode/size-independent. A future pass ships FLOAT tracking variables so brands can retune tracking without style edits (§4 fix 3b bindable form)"
               }
             }
           }
@@ -8506,9 +8506,9 @@
               "figma": {
                 "kind": "style-part",
                 "field": "letterSpacing",
-                "unit": "px-from-em",
-                "basis": "fontSize",
-                "note": "Figma binds letter-spacing as px; multiply em by the bound fontSize"
+                "unit": "PERCENT",
+                "percent": 2,
+                "note": "Figma binds letter-spacing as PERCENT or PIXELS; the exporter bakes as PERCENT (em × 100) — mode/size-independent. A future pass ships FLOAT tracking variables so brands can retune tracking without style edits (§4 fix 3b bindable form)"
               }
             }
           }
@@ -8524,9 +8524,9 @@
               "figma": {
                 "kind": "style-part",
                 "field": "letterSpacing",
-                "unit": "px-from-em",
-                "basis": "fontSize",
-                "note": "Figma binds letter-spacing as px; multiply em by the bound fontSize"
+                "unit": "PERCENT",
+                "percent": 5,
+                "note": "Figma binds letter-spacing as PERCENT or PIXELS; the exporter bakes as PERCENT (em × 100) — mode/size-independent. A future pass ships FLOAT tracking variables so brands can retune tracking without style edits (§4 fix 3b bindable form)"
               }
             }
           }
@@ -8581,12 +8581,13 @@
                   "binds": [
                     "fontFamily",
                     "fontSize",
-                    "fontWeight",
+                    "fontWeight"
+                  ],
+                  "baked": [
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "baked": [],
-                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -8638,12 +8639,13 @@
                   "binds": [
                     "fontFamily",
                     "fontSize",
-                    "fontWeight",
+                    "fontWeight"
+                  ],
+                  "baked": [
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "baked": [],
-                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -8695,12 +8697,13 @@
                   "binds": [
                     "fontFamily",
                     "fontSize",
-                    "fontWeight",
+                    "fontWeight"
+                  ],
+                  "baked": [
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "baked": [],
-                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -8752,12 +8755,13 @@
                   "binds": [
                     "fontFamily",
                     "fontSize",
-                    "fontWeight",
+                    "fontWeight"
+                  ],
+                  "baked": [
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "baked": [],
-                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -8793,12 +8797,13 @@
                   "binds": [
                     "fontFamily",
                     "fontSize",
-                    "fontWeight",
+                    "fontWeight"
+                  ],
+                  "baked": [
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "baked": [],
-                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -8832,12 +8837,13 @@
                   "binds": [
                     "fontFamily",
                     "fontSize",
-                    "fontWeight",
+                    "fontWeight"
+                  ],
+                  "baked": [
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "baked": [],
-                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -8889,12 +8895,13 @@
                   "binds": [
                     "fontFamily",
                     "fontSize",
-                    "fontWeight",
+                    "fontWeight"
+                  ],
+                  "baked": [
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "baked": [],
-                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -8946,12 +8953,13 @@
                   "binds": [
                     "fontFamily",
                     "fontSize",
-                    "fontWeight",
+                    "fontWeight"
+                  ],
+                  "baked": [
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "baked": [],
-                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -9003,12 +9011,13 @@
                   "binds": [
                     "fontFamily",
                     "fontSize",
-                    "fontWeight",
+                    "fontWeight"
+                  ],
+                  "baked": [
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "baked": [],
-                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -9060,12 +9069,13 @@
                   "binds": [
                     "fontFamily",
                     "fontSize",
-                    "fontWeight",
+                    "fontWeight"
+                  ],
+                  "baked": [
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "baked": [],
-                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -9117,12 +9127,13 @@
                   "binds": [
                     "fontFamily",
                     "fontSize",
-                    "fontWeight",
+                    "fontWeight"
+                  ],
+                  "baked": [
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "baked": [],
-                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -9158,12 +9169,13 @@
                   "binds": [
                     "fontFamily",
                     "fontSize",
-                    "fontWeight",
+                    "fontWeight"
+                  ],
+                  "baked": [
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "baked": [],
-                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -9197,14 +9209,14 @@
                   "binds": [
                     "fontFamily",
                     "fontSize",
-                    "fontWeight",
-                    "lineHeight",
-                    "letterSpacing"
+                    "fontWeight"
                   ],
                   "baked": [
+                    "lineHeight",
+                    "letterSpacing",
                     "textDecoration"
                   ],
-                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -9236,12 +9248,13 @@
                   "binds": [
                     "fontFamily",
                     "fontSize",
-                    "fontWeight",
+                    "fontWeight"
+                  ],
+                  "baked": [
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "baked": [],
-                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -9275,14 +9288,14 @@
                   "binds": [
                     "fontFamily",
                     "fontSize",
-                    "fontWeight",
-                    "lineHeight",
-                    "letterSpacing"
+                    "fontWeight"
                   ],
                   "baked": [
+                    "lineHeight",
+                    "letterSpacing",
                     "textDecoration"
                   ],
-                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -9316,12 +9329,13 @@
                   "binds": [
                     "fontFamily",
                     "fontSize",
-                    "fontWeight",
+                    "fontWeight"
+                  ],
+                  "baked": [
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "baked": [],
-                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -9355,14 +9369,14 @@
                   "binds": [
                     "fontFamily",
                     "fontSize",
-                    "fontWeight",
-                    "lineHeight",
-                    "letterSpacing"
+                    "fontWeight"
                   ],
                   "baked": [
+                    "lineHeight",
+                    "letterSpacing",
                     "textDecoration"
                   ],
-                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -9394,12 +9408,13 @@
                   "binds": [
                     "fontFamily",
                     "fontSize",
-                    "fontWeight",
+                    "fontWeight"
+                  ],
+                  "baked": [
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "baked": [],
-                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -9433,14 +9448,14 @@
                   "binds": [
                     "fontFamily",
                     "fontSize",
-                    "fontWeight",
-                    "lineHeight",
-                    "letterSpacing"
+                    "fontWeight"
                   ],
                   "baked": [
+                    "lineHeight",
+                    "letterSpacing",
                     "textDecoration"
                   ],
-                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -9474,12 +9489,13 @@
                   "binds": [
                     "fontFamily",
                     "fontSize",
-                    "fontWeight",
+                    "fontWeight"
+                  ],
+                  "baked": [
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "baked": [],
-                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -9513,14 +9529,14 @@
                   "binds": [
                     "fontFamily",
                     "fontSize",
-                    "fontWeight",
-                    "lineHeight",
-                    "letterSpacing"
+                    "fontWeight"
                   ],
                   "baked": [
+                    "lineHeight",
+                    "letterSpacing",
                     "textDecoration"
                   ],
-                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -9552,12 +9568,13 @@
                   "binds": [
                     "fontFamily",
                     "fontSize",
-                    "fontWeight",
+                    "fontWeight"
+                  ],
+                  "baked": [
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "baked": [],
-                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -9591,14 +9608,14 @@
                   "binds": [
                     "fontFamily",
                     "fontSize",
-                    "fontWeight",
-                    "lineHeight",
-                    "letterSpacing"
+                    "fontWeight"
                   ],
                   "baked": [
+                    "lineHeight",
+                    "letterSpacing",
                     "textDecoration"
                   ],
-                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -9634,12 +9651,13 @@
                   "binds": [
                     "fontFamily",
                     "fontSize",
-                    "fontWeight",
+                    "fontWeight"
+                  ],
+                  "baked": [
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "baked": [],
-                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -9673,12 +9691,13 @@
                   "binds": [
                     "fontFamily",
                     "fontSize",
-                    "fontWeight",
+                    "fontWeight"
+                  ],
+                  "baked": [
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "baked": [],
-                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -9714,12 +9733,13 @@
                   "binds": [
                     "fontFamily",
                     "fontSize",
-                    "fontWeight",
+                    "fontWeight"
+                  ],
+                  "baked": [
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "baked": [],
-                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -9753,14 +9773,14 @@
                   "binds": [
                     "fontFamily",
                     "fontSize",
-                    "fontWeight",
-                    "lineHeight",
-                    "letterSpacing"
+                    "fontWeight"
                   ],
                   "baked": [
+                    "lineHeight",
+                    "letterSpacing",
                     "textDecoration"
                   ],
-                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -9792,12 +9812,13 @@
                   "binds": [
                     "fontFamily",
                     "fontSize",
-                    "fontWeight",
+                    "fontWeight"
+                  ],
+                  "baked": [
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "baked": [],
-                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -9831,14 +9852,14 @@
                   "binds": [
                     "fontFamily",
                     "fontSize",
-                    "fontWeight",
-                    "lineHeight",
-                    "letterSpacing"
+                    "fontWeight"
                   ],
                   "baked": [
+                    "lineHeight",
+                    "letterSpacing",
                     "textDecoration"
                   ],
-                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -9872,12 +9893,13 @@
                   "binds": [
                     "fontFamily",
                     "fontSize",
-                    "fontWeight",
+                    "fontWeight"
+                  ],
+                  "baked": [
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "baked": [],
-                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -9911,14 +9933,14 @@
                   "binds": [
                     "fontFamily",
                     "fontSize",
-                    "fontWeight",
-                    "lineHeight",
-                    "letterSpacing"
+                    "fontWeight"
                   ],
                   "baked": [
+                    "lineHeight",
+                    "letterSpacing",
                     "textDecoration"
                   ],
-                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -9950,12 +9972,13 @@
                   "binds": [
                     "fontFamily",
                     "fontSize",
-                    "fontWeight",
+                    "fontWeight"
+                  ],
+                  "baked": [
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "baked": [],
-                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -9989,14 +10012,14 @@
                   "binds": [
                     "fontFamily",
                     "fontSize",
-                    "fontWeight",
-                    "lineHeight",
-                    "letterSpacing"
+                    "fontWeight"
                   ],
                   "baked": [
+                    "lineHeight",
+                    "letterSpacing",
                     "textDecoration"
                   ],
-                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -10033,14 +10056,14 @@
                 "binds": [
                   "fontFamily",
                   "fontSize",
-                  "fontWeight",
-                  "lineHeight",
-                  "letterSpacing"
+                  "fontWeight"
                 ],
                 "baked": [
+                  "lineHeight",
+                  "letterSpacing",
                   "textCase"
                 ],
-                "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
               }
             }
           }
@@ -10075,12 +10098,13 @@
                   "binds": [
                     "fontFamily",
                     "fontSize",
-                    "fontWeight",
+                    "fontWeight"
+                  ],
+                  "baked": [
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "baked": [],
-                  "note": "Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)"
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }

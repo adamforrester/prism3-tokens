@@ -186,15 +186,20 @@ const weightRoleAlias = (path: string, numeric: number, description: string): To
   $extensions: { prism3: { role: 'semantic', aliasOf: path, numeric } },
 });
 // Line height: unitless multiplier in $value (DTCG-correct, CSS-correct). Figma
-// can't bind a unitless line-height (a bound FLOAT is read as PIXELS), so the
-// directive tells the exporter to materialize px = fontSize × value per mode.
+// has no unitless line-height variable, but PERCENT (multiplier×100) is
+// mode/size-independent — the exporter bakes lineHeight as { unit: 'PERCENT' }
+// so a fluid style with two fontSize modes gets one line-height value.
 const lineHeightLeaf = (value: number, description: string): Token => ({
   $type: 'number', $value: value, $description: description,
-  $extensions: { prism3: { generated: true, unitless: true, figma: { kind: 'style-part', field: 'lineHeight', unit: 'px-from-ratio', basis: 'fontSize', note: 'Figma binds line-height as px; multiply by the bound fontSize per mode' } } },
+  $extensions: { prism3: { generated: true, unitless: true, figma: { kind: 'style-part', field: 'lineHeight', unit: 'PERCENT', percent: Math.round(value * 100), note: 'Figma has no unitless line-height variable; the exporter bakes lineHeight as PERCENT (multiplier × 100) — mode/size-independent, so one bake covers desktop + mobile fluid modes' } } },
 });
+// Letter spacing: em-relative in $value (CSS-correct). Figma binds letter-
+// spacing as either PIXELS or PERCENT; the exporter bakes as PERCENT (em×100)
+// so a fluid style's tracking is size-independent. A future PR ships a tracking
+// FLOAT collection (per §4 fix 3b — bindable form).
 const letterSpacingLeaf = (em: number, description: string): Token => ({
   $type: 'dimension', $value: `${em}em`, $description: description,
-  $extensions: { prism3: { generated: true, em, figma: { kind: 'style-part', field: 'letterSpacing', unit: 'px-from-em', basis: 'fontSize', note: 'Figma binds letter-spacing as px; multiply em by the bound fontSize' } } },
+  $extensions: { prism3: { generated: true, em, figma: { kind: 'style-part', field: 'letterSpacing', unit: 'PERCENT', percent: Math.round(em * 10000) / 100, note: 'Figma binds letter-spacing as PERCENT or PIXELS; the exporter bakes as PERCENT (em × 100) — mode/size-independent. A future pass ships FLOAT tracking variables so brands can retune tracking without style edits (§4 fix 3b bindable form)' } } },
 });
 // Composite (DTCG typography): bundles family/size/weight-role/line-height/tracking
 // by intent. Sub-properties alias the primitives (weight via the role → numeric, so
@@ -244,7 +249,7 @@ const typographyLeaf = (root: string, c: { group: string; variant: string; sizeP
   return {
     $type: 'typography', $value: value,
     $description: `${c.group}${c.variant ? ' ' + c.variant : ''} ${c.weightRole}${c.link ? ' link' : ''} — ${isFluid ? `${c.sizeMinPx}→${c.sizePx}px fluid` : `${c.sizePx}px`} ${face} (${c.family} role), ${c.lineHeight} line-height, ${c.weightRole} weight, ${c.tracking} tracking${c.textCase !== 'none' ? `, ${c.textCase}` : ''}${c.link ? ', underlined (link — pair with text.link.* colour)' : ''} — consumer-facing type style`,
-    $extensions: { prism3: { role: 'composite', group: c.group, variant: c.variant, weightRole: c.weightRole, sizePx: c.sizePx, ...(c.link ? { link: true } : {}), ...(c.textCase !== 'none' ? { textCase: c.textCase } : {}), responsive, figma: { kind: 'text-style', styleType: 'TEXT', binds: ['fontFamily', 'fontSize', 'fontWeight', 'lineHeight', 'letterSpacing'], baked: [...(c.textCase !== 'none' ? ['textCase'] : []), ...(c.link ? ['textDecoration'] : [])], note: 'Figma Text Style; fontSize binds a variable with desktop/mobile modes (see responsive.figma.modes); lineHeight px = fontSize × multiplier per mode; textCase/underline baked (not bindable)' } } },
+    $extensions: { prism3: { role: 'composite', group: c.group, variant: c.variant, weightRole: c.weightRole, sizePx: c.sizePx, ...(c.link ? { link: true } : {}), ...(c.textCase !== 'none' ? { textCase: c.textCase } : {}), responsive, figma: { kind: 'text-style', styleType: 'TEXT', binds: ['fontFamily', 'fontSize', 'fontWeight'], baked: ['lineHeight', 'letterSpacing', ...(c.textCase !== 'none' ? ['textCase'] : []), ...(c.link ? ['textDecoration'] : [])], note: 'Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table.' } } },
   };
 };
 

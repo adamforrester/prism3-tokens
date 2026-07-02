@@ -124,10 +124,26 @@ Figma-target rendering (role→scopes, name transform, per-mode alias) lives in 
   **derived here** from the role family (the DTCG doesn't emit them); ids are omitted (Figma
   assigns them and resolves aliases by name at import). Aliases are name-based → the
   materialiser's two-pass (palette first, then colour) resolves them.
-- **Typography — next.** `font` + `font-fluid` variable collections (byte-reproduce targets)
-  + the 36 text styles with the six §4 fixes applied (so they *differ* from the as-imported
-  `text-styles.json` snapshot by design). Then dims/opacity/border variables; shadow→Effect,
-  gradient→Paint specs; and generalize (emit aurora/wendys).
+- **Typography — ✅ BUILT (2026-07-02).** `engine/emit-figma.ts` → `out/figma/nb/{font,`
+  `font-fluid.{desktop,mobile},text-styles}.json`. `font` (38 vars) and `font-fluid.{d,m}`
+  (10 vars each) byte-reproduce the NB fixtures exactly (names/scopes/values, weight-role
+  aliases target the same numeric weight, family descriptions carry the full fallback stack).
+  36 text styles apply the six §4 fixes: (1) no `text/` wrapper; (2) prescribed collection
+  names (`font`, `font-fluid`); (3a) lineHeight baked as PERCENT (unitless × 100); (3b)
+  letterSpacing baked as PERCENT (em × 100); (4) primary family bound (full stack lives in
+  the STRING variable's description); (5) fontStyle derived from the bound weight-role via
+  a named-instance table (mono collapses 600 → Medium). `test.ts` block 12 gates all of this
+  against the fixtures + the corrected expectation (25 new gates; 265/265 total). Also
+  corrected the stale `px-from-ratio`/`px-from-em` line-height/letter-spacing directive
+  *notes* in `tree.ts` (§5 "optional cleanup") — values unchanged, prose updated (unit,
+  percent, note); nb-regression/emit-dtcg/mode contrasts all still green. Fix 3b bindable
+  form (a `font-tracking` FLOAT collection) is deferred to a follow-up so this PR
+  byte-reproduces the 38-var `font.json` fixture. **Materialisation loop closed** — the
+  Figma-MCP thread imported all 36 corrected styles into a real file, verified they bind
+  fontFamily/fontSize/fontWeight to the existing font/font-fluid variables, and rendered
+  a typography specimen frame with container/section fills bound to real
+  `color/background|foreground/primary` (spike lesson). Next: dims/opacity/border variables;
+  shadow→Effect, gradient→Paint specs; and generalize (emit aurora/wendys).
 
 Optional cleanup surfaced: correct the now-stale `px-from-ratio`/`px-from-em` line-height/
 letter-spacing directive *notes* in `tree.ts` (the contract an ad-hoc reader follows) when the
@@ -168,19 +184,23 @@ adapter (collection/scope/name/unit decisions). Emit per-`collection`/`mode` fil
 fixture shape; **omit ids** (Figma assigns them; alias **by name**).
 
 **Queue, in order:**
-1. **Typography.** Emit the `font` (38 primitives) + `font-fluid` (10 × mobile/desktop) variable
-   collections — **byte-reproduce** `fixtures/figma/nb/font.json` + `font-fluid.{desktop,mobile}.json`
-   (same gate style as colour: names/scopes/aliases exact, values to tol). Then the 36 **text
-   styles**, applying the **six §4 fixes** — so they gate against the *corrected* expectation, **not**
-   the as-imported `text-styles.json` (that file is the pre-fix snapshot / structural reference only;
-   see §2). The fixes touch both the adapter and a few `tree.ts` directive notes (line-height→%,
-   letter-spacing→bindable, style names, `fontStyle`→named-instance, collection names) — do the
-   `tree.ts` note corrections here too (§5 "optional cleanup"), and keep the engine's other emits
-   byte-identical.
-2. **Dims / opacity / border** — FLOAT variable collections (space/radius/size, opacity, border-width).
+1. **Typography — ✅ DONE (2026-07-02).** `font` (38) + `font-fluid` (10 × mobile/desktop)
+   byte-reproduce the fixtures; 36 text styles apply the six §4 fixes and gate against the
+   corrected expectation (not the pre-fix `text-styles.json` snapshot). `tree.ts` LH/LS
+   directive notes corrected (§5). 25 new gates; materialised to Figma via MCP and rendered
+   a specimen frame with real container-fill bindings. Fix 3b bindable form (a `font-tracking`
+   FLOAT collection) deferred to a follow-up so this PR byte-reproduces the 38-var `font.json`.
+2. **★ NEXT — Dims / opacity / border** — FLOAT variable collections (space/radius/size, opacity, border-width).
 3. **Shadow → Effect Style specs; gradient → Paint Style specs** (styles, not variables; §5/`08 §5`).
 4. **Generalise** — emit aurora + wendys too (prove brand-agnostic). No fixtures for those, so gate
    on structural validity (aliases resolve, scopes present) + **materialise-to-verify** in Figma.
+
+**Follow-up parked from typography (2026-07-02):** §4 fix 3b full form — ship a
+`font-tracking` FLOAT variable collection (6 tokens: tighter/tight/snug/normal/wide/wider,
+values em × 100), extend `fixtures/figma/nb/font.json` (or a sibling `font-tracking.json`)
+to include them, and rebind `letterSpacing` on all 36 text styles. Baking as PERCENT this
+PR is intentional (mode/size-independent) and correct — the follow-up moves brand-retunable
+tracking off the style layer.
 
 **Definition of done per axis:** the `test.ts` gate is green, `out/figma/*` regenerates
 byte-identical, the existing engine emits (`emit-dtcg`, `nb-regression`) are unaffected, **and** you
