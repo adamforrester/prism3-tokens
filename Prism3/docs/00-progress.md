@@ -176,6 +176,12 @@ npx tsx Prism3/engine/cli.ts Prism3/examples/wendys.design.md --fidelity      # 
   from `resolvePreview`; boots all-green (verified headless). New `emit-brandinput.ts` →
   `schema/example-brands.json` supplies the browser a validated boot brand (test-gated). Engine
   stays buildless (218/218); only the adapter bundles. Full layout in `09 §3`.
+  **Interactive loop landed (PR #24):** the colour-axis knobs are now LIVE — primary (colour
+  picker → OKLCH anchor) + neutral hue/chroma + actionPalette mutate the in-memory `BrandInput`,
+  re-run `brandTheme` + `resolvePreview`, and repaint the preview + overlay; a non-resolving
+  combination is caught and surfaced. Form/type/motion knobs stay read-only until their axis
+  renders in the preview — **pending the pure token-tree accessor** (geometry/type-from-tree),
+  the next web increment.
 - **Dogfood the shared preview model in `visualize.ts` before building the hosts (2026-07-02).**
   Rather than take the leap straight from the B1a/B1b portable model to two new live hosts (DOM
   playground + Figma-node plugin) in a fresh repo, the static style-guide generator was made the

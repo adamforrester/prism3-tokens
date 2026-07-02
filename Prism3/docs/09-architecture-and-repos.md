@@ -113,10 +113,11 @@ Two principles behind the split:
    New I/O shell `engine/emit-brandinput.ts` → `schema/example-brands.json` gives the browser a
    **validated** boot brand without the node-only `design.md` parser (a `test.ts` gate keeps it
    current + asserts every example resolves all-green; 218/218).
-3. **B1c/B3 — web dashboard host (in progress)**: knobs render (read-only) + preview + overlay
-   are live. **Next:** wire the knobs to mutate the `BrandInput` and re-resolve (the real
-   interactive loop); resolve geometry/type bindings from the token tree (needs a pure tree
-   accessor in the core); promote the engine to a named `@prism3/engine` workspace package.
+3. **B1c/B3 — web dashboard host (in progress)**: the **colour-axis knobs are now live** (PR #24)
+   — primary + neutral hue/chroma + actionPalette mutate the `BrandInput` and re-resolve the
+   preview + overlay in real time. **Next:** resolve geometry/type bindings from the token tree
+   (needs a pure tree accessor in the core) so the form/type/motion knobs go live too; then
+   promote the engine to a named `@prism3/engine` workspace package.
 4. **B2 — Figma plugin host**: same renderer, Figma face; begins absorbing the three Figma
    plugins (variables → text styles → canvas style-guide, in that order of parity).
 5. **C — MCP adapter**: tool schema derived from the same lever manifest.
