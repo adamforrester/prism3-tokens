@@ -86,7 +86,10 @@ Prism3/
 │   ├── 06-surface-and-content-color-model.md ← the surface/content colour model + §7b as-built naming (palette/color) & mode encoding
 │   ├── 07-e2e-journey.md            ← the designer↔developer↔agent pipeline; portable-core architecture; design.md; component layer (layers 2–3 of the AI stack)
 │   ├── 08-theming-interfaces.md     ← the customization surfaces (plugin/playground/CLI/MCP/Figma-MCP); new-plugin + shared-lever-manifest decisions; two-route materialization; revised build sequence
-│   └── 09-architecture-and-repos.md ← platform architecture + repo/packaging (monorepo grown from prism3-tokens; web-dashboard-first); which of the owner's other plugins get absorbed vs stay downstream
+│   ├── 09-architecture-and-repos.md ← platform architecture + repo/packaging (monorepo grown from prism3-tokens; web-dashboard-first); which of the owner's other plugins get absorbed vs stay downstream
+│   └── 10-figma-materialization.md  ← the emit-figma contract: exact Figma variable/style shape (proven by import spikes), colour + typography materialization rules, thread split; fixtures/figma/nb is the regression target
+├── fixtures/
+│   └── figma/nb/                    ← the NB import: palette + color×4 modes + font + font-fluid×2 (byte-reproduce targets) + text-styles (as-imported snapshot) — emit-figma's regression corpus (docs/10)
 ├── schema/
 │   ├── theme-schema.json           ← the white-label BrandInput contract (JSON Schema; validated on every emit)
 │   ├── theme-schema.example.json   ← a worked BrandInput (aurora) that conforms to the contract
@@ -153,6 +156,23 @@ npx tsx Prism3/engine/cli.ts Prism3/examples/wendys.design.md --fidelity      # 
 
 ## Decisions log (why things are the way they are)
 
+- **Freeze the `emit-figma` contract + NB Figma fixtures as the regression target (2026-07-02).**
+  Two hand-run Figma-MCP import spikes (colour, then typography) proved the engine's
+  `$extensions.prism3.figma` directives are directly usable, so the DTCG→Figma translation is
+  mechanical — the job is to *own it once* (`emit-figma`) rather than re-derive per agent (the
+  `09` drift trap). Captured the real NB import as `fixtures/figma/nb/` (Token Press raw export:
+  `palette` + `color`×4 modes; `font` + `font-fluid`×2 modes; a Plugin-API `text-styles` dump) and
+  wrote the contract in `10-figma-materialization`. Two fixture classes: **byte-reproduce**
+  (palette/color/font/font-fluid) and **reference-with-known-deltas** (`text-styles` is the
+  *as-imported*/pre-fix snapshot — the six typography fixes are intentional deltas, so gate against
+  the *corrected* expectation, not that file). Verified the engine reproduces the colour aliases
+  exactly (action 550/450/700/300; background.secondary neutral.050/900) — a genuine
+  byte-comparable target, same discipline as `nb-measured.json`. `emit-figma` reads the semantic
+  facts (aliases, per-mode values, fluid modes, weight-role numerics) and **derives** the
+  Figma-target rendering (scopes from role family, collection/style names, line-height %,
+  letter-spacing binding, fontStyle→named-instance); the engine directives don't yet emit per-leaf
+  `scopes`/`collection`, which is `emit-figma`'s to own. *Rationale:* the spikes' findings +
+  owner's Token Press exports. Full contract + thread split in `10`. PR #27.
 - **Platform packaging: monorepo grown from `prism3-tokens`, web dashboard first (2026-07-02).**
   Owner-locked answers to the "one engine, two hosts" packaging question (full shape in
   `09-architecture-and-repos`). (A) The web dashboard and Figma plugin are **two adapters over one
