@@ -1,0 +1,478 @@
+{
+  "$collection": "font",
+  "$mode": "Default",
+  "variables": [
+    {
+      "id": "VariableID:6:3",
+      "name": "font/family/display",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_FAMILY"
+      ],
+      "description": "stack: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif",
+      "value": "Inter",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:4",
+      "name": "font/family/text",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_FAMILY"
+      ],
+      "description": "stack: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif",
+      "value": "Inter",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:5",
+      "name": "font/family/mono",
+      "resolvedType": "STRING",
+      "scopes": [
+        "FONT_FAMILY"
+      ],
+      "description": "stack: JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Consolas, Liberation Mono, monospace",
+      "value": "JetBrains Mono",
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:6",
+      "name": "font/size/10",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 10,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:7",
+      "name": "font/size/11",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 11,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:8",
+      "name": "font/size/12",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 12,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:9",
+      "name": "font/size/14",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 14,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:10",
+      "name": "font/size/16",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 16,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:11",
+      "name": "font/size/18",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 18,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:12",
+      "name": "font/size/20",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 20,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:13",
+      "name": "font/size/24",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 24,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:14",
+      "name": "font/size/28",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 28,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:15",
+      "name": "font/size/32",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 32,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:16",
+      "name": "font/size/36",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 36,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:17",
+      "name": "font/size/40",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 40,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:18",
+      "name": "font/size/48",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 48,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:19",
+      "name": "font/size/56",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 56,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:20",
+      "name": "font/size/64",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 64,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:21",
+      "name": "font/size/72",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 72,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:22",
+      "name": "font/size/80",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 80,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:23",
+      "name": "font/size/96",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 96,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:24",
+      "name": "font/size/112",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 112,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:25",
+      "name": "font/size/128",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 128,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:26",
+      "name": "font/size/144",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 144,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:27",
+      "name": "font/size/160",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 160,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:28",
+      "name": "font/weight/100",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_WEIGHT"
+      ],
+      "description": "",
+      "value": 100,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:29",
+      "name": "font/weight/200",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_WEIGHT"
+      ],
+      "description": "",
+      "value": 200,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:30",
+      "name": "font/weight/300",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_WEIGHT"
+      ],
+      "description": "",
+      "value": 300,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:31",
+      "name": "font/weight/400",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_WEIGHT"
+      ],
+      "description": "",
+      "value": 400,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:32",
+      "name": "font/weight/500",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_WEIGHT"
+      ],
+      "description": "",
+      "value": 500,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:33",
+      "name": "font/weight/600",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_WEIGHT"
+      ],
+      "description": "",
+      "value": 600,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:34",
+      "name": "font/weight/700",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_WEIGHT"
+      ],
+      "description": "",
+      "value": 700,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:35",
+      "name": "font/weight/800",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_WEIGHT"
+      ],
+      "description": "",
+      "value": 800,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:36",
+      "name": "font/weight/900",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_WEIGHT"
+      ],
+      "description": "",
+      "value": 900,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:37",
+      "name": "font/weight-role/subtle",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_WEIGHT"
+      ],
+      "description": "",
+      "value": 300,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:6:30",
+        "name": "font/weight/300"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:38",
+      "name": "font/weight-role/default",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_WEIGHT"
+      ],
+      "description": "",
+      "value": 400,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:6:31",
+        "name": "font/weight/400"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:39",
+      "name": "font/weight-role/emphasis",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_WEIGHT"
+      ],
+      "description": "",
+      "value": 600,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:6:33",
+        "name": "font/weight/600"
+      },
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:40",
+      "name": "font/weight-role/strong",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_WEIGHT"
+      ],
+      "description": "",
+      "value": 700,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:6:34",
+        "name": "font/weight/700"
+      },
+      "codeSyntax": {}
+    }
+  ]
+}

@@ -89,7 +89,7 @@ Prism3/
 │   ├── 09-architecture-and-repos.md ← platform architecture + repo/packaging (monorepo grown from prism3-tokens; web-dashboard-first); which of the owner's other plugins get absorbed vs stay downstream
 │   └── 10-figma-materialization.md  ← the emit-figma contract: exact Figma variable/style shape (proven by import spikes), colour + typography materialization rules, thread split; fixtures/figma/nb is the regression target
 ├── fixtures/
-│   └── figma/nb/                    ← Token Press raw export of the NB import (palette + color×4 modes) — emit-figma's colour regression target (docs/10)
+│   └── figma/nb/                    ← the NB import: palette + color×4 modes + font + font-fluid×2 (byte-reproduce targets) + text-styles (as-imported snapshot) — emit-figma's regression corpus (docs/10)
 ├── schema/
 │   ├── theme-schema.json           ← the white-label BrandInput contract (JSON Schema; validated on every emit)
 │   ├── theme-schema.example.json   ← a worked BrandInput (aurora) that conforms to the contract

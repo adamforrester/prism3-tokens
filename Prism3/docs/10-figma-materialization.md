@@ -21,24 +21,32 @@ artifact every consumer replays. This doc is its spec; the fixtures are its regr
 
 ## 2. Regression fixtures (the frozen target)
 
-`Prism3/fixtures/figma/nb/` — the real NB import, exported from **Token Press** (raw Figma
-variable JSON). `emit-figma`'s colour output must reproduce these:
+`Prism3/fixtures/figma/nb/` — the real NB import. Colour + font/font-fluid are raw Figma
+variable JSON from **Token Press**; `text-styles.json` is a Plugin-API dump (Token Press doesn't
+export styles). Two fixture classes:
 
-| File | `$collection` | `$mode` | vars | aliased |
-|---|---|---|---|---|
-| `palette.json` | `palette` | `Default` | 122 | 0 (primitives) |
-| `color.light.json` | `color` | `light` | 95 | 95 |
-| `color.dark.json` | `color` | `dark` | 95 | 95 |
-| `color.hc-light.json` | `color` | `hc-light` | 95 | 95 |
-| `color.hc-dark.json` | `color` | `hc-dark` | 95 | 95 |
+**(a) Byte-reproduce targets** — `emit-figma`'s output must match these exactly:
 
-**Not yet captured:** the 36 **text styles** + the `font` / `font-fluid` variable collections
-(Token Press doesn't export styles; the Figma thread will emit a JSON dump). Until then the
-typography contract below is the spec, not a frozen fixture.
+| File | `$collection` | `$mode` | vars | aliased | type |
+|---|---|---|---|---|---|
+| `palette.json` | `palette` | `Default` | 122 | 0 | COLOR primitives |
+| `color.{light,dark,hc-light,hc-dark}.json` | `color` | 4 modes | 95 ea | 95 | COLOR, aliased to palette |
+| `font.json` | `font` | `Default` | 38 | 4 | family STRING + size/weight FLOAT; weight-roles aliased to numeric |
+| `font-fluid.{desktop,mobile}.json` | `font-fluid` | 2 modes | 10 ea | 0 | FLOAT `FONT_SIZE`, per-mode values |
 
-Verified the engine already produces these aliases: `color/action/default` → `palette/red/`
-`550`(light)/`450`(dark)/`700`(hc-light)/`300`(hc-dark); `color/background/secondary` →
-`neutral/050`(light)/`900`(dark) — identical to `out/nb.tokens.json`'s per-mode `$value`s.
+**(b) Reference-with-known-deltas** — `text-styles.json` (36 styles) is the **as-imported
+snapshot**, i.e. the *pre-fix* state: it has the `text/` prefix, line-height in **px**,
+letter-spacing baked px, `fontStyle` baked. `emit-figma` intentionally **differs** here by
+applying the six §4 fixes — so gate its text-style output against the *corrected* expectation, not
+this file byte-for-byte. (The `resolvedByMode` on each property makes it a precise structural
+reference regardless.)
+
+Verified the engine already produces the colour aliases exactly: `color/action/default` →
+`palette/red/` `550`(light)/`450`(dark)/`700`(hc-light)/`300`(hc-dark); `color/background/`
+`secondary` → `neutral/050`(light)/`900`(dark). And the font target confirms fixes already
+half-present: `font/family/display` stores the **primary** (`"Inter"`) with the full stack in
+its description (fix #4), and weight-roles are FLOAT vars **aliased** to numeric weights
+(`emphasis`→`font/weight/600`) — the single-source-of-truth the spike validated.
 
 ## 3. The colour contract (proven — reproduce this)
 

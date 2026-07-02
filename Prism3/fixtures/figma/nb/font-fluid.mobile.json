@@ -1,0 +1,126 @@
+{
+  "$collection": "font-fluid",
+  "$mode": "mobile",
+  "variables": [
+    {
+      "id": "VariableID:6:42",
+      "name": "font-fluid/display/sm/strong",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 36,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:43",
+      "name": "font-fluid/display/md/strong",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 40,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:44",
+      "name": "font-fluid/display/lg/strong",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 40,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:45",
+      "name": "font-fluid/display/xl/strong",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 48,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:46",
+      "name": "font-fluid/display/2xl/strong",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 48,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:47",
+      "name": "font-fluid/display/3xl/strong",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 48,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:48",
+      "name": "font-fluid/title/md/strong",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 20,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:49",
+      "name": "font-fluid/title/lg/strong",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 24,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:50",
+      "name": "font-fluid/title/xl/strong",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 28,
+      "alias": null,
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:51",
+      "name": "font-fluid/title/2xl/strong",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 36,
+      "alias": null,
+      "codeSyntax": {}
+    }
+  ]
+}
