@@ -823,9 +823,18 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   }
   ok(sizeBad.length === 0, 'figma size: heights alias dimension/* (WIDTH_HEIGHT); paddings alias space/* (GAP) — component tier composes shared primitives' + (sizeBad.length ? ` — ${sizeBad.slice(0, 3).join('; ')}` : ''));
 
-  // (f) opacity — dimensionless in [0,1], not px.
-  const opBad = dims.opacity.variables.filter((v) => typeof v.value !== 'number' || (v.value as number) < 0 || (v.value as number) > 1);
-  ok(opBad.length === 0, `figma opacity: every value is a number in [0,1]` + (opBad.length ? ` — ${opBad.slice(0, 3).map((v) => `${v.name}=${v.value}`).join(', ')}` : ''));
+  // (f) opacity — Figma's OPACITY-scoped FLOAT is PERCENT (0–100), not fraction.
+  // The adapter multiplies the DTCG 0–1 by 100 (see the comment in buildFigmaDims).
+  // Verify each emitted value is a number in [0,100] AND matches DTCG × 100.
+  const opBad = dims.opacity.variables.filter((v) => typeof v.value !== 'number' || (v.value as number) < 0 || (v.value as number) > 100);
+  ok(opBad.length === 0, `figma opacity: every value is a number in [0,100] (PERCENT for Figma OPACITY scope)` + (opBad.length ? ` — ${opBad.slice(0, 3).map((v) => `${v.name}=${v.value}`).join(', ')}` : ''));
+  const opMismatch: string[] = [];
+  for (const v of dims.opacity.variables) {
+    const key = v.name.split('/')[1];
+    const dtcg = brand.opacity[key]?.$value as number;
+    if (Math.abs((v.value as number) - Math.round(dtcg * 100)) > 0) opMismatch.push(`${v.name}: ${v.value} ≠ ${Math.round(dtcg * 100)} (DTCG ${dtcg} × 100)`);
+  }
+  ok(opMismatch.length === 0, `figma opacity: every emitted value = DTCG fraction × 100` + (opMismatch.length ? ` — ${opMismatch.slice(0, 3).join(', ')}` : ''));
 
   // (g) focus does NOT include the strokeStyle leaf (no Figma variable primitive
   // for strokeStyle — 'solid' stays a code-side literal).

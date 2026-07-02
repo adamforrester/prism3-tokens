@@ -557,12 +557,17 @@ export const buildFigmaDims = (theme: Theme): FigmaDimsCollections => {
     });
   }
 
+  // Opacity — Figma's OPACITY-scoped FLOAT is interpreted as PERCENT (0–100),
+  // not fraction. The DTCG tree stores the CSS-correct fraction (`0.9`), so the
+  // adapter multiplies by 100 for the Figma target. Verified live: passing 0.9
+  // renders as 0.9% (nearly invisible), not 90%. This is a Figma-target
+  // rendering decision, so it lives here — the DTCG stays 0–1 for CSS.
   const opacityVars: FigmaVar[] = Object.keys(brand.opacity).map((key) => ({
     name: `opacity/${key}`,
     resolvedType: 'FLOAT' as const,
     scopes: OPACITY_SCOPES,
     description: desc(brand.opacity[key]),
-    value: brand.opacity[key].$value as number,
+    value: Math.round((brand.opacity[key].$value as number) * 100),
     alias: null,
   }));
 
