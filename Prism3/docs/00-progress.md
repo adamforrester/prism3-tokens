@@ -85,10 +85,14 @@ Prism3/
 │   ├── 05-token-coverage-roadmap.md ← build backlog: remaining token categories (type, motion, shadow, layout, …)
 │   ├── 06-surface-and-content-color-model.md ← the surface/content colour model + §7b as-built naming (palette/color) & mode encoding
 │   ├── 07-e2e-journey.md            ← the designer↔developer↔agent pipeline; portable-core architecture; design.md; component layer (layers 2–3 of the AI stack)
-│   └── 08-theming-interfaces.md     ← the customization surfaces (plugin/playground/CLI/MCP/Figma-MCP); new-plugin + shared-lever-manifest decisions; two-route materialization; revised build sequence
+│   ├── 08-theming-interfaces.md     ← the customization surfaces (plugin/playground/CLI/MCP/Figma-MCP); new-plugin + shared-lever-manifest decisions; two-route materialization; revised build sequence
+│   └── 09-architecture-and-repos.md ← platform architecture + repo/packaging (monorepo grown from prism3-tokens; web-dashboard-first); which of the owner's other plugins get absorbed vs stay downstream
 ├── schema/
 │   ├── theme-schema.json           ← the white-label BrandInput contract (JSON Schema; validated on every emit)
 │   ├── theme-schema.example.json   ← a worked BrandInput (aurora) that conforms to the contract
+│   ├── lever-manifest.json         ← generated: the shared-control contract (from levers.ts)
+│   ├── preview-spec.json           ← generated: the shared live-preview spec (from preview.ts)
+│   ├── example-brands.json         ← generated: parsed BrandInputs (aurora/harbor) the browser hosts boot from (from emit-brandinput.ts; the node-only design.md parser can't run in the sandbox)
 │   └── nb-measured.json            ← NB regression measurement fixture (reverse-engineered anchors; a DIFFERENT shape, consumed only by nbTheme)
 ├── examples/                      ← authored brand briefs (design.md front door)
 │   ├── aurora.design.md           ← faithfulness example (compiles to the aurora golden, byte-exact)
@@ -113,7 +117,8 @@ Prism3/
     ├── preview.ts                  ← the PREVIEW SPEC (PURE): sample components bound to semantic token paths + contrast pairs; plugin + playground render the same live preview from it (docs/08 §7 B1a)
     ├── emit-preview.ts             ← I/O shell: writes schema/preview-spec.json from the pure preview.ts
     ├── resolve-preview.ts          ← the RESOLVED-PREVIEW projection (PURE, docs/08 §7 B1b): resolvePreview(theme) → concrete colours per mode + live contrast overlay; the runtime read-model surfaces consume
-    ├── test.ts                     ← unit tests: colour-math invariants + 5 extreme-brand contracts + typography/shadow/layout/gradient/surface-model + harshness + typography + design.md-parser/CLI + standard-dialect/classifier/x-prism3 + lever-manifest↔schema drift + preview-spec binding-validity + resolved-preview contrast invariants (215 checks)
+    ├── emit-brandinput.ts          ← I/O shell: writes schema/example-brands.json (parsed aurora/harbor BrandInputs) so the browser hosts boot from a VALIDATED brand without the node-only design.md parser (docs/09)
+    ├── test.ts                     ← unit tests: colour-math invariants + 5 extreme-brand contracts + typography/shadow/layout/gradient/surface-model + harshness + typography + design.md-parser/CLI + standard-dialect/classifier/x-prism3 + lever-manifest↔schema drift + preview-spec binding-validity + resolved-preview contrast invariants + example-brands drift & all-green (218 checks)
     ├── ai-metadata.ts              ← generates the AI-readable metadata sidecar (meaning/when/avoid/paired_with/contrast_with/mode_overrides) for the semantic layer
     ├── README.md                   ← how the engine works / how to run
     ├── nb-regression-report.md     ← generated (committed for review)
@@ -131,7 +136,12 @@ npx tsx Prism3/engine/emit-dtcg.ts       # emit DTCG + modes, validate (+ schema
 npx tsx Prism3/engine/test.ts            # unit tests: colour math + extreme-brand contracts + design.md/CLI + lever-manifest drift
 npx tsx Prism3/engine/emit-levers.ts     # (re)emit schema/lever-manifest.json — the shared-control contract
 npx tsx Prism3/engine/emit-preview.ts    # (re)emit schema/preview-spec.json — the shared live-preview spec
+npx tsx Prism3/engine/emit-brandinput.ts # (re)emit schema/example-brands.json — the browser hosts' validated boot brands
 npx tsx Prism3/engine/visualize.ts       # regenerate the style-guide HTML (out/tokens.html)
+
+# Web dashboard adapter (the monorepo's first rendering host — docs/09). NEEDS npm install (esbuild).
+npm install && npm run -w @prism3/web dev     # esbuild dev server on http://127.0.0.1:5173
+npm run -w @prism3/web build                  # bundle to web/dist/
 
 # CLI adapter — theme an arbitrary brand brief:
 npx tsx Prism3/engine/cli.ts Prism3/examples/harbor.design.md [--out <dir>]   # engine-native dialect
@@ -142,6 +152,30 @@ npx tsx Prism3/engine/cli.ts Prism3/examples/wendys.design.md --fidelity      # 
 
 ## Decisions log (why things are the way they are)
 
+- **Platform packaging: monorepo grown from `prism3-tokens`, web dashboard first (2026-07-02).**
+  Owner-locked answers to the "one engine, two hosts" packaging question (full shape in
+  `09-architecture-and-repos`). (A) The web dashboard and Figma plugin are **two adapters over one
+  core** — both import the same engine module and render from the shared lever manifest + preview
+  spec + `resolvePreview`; continuity is structural, not a sync. (B) They live as packages **in this
+  repo** (`web/`, `figma-plugin/` beside `Prism3/engine/`), not a fresh repo and not three published
+  repos — one version, a lever change lands everywhere in one commit; `brand-skills`/`knowledge-base`
+  stay their own repos. The "no build" invariant holds for the core (tsx); the *adapters* get a
+  bundler (a browser/Figma bundle is a packaging step, not a port). (C) **Web dashboard first** —
+  fastest loop, no sandbox constraints, cleanest proof the shared contracts drive a real UI; the
+  Figma plugin then reuses the same renderer. **Plugin consolidation:** the three separate Figma
+  plugins (theming, text-style, style-guide-generator) get their *function* absorbed into the new
+  B2 plugin (never their code — each carries a separate brain); the **style-guide generator lays
+  tokens out as frames on the Figma canvas** (canvas documentation — a distinct capability the
+  `visualize.ts` HTML preview does *not* replace, so it's a B2 feature, not a retirement). Token
+  Press (different org) + the CLI templating system stay **downstream, contract-connected** via DTCG
+  output, never merged. *Rationale:* owner decisions — "grow prism3-tokens into a monorepo," "web
+  dashboard [first]," + the style-guide-generator correction. Resolves the packaging question `08`
+  raised but didn't settle. **Scaffold BUILT the same day:** root `package.json` (workspaces
+  `["web"]`, `type: module`) + a `web/` esbuild + vanilla-DOM adapter that imports the pure
+  engine modules and renders 15 manifest knobs + 22 preview chips + a 4-mode contrast overlay
+  from `resolvePreview`; boots all-green (verified headless). New `emit-brandinput.ts` →
+  `schema/example-brands.json` supplies the browser a validated boot brand (test-gated). Engine
+  stays buildless (218/218); only the adapter bundles. Full layout in `09 §3`.
 - **Dogfood the shared preview model in `visualize.ts` before building the hosts (2026-07-02).**
   Rather than take the leap straight from the B1a/B1b portable model to two new live hosts (DOM
   playground + Figma-node plugin) in a fresh repo, the static style-guide generator was made the

@@ -1,0 +1,167 @@
+{
+  "aurora": {
+    "id": "aurora",
+    "primary": {
+      "l": 0.5,
+      "c": 0.18,
+      "h": 285
+    },
+    "neutral": {
+      "hue": 285,
+      "chroma": 0.008
+    },
+    "brandColors": [
+      {
+        "name": "accent",
+        "oklch": {
+          "l": 0.55,
+          "c": 0.15,
+          "h": 235
+        }
+      }
+    ],
+    "actionPalette": "accent",
+    "surfaces": {
+      "light": {
+        "base": 50
+      }
+    },
+    "radiusScale": 2,
+    "density": "compact",
+    "iconContrast": "3:1",
+    "motionPersonality": {
+      "tempo": "snappy"
+    },
+    "typography": {
+      "families": {
+        "display": "Clash Display",
+        "text": "Inter",
+        "mono": "JetBrains Mono",
+        "variable": {
+          "display": true,
+          "text": true
+        }
+      },
+      "weightRoles": {
+        "subtle": 300,
+        "default": 400,
+        "emphasis": 500,
+        "strong": 700
+      },
+      "typeScale": "expressive",
+      "displayCeiling": 128,
+      "titleFloor": 16,
+      "familyMap": {
+        "label": "text"
+      },
+      "responsive": {
+        "fluid": true,
+        "minViewport": 360,
+        "maxViewport": 1440
+      }
+    },
+    "shadow": {
+      "softness": 1.3,
+      "tint": {
+        "hue": 285,
+        "amount": 0.5
+      }
+    },
+    "layout": {
+      "breakpoints": [
+        0,
+        480,
+        768,
+        1024,
+        1440,
+        1920
+      ],
+      "containerMax": 1280
+    },
+    "gradients": [
+      {
+        "name": "brand",
+        "kind": "linear",
+        "angle": 135,
+        "stops": [
+          {
+            "palette": "primary",
+            "step": 600,
+            "position": 0
+          },
+          {
+            "palette": "accent",
+            "step": 500,
+            "position": 1
+          }
+        ]
+      },
+      {
+        "name": "glow",
+        "kind": "radial",
+        "center": [
+          0.5,
+          0.4
+        ],
+        "shape": "circle",
+        "stops": [
+          {
+            "palette": "accent",
+            "step": 400,
+            "position": 0
+          },
+          {
+            "palette": "accent",
+            "step": 700,
+            "position": 1
+          }
+        ]
+      }
+    ]
+  },
+  "harbor": {
+    "id": "harbor",
+    "primary": {
+      "l": 0.46,
+      "c": 0.08,
+      "h": 195
+    },
+    "neutral": {
+      "hue": 65,
+      "chroma": 0.006
+    },
+    "surfaces": {
+      "light": {
+        "base": 50
+      }
+    },
+    "status": {
+      "success": {
+        "l": 0.52,
+        "c": 0.13,
+        "h": 150,
+        "chroma": 0.13
+      },
+      "warning": {
+        "l": 0.7,
+        "c": 0.15,
+        "h": 70,
+        "chroma": 0.15
+      },
+      "danger": {
+        "l": 0.52,
+        "c": 0.18,
+        "h": 27,
+        "chroma": 0.18
+      }
+    },
+    "density": "comfortable",
+    "radiusScale": 1,
+    "typography": {
+      "typeScale": "compact"
+    },
+    "motionPersonality": {
+      "tempo": "relaxed"
+    }
+  }
+}
