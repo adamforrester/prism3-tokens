@@ -8,7 +8,10 @@
  * composite text styles rendered live + the font primitives), shadow (on a
  * light panel), motion (durations + animated easing curves +
  * springs), layout (breakpoints / grid / containers), gradient (opt-in — OKLCH
- * web vs sRGB-sampled Figma side by side), and opacity + border-width. No
+ * web vs sRGB-sampled Figma side by side), and opacity + border-width. Each brand
+ * section also renders a **live component preview** from the shared preview spec
+ * (`preview.ts`) + `resolvePreview` (docs/08 §7, B1b) — the same model the Figma
+ * plugin and web playground render from — with a per-mode contrast overlay. No
  * dependencies, no network — open the file in any browser.
  * Also prints a plain-text taxonomy to stdout.
  *
@@ -17,9 +20,22 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
+import { brandTheme, Theme } from './theme';
+import { nbTheme } from './nb-fixture';
+import { readExampleBrand } from './emit-dtcg';
+import { resolvePreview } from './resolve-preview';
+import { previewSpec } from './preview';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const outDir = resolve(here, 'out');
+
+// Themes for the live component preview (B1b): the preview renders from the shared
+// preview spec + resolvePreview, dogfooding the same model the plugin/playground use.
+const themeFor: Record<string, Theme> = {
+  nb: nbTheme(),
+  aurora: brandTheme(readExampleBrand('../examples/aurora.design.md')),
+  harbor: brandTheme(readExampleBrand('../examples/harbor.design.md')),
+};
 
 type Node = any;
 
@@ -375,6 +391,48 @@ for (const b of brands) {
     html.push('</tbody></table></details>');
   }
 
+  // ---- component preview (live, from the shared preview spec + resolvePreview) ----
+  // Dogfoods B1a/B1b: the SAME model the plugin/playground render from. Chips are
+  // light mode; the overlay shows each declared contract's ratio + pass across all 4 modes.
+  const rp = resolvePreview(themeFor[id]);
+  const cAt = (p: string, mode = 'light'): string => rp.colors[p]?.[mode as keyof (typeof rp.colors)[string]] ?? '#000';
+  const dpx = (p: string): number => pxOf(tree, at(data, p));
+  const typeCss = (p: string): string => {
+    const node = at(data, p); if (!node?.$value) return '';
+    const v = node.$value; const ext = node.$extensions?.prism3 ?? {};
+    const fam = familyOf(tree, subNode(tree, v.fontFamily));
+    const w = numOf(tree, subNode(tree, v.fontWeight));
+    const sz = Math.min(ext.sizePx ?? remPxOf(tree, subNode(tree, v.fontSize)), 20);
+    return `font-family:${fam};font-weight:${w};font-size:${sz}px`;
+  };
+  const PVMODES = ['light', 'dark', 'hc-light', 'hc-dark'] as const;
+  const PVABBR: Record<string, string> = { light: 'L', dark: 'D', 'hc-light': 'HL', 'hc-dark': 'HD' };
+  txt.push('\n— COMPONENT PREVIEW (from the preview spec) —');
+  html.push('<h3>Component preview <span class="muted">rendered live from the preview spec + resolvePreview — chips: light mode · overlay: each contract’s ratio + pass across all 4 modes</span></h3>');
+  html.push('<div class="preview">');
+  for (const comp of previewSpec.components) {
+    html.push(`<div class="pvcomp"><div class="pvhead">${esc(comp.label)}</div>`);
+    for (const v of comp.variants) {
+      const b = v.bindings;
+      const bg = b.bg ? cAt(b.bg) : cAt('color.background.primary');
+      const fg = cAt(b.text || b.titleText || b.bodyText || 'color.text.primary');
+      const border = b.border ? `1px solid ${cAt(b.border)}` : '1px solid transparent';
+      const radius = b.radius ? dpx(b.radius) : 6;
+      const pad = b.pad ? `${dpx(b.pad)}px` : (b.padX && b.padY ? `${dpx(b.padY)}px ${dpx(b.padX)}px` : '8px 12px');
+      const font = b.type ? typeCss(b.type) : '';
+      const chipStyle = `background:${bg};color:${fg};border:${border};border-radius:${radius}px;padding:${pad};${font}`;
+      const cs = rp.contracts.filter((c) => c.component === comp.id && c.variant === v.name);
+      const rows = cs.map((c) => {
+        const dots = PVMODES.map((m) => { const r = c.byMode[m]; return r ? `<i class="${r.pass ? 'ok' : 'no'}" title="${m}: ${r.ratio}:1 (min ${c.min})">${PVABBR[m]}</i>` : ''; }).join('');
+        const lr = c.byMode.light;
+        return `<div class="ccrow"><span class="cclabel">${esc(c.label ?? '')}</span><span class="ccratio">${lr ? lr.ratio : '—'}≥${c.min}</span><span class="ccdots">${dots}</span></div>`;
+      }).join('');
+      html.push(`<div class="pvrow"><div class="pvchip" style="${chipStyle}">${esc(v.name)}</div><div class="pvcc">${rows}</div></div>`);
+    }
+    html.push('</div>');
+  }
+  html.push('</div>');
+
   html.push('</section>');
 }
 
@@ -408,6 +466,18 @@ const page = `<!doctype html><html lang="en"><head><meta charset="utf-8">
   .rbox{width:56px;height:56px;background:linear-gradient(135deg,#4f8cff,#9b6bff)}
   .rcell small{color:#6b7280}
   .sizes{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-end}
+  .preview{display:flex;flex-wrap:wrap;gap:18px}
+  .pvcomp{background:#151821;border:1px solid #2a2e37;border-radius:8px;padding:12px 14px;min-width:230px}
+  .pvhead{font-size:12px;font-weight:600;color:#cbd1db;margin-bottom:10px}
+  .pvrow{display:flex;align-items:center;gap:12px;margin:8px 0}
+  .pvchip{min-width:64px;text-align:center;font-size:12px;box-sizing:border-box}
+  .pvcc{display:flex;flex-direction:column;gap:3px;flex:1}
+  .ccrow{display:flex;align-items:center;gap:6px;font-size:10px;color:#9aa1ad}
+  .cclabel{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .ccratio{font-variant-numeric:tabular-nums;color:#cbd1db}
+  .ccdots{display:flex;gap:2px}
+  .ccdots i{font-style:normal;font-size:8px;font-weight:700;padding:1px 3px;border-radius:3px;line-height:1.2}
+  .ccdots i.ok{background:#12341f;color:#4ade80} .ccdots i.no{background:#3a1518;color:#f87171}
   .scell{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;color:#6b7280}
   .control{box-sizing:border-box;min-width:64px;background:#2a2e37;border:1px solid #3a3f4a;border-radius:6px;display:flex;align-items:center;justify-content:center}
   .ctext{background:#4f8cff33;border:1px solid #4f8cff;color:#cdd9ff;border-radius:3px;font-size:11px;font-weight:600;padding:1px 8px;height:100%;display:flex;align-items:center}
@@ -488,7 +558,7 @@ const page = `<!doctype html><html lang="en"><head><meta charset="utf-8">
   .taxdesc{color:#6b7280;max-width:48ch}
 </style></head><body>
 <h1>Prism3 — generated token taxonomy</h1>
-<p class="lead">Every value below is engine-generated from a small theme input and read back from the emitted DTCG files (<code>out/*.tokens.json</code>) — colour, semantic roles, dimension, typography, shadow, motion, layout, gradient (opt-in), opacity and border-width. ★ marks the exact brand anchor. Type styles, shadows and easing curves are rendered live from the resolved tokens. Each brand section ends with a <b>full taxonomy table</b> — every token with its complete path (filter by typing, click a path to copy). Regenerate with <code>npx tsx Prism3/engine/visualize.ts</code>.</p>
+<p class="lead">Every value below is engine-generated from a small theme input and read back from the emitted DTCG files (<code>out/*.tokens.json</code>) — colour, semantic roles, dimension, typography, shadow, motion, layout, gradient (opt-in), opacity and border-width. ★ marks the exact brand anchor. Type styles, shadows and easing curves are rendered live from the resolved tokens. Each brand section includes a <b>live component preview</b> — sample components rendered from the shared preview spec + <code>resolvePreview</code> (the same model the Figma plugin and web playground use), with a per-mode contrast overlay (L/D/HL/HD, green = passes its declared min). Each brand section ends with a <b>full taxonomy table</b> — every token with its complete path (filter by typing, click a path to copy). Regenerate with <code>npx tsx Prism3/engine/visualize.ts</code>.</p>
 ${html.join('\n')}
 <script>
   // taxonomy filter — scoped to each brand section; opens groups while filtering
