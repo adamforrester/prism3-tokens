@@ -23,7 +23,7 @@ import { leverManifest, leverGroups, buildLeverManifest, identityFields } from '
 import { previewSpec, previewTokenRefs, buildPreviewSpec } from './preview';
 import { resolvePreview } from './resolve-preview';
 import { exampleBrands, exampleBrandsJson, EXAMPLE_IDS } from './emit-brandinput';
-import { buildFigmaColor, buildFigmaFont, buildFigmaFontFluid, buildFigmaTextStyles, buildFigmaDims, fontStyleName, COLOR_MODES, FONT_FLUID_MODES } from './emit-figma';
+import { buildFigmaColor, buildFigmaFont, buildFigmaFontFluid, buildFigmaTextStyles, buildFigmaDims, buildFigmaShadow, buildFigmaGradient, fontStyleName, COLOR_MODES, FONT_FLUID_MODES } from './emit-figma';
 import { buildTree, validateBrandInput } from './emit-dtcg';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -851,8 +851,94 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   }
   ok(emptyDescs.length === 0, 'figma dims: every variable carries the DTCG $description (namespace-stripped names + rich prose in the Variables sidebar)' + (emptyDescs.length ? ` — ${emptyDescs.slice(0, 3).join(', ')}` : ''));
 }
+// (14) EMIT-FIGMA SHADOW + GRADIENT (docs/10 §7 item 3) — styles, not variables.
+// Figma Effect Styles + Paint Styles ride the Plugin API (docs/08 §5). Shadow
+// is mode-aware via two style sets (light + dark); gradient is opt-in per brand.
+// No fixtures for this axis either — gate structurally + verify the aurora
+// (opt-in) path emits non-empty gradient styles.
+{
+  const nb = nbTheme();
+  const { tree: nbTree } = buildTree(nb);
+  const nbRoot = Object.keys(nbTree)[0];
+  const nbShadowKeys = Object.keys(nbTree[nbRoot].shadow ?? {});
+  const shadows = buildFigmaShadow(nb);
 
-// (14) NAMESPACE (docs/00 "Namespace") — `root` is the single, customizable, mode-
+  // (a) One style per shadow step, TWO SETS (light + dark). NB ships 7 steps
+  // (xs..2xl + inset) × 2 modes = 14 styles.
+  ok(shadows.styles.length === nbShadowKeys.length * 2, `figma shadow: emits N×2 styles for N shadow steps (light + dark mode sets) — expected ${nbShadowKeys.length * 2}, got ${shadows.styles.length}`);
+
+  // (b) Names split cleanly by prefix.
+  const lightNames = shadows.styles.filter((s) => s.name.startsWith('shadow/')).map((s) => s.name);
+  const darkNames = shadows.styles.filter((s) => s.name.startsWith('shadow-dark/')).map((s) => s.name);
+  ok(lightNames.length === nbShadowKeys.length && darkNames.length === nbShadowKeys.length, `figma shadow: N light styles ('shadow/*') + N dark styles ('shadow-dark/*') — got ${lightNames.length}L / ${darkNames.length}D`);
+
+  // (c) Every effect layer has color + offset + radius + spread + type +
+  // blendMode. Colours have {r,g,b,a} in [0,1].
+  const badEffect: string[] = [], badColor: string[] = [];
+  for (const s of shadows.styles) for (const e of s.effects) {
+    if (!e.type || !e.offset || typeof e.radius !== 'number' || typeof e.spread !== 'number' || !e.color || e.blendMode !== 'NORMAL') badEffect.push(`${s.name}: missing fields`);
+    for (const ch of ['r', 'g', 'b', 'a'] as const) {
+      const v = (e.color as any)[ch];
+      if (typeof v !== 'number' || v < 0 || v > 1) badColor.push(`${s.name}: color.${ch}=${v}`);
+    }
+  }
+  ok(badEffect.length === 0, 'figma shadow: every effect has type/offset/radius/spread/color/blendMode' + (badEffect.length ? ` — ${badEffect.slice(0, 3).join('; ')}` : ''));
+  ok(badColor.length === 0, 'figma shadow: every colour channel is in [0,1] (Figma float32)' + (badColor.length ? ` — ${badColor.slice(0, 3).join('; ')}` : ''));
+
+  // (d) The `inset` shadow uses INNER_SHADOW; the rest DROP_SHADOW.
+  const insetStyle = shadows.styles.find((s) => s.name === 'shadow/inset');
+  const dropStyle = shadows.styles.find((s) => s.name === 'shadow/xs' || s.name === 'shadow/sm');
+  ok(!!insetStyle && insetStyle.effects.every((e) => e.type === 'INNER_SHADOW'), `figma shadow: 'shadow/inset' uses INNER_SHADOW`);
+  ok(!!dropStyle && dropStyle.effects.every((e) => e.type === 'DROP_SHADOW'), `figma shadow: elevation steps use DROP_SHADOW`);
+
+  // (e) Dark alphas are LOWER than light (reduced — the surface-lift pattern).
+  // Cross-check the same step in shadow/xs vs shadow-dark/xs.
+  const lightXs = shadows.styles.find((s) => s.name === 'shadow/xs');
+  const darkXs = shadows.styles.find((s) => s.name === 'shadow-dark/xs');
+  const lightAlpha = lightXs?.effects[0].color.a ?? 0;
+  const darkAlpha = darkXs?.effects[0].color.a ?? 0;
+  ok(darkAlpha > 0 && darkAlpha < lightAlpha, `figma shadow: dark shadow is REDUCED vs light (surface-lift; dark ${darkAlpha.toFixed(3)} < light ${lightAlpha.toFixed(3)})`);
+
+  // (f) Descriptions carry the DTCG prose + mode annotation.
+  const badDesc = shadows.styles.filter((s) => !s.description || (!s.description.includes('light mode') && !s.description.includes('dark mode')));
+  ok(badDesc.length === 0, 'figma shadow: every style description names its mode (light/dark)' + (badDesc.length ? ` — ${badDesc.slice(0, 3).map((s) => s.name).join(', ')}` : ''));
+
+  // (g) GRADIENT — NB opts out → 0 styles emitted (empty file, consistent shape).
+  const nbGradient = buildFigmaGradient(nb);
+  ok(nbGradient.styles.length === 0, 'figma gradient: NB has no gradients — emits empty styles[] (consistent shape across brands)');
+  ok(nbGradient.$collection === 'gradient-styles', `figma gradient: collection name 'gradient-styles' even when empty`);
+
+  // (h) Aurora opts in → 2 gradients (brand + glow). Every stop's alias
+  // resolves to a real palette leaf via the tree.
+  const aurora = brandTheme(exampleBrands()['aurora'] as BrandInput);
+  const { tree: auroraTree } = buildTree(aurora);
+  const auroraGradient = buildFigmaGradient(aurora);
+  ok(auroraGradient.styles.length > 0, `figma gradient (aurora): opt-in brand emits gradients — got ${auroraGradient.styles.length}`);
+
+  const paintBad: string[] = [];
+  for (const s of auroraGradient.styles) {
+    if (!['GRADIENT_LINEAR', 'GRADIENT_RADIAL'].includes(s.paintType)) paintBad.push(`${s.name}: paintType=${s.paintType}`);
+    if (!s.stops || s.stops.length < 2) paintBad.push(`${s.name}: <2 stops`);
+    if (!s.sampledStops || s.sampledStops.length < 3) paintBad.push(`${s.name}: sampledStops<3`);
+  }
+  ok(paintBad.length === 0, 'figma gradient (aurora): every style has paintType + stops≥2 + sampledStops≥3 (OKLCH pre-sample)' + (paintBad.length ? ` — ${paintBad.slice(0, 3).join('; ')}` : ''));
+
+  const aliasBad: string[] = [];
+  for (const s of auroraGradient.styles) for (const stop of s.stops) {
+    if (!stop.alias) { aliasBad.push(`${s.name}: stop@${stop.position} has no alias`); continue; }
+    // Resolve `palette/primary/600` → the DTCG path `<root>.palette.primary.600` → leaf must exist.
+    const path = `${Object.keys(auroraTree)[0]}.${stop.alias.replace(/\//g, '.')}`;
+    const leaf = path.split('.').reduce((n: any, seg) => n?.[seg], auroraTree);
+    if (!leaf || leaf.$type !== 'color') aliasBad.push(`${s.name}: alias ${stop.alias} does not resolve`);
+  }
+  ok(aliasBad.length === 0, 'figma gradient (aurora): every stop alias resolves to a real palette colour leaf' + (aliasBad.length ? ` — ${aliasBad.slice(0, 3).join('; ')}` : ''));
+
+  // (i) a11y worst-case ratios ride alongside so plugins can flag text-on-gradient risks.
+  const noA11y = auroraGradient.styles.filter((s) => !s.a11y || typeof s.a11y.worstOnWhite !== 'number');
+  ok(noA11y.length === 0, `figma gradient (aurora): every style carries a11y.worstOnWhite / worstOnBlack — the text-on-gradient contract`);
+}
+
+// (15) NAMESPACE (docs/00 "Namespace") — `root` is the single, customizable, mode-
 // invariant token namespace. Default is the 'prism' placeholder; a custom root re-homes
 // EVERY token under `<root>.*` with no 'prism' leaking into any alias (the gradient-stop
 // hardcode class of bug). One segment only — a dotted/spaced root is rejected.

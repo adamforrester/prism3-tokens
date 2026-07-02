@@ -12,17 +12,31 @@
 Since the token layer completed, work has been the **designer↔developer↔agent E2E pipeline**
 (`07`/`08`/`09`/`10`). Shipped to `main`, newest first (see the decisions log for the why):
 
+- **`emit-figma` — shadow + gradient** (`engine/emit-figma.ts` + `test.ts` block 14): styles,
+  not variables (docs/08 §5 variable-type ceiling). **Shadow emits TWO style sets per step**
+  (`shadow/xs..2xl + shadow/inset` for light-mode canonical; `shadow-dark/xs..2xl +
+  shadow-dark/inset` for the reduced-alpha dark surface-lift pattern) — Figma Effect Styles
+  don't support modes natively, so a plugin/component swaps the pair at mode transition.
+  Every effect layer parsed to Figma primitives: DROP_SHADOW / INNER_SHADOW, {r,g,b,a} float32,
+  offset/radius/spread, blendMode NORMAL. NB → 14 Effect Styles. **Gradient is opt-in**: NB has
+  none (empty styles[], consistent shape), aurora emits 2 Paint Styles (brand + glow), each
+  with 2 canonical alias-driven stops + 5 `sampledStops` (sRGB pre-sample of the OKLCH curve,
+  since Figma interpolates in sRGB only) + a11y worst-on-white/black ratios (text-on-gradient
+  contract). **Materialised to Figma via MCP** — 14 Effect Styles rendered on a two-row
+  (light/dark) shadow specimen; 2 Paint Styles rendered as violet-azure linear + violet-glow
+  radial swatches (aurora palette not yet imported, so demo uses sampledStops hex values —
+  alias-driven form lands with the generalise pass). 14 new gates → `test.ts` **295/295**.
 - **`emit-figma` — dims axis** (`engine/emit-figma.ts` + `test.ts` block 13): seven FLOAT
   variable collections (`dimension` primitives + `space`/`radius`/`size`/`border-width`/
   `focus`/`opacity` semantics — 94 vars total, 45 aliases). No fixtures (§2 covers only
   colour + typography), so gated structurally: variable counts match the DTCG tree, every
   alias resolves within the emitted collections, scopes narrow per family (space→GAP,
-  radius→CORNER_RADIUS, etc.), opacity dimensionless in [0,1], focus's `strokeStyle` leaf
-  skipped (no Figma variable primitive). **Materialised to Figma via MCP** — all 7
-  collections created, 45/45 aliases bound (incl. 3-level chains size→space→dimension);
+  radius→CORNER_RADIUS, etc.), opacity as PERCENT 0–100 (Figma OPACITY scope), focus's
+  `strokeStyle` leaf skipped (no Figma variable primitive). **Materialised to Figma via MCP**
+  — all 7 collections created, 45/45 aliases bound (incl. 3-level chains size→space→dimension);
   dims specimen renders geometry bindings on cornerRadius/width/height/padding*/opacity/
-  strokeWeight; container fills bound to `color/background|foreground/*`. 14 new gates →
-  `test.ts` **279/279**.
+  strokeWeight; container fills bound to `color/background|foreground/*`. 16 new gates →
+  `test.ts` **281/281**.
 - **`emit-figma` — typography axis** (`engine/emit-figma.ts` + `test.ts` block 12): the
   `font` (38 vars) + `font-fluid.{desktop,mobile}` (10 vars/mode) variable collections
   byte-reproduce the NB fixtures, and 36 text styles apply the six §4 fixes (no `text/`
@@ -47,7 +61,7 @@ Since the token layer completed, work has been the **designer↔developer↔agen
   contracts the surfaces render from.
 - **`design.md` interchange + CLI** (dual-dialect) + the colour-role classifier + fidelity report.
 
-Engine gates as of 2026-07-02: `test.ts` **289/289** (240 colour + 25 typography + 8 namespace + 16 dims);
+Engine gates as of 2026-07-02: `test.ts` **303/303** (240 colour + 25 typography + 8 namespace + 16 dims + 14 shadow/gradient);
 `emit-dtcg` 248/248 contracts per brand; `nb-regression` ΔE00 1.95. The snapshot below is the
 2026-07-01 token-layer baseline.
 
@@ -208,7 +222,7 @@ npx tsx Prism3/engine/cli.ts Prism3/examples/wendys.design.md --fidelity      # 
   namespace, one segment only — every token emits under `<root>.*` (primitives `<root>.palette`,
   semantics `<root>.color`). Threaded through the one place that had leaked past `theme.root`
   (gradient stop aliases were hardcoded `prism` — fixed) and gated: a custom root re-homes **every**
-  alias to `{<root>.…}` with zero `prism` leakage (test.ts block 14), a dotted/spaced root throws at
+  alias to `{<root>.…}` with zero `prism` leakage (test.ts block 15), a dotted/spaced root throws at
   the engine boundary *and* fails schema (added `pattern` support to the hand-rolled validator so the
   schema's `^[a-z][a-z0-9-]*$` is enforced, not decorative). `root` joins `id` in `identityFields`
   (host-supplied identity, not a lever-form knob). Default output is **byte-identical** (out/* did not
