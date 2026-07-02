@@ -25,6 +25,7 @@ import { nbTheme } from './nb-fixture';
 import { readExampleBrand } from './emit-dtcg';
 import { resolvePreview } from './resolve-preview';
 import { previewSpec } from './preview';
+import { at, deref, pxOf, subNode, numOf, remPxOf, familyOf } from './tree';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const outDir = resolve(here, 'out');
@@ -39,32 +40,11 @@ const themeFor: Record<string, Theme> = {
 
 type Node = any;
 
-/** Resolve a dotted token path to its node. */
-const at = (tree: Node, path: string): Node => path.split('.').reduce((n, s) => n?.[s], tree);
-
-/** Follow `{alias}` chains to the concrete token. */
-const deref = (tree: Node, node: Node): Node => {
-  let cur = node, guard = 0;
-  while (cur && typeof cur.$value === 'string' && /^\{.+\}$/.test(cur.$value) && guard++ < 10) {
-    cur = at(tree, cur.$value.slice(1, -1));
-  }
-  return cur;
-};
-
 const hexOf = (tree: Node, node: Node): string => {
   const t = deref(tree, node);
   return t?.$extensions?.prism3?.hex ?? (typeof t?.$value === 'string' && t.$value.startsWith('#') ? t.$value : '#000');
 };
-const pxOf = (tree: Node, node: Node): number => {
-  const t = deref(tree, node);
-  return parseInt(String(t?.$value).replace('px', ''), 10) || 0;
-};
 const aliasTarget = (node: Node): string => (typeof node.$value === 'string' && /^\{.+\}$/.test(node.$value) ? node.$value.slice(1, -1) : '');
-// Resolve a composite sub-value (an `{alias}` string) to its primitive node.
-const subNode = (tree: Node, aliasStr: any): Node => at(tree, String(aliasStr).replace(/^\{|\}$/g, ''));
-const numOf = (tree: Node, node: Node): number => { const t = deref(tree, node); return typeof t?.$value === 'number' ? t.$value : parseFloat(String(t?.$value)) || 0; };
-const remPxOf = (tree: Node, node: Node): number => { const t = deref(tree, node); const px = t?.$extensions?.prism3?.px; if (px) return px; const v = String(t?.$value); return v.endsWith('rem') ? parseFloat(v) * 16 : parseFloat(v) || 0; };
-const familyOf = (tree: Node, node: Node): string => { const t = deref(tree, node); return Array.isArray(t?.$value) ? t.$value.join(', ') : String(t?.$value ?? 'sans-serif'); };
 
 type Brand = { id: string; root: string; tree: Node; data: Node };
 const load = (id: string, root: string): Brand => {

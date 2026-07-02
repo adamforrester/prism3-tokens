@@ -154,10 +154,11 @@ honoured from the start rather than retrofitted:
    Fastest loop, no sandbox constraints; the cleanest proof the shared contracts drive a
    real UI before the harder Figma host. *(Ordering + packaging locked in `09` — the web
    host precedes the plugin; both live as packages in this repo's monorepo.)*
-   - **✅ Scaffold + live colour axis (PR #23/#24)** — `@prism3/web` renders knobs from the
-     manifest + preview + overlay from `resolvePreview`; the **colour-axis knobs are live**
-     (primary picker + neutral hue/chroma + actionPalette → mutate `BrandInput` → re-resolve →
-     repaint). Form/type/motion knobs await geometry/type-from-tree (the next web increment).
+   - **✅ Scaffold + live colour/radius/type (PR #23/#24/#25/B)** — `@prism3/web` renders knobs
+     from the manifest + preview + overlay from `resolvePreview`; **colour + `radiusScale` +
+     `typeScale` knobs are live** (mutate `BrandInput` → re-resolve → repaint). `resolvePreview`
+     now also returns `dims` + `type` (from the pure `tree.ts` `buildTree`), so chips render real
+     radius/padding/type. Density/motion/shadow stay read-only until the chips render those axes.
 4. **New Figma plugin shell** — the same renderer wearing a Figma face: bundles the core,
    renders knobs from the manifest, materialises via `$extensions.prism3.figma` (§2/§5).
    Absorbs the three separate Figma plugins' *function* (`09 §4`).

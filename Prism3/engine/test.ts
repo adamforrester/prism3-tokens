@@ -535,6 +535,14 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   const failures = rp.contracts.flatMap((c) =>
     rp.modes.filter((m) => c.byMode[m] && !c.byMode[m].pass).map((m) => `${c.component}/${c.variant} ${c.fg.replace('color.', '')}-on-${c.bg.replace('color.', '')} ${m}: ${c.byMode[m].ratio}<${c.min}`));
   ok(failures.length === 0, 'resolved preview: every declared contract holds on the resolved colours (all 4 modes)' + (failures.length ? ` — FAIL: ${failures.join('; ')}` : ''));
+
+  // Geometry/type read-model (docs/09 PR B): every dimension binding resolves to a
+  // positive px, every type binding to a real family + positive size — so the hosts
+  // render real radius/padding/type, not fallbacks.
+  const badDim = Object.entries(rp.dims).filter(([, px]) => !(px > 0)).map(([k, px]) => `${k}=${px}`);
+  ok(Object.keys(rp.dims).length > 0 && badDim.length === 0, 'resolved preview: every dimension binding → positive px' + (badDim.length ? ` — BAD: ${badDim.join(', ')}` : ''));
+  const badType = Object.entries(rp.type).filter(([, t]) => !t.fontFamily || !(t.fontSizePx > 0)).map(([k]) => k);
+  ok(Object.keys(rp.type).length > 0 && badType.length === 0, 'resolved preview: every type binding → family + positive size' + (badType.length ? ` — BAD: ${badType.join(', ')}` : ''));
 }
 // (10) EXAMPLE-BRANDS ARTIFACT (docs/09) — the browser hosts boot from
 // schema/example-brands.json (the design.md parser is node-only). Gate that the
