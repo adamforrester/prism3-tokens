@@ -160,6 +160,24 @@ Figma-target rendering (role→scopes, name transform, per-mode alias) lives in 
   swatches with `cornerRadius`, `width`, `height`, `padding*`, `opacity`, `strokeWeight`
   bound to their respective FLOAT vars. Container fills bound to `color/background|foreground/*`
   (spike lesson).
+- **Shadow + gradient — ✅ BUILT (2026-07-02).** `engine/emit-figma.ts` → `out/figma/nb/`
+  `shadow-styles.json` (14 Effect Style specs) + `gradient-styles.json` (0 for NB — opt-in).
+  Shadow emits TWO style sets per step (`shadow/xs..2xl + shadow/inset` for light-mode
+  canonical; `shadow-dark/xs..2xl + shadow-dark/inset` for the reduced-alpha dark surface-lift
+  pattern) because Figma Effect Styles don't support modes — a plugin/component swaps the
+  pair at mode transition. Every effect layer parsed to Figma primitives: `type` (INNER_SHADOW
+  for `inset`, DROP_SHADOW for the ramp), `{r,g,b,a}` float32 colour, `offset {x,y}`, `radius`,
+  `spread`, `visible: true`, `blendMode: 'NORMAL'`. Gradient is opt-in: NB has none (empty
+  styles[], consistent shape); aurora emits 2 Paint Styles (brand + glow) each with 2 canonical
+  stops + 5 `sampledStops` (sRGB pre-sample of the OKLCH curve — Figma interpolates in sRGB
+  only, so plugins can lay down denser stops for OKLCH-authored gradients) + a11y worst-on-
+  white/worst-on-black ratios per style (the text-on-gradient contract). `test.ts` block 14:
+  **14 new gates → 295/295 total**. Materialised via MCP: 14 Effect Styles on a two-row
+  (light-surface / dark-surface) shadow specimen, showing the elevation ramp and the reduced
+  dark alphas; 2 Paint Styles on a gradient specimen with `gradientTransform` matrices for
+  linear-135° and radial-ellipse, colours applied via native Paint Styles (aurora palette
+  not yet imported into this file, so demo swatches use `sampledStops` hex values directly —
+  the alias-driven form landed once aurora is materialised in the generalise pass).
 
 Optional cleanup surfaced: correct the now-stale `px-from-ratio`/`px-from-em` line-height/
 letter-spacing directive *notes* in `tree.ts` (the contract an ad-hoc reader follows) when the
@@ -210,9 +228,17 @@ fixture shape; **omit ids** (Figma assigns them; alias **by name**).
    radius + size + border-width + focus + opacity — 94 vars, 45 aliases). No fixtures for this axis,
    so gated structurally (14 new gates). Materialised via MCP; specimen frame renders geometry
    bindings. Focus's `strokeStyle: 'solid'` leaf skipped (no Figma variable primitive).
-3. **★ NEXT — Shadow → Effect Style specs; gradient → Paint Style specs** (styles, not variables; §5/`08 §5`).
-4. **Generalise** — emit aurora + wendys too (prove brand-agnostic). No fixtures for those, so gate
-   on structural validity (aliases resolve, scopes present) + **materialise-to-verify** in Figma.
+3. **Shadow → Effect Style + gradient → Paint Style — ✅ DONE (2026-07-02).** Styles, not variables
+   (§08 §5 variable-type ceiling). Shadow emits **two style sets** per step because Figma
+   Effect Styles don't support modes: `shadow/xs..2xl + shadow/inset` (light) + `shadow-dark/*`
+   (dark, reduced-alpha surface-lift). NB → 14 Effect Styles. Gradient is opt-in per brand:
+   NB emits empty (consistent shape), aurora emits 2 Paint Styles (brand + glow) with 2
+   canonical stops + 5 `sampledStops` (sRGB pre-sample of the OKLCH curve; Figma interpolates
+   in sRGB only) + a11y worst-on-white/black ratios per style. 14 new gates → 295/295.
+   Materialised via MCP: 14 Effect Styles on a two-row (light/dark) specimen; 2 Paint Styles
+   as violet-azure + violet-glow swatches.
+4. **★ NEXT — Generalise** — emit aurora + wendys too (prove brand-agnostic). No fixtures for those,
+   so gate on structural validity (aliases resolve, scopes present) + **materialise-to-verify** in Figma.
 
 **Follow-up parked from typography (2026-07-02):** §4 fix 3b full form — ship a
 `font-tracking` FLOAT variable collection (6 tokens: tighter/tight/snug/normal/wide/wider,

@@ -17,11 +17,21 @@
  *   • DIMS — the whole geometric layer emitted as SEVEN FLOAT collections:
  *     `dimension` (fine-grid primitives), `space`/`radius`/`size`/`border-width`/
  *     `focus` (all aliased into `dimension` — the primitives are shared) + `opacity`
- *     (dimensionless 0–1). No fixtures for this axis (§2 covers colour + typography
- *     only), so the gate is structural: counts match the DTCG tree, every alias
- *     target resolves within the emitted collections, scopes/resolvedType are
- *     consistent per family. `focus.ring.style` (`strokeStyle: 'solid'`) is skipped
- *     — Figma has no `strokeStyle` variable primitive; it stays a code-side literal.
+ *     (0–100 percent for Figma OPACITY scope, converted from the DTCG 0–1). No
+ *     fixtures for this axis (§2 covers colour + typography only), so the gate is
+ *     structural: counts match the DTCG tree, every alias target resolves within
+ *     the emitted collections, scopes/resolvedType consistent per family.
+ *     `focus.ring.style` (`strokeStyle: 'solid'`) is skipped — Figma has no
+ *     `strokeStyle` variable primitive; it stays a code-side literal.
+ *   • SHADOW + GRADIENT — Effect Styles + Paint Styles (not variables — docs/08
+ *     §5 variable-type ceiling). Shadow emits TWO style sets per step (light in
+ *     `shadow/*`, dark in `shadow-dark/*`) because Figma Effect Styles don't
+ *     support modes — a plugin/component swaps the pair by mode. Gradient emits
+ *     Paint Styles for brands that opt in (empty for NB, populated for Aurora).
+ *     Only stop COLOURS bind to palette variables; kind/angle/positions bake
+ *     into the style. `sampledStops` (5-point sRGB pre-sample of the OKLCH
+ *     curve) rides alongside so plugins can approximate OKLCH interpolation
+ *     with denser sRGB stops (Figma interpolates in sRGB only).
  *
  * The engine's DTCG carries the *semantic* facts (aliases, per-mode targets, fluid
  * `responsive.figma.modes`, weight-role → numeric); the *Figma-target rendering*
@@ -583,6 +593,153 @@ export const buildFigmaDims = (theme: Theme): FigmaDimsCollections => {
   };
 };
 
+// ---------------------------------------------------------------------------
+// SHADOW — Effect Style specs (docs/10 §7 item 3; docs/08 §5 variable-type
+// ceiling). Shadows are STYLES in Figma, not variables — the Effect Style has a
+// per-layer array of drop-shadow effects (color/offsetX/offsetY/blur/spread).
+// Effect Styles don't currently support Figma modes, so mode-awareness is
+// expressed by emitting TWO style sets:
+//   shadow/<step>       — LIGHT-mode shadow (canonical $value)
+//   shadow-dark/<step>  — DARK-mode shadow (from $extensions.prism3.modes.dark;
+//                          reduced-per-layer alpha — the surface-lift dark model)
+// A component's plugin/code swap picks the pair by mode. Colour channels parsed
+// to Figma {r,g,b,a} float32; numerics carry the DTCG px.
+// ---------------------------------------------------------------------------
+
+export type FigmaEffect = { type: 'DROP_SHADOW' | 'INNER_SHADOW'; color: FigmaColor; offset: { x: number; y: number }; radius: number; spread: number; visible: boolean; blendMode: 'NORMAL' };
+export type FigmaEffectStyle = { name: string; description: string; effects: FigmaEffect[] };
+export type FigmaEffectStylesFile = { $collection: 'shadow-styles'; styles: FigmaEffectStyle[] };
+
+const pxToNum = (v: unknown): number => parseFloat(String(v).replace('px', '')) || 0;
+
+/** DTCG shadow layer → Figma effect. `inset` shadow becomes INNER_SHADOW; the
+ *  rest are DROP_SHADOW. `blur` in DTCG maps to `radius` on the Figma effect. */
+const shadowLayerToEffect = (layer: any, inset: boolean): FigmaEffect => ({
+  type: inset ? 'INNER_SHADOW' : 'DROP_SHADOW',
+  color: parseColor(layer.color),
+  offset: { x: pxToNum(layer.offsetX), y: pxToNum(layer.offsetY) },
+  radius: pxToNum(layer.blur),
+  spread: pxToNum(layer.spread),
+  visible: true,
+  blendMode: 'NORMAL',
+});
+
+export const buildFigmaShadow = (theme: Theme): FigmaEffectStylesFile => {
+  const { tree } = buildTree(theme);
+  const root = Object.keys(tree)[0];
+  const shadowNode = tree[root].shadow ?? {};
+  const styles: FigmaEffectStyle[] = [];
+
+  // Emit ordered: shadow/<step> first (light), then shadow-dark/<step> (dark).
+  // Iterating twice on the same key order keeps materialise-side pairing simple.
+  const keys = Object.keys(shadowNode);
+  for (const key of keys) {
+    const leaf = shadowNode[key];
+    const inset = key === 'inset';
+    const lightLayers = (leaf.$value as any[]).map((l: any) => shadowLayerToEffect(l, inset));
+    styles.push({
+      name: `shadow/${key}`,
+      description: String(leaf.$description ?? '') + ' — light mode',
+      effects: lightLayers,
+    });
+  }
+  for (const key of keys) {
+    const leaf = shadowNode[key];
+    const inset = key === 'inset';
+    const darkLayerData = leaf.$extensions?.prism3?.modes?.dark;
+    if (!darkLayerData) continue;
+    const darkLayers = (darkLayerData as any[]).map((l: any) => shadowLayerToEffect(l, inset));
+    styles.push({
+      name: `shadow-dark/${key}`,
+      description: String(leaf.$description ?? '') + ' — dark mode (reduced; surface-lift pattern)',
+      effects: darkLayers,
+    });
+  }
+
+  return { $collection: 'shadow-styles', styles };
+};
+
+// ---------------------------------------------------------------------------
+// GRADIENT — Paint Style specs (docs/10 §7 item 3; docs/08 §5).
+// Gradient fills are STYLES in Figma (Paint Styles), not variables. Only stop
+// COLOURS bind to colour variables (Plugin API Update 92); kind, angle/transform,
+// and stop positions are baked into the style. Figma interpolates in sRGB only,
+// so we ship BOTH the canonical alias-driven stops AND the DTCG `sampledStops`
+// (5-point sRGB pre-sample of the OKLCH curve) so plugins can lay down denser
+// stops when the DTCG interpolation is oklch. Empty for brands with no
+// gradients (opt-in axis).
+// ---------------------------------------------------------------------------
+
+export type FigmaPaintStop = { position: number; color: FigmaColor; alias: string | null };
+export type FigmaPaintStyle = {
+  name: string;
+  description: string;
+  paintType: 'GRADIENT_LINEAR' | 'GRADIENT_RADIAL';
+  angle?: number;
+  center?: [number, number];
+  shape?: string;
+  interpolation: 'oklch' | 'srgb';
+  stops: FigmaPaintStop[];
+  sampledStops: FigmaPaintStop[];
+  a11y: { worstOnWhite: number; worstOnBlack: number; note: string };
+};
+export type FigmaPaintStylesFile = { $collection: 'gradient-styles'; styles: FigmaPaintStyle[] };
+
+/** Resolve `{prism.palette.primary.600}` → Figma name `palette/primary/600` and
+ *  the leaf's resolved {r,g,b,a}. */
+const stopFromAlias = (tree: any, aliasStr: string, position: number): FigmaPaintStop => {
+  const m = /^\{(.+)\}$/.exec(aliasStr);
+  const path = m ? m[1] : '';
+  const leaf = path ? at(tree, path) : null;
+  return {
+    position,
+    color: parseColor(leaf?.$value),
+    alias: path ? figName(path) : null,
+  };
+};
+const stopFromHex = (hex: string, position: number): FigmaPaintStop => ({
+  position,
+  color: parseColor(hex),
+  alias: null,
+});
+
+export const buildFigmaGradient = (theme: Theme): FigmaPaintStylesFile => {
+  const { tree } = buildTree(theme);
+  const root = Object.keys(tree)[0];
+  const gradientNode = tree[root].gradient;
+  const styles: FigmaPaintStyle[] = [];
+
+  if (!gradientNode) return { $collection: 'gradient-styles', styles };
+
+  for (const key of Object.keys(gradientNode)) {
+    const leaf = gradientNode[key];
+    const ext = leaf.$extensions?.prism3 ?? {};
+    const kind = ext.kind as 'linear' | 'radial';
+    const paintType: 'GRADIENT_LINEAR' | 'GRADIENT_RADIAL' = kind === 'radial' ? 'GRADIENT_RADIAL' : 'GRADIENT_LINEAR';
+    const stops: FigmaPaintStop[] = (leaf.$value as any[]).map((s: any) => stopFromAlias(tree, s.color, s.position));
+    const sampledStops: FigmaPaintStop[] = ((ext.figma?.sampledStops as any[]) ?? []).map((s: any) => stopFromHex(s.hex, s.position));
+
+    const style: FigmaPaintStyle = {
+      name: `gradient/${key}`,
+      description: String(leaf.$description ?? ''),
+      paintType,
+      interpolation: ext.interpolation ?? 'srgb',
+      stops,
+      sampledStops,
+      a11y: {
+        worstOnWhite: ext.a11y?.worstOnWhite ?? 0,
+        worstOnBlack: ext.a11y?.worstOnBlack ?? 0,
+        note: String(ext.a11y?.note ?? ''),
+      },
+    };
+    if (kind === 'linear') style.angle = ext.angle ?? 0;
+    else { style.center = ext.center ?? [0.5, 0.5]; style.shape = ext.shape ?? 'ellipse'; }
+    styles.push(style);
+  }
+
+  return { $collection: 'gradient-styles', styles };
+};
+
 // ---------------------------------------------------------------------- I/O
 const here = dirname(fileURLToPath(import.meta.url));
 const isMain = process.argv[1] ? resolve(process.argv[1]) === fileURLToPath(import.meta.url) : false;
@@ -605,6 +762,10 @@ if (isMain) {
       writeFileSync(resolve(dir, `${coll.$collection}.json`), JSON.stringify(coll, null, 2) + '\n');
     }
     const dimsCount = (Object.values(dims) as FigmaCollectionFile[]).reduce((n, c) => n + c.variables.length, 0);
-    console.log(`[figma] ${id}: palette ${palette.variables.length} + color ${color.length}×${color[0].variables.length} + font ${font.variables.length} + font-fluid ${fluid.length}×${fluid[0].variables.length} + text-styles ${textStyles.styles.length} + dims ${dimsCount} (${Object.keys(dims).length} colls)`);
+    const shadows = buildFigmaShadow(theme);
+    writeFileSync(resolve(dir, 'shadow-styles.json'), JSON.stringify(shadows, null, 2) + '\n');
+    const gradients = buildFigmaGradient(theme);
+    writeFileSync(resolve(dir, 'gradient-styles.json'), JSON.stringify(gradients, null, 2) + '\n');
+    console.log(`[figma] ${id}: palette ${palette.variables.length} + color ${color.length}×${color[0].variables.length} + font ${font.variables.length} + font-fluid ${fluid.length}×${fluid[0].variables.length} + text-styles ${textStyles.styles.length} + dims ${dimsCount} (${Object.keys(dims).length} colls) + shadow ${shadows.styles.length} + gradient ${gradients.styles.length}`);
   }
 }
