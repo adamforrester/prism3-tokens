@@ -25,7 +25,7 @@
  * HIGH CONTRAST the neutral surface ladders flatten to the base — HC separates
  * regions by BORDER (the ≥4.5:1 border target), not by near-invisible tints.
  */
-import { RGB, contrast } from './color';
+import { RGB, contrast, hex } from './color';
 import { Step } from './ramp';
 import { Theme, SurfaceSpec, SurfacesConfig, Role } from './theme';
 
@@ -81,7 +81,7 @@ export type ModeCfg = {
   borderTarget: number; nonTextMin: number;
 };
 
-export type ResolvedRole = { path: string; description: string; ratio: number; against: string; min: number };
+export type ResolvedRole = { path: string; description: string; ratio: number; against: string; min: number; hex: string };
 export type ModeResult = { mode: ModeName; surface: RGB; roles: Record<string, ResolvedRole> };
 
 const cand = (path: string, rgb: RGB): Cand => ({ path, rgb });
@@ -163,9 +163,9 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
   const roles: Record<string, ResolvedRole> = {};
   const rated = (c: Cand, surf: RGB): Rated => ({ ...c, ratio: contrast(c.rgb, surf) });
   const put = (key: string, r: Rated, description: string, against: string, min: number) =>
-    { roles[key] = { path: r.path, description, ratio: Math.round(r.ratio * 100) / 100, against, min }; };
+    { roles[key] = { path: r.path, description, ratio: Math.round(r.ratio * 100) / 100, against, min, hex: hex(r.rgb) }; };
   const putSurf = (key: string, c: Cand, description: string) =>
-    { roles[key] = { path: c.path, description, ratio: 1, against: 'self', min: 0 }; };
+    { roles[key] = { path: c.path, description, ratio: 1, against: 'self', min: 0, hex: hex(c.rgb) }; };
 
   const pStep = (palette: string, num: number): Cand => {
     const steps = ramps.get(palette)!;
