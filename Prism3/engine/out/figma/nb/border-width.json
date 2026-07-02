@@ -1,0 +1,58 @@
+{
+  "$collection": "border-width",
+  "$mode": "Default",
+  "variables": [
+    {
+      "name": "border-width/none",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 0,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/0"
+      }
+    },
+    {
+      "name": "border-width/hairline",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 1,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/1"
+      }
+    },
+    {
+      "name": "border-width/thick",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 2,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/2"
+      }
+    },
+    {
+      "name": "border-width/heavy",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 4,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/4"
+      }
+    }
+  ]
+}

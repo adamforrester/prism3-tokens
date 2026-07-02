@@ -1,0 +1,45 @@
+{
+  "$collection": "focus",
+  "$mode": "Default",
+  "variables": [
+    {
+      "name": "focus/ring/width",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 2,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/2"
+      }
+    },
+    {
+      "name": "focus/ring/offset",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 2,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/2"
+      }
+    },
+    {
+      "name": "focus/ring/offset-field",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 0,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/0"
+      }
+    }
+  ]
+}

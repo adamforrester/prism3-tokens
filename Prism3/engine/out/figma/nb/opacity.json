@@ -1,0 +1,126 @@
+{
+  "$collection": "opacity",
+  "$mode": "Default",
+  "variables": [
+    {
+      "name": "opacity/0",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "OPACITY"
+      ],
+      "description": "",
+      "value": 0,
+      "alias": null
+    },
+    {
+      "name": "opacity/5",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "OPACITY"
+      ],
+      "description": "",
+      "value": 0.05,
+      "alias": null
+    },
+    {
+      "name": "opacity/10",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "OPACITY"
+      ],
+      "description": "",
+      "value": 0.1,
+      "alias": null
+    },
+    {
+      "name": "opacity/20",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "OPACITY"
+      ],
+      "description": "",
+      "value": 0.2,
+      "alias": null
+    },
+    {
+      "name": "opacity/30",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "OPACITY"
+      ],
+      "description": "",
+      "value": 0.3,
+      "alias": null
+    },
+    {
+      "name": "opacity/40",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "OPACITY"
+      ],
+      "description": "",
+      "value": 0.4,
+      "alias": null
+    },
+    {
+      "name": "opacity/50",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "OPACITY"
+      ],
+      "description": "",
+      "value": 0.5,
+      "alias": null
+    },
+    {
+      "name": "opacity/60",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "OPACITY"
+      ],
+      "description": "",
+      "value": 0.6,
+      "alias": null
+    },
+    {
+      "name": "opacity/70",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "OPACITY"
+      ],
+      "description": "",
+      "value": 0.7,
+      "alias": null
+    },
+    {
+      "name": "opacity/80",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "OPACITY"
+      ],
+      "description": "",
+      "value": 0.8,
+      "alias": null
+    },
+    {
+      "name": "opacity/90",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "OPACITY"
+      ],
+      "description": "",
+      "value": 0.9,
+      "alias": null
+    },
+    {
+      "name": "opacity/100",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "OPACITY"
+      ],
+      "description": "",
+      "value": 1,
+      "alias": null
+    }
+  ]
+}

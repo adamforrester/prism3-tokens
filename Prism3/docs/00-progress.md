@@ -12,6 +12,17 @@
 Since the token layer completed, work has been the **designer↔developer↔agent E2E pipeline**
 (`07`/`08`/`09`/`10`). Shipped to `main`, newest first (see the decisions log for the why):
 
+- **`emit-figma` — dims axis** (`engine/emit-figma.ts` + `test.ts` block 13): seven FLOAT
+  variable collections (`dimension` primitives + `space`/`radius`/`size`/`border-width`/
+  `focus`/`opacity` semantics — 94 vars total, 45 aliases). No fixtures (§2 covers only
+  colour + typography), so gated structurally: variable counts match the DTCG tree, every
+  alias resolves within the emitted collections, scopes narrow per family (space→GAP,
+  radius→CORNER_RADIUS, etc.), opacity dimensionless in [0,1], focus's `strokeStyle` leaf
+  skipped (no Figma variable primitive). **Materialised to Figma via MCP** — all 7
+  collections created, 45/45 aliases bound (incl. 3-level chains size→space→dimension);
+  dims specimen renders geometry bindings on cornerRadius/width/height/padding*/opacity/
+  strokeWeight; container fills bound to `color/background|foreground/*`. 14 new gates →
+  `test.ts` **279/279**.
 - **`emit-figma` — typography axis** (`engine/emit-figma.ts` + `test.ts` block 12): the
   `font` (38 vars) + `font-fluid.{desktop,mobile}` (10 vars/mode) variable collections
   byte-reproduce the NB fixtures, and 36 text styles apply the six §4 fixes (no `text/`
@@ -36,9 +47,9 @@ Since the token layer completed, work has been the **designer↔developer↔agen
   contracts the surfaces render from.
 - **`design.md` interchange + CLI** (dual-dialect) + the colour-role classifier + fidelity report.
 
-Engine gates as of 2026-07-02: `test.ts` **273/273** (240 colour + 25 typography + 8 namespace,
-block 13); `emit-dtcg` 248/248 contracts per brand; `nb-regression` ΔE00 1.95. The snapshot below
-is the 2026-07-01 token-layer baseline.
+Engine gates as of 2026-07-02: `test.ts` **289/289** (240 colour + 25 typography + 8 namespace + 16 dims);
+`emit-dtcg` 248/248 contracts per brand; `nb-regression` ΔE00 1.95. The snapshot below is the
+2026-07-01 token-layer baseline.
 
 ## Current status (2026-07-01)
 
@@ -197,7 +208,7 @@ npx tsx Prism3/engine/cli.ts Prism3/examples/wendys.design.md --fidelity      # 
   namespace, one segment only — every token emits under `<root>.*` (primitives `<root>.palette`,
   semantics `<root>.color`). Threaded through the one place that had leaked past `theme.root`
   (gradient stop aliases were hardcoded `prism` — fixed) and gated: a custom root re-homes **every**
-  alias to `{<root>.…}` with zero `prism` leakage (test.ts block 13), a dotted/spaced root throws at
+  alias to `{<root>.…}` with zero `prism` leakage (test.ts block 14), a dotted/spaced root throws at
   the engine boundary *and* fails schema (added `pattern` support to the hand-rolled validator so the
   schema's `^[a-z][a-z0-9-]*$` is enforced, not decorative). `root` joins `id` in `identityFields`
   (host-supplied identity, not a lever-form knob). Default output is **byte-identical** (out/* did not

@@ -1,0 +1,487 @@
+{
+  "$collection": "dimension",
+  "$mode": "Default",
+  "variables": [
+    {
+      "name": "dimension/0",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 0,
+      "alias": null
+    },
+    {
+      "name": "dimension/1",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 1,
+      "alias": null
+    },
+    {
+      "name": "dimension/2",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 2,
+      "alias": null
+    },
+    {
+      "name": "dimension/4",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 4,
+      "alias": null
+    },
+    {
+      "name": "dimension/6",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 6,
+      "alias": null
+    },
+    {
+      "name": "dimension/8",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 8,
+      "alias": null
+    },
+    {
+      "name": "dimension/12",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 12,
+      "alias": null
+    },
+    {
+      "name": "dimension/16",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 16,
+      "alias": null
+    },
+    {
+      "name": "dimension/20",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 20,
+      "alias": null
+    },
+    {
+      "name": "dimension/24",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 24,
+      "alias": null
+    },
+    {
+      "name": "dimension/28",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 28,
+      "alias": null
+    },
+    {
+      "name": "dimension/32",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 32,
+      "alias": null
+    },
+    {
+      "name": "dimension/36",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 36,
+      "alias": null
+    },
+    {
+      "name": "dimension/40",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 40,
+      "alias": null
+    },
+    {
+      "name": "dimension/44",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 44,
+      "alias": null
+    },
+    {
+      "name": "dimension/48",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 48,
+      "alias": null
+    },
+    {
+      "name": "dimension/52",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 52,
+      "alias": null
+    },
+    {
+      "name": "dimension/56",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 56,
+      "alias": null
+    },
+    {
+      "name": "dimension/60",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 60,
+      "alias": null
+    },
+    {
+      "name": "dimension/64",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 64,
+      "alias": null
+    },
+    {
+      "name": "dimension/68",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 68,
+      "alias": null
+    },
+    {
+      "name": "dimension/72",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 72,
+      "alias": null
+    },
+    {
+      "name": "dimension/76",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 76,
+      "alias": null
+    },
+    {
+      "name": "dimension/80",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 80,
+      "alias": null
+    },
+    {
+      "name": "dimension/84",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 84,
+      "alias": null
+    },
+    {
+      "name": "dimension/88",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 88,
+      "alias": null
+    },
+    {
+      "name": "dimension/92",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 92,
+      "alias": null
+    },
+    {
+      "name": "dimension/96",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 96,
+      "alias": null
+    },
+    {
+      "name": "dimension/100",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 100,
+      "alias": null
+    },
+    {
+      "name": "dimension/104",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 104,
+      "alias": null
+    },
+    {
+      "name": "dimension/108",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 108,
+      "alias": null
+    },
+    {
+      "name": "dimension/112",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 112,
+      "alias": null
+    },
+    {
+      "name": "dimension/116",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 116,
+      "alias": null
+    },
+    {
+      "name": "dimension/120",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 120,
+      "alias": null
+    },
+    {
+      "name": "dimension/124",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 124,
+      "alias": null
+    },
+    {
+      "name": "dimension/128",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 128,
+      "alias": null
+    },
+    {
+      "name": "dimension/720",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT",
+        "GAP",
+        "CORNER_RADIUS",
+        "STROKE_FLOAT"
+      ],
+      "description": "",
+      "value": 720,
+      "alias": null
+    }
+  ]
+}

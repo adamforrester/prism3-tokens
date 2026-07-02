@@ -23,7 +23,7 @@ import { leverManifest, leverGroups, buildLeverManifest, identityFields } from '
 import { previewSpec, previewTokenRefs, buildPreviewSpec } from './preview';
 import { resolvePreview } from './resolve-preview';
 import { exampleBrands, exampleBrandsJson, EXAMPLE_IDS } from './emit-brandinput';
-import { buildFigmaColor, buildFigmaFont, buildFigmaFontFluid, buildFigmaTextStyles, fontStyleName, COLOR_MODES, FONT_FLUID_MODES } from './emit-figma';
+import { buildFigmaColor, buildFigmaFont, buildFigmaFontFluid, buildFigmaTextStyles, buildFigmaDims, fontStyleName, COLOR_MODES, FONT_FLUID_MODES } from './emit-figma';
 import { buildTree, validateBrandInput } from './emit-dtcg';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -730,8 +730,110 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   ok(fontStyleName('text', 700) === 'Bold' && fontStyleName('display', 600) === 'Semi Bold', 'figma fontStyleName: sans/display weight → real style name (700=Bold, 600=Semi Bold)');
   ok(fontStyleName('mono', 600) === 'Medium' && fontStyleName('mono', 400) === 'Regular', 'figma fontStyleName: mono collapses 600→Medium (JetBrains Mono lacks Semi Bold)');
 }
+// (13) EMIT-FIGMA DIMS (docs/10 §7 item 2) — the geometric axis has NO fixtures
+// (§2 freezes only colour + typography). Gate structurally: variable counts vs
+// the DTCG tree, every alias resolves within the emitted collections, scopes +
+// resolvedType consistent per family. Materialisation-to-verify runs separately
+// via the Figma MCP (docs/10 DoD).
+{
+  const theme = nbTheme();
+  const { tree } = buildTree(theme);
+  const root = Object.keys(tree)[0];
+  const brand = tree[root];
+  const dims = buildFigmaDims(theme);
 
-// (13) NAMESPACE (docs/00 "Namespace") — `root` is the single, customizable, mode-
+  // (a) Counts match the DTCG tree exactly. Focus is -1 because the
+  // strokeStyle leaf (`focus.ring.style: 'solid'`) is intentionally skipped —
+  // Figma has no strokeStyle variable primitive.
+  const expected = {
+    dimension: Object.keys(brand.dimension).length,
+    space: Object.keys(brand.space).length,
+    radius: Object.keys(brand.radius).length,
+    size: Object.keys(brand.size).length * 3, // 3 props per t-shirt
+    'border-width': Object.keys(brand['border-width']).length,
+    focus: Object.keys(brand.focus.ring).filter((k) => brand.focus.ring[k].$type === 'dimension').length,
+    opacity: Object.keys(brand.opacity).length,
+  };
+  const got = {
+    dimension: dims.dimension.variables.length,
+    space: dims.space.variables.length,
+    radius: dims.radius.variables.length,
+    size: dims.size.variables.length,
+    'border-width': dims.borderWidth.variables.length,
+    focus: dims.focus.variables.length,
+    opacity: dims.opacity.variables.length,
+  };
+  for (const key of Object.keys(expected) as Array<keyof typeof expected>) {
+    ok(expected[key] === got[key], `figma dims.${key}: variable count matches DTCG tree (${expected[key]})` + (expected[key] !== got[key] ? ` — got ${got[key]}` : ''));
+  }
+
+  // (b) Every FLOAT var carries a valid non-empty scope set and resolvedType=FLOAT.
+  const allDimColls = [dims.dimension, dims.space, dims.radius, dims.size, dims.borderWidth, dims.focus, dims.opacity];
+  const badType: string[] = [], badScope: string[] = [];
+  for (const c of allDimColls) for (const v of c.variables) {
+    if (v.resolvedType !== 'FLOAT') badType.push(`${c.$collection}:${v.name}`);
+    if (!v.scopes || v.scopes.length === 0) badScope.push(`${c.$collection}:${v.name}`);
+  }
+  ok(badType.length === 0, 'figma dims: every variable is resolvedType FLOAT' + (badType.length ? ` — ${badType.slice(0, 3).join(', ')}` : ''));
+  ok(badScope.length === 0, 'figma dims: every variable declares at least one scope' + (badScope.length ? ` — ${badScope.slice(0, 3).join(', ')}` : ''));
+
+  // (c) Every alias target resolves within the emitted collections.
+  const allNames = new Set<string>();
+  for (const c of allDimColls) for (const v of c.variables) allNames.add(v.name);
+  const missingTargets: string[] = [];
+  for (const c of allDimColls) for (const v of c.variables) {
+    if (v.alias && !allNames.has(v.alias.name)) missingTargets.push(`${c.$collection}:${v.name} → ${v.alias.name}`);
+  }
+  ok(missingTargets.length === 0, 'figma dims: every alias resolves within the emitted collections' + (missingTargets.length ? ` — ${missingTargets.slice(0, 3).join(', ')}` : ''));
+
+  // (d) Scopes narrow correctly per family — the picker in Figma should only
+  // show `space/*` under GAP contexts, `radius/*` under CORNER_RADIUS, etc.
+  const scopeFor: Record<string, string[]> = {
+    dimension: ['WIDTH_HEIGHT', 'GAP', 'CORNER_RADIUS', 'STROKE_FLOAT'],
+    space: ['GAP'],
+    radius: ['CORNER_RADIUS'],
+    'border-width': ['STROKE_FLOAT'],
+    focus: ['STROKE_FLOAT'],
+    opacity: ['OPACITY'],
+  };
+  const scopeMismatch: string[] = [];
+  for (const c of allDimColls) {
+    const expect = scopeFor[c.$collection];
+    if (!expect) continue; // size scopes vary per prop — checked separately below
+    for (const v of c.variables) {
+      if (JSON.stringify(v.scopes) !== JSON.stringify(expect)) scopeMismatch.push(`${c.$collection}:${v.name} = ${v.scopes.join(',')}`);
+    }
+  }
+  ok(scopeMismatch.length === 0, 'figma dims: scopes narrow per family (space→GAP, radius→CORNER_RADIUS, border-width/focus→STROKE_FLOAT, opacity→OPACITY, dimension broad)' + (scopeMismatch.length ? ` — ${scopeMismatch.slice(0, 3).join('; ')}` : ''));
+
+  // (e) size — height binds WIDTH_HEIGHT + aliases dimension; padding binds
+  // GAP + aliases space. Verifies the component tier composes the shared
+  // primitives correctly.
+  const sizeBad: string[] = [];
+  for (const v of dims.size.variables) {
+    const isHeight = v.name.endsWith('/height');
+    const isPadding = v.name.includes('/padding-');
+    if (isHeight) {
+      if (JSON.stringify(v.scopes) !== JSON.stringify(['WIDTH_HEIGHT'])) sizeBad.push(`${v.name}:scope=${v.scopes.join(',')}`);
+      if (v.alias && !v.alias.name.startsWith('dimension/')) sizeBad.push(`${v.name}:alias=${v.alias.name} (want dimension/*)`);
+    } else if (isPadding) {
+      if (JSON.stringify(v.scopes) !== JSON.stringify(['GAP'])) sizeBad.push(`${v.name}:scope=${v.scopes.join(',')}`);
+      if (v.alias && !v.alias.name.startsWith('space/')) sizeBad.push(`${v.name}:alias=${v.alias.name} (want space/*)`);
+    }
+  }
+  ok(sizeBad.length === 0, 'figma size: heights alias dimension/* (WIDTH_HEIGHT); paddings alias space/* (GAP) — component tier composes shared primitives' + (sizeBad.length ? ` — ${sizeBad.slice(0, 3).join('; ')}` : ''));
+
+  // (f) opacity — dimensionless in [0,1], not px.
+  const opBad = dims.opacity.variables.filter((v) => typeof v.value !== 'number' || (v.value as number) < 0 || (v.value as number) > 1);
+  ok(opBad.length === 0, `figma opacity: every value is a number in [0,1]` + (opBad.length ? ` — ${opBad.slice(0, 3).map((v) => `${v.name}=${v.value}`).join(', ')}` : ''));
+
+  // (g) focus does NOT include the strokeStyle leaf (no Figma variable primitive
+  // for strokeStyle — 'solid' stays a code-side literal).
+  const hasStrokeStyle = dims.focus.variables.some((v) => v.name === 'focus/ring/style');
+  ok(!hasStrokeStyle, `figma focus: strokeStyle leaf skipped (no Figma primitive for strokeStyle; the 'solid' literal stays code-side)`);
+}
+
+// (14) NAMESPACE (docs/00 "Namespace") — `root` is the single, customizable, mode-
 // invariant token namespace. Default is the 'prism' placeholder; a custom root re-homes
 // EVERY token under `<root>.*` with no 'prism' leaking into any alias (the gradient-stop
 // hardcode class of bug). One segment only — a dotted/spaced root is rejected.
