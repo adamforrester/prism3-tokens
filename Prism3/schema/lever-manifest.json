@@ -64,6 +64,14 @@
       "description": "Peak neutral chroma (~0.004–0.02); tapers to near-0 at the ramp ends. 0 = pure grey."
     },
     {
+      "key": "neutral.anchor",
+      "group": "color",
+      "label": "Pin a neutral",
+      "control": "color",
+      "advanced": true,
+      "description": "Optional. A pre-defined brand grey, pinned verbatim at its lightness step; the ramp is built around it (hue/chroma from the anchor) instead of the cast. Set for a client that ships their own neutral; omit to derive from hue + chroma."
+    },
+    {
       "key": "brandColors",
       "group": "color",
       "label": "Additional brand colours",

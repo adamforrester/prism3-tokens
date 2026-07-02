@@ -62,6 +62,8 @@ export const leverManifest: Lever[] = [
     description: 'Hue the greys lean toward (a small chroma tints them to the brand for cohesion).' },
   { key: 'neutral.chroma', group: 'color', label: 'Neutral chroma', control: 'slider', required: true, min: 0, max: 0.03, step: 0.001,
     description: 'Peak neutral chroma (~0.004–0.02); tapers to near-0 at the ramp ends. 0 = pure grey.' },
+  { key: 'neutral.anchor', group: 'color', label: 'Pin a neutral', control: 'color', advanced: true,
+    description: 'Optional. A pre-defined brand grey, pinned verbatim at its lightness step; the ramp is built around it (hue/chroma from the anchor) instead of the cast. Set for a client that ships their own neutral; omit to derive from hue + chroma.' },
   { key: 'brandColors', group: 'color', label: 'Additional brand colours', control: 'list', itemLabel: 'brand colour (name + OKLCH)',
     description: 'Secondary / tertiary / accents — any number; each becomes its own ramp and can drive actions.' },
   { key: 'actionPalette', group: 'color', label: 'Action palette', control: 'palette-ref', default: 'primary',
