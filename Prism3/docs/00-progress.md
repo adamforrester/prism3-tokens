@@ -86,7 +86,10 @@ Prism3/
 │   ├── 06-surface-and-content-color-model.md ← the surface/content colour model + §7b as-built naming (palette/color) & mode encoding
 │   ├── 07-e2e-journey.md            ← the designer↔developer↔agent pipeline; portable-core architecture; design.md; component layer (layers 2–3 of the AI stack)
 │   ├── 08-theming-interfaces.md     ← the customization surfaces (plugin/playground/CLI/MCP/Figma-MCP); new-plugin + shared-lever-manifest decisions; two-route materialization; revised build sequence
-│   └── 09-architecture-and-repos.md ← platform architecture + repo/packaging (monorepo grown from prism3-tokens; web-dashboard-first); which of the owner's other plugins get absorbed vs stay downstream
+│   ├── 09-architecture-and-repos.md ← platform architecture + repo/packaging (monorepo grown from prism3-tokens; web-dashboard-first); which of the owner's other plugins get absorbed vs stay downstream
+│   └── 10-figma-materialization.md  ← the emit-figma contract: exact Figma variable/style shape (proven by import spikes), colour + typography materialization rules, thread split; fixtures/figma/nb is the regression target
+├── fixtures/
+│   └── figma/nb/                    ← Token Press raw export of the NB import (palette + color×4 modes) — emit-figma's colour regression target (docs/10)
 ├── schema/
 │   ├── theme-schema.json           ← the white-label BrandInput contract (JSON Schema; validated on every emit)
 │   ├── theme-schema.example.json   ← a worked BrandInput (aurora) that conforms to the contract
