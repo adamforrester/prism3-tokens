@@ -7,6 +7,28 @@
 
 ---
 
+## Latest (2026-07-02) — E2E integration arc
+
+Since the token layer completed, work has been the **designer↔developer↔agent E2E pipeline**
+(`07`/`08`/`09`/`10`). Shipped to `main`, newest first (see the decisions log for the why):
+
+- **`emit-figma` — colour axis** (`engine/emit-figma.ts`): DTCG tree → Figma import artifact
+  (`out/figma/nb/`), byte-reproduces the NB Figma fixtures (names/scopes/aliases exact). **Now
+  handed off** — the Figma-emitter agent owns the rest (typography → remaining axes); see
+  **`10-figma-materialization.md §6–7`** for that agent's remit.
+- **Figma materialization contract + fixtures** (`10` + `fixtures/figma/nb/`) — the emit-figma
+  spec + regression corpus, from two hand-run Figma-MCP import spikes.
+- **Web dashboard** (`web/`, the monorepo's first host): renders knobs from the lever manifest +
+  live preview + contrast overlay from `resolvePreview`; **colour + radius + type knobs are live**.
+  *This thread's next work: deepen the dashboard, then the MCP adapter.*
+- **Pure `tree.ts`** (buildTree extracted from the emit shell) → the browser hosts + emit-figma
+  resolve the tree with no `node:`. **Lever manifest, preview spec, resolved-preview** — the shared
+  contracts the surfaces render from.
+- **`design.md` interchange + CLI** (dual-dialect) + the colour-role classifier + fidelity report.
+
+Engine gates as of 2026-07-02: `test.ts` **240/240**; `emit-dtcg` 248/248 contracts per brand;
+`nb-regression` ΔE00 1.95. The snapshot below is the 2026-07-01 token-layer baseline.
+
 ## Current status (2026-07-01)
 
 **Every token category NB and Prism2 ship is now generated** — colour, dimension,

@@ -38,7 +38,12 @@ npx tsx Prism3/engine/cli.ts Prism3/examples/harbor.design.md [--out <dir>]
 npx tsx Prism3/engine/cli.ts Prism3/examples/wendys.design.md --fidelity   # standard dialect + observed-vs-generated report
 npx tsx Prism3/engine/emit-levers.ts     # (re)emit schema/lever-manifest.json — the shared-control contract (plugin/playground/MCP)
 npx tsx Prism3/engine/emit-preview.ts    # (re)emit schema/preview-spec.json — the shared live-preview spec (plugin/playground)
+npx tsx Prism3/engine/emit-brandinput.ts # (re)emit schema/example-brands.json — validated boot brands for the browser hosts
+npx tsx Prism3/engine/emit-figma.ts      # (re)emit out/figma/<id>/ — the Figma import artifact (colour axis; see docs/10 §7 for the emitter remit)
 ```
+
+Note: `buildTree` (the DTCG generator) lives in the **pure** `tree.ts` (no `node:*`), re-exported by
+`emit-dtcg.ts`; the browser hosts and `emit-figma.ts` import it directly. See `docs/09`/`docs/10`.
 
 Node ≥ 20. No `npm install` needed — the color math is self-contained
 (`color.ts`), so the engine runs without a network.

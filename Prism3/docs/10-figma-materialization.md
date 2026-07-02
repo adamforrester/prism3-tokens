@@ -133,9 +133,61 @@ Optional cleanup surfaced: correct the now-stale `px-from-ratio`/`px-from-em` li
 letter-spacing directive *notes* in `tree.ts` (the contract an ad-hoc reader follows) when the
 typography pass lands.
 
-## 6. Thread split
+## 6. Ownership (settled 2026-07-02)
 
-- **This repo (generator):** builds `emit-figma`; owns the contract above.
-- **Figma thread (materializer):** replays `emit-figma`'s artifact via the Figma MCP, builds
-  specimens, reports findings; emits the text-styles fixture. Coordinates via these artifacts +
-  PRs, not live back-and-forth (same pattern as the reviewer thread).
+- **Figma-emitter agent** — owns **all remaining `emit-figma` work** (this doc's §7): the
+  engine adapter code (`engine/emit-figma.ts` + its `test.ts` gates) *and* verifying its output
+  by materialising into Figma via the **Figma MCP** (the loop the colour spike opened). It builds
+  the emitter and checks each axis renders in a real file. Works in a thread with this repo pulled
+  down + the Figma MCPs attached.
+- **Generator thread** (the one that built the engine + colour axis) — moves to the **non-Figma
+  surfaces**: the web dashboard, then the MCP adapter. It does **not** touch `emit-figma.ts`
+  further.
+
+Coordination: both branch off `main`, one PR per increment, independent reviewer, merge in
+sequence. **The Figma-emitter agent owns `emit-figma.ts` and all its `test.ts` gates**; the
+generator thread stays out of those files (its web work is in `web/`; a later MCP adapter is its
+own package). Pull `main` before starting each increment. No live back-and-forth — coordinate
+through committed artifacts + PRs (same pattern as the reviewer thread).
+
+## 7. Remit for the Figma-emitter agent (read this first)
+
+**Your role:** own `emit-figma` end-to-end for every axis after colour — write the adapter code,
+gate it in `engine/test.ts`, and **materialise your output into Figma via the MCP to verify it
+renders**. You have the Figma MCP; use it to close the loop on each axis.
+
+**Start here:** read this whole doc (the contract), then `engine/emit-figma.ts` (the colour axis
+— your template) and its gate in `engine/test.ts` (block 11). Run `npx tsx Prism3/engine/test.ts`
+(240/240 today) and `npx tsx Prism3/engine/emit-figma.ts` (writes `out/figma/nb/`). Engine runs on
+`tsx`, **no build / no `npm install`**.
+
+**The pattern (from the colour axis):** an I/O shell over the **pure** `tree.ts` `buildTree`. Read
+the *semantic facts* from the DTCG tree (`$extensions.prism3` — `aliasOf`, per-mode `modes`, the
+`figma` field/scope hints, `responsive.figma.modes`); own the *Figma-target rendering* in the
+adapter (collection/scope/name/unit decisions). Emit per-`collection`/`mode` files matching the
+fixture shape; **omit ids** (Figma assigns them; alias **by name**).
+
+**Queue, in order:**
+1. **Typography.** Emit the `font` (38 primitives) + `font-fluid` (10 × mobile/desktop) variable
+   collections — **byte-reproduce** `fixtures/figma/nb/font.json` + `font-fluid.{desktop,mobile}.json`
+   (same gate style as colour: names/scopes/aliases exact, values to tol). Then the 36 **text
+   styles**, applying the **six §4 fixes** — so they gate against the *corrected* expectation, **not**
+   the as-imported `text-styles.json` (that file is the pre-fix snapshot / structural reference only;
+   see §2). The fixes touch both the adapter and a few `tree.ts` directive notes (line-height→%,
+   letter-spacing→bindable, style names, `fontStyle`→named-instance, collection names) — do the
+   `tree.ts` note corrections here too (§5 "optional cleanup"), and keep the engine's other emits
+   byte-identical.
+2. **Dims / opacity / border** — FLOAT variable collections (space/radius/size, opacity, border-width).
+3. **Shadow → Effect Style specs; gradient → Paint Style specs** (styles, not variables; §5/`08 §5`).
+4. **Generalise** — emit aurora + wendys too (prove brand-agnostic). No fixtures for those, so gate
+   on structural validity (aliases resolve, scopes present) + **materialise-to-verify** in Figma.
+
+**Definition of done per axis:** the `test.ts` gate is green, `out/figma/*` regenerates
+byte-identical, the existing engine emits (`emit-dtcg`, `nb-regression`) are unaffected, **and** you
+have materialised the axis into a Figma file via the MCP and confirmed it renders (a specimen frame
+is the ideal artifact — that's also the `style-guide-generator` absorb target from `09 §4`).
+
+**Reference:** `docs/09 §4` (plugin-absorb map), `08 §5` (variable-type ceiling: colour/dimension →
+variables, typography → atoms + Text Style, shadow → Effect Style, gradient → Paint Style, REST is
+Enterprise-only). The materialisation container-fill lesson from the spike: bind verification-frame
+containers to real `color/foreground/*` surface variables, don't hardcode.
