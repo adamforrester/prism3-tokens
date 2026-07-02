@@ -35,9 +35,10 @@ type Mode = ResolvedPreview['modes'][number];
 const defaultBrand = (exampleBrands as Record<string, BrandInput>).aurora;
 const brandState: BrandInput = structuredClone(defaultBrand);
 
-// The colour-axis levers that visibly re-theme the preview (the rest need the
-// geometry/type-from-tree increment before they'd show any change).
-const LIVE = new Set(['primary', 'neutral.hue', 'neutral.chroma', 'actionPalette']);
+// The levers that visibly change the preview: the colour axis (re-themes chips +
+// overlay) plus radius/type (now that chips render real geometry/type from the tree).
+// Density/motion/shadow stay read-only — the current chips don't render those axes.
+const LIVE = new Set(['primary', 'neutral.hue', 'neutral.chroma', 'actionPalette', 'radiusScale', 'typography.typeScale']);
 
 const MODE_LABEL: Record<string, string> = { light: 'Light', dark: 'Dark', 'hc-light': 'HC light', 'hc-dark': 'HC dark' };
 
@@ -136,6 +137,16 @@ const renderControl = (lever: Lever): HTMLElement => {
     }
     sel.onchange = () => { setPath(brandState, lever.key, sel.value); apply(); };
     wrap.append(sel);
+  } else if (lever.control === 'enum' && live) {
+    const sel = el('select') as HTMLSelectElement;
+    const cur = getPath(brandState, lever.key) ?? lever.default;
+    for (const o of lever.options ?? []) {
+      const opt = el('option') as HTMLOptionElement;
+      opt.value = String(o.value); opt.textContent = o.label; if (o.value === cur) opt.selected = true;
+      sel.append(opt);
+    }
+    sel.onchange = () => { setPath(brandState, lever.key, sel.value); apply(); };
+    wrap.append(sel);
   } else {
     // read-only render (form/type/motion/elevation + list/object) — reflects the
     // boot value; goes live once its axis renders in the preview.
@@ -194,7 +205,7 @@ const renderReadonly = (wrap: HTMLElement, lever: Lever): void => {
 const renderLevers = (): HTMLElement => {
   const aside = el('aside', 'levers');
   aside.append(el('h2', undefined, 'Levers'));
-  aside.append(el('p', 'muted', 'Rendered from the shared lever manifest. The colour knobs (marked live) re-theme the preview on change; the rest go live when their axis renders (next increment).'));
+  aside.append(el('p', 'muted', 'Rendered from the shared lever manifest. Knobs marked live (colour, corner radius, type scale) re-resolve the preview on change; density/motion/shadow stay read-only until the chips render those axes.'));
   for (const g of leverGroups) {
     const levers = leverManifest.filter((l) => l.group === g.group && !l.advanced);
     if (!levers.length) continue;
@@ -216,6 +227,17 @@ const renderChip = (label: string, bind: Record<string, string>, mode: Mode): HT
   if (bg) chip.style.background = bg;
   if (fg) chip.style.color = fg;
   chip.style.border = `2px solid ${border ?? 'transparent'}`;
+  // geometry + type from the resolved read-model (mode-invariant)
+  if (bind.radius && rp.dims[bind.radius] != null) chip.style.borderRadius = `${rp.dims[bind.radius]}px`;
+  const pad = bind.pad ? `${rp.dims[bind.pad]}px`
+    : bind.padX && bind.padY ? `${rp.dims[bind.padY]}px ${rp.dims[bind.padX]}px` : '';
+  if (pad) chip.style.padding = pad;
+  const t = bind.type ? rp.type[bind.type] : undefined;
+  if (t) {
+    chip.style.fontFamily = t.fontFamily;
+    chip.style.fontWeight = String(t.fontWeight);
+    chip.style.fontSize = `${Math.min(t.fontSizePx, 20)}px`; // cap for the chip; true size is in rp.type
+  }
   return chip;
 };
 

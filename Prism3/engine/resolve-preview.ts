@@ -11,26 +11,34 @@
  * overlay's differentiator (docs/04) is exactly this: the a11y verdict computed on the
  * real resolved colours, live.
  *
- * PURE — no `node:*`, no I/O (sandbox-bundled). It resolves via `resolveAllModes`
- * (which now carries each role's `hex`) + the pure `previewSpec` — NOT `buildTree`
- * (that lives in the I/O shell), so it stays Node-free. Unlike the static spec /
- * lever manifest, this is a per-live-theme read-model, not a committed contract.
+ * PURE — no `node:*`, no I/O (sandbox-bundled). Colour resolves via `resolveAllModes`
+ * (which carries each role's `hex`); geometry/type resolve via `buildTree` — now that
+ * it lives in the pure `tree.ts` (extracted from the I/O shell), the whole read-model
+ * stays Node-free. Unlike the static spec / lever manifest, this is a per-live-theme
+ * read-model, not a committed contract.
  */
 import { contrast, hexToRgb } from './color';
 import { Theme } from './theme';
 import { resolveAllModes, ModeName } from './modes';
 import { previewSpec, PreviewSpec } from './preview';
+import { buildTree, at, subNode, pxOf, numOf, remPxOf, familyOf } from './tree';
 
 export type PreviewContractResult = {
   component: string; variant: string; fg: string; bg: string; min: number; label?: string;
   byMode: Record<ModeName, { ratio: number; pass: boolean }>;
 };
+/** A resolved typography composite (mode-invariant) — the atoms a chip / Text Style needs. */
+export type ResolvedType = { fontFamily: string; fontWeight: number; fontSizePx: number };
 export type ResolvedPreview = {
   modes: ModeName[];
   /** colour role (spec path, e.g. `color.action.default`) → per-mode hex. */
   colors: Record<string, Record<ModeName, string>>;
   /** each declared contract, evaluated on the resolved colours per mode. */
   contracts: PreviewContractResult[];
+  /** dimension binding (e.g. `radius.md`, `space.300`) → px. Mode-invariant. */
+  dims: Record<string, number>;
+  /** typography binding (e.g. `type.label.md.emphasis`) → resolved composite. Mode-invariant. */
+  type: Record<string, ResolvedType>;
 };
 
 const strip = (p: string) => p.replace(/^color\./, '');
@@ -66,5 +74,30 @@ export const resolvePreview = (theme: Theme, spec: PreviewSpec = previewSpec): R
     contracts.push({ component: c.id, variant: v.name, fg: ct.fg, bg: ct.bg, min: ct.min, label: ct.label, byMode });
   }
 
-  return { modes: modes.map((m) => m.mode), colors, contracts };
+  // Geometry + type — resolved from the token tree (mode-invariant). Colour lives in
+  // `colors` (per mode); dimensions and typography don't shift by mode, so they're
+  // single values. Only radius/space (→ px) and type (→ composite) bindings are
+  // resolved here; shadow/motion aren't rendered by the current preview.
+  const { tree } = buildTree(theme);
+  const data = tree[Object.keys(tree)[0]]; // the brand-namespace root (nbds / prism)
+  const dimRefs = new Set<string>(), typeRefs = new Set<string>();
+  for (const c of spec.components) for (const v of c.variants) for (const t of Object.values(v.bindings)) {
+    if (t.startsWith('type.')) typeRefs.add(t);
+    else if (t.startsWith('radius.') || t.startsWith('space.')) dimRefs.add(t);
+  }
+  const dims: ResolvedPreview['dims'] = {};
+  for (const ref of [...dimRefs].sort()) dims[ref] = pxOf(tree, at(data, ref));
+  const type: ResolvedPreview['type'] = {};
+  for (const ref of [...typeRefs].sort()) {
+    const node = at(data, ref);
+    const val = node?.$value ?? {};
+    const sizePx = node?.$extensions?.prism3?.sizePx ?? remPxOf(tree, subNode(tree, val.fontSize));
+    type[ref] = {
+      fontFamily: familyOf(tree, subNode(tree, val.fontFamily)),
+      fontWeight: numOf(tree, subNode(tree, val.fontWeight)),
+      fontSizePx: sizePx,
+    };
+  }
+
+  return { modes: modes.map((m) => m.mode), colors, contracts, dims, type };
 };

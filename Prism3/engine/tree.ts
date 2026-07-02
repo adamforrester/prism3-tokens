@@ -519,3 +519,20 @@ export const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats
   const colorLeaves = 2 + theme.palettes.reduce((n, p) => n + p.steps.length, 0) + alphaLeaves;
   return { tree, modes, stats: { colorLeaves, dimLeaves: theme.dims.grid.length, spaceTokens: theme.dims.space.length, radiusTokens: theme.dims.radius.length, sizeSteps: theme.dims.sizes.length, fontSizes: theme.typography.sizesPx.length, fontWeights: theme.typography.weightsRef.length, typeComposites: theme.typography.composites.length, aliases: aliases.length, resolved: aliases.length - broken.length, broken, modeChecks, modePass } };
 };
+
+// ---------------------------------------------------------------------------
+// Tree accessors — PURE readers over a built tree. Shared by resolve-preview.ts
+// (the browser read-model) and visualize.ts. `at` walks a dotted path; `deref`
+// follows `{alias}` chains; the rest coerce a leaf to px / number / family.
+export type TreeNode = any;
+export const at = (tree: TreeNode, path: string): TreeNode => path.split('.').reduce((n, s) => n?.[s], tree);
+export const deref = (tree: TreeNode, node: TreeNode): TreeNode => {
+  let cur = node, guard = 0;
+  while (cur && typeof cur.$value === 'string' && /^\{.+\}$/.test(cur.$value) && guard++ < 10) cur = at(tree, cur.$value.slice(1, -1));
+  return cur;
+};
+export const pxOf = (tree: TreeNode, node: TreeNode): number => { const t = deref(tree, node); return parseInt(String(t?.$value).replace('px', ''), 10) || 0; };
+export const subNode = (tree: TreeNode, aliasStr: any): TreeNode => at(tree, String(aliasStr).replace(/^\{|\}$/g, ''));
+export const numOf = (tree: TreeNode, node: TreeNode): number => { const t = deref(tree, node); return typeof t?.$value === 'number' ? t.$value : parseFloat(String(t?.$value)) || 0; };
+export const remPxOf = (tree: TreeNode, node: TreeNode): number => { const t = deref(tree, node); const px = t?.$extensions?.prism3?.px; if (px) return px; const v = String(t?.$value); return v.endsWith('rem') ? parseFloat(v) * 16 : parseFloat(v) || 0; };
+export const familyOf = (tree: TreeNode, node: TreeNode): string => { const t = deref(tree, node); return Array.isArray(t?.$value) ? t.$value.join(', ') : String(t?.$value ?? 'sans-serif'); };

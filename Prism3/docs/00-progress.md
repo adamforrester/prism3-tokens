@@ -107,7 +107,7 @@ Prism3/
     ├── modes.ts                    ← light/dark/hc-light/hc-dark, roles resolved by contrast target, brand-agnostic
     ├── nb-fixture.ts               ← I/O shell: reads the NB fixture off disk + defers to the pure core (keeps theme.ts Node-free / portable)
     ├── nb-regression.ts            ← diffs generated vs real NB, checks contracts → nb-regression-report.md
-    ├── tree.ts                     ← the PURE DTCG token-tree builder: buildTree(theme) → full token tree (colour primitives + per-mode semantic aliases, dims, typography, shadow/gradient/motion) + contrast results + stats. No node:* (extracted from emit-dtcg so the browser hosts + emit-figma can resolve the tree without the I/O shell; docs/09)
+    ├── tree.ts                     ← the PURE DTCG token-tree builder: buildTree(theme) → full token tree (colour primitives + per-mode semantic aliases, dims, typography, shadow/gradient/motion) + contrast results + stats; also the shared PURE tree accessors (at/deref/pxOf/subNode/numOf/remPxOf/familyOf). No node:* (extracted from emit-dtcg so the browser hosts + emit-figma can resolve the tree without the I/O shell; docs/09)
     ├── emit-dtcg.ts                ← I/O shell over tree.ts: emits out/<id>.tokens.json per theme (NB + aurora + harbor, the last two compiled from examples/*.design.md) + modes-report.md; re-exports buildTree; EXPORTS emitTheme/validateBrandInput; validates aliases, mode contracts & BrandInput schema conformance
     ├── cli.ts                      ← CLI adapter: dual-dialect (engine-native + standard brand-skills design.md, auto-detected) → the core; --fidelity writes the report
     ├── standard-design-md.ts       ← reader + classifier→BrandInput (standardToBrandInput) + x-prism3 lever mapping for the STANDARD design.md dialect
@@ -117,9 +117,9 @@ Prism3/
     ├── emit-levers.ts              ← I/O shell: writes schema/lever-manifest.json from the pure levers.ts (sandbox-portable split)
     ├── preview.ts                  ← the PREVIEW SPEC (PURE): sample components bound to semantic token paths + contrast pairs; plugin + playground render the same live preview from it (docs/08 §7 B1a)
     ├── emit-preview.ts             ← I/O shell: writes schema/preview-spec.json from the pure preview.ts
-    ├── resolve-preview.ts          ← the RESOLVED-PREVIEW projection (PURE, docs/08 §7 B1b): resolvePreview(theme) → concrete colours per mode + live contrast overlay; the runtime read-model surfaces consume
+    ├── resolve-preview.ts          ← the RESOLVED-PREVIEW projection (PURE, docs/08 §7 B1b): resolvePreview(theme) → concrete colours per mode + live contrast overlay + dims (radius/space → px) + type (composite → family/weight/size, via the pure tree.ts buildTree); the runtime read-model surfaces consume
     ├── emit-brandinput.ts          ← I/O shell: writes schema/example-brands.json (parsed aurora/harbor BrandInputs) so the browser hosts boot from a VALIDATED brand without the node-only design.md parser (docs/09)
-    ├── test.ts                     ← unit tests: colour-math invariants + 5 extreme-brand contracts + typography/shadow/layout/gradient/surface-model + harshness + typography + design.md-parser/CLI + standard-dialect/classifier/x-prism3 + lever-manifest↔schema drift + preview-spec binding-validity + resolved-preview contrast invariants + example-brands drift & all-green (218 checks)
+    ├── test.ts                     ← unit tests: colour-math invariants + 5 extreme-brand contracts + typography/shadow/layout/gradient/surface-model + harshness + typography + design.md-parser/CLI + standard-dialect/classifier/x-prism3 + lever-manifest↔schema drift + preview-spec binding-validity + resolved-preview contrast invariants + resolved dims/type validity + example-brands drift & all-green (220 checks)
     ├── ai-metadata.ts              ← generates the AI-readable metadata sidecar (meaning/when/avoid/paired_with/contrast_with/mode_overrides) for the semantic layer
     ├── README.md                   ← how the engine works / how to run
     ├── nb-regression-report.md     ← generated (committed for review)
@@ -177,12 +177,17 @@ npx tsx Prism3/engine/cli.ts Prism3/examples/wendys.design.md --fidelity      # 
   from `resolvePreview`; boots all-green (verified headless). New `emit-brandinput.ts` →
   `schema/example-brands.json` supplies the browser a validated boot brand (test-gated). Engine
   stays buildless (218/218); only the adapter bundles. Full layout in `09 §3`.
-  **Interactive loop landed (PR #24):** the colour-axis knobs are now LIVE — primary (colour
+  **Interactive loop landed (PR #24):** the colour-axis knobs are LIVE — primary (colour
   picker → OKLCH anchor) + neutral hue/chroma + actionPalette mutate the in-memory `BrandInput`,
   re-run `brandTheme` + `resolvePreview`, and repaint the preview + overlay; a non-resolving
-  combination is caught and surfaced. Form/type/motion knobs stay read-only until their axis
-  renders in the preview — **pending the pure token-tree accessor** (geometry/type-from-tree),
-  the next web increment.
+  combination is caught and surfaced.
+  **Geometry/type-from-tree landed (PR #25 + B):** `buildTree` extracted to the pure `tree.ts`
+  (PR #25); `resolvePreview` now also returns `dims` (radius/space → px) + `type` (composite →
+  family/weight/size), resolved from the tree via shared pure accessors (also lifted out of
+  `visualize.ts`). The chips render real radius/padding/type, and **`radiusScale` + `typeScale`
+  are now live too** (6 live knobs). Density/motion/shadow stay read-only — the current chips
+  don't render those axes. A `test.ts` gate asserts every dim → positive px and every type →
+  family + positive size (220/220).
 - **Dogfood the shared preview model in `visualize.ts` before building the hosts (2026-07-02).**
   Rather than take the leap straight from the B1a/B1b portable model to two new live hosts (DOM
   playground + Figma-node plugin) in a fresh repo, the static style-guide generator was made the
