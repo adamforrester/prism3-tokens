@@ -38,7 +38,7 @@ const brandState: BrandInput = structuredClone(defaultBrand);
 // The levers that visibly change the preview: the colour axis (re-themes chips +
 // overlay) plus radius/type (now that chips render real geometry/type from the tree).
 // Density/motion/shadow stay read-only — the current chips don't render those axes.
-const LIVE = new Set(['primary', 'neutral.hue', 'neutral.chroma', 'actionPalette', 'radiusScale', 'typography.typeScale']);
+const LIVE = new Set(['primary', 'neutral.hue', 'neutral.chroma', 'brandColors', 'actionPalette', 'radiusScale', 'typography.typeScale']);
 
 const MODE_LABEL: Record<string, string> = { light: 'Light', dark: 'Dark', 'hc-light': 'HC light', 'hc-dark': 'HC dark' };
 
@@ -70,6 +70,10 @@ const rebuild = (): void => {
 };
 
 const apply = (): void => { rebuild(); repaint(); };
+// Structural edits (add/remove/rename a brand colour) change the set of palettes, so
+// the knob panel itself must re-render (the action-palette options depend on it), not
+// just the preview. `build` re-renders the whole shell from the current brandState.
+const applyFull = (): void => { rebuild(); build(); };
 
 // ---- DOM helpers -----------------------------------------------------------
 
@@ -147,14 +151,59 @@ const renderControl = (lever: Lever): HTMLElement => {
     }
     sel.onchange = () => { setPath(brandState, lever.key, sel.value); apply(); };
     wrap.append(sel);
+  } else if (lever.control === 'list' && lever.key === 'brandColors') {
+    wrap.append(renderBrandColors());
   } else {
-    // read-only render (form/type/motion/elevation + list/object) — reflects the
+    // read-only render (form/type/motion/elevation + object) — reflects the
     // boot value; goes live once its axis renders in the preview.
     renderReadonly(wrap, lever);
   }
 
   wrap.append(el('p', 'knob-desc', lever.description));
   return wrap;
+};
+
+/** The brandColors editor — add / edit / remove accent colours. Each becomes its own
+ *  ramp and can be pointed at by the action palette, so add/remove/rename re-render the
+ *  whole panel (applyFull); editing a colour value just re-resolves the preview (apply). */
+const renderBrandColors = (): HTMLElement => {
+  const box = el('div', 'bclist');
+  const list = brandState.brandColors ?? (brandState.brandColors = []);
+  list.forEach((bc, i) => {
+    const row = el('div', 'bcrow');
+    const picker = el('input') as HTMLInputElement;
+    picker.type = 'color';
+    picker.value = hex(oklchToRgb(bc.oklch));
+    picker.oninput = () => { bc.oklch = rgbToOklch(hexToRgb(picker.value)); apply(); };
+    const name = el('input', 'bcname') as HTMLInputElement;
+    name.type = 'text'; name.value = bc.name; name.spellcheck = false;
+    name.onchange = () => {
+      const prev = bc.name, next = name.value.trim() || bc.name;
+      bc.name = next;
+      if (brandState.actionPalette === prev) brandState.actionPalette = next; // keep the reference intact
+      applyFull();
+    };
+    const rm = el('button', 'bcrm', '×') as HTMLButtonElement;
+    rm.title = 'Remove colour';
+    rm.onclick = () => {
+      const removed = list[i].name;
+      list.splice(i, 1);
+      if (brandState.actionPalette === removed) brandState.actionPalette = 'primary';
+      applyFull();
+    };
+    row.append(picker, name, rm);
+    box.append(row);
+  });
+  const add = el('button', 'bcadd', '+ Add colour') as HTMLButtonElement;
+  add.onclick = () => {
+    const names = new Set(list.map((b) => b.name));
+    let n = list.length + 1, nm = `accent${n}`;
+    while (names.has(nm)) nm = `accent${++n}`;
+    list.push({ name: nm, oklch: { l: 0.55, c: 0.15, h: 235 } });
+    applyFull();
+  };
+  box.append(add);
+  return box;
 };
 
 const renderReadonly = (wrap: HTMLElement, lever: Lever): void => {
@@ -205,7 +254,7 @@ const renderReadonly = (wrap: HTMLElement, lever: Lever): void => {
 const renderLevers = (): HTMLElement => {
   const aside = el('aside', 'levers');
   aside.append(el('h2', undefined, 'Levers'));
-  aside.append(el('p', 'muted', 'Rendered from the shared lever manifest. Knobs marked live (colour, corner radius, type scale) re-resolve the preview on change; density/motion/shadow stay read-only until the chips render those axes.'));
+  aside.append(el('p', 'muted', 'Rendered from the shared lever manifest. Knobs marked live (colour anchor + brand colours, corner radius, type scale) re-resolve the preview on change; density/motion/shadow stay read-only until the chips render those axes.'));
   for (const g of leverGroups) {
     const levers = leverManifest.filter((l) => l.group === g.group && !l.advanced);
     if (!levers.length) continue;
@@ -364,6 +413,14 @@ body { margin:0; font:14px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Robot
 .knob-val { font-variant-numeric:tabular-nums; color:var(--muted); font-size:12px; }
 .knob-desc { margin:6px 0 0; font-size:12px; color:var(--muted); }
 .swatch { width:16px; height:16px; border-radius:4px; background:linear-gradient(135deg,#5b4bd6,#3aa0d6); display:inline-block; }
+.bclist { margin-top:8px; display:flex; flex-direction:column; gap:6px; }
+.bcrow { display:flex; align-items:center; gap:6px; }
+.bcrow input[type=color] { width:32px; height:26px; padding:0; border:1px solid var(--line); border-radius:6px; background:none; cursor:pointer; flex:none; }
+.bcname { flex:1; min-width:0; padding:4px 6px; border:1px solid var(--line); border-radius:6px; font:inherit; font-size:12px; }
+.bcrm { flex:none; width:24px; height:26px; border:1px solid var(--line); background:#fff; border-radius:6px; cursor:pointer; color:var(--muted); line-height:1; }
+.bcrm:hover { background:#fdecec; color:#a12; border-color:#f2c6c6; }
+.bcadd { margin-top:2px; align-self:flex-start; border:1px dashed var(--line); background:#fff; border-radius:6px; padding:4px 10px; cursor:pointer; font:inherit; font-size:12px; color:var(--muted); }
+.bcadd:hover { border-color:var(--ink); color:var(--ink); }
 .rightcol { display:flex; flex-direction:column; gap:24px; }
 .errbar { border:1px solid #f2c6c6; background:#fdecec; color:#a12; border-radius:10px; padding:10px 14px; font-size:13px; }
 .preview { border:1px solid var(--line); border-radius:12px; padding:20px; }
