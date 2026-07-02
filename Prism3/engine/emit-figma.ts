@@ -14,6 +14,14 @@
  *     lands bindable tracking FLOATs); (4) primary family bound + full stack in
  *     description; (5) fontStyle derived from the weight-role via a named-instance
  *     table (mono falls back for weights it lacks).
+ *   • DIMS — the whole geometric layer emitted as SEVEN FLOAT collections:
+ *     `dimension` (fine-grid primitives), `space`/`radius`/`size`/`border-width`/
+ *     `focus` (all aliased into `dimension` — the primitives are shared) + `opacity`
+ *     (dimensionless 0–1). No fixtures for this axis (§2 covers colour + typography
+ *     only), so the gate is structural: counts match the DTCG tree, every alias
+ *     target resolves within the emitted collections, scopes/resolvedType are
+ *     consistent per family. `focus.ring.style` (`strokeStyle: 'solid'`) is skipped
+ *     — Figma has no `strokeStyle` variable primitive; it stays a code-side literal.
  *
  * The engine's DTCG carries the *semantic* facts (aliases, per-mode targets, fluid
  * `responsive.figma.modes`, weight-role → numeric); the *Figma-target rendering*
@@ -387,6 +395,183 @@ export const buildFigmaTextStyles = (theme: Theme): FigmaTextStylesFile => {
   return { $collection: 'text-styles', styles };
 };
 
+// ---------------------------------------------------------------------------
+// DIMS — the geometric axis. Seven FLOAT collections in the Figma target:
+//   dimension    → the fine-grid primitives (0/1/2/4/6/8/12/…) — the shared step
+//                  set every dims token aliases into. Standalone (no aliases).
+//   space        → numbered-multiplier scale (`025`/`050`/`075`/`100`/`150`/…) —
+//                  each var aliases `dimension/<px>`. Scope: GAP.
+//   radius       → t-shirt ramp (none/sm/md/lg/round). Scope: CORNER_RADIUS.
+//   size         → component tier — one FLOAT per (t-shirt, prop) pair. `<t>/height`
+//                  aliases dimension (WIDTH_HEIGHT scope); `<t>/padding-x` and
+//                  `<t>/padding-y` alias space (GAP scope). Names use `/` between
+//                  t-shirt and prop (`md/height`), matching the colour/font convention.
+//   border-width → hairline/thick/heavy + none, aliased. Scope: STROKE_FLOAT.
+//   focus        → ring.width / ring.offset / ring.offset-field (STROKE_FLOAT). The
+//                  fourth `focus.ring.style` DTCG token (a `strokeStyle: 'solid'`
+//                  literal) is intentionally SKIPPED — Figma has no strokeStyle
+//                  variable primitive; the literal stays code-side.
+//   opacity      → dimensionless 0–1 (0/5/10/…/100 as percent keys). Scope: OPACITY.
+//
+// No fixtures — the DTCG tree IS the source of truth (docs/10 §2 only freezes
+// colour + typography). Gate is structural: variable counts vs the tree, every
+// alias resolves within the emitted collections, scopes consistent per family.
+// ---------------------------------------------------------------------------
+
+// Scopes by Figma convention. `dimension` primitives get the broad set (they can
+// bind anywhere a FLOAT is expected); each semantic collection narrows to its
+// intended surface, so the picker in Figma only shows relevant vars.
+const DIMENSION_SCOPES = ['WIDTH_HEIGHT', 'GAP', 'CORNER_RADIUS', 'STROKE_FLOAT'];
+const SPACE_SCOPES = ['GAP'];
+const RADIUS_SCOPES = ['CORNER_RADIUS'];
+const BORDER_WIDTH_SCOPES = ['STROKE_FLOAT'];
+const FOCUS_SCOPES = ['STROKE_FLOAT'];
+const OPACITY_SCOPES = ['OPACITY'];
+const SIZE_HEIGHT_SCOPES = ['WIDTH_HEIGHT'];
+const SIZE_PADDING_SCOPES = ['GAP'];
+
+/** Numeric px from a `12px` or `"{alias}"` value. For alias targets we resolve via
+ *  the DTCG tree — the resolved leaf's $value is `12px`. */
+const pxFromValue = (tree: any, v: unknown): number => {
+  if (typeof v === 'number') return v;
+  if (typeof v === 'string') {
+    const m = /^\{(.+)\}$/.exec(v);
+    if (m) {
+      const target = at(tree, m[1]);
+      return pxFromValue(tree, target?.$value);
+    }
+    return parseFloat(v.replace('px', '')) || 0;
+  }
+  return 0;
+};
+/** DTCG alias `{nbds.dimension.8}` → Figma name `dimension/8`. Uses figName. */
+const aliasFigName = (aliasStr: string): string => {
+  const m = /^\{(.+)\}$/.exec(String(aliasStr));
+  return m ? figName(m[1]) : '';
+};
+
+export type FigmaDimsCollections = {
+  dimension: FigmaCollectionFile;
+  space: FigmaCollectionFile;
+  radius: FigmaCollectionFile;
+  size: FigmaCollectionFile;
+  borderWidth: FigmaCollectionFile;
+  focus: FigmaCollectionFile;
+  opacity: FigmaCollectionFile;
+};
+
+export const buildFigmaDims = (theme: Theme): FigmaDimsCollections => {
+  const { tree } = buildTree(theme);
+  const root = Object.keys(tree)[0];
+  const brand = tree[root];
+
+  // dimension primitives — value is the numeric px; no alias.
+  const dimVars: FigmaVar[] = Object.keys(brand.dimension).map((key) => ({
+    name: `dimension/${key}`,
+    resolvedType: 'FLOAT' as const,
+    scopes: DIMENSION_SCOPES,
+    description: '',
+    value: pxFromValue(tree, brand.dimension[key].$value),
+    alias: null,
+  }));
+
+  // space — aliases into dimension. Value = resolved px (belt-and-suspenders).
+  const spaceVars: FigmaVar[] = Object.keys(brand.space).map((key) => {
+    const leaf = brand.space[key];
+    return {
+      name: `space/${key}`,
+      resolvedType: 'FLOAT' as const,
+      scopes: SPACE_SCOPES,
+      description: '',
+      value: pxFromValue(tree, leaf.$value),
+      alias: { type: 'VARIABLE_ALIAS' as const, name: aliasFigName(leaf.$value) },
+    };
+  });
+
+  const radiusVars: FigmaVar[] = Object.keys(brand.radius).map((key) => {
+    const leaf = brand.radius[key];
+    const isAlias = typeof leaf.$value === 'string' && /^\{.+\}$/.test(leaf.$value);
+    return {
+      name: `radius/${key}`,
+      resolvedType: 'FLOAT' as const,
+      scopes: RADIUS_SCOPES,
+      description: '',
+      value: pxFromValue(tree, leaf.$value),
+      alias: isAlias ? { type: 'VARIABLE_ALIAS' as const, name: aliasFigName(leaf.$value) } : null,
+    };
+  });
+
+  // size — nested { <tShirt>: { height, padding-x, padding-y } }. Emit one FLOAT
+  // per leaf; height aliases dimension, padding aliases space.
+  const sizeVars: FigmaVar[] = [];
+  for (const t of Object.keys(brand.size)) {
+    for (const prop of ['height', 'padding-x', 'padding-y']) {
+      const leaf = brand.size[t][prop];
+      if (!leaf) continue;
+      const isAlias = typeof leaf.$value === 'string' && /^\{.+\}$/.test(leaf.$value);
+      sizeVars.push({
+        name: `size/${t}/${prop}`,
+        resolvedType: 'FLOAT',
+        scopes: prop === 'height' ? SIZE_HEIGHT_SCOPES : SIZE_PADDING_SCOPES,
+        description: '',
+        value: pxFromValue(tree, leaf.$value),
+        alias: isAlias ? { type: 'VARIABLE_ALIAS', name: aliasFigName(leaf.$value) } : null,
+      });
+    }
+  }
+
+  const borderVars: FigmaVar[] = Object.keys(brand['border-width']).map((key) => {
+    const leaf = brand['border-width'][key];
+    const isAlias = typeof leaf.$value === 'string' && /^\{.+\}$/.test(leaf.$value);
+    return {
+      name: `border-width/${key}`,
+      resolvedType: 'FLOAT' as const,
+      scopes: BORDER_WIDTH_SCOPES,
+      description: '',
+      value: pxFromValue(tree, leaf.$value),
+      alias: isAlias ? { type: 'VARIABLE_ALIAS' as const, name: aliasFigName(leaf.$value) } : null,
+    };
+  });
+
+  // focus — nested `ring.width` / `ring.offset` / `ring.offset-field` all
+  // FLOAT; skip `ring.style` (strokeStyle — no Figma primitive).
+  const focusVars: FigmaVar[] = [];
+  const ring = brand.focus?.ring ?? {};
+  for (const key of Object.keys(ring)) {
+    const leaf = ring[key];
+    if (leaf.$type !== 'dimension') continue; // skip strokeStyle
+    const isAlias = typeof leaf.$value === 'string' && /^\{.+\}$/.test(leaf.$value);
+    focusVars.push({
+      name: `focus/ring/${key}`,
+      resolvedType: 'FLOAT',
+      scopes: FOCUS_SCOPES,
+      description: '',
+      value: pxFromValue(tree, leaf.$value),
+      alias: isAlias ? { type: 'VARIABLE_ALIAS', name: aliasFigName(leaf.$value) } : null,
+    });
+  }
+
+  const opacityVars: FigmaVar[] = Object.keys(brand.opacity).map((key) => ({
+    name: `opacity/${key}`,
+    resolvedType: 'FLOAT' as const,
+    scopes: OPACITY_SCOPES,
+    description: '',
+    value: brand.opacity[key].$value as number,
+    alias: null,
+  }));
+
+  const c = (name: string, variables: FigmaVar[]): FigmaCollectionFile => ({ $collection: name, $mode: 'Default', variables });
+  return {
+    dimension: c('dimension', dimVars),
+    space: c('space', spaceVars),
+    radius: c('radius', radiusVars),
+    size: c('size', sizeVars),
+    borderWidth: c('border-width', borderVars),
+    focus: c('focus', focusVars),
+    opacity: c('opacity', opacityVars),
+  };
+};
+
 // ---------------------------------------------------------------------- I/O
 const here = dirname(fileURLToPath(import.meta.url));
 const isMain = process.argv[1] ? resolve(process.argv[1]) === fileURLToPath(import.meta.url) : false;
@@ -404,6 +589,11 @@ if (isMain) {
     for (const f of fluid) writeFileSync(resolve(dir, `font-fluid.${f.$mode}.json`), JSON.stringify(f, null, 2) + '\n');
     const textStyles = buildFigmaTextStyles(theme);
     writeFileSync(resolve(dir, 'text-styles.json'), JSON.stringify(textStyles, null, 2) + '\n');
-    console.log(`[figma] ${id}: palette ${palette.variables.length} + color ${color.length}×${color[0].variables.length} + font ${font.variables.length} + font-fluid ${fluid.length}×${fluid[0].variables.length} + text-styles ${textStyles.styles.length}`);
+    const dims = buildFigmaDims(theme);
+    for (const [_key, coll] of Object.entries(dims)) {
+      writeFileSync(resolve(dir, `${coll.$collection}.json`), JSON.stringify(coll, null, 2) + '\n');
+    }
+    const dimsCount = (Object.values(dims) as FigmaCollectionFile[]).reduce((n, c) => n + c.variables.length, 0);
+    console.log(`[figma] ${id}: palette ${palette.variables.length} + color ${color.length}×${color[0].variables.length} + font ${font.variables.length} + font-fluid ${fluid.length}×${fluid[0].variables.length} + text-styles ${textStyles.styles.length} + dims ${dimsCount} (${Object.keys(dims).length} colls)`);
   }
 }

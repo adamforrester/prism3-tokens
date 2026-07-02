@@ -1,0 +1,71 @@
+{
+  "$collection": "radius",
+  "$mode": "Default",
+  "variables": [
+    {
+      "name": "radius/none",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "CORNER_RADIUS"
+      ],
+      "description": "",
+      "value": 0,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/0"
+      }
+    },
+    {
+      "name": "radius/sm",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "CORNER_RADIUS"
+      ],
+      "description": "",
+      "value": 2,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/2"
+      }
+    },
+    {
+      "name": "radius/md",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "CORNER_RADIUS"
+      ],
+      "description": "",
+      "value": 4,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/4"
+      }
+    },
+    {
+      "name": "radius/lg",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "CORNER_RADIUS"
+      ],
+      "description": "",
+      "value": 6,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/6"
+      }
+    },
+    {
+      "name": "radius/round",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "CORNER_RADIUS"
+      ],
+      "description": "",
+      "value": 128,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/128"
+      }
+    }
+  ]
+}

@@ -1,0 +1,201 @@
+{
+  "$collection": "size",
+  "$mode": "Default",
+  "variables": [
+    {
+      "name": "size/xs/height",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "",
+      "value": 32,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/32"
+      }
+    },
+    {
+      "name": "size/xs/padding-x",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "GAP"
+      ],
+      "description": "",
+      "value": 8,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "space/100"
+      }
+    },
+    {
+      "name": "size/xs/padding-y",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "GAP"
+      ],
+      "description": "",
+      "value": 4,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "space/050"
+      }
+    },
+    {
+      "name": "size/sm/height",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "",
+      "value": 40,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/40"
+      }
+    },
+    {
+      "name": "size/sm/padding-x",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "GAP"
+      ],
+      "description": "",
+      "value": 16,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "space/200"
+      }
+    },
+    {
+      "name": "size/sm/padding-y",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "GAP"
+      ],
+      "description": "",
+      "value": 6,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "space/075"
+      }
+    },
+    {
+      "name": "size/md/height",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "",
+      "value": 48,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/48"
+      }
+    },
+    {
+      "name": "size/md/padding-x",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "GAP"
+      ],
+      "description": "",
+      "value": 16,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "space/200"
+      }
+    },
+    {
+      "name": "size/md/padding-y",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "GAP"
+      ],
+      "description": "",
+      "value": 8,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "space/100"
+      }
+    },
+    {
+      "name": "size/lg/height",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "",
+      "value": 56,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/56"
+      }
+    },
+    {
+      "name": "size/lg/padding-x",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "GAP"
+      ],
+      "description": "",
+      "value": 24,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "space/300"
+      }
+    },
+    {
+      "name": "size/lg/padding-y",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "GAP"
+      ],
+      "description": "",
+      "value": 8,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "space/100"
+      }
+    },
+    {
+      "name": "size/xl/height",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "",
+      "value": 64,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/64"
+      }
+    },
+    {
+      "name": "size/xl/padding-x",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "GAP"
+      ],
+      "description": "",
+      "value": 24,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "space/300"
+      }
+    },
+    {
+      "name": "size/xl/padding-y",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "GAP"
+      ],
+      "description": "",
+      "value": 16,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "space/200"
+      }
+    }
+  ]
+}

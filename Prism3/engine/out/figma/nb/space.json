@@ -1,0 +1,240 @@
+{
+  "$collection": "space",
+  "$mode": "Default",
+  "variables": [
+    {
+      "name": "space/0",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "GAP"
+      ],
+      "description": "",
+      "value": 0,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/0"
+      }
+    },
+    {
+      "name": "space/100",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "GAP"
+      ],
+      "description": "",
+      "value": 8,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/8"
+      }
+    },
+    {
+      "name": "space/150",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "GAP"
+      ],
+      "description": "",
+      "value": 12,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/12"
+      }
+    },
+    {
+      "name": "space/200",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "GAP"
+      ],
+      "description": "",
+      "value": 16,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/16"
+      }
+    },
+    {
+      "name": "space/250",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "GAP"
+      ],
+      "description": "",
+      "value": 20,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/20"
+      }
+    },
+    {
+      "name": "space/300",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "GAP"
+      ],
+      "description": "",
+      "value": 24,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/24"
+      }
+    },
+    {
+      "name": "space/400",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "GAP"
+      ],
+      "description": "",
+      "value": 32,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/32"
+      }
+    },
+    {
+      "name": "space/500",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "GAP"
+      ],
+      "description": "",
+      "value": 40,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/40"
+      }
+    },
+    {
+      "name": "space/600",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "GAP"
+      ],
+      "description": "",
+      "value": 48,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/48"
+      }
+    },
+    {
+      "name": "space/700",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "GAP"
+      ],
+      "description": "",
+      "value": 56,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/56"
+      }
+    },
+    {
+      "name": "space/800",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "GAP"
+      ],
+      "description": "",
+      "value": 64,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/64"
+      }
+    },
+    {
+      "name": "space/900",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "GAP"
+      ],
+      "description": "",
+      "value": 72,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/72"
+      }
+    },
+    {
+      "name": "space/1000",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "GAP"
+      ],
+      "description": "",
+      "value": 80,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/80"
+      }
+    },
+    {
+      "name": "space/1100",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "GAP"
+      ],
+      "description": "",
+      "value": 88,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/88"
+      }
+    },
+    {
+      "name": "space/1200",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "GAP"
+      ],
+      "description": "",
+      "value": 96,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/96"
+      }
+    },
+    {
+      "name": "space/025",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "GAP"
+      ],
+      "description": "",
+      "value": 2,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/2"
+      }
+    },
+    {
+      "name": "space/050",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "GAP"
+      ],
+      "description": "",
+      "value": 4,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/4"
+      }
+    },
+    {
+      "name": "space/075",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "GAP"
+      ],
+      "description": "",
+      "value": 6,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/6"
+      }
+    }
+  ]
+}
