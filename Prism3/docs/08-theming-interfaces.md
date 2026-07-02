@@ -150,11 +150,19 @@ honoured from the start rather than retrofitted:
      output-scoped, 215/215.
    - B1c — the host renderers (DOM playground / Figma-node plugin), with B2/B3. The binding + overlay
      pattern is now proven via the B1 dogfood above; B1c ports it to the two live hosts.
-3. **New Figma plugin shell** — bundles the core, renders knobs from the manifest,
-   materialises via `$extensions.prism3.figma` (§2/§5).
-4. **Web playground** — same manifest + preview model, DOM/CSS-var host (§3).
+3. **Web dashboard (host) FIRST** — same manifest + preview model, DOM/CSS-var host (§3).
+   Fastest loop, no sandbox constraints; the cleanest proof the shared contracts drive a
+   real UI before the harder Figma host. *(Ordering + packaging locked in `09` — the web
+   host precedes the plugin; both live as packages in this repo's monorepo.)*
+4. **New Figma plugin shell** — the same renderer wearing a Figma face: bundles the core,
+   renders knobs from the manifest, materialises via `$extensions.prism3.figma` (§2/§5).
+   Absorbs the three separate Figma plugins' *function* (`09 §4`).
 5. **MCP adapter** — tools derived from the manifest; "an agent themes Prism3"
    as a callable surface.
+
+**Packaging:** the engine, web dashboard, and Figma plugin are one monorepo grown from
+`prism3-tokens`; the core stays buildless (tsx), the adapters get a bundler. Full repo
+strategy + the plugin absorb/downstream/leave map is in `09-architecture-and-repos`.
 
 **Parallel validation tracks (no dependency on the above):**
 - **Style Dictionary consumption** — run `out/*.tokens.json` through SD to prove a

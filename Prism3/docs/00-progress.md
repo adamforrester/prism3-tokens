@@ -85,7 +85,8 @@ Prism3/
 │   ├── 05-token-coverage-roadmap.md ← build backlog: remaining token categories (type, motion, shadow, layout, …)
 │   ├── 06-surface-and-content-color-model.md ← the surface/content colour model + §7b as-built naming (palette/color) & mode encoding
 │   ├── 07-e2e-journey.md            ← the designer↔developer↔agent pipeline; portable-core architecture; design.md; component layer (layers 2–3 of the AI stack)
-│   └── 08-theming-interfaces.md     ← the customization surfaces (plugin/playground/CLI/MCP/Figma-MCP); new-plugin + shared-lever-manifest decisions; two-route materialization; revised build sequence
+│   ├── 08-theming-interfaces.md     ← the customization surfaces (plugin/playground/CLI/MCP/Figma-MCP); new-plugin + shared-lever-manifest decisions; two-route materialization; revised build sequence
+│   └── 09-architecture-and-repos.md ← platform architecture + repo/packaging (monorepo grown from prism3-tokens; web-dashboard-first); which of the owner's other plugins get absorbed vs stay downstream
 ├── schema/
 │   ├── theme-schema.json           ← the white-label BrandInput contract (JSON Schema; validated on every emit)
 │   ├── theme-schema.example.json   ← a worked BrandInput (aurora) that conforms to the contract
@@ -142,6 +143,25 @@ npx tsx Prism3/engine/cli.ts Prism3/examples/wendys.design.md --fidelity      # 
 
 ## Decisions log (why things are the way they are)
 
+- **Platform packaging: monorepo grown from `prism3-tokens`, web dashboard first (2026-07-02).**
+  Owner-locked answers to the "one engine, two hosts" packaging question (full shape in
+  `09-architecture-and-repos`). (A) The web dashboard and Figma plugin are **two adapters over one
+  core** — both import the same engine module and render from the shared lever manifest + preview
+  spec + `resolvePreview`; continuity is structural, not a sync. (B) They live as packages **in this
+  repo** (`web/`, `figma-plugin/` beside `Prism3/engine/`), not a fresh repo and not three published
+  repos — one version, a lever change lands everywhere in one commit; `brand-skills`/`knowledge-base`
+  stay their own repos. The "no build" invariant holds for the core (tsx); the *adapters* get a
+  bundler (a browser/Figma bundle is a packaging step, not a port). (C) **Web dashboard first** —
+  fastest loop, no sandbox constraints, cleanest proof the shared contracts drive a real UI; the
+  Figma plugin then reuses the same renderer. **Plugin consolidation:** the three separate Figma
+  plugins (theming, text-style, style-guide-generator) get their *function* absorbed into the new
+  B2 plugin (never their code — each carries a separate brain); the **style-guide generator lays
+  tokens out as frames on the Figma canvas** (canvas documentation — a distinct capability the
+  `visualize.ts` HTML preview does *not* replace, so it's a B2 feature, not a retirement). Token
+  Press (different org) + the CLI templating system stay **downstream, contract-connected** via DTCG
+  output, never merged. *Rationale:* owner decisions — "grow prism3-tokens into a monorepo," "web
+  dashboard [first]," + the style-guide-generator correction. Resolves the packaging question `08`
+  raised but didn't settle.
 - **Dogfood the shared preview model in `visualize.ts` before building the hosts (2026-07-02).**
   Rather than take the leap straight from the B1a/B1b portable model to two new live hosts (DOM
   playground + Figma-node plugin) in a fresh repo, the static style-guide generator was made the
