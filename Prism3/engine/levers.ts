@@ -18,10 +18,12 @@
  * split as `theme.ts` vs `nb-fixture.ts`, docs/07 §3). The emit step lives in the
  * shell `emit-levers.ts` (`npx tsx Prism3/engine/emit-levers.ts` → `schema/lever-manifest.json`).
  *
- * `id` is intentionally NOT a lever (see `identityFields`): it is brand *identity*
- * the host supplies (CLI derives it from the file/name, the plugin from the Figma
- * file, an MCP call passes it as an argument) — not a design knob a surface renders.
- * The drift gate enforces that every *other* required BrandInput field IS a lever.
+ * `id` and `root` are intentionally NOT levers (see `identityFields`): they are brand
+ * *identity* / namespace the host supplies (CLI derives `id` from the file/name, the
+ * plugin from the Figma file, an MCP call passes them as arguments; `root` is the
+ * per-engagement token namespace, default 'prism') — not design knobs a surface
+ * renders in the lever-driven form. The drift gate enforces that every *other*
+ * required BrandInput field IS a lever.
  */
 export type LeverGroup = 'color' | 'form' | 'type' | 'motion' | 'elevation' | 'layout' | 'advanced';
 /** The UI affordance a surface renders for this lever. `object`/`list` denote a
@@ -160,7 +162,7 @@ export const leverGroups: { group: LeverGroup; label: string }[] = [
  *  gate subtracts these before asserting every required field is a lever, so the
  *  omission is explicit and a *new* required field (or a dropped `primary`/`neutral`)
  *  is still caught. */
-export const identityFields = ['id'] as const;
+export const identityFields = ['id', 'root'] as const;
 
 export const buildLeverManifest = () => ({
   $schema: 'https://prism3.dev/schema/lever-manifest.json',

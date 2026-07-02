@@ -117,6 +117,13 @@ const statusRamp = (hue: number, chroma: number): Step[] =>
 // ---------------------------------------------------------------------------
 export type BrandInput = {
   id: string;
+  /** The single, mode-invariant token namespace. Every token emits under `<root>.*`
+   *  (colour primitives at `<root>.palette`, semantic roles at `<root>.color`).
+   *  Per-engagement/brand; defaults to the placeholder 'prism'. One segment only —
+   *  no dots (two-segment namespaces are intentionally unsupported). A namespace is
+   *  always present today; a future "no namespace" mode would flatten it at the emit
+   *  boundary (see docs/00-progress "Namespace" note) — not by emptying `root`. */
+  root?: string;
   primary: OKLCH;                    // the exact brand anchor (palette 'primary')
   neutral: { hue: number; chroma: number };
   /** Additional brand colours — secondary, tertiary, accents. Any number; each
@@ -723,6 +730,14 @@ const buildGradient = (spec: BrandInput['gradients'], palettes: PaletteBuild[], 
 
 export const brandTheme = (input: BrandInput): Theme => {
   const notes: string[] = [];
+  const root = input.root ?? 'prism';
+  // Single lowercase segment — enforce the "no two-segment namespaces" contract here
+  // too (not only in the schema), since brandTheme is also called with in-memory
+  // BrandInput that never touched schema validation (the web app builds it directly).
+  if (!/^[a-z][a-z0-9-]*$/.test(root)) {
+    throw new Error(`root namespace '${root}' must be a single lowercase segment (letters/digits/hyphen, no dots or spaces)`);
+  }
+  if (root !== 'prism') notes.push(`namespace: tokens emit under '${root}.*' (custom, not the 'prism' default)`);
   const anchorStep = autoPlaceStep(input.primary.l);
   notes.push(`primary anchor (h${input.primary.h}) pinned exactly at step ${anchorStep}`);
 
@@ -781,7 +796,7 @@ export const brandTheme = (input: BrandInput): Theme => {
   notes.push(`motion: tempo '${input.motionPersonality?.tempo ?? 'standard'}' scales the duration ramp; easing roles + springs + composite transitions generated; reduce-motion variants derived (informational preserved, vestibular → 0)`);
   const shadow = buildShadow(input.neutral.hue, input.shadow);
   notes.push(`shadow: 6-step ramp (xs–2xl) + inset, 2-layer (key+ambient), softness ${shadow.softness}; tinted base (hue ${shadow.tint.hue}, amount ${shadow.tint.amount}${shadow.tint.amount === 0 ? ' = pure black' : ''}). Mode-aware, LIFT-primary: full shadow in light; reduced (faded, top-weighted) in dark — the surface ladder carries dark elevation. Composite shadow → Figma Effect Style.`);
-  const gradient = buildGradient(input.gradients, palettes, 'prism');
+  const gradient = buildGradient(input.gradients, palettes, root);
   if (gradient.gradients.length) {
     notes.push(`gradient: ${gradient.gradients.length} brand gradient(s) [${gradient.gradients.map((g) => `${g.name} ${g.kind}${g.kind === 'linear' ? ` ${g.angle}°` : ''} ${g.stops.length}-stop`).join(', ')}] — OPT-IN. DTCG composite spine, stop colours alias the ramp; kind/angle/${gradient.gradients[0].interpolation} interpolation in \$extensions (DTCG omits them — issue #101). OKLCH-interpolated + ${gradient.gradients[0].sampled.length}-stop sRGB pre-sample for Figma (sRGB-only); materializes as a Figma Paint Style (only stop colours bind). Worst-case-stop contrast computed for text-on-gradient.`);
   } else {
@@ -815,7 +830,7 @@ export const brandTheme = (input: BrandInput): Theme => {
   }
 
   return {
-    id: input.id, root: 'prism', namespace: 'prism.palette', colorFormat: 'hex', palettes, roleToPalette, notes,
+    id: input.id, root, namespace: `${root}.palette`, colorFormat: 'hex', palettes, roleToPalette, notes,
     roleAnchorStep: { brand: anchorStep, neutral: 500, success: 500, warning: 500, danger: 500, info: 500, action: actionPalette === 'primary' ? anchorStep : 500 },
     surfaces: input.surfaces,
     disabledStrategy: input.disabledStrategy ?? 'accessible',

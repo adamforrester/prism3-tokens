@@ -9,7 +9,13 @@
   "properties": {
     "id": {
       "type": "string",
-      "description": "Brand identifier; becomes the emit root/namespace seed (e.g. 'aurora' → prism.*)."
+      "description": "Brand identifier (e.g. 'aurora'). Host-supplied identity; the emit namespace is set separately by `root`."
+    },
+    "root": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "default": "prism",
+      "description": "The single, mode-invariant token namespace segment. Every token emits under `<root>.*` (colour primitives at `<root>.palette`, semantic roles at `<root>.color`). Per-engagement/brand; defaults to the placeholder 'prism'. One segment only — no dots (two-segment namespaces are intentionally unsupported)."
     },
     "primary": {
       "$ref": "#/$defs/oklch",
