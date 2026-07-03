@@ -28,7 +28,8 @@ import type { Lever } from '../../Prism3/engine/levers';
 import { previewSpec } from '../../Prism3/engine/preview';
 import { resolvePreview } from '../../Prism3/engine/resolve-preview';
 import type { ResolvedPreview } from '../../Prism3/engine/resolve-preview';
-import { parseDesignMd } from '../../Prism3/engine/design-md';
+import { parseDesignMd, toDesignMd } from '../../Prism3/engine/design-md';
+import { buildTree } from '../../Prism3/engine/tree';
 import exampleBrands from '../../Prism3/schema/example-brands.json';
 
 type Mode = ResolvedPreview['modes'][number];
@@ -483,6 +484,26 @@ const loadBrand = (input: BrandInput): void => {
   build();
 };
 
+/** Trigger a client-side file download (Blob → object URL → anchor click). */
+const download = (filename: string, text: string, mime: string): void => {
+  const url = URL.createObjectURL(new Blob([text], { type: mime }));
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.append(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 0);
+};
+
+const slug = (): string => (brandState.id || 'brand').trim().replace(/\s+/g, '-') || 'brand';
+
+/** Export the current brand as design.md — round-trips straight back into Import. */
+const exportDesignMd = (): void => download(`${slug()}.design.md`, toDesignMd(brandState), 'text/markdown');
+
+/** Export the resolved DTCG token tree (buildTree), namespaced under the brand's root. */
+const exportTokens = (): void => {
+  const tree = buildTree(brandTheme(brandState)).tree;
+  download(`${slug()}.tokens.json`, JSON.stringify(tree, null, 2), 'application/json');
+};
+
 /** Parse a pasted design.md and load it. Validation is "does the engine accept it":
  *  a parse error or a brandTheme throw is surfaced; the working brand is untouched
  *  until both pass. (The full schema validator is node-bound, so it can't run here —
@@ -553,6 +574,15 @@ const renderBrandMenu = (): HTMLElement => {
     box.append(load);
     menu.append(box);
   }
+
+  menu.append(el('div', 'bm-div'));
+  menu.append(el('div', 'bm-cap', 'Export'));
+  const expMd = el('button', 'bm-item', '↓ design.md') as HTMLButtonElement;
+  expMd.onclick = exportDesignMd;
+  const expTok = el('button', 'bm-item', '↓ tokens.json — DTCG') as HTMLButtonElement;
+  expTok.onclick = exportTokens;
+  menu.append(expMd, expTok);
+  menu.append(el('p', 'bm-hint', 'design.md re-imports here; tokens.json is the resolved tree.'));
   return menu;
 };
 
