@@ -35,8 +35,12 @@ export type ResolvedPreview = {
   colors: Record<string, Record<ModeName, string>>;
   /** each declared contract, evaluated on the resolved colours per mode. */
   contracts: PreviewContractResult[];
-  /** dimension binding (e.g. `radius.md`, `space.300`) → px. Mode-invariant. */
+  /** dimension binding (e.g. `radius.md`, `space.300`) → px. The canonical (light) baseline. */
   dims: Record<string, number>;
+  /** sparse per-mode dimension overrides (e.g. wireframe zeroes radius). Only refs that vary
+   *  by mode appear, and only the modes that differ from the baseline — mirroring the tree's
+   *  `$extensions.prism3.modes`. A consumer reads `dimOverrides[ref]?.[mode] ?? dims[ref]`. */
+  dimOverrides: Record<string, Partial<Record<ModeName, number>>>;
   /** typography binding (e.g. `type.label.md.emphasis`) → resolved composite. Mode-invariant. */
   type: Record<string, ResolvedType>;
 };
@@ -86,7 +90,22 @@ export const resolvePreview = (theme: Theme, spec: PreviewSpec = previewSpec): R
     else if (t.startsWith('radius.') || t.startsWith('space.')) dimRefs.add(t);
   }
   const dims: ResolvedPreview['dims'] = {};
-  for (const ref of [...dimRefs].sort()) dims[ref] = pxOf(tree, at(data, ref));
+  const dimOverrides: ResolvedPreview['dimOverrides'] = {};
+  for (const ref of [...dimRefs].sort()) {
+    const node = at(data, ref);
+    dims[ref] = pxOf(tree, node);
+    // Per-mode geometry (docs/11 1b — wireframe radius → 0): read the leaf's mode overrides,
+    // resolving each override's alias to px, so the preview renders the right value per mode.
+    const mo = node?.$extensions?.prism3?.modes;
+    if (mo && typeof mo === 'object' && !Array.isArray(mo)) {
+      const perMode: Partial<Record<ModeName, number>> = {};
+      for (const [mode, ov] of Object.entries(mo)) {
+        const v = (ov as { $value?: unknown })?.$value;
+        if (typeof v === 'string') perMode[mode as ModeName] = pxOf(tree, subNode(tree, v));
+      }
+      if (Object.keys(perMode).length) dimOverrides[ref] = perMode;
+    }
+  }
   const type: ResolvedPreview['type'] = {};
   for (const ref of [...typeRefs].sort()) {
     const node = at(data, ref);
@@ -99,5 +118,5 @@ export const resolvePreview = (theme: Theme, spec: PreviewSpec = previewSpec): R
     };
   }
 
-  return { modes: modes.map((m) => m.mode), colors, contracts, dims, type };
+  return { modes: modes.map((m) => m.mode), colors, contracts, dims, dimOverrides, type };
 };

@@ -216,3 +216,64 @@ byte-for-byte (~3d); (5) migrate the engine's `emit-dtcg` serialization → core
 formatters engine-internal. Author them at the chosen shape boundary, in the extracted package
 location — even if the package still lives inside this repo pre-move — so they're already in
 the right module when B lands.
+
+### 9c. Shape decisions confirmed against Token Press v2.3.1 source (2026-07-03)
+
+A second Token-Press-side pass pressure-tested each §9a decision against the real code (not the
+handoff brief; where doc and code disagreed, code won). **All five hold** — with six concrete
+refinements to fold into the plan. Verdicts:
+
+- **Q1 dimension/duration — ✅ fully expressible.** Every emission site already routes through a
+  `dimensionFormat`/`durationFormat`-aware helper (variable hot path `exporter.ts:722–748`,
+  line-height `:686`, shadow dims `shadow-converter.ts:92`, typography `typography-converter.ts:122`,
+  `dimension-converter.ts:157`). No shape TP emits today is inexpressible as facts+preset. The
+  alt-format exporters (CSS/dot/raw-figma) run *downstream* of the DTCG tree, so they inherit
+  whatever the format produced.
+- **Q2 multi-mode — ⚠️ feasible, one gotcha.** The layout logic is tiny and pure
+  (`exporter.ts:141` `hasMultiMode`; `getVariableFileName` `:1166–1187`). But three implicit
+  assumptions must travel with it (see refinements 2–3).
+- **Q3 `$ref`/flatten — ✅ safe.** No known downstream consumer needs brace property-aliases
+  (SD `usesDtcg:true` reads token-level aliases, not property-level). Brace form appears only
+  inside typography composites (`typography-converter.ts:98,167,187,212,269`). Flatten is a safe
+  fallback; the risk is *where* it happens (refinement 4).
+- **Q4 `$extensions` pass-through — ✅ safe.** All eight `$extensions` sites in `exporter.ts` are
+  **write-only**; nothing reads its own extensions to shape output. Validator/type-detection/cache
+  never touch them.
+- **Q5 engine-only types — ✅ zero runtime gate.** The production validator checks alias
+  resolution/cycles/type-mismatch, not a `$type` allowlist. The `DTCGValidator` whitelist exists
+  but is **not** invoked in the export pipeline (dev-time only). A `spring` token emits cleanly.
+
+**Six refinements to carry into Pillar 4 (all adopted):**
+
+1. **Per-family format options, not one flag.** `letterSpacingFormat` is independent of
+   `dimensionFormat` (`typography-converter.ts:137,220`). The core's format API takes per-family
+   options — otherwise the SD-preset mid-migration state (one family flipped, not the other)
+   becomes inexpressible.
+2. **Canonical file-naming sanitizer, one place.** `sanitizeFileName` (`exporter.ts:1189–1194`,
+   lowercase→non-alphanum-to-hyphen→strip) must be shared, or the two sides drift on filenames.
+3. **The unfold step is Prism3-side, not shared-core.** Correction to §9a's framing: TP hands the
+   core one `{collection, mode, tokens}` at a time already-unfolded; Prism3 must unfold its inline
+   tree *before* handoff. **The core is a partitioner + writer, not a mode-flattener.** And the
+   partitioner must be **default-mode-free** — TP privileges no mode (`defaultModeId` is
+   pass-through metadata, never read for shaping), so when Prism3 unfolds, `light` becomes just
+   another per-mode file, not a privileged `$value`.
+4. **`propertyAliases: 'flatten' | '$ref' | 'brace-legacy'` option in the core** (default
+   `'flatten'`). Put the flatten *in the core*, not downstream per-caller — else callers diverge
+   on flatten behavior, which is the exact drift B exists to prevent.
+5. **Core owns the file-level `$extensions.generator` block.** Both callers pass `{name, version}`;
+   the core writes the "who generated this" block once. (Leaf-level `figma.*`/`prism3.*` stay
+   pass-through, refinement unchanged.) Also: TP's `DTCGTokenType` union (`types/dtcg.ts:4–16`, 12
+   types) should *import* the canonical type list from the shared package so the two can't drift.
+6. **+2–3 days on step 4 (TP migration), not in §9b's estimate.** Four near-duplicate formatter
+   implementations must consolidate (variable path, `dimension-converter`, `typography-converter`,
+   `shadow-converter`), keeping the `string | DTCGDimension` return union stable for the CSS
+   exporter's discriminant (`css-exporter.ts:38–54`). The transition-composite compiler
+   (`exporter.ts:967–1050`) folds sibling duration/delay/timing into a composite from
+   *already-formatted* values — it must keep working for TP (compile-from-siblings) while Prism3
+   feeds already-composite transitions (`tree.ts:96–99`); this is the one composite with genuinely
+   different construction paths. Plus a full-ZIP golden (TP has none today, ~1d) and a half-day
+   re-verify per alt-format exporter. **Realistic step 4 = 4–5 days.**
+
+**Net:** §9a is sound; Pillar 4's export core is a **facts-in, partitioned-files-out** module with
+per-family format options, a shared sanitizer + `generator` block, a `propertyAliases` option, and
+a Prism3-side unfolder feeding it. Revised total ≈ **2 weeks + 2–3 days** on the TP migration.

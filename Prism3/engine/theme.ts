@@ -20,7 +20,13 @@ import type { ModeName } from './modes';
 
 /** The appearance modes the engine can generate. `light` is the required base; the rest
  *  are opt-in (docs/11 Pillar 1). Wireframe (docs/11 §Pillar 1b) is not yet a mode. */
+// The DEFAULT mode set — generated when `input.modes` is omitted (back-compat; the
+// four-mode golden is byte-identical). Wireframe is NOT here: it's opt-in only, never
+// a default (docs/11 Pillar 1 — "most brands ship light only; dark/HC/wireframe opt-in").
 export const ALL_MODES: ModeName[] = ['light', 'dark', 'hc-light', 'hc-dark'];
+// The VALID mode set — the allow-list an input may request. Adds `wireframe` (1b): a
+// generated greyscale mode (every non-neutral role → its equivalent neutral; radius → 0).
+export const VALID_MODES: ModeName[] = [...ALL_MODES, 'wireframe'];
 
 // The NB *measurement* fixture (reverse-engineered NB anchors) — the regression
 // input for nbThemeFrom(). A DIFFERENT shape from the white-label BrandInput
@@ -758,10 +764,13 @@ export const brandTheme = (input: BrandInput): Theme => {
   // Appearance modes — light is the required base; dark/HC are opt-in. Validate here too
   // (in-memory BrandInput skips schema validation).
   const modes = input.modes ?? ALL_MODES;
-  const badMode = modes.find((m) => !ALL_MODES.includes(m));
-  if (badMode) throw new Error(`unknown mode '${badMode}' (valid: ${ALL_MODES.join(', ')})`);
+  const badMode = modes.find((m) => !VALID_MODES.includes(m));
+  if (badMode) throw new Error(`unknown mode '${badMode}' (valid: ${VALID_MODES.join(', ')})`);
   if (!modes.includes('light')) throw new Error('modes must include "light" (the required base mode)');
-  if (modes.length < ALL_MODES.length) notes.push(`modes: generating ${modes.join(', ')} only (dark/HC opt-out)`);
+  // Note only the default (light/dark/HC) opt-out; wireframe is an opt-IN addition, noted separately.
+  const stdModes = modes.filter((m) => m !== 'wireframe');
+  if (stdModes.length < ALL_MODES.length) notes.push(`modes: generating ${stdModes.join(', ')} only (dark/HC opt-out)`);
+  if (modes.includes('wireframe')) notes.push('modes: wireframe generated (greyscale — non-neutral roles → equivalent neutral; radius → 0)');
   if (root !== 'prism') notes.push(`namespace: tokens emit under '${root}.*' (custom, not the 'prism' default)`);
   const anchorStep = autoPlaceStep(input.primary.l);
   notes.push(`primary anchor (h${input.primary.h}) pinned exactly at step ${anchorStep}`);

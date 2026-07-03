@@ -527,7 +527,8 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
 // contract actually HOLDS in every mode — the automated version of the PR #20 manual
 // contrast check (the overlay's claims are true on the resolved colours, not assumed).
 {
-  const rp = resolvePreview(brandTheme(parseDesignMd(readFileSync(resolve(HERE, '../examples/harbor.design.md'), 'utf8')).input));
+  const pinput = parseDesignMd(readFileSync(resolve(HERE, '../examples/harbor.design.md'), 'utf8')).input;
+  const rp = resolvePreview(brandTheme(pinput));
   ok(rp.modes.length === 4, 'resolved preview: all four modes projected' + (rp.modes.length !== 4 ? ` — got ${rp.modes.length}` : ''));
 
   const noHex = Object.entries(rp.colors).filter(([, byMode]) => rp.modes.some((m) => !byMode[m])).map(([k]) => k);
@@ -544,6 +545,17 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   ok(Object.keys(rp.dims).length > 0 && badDim.length === 0, 'resolved preview: every dimension binding → positive px' + (badDim.length ? ` — BAD: ${badDim.join(', ')}` : ''));
   const badType = Object.entries(rp.type).filter(([, t]) => !t.fontFamily || !(t.fontSizePx > 0)).map(([k]) => k);
   ok(Object.keys(rp.type).length > 0 && badType.length === 0, 'resolved preview: every type binding → family + positive size' + (badType.length ? ` — BAD: ${badType.join(', ')}` : ''));
+
+  // Per-mode geometry (docs/11 1b): with no wireframe, dims carry NO overrides; opting into
+  // wireframe surfaces a radius→0 override the preview reads for the wireframe column, while
+  // the canonical `dims` baseline stays positive (light) and space/size stay override-free.
+  ok(Object.keys(rp.dimOverrides).length === 0, 'resolved preview: default modes carry no per-mode dim overrides');
+  const wfRp = resolvePreview(brandTheme({ ...pinput, modes: ['light', 'wireframe'] }));
+  const radiusRef = Object.keys(wfRp.dims).find((k) => k.startsWith('radius.') && wfRp.dims[k] > 0)!;
+  ok(wfRp.dimOverrides[radiusRef]?.wireframe === 0 && wfRp.dims[radiusRef] > 0,
+    `resolved preview: wireframe zeroes ${radiusRef} via an override (baseline ${wfRp.dims[radiusRef]}px stays)`);
+  const spaceRef = Object.keys(wfRp.dims).find((k) => k.startsWith('space.'));
+  ok(!spaceRef || !wfRp.dimOverrides[spaceRef], 'resolved preview: wireframe leaves space untouched (only radius zeroes)');
 }
 // (10) EXAMPLE-BRANDS ARTIFACT (docs/09) — the browser hosts boot from
 // schema/example-brands.json (the design.md parser is node-only). Gate that the
@@ -1033,10 +1045,11 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   ok(parseDesignMd(toDesignMd(minimal as any, 'Hello prose.')).prose === 'Hello prose.', 'design.md round-trip: prose survives the fence');
 }
 
-// (18) MODE CONFIG (docs/11 Pillar 1) — light is the required base; dark/HC are opt-in.
-// Omitted → all four (back-compat, byte-identical golden in block 3). A light-only brand
-// resolves + emits ONE mode with no per-mode colour overrides; light+dark carries the dark
-// override but not HC. Guards: must include light; an unknown mode (wireframe not yet real).
+// (18) MODE CONFIG (docs/11 Pillar 1) — light is the required base; dark/HC/wireframe opt-in.
+// Omitted → the default four (back-compat, byte-identical golden in block 3). A light-only
+// brand resolves + emits ONE mode with no per-mode colour overrides; light+dark carries the
+// dark override but not HC. Wireframe (1b) is a generated greyscale mode (non-neutral roles →
+// equivalent neutral; radius → 0), opt-in only. Guards: must include light; unknown mode throws.
 {
   const { input } = parseDesignMd(readFileSync(resolve(HERE, '../examples/aurora.design.md'), 'utf8'));
 
@@ -1058,12 +1071,30 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
 
   let t1 = false, t2 = false;
   try { brandTheme({ ...input, modes: ['dark'] as any }); } catch { t1 = true; }
-  try { brandTheme({ ...input, modes: ['light', 'wireframe'] as any }); } catch { t2 = true; }
+  try { brandTheme({ ...input, modes: ['light', 'bogus'] as any }); } catch { t2 = true; }
   ok(t1, 'mode config: modes without light throws');
-  ok(t2, 'mode config: an unknown mode (wireframe, not yet real) throws');
+  ok(t2, 'mode config: an unknown mode throws');
 
   ok(validateBrandInput({ ...input, modes: ['light', 'dark'] }).length === 0, 'mode config: schema accepts a valid modes subset');
+  ok(validateBrandInput({ ...input, modes: ['light', 'wireframe'] }).length === 0, 'mode config: schema accepts wireframe (opt-in)');
   ok(validateBrandInput({ ...input, modes: ['light', 'bogus'] }).length > 0, 'mode config: schema rejects an unknown mode');
+
+  // Wireframe (1b): opt-in greyscale mode. Non-neutral roles remap to the neutral ramp at the
+  // same position (still clearing each min); radius zeroes. Never a default.
+  const wf = brandTheme({ ...input, modes: ['light', 'wireframe'] });
+  ok(wf.modes.includes('wireframe') && resolvePreview(wf).modes.includes('wireframe'), 'wireframe: opt-in mode resolves + previews');
+  ok(!brandTheme(input).modes.includes('wireframe'), 'wireframe: never a default (opt-in only)');
+  const R = wf.root, neutralPal = wf.roleToPalette.neutral, actionPal = wf.roleToPalette.action;
+  const wfBuilt = buildTree(wf);
+  const wfTree = (wfBuilt.tree as any)[R];
+  const act = wfTree.color.action.default;
+  ok(actionPal !== neutralPal && act.$value.includes(`.${actionPal}.`), 'wireframe: light $value stays the chromatic (accent) pick');
+  ok(act.$extensions.prism3.modes.wireframe.$value.includes(`.${neutralPal}.`), 'wireframe: the wireframe override remaps a chromatic role → neutral (greyscale)');
+  ok(wfTree.radius.md.$extensions.prism3.modes?.wireframe?.$value === `{${R}.dimension.0}`, 'wireframe: radius.md carries a wireframe → dimension.0 override');
+  ok(!wfTree.radius.none.$extensions?.prism3?.modes, 'wireframe: radius.none (already 0) carries no redundant override');
+  const wfMode = wfBuilt.modes.find((m) => m.mode === 'wireframe')!;
+  const wfChecks = Object.values(wfMode.roles).filter((r) => r.min > 0);
+  ok(wfChecks.length > 0 && wfChecks.every((r) => r.ratio >= r.min), `wireframe: every contrast contract holds on the greyscale (${wfChecks.length} checks)`);
 }
 
 // (19) EMIT-FIGMA LAYOUT (docs/10 §7 item 4) — one `layout` variable collection

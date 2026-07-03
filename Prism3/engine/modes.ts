@@ -29,7 +29,7 @@ import { RGB, contrast, hex } from './color';
 import { Step } from './ramp';
 import { Theme, SurfaceSpec, SurfacesConfig, Role } from './theme';
 
-export type ModeName = 'light' | 'dark' | 'hc-light' | 'hc-dark';
+export type ModeName = 'light' | 'dark' | 'hc-light' | 'hc-dark' | 'wireframe';
 
 const WHITE: RGB = { r: 255, g: 255, b: 255 };
 const BLACK: RGB = { r: 0, g: 0, b: 0 };
@@ -138,6 +138,10 @@ const modeConfigs = (ns: string, neutralPalette: string, neutral: Step[], surfac
     dark:       mk(dark,  'dark',  { primaryMin: 7,  secondaryMin: 4.5, tertiaryMin: 3, actionMin: 4.5, borderTarget: 1.8, nonTextMin: 3 }),
     'hc-light': hcMk(white, black, light.floor, 'light', { primaryMin: 15, secondaryMin: 7, tertiaryMin: 4.5, actionMin: 7, borderTarget: 4.5, nonTextMin: 4.5 }),
     'hc-dark':  hcMk(black, white, dark.floor,  'dark',  { primaryMin: 15, secondaryMin: 7, tertiaryMin: 4.5, actionMin: 7, borderTarget: 4.5, nonTextMin: 4.5 }),
+    // Wireframe (docs/11 Pillar 1b): the LIGHT surfaces + mins, but resolveMode redirects
+    // every chromatic role to the neutral ramp (greyscale). A light-family greyscale mode —
+    // its own contrast contract still holds (the neutral pick is nudged to clear each min).
+    wireframe:  mk(light, 'light', { primaryMin: 7,  secondaryMin: 4.5, tertiaryMin: 3, actionMin: 4.5, borderTarget: 1.4, nonTextMin: 3 }),
   };
 };
 
@@ -188,10 +192,23 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
     if (win.ratio >= onMin) return win;
     return rated(win === cL ? cand(`${ns}.white`, WHITE) : cand(`${ns}.black`, BLACK), fill); // pure fallback
   };
+  // Wireframe (docs/11 Pillar 1b): a mechanical greyscale. Every CHROMATIC role resolves on
+  // the NEUTRAL ramp at the position its colour pick would land — then re-nudged to clear the
+  // same min on the neutral ramp, so the greyscale still holds each contrast contract. Roles
+  // already neutral (backgrounds, text, borders) + white/black/alpha pass through untouched.
+  const wf = mode === 'wireframe';
+  const neutralPal = r2p.neutral;
+  const palOf = (palette: string): string => (wf && palette !== neutralPal ? neutralPal : palette);
+  const chromatic = (palette: string, anchorNum: number, surf: RGB, min: number): RatedNum => {
+    const pick = pickBrand(ramps.get(palette)!, ns, palette, anchorNum, surf, min);
+    return wf && palette !== neutralPal
+      ? pickBrand(ramps.get(neutralPal)!, ns, neutralPal, pick.num, surf, min) // same position, greyscaled
+      : pick;
+  };
   const paletteRole = (r: Role, surf: RGB, min: number): RatedNum =>
-    pickBrand(ramps.get(r2p[r])!, ns, r2p[r], theme.roleAnchorStep[r], surf, min);
+    chromatic(r2p[r], theme.roleAnchorStep[r], surf, min);
   const dir = cfg.family === 'light' ? +1 : -1;
-  const walk = (palette: string, fromNum: number, steps: number): Cand => pStep(palette, fromNum + dir * 50 * steps);
+  const walk = (palette: string, fromNum: number, steps: number): Cand => pStep(palOf(palette), fromNum + dir * 50 * steps);
   const neutralLow = (): Cand => pStep(r2p.neutral, cfg.family === 'light' ? 200 : 750);
   const tintStep = cfg.family === 'light' ? 100 : 900;       // subtle semantic SURFACE tint
   const mutedStep = cfg.family === 'light' ? 450 : 350;      // muted semantic INK
@@ -248,7 +265,7 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
   }
   // subtle semantic tint SURFACES (light banner/badge fills) — pair with text.{r}.
   for (const r of SEMANTICS)
-    putSurf(`foreground.${r}-subtle`, pStep(r2p[r], tintStep), `Subtle ${r} tint surface — banners, badges, selected rows`);
+    putSurf(`foreground.${r}-subtle`, pStep(palOf(r2p[r]), tintStep), `Subtle ${r} tint surface — banners, badges, selected rows`);
   // danger — the one stateful semantic fill (destructive buttons).
   const dangerRest = paletteRole('danger', floorRgb, cfg.actionMin);
   fills.danger = dangerRest;
@@ -291,7 +308,7 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
       T(r, paletteRole(r, floorRgb, p.semanticMin), `${r} ${p.label} — ${p.semanticMin}:1 on the floor`, cfg.floorName, p.semanticMin);
     // muted semantic ink (the "quiet" variant) — designer's judgment for emphasis.
     for (const r of SEMANTICS)
-      T(`${r}-subtle`, rated(pStep(r2p[r], mutedStep), baseRgb), `Muted ${r} ${p.label} — low-emphasis accent`, 'background.primary', 0);
+      T(`${r}-subtle`, rated(pStep(palOf(r2p[r]), mutedStep), baseRgb), `Muted ${r} ${p.label} — low-emphasis accent`, 'background.primary', 0);
     // on-* pairs (ink on a solid fill) — AA on a vivid fill.
     T('on-action', onColor(actionRest.rgb), `${p.label} on the action fill`, 'action.default', onMin);
     for (const r of SEMANTICS)
@@ -322,7 +339,7 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
   put('border.secondary', pickClosest(ramp, baseRgb, cfg.borderTarget * 2.2), 'Stronger border / divider', 'background.primary', 0);
   put('border.inverse', pickClosest(ramp, invRgb, cfg.borderTarget), 'Border on inverse surfaces', 'background.inverse.primary', 0);
   for (const r of SEMANTICS)
-    put(`border.${r}`, rated(pickBrand(ramps.get(r2p[r])!, ns, r2p[r], 500, baseRgb, cfg.nonTextMin), baseRgb), `${r} border — ${cfg.nonTextMin}:1 (SC 1.4.11)`, 'background.primary', cfg.nonTextMin);
+    put(`border.${r}`, rated(chromatic(r2p[r], 500, baseRgb, cfg.nonTextMin), baseRgb), `${r} border — ${cfg.nonTextMin}:1 (SC 1.4.11)`, 'background.primary', cfg.nonTextMin);
   put('border.focus', rated(actionRest, baseRgb), 'Focus ring colour (keyboard focus)', 'background.primary', cfg.nonTextMin);
 
   return { mode, surface: baseRgb, roles };
