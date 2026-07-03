@@ -459,7 +459,7 @@ const renderTypeSpecimen = (): HTMLElement => {
   const ty = theme.typography;
   const byGroup = new Map<string, typeof ty.composites[number]>();
   for (const c of ty.composites) {
-    if ((c as any).link) continue;                      // skip link variants
+    if (c.link) continue;                               // skip link variants
     const cur = byGroup.get(c.group);
     if (!cur || c.sizePx > cur.sizePx) byGroup.set(c.group, c);   // largest variant per group
   }
@@ -470,12 +470,13 @@ const renderTypeSpecimen = (): HTMLElement => {
     const fam = ty.families.find((f) => f.role === c.family)?.stack.join(', ') ?? 'inherit';
     const wt = ty.weightRoles.find((w) => w.role === c.weightRole)?.value ?? 400;
     const row = el('div', 'ts-row');
-    row.append(el('div', 'ts-meta mono', `${c.group}.${c.variant} · ${c.sizePx}px · ${c.weightRole} ${wt}`));
+    const name = c.variant ? `${c.group}.${c.variant}` : c.group;   // eyebrow has an empty variant
+    row.append(el('div', 'ts-meta mono', `${name} · ${c.sizePx}px · ${c.weightRole} ${wt}`));
     const sample = el('div', 'ts-sample', 'The spectrum resolves cleanly');
     sample.style.fontFamily = (c.family === 'mono' || g === 'code') ? 'var(--mono)' : fam;
     sample.style.fontWeight = String(wt);
     sample.style.fontSize = `${Math.min(c.sizePx, 60)}px`;   // cap the visual; real px is in the label
-    if ((c as any).textCase === 'uppercase' || g === 'eyebrow') { sample.style.textTransform = 'uppercase'; sample.style.letterSpacing = '0.08em'; }
+    if (c.textCase === 'uppercase' || g === 'eyebrow') { sample.style.textTransform = 'uppercase'; sample.style.letterSpacing = '0.08em'; }
     row.append(sample);
     list.append(row);
   }
