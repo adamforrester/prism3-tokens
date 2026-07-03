@@ -12,6 +12,14 @@
 Since the token layer completed, work has been the **designer↔developer↔agent E2E pipeline**
 (`07`/`08`/`09`/`10`). Shipped to `main`, newest first (see the decisions log for the why):
 
+- **Web dashboard — preview on every stage + type specimen** (`web/src/main.ts`): the live
+  component preview + contrast overlay (with the per-mode selector) now render on Semantic,
+  Typography, AND Form — each reflects that stage's axis. Typography also gains a **type-scale
+  specimen** (one composite per group at its resolved size, from `theme.typography`) so a
+  `typeScale`/family/weight change is visible where the small component chips can't show it; the
+  whole preview region is volatile so it repaints live. Stages 3–4 are now first-class. Engine
+  untouched (312/312); web typecheck + build green; verified headless (specimen updates across
+  compact/default/expressive, form preview present, 0 page errors).
 - **Web dashboard — export** (`web/src/main.ts`): the brand menu gains an Export section —
   **design.md** (`toDesignMd`, #39) and **tokens.json** (resolved DTCG tree via `buildTree`,
   namespaced under the brand's `root`), both Blob-downloaded. Closes the E2E loop with the #38

@@ -432,16 +432,55 @@ const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
     for (const l of levers) panel.append(renderControl(l));
     host.append(panel);
   }
-  if (key === 'semantic') {
-    host.append(sectionHead('Live preview', 'Sample components + the contrast overlay, resolved through every mode.'));
+  // Live preview on every lever stage — the same sample components reflect the axis
+  // being tuned: colour (semantic), type (type), geometry (form). The type stage also
+  // gets a type-scale specimen (the small component chips can't show the scale). The
+  // whole region is volatile so an edit (incl. typeScale) repaints it live.
+  const vol = el('div', 'stage-vol');
+  host.append(vol);
+  paintVolatile = () => {
+    vol.innerHTML = '';
+    if (key === 'type') vol.append(renderTypeSpecimen());
+    vol.append(sectionHead('Live preview', 'The sample components + contrast overlay, resolved through every mode — they reflect this stage’s axis live.'));
     const pv = el('div', 'pvhost');
-    host.append(pv);
-    paintVolatile = () => paintPreview(pv);
-    paintVolatile();
-  } else {
-    paintVolatile = () => {};
-    host.append(el('p', 'np-note', 'The live preview lives on the Semantic colors stage; these knobs re-resolve it there.'));
+    vol.append(pv);
+    paintPreview(pv);
+  };
+  paintVolatile();
+};
+
+/** A compact type-scale specimen: one representative composite per group at its resolved
+ *  size, so a typeScale/family/weight change is visible (the component chips are too small
+ *  to show the scale). Reads the last-good `theme.typography`. */
+const TYPE_GROUP_ORDER = ['display', 'title', 'body', 'label', 'caption', 'eyebrow', 'code'];
+const renderTypeSpecimen = (): HTMLElement => {
+  const wrap = el('div', 'type-spec');
+  wrap.append(sectionHead('Type scale', 'Semantic composites at their resolved sizes — the ladder the components draw from.'));
+  const ty = theme.typography;
+  const byGroup = new Map<string, typeof ty.composites[number]>();
+  for (const c of ty.composites) {
+    if ((c as any).link) continue;                      // skip link variants
+    const cur = byGroup.get(c.group);
+    if (!cur || c.sizePx > cur.sizePx) byGroup.set(c.group, c);   // largest variant per group
   }
+  const list = el('div', 'ts-list');
+  for (const g of TYPE_GROUP_ORDER) {
+    const c = byGroup.get(g);
+    if (!c) continue;
+    const fam = ty.families.find((f) => f.role === c.family)?.stack.join(', ') ?? 'inherit';
+    const wt = ty.weightRoles.find((w) => w.role === c.weightRole)?.value ?? 400;
+    const row = el('div', 'ts-row');
+    row.append(el('div', 'ts-meta mono', `${c.group}.${c.variant} · ${c.sizePx}px · ${c.weightRole} ${wt}`));
+    const sample = el('div', 'ts-sample', 'The spectrum resolves cleanly');
+    sample.style.fontFamily = (c.family === 'mono' || g === 'code') ? 'var(--mono)' : fam;
+    sample.style.fontWeight = String(wt);
+    sample.style.fontSize = `${Math.min(c.sizePx, 60)}px`;   // cap the visual; real px is in the label
+    if ((c as any).textCase === 'uppercase' || g === 'eyebrow') { sample.style.textTransform = 'uppercase'; sample.style.letterSpacing = '0.08em'; }
+    row.append(sample);
+    list.append(row);
+  }
+  wrap.append(list);
+  return wrap;
 };
 
 // ---- shared bits -----------------------------------------------------------
@@ -759,7 +798,13 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .knob-val.ro{margin-top:6px}
 .knob-desc{margin:7px 0 0;font-size:12px;color:var(--faint);line-height:1.5}
 
+.stage-vol{display:flex;flex-direction:column}
 .pvhost{display:flex;flex-direction:column;gap:16px}
+.type-spec{margin-bottom:8px}
+.ts-list{display:flex;flex-direction:column;gap:22px;border:1px solid var(--line);border-radius:var(--r);padding:24px;background:var(--panel)}
+.ts-row{display:flex;flex-direction:column;gap:8px;min-width:0}
+.ts-meta{font-size:11.5px;color:var(--faint)}
+.ts-sample{color:var(--ink);letter-spacing:-0.02em;line-height:1.1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .modebar{display:flex;align-items:center;gap:8px}
 .mb-cap{font-size:12px;color:var(--muted);margin-right:4px}
 .modebtn{border:1px solid var(--line2);background:var(--panel);border-radius:var(--r-sm);padding:6px 12px;cursor:pointer;font:inherit;font-size:13px;color:var(--muted)}
