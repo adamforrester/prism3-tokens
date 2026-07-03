@@ -12,6 +12,18 @@
 Since the token layer completed, work has been the **designer↔developer↔agent E2E pipeline**
 (`07`/`08`/`09`/`10`). Shipped to `main`, newest first (see the decisions log for the why):
 
+- **Component-layer contract locked** (`docs/13-component-layer.md`, 2026-07-03): the owner's
+  question — store components as data and build them in Figma on the fly, LLM-free, like
+  variables — answered YES and captured as the architecture: definitions as type-checked data
+  **seeded from the KB's ~40 component briefs (§15 schemas)** and **bound to the locked token
+  names (docs/11)** so structure is brand/mode-invariant; write leg = an `emit-figma` component
+  artifact executed by the B2 plugin via the Plugin API (REST can't create nodes; same two-route
+  pattern as 08 §5); verify leg = **extraction diff** (Specs CLI verified extraction-only —
+  its seat is the component-tier nb-regression, not the builder); ceilings incl. the
+  **Figma Motion revision** (timing/easing variables now exist — the "transition = code-only"
+  disposition in 05/10 is stale; KB 18–21 flagged for update). Build sequence: schema → 3
+  components (Button/Text Field/Card) → artifact → materialize (MCP first, plugin after) →
+  round-trip gate → scale. Doc-only; nothing built.
 - **Inspirations log started** (`docs/12-inspirations.md`, 2026-07-03): reviews of external
   agent-first DS work — Astryx (Meta; CLI-as-agent-interface, typed `ComponentDoc` data files,
   `agent-docs` index injection, `--compact` tiers) and the "ds-brain" practitioner stack map
@@ -196,7 +208,8 @@ Prism3/
 │   ├── 09-architecture-and-repos.md ← platform architecture + repo/packaging (monorepo grown from prism3-tokens; web-dashboard-first); which of the owner's other plugins get absorbed vs stay downstream
 │   ├── 10-figma-materialization.md  ← the emit-figma contract: exact Figma variable/style shape (proven by import spikes), colour + typography materialization rules, thread split; fixtures/figma/nb is the regression target
 │   ├── 11-multi-brand-vision.md     ← the enterprise north star: many brands over one locked token-name contract; mode config → export contract → override layer → brand families
-│   └── 12-inspirations.md           ← field notes on external agent-first DS work (Astryx, ds-brain map, …) — takeaways, gaps identified, convergence table
+│   ├── 12-inspirations.md           ← field notes on external agent-first DS work (Astryx, ds-brain map, Specs CLI, …) — takeaways, gaps identified, convergence table
+│   └── 13-component-layer.md        ← the component-layer contract: components-as-data (seeded from the KB briefs, token-name-bound) → deterministic Figma materialization (plugin) + extraction-diff regression; LLM-optional by design
 ├── fixtures/
 │   └── figma/nb/                    ← the NB import: palette + color×4 modes + font + font-fluid×2 (byte-reproduce targets) + text-styles (as-imported snapshot) — emit-figma's regression corpus (docs/10)
 ├── schema/
@@ -809,7 +822,12 @@ layer 1). Agreed build sequence (owner confirmed "safest path to a working plugi
 - **D. (later) Component library** — components-as-data → Web Components + React +
   Storybook + `.ai.json` + Figma Code Connect (layers 2–3). In scope eventually;
   mapped now so upstream choices don't foreclose it. Heavy per-component research
-  already in the KB (UIC series).
+  already in the KB (UIC series). **Architecture now locked in
+  `13-component-layer.md`** (2026-07-03): definitions seeded from the KB's ~40
+  component briefs, token-name-bound, deterministically materialized to Figma via
+  the B2 plugin (write leg) with an extraction-diff regression (verify leg;
+  Specs CLI's seat). Build sequence in `13` §6 — starts with the schema + 3
+  components when this activates.
 
 Parked, owner-flagged: **light-grey surface value tuning** — done visually once real
 UI layouts exist, not against swatches.

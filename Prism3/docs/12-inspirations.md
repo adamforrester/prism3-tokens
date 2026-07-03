@@ -131,9 +131,38 @@ in IDE/Cursor, AI-powered interactive coded prototypes). The stated bets:
   we're actively building (`emit-figma` + the MCP materialization route, `10`).
   Single-brand, too: no white-label / multi-brand dimension anywhere in the map.
 
+## 3. Specs CLI — DirectedEdges (Nathan Curtis), verified 2026-07-03
+
+**What it is.** The public tool operationalizing the components-as-data POV
+(github.com/DirectedEdges/specs; KB GLOSSARY + 15). Reviewed here to answer the
+owner's question: could it be leveraged to *build* components in Figma from data,
+LLM-free? **Verified against the repo: it is extraction-only.** `init` → `fetch` →
+`scan` → `generate` reads a Figma file via the REST API (PAT auth) and emits
+schema-valid YAML/MD specs *from* it; its stated workflow is "Update Figma →
+Generate specs → Agents refine → Update component." There is no
+build-Figma-from-specs direction. Its virtue is determinism: scripted, **"0 AI
+tokens per component"** (vs ~25k for agentic extraction).
+
+**What we take:**
+
+1. **The read-back-verifier seat.** Extraction-diff as the component-tier
+   regression gate: materialize components from our data → extract specs from the
+   resulting file → diff against the source. Deterministic, zero-LLM round-trip —
+   the `nb-regression` pattern at the component tier. Full contract in `13` §4.
+2. **`@directededges/specs-schema` as the reference schema** (JSON Schema + TS
+   types — `Component`, `Element`, `AnyProp`): the shape to stay
+   conformant-or-mappable to, same follow-don't-fork posture as `design.md`.
+3. **The correction itself is the finding** — KB 15's "produces (or assists in
+   producing) Figma component sets" read was optimistic; its own "verify the
+   current scope at the repo" caveat did its job. KB-side correction flagged.
+
+**Where we're ahead:** the write leg. Specs CLI's world keeps Figma as the
+authoring surface; ours makes Figma an *output* — the deterministic
+data→plugin materialization (`13` §3) is the direction it doesn't have.
+
 ---
 
-## 3. Convergences so far (updated as entries land)
+## 4. Convergences so far (updated as entries land)
 
 | Pattern | Witnesses | Status in Prism3 |
 |---|---|---|
@@ -142,5 +171,6 @@ in IDE/Cursor, AI-powered interactive coded prototypes). The stated bets:
 | Retrieval-first agent access (search → fetch-on-demand, compact tiers) | Astryx CLI; ds-brain "AI index" | **Gap** — candidate `cli.ts query` subcommand; MCP adapter tool schema later |
 | Metadata that cannot drift (type-checked / CI-enforced) | Astryx typed `ComponentDoc`; KB 30 freshness hash | Engine gates prove the philosophy at the token tier; carry into the component layer |
 | Consumption-side evals (rubric, invented-name rate, isolated trials) | ds-brain | **Gap** — nothing measures agent consumption; build alongside the MCP adapter |
+| Deterministic zero-LLM tooling as the differentiator over agentic equivalents | Specs CLI ("0 AI tokens" extraction), our engine + planned plugin write leg | Core posture — `13` extends it to the component tier (write leg ours, verify leg Specs-CLI-shaped) |
 | Verified *generation* (contrast contracts, regression, modes) | — none reviewed has it | **Prism3's differentiator holds** |
 | Figma as the underserved agent surface | ds-brain (open question), Astryx (absent) | Actively building — `emit-figma` (`10`), MCP materialization route |
