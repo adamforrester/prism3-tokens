@@ -16,7 +16,7 @@ import { generateRamp, autoPlaceStep, STEP_NUMS } from './ramp';
 import { brandTheme, BrandInput } from './theme';
 import { nbTheme } from './nb-fixture';
 import { resolveAllModes } from './modes';
-import { parseDesignMd, parseYamlSubset } from './design-md';
+import { parseDesignMd, parseYamlSubset, toDesignMd } from './design-md';
 import { parseStandardDesignMd, standardToBrandInput, applyXPrism3 } from './standard-design-md';
 import { classifyColors } from './classify-colors';
 import { leverManifest, leverGroups, buildLeverManifest, identityFields } from './levers';
@@ -1002,6 +1002,35 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
 
   // schema accepts a pinned neutral
   ok(validateBrandInput({ ...input, neutral: { ...input.neutral, anchor: grey } }).length === 0, 'pin-a-neutral: schema accepts neutral.anchor');
+}
+
+// (17) DESIGN.MD ROUND-TRIP (docs/07 §6) — `toDesignMd` is the inverse of `parseDesignMd`:
+// serialize a BrandInput to frontmatter, parse it back, and get the SAME input. Guards the
+// export leg (the web download) against drift from the parser. Key order is ignored (stable
+// deep-compare); only defined keys are emitted so an omitted optional stays omitted.
+{
+  const stable = (v: any): any => Array.isArray(v) ? v.map(stable)
+    : (v && typeof v === 'object' ? Object.fromEntries(Object.keys(v).sort().map((k) => [k, stable(v[k])])) : v);
+  const same = (a: any, b: any) => JSON.stringify(stable(a)) === JSON.stringify(stable(b));
+
+  for (const name of ['aurora', 'harbor']) {
+    const { input } = parseDesignMd(readFileSync(resolve(HERE, `../examples/${name}.design.md`), 'utf8'));
+    ok(same(parseDesignMd(toDesignMd(input)).input, input), `design.md round-trip: toDesignMd→parseDesignMd is identity for ${name}`);
+  }
+
+  // a synthetic brand exercising the optional/nested surface: custom root, neutral.anchor,
+  // brandColors (array of mappings), actionPalette.
+  const synth: any = {
+    id: 'synth', root: 'acme', primary: { l: 0.5, c: 0.15, h: 30 },
+    neutral: { hue: 30, chroma: 0.006, anchor: { l: 0.5, c: 0.006, h: 30 } },
+    brandColors: [{ name: 'accent', oklch: { l: 0.6, c: 0.12, h: 200 } }], actionPalette: 'accent',
+  };
+  ok(same(parseDesignMd(toDesignMd(synth)).input, synth), 'design.md round-trip: identity for root + neutral.anchor + brandColors + actionPalette');
+
+  // an omitted optional stays omitted (no phantom `root`), and prose survives the fence
+  const minimal: any = { id: 'x', primary: { l: 0.5, c: 0.1, h: 200 }, neutral: { hue: 200, chroma: 0.006 } };
+  ok(!('root' in parseDesignMd(toDesignMd(minimal)).input), 'design.md round-trip: an omitted optional is not emitted');
+  ok(parseDesignMd(toDesignMd(minimal as any, 'Hello prose.')).prose === 'Hello prose.', 'design.md round-trip: prose survives the fence');
 }
 
 // ------------------------------------------------------------------- report

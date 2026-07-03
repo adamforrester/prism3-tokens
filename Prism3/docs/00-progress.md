@@ -73,7 +73,7 @@ Since the token layer completed, work has been the **designer↔developer↔agen
   contracts the surfaces render from.
 - **`design.md` interchange + CLI** (dual-dialect) + the colour-role classifier + fidelity report.
 
-Engine gates as of 2026-07-02: `test.ts` **307/307** (240 colour + 25 typography + 8 namespace + 16 dims + 14 shadow/gradient + 4 pin-a-neutral);
+Engine gates as of 2026-07-02: `test.ts` **312/312** (240 colour + 25 typography + 8 namespace + 16 dims + 14 shadow/gradient + 4 pin-a-neutral + 5 design.md-round-trip);
 `emit-dtcg` 248/248 contracts per brand; `nb-regression` ΔE00 1.95. The snapshot below is the
 2026-07-01 token-layer baseline.
 
@@ -227,6 +227,19 @@ npx tsx Prism3/engine/cli.ts Prism3/examples/wendys.design.md --fidelity      # 
 ---
 
 ## Decisions log (why things are the way they are)
+
+- **`toDesignMd` — the `design.md` serializer (inverse of `parseDesignMd`) (2026-07-02).**
+  Export needed a `BrandInput → design.md` direction; the module only had parse. Added `toDesignMd`
+  to `design-md.ts` (pure, node-free — same portable-core fence as the parser, so the web bundle can
+  import it). It emits each **defined** top-level key as a **one-line flow value** (`primary: { l, c, h }`,
+  `brandColors: [{ name, oklch: {…} }]`), which the existing flow parser reads straight back — so
+  `parseDesignMd(toDesignMd(x)).input` deep-equals `x`. Only own defined keys are emitted, so an omitted
+  optional (no `root`) stays omitted (exact round-trip, no phantom keys). Strings are emitted bare unless
+  they'd mis-type (numbers/bools/null) or carry structural chars, in which case quoted. Gated (test.ts
+  block 17): round-trip identity for aurora + harbor + a synthetic brand (custom root + `neutral.anchor` +
+  `brandColors` + `actionPalette`), omitted-optional stays omitted, prose survives the fence. This is the
+  engine half of **export**; the web download UI (design.md + DTCG via `buildTree`) is the paired web PR.
+  Pure addition — `out/*` byte-identical. Gates: test 312/312, nb-regression ΔE00 1.95, emit-dtcg 248/248.
 
 - **Pin-a-neutral — a pre-defined brand grey can anchor the neutral ramp (2026-07-02).**
   The white-label neutral was *always* derived from a hue + peak chroma cast (`brandTheme` built it
