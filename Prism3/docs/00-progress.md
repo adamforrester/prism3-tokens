@@ -226,7 +226,7 @@ npx tsx Prism3/engine/cli.ts Prism3/examples/wendys.design.md --fidelity      # 
   mode); the anchor drives when present. `roleAnchorStep.neutral` stays 500 — that's the semantic
   neutral *role's* preferred step for contrast resolution, independent of where the pinned *primitive*
   lands. Surfaced as an optional advanced colour lever (`neutral.anchor`, "Pin a neutral") so the web
-  UI can render a Derive⇄Pin toggle. Gated (test.ts block 14): the pinned grey is reproduced at its
+  UI can render a Derive⇄Pin toggle. Gated (test.ts block 16): the pinned grey is reproduced at its
   step (ΔE < 1), the derived ramp genuinely differs, and the pin flows through to the DTCG neutral
   primitive. Default output byte-identical (no example sets an anchor; `out/*` unchanged). *Deferred
   outlier:* a neutral kept as its OWN separate palette — expressible today via `brandColors`, no engine

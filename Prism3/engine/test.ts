@@ -978,7 +978,7 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   ok(validateBrandInput({ ...input, root: 'ac.me' }).length > 0, 'namespace: schema rejects a dotted root');
 }
 
-// (14) PIN-A-NEUTRAL (docs/00 "pin-a-neutral") — a brand that ships a pre-defined grey sets
+// (16) PIN-A-NEUTRAL (docs/00 "pin-a-neutral") — a brand that ships a pre-defined grey sets
 // `neutral.anchor`; the ramp is then built AROUND it (pinned verbatim at its lightness step,
 // same mechanism as the brand palettes) instead of derived from the hue/chroma cast. Verifies
 // the pinned grey is reproduced, the derived ramp genuinely differs, it reaches the DTCG tree,
