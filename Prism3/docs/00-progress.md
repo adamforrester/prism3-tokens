@@ -50,7 +50,7 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
   `Zrn9YDqrFiwjs2IfKInNY0`). It has 4 specimen pages already (Colour, Typography, Dims,
   Shadow, Gradient) + all the corresponding variable collections + styles imported live.
 - **Run commands:** `npx tsx Prism3/engine/emit-figma.ts` writes `out/figma/nb/*.json`;
-  `npx tsx Prism3/engine/test.ts` gates everything (323/323 today).
+  `npx tsx Prism3/engine/test.ts` gates everything (347/347 today).
 
 ---
 
@@ -64,7 +64,7 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
   `radius.*` leaves gain `$extensions.prism3.modes.wireframe → {root.dimension.0}` — the *first* mode-varying
   geometry (same override shape colour/shadow use); `radius.none` stays override-free. Emit-figma
   coordination noted in the fresh-agent brief (radius collection needs a wireframe mode). Gates: test
-  **331/331** (+8 wireframe: greyscale remap, radius→0, every wireframe contract holds), nb-regression +
+  **344/344** (+8 wireframe: greyscale remap, radius→0, every wireframe contract holds), nb-regression +
   emit-dtcg `out/*` **byte-identical** (no example brand opts in), web typecheck clean.
 - **Pillar 1b web — wireframe toggle + per-mode preview geometry** (`web/src/main.ts`,
   `resolve-preview.ts`): the brand menu gains a **Wireframe** toggle beside Dark/HC (`setModes`
@@ -75,10 +75,10 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
   `dimOverrides[ref]?.[mode] ?? dims[ref]` so wireframe squares off corners live. Verified
   headless: default 4 modes → enabling wireframe → 5 (Wireframe appended); a saturated Light
   chip `rgb(0,97,136)` collapses to the neutral `rgb(92,92,97)` (chroma spread 136 → 5) with
-  radius 8px → 0px; 0 page errors. Gates: test **334/334** (+3 `dimOverrides`), web typecheck
+  radius 8px → 0px; 0 page errors. Gates: test **347/347** (+3 `dimOverrides`), web typecheck
   clean. No engine-value change (dims baseline untouched → nb-regression + `out/*` still
   byte-identical). Completes 1b end-to-end (engine + UI), mirroring the 1a #42→#43 split.
-- **Deployment-target neutrality captured** (`docs/13-deployment-neutrality.md`): the owner named the
+- **Deployment-target neutrality captured** (`docs/15-deployment-neutrality.md`): the owner named the
   likely *delivery* of the north star — an **AWS / Bedrock hosted E2E service** using **LLMs as needed**
   but with the **core staying pure deterministic code**. Recorded as an architectural *constraint*, not a
   build task: three layers (pure core / assistive-LLM edge / host+state edge), and the rule that hosting,
@@ -88,13 +88,32 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
   core (a hosted service Token Press calls, vs. a vendored package) — another reason the `12` vendoring
   call is safely deferrable. **The standing review check from here on: does a PR add I/O, state, or a
   model call to a pure module? If yes, it belongs in a shell.** Nothing to build; the line to hold.
+- **Component-layer contract locked** (`docs/14-component-layer.md`, 2026-07-03): the owner's
+  question — store components as data and build them in Figma on the fly, LLM-free, like
+  variables — answered YES and captured as the architecture: definitions as type-checked data
+  **seeded from the KB's ~40 component briefs (§15 schemas)** and **bound to the locked token
+  names (docs/11)** so structure is brand/mode-invariant; write leg = an `emit-figma` component
+  artifact executed by the B2 plugin via the Plugin API (REST can't create nodes; same two-route
+  pattern as 08 §5); verify leg = **extraction diff** (Specs CLI verified extraction-only —
+  its seat is the component-tier nb-regression, not the builder); ceilings incl. the
+  **Figma Motion revision** (timing/easing variables now exist — the "transition = code-only"
+  disposition in 05/10 is stale; KB 18–21 flagged for update). Build sequence: schema → 3
+  components (Button/Text Field/Card) → artifact → materialize (MCP first, plugin after) →
+  round-trip gate → scale. Doc-only; nothing built.
+- **Inspirations log started** (`docs/13-inspirations.md`, 2026-07-03): reviews of external
+  agent-first DS work — Astryx (Meta; CLI-as-agent-interface, typed `ComponentDoc` data files,
+  `agent-docs` index injection, `--compact` tiers), the "ds-brain" practitioner stack map
+  (docs-package-as-brain, generated skills/rules/indexes, **consumption-side evals**: rubric +
+  invented-component rate + contamination-controlled trials), and Specs CLI (verified
+  extraction-only). Convergence table at the end tracks patterns with multiple witnesses;
+  identified gaps for us: `.ai.json` discovery layer, retrieval surface (CLI `query` / MCP),
+  consumption evals. Doc-only change; no engine code touched.
 - **Export-contract sequencing + Token Press eval** (`docs/12-token-press-monorepo-eval.md`): before
   building Pillar 4, two calls settled the order — (1) let the Figma-emitter agent **finish emit-figma**
   so the collection structure is stable (the shared `collections.ts` partition must mirror a settled
   reality), and (2) **decide whether the export *format core* moves into the monorepo** as a shared pure
   `@prism3/tokens-export` module both `emit-dtcg` and Token Press import — killing format drift by
   construction (recommended: **Option B**). `docs/12` is the hypothesis (from the Token Press handoff
-  brief) + a §7 checklist for a repo-reviewing agent to validate feasibility against the real source →
   go/no-go. **Repo review complete (§9/§9c, 2026-07-03):** a Token-Press-side agent validated §7 against
   the real v2.3.1 source — Option B is *yellow* (separability/purity/presets ✅; composite *parity*
   ❌ refuted, the two outputs disagree today). Resolution: **pick the canonical shape first** — all five
@@ -202,7 +221,7 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
   contracts the surfaces render from.
 - **`design.md` interchange + CLI** (dual-dialect) + the colour-role classifier + fidelity report.
 
-Engine gates as of 2026-07-03: `test.ts` **323/323** (240 colour + 25 typography + 8 namespace + 16 dims + 14 shadow/gradient + 4 pin-a-neutral + 5 design.md-round-trip + 11 mode-config);
+Engine gates as of 2026-07-03: `test.ts` **347/347** (240 colour + 25 typography + 8 namespace + 16 dims + 14 shadow/gradient + 4 pin-a-neutral + 5 design.md-round-trip + 19 mode-config/wireframe + 13 emit-figma-layout + 3 dim-overrides);
 `emit-dtcg` 248/248 contracts per brand; `nb-regression` ΔE00 1.95. The snapshot below is the
 2026-07-01 token-layer baseline.
 
@@ -286,7 +305,12 @@ Prism3/
 │   ├── 07-e2e-journey.md            ← the designer↔developer↔agent pipeline; portable-core architecture; design.md; component layer (layers 2–3 of the AI stack)
 │   ├── 08-theming-interfaces.md     ← the customization surfaces (plugin/playground/CLI/MCP/Figma-MCP); new-plugin + shared-lever-manifest decisions; two-route materialization; revised build sequence
 │   ├── 09-architecture-and-repos.md ← platform architecture + repo/packaging (monorepo grown from prism3-tokens; web-dashboard-first); which of the owner's other plugins get absorbed vs stay downstream
-│   └── 10-figma-materialization.md  ← the emit-figma contract: exact Figma variable/style shape (proven by import spikes), colour + typography materialization rules, thread split; fixtures/figma/nb is the regression target
+│   ├── 10-figma-materialization.md  ← the emit-figma contract: exact Figma variable/style shape (proven by import spikes), colour + typography materialization rules, thread split; fixtures/figma/nb is the regression target
+│   ├── 11-multi-brand-vision.md     ← the enterprise north star: many brands over one locked token-name contract; mode config → export contract → override layer → brand families
+│   ├── 12-token-press-monorepo-eval.md ← the shared-export-core hypothesis (Option B: pure `@prism3/tokens-export` both emit-dtcg and Token Press import) + the §7 repo-review checklist → go/no-go gates Pillar 4
+│   ├── 13-inspirations.md           ← field notes on external agent-first DS work (Astryx, ds-brain map, Specs CLI, …) — takeaways, gaps identified, convergence table
+│   ├── 14-component-layer.md        ← the component-layer contract: components-as-data (seeded from the KB briefs, token-name-bound) → deterministic Figma materialization (plugin) + extraction-diff regression; LLM-optional by design
+│   └── 15-deployment-neutrality.md  ← deployment-target neutrality: pure core / assistive-LLM edge / host+state edge; the standing "no I/O, state, or model call in a pure module" review check
 ├── fixtures/
 │   └── figma/nb/                    ← the NB import: palette + color×4 modes + font + font-fluid×2 (byte-reproduce targets) + text-styles (as-imported snapshot) — emit-figma's regression corpus (docs/10)
 ├── schema/
@@ -899,7 +923,12 @@ layer 1). Agreed build sequence (owner confirmed "safest path to a working plugi
 - **D. (later) Component library** — components-as-data → Web Components + React +
   Storybook + `.ai.json` + Figma Code Connect (layers 2–3). In scope eventually;
   mapped now so upstream choices don't foreclose it. Heavy per-component research
-  already in the KB (UIC series).
+  already in the KB (UIC series). **Architecture now locked in
+  `14-component-layer.md`** (2026-07-03): definitions seeded from the KB's ~40
+  component briefs, token-name-bound, deterministically materialized to Figma via
+  the B2 plugin (write leg) with an extraction-diff regression (verify leg;
+  Specs CLI's seat). Build sequence in `14` §6 — starts with the schema + 3
+  components when this activates.
 
 Parked, owner-flagged: **light-grey surface value tuning** — done visually once real
 UI layouts exist, not against swatches.

@@ -23,6 +23,14 @@
  *     the emitted collections, scopes/resolvedType consistent per family.
  *     `focus.ring.style` (`strokeStyle: 'solid'`) is skipped — Figma has no
  *     `strokeStyle` variable primitive; it stays a code-side literal.
+ *   • LAYOUT — one `layout` variable collection with FIVE breakpoint modes
+ *     (`sm`/`md`/`lg`/`xl`/`2xl`). Each mode carries the same variable names
+ *     (`breakpoint/*`, `grid/columns`, `grid/gutter`, `grid/margin`,
+ *     `container/max`, `container/narrow`) with different values/aliases per
+ *     mode; gutter/margin per-mode alias into `space/*`. Composes independently
+ *     with the colour light/dark collection: `mode` here is the *viewport*,
+ *     over there it's the *theme*. `container/fluid` (100%) skipped — no Figma
+ *     variable primitive for percentage-of-parent.
  *   • SHADOW + GRADIENT — Effect Styles + Paint Styles (not variables — docs/08
  *     §5 variable-type ceiling). Shadow emits TWO style sets per step (light in
  *     `shadow/*`, dark in `shadow-dark/*`) because Figma Effect Styles don't
@@ -594,6 +602,127 @@ export const buildFigmaDims = (theme: Theme): FigmaDimsCollections => {
 };
 
 // ---------------------------------------------------------------------------
+// LAYOUT (docs/10 §7 item 4). ONE `layout` variable collection with FIVE
+// breakpoint modes (`sm`/`md`/`lg`/`xl`/`2xl`). Each mode carries the SAME
+// variable names with different values/aliases per mode — the mode column IS
+// the breakpoint, exactly the way colour modes carry the same semantic names
+// with different palette-aliased values per light/dark/hc-light/hc-dark. This
+// composes independently with the colour light/dark collection: a component
+// can bind background to a `color` var (respects theme mode) AND padding to a
+// `layout` var (respects viewport mode), and Figma resolves each per its own
+// collection.
+//
+//   breakpoint/{name}   — FLOAT, the min-width threshold (0/768/1024/1440/1920
+//                          for NB). Descriptive: not directly bindable to any
+//                          Figma property today (there's no "breakpoint" scope),
+//                          but shipped in-collection as reference constants so
+//                          the materialiser has the numbers where it needs them.
+//                          Same value in every mode (viewport-invariant).
+//   grid/columns        — FLOAT, per-mode count (4/8/12/12/12 for NB). Not a
+//                          dimension — no narrow scope fits; ALL_SCOPES so it
+//                          picks nowhere by default but is always available.
+//   grid/gutter         — FLOAT, PER-MODE alias into `space/*` (the spacing
+//                          scale — gutter grows per breakpoint: sm 16 / md 16 /
+//                          lg 24 / xl 24 / 2xl 32 for NB). Scope: GAP, matching
+//                          the space collection it aliases.
+//   grid/margin         — FLOAT, PER-MODE alias into `space/*` (margin grows per
+//                          breakpoint: sm 16 / md 24 / lg 24 / xl 32 / 2xl 48).
+//                          Scope: GAP.
+//   container/max       — FLOAT, viewport-invariant (same value in every mode).
+//                          Content-cap width. Scope: WIDTH_HEIGHT.
+//   container/narrow    — FLOAT, viewport-invariant. Reading-measure width
+//                          (~65-75ch). Scope: WIDTH_HEIGHT.
+//
+// `container/fluid` (`"100%"`) is INTENTIONALLY SKIPPED — Figma has no `100%`
+// FLOAT primitive (percentage values aren't a variable type; layout auto-sizing
+// solves fluid width, not variables), so it stays code-side. Same class of
+// "no Figma primitive" skip as `focus.ring.style` in the dims axis.
+//
+// No fixtures for this axis (§2 covers colour + typography only), so the gate
+// is structural: 5 mode files, same variable names across modes, per-mode
+// alias resolution into space/*, scopes per family, breakpoint + container
+// values invariant across modes.
+// ---------------------------------------------------------------------------
+
+export const LAYOUT_MODES = ['sm', 'md', 'lg', 'xl', '2xl'] as const;
+
+// grid/columns is a count, not a dimension — none of the FLOAT scopes fit
+// (WIDTH_HEIGHT/GAP/CORNER_RADIUS/STROKE_FLOAT/OPACITY/FONT_*). Figma has no
+// layoutGrid.count scope. ALL_SCOPES keeps it available everywhere without
+// wrongly claiming a narrower binding target.
+const LAYOUT_COLUMNS_SCOPES = ['ALL_SCOPES'];
+const LAYOUT_GAP_SCOPES = ['GAP']; // gutter + margin — same as the space collection they alias
+const LAYOUT_CONTAINER_SCOPES = ['WIDTH_HEIGHT'];
+const LAYOUT_BREAKPOINT_SCOPES = ['WIDTH_HEIGHT']; // min-width threshold
+
+export const buildFigmaLayout = (theme: Theme): FigmaCollectionFile[] => {
+  const { tree } = buildTree(theme);
+  const root = Object.keys(tree)[0];
+  const brand = tree[root];
+  const bpNode = brand.breakpoint;
+  const gridNode = brand.grid;
+  const containerNode = brand.container;
+
+  const desc = (leaf: any): string => String(leaf?.$description ?? '');
+
+  return LAYOUT_MODES.map((mode) => {
+    const variables: FigmaVar[] = [];
+
+    // breakpoint/* — mode-invariant reference constants (same value in every
+    // mode file; the materialiser handles the dedup by-name).
+    for (const bpKey of Object.keys(bpNode)) {
+      const leaf = bpNode[bpKey];
+      variables.push({
+        name: `breakpoint/${bpKey}`,
+        resolvedType: 'FLOAT',
+        scopes: LAYOUT_BREAKPOINT_SCOPES,
+        description: desc(leaf),
+        value: pxFromValue(tree, leaf.$value),
+        alias: null,
+      });
+    }
+
+    // grid/* — per-mode. columns is a plain FLOAT; gutter/margin alias space/*.
+    const g = gridNode[mode];
+    variables.push({
+      name: 'grid/columns',
+      resolvedType: 'FLOAT',
+      scopes: LAYOUT_COLUMNS_SCOPES,
+      description: desc(g.columns),
+      value: g.columns.$value as number,
+      alias: null,
+    });
+    for (const key of ['gutter', 'margin'] as const) {
+      const leaf = g[key];
+      const isAlias = typeof leaf.$value === 'string' && /^\{.+\}$/.test(leaf.$value);
+      variables.push({
+        name: `grid/${key}`,
+        resolvedType: 'FLOAT',
+        scopes: LAYOUT_GAP_SCOPES,
+        description: desc(leaf),
+        value: pxFromValue(tree, leaf.$value),
+        alias: isAlias ? { type: 'VARIABLE_ALIAS', name: aliasFigName(leaf.$value) } : null,
+      });
+    }
+
+    // container/max + container/narrow — viewport-invariant. Skip fluid (100%).
+    for (const cKey of ['max', 'narrow'] as const) {
+      const leaf = containerNode[cKey];
+      variables.push({
+        name: `container/${cKey}`,
+        resolvedType: 'FLOAT',
+        scopes: LAYOUT_CONTAINER_SCOPES,
+        description: desc(leaf),
+        value: pxFromValue(tree, leaf.$value),
+        alias: null,
+      });
+    }
+
+    return { $collection: 'layout', $mode: mode, variables };
+  });
+};
+
+// ---------------------------------------------------------------------------
 // SHADOW — Effect Style specs (docs/10 §7 item 3; docs/08 §5 variable-type
 // ceiling). Shadows are STYLES in Figma, not variables — the Effect Style has a
 // per-layer array of drop-shadow effects (color/offsetX/offsetY/blur/spread).
@@ -762,10 +891,12 @@ if (isMain) {
       writeFileSync(resolve(dir, `${coll.$collection}.json`), JSON.stringify(coll, null, 2) + '\n');
     }
     const dimsCount = (Object.values(dims) as FigmaCollectionFile[]).reduce((n, c) => n + c.variables.length, 0);
+    const layout = buildFigmaLayout(theme);
+    for (const l of layout) writeFileSync(resolve(dir, `layout.${l.$mode}.json`), JSON.stringify(l, null, 2) + '\n');
     const shadows = buildFigmaShadow(theme);
     writeFileSync(resolve(dir, 'shadow-styles.json'), JSON.stringify(shadows, null, 2) + '\n');
     const gradients = buildFigmaGradient(theme);
     writeFileSync(resolve(dir, 'gradient-styles.json'), JSON.stringify(gradients, null, 2) + '\n');
-    console.log(`[figma] ${id}: palette ${palette.variables.length} + color ${color.length}×${color[0].variables.length} + font ${font.variables.length} + font-fluid ${fluid.length}×${fluid[0].variables.length} + text-styles ${textStyles.styles.length} + dims ${dimsCount} (${Object.keys(dims).length} colls) + shadow ${shadows.styles.length} + gradient ${gradients.styles.length}`);
+    console.log(`[figma] ${id}: palette ${palette.variables.length} + color ${color.length}×${color[0].variables.length} + font ${font.variables.length} + font-fluid ${fluid.length}×${fluid[0].variables.length} + text-styles ${textStyles.styles.length} + dims ${dimsCount} (${Object.keys(dims).length} colls) + layout ${layout.length}×${layout[0].variables.length} + shadow ${shadows.styles.length} + gradient ${gradients.styles.length}`);
   }
 }

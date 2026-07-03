@@ -1,4 +1,4 @@
-# 13 — Deployment-target neutrality (pure core, hosts and LLMs at the edges)
+# 15 — Deployment-target neutrality (pure core, hosts and LLMs at the edges)
 
 > The engine so far assumes no deployment target on purpose. The owner has named a likely
 > one: an **E2E solution hosted on AWS / Bedrock**, using **LLMs as needed** — but with the

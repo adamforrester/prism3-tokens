@@ -23,7 +23,7 @@ import { leverManifest, leverGroups, buildLeverManifest, identityFields } from '
 import { previewSpec, previewTokenRefs, buildPreviewSpec } from './preview';
 import { resolvePreview } from './resolve-preview';
 import { exampleBrands, exampleBrandsJson, EXAMPLE_IDS } from './emit-brandinput';
-import { buildFigmaColor, buildFigmaFont, buildFigmaFontFluid, buildFigmaTextStyles, buildFigmaDims, buildFigmaShadow, buildFigmaGradient, fontStyleName, COLOR_MODES, FONT_FLUID_MODES } from './emit-figma';
+import { buildFigmaColor, buildFigmaFont, buildFigmaFontFluid, buildFigmaTextStyles, buildFigmaDims, buildFigmaLayout, buildFigmaShadow, buildFigmaGradient, fontStyleName, COLOR_MODES, FONT_FLUID_MODES, LAYOUT_MODES } from './emit-figma';
 import { buildTree, validateBrandInput } from './emit-dtcg';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -1095,6 +1095,110 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   const wfMode = wfBuilt.modes.find((m) => m.mode === 'wireframe')!;
   const wfChecks = Object.values(wfMode.roles).filter((r) => r.min > 0);
   ok(wfChecks.length > 0 && wfChecks.every((r) => r.ratio >= r.min), `wireframe: every contrast contract holds on the greyscale (${wfChecks.length} checks)`);
+}
+
+// (19) EMIT-FIGMA LAYOUT (docs/10 §7 item 4) — one `layout` variable collection
+// with FIVE breakpoint modes (sm/md/lg/xl/2xl). The mode-column here is the
+// VIEWPORT (composes independently with the colour light/dark collection).
+// No fixtures — gate structurally: 5 mode files, same variable names across
+// modes, per-mode alias resolution into space/*, scopes per family, breakpoint
+// + container values invariant across modes, container/fluid intentionally
+// skipped (no Figma primitive for percentage-of-parent).
+{
+  const theme = nbTheme();
+  const { tree } = buildTree(theme);
+  const root = Object.keys(tree)[0];
+  const brand = tree[root];
+  const dims = buildFigmaDims(theme);
+  const layout = buildFigmaLayout(theme);
+
+  // (a) 5 mode files, one per breakpoint, in the prescribed order.
+  ok(layout.length === 5, `figma layout: 5 mode files emitted (got ${layout.length})`);
+  const modeSeq = layout.map((l) => l.$mode).join(',');
+  ok(modeSeq === LAYOUT_MODES.join(','), `figma layout: modes emitted in [${LAYOUT_MODES.join(',')}] order (got [${modeSeq}])`);
+  ok(layout.every((l) => l.$collection === 'layout'), `figma layout: every file is $collection = 'layout'`);
+
+  // (b) Every mode file carries the SAME variable-name set — the mode column
+  // is *just* the value axis. Compute the sm names and check the rest against it.
+  const nameSets = layout.map((l) => l.variables.map((v) => v.name).sort().join('|'));
+  const nameDrift = nameSets.filter((s) => s !== nameSets[0]);
+  ok(nameDrift.length === 0, `figma layout: every mode carries the same variable-name set (${layout[0].variables.length} vars)`);
+
+  // (c) Every var is resolvedType FLOAT with a non-empty scope + non-empty description.
+  const badType: string[] = [], badScope: string[] = [], emptyDesc: string[] = [];
+  for (const l of layout) for (const v of l.variables) {
+    if (v.resolvedType !== 'FLOAT') badType.push(`${l.$mode}:${v.name}`);
+    if (!v.scopes || v.scopes.length === 0) badScope.push(`${l.$mode}:${v.name}`);
+    if (!v.description || v.description.length === 0) emptyDesc.push(`${l.$mode}:${v.name}`);
+  }
+  ok(badType.length === 0, 'figma layout: every variable is resolvedType FLOAT' + (badType.length ? ` — ${badType.slice(0, 3).join(', ')}` : ''));
+  ok(badScope.length === 0, 'figma layout: every variable declares at least one scope' + (badScope.length ? ` — ${badScope.slice(0, 3).join(', ')}` : ''));
+  ok(emptyDesc.length === 0, 'figma layout: every variable carries the DTCG $description' + (emptyDesc.length ? ` — ${emptyDesc.slice(0, 3).join(', ')}` : ''));
+
+  // (d) Scopes narrow correctly per family. grid/columns is ALL_SCOPES (no
+  // narrow scope fits a count); grid/{gutter,margin} → GAP (matches space);
+  // container/{max,narrow} + breakpoint/* → WIDTH_HEIGHT.
+  const scopeFor = (name: string): string[] => {
+    if (name === 'grid/columns') return ['ALL_SCOPES'];
+    if (name === 'grid/gutter' || name === 'grid/margin') return ['GAP'];
+    if (name.startsWith('container/') || name.startsWith('breakpoint/')) return ['WIDTH_HEIGHT'];
+    return [];
+  };
+  const scopeMismatch: string[] = [];
+  for (const l of layout) for (const v of l.variables) {
+    const expect = scopeFor(v.name);
+    if (JSON.stringify(v.scopes) !== JSON.stringify(expect)) scopeMismatch.push(`${l.$mode}:${v.name}=${v.scopes.join(',')} (want ${expect.join(',')})`);
+  }
+  ok(scopeMismatch.length === 0, 'figma layout: scopes narrow per family (grid.columns→ALL_SCOPES; grid.gutter/margin→GAP; container/*+breakpoint/*→WIDTH_HEIGHT)' + (scopeMismatch.length ? ` — ${scopeMismatch.slice(0, 3).join('; ')}` : ''));
+
+  // (e) grid/gutter + grid/margin are ALIASES into space/* (per-mode — the
+  // point of the mode column is that gutter+margin grow with the breakpoint).
+  // Every alias must resolve to a real space var in the emitted dims artifact.
+  const spaceNames = new Set(dims.space.variables.map((v) => v.name));
+  const aliasBad: string[] = [];
+  for (const l of layout) for (const v of l.variables) {
+    if (v.name === 'grid/gutter' || v.name === 'grid/margin') {
+      if (!v.alias) { aliasBad.push(`${l.$mode}:${v.name} has no alias`); continue; }
+      if (!v.alias.name.startsWith('space/')) aliasBad.push(`${l.$mode}:${v.name} → ${v.alias.name} (want space/*)`);
+      if (!spaceNames.has(v.alias.name)) aliasBad.push(`${l.$mode}:${v.name} → ${v.alias.name} (not in space collection)`);
+    }
+  }
+  ok(aliasBad.length === 0, 'figma layout: grid/gutter + grid/margin alias into space/* (per-mode) and every target resolves' + (aliasBad.length ? ` — ${aliasBad.slice(0, 3).join('; ')}` : ''));
+
+  // (f) grid/columns is a plain FLOAT (no alias — it's a count, not a
+  // dimension). columns matches the DTCG's per-breakpoint value.
+  const colsBad: string[] = [];
+  for (const l of layout) {
+    const cols = l.variables.find((v) => v.name === 'grid/columns');
+    if (!cols) { colsBad.push(`${l.$mode}: no grid/columns`); continue; }
+    if (cols.alias !== null) colsBad.push(`${l.$mode}: grid/columns has alias (want plain FLOAT)`);
+    const dtcg = brand.grid[l.$mode].columns.$value;
+    if (cols.value !== dtcg) colsBad.push(`${l.$mode}: grid/columns=${cols.value} ≠ DTCG ${dtcg}`);
+  }
+  ok(colsBad.length === 0, 'figma layout: grid/columns is a plain FLOAT count matching the DTCG per-breakpoint value' + (colsBad.length ? ` — ${colsBad.slice(0, 3).join('; ')}` : ''));
+
+  // (g) container/max + container/narrow are viewport-invariant — SAME value
+  // in every mode. Same for breakpoint/* (min-width thresholds are constants;
+  // the breakpoint COLUMN varies, but each named breakpoint's px is fixed).
+  const invariantBad: string[] = [];
+  for (const name of ['container/max', 'container/narrow', 'breakpoint/sm', 'breakpoint/md', 'breakpoint/lg', 'breakpoint/xl', 'breakpoint/2xl']) {
+    const vals = layout.map((l) => l.variables.find((v) => v.name === name)?.value);
+    const distinct = new Set(vals);
+    if (distinct.size !== 1) invariantBad.push(`${name} varies across modes: ${[...distinct].join(',')}`);
+  }
+  ok(invariantBad.length === 0, 'figma layout: container/* + breakpoint/* are viewport-invariant (same value in every mode)' + (invariantBad.length ? ` — ${invariantBad.slice(0, 3).join('; ')}` : ''));
+
+  // (h) container/fluid is INTENTIONALLY SKIPPED — Figma has no FLOAT primitive
+  // for `100%` (percentage-of-parent). Same class of "no Figma primitive" skip
+  // as focus.ring.style in the dims axis. This is a load-bearing skip: it
+  // documents the intentional omission so a future contributor doesn't add it
+  // back by mistake.
+  const hasFluid = layout.some((l) => l.variables.some((v) => v.name === 'container/fluid'));
+  ok(!hasFluid, `figma layout: container/fluid (100%) is intentionally skipped (no Figma primitive for percentage-of-parent; stays code-side)`);
+
+  // (i) A variable count sanity — the exact shape a Figma-MCP materialiser
+  // will import: 10 vars × 5 modes (5 breakpoint + 3 grid + 2 container).
+  ok(layout[0].variables.length === 10, `figma layout: 10 vars per mode (5 breakpoint + 3 grid + 2 container) — got ${layout[0].variables.length}`);
 }
 
 // ------------------------------------------------------------------- report
