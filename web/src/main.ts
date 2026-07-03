@@ -28,7 +28,8 @@ import type { Lever } from '../../Prism3/engine/levers';
 import { previewSpec } from '../../Prism3/engine/preview';
 import { resolvePreview } from '../../Prism3/engine/resolve-preview';
 import type { ResolvedPreview } from '../../Prism3/engine/resolve-preview';
-import { parseDesignMd } from '../../Prism3/engine/design-md';
+import { parseDesignMd, toDesignMd } from '../../Prism3/engine/design-md';
+import { buildTree } from '../../Prism3/engine/tree';
 import exampleBrands from '../../Prism3/schema/example-brands.json';
 
 type Mode = ResolvedPreview['modes'][number];
@@ -483,6 +484,26 @@ const loadBrand = (input: BrandInput): void => {
   build();
 };
 
+/** Trigger a client-side file download (Blob → object URL → anchor click). */
+const download = (filename: string, text: string, mime: string): void => {
+  const url = URL.createObjectURL(new Blob([text], { type: mime }));
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.append(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 0);
+};
+
+const slug = (): string => (brandState.id || 'brand').trim().replace(/\s+/g, '-') || 'brand';
+
+/** Export the current brand as design.md — round-trips straight back into Import. */
+const exportDesignMd = (): void => download(`${slug()}.design.md`, toDesignMd(brandState), 'text/markdown');
+
+/** Export the resolved DTCG token tree (buildTree), namespaced under the brand's root. */
+const exportTokens = (): void => {
+  const tree = buildTree(brandTheme(brandState)).tree;
+  download(`${slug()}.tokens.json`, JSON.stringify(tree, null, 2), 'application/json');
+};
+
 /** Parse a pasted design.md and load it. Validation is "does the engine accept it":
  *  a parse error or a brandTheme throw is surfaced; the working brand is untouched
  *  until both pass. (The full schema validator is node-bound, so it can't run here —
@@ -553,6 +574,15 @@ const renderBrandMenu = (): HTMLElement => {
     box.append(load);
     menu.append(box);
   }
+
+  menu.append(el('div', 'bm-div'));
+  menu.append(el('div', 'bm-cap', 'Export'));
+  const expMd = el('button', 'bm-item', '↓ design.md') as HTMLButtonElement;
+  expMd.onclick = exportDesignMd;
+  const expTok = el('button', 'bm-item', '↓ tokens.json — DTCG') as HTMLButtonElement;
+  expTok.onclick = exportTokens;
+  menu.append(expMd, expTok);
+  menu.append(el('p', 'bm-hint', 'design.md re-imports here; tokens.json is the resolved tree.'));
   return menu;
 };
 
@@ -621,7 +651,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .faint{color:var(--faint)}
 #app{max-width:1200px;margin:0 auto;padding:0 40px 120px}
 
-.bar{display:flex;align-items:center;justify-content:space-between;padding:26px 2px 24px;position:sticky;top:0;background:linear-gradient(var(--paper),var(--paper) 68%,transparent);z-index:5}
+.bar{display:flex;align-items:center;justify-content:space-between;padding:26px 2px 24px;position:sticky;top:0;background:linear-gradient(var(--paper),var(--paper) 68%,transparent);z-index:20}
 .brandmark{display:flex;align-items:center;gap:11px}
 .logo{width:18px;height:18px;border-radius:var(--r-xs);background:conic-gradient(from 210deg,#5e4bc3,#0088be,#2f6833,#a13731,#5e4bc3)}
 .wordmark{font-weight:640;letter-spacing:-0.02em;font-size:16px}
@@ -631,7 +661,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .brandsel.open{border-color:var(--ink2)}
 .brandsel .dot{width:12px;height:12px;border-radius:4px}
 .brandsel .caret{color:var(--faint);margin-left:2px}
-.brandmenu{position:absolute;top:calc(100% + 8px);right:0;width:288px;background:var(--panel);border:1px solid var(--line2);border-radius:var(--r);padding:12px;z-index:20;display:flex;flex-direction:column;gap:2px}
+.brandmenu{position:absolute;top:calc(100% + 8px);right:0;width:288px;background:var(--panel);border:1px solid var(--line2);border-radius:var(--r);padding:12px;z-index:20;display:flex;flex-direction:column;gap:2px;box-shadow:0 12px 32px -8px rgba(24,24,27,.20),0 4px 12px -4px rgba(24,24,27,.12)}
 .bm-cap{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);font-weight:600;margin:4px 2px 6px}
 .bm-field{display:flex;align-items:center;gap:10px;padding:4px 2px}
 .bm-lab{font-size:12.5px;color:var(--ink2);width:78px;flex:none}

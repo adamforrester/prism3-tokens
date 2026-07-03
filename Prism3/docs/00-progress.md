@@ -12,6 +12,11 @@
 Since the token layer completed, work has been the **designer↔developer↔agent E2E pipeline**
 (`07`/`08`/`09`/`10`). Shipped to `main`, newest first (see the decisions log for the why):
 
+- **Web dashboard — export** (`web/src/main.ts`): the brand menu gains an Export section —
+  **design.md** (`toDesignMd`, #39) and **tokens.json** (resolved DTCG tree via `buildTree`,
+  namespaced under the brand's `root`), both Blob-downloaded. Closes the E2E loop with the #38
+  importer: verified in-browser that an exported `design.md` re-imports as the same brand (0 errors).
+  Engine untouched (312/312); web typecheck + build green.
 - **Web dashboard — brand setup** (`web/src/main.ts`): the brand selector is now a menu —
   switch example brands, **New brand** (minimal known-good starter), **Import design.md** (pasted
   `design.md` → `parseDesignMd` → loaded, guarded by a `brandTheme` accept-check; the working brand

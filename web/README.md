@@ -57,8 +57,10 @@ touch `node:` and would not bundle for the browser.
   → loaded; a parse error or `brandTheme` rejection is surfaced, working brand untouched
   until both pass), and the per-brand **Name** + **Namespace (`root`)** fields (`root`
   validated inline against `^[a-z][a-z0-9-]*$`).
-- ⏭ **Next:** **export tokens** from the UI (the other half of the `design.md`
-  round-trip); move the live preview onto the type/form stages; promote the engine to a
+- ✅ **Export** — from the menu: **design.md** (`toDesignMd`, re-imports here — the loop
+  closes) and **tokens.json** (the resolved DTCG tree via `buildTree`, namespaced under the
+  brand's `root`). Both are pure engine functions; the browser just Blob-downloads them.
+- ⏭ **Next:** move the live preview onto the type/form stages; promote the engine to a
   named `@prism3/engine` workspace package so imports read by name instead of relative
   path. *Note:* import validation leans on `brandTheme` throwing — the full schema
   validator is node-bound (`emit-dtcg`), so a browser-safe validator export is a
