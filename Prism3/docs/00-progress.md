@@ -12,6 +12,15 @@
 Since the token layer completed, work has been the **designer↔developer↔agent E2E pipeline**
 (`07`/`08`/`09`/`10`). Shipped to `main`, newest first (see the decisions log for the why):
 
+- **Multi-brand / mode-configurable VISION captured** (`docs/11-multi-brand-vision.md`): the
+  enterprise north star — many brands over one *locked token-name contract* (names are the API;
+  brands & modes are value-columns over it, swappable at runtime), modes the user can decline
+  (light always; dark/HC/wireframe opt-in) or customize (light/dark accept an override layer, incl.
+  a different dark CTA; HC/wireframe generate-only), and a **single export contract** so every exit
+  (engine package / Figma emit / Token Press) yields the same by-collection × by-mode × by-brand
+  artifact. Four pillars, phased: **mode config → export contract (pending Token Press eval) →
+  override layer → brand families**. Not built yet — this is the plan. **Next: Pillar 1 (mode
+  configurability).**
 - **Web dashboard — preview on every stage + type specimen** (`web/src/main.ts`): the live
   component preview + contrast overlay (with the per-mode selector) now render on Semantic,
   Typography, AND Form — each reflects that stage's axis. Typography also gains a **type-scale
