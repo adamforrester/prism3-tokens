@@ -45,6 +45,17 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
 
 ---
 
+- **Project code review — findings documented, nothing fixed** (`docs/15-code-review-findings.md`,
+  2026-07-03): full-codebase review (engine + web + regression harness), baseline green first
+  (336/336, out/* byte-identical). 8 HIGH + 18 MEDIUM + 17 LOW findings, headline: `contrast()`
+  rounds before threshold comparison → WCAG false passes structurally invisible to the gates
+  (probe-verified: raw 4.49898 reported as 4.50-pass); the contrast floor is two steps shallower
+  than the shipped surface ladder; duplicate palette names silently hijack engine ramps; the
+  schema validator ignores boolean/enum-on-number/minItems; the YAML parser silently drops
+  misindented lines; nb-regression cannot fail (exit 0 always); web XSS via brandColors names;
+  emit-figma layout crashes on non-5-breakpoint brands. Four cross-cutting themes: self-referential
+  verification, NB-only structural gates, silent degradation over loud failure, validator weaker
+  than schema. §5 lists the gate blind spots to close as fixes land — **one fix + its gate per PR**.
 - **Component-layer contract locked** (`docs/14-component-layer.md`, 2026-07-03): the owner's
   question — store components as data and build them in Figma on the fly, LLM-free, like
   variables — answered YES and captured as the architecture: definitions as type-checked data
@@ -259,7 +270,8 @@ Prism3/
 │   ├── 11-multi-brand-vision.md     ← the enterprise north star: many brands over one locked token-name contract; mode config → export contract → override layer → brand families
 │   ├── 12-token-press-monorepo-eval.md ← the shared-export-core hypothesis (Option B: pure `@prism3/tokens-export` both emit-dtcg and Token Press import) + the §7 repo-review checklist → go/no-go gates Pillar 4
 │   ├── 13-inspirations.md           ← field notes on external agent-first DS work (Astryx, ds-brain map, Specs CLI, …) — takeaways, gaps identified, convergence table
-│   └── 14-component-layer.md        ← the component-layer contract: components-as-data (seeded from the KB briefs, token-name-bound) → deterministic Figma materialization (plugin) + extraction-diff regression; LLM-optional by design
+│   ├── 14-component-layer.md        ← the component-layer contract: components-as-data (seeded from the KB briefs, token-name-bound) → deterministic Figma materialization (plugin) + extraction-diff regression; LLM-optional by design
+│   └── 15-code-review-findings.md   ← 2026-07-03 full-codebase review: the fix backlog (8 HIGH / 18 MED / 17 LOW, per-finding failure scenarios + gate coverage) + the gate blind-spot list (§5)
 ├── fixtures/
 │   └── figma/nb/                    ← the NB import: palette + color×4 modes + font + font-fluid×2 (byte-reproduce targets) + text-styles (as-imported snapshot) — emit-figma's regression corpus (docs/10)
 ├── schema/
