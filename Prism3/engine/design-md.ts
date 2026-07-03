@@ -236,3 +236,39 @@ export const parseDesignMd = (text: string): DesignMd => {
   const prose = (proseStart < 0 ? '' : afterFence.slice(proseStart + 1)).trim();
   return { input: parseYamlSubset(fm) as unknown as BrandInput, prose };
 };
+
+// --- serialize: BrandInput → design.md (the inverse of parseDesignMd) ----------
+// Emits each DEFINED top-level key as a one-line flow value, so the existing flow
+// parser reads it straight back — `parseDesignMd(toDesignMd(x)).input` deep-equals
+// `x` (gated in test.ts). Only own defined keys are emitted: an omitted optional
+// (e.g. no `root`) stays omitted, preserving the exact round-trip. Prose, if given,
+// follows the closing fence. Pairs with `parseDesignMd` for the E2E export leg.
+const bareOk = (s: string): boolean =>
+  s.length > 0 && s.trim() === s && !/[,{}[\]:#"']/.test(s) &&
+  !/^[-+]?(\d+\.?\d*|\.\d+)([eE][-+]?\d+)?$/.test(s) && !['true', 'false', 'null', '~'].includes(s);
+const serScalar = (v: unknown): string => {
+  if (v === null) return 'null';
+  if (typeof v === 'number' || typeof v === 'boolean') return String(v);
+  const s = String(v);
+  return bareOk(s) ? s : `"${s.replace(/"/g, '\\"')}"`;
+};
+const serValue = (v: unknown): string => {
+  if (Array.isArray(v)) return `[${v.map(serValue).join(', ')}]`;
+  if (v && typeof v === 'object') {
+    const body = Object.entries(v as Record<string, unknown>)
+      .filter(([, x]) => x !== undefined)
+      .map(([k, x]) => `${bareOk(k) ? k : `"${k}"`}: ${serValue(x)}`)
+      .join(', ');
+    return `{ ${body} }`;
+  }
+  return serScalar(v);
+};
+
+/** Serialize a `BrandInput` to `design.md` text (frontmatter + optional prose). */
+export const toDesignMd = (input: BrandInput, prose = ''): string => {
+  const fm = Object.entries(input as Record<string, unknown>)
+    .filter(([, v]) => v !== undefined)
+    .map(([k, v]) => `${k}: ${serValue(v)}`);
+  const body = prose.trim();
+  return `---\n${fm.join('\n')}\n---\n${body ? `\n${body}\n` : ''}`;
+};
