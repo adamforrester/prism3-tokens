@@ -601,14 +601,6 @@ function renderBar(): void {
   if (brandMenuOpen) wrap.append(renderBrandMenu());
   barHost.append(wrap);
 
-  // A subtle scrim dims + blocks the workspace so the (shadowless) menu reads as floating.
-  document.querySelector('.bm-scrim')?.remove();
-  if (brandMenuOpen) {
-    const scrim = el('div', 'bm-scrim');
-    scrim.onmousedown = () => { brandMenuOpen = false; importOpen = false; renderBar(); };
-    app.append(scrim);
-  }
-
   if (!outsideBound) {
     document.addEventListener('mousedown', (e) => {
       if (brandMenuOpen && !(e.target as HTMLElement).closest('.brandsel-wrap')) { brandMenuOpen = false; importOpen = false; renderBar(); }
@@ -660,7 +652,6 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 #app{max-width:1200px;margin:0 auto;padding:0 40px 120px}
 
 .bar{display:flex;align-items:center;justify-content:space-between;padding:26px 2px 24px;position:sticky;top:0;background:linear-gradient(var(--paper),var(--paper) 68%,transparent);z-index:20}
-.bm-scrim{position:fixed;inset:0;background:rgba(24,24,27,0.05);z-index:10}
 .brandmark{display:flex;align-items:center;gap:11px}
 .logo{width:18px;height:18px;border-radius:var(--r-xs);background:conic-gradient(from 210deg,#5e4bc3,#0088be,#2f6833,#a13731,#5e4bc3)}
 .wordmark{font-weight:640;letter-spacing:-0.02em;font-size:16px}
@@ -670,7 +661,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .brandsel.open{border-color:var(--ink2)}
 .brandsel .dot{width:12px;height:12px;border-radius:4px}
 .brandsel .caret{color:var(--faint);margin-left:2px}
-.brandmenu{position:absolute;top:calc(100% + 8px);right:0;width:288px;background:var(--panel);border:1px solid var(--line2);border-radius:var(--r);padding:12px;z-index:20;display:flex;flex-direction:column;gap:2px}
+.brandmenu{position:absolute;top:calc(100% + 8px);right:0;width:288px;background:var(--panel);border:1px solid var(--line2);border-radius:var(--r);padding:12px;z-index:20;display:flex;flex-direction:column;gap:2px;box-shadow:0 12px 32px -8px rgba(24,24,27,.20),0 4px 12px -4px rgba(24,24,27,.12)}
 .bm-cap{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);font-weight:600;margin:4px 2px 6px}
 .bm-field{display:flex;align-items:center;gap:10px;padding:4px 2px}
 .bm-lab{font-size:12.5px;color:var(--ink2);width:78px;flex:none}
