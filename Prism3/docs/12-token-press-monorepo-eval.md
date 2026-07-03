@@ -158,3 +158,61 @@ that makes the two DTCG definitions agree *by construction* rather than by vigil
 it's the natural extension of the monorepo's "one core, many surfaces" thesis (`09`). Gate
 the export-contract build (Pillar 4) on this decision so the format code is authored in the
 right place once. Do the repo-review (§7) next to convert this hypothesis into a plan.
+
+---
+
+## 9. Repo-review verdict (2026-07-03) — Option B is **yellow**; decide the shape first
+
+A Token-Press-side agent ran §7 against **both** real repos. Verdicts:
+
+- **§7.1 Separability — ✅ confirmed, cleaner than assumed.** Zero `figma.*` runtime calls in
+  `converters/*`, `type-detection.ts`, `cache-manager.ts`, `validator.ts`, or the shaping half
+  of `exporter.ts`; only `scanner.ts` touches Figma. *Caveat:* converters **type** against
+  Figma ambient globals (declaration-only) — the shared package needs a small plain-interface
+  boundary (~1 day).
+- **§7.2 Purity/ES2018 — ✅.** The seam falls between `tree.ts` (generation, engine-side) and
+  `formatDimensionValue`-style leaf formatting (→ shared core).
+- **§7.3 Presets — ✅ with nuance.** Preset logic is DOM-coupled in `ui.html`; lift the
+  fingerprints + `detectActivePreset`/`isSpecConformant` to pure fns (~½ day).
+- **§7.4 Layout — pure, but shapes diverge (see §7.6).**
+- **§7.5 Type inference — ✅ stays Token-Press-side** (Figma→DTCG only).
+- **§7.6 Composite parity — ❌ REFUTED.** The load-bearing finding: the two outputs disagree
+  *today* — dimensions/durations object (TP default) vs string (Prism3 always); multi-mode as
+  per-mode files (TP) vs inline `$extensions.prism3.modes` (Prism3); brace aliases both sides
+  (both off-spec); Prism3 emits `spring`/`strokeStyle` TP doesn't; `$extensions` `prism3.*` vs
+  `figma.*`.
+- **§7.7 Build/release — real, manageable.** Under B the plugin shell stays in its repo; only
+  the shaping half publishes as `@prism3/tokens-export`.
+- **§7.8 Licensing — owner call** (`VMLYR/token-forge`, private).
+
+**The reviewer's central correction, adopted:** a shared core doesn't *force* agreement — it
+*enables* it. **Pick the canonical shape before extracting**, else drift just moves from "two
+codebases" to "one codebase with two configs."
+
+### 9a. Shape decisions (proposed — owner to confirm; this is the gate on Pillar 4)
+
+Most divergences dissolve once the shared core takes **normalized facts + options**, not
+either side's native output. The core's input contract is a normalized
+`collection × mode × token-facts`; each caller adapts *into* it.
+
+| Decision | Proposed canonical | Rationale |
+|---|---|---|
+| Dimension / duration | **object** (`{value,unit}`, DTCG-spec); **string via SD preset** | Not a fork — it's the `dimensionFormat`/`durationFormat` option TP already has; the engine just hardcodes string today. Feed raw `{16,'px'}`; core formats per preset. |
+| Multi-mode representation | **multi-file per-mode is the EXPORT; inline `modes` stays the engine's IR** | The engine's single tree feeds resolve-preview/ai-metadata/golden — keep it. The export core *unfolds* it to per-mode files (clean projection; every mode value is already present). TP is multi-file natively. Engine doesn't migrate; multi-file wins as the *artifact*. |
+| Property-level aliases | **`$ref`** (spec), flatten-at-build fallback | Both sides emit brace today (both off-spec, both acknowledge it). Fix once in the core. |
+| `$extensions` namespace | **pass-through, no opinion** | `prism3.*` and `figma.*` are provenance each caller owns; the core never rewrites them. |
+| Engine-only types (`spring`, `strokeStyle`) | **core supports/passes through** | Engine is the richer producer; TP simply won't emit them (no Figma source). |
+
+### 9b. Revised plan / effort (from the review)
+
+Gate = the §9a decisions (a ~½-day call, not a spike). Then extract, ES2018-pure, no ambient
+Figma types: (1) `@prism3/tokens-format` — leaf formatters + preset fingerprints (~3d);
+(2) composite builders taking fact objects (~3d); (3) the multi-mode partitioner + file layout
+in the chosen shape (~2d); (4) migrate TP's `exporter.ts` shaping → core, golden its ZIP
+byte-for-byte (~3d); (5) migrate the engine's `emit-dtcg` serialization → core, golden
+`tokens.json` (~3d). **≈ 2 weeks**, +1 if multi-mode ever has to migrate (it doesn't, per 9a).
+
+**Standing guidance for Pillar 4 (both docs agree):** do **not** author `collections.ts` +
+formatters engine-internal. Author them at the chosen shape boundary, in the extracted package
+location — even if the package still lives inside this repo pre-move — so they're already in
+the right module when B lands.
