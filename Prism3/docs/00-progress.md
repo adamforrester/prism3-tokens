@@ -7,12 +7,45 @@
 
 ---
 
-## Latest (2026-07-02) — E2E integration arc
+## Latest (2026-07-03) — E2E integration arc
 
 Since the token layer completed, work has been the **designer↔developer↔agent E2E pipeline**
 (`07`/`08`/`09`/`10`). Shipped to `main`, newest first (see the decisions log for the why):
 
-- **Component-layer contract locked** (`docs/13-component-layer.md`, 2026-07-03): the owner's
+### Fresh-agent brief — pick up here
+
+Two threads are live: the **Figma-emitter agent** (owns `emit-figma.ts` + its `test.ts`
+gates; materialises axes into Figma via MCP) and the **generator thread** (everything
+else — engine core, web dashboard, docs). Coordinate via committed artefacts (docs/10 §6).
+
+- **emit-figma today:** colour + typography + dims + shadow + gradient axes shipped
+  (#28, #31, #33, #35). Fully specified in `docs/10-figma-materialization.md`.
+- **emit-figma next (docs/10 §7 queue post-audit, 2026-07-03):**
+  1. ★ **Layout** — one `layout` collection with breakpoint modes (sm/md/lg/xl/2xl),
+     carrying `grid/columns` + `grid/gutter` + `grid/margin` (per-mode) + `container/max`
+     + `container/narrow`. The DTCG tree already carries `figma.collection: 'layout',
+     mode: <bp>` on every leaf — target is prescribed.
+  2. **Motion** — verify Figma Plugin API has a `TIME` scope (Config 2026 landing);
+     emit `motion/duration/*` + `motion/duration-reduced/*` + `motion/stagger` if so.
+     easing/spring/transition composites have no Figma variable primitive — emit as
+     `motion-styles.json` reference metadata only.
+  3. **Generalise** — emit aurora + wendys through every axis (proves brand-agnostic;
+     lands the alias-driven form of aurora gradients).
+  4. **Follow-ups parked in docs/10 §7:** fix 3b (`font-tracking` FLOATs, bindable
+     letterSpacing); `foreground.secondary` ≡ `border.primary` (generator thread,
+     semantic-layer, not emit-figma); **mode opt-out awareness** — `emit-figma.ts`
+     hardcodes `COLOR_MODES = ['light', 'dark', 'hc-light', 'hc-dark']`; a light-only
+     brand's output silently carries dark-with-light-values files. Fix with layout or
+     motion pass, whichever lands first.
+- **Test file:** the Figma-MCP thread's target is "Prism3 Test File" (fileKey
+  `Zrn9YDqrFiwjs2IfKInNY0`). It has 4 specimen pages already (Colour, Typography, Dims,
+  Shadow, Gradient) + all the corresponding variable collections + styles imported live.
+- **Run commands:** `npx tsx Prism3/engine/emit-figma.ts` writes `out/figma/nb/*.json`;
+  `npx tsx Prism3/engine/test.ts` gates everything (323/323 today).
+
+---
+
+- **Component-layer contract locked** (`docs/14-component-layer.md`, 2026-07-03): the owner's
   question — store components as data and build them in Figma on the fly, LLM-free, like
   variables — answered YES and captured as the architecture: definitions as type-checked data
   **seeded from the KB's ~40 component briefs (§15 schemas)** and **bound to the locked token
@@ -24,13 +57,30 @@ Since the token layer completed, work has been the **designer↔developer↔agen
   disposition in 05/10 is stale; KB 18–21 flagged for update). Build sequence: schema → 3
   components (Button/Text Field/Card) → artifact → materialize (MCP first, plugin after) →
   round-trip gate → scale. Doc-only; nothing built.
-- **Inspirations log started** (`docs/12-inspirations.md`, 2026-07-03): reviews of external
+- **Inspirations log started** (`docs/13-inspirations.md`, 2026-07-03): reviews of external
   agent-first DS work — Astryx (Meta; CLI-as-agent-interface, typed `ComponentDoc` data files,
-  `agent-docs` index injection, `--compact` tiers) and the "ds-brain" practitioner stack map
+  `agent-docs` index injection, `--compact` tiers), the "ds-brain" practitioner stack map
   (docs-package-as-brain, generated skills/rules/indexes, **consumption-side evals**: rubric +
-  invented-component rate + contamination-controlled trials). Convergence table at the end tracks
-  patterns with multiple witnesses; identified gaps for us: `.ai.json` discovery layer, retrieval
-  surface (CLI `query` / MCP), consumption evals. Doc-only change; no engine code touched.
+  invented-component rate + contamination-controlled trials), and Specs CLI (verified
+  extraction-only). Convergence table at the end tracks patterns with multiple witnesses;
+  identified gaps for us: `.ai.json` discovery layer, retrieval surface (CLI `query` / MCP),
+  consumption evals. Doc-only change; no engine code touched.
+- **Export-contract sequencing + Token Press eval** (`docs/12-token-press-monorepo-eval.md`): before
+  building Pillar 4, two calls settled the order — (1) let the Figma-emitter agent **finish emit-figma**
+  so the collection structure is stable (the shared `collections.ts` partition must mirror a settled
+  reality), and (2) **decide whether the export *format core* moves into the monorepo** as a shared pure
+  `@prism3/tokens-export` module both `emit-dtcg` and Token Press import — killing format drift by
+  construction (recommended: **Option B**). `docs/12` is the hypothesis (from the Token Press handoff
+  brief) + a §7 checklist for a repo-reviewing agent to validate feasibility against the real source →
+  go/no-go. Pillar 4's first line of code is gated on this (it sets the module boundary). Meanwhile
+  **Wireframe (1b)** is independent and proceeds. *Next: draft done → repo review → decide → build.*
+- **Pillar 1 web toggle — Dark/HC in brand setup** (`web/src/main.ts`): the brand menu gains a
+  **Modes** control — `Light` fixed, `Dark`/`HC` toggles that write `brandState.modes` (HC adds
+  hc-light, + hc-dark only when dark is on); `New brand` starts light-only. The engine re-resolves
+  and the preview's mode selector narrows automatically (it iterates `rp.modes`); a dropped selected
+  mode falls back to light. Verified headless: aurora 4 modes → Dark-off 2 → HC-off 1; New brand 1;
+  0 page errors. No engine change; completes Pillar 1a end-to-end (engine + UI).
+>>>>>>> origin/main
 - **Pillar 1a — mode opt-out** (`theme.ts`/`modes.ts`/`tree.ts`, docs/11 Pillar 1): `BrandInput.modes`
   lets a brand decline dark/HC — `light` is the required base, `dark`/`hc-light`/`hc-dark` opt-in.
   `resolveAllModes` filters to `theme.modes`; the DTCG tree emits per-mode colour overrides only for
@@ -122,7 +172,7 @@ Since the token layer completed, work has been the **designer↔developer↔agen
   contracts the surfaces render from.
 - **`design.md` interchange + CLI** (dual-dialect) + the colour-role classifier + fidelity report.
 
-Engine gates as of 2026-07-02: `test.ts` **323/323** (240 colour + 25 typography + 8 namespace + 16 dims + 14 shadow/gradient + 4 pin-a-neutral + 5 design.md-round-trip + 11 mode-config);
+Engine gates as of 2026-07-03: `test.ts` **323/323** (240 colour + 25 typography + 8 namespace + 16 dims + 14 shadow/gradient + 4 pin-a-neutral + 5 design.md-round-trip + 11 mode-config);
 `emit-dtcg` 248/248 contracts per brand; `nb-regression` ΔE00 1.95. The snapshot below is the
 2026-07-01 token-layer baseline.
 
@@ -208,8 +258,9 @@ Prism3/
 │   ├── 09-architecture-and-repos.md ← platform architecture + repo/packaging (monorepo grown from prism3-tokens; web-dashboard-first); which of the owner's other plugins get absorbed vs stay downstream
 │   ├── 10-figma-materialization.md  ← the emit-figma contract: exact Figma variable/style shape (proven by import spikes), colour + typography materialization rules, thread split; fixtures/figma/nb is the regression target
 │   ├── 11-multi-brand-vision.md     ← the enterprise north star: many brands over one locked token-name contract; mode config → export contract → override layer → brand families
-│   ├── 12-inspirations.md           ← field notes on external agent-first DS work (Astryx, ds-brain map, Specs CLI, …) — takeaways, gaps identified, convergence table
-│   └── 13-component-layer.md        ← the component-layer contract: components-as-data (seeded from the KB briefs, token-name-bound) → deterministic Figma materialization (plugin) + extraction-diff regression; LLM-optional by design
+│   ├── 12-token-press-monorepo-eval.md ← the shared-export-core hypothesis (Option B: pure `@prism3/tokens-export` both emit-dtcg and Token Press import) + the §7 repo-review checklist → go/no-go gates Pillar 4
+│   ├── 13-inspirations.md           ← field notes on external agent-first DS work (Astryx, ds-brain map, Specs CLI, …) — takeaways, gaps identified, convergence table
+│   └── 14-component-layer.md        ← the component-layer contract: components-as-data (seeded from the KB briefs, token-name-bound) → deterministic Figma materialization (plugin) + extraction-diff regression; LLM-optional by design
 ├── fixtures/
 │   └── figma/nb/                    ← the NB import: palette + color×4 modes + font + font-fluid×2 (byte-reproduce targets) + text-styles (as-imported snapshot) — emit-figma's regression corpus (docs/10)
 ├── schema/
@@ -823,10 +874,10 @@ layer 1). Agreed build sequence (owner confirmed "safest path to a working plugi
   Storybook + `.ai.json` + Figma Code Connect (layers 2–3). In scope eventually;
   mapped now so upstream choices don't foreclose it. Heavy per-component research
   already in the KB (UIC series). **Architecture now locked in
-  `13-component-layer.md`** (2026-07-03): definitions seeded from the KB's ~40
+  `14-component-layer.md`** (2026-07-03): definitions seeded from the KB's ~40
   component briefs, token-name-bound, deterministically materialized to Figma via
   the B2 plugin (write leg) with an extraction-diff regression (verify leg;
-  Specs CLI's seat). Build sequence in `13` §6 — starts with the schema + 3
+  Specs CLI's seat). Build sequence in `14` §6 — starts with the schema + 3
   components when this activates.
 
 Parked, owner-flagged: **light-grey surface value tuning** — done visually once real

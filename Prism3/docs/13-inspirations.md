@@ -1,4 +1,4 @@
-# 12 — Inspirations: field notes on agent-first design systems
+# 13 — Inspirations: field notes on agent-first design systems
 
 > A running review of external systems and practitioner maps that overlap with what
 > Prism3 is building — logged so each review's *takeaways* survive context loss and
@@ -148,7 +148,7 @@ tokens per component"** (vs ~25k for agentic extraction).
 1. **The read-back-verifier seat.** Extraction-diff as the component-tier
    regression gate: materialize components from our data → extract specs from the
    resulting file → diff against the source. Deterministic, zero-LLM round-trip —
-   the `nb-regression` pattern at the component tier. Full contract in `13` §4.
+   the `nb-regression` pattern at the component tier. Full contract in `14` §4.
 2. **`@directededges/specs-schema` as the reference schema** (JSON Schema + TS
    types — `Component`, `Element`, `AnyProp`): the shape to stay
    conformant-or-mappable to, same follow-don't-fork posture as `design.md`.
@@ -158,7 +158,7 @@ tokens per component"** (vs ~25k for agentic extraction).
 
 **Where we're ahead:** the write leg. Specs CLI's world keeps Figma as the
 authoring surface; ours makes Figma an *output* — the deterministic
-data→plugin materialization (`13` §3) is the direction it doesn't have.
+data→plugin materialization (`14` §3) is the direction it doesn't have.
 
 ---
 
@@ -171,6 +171,6 @@ data→plugin materialization (`13` §3) is the direction it doesn't have.
 | Retrieval-first agent access (search → fetch-on-demand, compact tiers) | Astryx CLI; ds-brain "AI index" | **Gap** — candidate `cli.ts query` subcommand; MCP adapter tool schema later |
 | Metadata that cannot drift (type-checked / CI-enforced) | Astryx typed `ComponentDoc`; KB 30 freshness hash | Engine gates prove the philosophy at the token tier; carry into the component layer |
 | Consumption-side evals (rubric, invented-name rate, isolated trials) | ds-brain | **Gap** — nothing measures agent consumption; build alongside the MCP adapter |
-| Deterministic zero-LLM tooling as the differentiator over agentic equivalents | Specs CLI ("0 AI tokens" extraction), our engine + planned plugin write leg | Core posture — `13` extends it to the component tier (write leg ours, verify leg Specs-CLI-shaped) |
+| Deterministic zero-LLM tooling as the differentiator over agentic equivalents | Specs CLI ("0 AI tokens" extraction), our engine + planned plugin write leg | Core posture — `14` extends it to the component tier (write leg ours, verify leg Specs-CLI-shaped) |
 | Verified *generation* (contrast contracts, regression, modes) | — none reviewed has it | **Prism3's differentiator holds** |
 | Figma as the underserved agent surface | ds-brain (open question), Astryx (absent) | Actively building — `emit-figma` (`10`), MCP materialization route |

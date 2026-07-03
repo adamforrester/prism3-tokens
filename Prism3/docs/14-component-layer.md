@@ -1,4 +1,4 @@
-# 13 — The component layer: components as data, materialized without an LLM
+# 14 — The component layer: components as data, materialized without an LLM
 
 > `07` §7 mapped the component library as downstream future work ("mapped now so
 > upstream choices don't foreclose it"). This doc locks the **architectural shape** of
@@ -20,7 +20,7 @@ gates prove the output, and an LLM can drive the levers but is never required.
 The component layer gets the identical posture:
 
 - A **component definition is structured data** (KB 03 §6, Curtis's
-  *Components as Data*; three external witnesses logged in `12`).
+  *Components as Data*; three external witnesses logged in `13`).
 - **Figma component sets, code (WC + React), Storybook, and `.ai.json` are all
   outputs** generated from it — Figma is one target among many, never the source.
 - The **write leg into Figma is deterministic** (a plugin executing an emitted
@@ -37,7 +37,7 @@ anatomy vocabulary: `anatomy / props / default / variants` plus the intent layer
 (`when_to_use`, `avoid_when`, slot contracts, a11y metadata). Two format
 disciplines, both already proven elsewhere:
 
-- **Type-checked, not freestanding** — the Astryx lesson (`12` §1): the definition
+- **Type-checked, not freestanding** — the Astryx lesson (`13` §1): the definition
   validates against a schema at build time, so metadata drift is a gate failure,
   the same "can't drift" mechanism as the lever manifest and preview spec.
 - **Conformant-or-mappable to public shapes, not forked** — the `design.md` posture.
@@ -52,7 +52,7 @@ binds its visual props to the **locked token names** (`11`): `color.action.defau
 mode-invariant structure**; brands and modes are value-columns the engine already
 supplies. Build the Button set *once* and every brand/mode materializes correctly,
 because the bindings resolve through variables. This is a property none of the
-reviewed external systems have (`12`): their specs capture *observed values*; ours
+reviewed external systems have (`13`): their specs capture *observed values*; ours
 bind to a *verified contract*.
 
 **The proto-layer already in the repo.** `preview.ts` is a miniature of exactly this
@@ -175,7 +175,7 @@ Same posture as every engine axis — define verifiable success before building:
    colours in all modes (resolve-preview's gate, generalized).
 3. **Round-trip gate** — materialize → extract → diff (§4). Structural equality on
    anatomy/variants/props/bindings.
-4. **Consumption evals** — the `12` §2 steal: rubric-scored agent output over the
+4. **Consumption evals** — the `13` §2 steal: rubric-scored agent output over the
    layer, an **invented-name rate** (components *and* tokens — mechanically
    checkable against the locked contract), contamination-isolated re-runs. Built
    alongside the MCP adapter, not after it.
@@ -201,7 +201,7 @@ Deliberately small first increment, mirroring how every engine axis landed:
 
 *Cross-refs: `07` §7 (the layer's place in the E2E journey), `08` §5 (two-route
 materialization + ceilings discipline), `10` (emit-figma contract this extends),
-`11` (the locked name contract that makes definitions brand-portable), `12`
+`11` (the locked name contract that makes definitions brand-portable), `13`
 (inspirations: Astryx typed-doc lesson, ds-brain evals, Specs CLI verification).
 KB: 03 §6 (components-as-data), 29/30 (docs-from-data + the brief→data-file
 relationship), `components/` + `_schema.md` (the ~40-brief seed corpus), 15 (Specs

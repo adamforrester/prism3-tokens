@@ -19,7 +19,7 @@
  * volatile region (ramps or preview), so knob focus is never lost; a failed brand
  * combination is caught and surfaced with the last-good render preserved.
  */
-import { brandTheme } from '../../Prism3/engine/theme';
+import { brandTheme, ALL_MODES } from '../../Prism3/engine/theme';
 import type { BrandInput, Theme } from '../../Prism3/engine/theme';
 import { hex, oklchToRgb, hexToRgb, rgbToOklch } from '../../Prism3/engine/color';
 import { autoPlaceStep } from '../../Prism3/engine/ramp';
@@ -45,6 +45,7 @@ let brandState: BrandInput = structuredClone(BRANDS.aurora);
 // derived neutral, action defaults to primary, namespace at the 'prism' placeholder.
 const NEW_BRAND = (): BrandInput => ({
   id: 'untitled', root: 'prism',
+  modes: ['light'],                               // most brands ship light only (docs/11 Pillar 1)
   primary: { l: 0.55, c: 0.15, h: 262 },
   neutral: { hue: 262, chroma: 0.006 },
 });
@@ -524,6 +525,18 @@ const loadBrand = (input: BrandInput): void => {
   build();
 };
 
+/** Set the generated appearance modes from the two toggles. Light is always present;
+ *  HC adds hc-light, plus hc-dark only when dark is also on (docs/11 Pillar 1). */
+const setModes = (dark: boolean, hc: boolean): void => {
+  const m: Mode[] = ['light'];
+  if (dark) m.push('dark');
+  if (hc) { m.push('hc-light'); if (dark) m.push('hc-dark'); }
+  brandState.modes = m;
+  rebuild();
+  if (!rp.modes.includes(currentMode)) currentMode = rp.modes[0];   // dropped the selected mode
+  build();                                                          // bar toggles + preview mode selector both change
+};
+
 /** Trigger a client-side file download (Blob → object URL → anchor click). */
 const download = (filename: string, text: string, mime: string): void => {
   const url = URL.createObjectURL(new Blob([text], { type: mime }));
@@ -583,6 +596,23 @@ const renderBrandMenu = (): HTMLElement => {
   }));
   setHint();
   menu.append(nsHint);
+
+  // Modes — light always; dark / high-contrast opt-in (docs/11 Pillar 1).
+  const modes = brandState.modes ?? ALL_MODES;
+  const darkOn = modes.includes('dark');
+  const hcOn = modes.includes('hc-light') || modes.includes('hc-dark');
+  const modeRow = el('div', 'bm-field');
+  modeRow.append(el('span', 'bm-lab', 'Modes'));
+  const chips = el('div', 'bm-modes');
+  chips.append(el('span', 'bm-mode fixed', 'Light'));
+  const dChip = el('button', 'bm-mode' + (darkOn ? ' on' : ''), 'Dark') as HTMLButtonElement;
+  dChip.onclick = () => setModes(!darkOn, hcOn);
+  const hChip = el('button', 'bm-mode' + (hcOn ? ' on' : ''), 'HC') as HTMLButtonElement;
+  hChip.title = 'High contrast';
+  hChip.onclick = () => setModes(darkOn, !hcOn);
+  chips.append(dChip, hChip);
+  modeRow.append(chips);
+  menu.append(modeRow);
 
   menu.append(el('div', 'bm-div'));
   menu.append(el('div', 'bm-cap', 'Switch brand'));
@@ -708,6 +738,10 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .bm-in{flex:1;min-width:0;padding:6px 9px;border:1px solid var(--line2);border-radius:var(--r-xs);font:inherit;font-size:13px;background:var(--paper)}
 .bm-in.bad{border-color:#d23;background:#fdecec}
 .bm-hint{margin:2px 2px 4px;font-size:11px;color:var(--faint);font-family:var(--mono)}
+.bm-modes{display:flex;gap:6px;flex:1}
+.bm-mode{border:1px solid var(--line2);background:var(--paper);border-radius:var(--r-xs);font:inherit;font-size:12px;color:var(--muted);padding:4px 10px;cursor:pointer}
+.bm-mode.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.bm-mode.fixed{cursor:default;background:var(--panel);color:var(--ink2);border-style:dashed}
 .bm-div{height:1px;background:var(--line);margin:8px 0}
 .bm-item{display:flex;align-items:center;gap:9px;width:100%;text-align:left;border:0;background:none;font:inherit;font-size:13px;color:var(--ink2);padding:8px 8px;border-radius:var(--r-xs);cursor:pointer}
 .bm-item:hover{background:var(--paper)}

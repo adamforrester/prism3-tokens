@@ -242,13 +242,13 @@ Mapped shape (future): `component.yaml` → { WC, React, Storybook (both), `.ai.
 Code Connect map }. Same "compute/define at authoring, generate the surfaces" philosophy as
 the token engine.
 
-**→ The architecture of this layer is now locked in `13-component-layer.md` (2026-07-03):**
+**→ The architecture of this layer is now locked in `14-component-layer.md` (2026-07-03):**
 definitions seeded from the KB's ~40 component briefs (§15 schemas), bound to the locked token
 names (`11`) so structure is brand/mode-invariant, materialized into Figma **deterministically**
 (an `emit-figma` component artifact executed by the B2 plugin — no LLM/MCP required, the same
 two-route pattern as `08` §5), and regression-gated by extraction diff (Specs CLI's verified
 seat — it extracts, it does not build). This section stays as the layer's place in the journey;
-`13` is the contract.
+`14` is the contract.
 
 ---
 
