@@ -217,6 +217,12 @@ the *semantic facts* from the DTCG tree (`$extensions.prism3` — `aliasOf`, per
 adapter (collection/scope/name/unit decisions). Emit per-`collection`/`mode` files matching the
 fixture shape; **omit ids** (Figma assigns them; alias **by name**).
 
+**Coverage (audit 2026-07-03):** of the DTCG tree's 16 top-level groups, emit-figma covers
+**12** (palette, color, font, type, shadow, dimension, space, radius, size, focus, opacity,
+border-width). The **4** uncovered — `motion`, `breakpoint`, `grid`, `container` — fold into
+**2** remaining Figma collections: `layout` (breakpoint + grid + container, item 4) and
+`motion` (item 5).
+
 **Queue, in order:**
 1. **Typography — ✅ DONE (2026-07-02, #31).** `font` (38) + `font-fluid` (10 × mobile/desktop)
    byte-reproduce the fixtures; 36 text styles apply the six §4 fixes and gate against the
