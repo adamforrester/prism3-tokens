@@ -80,7 +80,6 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
   and the preview's mode selector narrows automatically (it iterates `rp.modes`); a dropped selected
   mode falls back to light. Verified headless: aurora 4 modes → Dark-off 2 → HC-off 1; New brand 1;
   0 page errors. No engine change; completes Pillar 1a end-to-end (engine + UI).
->>>>>>> origin/main
 - **Pillar 1a — mode opt-out** (`theme.ts`/`modes.ts`/`tree.ts`, docs/11 Pillar 1): `BrandInput.modes`
   lets a brand decline dark/HC — `light` is the required base, `dark`/`hc-light`/`hc-dark` opt-in.
   `resolveAllModes` filters to `theme.modes`; the DTCG tree emits per-mode colour overrides only for
