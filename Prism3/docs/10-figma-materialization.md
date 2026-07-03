@@ -218,34 +218,76 @@ adapter (collection/scope/name/unit decisions). Emit per-`collection`/`mode` fil
 fixture shape; **omit ids** (Figma assigns them; alias **by name**).
 
 **Queue, in order:**
-1. **Typography — ✅ DONE (2026-07-02).** `font` (38) + `font-fluid` (10 × mobile/desktop)
+1. **Typography — ✅ DONE (2026-07-02, #31).** `font` (38) + `font-fluid` (10 × mobile/desktop)
    byte-reproduce the fixtures; 36 text styles apply the six §4 fixes and gate against the
    corrected expectation (not the pre-fix `text-styles.json` snapshot). `tree.ts` LH/LS
    directive notes corrected (§5). 25 new gates; materialised to Figma via MCP and rendered
    a specimen frame with real container-fill bindings. Fix 3b bindable form (a `font-tracking`
    FLOAT collection) deferred to a follow-up so this PR byte-reproduces the 38-var `font.json`.
-2. **Dims / opacity / border — ✅ DONE (2026-07-02).** Seven FLOAT collections (dimension + space +
-   radius + size + border-width + focus + opacity — 94 vars, 45 aliases). No fixtures for this axis,
-   so gated structurally (14 new gates). Materialised via MCP; specimen frame renders geometry
-   bindings. Focus's `strokeStyle: 'solid'` leaf skipped (no Figma variable primitive).
-3. **Shadow → Effect Style + gradient → Paint Style — ✅ DONE (2026-07-02).** Styles, not variables
-   (§08 §5 variable-type ceiling). Shadow emits **two style sets** per step because Figma
-   Effect Styles don't support modes: `shadow/xs..2xl + shadow/inset` (light) + `shadow-dark/*`
-   (dark, reduced-alpha surface-lift). NB → 14 Effect Styles. Gradient is opt-in per brand:
-   NB emits empty (consistent shape), aurora emits 2 Paint Styles (brand + glow) with 2
-   canonical stops + 5 `sampledStops` (sRGB pre-sample of the OKLCH curve; Figma interpolates
-   in sRGB only) + a11y worst-on-white/black ratios per style. 14 new gates → 295/295.
-   Materialised via MCP: 14 Effect Styles on a two-row (light/dark) specimen; 2 Paint Styles
-   as violet-azure + violet-glow swatches.
-4. **★ NEXT — Generalise** — emit aurora + wendys too (prove brand-agnostic). No fixtures for those,
-   so gate on structural validity (aliases resolve, scopes present) + **materialise-to-verify** in Figma.
+2. **Dims / opacity / border — ✅ DONE (2026-07-02, #33).** Seven FLOAT collections
+   (dimension + space + radius + size + border-width + focus + opacity — 94 vars, 45 aliases).
+   No fixtures for this axis, so gated structurally (16 new gates). Materialised via MCP;
+   specimen frame renders geometry bindings. Focus's `strokeStyle: 'solid'` leaf skipped
+   (no Figma variable primitive). Opacity emitted as PERCENT 0–100 (Figma OPACITY scope
+   expects percent, not fraction — dogfood catch, fixed at the adapter).
+3. **Shadow → Effect Style + gradient → Paint Style — ✅ DONE (2026-07-02, #35).** Styles,
+   not variables (§08 §5 variable-type ceiling). Shadow emits **two style sets** per step
+   because Figma Effect Styles don't support modes: `shadow/xs..2xl + shadow/inset` (light) +
+   `shadow-dark/*` (dark, reduced-alpha surface-lift). NB → 14 Effect Styles. Gradient is
+   opt-in per brand: NB emits empty (consistent shape), aurora emits 2 Paint Styles (brand +
+   glow) with 2 canonical stops + 5 `sampledStops` (sRGB pre-sample of the OKLCH curve;
+   Figma interpolates in sRGB only) + a11y worst-on-white/black ratios per style. 14 new
+   gates. Materialised via MCP: 14 Effect Styles on a two-row (light/dark) specimen; 2 Paint
+   Styles as violet-azure + violet-glow swatches (demo hex; aurora palette import lands with
+   the generalise pass for the alias-driven form).
+4. **★ NEXT — Layout: `breakpoint` + `grid` + `container`.** The DTCG tree already carries
+   explicit Figma directives on every `grid.*` leaf: `figma.collection: 'layout', mode: <bp>`.
+   That prescribes the target — **one `layout` variable collection with breakpoint modes**
+   (`sm`/`md`/`lg`/`xl`/`2xl`), each mode carrying `grid/columns` (FLOAT, 4/8/12/12/12),
+   `grid/gutter` + `grid/margin` (FLOAT, aliased to `space/*` — a per-mode alias, since gutter
+   and margin change per breakpoint), and `container/max` + `container/narrow` (FLOAT,
+   viewport-invariant so same value per mode). `container/fluid` (`100%`) has no scope in
+   Figma and stays code-side. `breakpoint/*` (the min-width thresholds themselves) are
+   descriptive; emit into `layout` as documentation but they're not directly bindable to
+   anything today. Structural gate (no fixture): the layout collection has 5 modes, every
+   grid var aliases into `space/*` correctly, every alias resolves. Materialise-to-verify:
+   a spread frame renders 4/8/12-column grids at three breakpoints with `gutter` and
+   `margin` bound to the layout collection's per-mode values.
+5. **Motion.** Figma added motion variables at Config 2026 (TIME scope per the KB
+   `_research/2026-06-28-figma-variables-styles-roundtrip` finding). Emit a `motion`
+   collection with `motion/duration/*` (6 FLOAT × TIME) + `motion/duration-reduced/*` (the
+   reduce-motion companion, same shape) + `motion/stagger` (FLOAT × TIME). `easing.*`
+   (cubicBezier), `spring.*`, and `transition.*` composites **have no Figma variable
+   representation** — they emit into descriptions or a `motion-styles.json` companion (like
+   `shadow-styles.json`) as reference metadata, not bindable primitives. Verify current
+   Figma Plugin API surfaces `TIME` scope before implementing; if not landed yet, defer.
+6. **Generalise** — emit aurora + wendys too (prove brand-agnostic). No fixtures for those,
+   so gate on structural validity (aliases resolve, scopes present) + **materialise-to-verify**
+   in Figma. This is where the alias-driven aurora gradient form actually renders (aurora's
+   palette imported alongside).
 
 **Follow-up parked from typography (2026-07-02):** §4 fix 3b full form — ship a
 `font-tracking` FLOAT variable collection (6 tokens: tighter/tight/snug/normal/wide/wider,
 values em × 100), extend `fixtures/figma/nb/font.json` (or a sibling `font-tracking.json`)
-to include them, and rebind `letterSpacing` on all 36 text styles. Baking as PERCENT this
-PR is intentional (mode/size-independent) and correct — the follow-up moves brand-retunable
+to include them, and rebind `letterSpacing` on all 36 text styles. Baking as PERCENT is
+intentional (mode/size-independent) and correct — the follow-up moves brand-retunable
 tracking off the style layer.
+
+**Follow-up parked from dims (2026-07-02):** `color/foreground/secondary` and
+`color/border/primary` resolve to the same primitive step in the DTCG tree. Not an
+emit-figma bug; whether the two roles should diverge is a semantic-layer design call
+(generator thread), not a materialisation gap. Owner spotted this checking border-widths.
+
+**Follow-up parked from mode-opt-out (2026-07-03, post-#42):** `BrandInput.modes` lets a
+brand ship any subset of `{light, dark, hc-light, hc-dark}`. `emit-figma`'s colour axis
+still hardcodes all 4 modes: `export const COLOR_MODES = ['light', 'dark', 'hc-light',
+'hc-dark']`, and the alias falls back to `leaf.$value` (light) when `ext.modes.<m>` is
+absent. Effect: a light-only brand's output would carry `color.dark.json` with light
+values, silently misleading the materialiser. Fix: read `theme.modes` (or scan
+`ext.modes` keys across all roles) and emit only the modes present. Shadow's dark-mode
+style set has the same latent issue (`buildFigmaShadow` iterates `leaf.$extensions.
+prism3.modes.dark`; light-only brands correctly emit *no* `shadow-dark/*`, so shadow is
+already ok). Fixed with the layout or motion pass, whichever lands first.
 
 **Definition of done per axis:** the `test.ts` gate is green, `out/figma/*` regenerates
 byte-identical, the existing engine emits (`emit-dtcg`, `nb-regression`) are unaffected, **and** you
