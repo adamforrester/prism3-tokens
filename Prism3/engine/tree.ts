@@ -113,7 +113,9 @@ const shadowLeaf = (theme: Theme, step: ShadowStep, description: string): Token 
   $value: step.light.map((l) => shadowLayerValue(theme, l)),
   $description: description,
   $extensions: { prism3: { generated: true, role: 'composite', layers: step.light.length,
-    modes: { dark: step.dark.map((l) => shadowLayerValue(theme, l)) },
+    // dark shadow reduction only when the brand generates dark (docs/11 Pillar 1) — a
+    // light-only brand carries no mode overrides on shadow either.
+    modes: theme.modes.includes('dark') ? { dark: step.dark.map((l) => shadowLayerValue(theme, l)) } : {},
     figma: { kind: 'effect-style', styleType: 'EFFECT', binds: ['color', 'radius', 'spread', 'offsetX', 'offsetY'], note: 'Figma Effect Style (drop-shadow layers); colour + numerics bindable per layer; mode-aware — dark shadow is reduced (surface lift carries dark elevation), see modes.dark' } } },
 });
 

@@ -1046,13 +1046,15 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   const lo = brandTheme({ ...input, modes: ['light'] });
   const loRp = resolvePreview(lo);
   ok(loRp.modes.length === 1 && loRp.modes[0] === 'light', 'mode config: modes:[light] → light only');
-  const loLeaf = (buildTree(lo).tree as any).prism.color.action.default;
-  ok(Object.keys(loLeaf.$extensions.prism3.modes).length === 0, 'mode config: light-only tree emits no per-mode colour overrides');
+  const loTree = (buildTree(lo).tree as any).prism;
+  ok(Object.keys(loTree.color.action.default.$extensions.prism3.modes).length === 0, 'mode config: light-only tree emits no per-mode colour overrides');
+  ok(Object.keys(loTree.shadow.xs.$extensions.prism3.modes).length === 0, 'mode config: light-only tree emits no per-mode SHADOW overrides (dark reduction gated)');
 
   const ld = brandTheme({ ...input, modes: ['light', 'dark'] });
   ok(resolvePreview(ld).modes.length === 2, 'mode config: modes:[light,dark] → two modes');
-  const ldLeaf = (buildTree(ld).tree as any).prism.color.action.default;
-  ok('dark' in ldLeaf.$extensions.prism3.modes && !('hc-light' in ldLeaf.$extensions.prism3.modes), 'mode config: [light,dark] carries the dark override, not HC');
+  const ldTree = (buildTree(ld).tree as any).prism;
+  ok('dark' in ldTree.color.action.default.$extensions.prism3.modes && !('hc-light' in ldTree.color.action.default.$extensions.prism3.modes), 'mode config: [light,dark] carries the dark override, not HC');
+  ok('dark' in ldTree.shadow.xs.$extensions.prism3.modes, 'mode config: [light,dark] keeps the dark shadow reduction');
 
   let t1 = false, t2 = false;
   try { brandTheme({ ...input, modes: ['dark'] as any }); } catch { t1 = true; }
