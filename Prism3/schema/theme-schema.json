@@ -17,6 +17,11 @@
       "default": "prism",
       "description": "The single, mode-invariant token namespace segment. Every token emits under `<root>.*` (colour primitives at `<root>.palette`, semantic roles at `<root>.color`). Per-engagement/brand; defaults to the placeholder 'prism'. One segment only — no dots (two-segment namespaces are intentionally unsupported)."
     },
+    "modes": {
+      "type": "array",
+      "items": { "type": "string", "enum": ["light", "dark", "hc-light", "hc-dark"] },
+      "description": "OPTIONAL. Appearance modes to generate. `light` is the required base; `dark` / `hc-light` / `hc-dark` are opt-in. Omit for all four (back-compat); a light-only brand sets `[\"light\"]`. Must include `light`."
+    },
     "primary": {
       "$ref": "#/$defs/oklch",
       "description": "The exact brand anchor (palette 'primary'). Pinned, never shifted; the engine auto-places it on the step ramp by its lightness."

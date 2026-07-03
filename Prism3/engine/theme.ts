@@ -16,6 +16,11 @@
 import { generateRamp, peakChromaL, autoPlaceStep, Step } from './ramp';
 import { dimensionGrid, spaceScale, radiusScale, componentSizes, SpaceStep, RadiusStep, SizeStep, Density } from './scale';
 import { oklchToRgb, RGB, contrast, hex as rgbHex } from './color';
+import type { ModeName } from './modes';
+
+/** The appearance modes the engine can generate. `light` is the required base; the rest
+ *  are opt-in (docs/11 Pillar 1). Wireframe (docs/11 §Pillar 1b) is not yet a mode. */
+export const ALL_MODES: ModeName[] = ['light', 'dark', 'hc-light', 'hc-dark'];
 
 // The NB *measurement* fixture (reverse-engineered NB anchors) — the regression
 // input for nbThemeFrom(). A DIFFERENT shape from the white-label BrandInput
@@ -57,6 +62,7 @@ export type Theme = {
   root: string;                      // 'nbds' | 'prism' (brand root namespace)
   namespace: string;                 // '<root>.palette' — the colour PRIMITIVE root (ramps live here; the semantic role layer is emitted under '<root>.color')
   colorFormat: 'rgb' | 'hex';
+  modes: ModeName[];                 // the appearance modes to generate (light always present)
   palettes: PaletteBuild[];
   roleToPalette: Record<Role, string>;
   roleAnchorStep: Record<Role, number>;
@@ -124,6 +130,11 @@ export type BrandInput = {
    *  always present today; a future "no namespace" mode would flatten it at the emit
    *  boundary (see docs/00-progress "Namespace" note) — not by emptying `root`. */
   root?: string;
+  /** Which appearance modes to generate. `light` is always emitted (the required base);
+   *  `dark` / `hc-light` / `hc-dark` are opt-in. Omit for all four (back-compat); a brand
+   *  that ships light only sets `['light']`. The export layout follows this — a collection
+   *  only splits into per-mode files when it's multi-mode (docs/11 §4, Pillar 1). */
+  modes?: ModeName[];
   primary: OKLCH;                    // the exact brand anchor (palette 'primary')
   /** The neutral ramp generator. By default the greys are *derived* from a hue + peak
    *  chroma (a small cast toward the brand for cohesion). A brand that ships a
@@ -744,6 +755,13 @@ export const brandTheme = (input: BrandInput): Theme => {
   if (!/^[a-z][a-z0-9-]*$/.test(root)) {
     throw new Error(`root namespace '${root}' must be a single lowercase segment (letters/digits/hyphen, no dots or spaces)`);
   }
+  // Appearance modes — light is the required base; dark/HC are opt-in. Validate here too
+  // (in-memory BrandInput skips schema validation).
+  const modes = input.modes ?? ALL_MODES;
+  const badMode = modes.find((m) => !ALL_MODES.includes(m));
+  if (badMode) throw new Error(`unknown mode '${badMode}' (valid: ${ALL_MODES.join(', ')})`);
+  if (!modes.includes('light')) throw new Error('modes must include "light" (the required base mode)');
+  if (modes.length < ALL_MODES.length) notes.push(`modes: generating ${modes.join(', ')} only (dark/HC opt-out)`);
   if (root !== 'prism') notes.push(`namespace: tokens emit under '${root}.*' (custom, not the 'prism' default)`);
   const anchorStep = autoPlaceStep(input.primary.l);
   notes.push(`primary anchor (h${input.primary.h}) pinned exactly at step ${anchorStep}`);
@@ -846,7 +864,7 @@ export const brandTheme = (input: BrandInput): Theme => {
   }
 
   return {
-    id: input.id, root, namespace: `${root}.palette`, colorFormat: 'hex', palettes, roleToPalette, notes,
+    id: input.id, root, namespace: `${root}.palette`, colorFormat: 'hex', modes, palettes, roleToPalette, notes,
     roleAnchorStep: { brand: anchorStep, neutral: 500, success: 500, warning: 500, danger: 500, info: 500, action: actionPalette === 'primary' ? anchorStep : 500 },
     surfaces: input.surfaces,
     disabledStrategy: input.disabledStrategy ?? 'accessible',
@@ -898,7 +916,7 @@ export const nbThemeFrom = (s: NbMeasured): Theme => {
   // a 720px layout outlier.
   const dims = buildDims(baseUnit, 8, 'comfortable', 1, baseMd, [720]);
   return {
-    id: 'nb', root: 'nbds', namespace: 'nbds.palette', colorFormat: 'rgb', palettes,
+    id: 'nb', root: 'nbds', namespace: 'nbds.palette', colorFormat: 'rgb', modes: ALL_MODES, palettes,
     roleToPalette: { brand: 'red', neutral: 'neutral', success: 'green', warning: 'amber', danger: 'red', info: 'info', action: 'red' },
     roleAnchorStep: { brand: 550, neutral: 500, success: 500, warning: 500, danger: 550, info: 500, action: 550 },
     disabledStrategy: 'accessible', disabledMin: 3, iconContrast: 'text',

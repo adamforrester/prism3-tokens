@@ -12,6 +12,14 @@
 Since the token layer completed, work has been the **designer↔developer↔agent E2E pipeline**
 (`07`/`08`/`09`/`10`). Shipped to `main`, newest first (see the decisions log for the why):
 
+- **Pillar 1a — mode opt-out** (`theme.ts`/`modes.ts`/`tree.ts`, docs/11 Pillar 1): `BrandInput.modes`
+  lets a brand decline dark/HC — `light` is the required base, `dark`/`hc-light`/`hc-dark` opt-in.
+  `resolveAllModes` filters to `theme.modes`; the DTCG tree emits per-mode colour overrides only for
+  opted-in modes (a light-only brand emits none); `resolvePreview`/the web mode switcher narrow
+  automatically. Omitted → all four (back-compat, `out/*` byte-identical). Guards: must include light;
+  unknown mode rejected (wireframe not yet a mode — that's 1b, spec in docs/11). Gates: test 323/323,
+  nb-regression 1.95, emit-dtcg 248/248. *Next: the web toggle UI (Dark/HC in brand setup, light-only
+  New-brand default) + wireframe (1b) + the export contract (Pillar 4).*
 - **Multi-brand / mode-configurable VISION captured** (`docs/11-multi-brand-vision.md`): the
   enterprise north star — many brands over one *locked token-name contract* (names are the API;
   brands & modes are value-columns over it, swappable at runtime), modes the user can decline
@@ -95,7 +103,7 @@ Since the token layer completed, work has been the **designer↔developer↔agen
   contracts the surfaces render from.
 - **`design.md` interchange + CLI** (dual-dialect) + the colour-role classifier + fidelity report.
 
-Engine gates as of 2026-07-02: `test.ts` **312/312** (240 colour + 25 typography + 8 namespace + 16 dims + 14 shadow/gradient + 4 pin-a-neutral + 5 design.md-round-trip);
+Engine gates as of 2026-07-02: `test.ts` **323/323** (240 colour + 25 typography + 8 namespace + 16 dims + 14 shadow/gradient + 4 pin-a-neutral + 5 design.md-round-trip + 11 mode-config);
 `emit-dtcg` 248/248 contracts per brand; `nb-regression` ΔE00 1.95. The snapshot below is the
 2026-07-01 token-layer baseline.
 

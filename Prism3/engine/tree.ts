@@ -113,7 +113,9 @@ const shadowLeaf = (theme: Theme, step: ShadowStep, description: string): Token 
   $value: step.light.map((l) => shadowLayerValue(theme, l)),
   $description: description,
   $extensions: { prism3: { generated: true, role: 'composite', layers: step.light.length,
-    modes: { dark: step.dark.map((l) => shadowLayerValue(theme, l)) },
+    // dark shadow reduction only when the brand generates dark (docs/11 Pillar 1) — a
+    // light-only brand carries no mode overrides on shadow either.
+    modes: theme.modes.includes('dark') ? { dark: step.dark.map((l) => shadowLayerValue(theme, l)) } : {},
     figma: { kind: 'effect-style', styleType: 'EFFECT', binds: ['color', 'radius', 'spread', 'offsetX', 'offsetY'], note: 'Figma Effect Style (drop-shadow layers); colour + numerics bindable per layer; mode-aware — dark shadow is reduced (surface lift carries dark elevation), see modes.dark' } } },
 });
 
@@ -295,7 +297,9 @@ export const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats
   // the same shape `shadow` already uses, and it maps 1:1 to a single Figma
   // colour variable with Light/Dark/HC modes. See docs/06 + docs/07.
   const modes = resolveAllModes(theme);
-  const OVERRIDE_MODES: ModeResult['mode'][] = ['dark', 'hc-light', 'hc-dark']; // canonical = light
+  // light is canonical ($value); the rest carry per-mode overrides — only those the brand
+  // opted into (docs/11 Pillar 1). A light-only brand emits no mode overrides.
+  const OVERRIDE_MODES = theme.modes.filter((m) => m !== 'light');
   const byMode = new Map(modes.map((m) => [m.mode, m]));
   const lightMode = byMode.get('light')!;
   const colorRoles: Record<string, any> = {};
