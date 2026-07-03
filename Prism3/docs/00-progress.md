@@ -45,6 +45,26 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
 
 ---
 
+- **Component-layer contract locked** (`docs/14-component-layer.md`, 2026-07-03): the owner's
+  question — store components as data and build them in Figma on the fly, LLM-free, like
+  variables — answered YES and captured as the architecture: definitions as type-checked data
+  **seeded from the KB's ~40 component briefs (§15 schemas)** and **bound to the locked token
+  names (docs/11)** so structure is brand/mode-invariant; write leg = an `emit-figma` component
+  artifact executed by the B2 plugin via the Plugin API (REST can't create nodes; same two-route
+  pattern as 08 §5); verify leg = **extraction diff** (Specs CLI verified extraction-only —
+  its seat is the component-tier nb-regression, not the builder); ceilings incl. the
+  **Figma Motion revision** (timing/easing variables now exist — the "transition = code-only"
+  disposition in 05/10 is stale; KB 18–21 flagged for update). Build sequence: schema → 3
+  components (Button/Text Field/Card) → artifact → materialize (MCP first, plugin after) →
+  round-trip gate → scale. Doc-only; nothing built.
+- **Inspirations log started** (`docs/13-inspirations.md`, 2026-07-03): reviews of external
+  agent-first DS work — Astryx (Meta; CLI-as-agent-interface, typed `ComponentDoc` data files,
+  `agent-docs` index injection, `--compact` tiers), the "ds-brain" practitioner stack map
+  (docs-package-as-brain, generated skills/rules/indexes, **consumption-side evals**: rubric +
+  invented-component rate + contamination-controlled trials), and Specs CLI (verified
+  extraction-only). Convergence table at the end tracks patterns with multiple witnesses;
+  identified gaps for us: `.ai.json` discovery layer, retrieval surface (CLI `query` / MCP),
+  consumption evals. Doc-only change; no engine code touched.
 - **Export-contract sequencing + Token Press eval** (`docs/12-token-press-monorepo-eval.md`): before
   building Pillar 4, two calls settled the order — (1) let the Figma-emitter agent **finish emit-figma**
   so the collection structure is stable (the shared `collections.ts` partition must mirror a settled
@@ -235,7 +255,11 @@ Prism3/
 │   ├── 07-e2e-journey.md            ← the designer↔developer↔agent pipeline; portable-core architecture; design.md; component layer (layers 2–3 of the AI stack)
 │   ├── 08-theming-interfaces.md     ← the customization surfaces (plugin/playground/CLI/MCP/Figma-MCP); new-plugin + shared-lever-manifest decisions; two-route materialization; revised build sequence
 │   ├── 09-architecture-and-repos.md ← platform architecture + repo/packaging (monorepo grown from prism3-tokens; web-dashboard-first); which of the owner's other plugins get absorbed vs stay downstream
-│   └── 10-figma-materialization.md  ← the emit-figma contract: exact Figma variable/style shape (proven by import spikes), colour + typography materialization rules, thread split; fixtures/figma/nb is the regression target
+│   ├── 10-figma-materialization.md  ← the emit-figma contract: exact Figma variable/style shape (proven by import spikes), colour + typography materialization rules, thread split; fixtures/figma/nb is the regression target
+│   ├── 11-multi-brand-vision.md     ← the enterprise north star: many brands over one locked token-name contract; mode config → export contract → override layer → brand families
+│   ├── 12-token-press-monorepo-eval.md ← the shared-export-core hypothesis (Option B: pure `@prism3/tokens-export` both emit-dtcg and Token Press import) + the §7 repo-review checklist → go/no-go gates Pillar 4
+│   ├── 13-inspirations.md           ← field notes on external agent-first DS work (Astryx, ds-brain map, Specs CLI, …) — takeaways, gaps identified, convergence table
+│   └── 14-component-layer.md        ← the component-layer contract: components-as-data (seeded from the KB briefs, token-name-bound) → deterministic Figma materialization (plugin) + extraction-diff regression; LLM-optional by design
 ├── fixtures/
 │   └── figma/nb/                    ← the NB import: palette + color×4 modes + font + font-fluid×2 (byte-reproduce targets) + text-styles (as-imported snapshot) — emit-figma's regression corpus (docs/10)
 ├── schema/
@@ -848,7 +872,12 @@ layer 1). Agreed build sequence (owner confirmed "safest path to a working plugi
 - **D. (later) Component library** — components-as-data → Web Components + React +
   Storybook + `.ai.json` + Figma Code Connect (layers 2–3). In scope eventually;
   mapped now so upstream choices don't foreclose it. Heavy per-component research
-  already in the KB (UIC series).
+  already in the KB (UIC series). **Architecture now locked in
+  `14-component-layer.md`** (2026-07-03): definitions seeded from the KB's ~40
+  component briefs, token-name-bound, deterministically materialized to Figma via
+  the B2 plugin (write leg) with an extraction-diff regression (verify leg;
+  Specs CLI's seat). Build sequence in `14` §6 — starts with the schema + 3
+  components when this activates.
 
 Parked, owner-flagged: **light-grey surface value tuning** — done visually once real
 UI layouts exist, not against swatches.
