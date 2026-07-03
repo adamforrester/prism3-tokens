@@ -55,7 +55,7 @@ const ROOT_RE = /^[a-z][a-z0-9-]*$/;
 // render real geometry/type from the tree). Density/motion/shadow stay read-only.
 const LIVE = new Set(['actionPalette', 'radiusScale', 'typography.typeScale']);
 
-const MODE_LABEL: Record<string, string> = { light: 'Light', dark: 'Dark', 'hc-light': 'HC light', 'hc-dark': 'HC dark' };
+const MODE_LABEL: Record<string, string> = { light: 'Light', dark: 'Dark', 'hc-light': 'HC light', 'hc-dark': 'HC dark', wireframe: 'Wireframe' };
 
 // ---- stages ----------------------------------------------------------------
 const STAGES = [
@@ -360,8 +360,10 @@ const renderChip = (label: string, bind: Record<string, string>, mode: Mode): HT
   if (bg) chip.style.background = bg;
   if (fg) chip.style.color = fg;
   chip.style.border = `2px solid ${border ?? 'transparent'}`;
-  if (bind.radius && rp.dims[bind.radius] != null) chip.style.borderRadius = `${rp.dims[bind.radius]}px`;
-  const pad = bind.pad ? `${rp.dims[bind.pad]}px` : bind.padX && bind.padY ? `${rp.dims[bind.padY]}px ${rp.dims[bind.padX]}px` : '';
+  // Geometry is per-mode now (wireframe zeroes radius): override-or-baseline for the active mode.
+  const dimPx = (ref: string): number => rp.dimOverrides[ref]?.[mode] ?? rp.dims[ref];
+  if (bind.radius && rp.dims[bind.radius] != null) chip.style.borderRadius = `${dimPx(bind.radius)}px`;
+  const pad = bind.pad ? `${dimPx(bind.pad)}px` : bind.padX && bind.padY ? `${dimPx(bind.padY)}px ${dimPx(bind.padX)}px` : '';
   if (pad) chip.style.padding = pad;
   const t = bind.type ? rp.type[bind.type] : undefined;
   if (t) { chip.style.fontFamily = t.fontFamily; chip.style.fontWeight = String(t.fontWeight); chip.style.fontSize = `${Math.min(t.fontSizePx, 20)}px`; }
@@ -525,12 +527,14 @@ const loadBrand = (input: BrandInput): void => {
   build();
 };
 
-/** Set the generated appearance modes from the two toggles. Light is always present;
- *  HC adds hc-light, plus hc-dark only when dark is also on (docs/11 Pillar 1). */
-const setModes = (dark: boolean, hc: boolean): void => {
+/** Set the generated modes from the toggles. Light is always present; HC adds hc-light, plus
+ *  hc-dark only when dark is also on; wireframe (greyscale, generate-only) appends last — the
+ *  engine's canonical mode order (docs/11 Pillar 1). */
+const setModes = (dark: boolean, hc: boolean, wire: boolean): void => {
   const m: Mode[] = ['light'];
   if (dark) m.push('dark');
   if (hc) { m.push('hc-light'); if (dark) m.push('hc-dark'); }
+  if (wire) m.push('wireframe');
   brandState.modes = m;
   rebuild();
   if (!rp.modes.includes(currentMode)) currentMode = rp.modes[0];   // dropped the selected mode
@@ -601,16 +605,20 @@ const renderBrandMenu = (): HTMLElement => {
   const modes = brandState.modes ?? ALL_MODES;
   const darkOn = modes.includes('dark');
   const hcOn = modes.includes('hc-light') || modes.includes('hc-dark');
+  const wireOn = modes.includes('wireframe');
   const modeRow = el('div', 'bm-field');
   modeRow.append(el('span', 'bm-lab', 'Modes'));
   const chips = el('div', 'bm-modes');
   chips.append(el('span', 'bm-mode fixed', 'Light'));
   const dChip = el('button', 'bm-mode' + (darkOn ? ' on' : ''), 'Dark') as HTMLButtonElement;
-  dChip.onclick = () => setModes(!darkOn, hcOn);
+  dChip.onclick = () => setModes(!darkOn, hcOn, wireOn);
   const hChip = el('button', 'bm-mode' + (hcOn ? ' on' : ''), 'HC') as HTMLButtonElement;
   hChip.title = 'High contrast';
-  hChip.onclick = () => setModes(darkOn, !hcOn);
-  chips.append(dChip, hChip);
+  hChip.onclick = () => setModes(darkOn, !hcOn, wireOn);
+  const wChip = el('button', 'bm-mode' + (wireOn ? ' on' : ''), 'Wireframe') as HTMLButtonElement;
+  wChip.title = 'Greyscale, sharp corners — generate-only';
+  wChip.onclick = () => setModes(darkOn, hcOn, !wireOn);
+  chips.append(dChip, hChip, wChip);
   modeRow.append(chips);
   menu.append(modeRow);
 

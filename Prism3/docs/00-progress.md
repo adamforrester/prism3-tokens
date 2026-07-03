@@ -65,9 +65,19 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
   geometry (same override shape colour/shadow use); `radius.none` stays override-free. Emit-figma
   coordination noted in the fresh-agent brief (radius collection needs a wireframe mode). Gates: test
   **331/331** (+8 wireframe: greyscale remap, radius→0, every wireframe contract holds), nb-regression +
-  emit-dtcg `out/*` **byte-identical** (no example brand opts in), web typecheck clean. *Next: the web
-  wireframe toggle (mirrors #43 for Dark/HC) + per-mode geometry in `resolve-preview` so the dashboard
-  renders it; that's the 1b web follow-up.*
+  emit-dtcg `out/*` **byte-identical** (no example brand opts in), web typecheck clean.
+- **Pillar 1b web — wireframe toggle + per-mode preview geometry** (`web/src/main.ts`,
+  `resolve-preview.ts`): the brand menu gains a **Wireframe** toggle beside Dark/HC (`setModes`
+  now takes a third flag, appends `wireframe` last = the engine's canonical mode order); the
+  preview's mode selector extends to Wireframe automatically. Geometry is now per-mode:
+  `resolvePreview` exposes **`dimOverrides`** (sparse — only refs/modes that differ from the
+  canonical baseline, mirroring the tree's `$extensions.prism3.modes`), and `renderChip` reads
+  `dimOverrides[ref]?.[mode] ?? dims[ref]` so wireframe squares off corners live. Verified
+  headless: default 4 modes → enabling wireframe → 5 (Wireframe appended); a saturated Light
+  chip `rgb(0,97,136)` collapses to the neutral `rgb(92,92,97)` (chroma spread 136 → 5) with
+  radius 8px → 0px; 0 page errors. Gates: test **334/334** (+3 `dimOverrides`), web typecheck
+  clean. No engine-value change (dims baseline untouched → nb-regression + `out/*` still
+  byte-identical). Completes 1b end-to-end (engine + UI), mirroring the 1a #42→#43 split.
 - **Deployment-target neutrality captured** (`docs/13-deployment-neutrality.md`): the owner named the
   likely *delivery* of the north star — an **AWS / Bedrock hosted E2E service** using **LLMs as needed**
   but with the **core staying pure deterministic code**. Recorded as an architectural *constraint*, not a

@@ -527,7 +527,8 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
 // contract actually HOLDS in every mode — the automated version of the PR #20 manual
 // contrast check (the overlay's claims are true on the resolved colours, not assumed).
 {
-  const rp = resolvePreview(brandTheme(parseDesignMd(readFileSync(resolve(HERE, '../examples/harbor.design.md'), 'utf8')).input));
+  const pinput = parseDesignMd(readFileSync(resolve(HERE, '../examples/harbor.design.md'), 'utf8')).input;
+  const rp = resolvePreview(brandTheme(pinput));
   ok(rp.modes.length === 4, 'resolved preview: all four modes projected' + (rp.modes.length !== 4 ? ` — got ${rp.modes.length}` : ''));
 
   const noHex = Object.entries(rp.colors).filter(([, byMode]) => rp.modes.some((m) => !byMode[m])).map(([k]) => k);
@@ -544,6 +545,17 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   ok(Object.keys(rp.dims).length > 0 && badDim.length === 0, 'resolved preview: every dimension binding → positive px' + (badDim.length ? ` — BAD: ${badDim.join(', ')}` : ''));
   const badType = Object.entries(rp.type).filter(([, t]) => !t.fontFamily || !(t.fontSizePx > 0)).map(([k]) => k);
   ok(Object.keys(rp.type).length > 0 && badType.length === 0, 'resolved preview: every type binding → family + positive size' + (badType.length ? ` — BAD: ${badType.join(', ')}` : ''));
+
+  // Per-mode geometry (docs/11 1b): with no wireframe, dims carry NO overrides; opting into
+  // wireframe surfaces a radius→0 override the preview reads for the wireframe column, while
+  // the canonical `dims` baseline stays positive (light) and space/size stay override-free.
+  ok(Object.keys(rp.dimOverrides).length === 0, 'resolved preview: default modes carry no per-mode dim overrides');
+  const wfRp = resolvePreview(brandTheme({ ...pinput, modes: ['light', 'wireframe'] }));
+  const radiusRef = Object.keys(wfRp.dims).find((k) => k.startsWith('radius.') && wfRp.dims[k] > 0)!;
+  ok(wfRp.dimOverrides[radiusRef]?.wireframe === 0 && wfRp.dims[radiusRef] > 0,
+    `resolved preview: wireframe zeroes ${radiusRef} via an override (baseline ${wfRp.dims[radiusRef]}px stays)`);
+  const spaceRef = Object.keys(wfRp.dims).find((k) => k.startsWith('space.'));
+  ok(!spaceRef || !wfRp.dimOverrides[spaceRef], 'resolved preview: wireframe leaves space untouched (only radius zeroes)');
 }
 // (10) EXAMPLE-BRANDS ARTIFACT (docs/09) — the browser hosts boot from
 // schema/example-brands.json (the design.md parser is node-only). Gate that the
