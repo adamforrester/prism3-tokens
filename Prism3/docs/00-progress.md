@@ -12,6 +12,13 @@
 Since the token layer completed, work has been the **designer↔developer↔agent E2E pipeline**
 (`07`/`08`/`09`/`10`). Shipped to `main`, newest first (see the decisions log for the why):
 
+- **Inspirations log started** (`docs/12-inspirations.md`, 2026-07-03): reviews of external
+  agent-first DS work — Astryx (Meta; CLI-as-agent-interface, typed `ComponentDoc` data files,
+  `agent-docs` index injection, `--compact` tiers) and the "ds-brain" practitioner stack map
+  (docs-package-as-brain, generated skills/rules/indexes, **consumption-side evals**: rubric +
+  invented-component rate + contamination-controlled trials). Convergence table at the end tracks
+  patterns with multiple witnesses; identified gaps for us: `.ai.json` discovery layer, retrieval
+  surface (CLI `query` / MCP), consumption evals. Doc-only change; no engine code touched.
 - **Pillar 1a — mode opt-out** (`theme.ts`/`modes.ts`/`tree.ts`, docs/11 Pillar 1): `BrandInput.modes`
   lets a brand decline dark/HC — `light` is the required base, `dark`/`hc-light`/`hc-dark` opt-in.
   `resolveAllModes` filters to `theme.modes`; the DTCG tree emits per-mode colour overrides only for
@@ -187,7 +194,9 @@ Prism3/
 │   ├── 07-e2e-journey.md            ← the designer↔developer↔agent pipeline; portable-core architecture; design.md; component layer (layers 2–3 of the AI stack)
 │   ├── 08-theming-interfaces.md     ← the customization surfaces (plugin/playground/CLI/MCP/Figma-MCP); new-plugin + shared-lever-manifest decisions; two-route materialization; revised build sequence
 │   ├── 09-architecture-and-repos.md ← platform architecture + repo/packaging (monorepo grown from prism3-tokens; web-dashboard-first); which of the owner's other plugins get absorbed vs stay downstream
-│   └── 10-figma-materialization.md  ← the emit-figma contract: exact Figma variable/style shape (proven by import spikes), colour + typography materialization rules, thread split; fixtures/figma/nb is the regression target
+│   ├── 10-figma-materialization.md  ← the emit-figma contract: exact Figma variable/style shape (proven by import spikes), colour + typography materialization rules, thread split; fixtures/figma/nb is the regression target
+│   ├── 11-multi-brand-vision.md     ← the enterprise north star: many brands over one locked token-name contract; mode config → export contract → override layer → brand families
+│   └── 12-inspirations.md           ← field notes on external agent-first DS work (Astryx, ds-brain map, …) — takeaways, gaps identified, convergence table
 ├── fixtures/
 │   └── figma/nb/                    ← the NB import: palette + color×4 modes + font + font-fluid×2 (byte-reproduce targets) + text-styles (as-imported snapshot) — emit-figma's regression corpus (docs/10)
 ├── schema/
