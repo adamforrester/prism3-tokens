@@ -45,6 +45,15 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
 
 ---
 
+- **Export-contract sequencing + Token Press eval** (`docs/12-token-press-monorepo-eval.md`): before
+  building Pillar 4, two calls settled the order — (1) let the Figma-emitter agent **finish emit-figma**
+  so the collection structure is stable (the shared `collections.ts` partition must mirror a settled
+  reality), and (2) **decide whether the export *format core* moves into the monorepo** as a shared pure
+  `@prism3/tokens-export` module both `emit-dtcg` and Token Press import — killing format drift by
+  construction (recommended: **Option B**). `docs/12` is the hypothesis (from the Token Press handoff
+  brief) + a §7 checklist for a repo-reviewing agent to validate feasibility against the real source →
+  go/no-go. Pillar 4's first line of code is gated on this (it sets the module boundary). Meanwhile
+  **Wireframe (1b)** is independent and proceeds. *Next: draft done → repo review → decide → build.*
 - **Pillar 1 web toggle — Dark/HC in brand setup** (`web/src/main.ts`): the brand menu gains a
   **Modes** control — `Light` fixed, `Dark`/`HC` toggles that write `brandState.modes` (HC adds
   hc-light, + hc-dark only when dark is on); `New brand` starts light-only. The engine re-resolves
