@@ -17,7 +17,7 @@ Since the token layer completed, work has been the **designer↔developer↔agen
   `resolveAllModes` filters to `theme.modes`; the DTCG tree emits per-mode colour overrides only for
   opted-in modes (a light-only brand emits none); `resolvePreview`/the web mode switcher narrow
   automatically. Omitted → all four (back-compat, `out/*` byte-identical). Guards: must include light;
-  unknown mode rejected (wireframe not yet a mode — that's 1b, spec in docs/11). Gates: test 321/321,
+  unknown mode rejected (wireframe not yet a mode — that's 1b, spec in docs/11). Gates: test 323/323,
   nb-regression 1.95, emit-dtcg 248/248. *Next: the web toggle UI (Dark/HC in brand setup, light-only
   New-brand default) + wireframe (1b) + the export contract (Pillar 4).*
 - **Multi-brand / mode-configurable VISION captured** (`docs/11-multi-brand-vision.md`): the
@@ -103,7 +103,7 @@ Since the token layer completed, work has been the **designer↔developer↔agen
   contracts the surfaces render from.
 - **`design.md` interchange + CLI** (dual-dialect) + the colour-role classifier + fidelity report.
 
-Engine gates as of 2026-07-02: `test.ts` **321/321** (240 colour + 25 typography + 8 namespace + 16 dims + 14 shadow/gradient + 4 pin-a-neutral + 5 design.md-round-trip + 9 mode-config);
+Engine gates as of 2026-07-02: `test.ts` **323/323** (240 colour + 25 typography + 8 namespace + 16 dims + 14 shadow/gradient + 4 pin-a-neutral + 5 design.md-round-trip + 11 mode-config);
 `emit-dtcg` 248/248 contracts per brand; `nb-regression` ΔE00 1.95. The snapshot below is the
 2026-07-01 token-layer baseline.
 
