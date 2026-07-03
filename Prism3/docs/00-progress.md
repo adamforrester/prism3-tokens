@@ -12,6 +12,12 @@
 Since the token layer completed, work has been the **designer↔developer↔agent E2E pipeline**
 (`07`/`08`/`09`/`10`). Shipped to `main`, newest first (see the decisions log for the why):
 
+- **Pillar 1 web toggle — Dark/HC in brand setup** (`web/src/main.ts`): the brand menu gains a
+  **Modes** control — `Light` fixed, `Dark`/`HC` toggles that write `brandState.modes` (HC adds
+  hc-light, + hc-dark only when dark is on); `New brand` starts light-only. The engine re-resolves
+  and the preview's mode selector narrows automatically (it iterates `rp.modes`); a dropped selected
+  mode falls back to light. Verified headless: aurora 4 modes → Dark-off 2 → HC-off 1; New brand 1;
+  0 page errors. No engine change; completes Pillar 1a end-to-end (engine + UI).
 - **Pillar 1a — mode opt-out** (`theme.ts`/`modes.ts`/`tree.ts`, docs/11 Pillar 1): `BrandInput.modes`
   lets a brand decline dark/HC — `light` is the required base, `dark`/`hc-light`/`hc-dark` opt-in.
   `resolveAllModes` filters to `theme.modes`; the DTCG tree emits per-mode colour overrides only for
