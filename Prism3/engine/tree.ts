@@ -295,7 +295,9 @@ export const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats
   // the same shape `shadow` already uses, and it maps 1:1 to a single Figma
   // colour variable with Light/Dark/HC modes. See docs/06 + docs/07.
   const modes = resolveAllModes(theme);
-  const OVERRIDE_MODES: ModeResult['mode'][] = ['dark', 'hc-light', 'hc-dark']; // canonical = light
+  // light is canonical ($value); the rest carry per-mode overrides — only those the brand
+  // opted into (docs/11 Pillar 1). A light-only brand emits no mode overrides.
+  const OVERRIDE_MODES = theme.modes.filter((m) => m !== 'light');
   const byMode = new Map(modes.map((m) => [m.mode, m]));
   const lightMode = byMode.get('light')!;
   const colorRoles: Record<string, any> = {};

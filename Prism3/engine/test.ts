@@ -1033,6 +1033,37 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   ok(parseDesignMd(toDesignMd(minimal as any, 'Hello prose.')).prose === 'Hello prose.', 'design.md round-trip: prose survives the fence');
 }
 
+// (18) MODE CONFIG (docs/11 Pillar 1) — light is the required base; dark/HC are opt-in.
+// Omitted → all four (back-compat, byte-identical golden in block 3). A light-only brand
+// resolves + emits ONE mode with no per-mode colour overrides; light+dark carries the dark
+// override but not HC. Guards: must include light; an unknown mode (wireframe not yet real).
+{
+  const { input } = parseDesignMd(readFileSync(resolve(HERE, '../examples/aurora.design.md'), 'utf8'));
+
+  const def = brandTheme(input);
+  ok(def.modes.length === 4 && resolvePreview(def).modes.length === 4, 'mode config: omitted modes → all four');
+
+  const lo = brandTheme({ ...input, modes: ['light'] });
+  const loRp = resolvePreview(lo);
+  ok(loRp.modes.length === 1 && loRp.modes[0] === 'light', 'mode config: modes:[light] → light only');
+  const loLeaf = (buildTree(lo).tree as any).prism.color.action.default;
+  ok(Object.keys(loLeaf.$extensions.prism3.modes).length === 0, 'mode config: light-only tree emits no per-mode colour overrides');
+
+  const ld = brandTheme({ ...input, modes: ['light', 'dark'] });
+  ok(resolvePreview(ld).modes.length === 2, 'mode config: modes:[light,dark] → two modes');
+  const ldLeaf = (buildTree(ld).tree as any).prism.color.action.default;
+  ok('dark' in ldLeaf.$extensions.prism3.modes && !('hc-light' in ldLeaf.$extensions.prism3.modes), 'mode config: [light,dark] carries the dark override, not HC');
+
+  let t1 = false, t2 = false;
+  try { brandTheme({ ...input, modes: ['dark'] as any }); } catch { t1 = true; }
+  try { brandTheme({ ...input, modes: ['light', 'wireframe'] as any }); } catch { t2 = true; }
+  ok(t1, 'mode config: modes without light throws');
+  ok(t2, 'mode config: an unknown mode (wireframe, not yet real) throws');
+
+  ok(validateBrandInput({ ...input, modes: ['light', 'dark'] }).length === 0, 'mode config: schema accepts a valid modes subset');
+  ok(validateBrandInput({ ...input, modes: ['light', 'bogus'] }).length > 0, 'mode config: schema rejects an unknown mode');
+}
+
 // ------------------------------------------------------------------- report
 console.log(`\nPrism3 engine tests: ${pass} passed, ${fails.length} failed`);
 if (fails.length) { fails.forEach((f) => console.log(`  ❌ ${f}`)); process.exitCode = 1; }

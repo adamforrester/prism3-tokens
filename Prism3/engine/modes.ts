@@ -332,5 +332,7 @@ export const resolveAllModes = (theme: Theme): ModeResult[] => {
   const ramps = new Map(theme.palettes.map((p) => [p.palette, p.steps] as const));
   const neutral = ramps.get(theme.roleToPalette.neutral)!;
   const cfgs = modeConfigs(theme.namespace, theme.roleToPalette.neutral, neutral, theme.surfaces);
-  return (Object.keys(cfgs) as ModeName[]).map((m) => resolveMode(m, cfgs[m], theme, ramps));
+  // Only the modes the brand opted into (light always; dark/HC opt-in — docs/11 Pillar 1).
+  // Canonical order preserved (Object.keys order), so `rp.modes` is stable regardless of input order.
+  return (Object.keys(cfgs) as ModeName[]).filter((m) => theme.modes.includes(m)).map((m) => resolveMode(m, cfgs[m], theme, ramps));
 };

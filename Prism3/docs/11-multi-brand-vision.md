@@ -65,9 +65,17 @@ Two facts fall out of this table:
 ### Pillar 1 — Mode configurability *(smallest; unblocks "decline dark/HC")*
 Light always; dark / HC / wireframe opt-in. `BrandInput` gains a `modes` set; the engine
 resolves + emits only the requested modes; `resolvePreview` returns only those (the web
-mode switcher already narrows, since it iterates `rp.modes`). Wireframe is a new generated
-mode to add. Engine default stays all-four when unspecified; the *New brand* template is
-light-only.
+mode switcher already narrows, since it iterates `rp.modes`). Engine default stays all-four
+(light/dark/hc-light/hc-dark) when unspecified; the *New brand* template is light-only.
+Split into **1a — opt-out over the existing four modes** (the immediate need) and **1b —
+wireframe** (a *new* generated mode).
+
+**Wireframe resolution (spec, for 1b):** a purely mechanical desaturation —
+- every **non-neutral** role resolves to its **equivalent neutral** (the neutral-ramp step
+  at the same position: e.g. `action.default = accent/600` → `neutral/600`), so the whole
+  theme collapses to greyscale;
+- **all radius → 0px** (sharp corners).
+Generate-only (no override layer), per the matrix.
 
 ### Pillar 2 — Override layer *("generative but customizable")*
 Generated values are the baseline; a per-brand, per-mode **override map** lets the user
