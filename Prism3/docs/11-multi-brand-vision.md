@@ -48,7 +48,7 @@ tweak the generated result:
 | **Dark** | ✅ optional | ✅ tweak values | Users will override — incl. a *different CTA hue* than light. |
 | **Additional brands** | ✅ optional | ✅ fully independent inputs | colour / type / space / radius / shadow all free; names locked. |
 | **HC (light + dark)** | ✅ optional | ❌ generate-only | Contrast rules are strict; no hand-authoring. |
-| **Wireframe** | ✅ optional | ❌ generate-only | A *new* generated mode (engine does light/dark/HC today, not wireframe). |
+| **Wireframe** | ✅ optional | ❌ generate-only | A generated greyscale mode — **shipped (1b)**: non-neutral roles → equivalent neutral, radius → 0. |
 
 Two facts fall out of this table:
 
@@ -72,12 +72,20 @@ mode switcher already narrows, since it iterates `rp.modes`). Engine default sta
 Split into **1a — opt-out over the existing four modes** (the immediate need) and **1b —
 wireframe** (a *new* generated mode).
 
-**Wireframe resolution (spec, for 1b):** a purely mechanical desaturation —
+**Wireframe resolution (spec, for 1b) — SHIPPED:** a purely mechanical desaturation —
 - every **non-neutral** role resolves to its **equivalent neutral** (the neutral-ramp step
   at the same position: e.g. `action.default = accent/600` → `neutral/600`), so the whole
   theme collapses to greyscale;
 - **all radius → 0px** (sharp corners).
 Generate-only (no override layer), per the matrix.
+
+*As built:* the chromatic remap resolves on the **neutral ramp at the colour pick's position,
+then re-nudges to clear the same contrast min** — so the greyscale still holds every contract
+(the "same position" is honoured unless a step would drop below its floor, then it nudges one
+step, e.g. a bold fill's 4.5:1). Radius → 0 is expressed as a per-mode override
+(`$extensions.prism3.modes.wireframe → dimension.0`), making **geometry the first mode-varying
+non-colour axis**. Opt-in only (`VALID_MODES` ⊃ the default four); the engine's default four are
+byte-identical. The **web toggle + per-mode preview geometry** is the remaining 1b web follow-up.
 
 ### Pillar 2 — Override layer *("generative but customizable")*
 Generated values are the baseline; a per-brand, per-mode **override map** lets the user

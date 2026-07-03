@@ -19,8 +19,8 @@
     },
     "modes": {
       "type": "array",
-      "items": { "type": "string", "enum": ["light", "dark", "hc-light", "hc-dark"] },
-      "description": "OPTIONAL. Appearance modes to generate. `light` is the required base; `dark` / `hc-light` / `hc-dark` are opt-in. Omit for all four (back-compat); a light-only brand sets `[\"light\"]`. Must include `light`."
+      "items": { "type": "string", "enum": ["light", "dark", "hc-light", "hc-dark", "wireframe"] },
+      "description": "OPTIONAL. Modes to generate. `light` is the required base; `dark` / `hc-light` / `hc-dark` / `wireframe` are opt-in. Omit for the default four (light/dark/HC — back-compat); a light-only brand sets `[\"light\"]`. `wireframe` is a generated greyscale mode (non-neutral roles → equivalent neutral; radius → 0) and is opt-in only, never a default. Must include `light`."
     },
     "primary": {
       "$ref": "#/$defs/oklch",

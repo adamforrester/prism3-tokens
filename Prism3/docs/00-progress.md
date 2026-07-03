@@ -37,6 +37,15 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
      hardcodes `COLOR_MODES = ['light', 'dark', 'hc-light', 'hc-dark']`; a light-only
      brand's output silently carries dark-with-light-values files. Fix with layout or
      motion pass, whichever lands first.
+  5. ★ **Wireframe mode (NEW, from generator thread 1b)** — `'wireframe'` is now a valid
+     opt-in mode. Two materialization changes for emit-figma when a brand opts in: (a) the
+     `color` collection gains a **wireframe** mode (greyscale — every role's
+     `$extensions.prism3.modes.wireframe.$value` aliases a `neutral.*` step); (b) **geometry
+     becomes mode-varying** — non-zero `radius.*` leaves now carry
+     `$extensions.prism3.modes.wireframe → {root.dimension.0}`. So the radius variable
+     collection needs a **wireframe mode** (radius → 0). This is the first non-colour/shadow
+     axis to vary by mode; it generalises the `COLOR_MODES` fix (4) into a per-axis mode set.
+     Only fires when `theme.modes.includes('wireframe')` — the default four are untouched.
 - **Test file:** the Figma-MCP thread's target is "Prism3 Test File" (fileKey
   `Zrn9YDqrFiwjs2IfKInNY0`). It has 4 specimen pages already (Colour, Typography, Dims,
   Shadow, Gradient) + all the corresponding variable collections + styles imported live.
@@ -45,6 +54,20 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
 
 ---
 
+- **Pillar 1b — wireframe mode** (`modes.ts`/`theme.ts`/`tree.ts`, docs/11 Pillar 1b): `'wireframe'`
+  is now a generated opt-in mode — a mechanical greyscale. `VALID_MODES` (five) splits from `ALL_MODES`
+  (the default four, unchanged → four-mode golden byte-identical); wireframe is opt-in only, never a
+  default. **Colour:** every *chromatic* role resolves on the **neutral** ramp at the position its colour
+  pick would land, then re-nudged to clear the *same* min on neutral — so the greyscale still holds every
+  contrast contract (verified: e.g. `foreground.brand` primary.550 → neutral.600, nudged one step to keep
+  its 4.5:1 fill contract). Neutral/text/background/white/black roles pass through. **Geometry:** non-zero
+  `radius.*` leaves gain `$extensions.prism3.modes.wireframe → {root.dimension.0}` — the *first* mode-varying
+  geometry (same override shape colour/shadow use); `radius.none` stays override-free. Emit-figma
+  coordination noted in the fresh-agent brief (radius collection needs a wireframe mode). Gates: test
+  **331/331** (+8 wireframe: greyscale remap, radius→0, every wireframe contract holds), nb-regression +
+  emit-dtcg `out/*` **byte-identical** (no example brand opts in), web typecheck clean. *Next: the web
+  wireframe toggle (mirrors #43 for Dark/HC) + per-mode geometry in `resolve-preview` so the dashboard
+  renders it; that's the 1b web follow-up.*
 - **Deployment-target neutrality captured** (`docs/13-deployment-neutrality.md`): the owner named the
   likely *delivery* of the north star — an **AWS / Bedrock hosted E2E service** using **LLMs as needed**
   but with the **core staying pure deterministic code**. Recorded as an architectural *constraint*, not a

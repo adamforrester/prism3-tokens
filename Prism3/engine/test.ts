@@ -1033,10 +1033,11 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   ok(parseDesignMd(toDesignMd(minimal as any, 'Hello prose.')).prose === 'Hello prose.', 'design.md round-trip: prose survives the fence');
 }
 
-// (18) MODE CONFIG (docs/11 Pillar 1) — light is the required base; dark/HC are opt-in.
-// Omitted → all four (back-compat, byte-identical golden in block 3). A light-only brand
-// resolves + emits ONE mode with no per-mode colour overrides; light+dark carries the dark
-// override but not HC. Guards: must include light; an unknown mode (wireframe not yet real).
+// (18) MODE CONFIG (docs/11 Pillar 1) — light is the required base; dark/HC/wireframe opt-in.
+// Omitted → the default four (back-compat, byte-identical golden in block 3). A light-only
+// brand resolves + emits ONE mode with no per-mode colour overrides; light+dark carries the
+// dark override but not HC. Wireframe (1b) is a generated greyscale mode (non-neutral roles →
+// equivalent neutral; radius → 0), opt-in only. Guards: must include light; unknown mode throws.
 {
   const { input } = parseDesignMd(readFileSync(resolve(HERE, '../examples/aurora.design.md'), 'utf8'));
 
@@ -1058,12 +1059,30 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
 
   let t1 = false, t2 = false;
   try { brandTheme({ ...input, modes: ['dark'] as any }); } catch { t1 = true; }
-  try { brandTheme({ ...input, modes: ['light', 'wireframe'] as any }); } catch { t2 = true; }
+  try { brandTheme({ ...input, modes: ['light', 'bogus'] as any }); } catch { t2 = true; }
   ok(t1, 'mode config: modes without light throws');
-  ok(t2, 'mode config: an unknown mode (wireframe, not yet real) throws');
+  ok(t2, 'mode config: an unknown mode throws');
 
   ok(validateBrandInput({ ...input, modes: ['light', 'dark'] }).length === 0, 'mode config: schema accepts a valid modes subset');
+  ok(validateBrandInput({ ...input, modes: ['light', 'wireframe'] }).length === 0, 'mode config: schema accepts wireframe (opt-in)');
   ok(validateBrandInput({ ...input, modes: ['light', 'bogus'] }).length > 0, 'mode config: schema rejects an unknown mode');
+
+  // Wireframe (1b): opt-in greyscale mode. Non-neutral roles remap to the neutral ramp at the
+  // same position (still clearing each min); radius zeroes. Never a default.
+  const wf = brandTheme({ ...input, modes: ['light', 'wireframe'] });
+  ok(wf.modes.includes('wireframe') && resolvePreview(wf).modes.includes('wireframe'), 'wireframe: opt-in mode resolves + previews');
+  ok(!brandTheme(input).modes.includes('wireframe'), 'wireframe: never a default (opt-in only)');
+  const R = wf.root, neutralPal = wf.roleToPalette.neutral, actionPal = wf.roleToPalette.action;
+  const wfBuilt = buildTree(wf);
+  const wfTree = (wfBuilt.tree as any)[R];
+  const act = wfTree.color.action.default;
+  ok(actionPal !== neutralPal && act.$value.includes(`.${actionPal}.`), 'wireframe: light $value stays the chromatic (accent) pick');
+  ok(act.$extensions.prism3.modes.wireframe.$value.includes(`.${neutralPal}.`), 'wireframe: the wireframe override remaps a chromatic role → neutral (greyscale)');
+  ok(wfTree.radius.md.$extensions.prism3.modes?.wireframe?.$value === `{${R}.dimension.0}`, 'wireframe: radius.md carries a wireframe → dimension.0 override');
+  ok(!wfTree.radius.none.$extensions?.prism3?.modes, 'wireframe: radius.none (already 0) carries no redundant override');
+  const wfMode = wfBuilt.modes.find((m) => m.mode === 'wireframe')!;
+  const wfChecks = Object.values(wfMode.roles).filter((r) => r.min > 0);
+  ok(wfChecks.length > 0 && wfChecks.every((r) => r.ratio >= r.min), `wireframe: every contrast contract holds on the greyscale (${wfChecks.length} checks)`);
 }
 
 // ------------------------------------------------------------------- report
