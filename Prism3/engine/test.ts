@@ -54,6 +54,14 @@ ok(approx(contrast(WHITE, BLACK), 21, 0.05), `contrast(white,black)=${contrast(W
 ok(approx(contrast(WHITE, WHITE), 1, 0.001), 'contrast(white,white)=1');
 ok(approx(contrast({ r: 80, g: 80, b: 80 }, WHITE), contrast(WHITE, { r: 80, g: 80, b: 80 }), 1e-9), 'contrast symmetric');
 ok(contrast({ r: 117, g: 117, b: 117 }, WHITE) >= 4.4 && contrast({ r: 117, g: 117, b: 117 }, WHITE) <= 4.7, 'contrast grey/white ≈ 4.5 (AA pivot)');
+// CR-01 regression: contrast() must return the RAW ratio so a pass/fail test is WCAG-correct.
+// #007ea1 on black measures 4.4990 — it must read BELOW 4.5 (a genuine AA fail), not round up
+// to a false pass. Guards against re-introducing a round() inside contrast().
+{
+  const marginal = contrast(hexToRgb('#007ea1'), BLACK);
+  ok(marginal < 4.5 && marginal > 4.49, `contrast() raw: #007ea1/black = ${marginal.toFixed(5)} < 4.5 (no round-up false AA pass)`);
+  ok(marginal !== Math.round(marginal * 100) / 100, 'contrast() returns un-rounded ratio (not pre-rounded to 2dp)');
+}
 
 // relative luminance bounds
 ok(approx(luminance(WHITE), 1, 1e-6), 'luminance(white)=1');

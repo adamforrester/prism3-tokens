@@ -198,7 +198,7 @@ export const buildAiMetadata = (theme: Theme, tree: any) => {
       mode_overrides,
     };
     if (d.paired_with) ai.paired_with = d.paired_with;
-    if (light.min > 0) ai.contrast_with = [{ token: light.against, min: `${light.min}:1`, ratio: light.ratio }];
+    if (light.min > 0) ai.contrast_with = [{ token: light.against, min: `${light.min}:1`, ratio: Math.round(light.ratio * 100) / 100 }];
     colorRoles[roleKey] = ai;
   }
 
@@ -301,16 +301,17 @@ export const buildAiMetadata = (theme: Theme, tree: any) => {
   // colour primitive listing a gradient that consumes it) resolves to a real entry.
   const gradient: Record<string, any> = {};
   for (const g of theme.gradient.gradients) {
-    const aa = Math.min(g.worstOnWhite, g.worstOnBlack);
+    const aa = Math.min(g.worstOnWhite, g.worstOnBlack);   // raw threshold (CR-01: compare un-rounded)
+    const r2 = (x: number) => Math.round(x * 100) / 100;    // round only for display/emit
     gradient[`gradient.${g.name}`] = {
       $description: `Brand gradient — ${g.kind}${g.kind === 'linear' ? ` ${g.angle}°` : ` ${g.shape}`}, ${g.stops.length} stops.`,
       meaning: `Decorative ${g.kind} gradient (opt-in); stop colours alias the ramp, ${g.interpolation} interpolation. Materializes as a Figma Paint Style — only stop colours bind (kind/angle/positions baked).`,
       when_to_use: 'Brand / marketing surfaces, hero backgrounds, decorative fills.',
       avoid_when: aa < 4.5
-        ? `Do not place body text directly over it — worst-case contrast is ${aa}:1 (below 4.5:1); use a scrim or a solid container.`
+        ? `Do not place body text directly over it — worst-case contrast is ${r2(aa)}:1 (below 4.5:1); use a scrim or a solid container.`
         : 'Keep text overlays within the contrast-safe lightness range, or add a scrim.',
       resolves_to: g.stops.map((s) => `{${s.aliasOf}}`),
-      a11y: { worst_on_white: g.worstOnWhite, worst_on_black: g.worstOnBlack },
+      a11y: { worst_on_white: r2(g.worstOnWhite), worst_on_black: r2(g.worstOnBlack) },
     };
   }
 

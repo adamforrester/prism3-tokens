@@ -54,6 +54,19 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
 
 ---
 
+- **Code-review fix CR-01 — `contrast()` rounded before threshold comparison** (`color.ts` + emit
+  boundaries; first of the project code-review backlog in `docs/15-code-review-findings.md` on the
+  figma-components branch): `contrast()` did `Math.round(x*100)/100` *inside* the function, so every
+  WCAG pass/fail compared the rounded ratio — a role at raw 6.9948 read 7.00 and **false-passed** a
+  7:1 HC contract. Fix: `contrast()` returns the **raw** ratio; `ResolvedRole.ratio` holds raw (gates
+  now compare un-rounded); rounding moved to the emit boundaries only (`tree.ts` role `contrast`/
+  `contrastOnWhite`/gradient a11y, `ai-metadata.ts` `contrast_with`/gradient prose, `resolve-preview`
+  splits raw-for-pass from rounded-for-display). Caught real shipped false-passes: **harbor** `hc-light`
+  `success.700 @ 7.00` (raw 6.99) → corrected to `success.750 @ 8.43`; `on-success` cascaded 9.67→11.65.
+  NB roles unaffected → `nb.tokens.json` + emit-figma NB output **byte-identical**; aurora byte-identical
+  after the display-round fix. Added a regression gate (raw `#007ea1`/black = 4.4990 must read < 4.5;
+  `contrast()` must not be pre-rounded). Gates: test **349/349**, nb-regression clean, emit-dtcg 622/622
+  + 248/248, web typecheck clean. *One concern per PR + its gate, per the review's own guidance.*
 - **Pillar 1b — wireframe mode** (`modes.ts`/`theme.ts`/`tree.ts`, docs/11 Pillar 1b): `'wireframe'`
   is now a generated opt-in mode — a mechanical greyscale. `VALID_MODES` (five) splits from `ALL_MODES`
   (the default four, unchanged → four-mode golden byte-identical); wireframe is opt-in only, never a

@@ -71,8 +71,9 @@ export const resolvePreview = (theme: Theme, spec: PreviewSpec = previewSpec): R
     modes.forEach((m, i) => {
       const fg = hexOf(ct.fg, i), bg = hexOf(ct.bg, i);
       if (fg && bg) {
-        const ratio = Math.round(contrast(hexToRgb(fg), hexToRgb(bg)) * 100) / 100;
-        byMode[m.mode] = { ratio, pass: ratio >= ct.min };
+        // CR-01: decide pass on the RAW ratio; round only the displayed value.
+        const raw = contrast(hexToRgb(fg), hexToRgb(bg));
+        byMode[m.mode] = { ratio: Math.round(raw * 100) / 100, pass: raw >= ct.min };
       }
     });
     contracts.push({ component: c.id, variant: v.name, fg: ct.fg, bg: ct.bg, min: ct.min, label: ct.label, byMode });

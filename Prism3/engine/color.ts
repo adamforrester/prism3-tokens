@@ -108,9 +108,14 @@ export const maxChroma = (l: number, h: number, ceiling = 0.4): number => {
 const relLuminance = ({ r, g, b }: RGB): number =>
   0.2126 * srgbToLinear(r) + 0.7152 * srgbToLinear(g) + 0.0722 * srgbToLinear(b);
 
+// Returns the RAW WCAG contrast ratio. WCAG conformance is defined on the un-rounded
+// value, so every pass/fail decision must compare THIS — rounding is a display concern
+// applied only at emit boundaries (tree/ai-metadata/preview), never before a threshold
+// test. (CR-01: rounding here let #007ea1-on-black at 4.4990 report 4.50 and false-pass
+// a 4.5:1 AA contract — squarely in the engine's least-extreme-passing sweet spot.)
 export const contrast = (a: RGB, b: RGB): number => {
   const la = relLuminance(a) + 0.05, lb = relLuminance(b) + 0.05;
-  return Math.round((Math.max(la, lb) / Math.min(la, lb)) * 100) / 100;
+  return Math.max(la, lb) / Math.min(la, lb);
 };
 
 /** WCAG relative luminance of a color as actually rendered (0..1). */
