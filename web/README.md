@@ -52,7 +52,14 @@ touch `node:` and would not bundle for the browser.
   (`neutral.anchor`), generated ramps with the pinned-anchor marker.
 - ✅ Preview colours + contrast overlay resolved live per mode; chips render real
   geometry/type from the token tree.
-- ⏭ **Next:** the brand selector's **new-brand / import design.md** flow and the
-  **namespace (`root`)** field (brand-setup surface); **export tokens** from the UI;
-  move the live preview onto the type/form stages; promote the engine to a named
-  `@prism3/engine` workspace package so imports read by name instead of relative path.
+- ✅ **Brand setup** — the selector is a menu: switch example brands, **New brand**
+  (minimal known-good starter), **Import design.md** (pasted `design.md` → `parseDesignMd`
+  → loaded; a parse error or `brandTheme` rejection is surfaced, working brand untouched
+  until both pass), and the per-brand **Name** + **Namespace (`root`)** fields (`root`
+  validated inline against `^[a-z][a-z0-9-]*$`).
+- ⏭ **Next:** **export tokens** from the UI (the other half of the `design.md`
+  round-trip); move the live preview onto the type/form stages; promote the engine to a
+  named `@prism3/engine` workspace package so imports read by name instead of relative
+  path. *Note:* import validation leans on `brandTheme` throwing — the full schema
+  validator is node-bound (`emit-dtcg`), so a browser-safe validator export is a
+  prerequisite for stricter inline import checks.

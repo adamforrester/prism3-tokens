@@ -28,6 +28,7 @@ import type { Lever } from '../../Prism3/engine/levers';
 import { previewSpec } from '../../Prism3/engine/preview';
 import { resolvePreview } from '../../Prism3/engine/resolve-preview';
 import type { ResolvedPreview } from '../../Prism3/engine/resolve-preview';
+import { parseDesignMd } from '../../Prism3/engine/design-md';
 import exampleBrands from '../../Prism3/schema/example-brands.json';
 
 type Mode = ResolvedPreview['modes'][number];
@@ -36,8 +37,17 @@ type Mode = ResolvedPreview['modes'][number];
 // test.ts gate asserts every brand there resolves all-green on the preview
 // contracts). aurora: indigo anchor, action DECOUPLED onto an azure accent, tinted
 // page. brandState is the mutable working copy the inputs edit.
-const defaultBrand = (exampleBrands as Record<string, BrandInput>).aurora;
-const brandState: BrandInput = structuredClone(defaultBrand);
+const BRANDS = exampleBrands as Record<string, BrandInput>;
+let brandState: BrandInput = structuredClone(BRANDS.aurora);
+
+// A minimal, known-good starting point for "New brand": one mid-indigo primary + a
+// derived neutral, action defaults to primary, namespace at the 'prism' placeholder.
+const NEW_BRAND = (): BrandInput => ({
+  id: 'untitled', root: 'prism',
+  primary: { l: 0.55, c: 0.15, h: 262 },
+  neutral: { hue: 262, chroma: 0.006 },
+});
+const ROOT_RE = /^[a-z][a-z0-9-]*$/;
 
 // Levers that visibly change the preview: the colour axis plus radius/type (the chips
 // render real geometry/type from the tree). Density/motion/shadow stay read-only.
@@ -456,18 +466,124 @@ function renderWorkspace(): void {
   else renderLeverStage(workspace, stage);
 }
 
-const build = (): void => {
-  app.innerHTML = '';
+// ---- brand setup — selector menu: name + namespace, switch / new / import --------
+let barHost: HTMLElement;
+let brandMenuOpen = false;
+let importOpen = false;
+let importErr: string | null = null;
+let outsideBound = false;
 
-  const bar = el('header', 'bar');
+/** Replace the working brand wholesale (switch / new / import) and re-render. */
+const loadBrand = (input: BrandInput): void => {
+  brandState = structuredClone(input);
+  brandMenuOpen = false; importOpen = false; importErr = null;
+  stage = 'primitives';
+  rebuild();
+  currentMode = rp.modes[0];
+  build();
+};
+
+/** Parse a pasted design.md and load it. Validation is "does the engine accept it":
+ *  a parse error or a brandTheme throw is surfaced; the working brand is untouched
+ *  until both pass. (The full schema validator is node-bound, so it can't run here —
+ *  brandTheme's own guards + the live contract overlay cover the rest.) */
+const tryImport = (text: string): void => {
+  let input: BrandInput;
+  try { input = parseDesignMd(text).input; }
+  catch (e) { importErr = (e as Error).message; renderBar(); return; }
+  try { brandTheme(input); }
+  catch (e) { importErr = `Parsed, but the engine rejected it: ${(e as Error).message}`; renderBar(); return; }
+  loadBrand(input);
+};
+
+const renderBrandMenu = (): HTMLElement => {
+  const menu = el('div', 'brandmenu');
+
+  menu.append(el('div', 'bm-cap', 'Current brand'));
+  const field = (label: string, value: string, mono: boolean, oninput: (v: string, input: HTMLInputElement) => void): HTMLElement => {
+    const f = el('label', 'bm-field');
+    f.append(el('span', 'bm-lab', label));
+    const inp = el('input', 'bm-in' + (mono ? ' mono' : '')) as HTMLInputElement;
+    inp.value = value; inp.spellcheck = false;
+    inp.oninput = () => oninput(inp.value, inp);
+    f.append(inp);
+    return f;
+  };
+  menu.append(field('Name', brandState.id, false, (v) => {
+    brandState.id = v.trim() || 'untitled';
+    (barHost.querySelector('.bs-name') as HTMLElement).textContent = brandState.id;
+  }));
+  const nsHint = el('p', 'bm-hint');
+  const setHint = () => { nsHint.textContent = `Tokens emit under ${brandState.root ?? 'prism'}.*`; };
+  menu.append(field('Namespace', brandState.root ?? 'prism', true, (v, inp) => {
+    const t = v.trim();
+    if (ROOT_RE.test(t)) { brandState.root = t; inp.classList.remove('bad'); setHint(); }
+    else inp.classList.add('bad');
+  }));
+  setHint();
+  menu.append(nsHint);
+
+  menu.append(el('div', 'bm-div'));
+  menu.append(el('div', 'bm-cap', 'Switch brand'));
+  for (const name of Object.keys(BRANDS)) {
+    const b = el('button', 'bm-item' + (name === brandState.id ? ' cur' : '')) as HTMLButtonElement;
+    const d = el('span', 'bm-dot'); d.style.background = hex(oklchToRgb(BRANDS[name].primary));
+    b.append(d, el('span', undefined, name));
+    b.onclick = () => loadBrand(BRANDS[name]);
+    menu.append(b);
+  }
+
+  menu.append(el('div', 'bm-div'));
+  const nb = el('button', 'bm-item', '+ New brand') as HTMLButtonElement;
+  nb.onclick = () => loadBrand(NEW_BRAND());
+  menu.append(nb);
+  const imp = el('button', 'bm-item', '↑ Import design.md…') as HTMLButtonElement;
+  imp.onclick = () => { importOpen = !importOpen; importErr = null; renderBar(); };
+  menu.append(imp);
+
+  if (importOpen) {
+    const box = el('div', 'bm-import');
+    const ta = el('textarea', 'bm-ta') as HTMLTextAreaElement;
+    ta.placeholder = 'Paste a design.md — --- YAML frontmatter --- then prose…';
+    ta.spellcheck = false;
+    box.append(ta);
+    if (importErr) box.append(el('p', 'bm-err', importErr));
+    const load = el('button', 'bm-load', 'Load') as HTMLButtonElement;
+    load.onclick = () => tryImport(ta.value);
+    box.append(load);
+    menu.append(box);
+  }
+  return menu;
+};
+
+function renderBar(): void {
+  barHost.innerHTML = '';
   const mark = el('div', 'brandmark');
   mark.append(el('span', 'logo'), el('span', 'wordmark', 'Prism3'), el('span', 'studio', 'Theme studio'));
-  bar.append(mark);
-  const sel = el('div', 'brandsel');
-  sel.append(el('span', 'dot'), el('span', 'bs-name', brandState.id), el('span', 'caret', '▾'));
-  (sel.querySelector('.dot') as HTMLElement).style.background = hex(oklchToRgb(brandState.primary));
-  bar.append(sel);
-  app.append(bar);
+  barHost.append(mark);
+
+  const wrap = el('div', 'brandsel-wrap');
+  const sel = el('button', 'brandsel' + (brandMenuOpen ? ' open' : '')) as HTMLButtonElement;
+  const dot = el('span', 'dot'); dot.style.background = hex(oklchToRgb(brandState.primary));
+  sel.append(dot, el('span', 'bs-name', brandState.id), el('span', 'caret', '▾'));
+  sel.onclick = (e) => { e.stopPropagation(); brandMenuOpen = !brandMenuOpen; if (!brandMenuOpen) importOpen = false; renderBar(); };
+  wrap.append(sel);
+  if (brandMenuOpen) wrap.append(renderBrandMenu());
+  barHost.append(wrap);
+
+  if (!outsideBound) {
+    document.addEventListener('mousedown', (e) => {
+      if (brandMenuOpen && !(e.target as HTMLElement).closest('.brandsel-wrap')) { brandMenuOpen = false; importOpen = false; renderBar(); }
+    });
+    outsideBound = true;
+  }
+}
+
+const build = (): void => {
+  app.innerHTML = '';
+  barHost = el('header', 'bar');
+  app.append(barHost);
+  renderBar();
 
   const shell = el('div', 'shell');
   const rail = el('nav', 'rail');
@@ -510,9 +626,27 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .logo{width:18px;height:18px;border-radius:var(--r-xs);background:conic-gradient(from 210deg,#5e4bc3,#0088be,#2f6833,#a13731,#5e4bc3)}
 .wordmark{font-weight:640;letter-spacing:-0.02em;font-size:16px}
 .studio{color:var(--muted);font-size:13px;border-left:1px solid var(--line2);padding-left:11px}
-.brandsel{display:flex;align-items:center;gap:9px;font-weight:560;border:1px solid var(--line2);background:var(--panel);padding:8px 13px;border-radius:var(--r-sm);font-size:13.5px;cursor:pointer}
+.brandsel-wrap{position:relative}
+.brandsel{display:flex;align-items:center;gap:9px;font:inherit;font-weight:560;border:1px solid var(--line2);background:var(--panel);padding:8px 13px;border-radius:var(--r-sm);font-size:13.5px;cursor:pointer;color:var(--ink)}
+.brandsel.open{border-color:var(--ink2)}
 .brandsel .dot{width:12px;height:12px;border-radius:4px}
 .brandsel .caret{color:var(--faint);margin-left:2px}
+.brandmenu{position:absolute;top:calc(100% + 8px);right:0;width:288px;background:var(--panel);border:1px solid var(--line2);border-radius:var(--r);padding:12px;z-index:20;display:flex;flex-direction:column;gap:2px}
+.bm-cap{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);font-weight:600;margin:4px 2px 6px}
+.bm-field{display:flex;align-items:center;gap:10px;padding:4px 2px}
+.bm-lab{font-size:12.5px;color:var(--ink2);width:78px;flex:none}
+.bm-in{flex:1;min-width:0;padding:6px 9px;border:1px solid var(--line2);border-radius:var(--r-xs);font:inherit;font-size:13px;background:var(--paper)}
+.bm-in.bad{border-color:#d23;background:#fdecec}
+.bm-hint{margin:2px 2px 4px;font-size:11px;color:var(--faint);font-family:var(--mono)}
+.bm-div{height:1px;background:var(--line);margin:8px 0}
+.bm-item{display:flex;align-items:center;gap:9px;width:100%;text-align:left;border:0;background:none;font:inherit;font-size:13px;color:var(--ink2);padding:8px 8px;border-radius:var(--r-xs);cursor:pointer}
+.bm-item:hover{background:var(--paper)}
+.bm-item.cur{color:var(--ink);font-weight:600}
+.bm-dot{width:11px;height:11px;border-radius:3px;flex:none}
+.bm-import{margin-top:6px;display:flex;flex-direction:column;gap:8px}
+.bm-ta{width:100%;height:120px;resize:vertical;padding:9px;border:1px solid var(--line2);border-radius:var(--r-xs);font-family:var(--mono);font-size:12px;background:var(--paper);line-height:1.5}
+.bm-err{margin:0;font-size:11.5px;color:#a12;line-height:1.5}
+.bm-load{align-self:flex-start;border:1px solid var(--ink);background:var(--ink);color:#fff;border-radius:var(--r-xs);padding:7px 16px;font:inherit;font-size:13px;font-weight:560;cursor:pointer}
 
 .shell{display:grid;grid-template-columns:210px minmax(0,1fr);gap:60px;align-items:start;margin-top:20px}
 .rail{position:sticky;top:96px;display:flex;flex-direction:column;gap:4px}

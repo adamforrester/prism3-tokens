@@ -12,6 +12,13 @@
 Since the token layer completed, work has been the **designer↔developer↔agent E2E pipeline**
 (`07`/`08`/`09`/`10`). Shipped to `main`, newest first (see the decisions log for the why):
 
+- **Web dashboard — brand setup** (`web/src/main.ts`): the brand selector is now a menu —
+  switch example brands, **New brand** (minimal known-good starter), **Import design.md** (pasted
+  `design.md` → `parseDesignMd` → loaded, guarded by a `brandTheme` accept-check; the working brand
+  is untouched until it passes), and per-brand **Name** + **Namespace (`root`, #34)** fields (root
+  validated inline). Lights up the `design.md` *import* leg of the E2E loop and gives #34's namespace
+  a UI. Engine untouched (307/307); web typecheck + build green; verified headless (menu, new, import,
+  namespace-valid/invalid — 0 page errors).
 - **Web dashboard — staged four-stage shell + Stage 1 redesign** (`web/src/main.ts`): the approved
   design direction ported to the live app. Build order primitives → semantic → type → form; Stage 1
   is bespoke (scalable brand-colour list, generated ramps off `brandTheme().palettes`, and a neutral
