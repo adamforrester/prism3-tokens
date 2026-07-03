@@ -125,7 +125,14 @@ export type BrandInput = {
    *  boundary (see docs/00-progress "Namespace" note) — not by emptying `root`. */
   root?: string;
   primary: OKLCH;                    // the exact brand anchor (palette 'primary')
-  neutral: { hue: number; chroma: number };
+  /** The neutral ramp generator. By default the greys are *derived* from a hue + peak
+   *  chroma (a small cast toward the brand for cohesion). A brand that ships a
+   *  pre-defined neutral instead sets `anchor` — the exact grey, pinned verbatim at its
+   *  lightness step, with the whole ramp built around it (hue/chroma taken from the
+   *  anchor). `hue`/`chroma` stay present (the derived readout) but the anchor drives the
+   *  ramp when set. (A neutral kept as its own *separate* palette is the outlier case —
+   *  express it as an entry in `brandColors`, not here.) */
+  neutral: { hue: number; chroma: number; anchor?: OKLCH };
   /** Additional brand colours — secondary, tertiary, accents. Any number; each
    *  becomes its own ramp and can be pointed at by `actionPalette` (or used
    *  decoratively). This is what makes the palette set open-ended. */
@@ -741,9 +748,18 @@ export const brandTheme = (input: BrandInput): Theme => {
   const anchorStep = autoPlaceStep(input.primary.l);
   notes.push(`primary anchor (h${input.primary.h}) pinned exactly at step ${anchorStep}`);
 
+  // Neutral ramp: pinned around a pre-defined grey when `neutral.anchor` is set (built
+  // from the anchor's hue/chroma, pinned verbatim at its lightness step — same mechanism
+  // as the brand palettes), else derived from hue + peak chroma.
+  const nAnchor = input.neutral.anchor;
+  const neutralSteps = nAnchor
+    ? generateRamp({ hue: nAnchor.h, chroma: nAnchor.c, anchor: { oklch: nAnchor, stepNum: autoPlaceStep(nAnchor.l) } })
+    : generateRamp({ hue: input.neutral.hue, chroma: input.neutral.chroma });
+  if (nAnchor) notes.push(`neutral pinned around a pre-defined grey (L${nAnchor.l}) at step ${autoPlaceStep(nAnchor.l)} — ramp built from the anchor, not the hue/chroma cast`);
+
   const palettes: PaletteBuild[] = [
     { palette: 'primary', role: 'brand', description: 'Brand primary', steps: generateRamp({ hue: input.primary.h, chroma: input.primary.c, anchor: { oklch: input.primary, stepNum: anchorStep } }) },
-    { palette: 'neutral', role: 'neutral', description: 'Neutral', steps: generateRamp({ hue: input.neutral.hue, chroma: input.neutral.chroma }) },
+    { palette: 'neutral', role: 'neutral', description: 'Neutral', steps: neutralSteps },
   ];
 
   // Additional brand colours (secondary / tertiary / accents) — arbitrary count.

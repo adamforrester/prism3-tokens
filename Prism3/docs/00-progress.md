@@ -61,7 +61,7 @@ Since the token layer completed, work has been the **designer↔developer↔agen
   contracts the surfaces render from.
 - **`design.md` interchange + CLI** (dual-dialect) + the colour-role classifier + fidelity report.
 
-Engine gates as of 2026-07-02: `test.ts` **303/303** (240 colour + 25 typography + 8 namespace + 16 dims + 14 shadow/gradient);
+Engine gates as of 2026-07-02: `test.ts` **307/307** (240 colour + 25 typography + 8 namespace + 16 dims + 14 shadow/gradient + 4 pin-a-neutral);
 `emit-dtcg` 248/248 contracts per brand; `nb-regression` ΔE00 1.95. The snapshot below is the
 2026-07-01 token-layer baseline.
 
@@ -216,6 +216,21 @@ npx tsx Prism3/engine/cli.ts Prism3/examples/wendys.design.md --fidelity      # 
 
 ## Decisions log (why things are the way they are)
 
+- **Pin-a-neutral — a pre-defined brand grey can anchor the neutral ramp (2026-07-02).**
+  The white-label neutral was *always* derived from a hue + peak chroma cast (`brandTheme` built it
+  with no anchor, unlike primary/brand-colours which pin their exact OKLCH). Some clients ship a
+  pre-defined neutral, so `BrandInput.neutral` now takes an optional `anchor: OKLCH`: when set, the
+  ramp is built AROUND it — pinned verbatim at `autoPlaceStep(anchor.l)`, hue/chroma taken from the
+  anchor — reusing the exact `generateRamp({ …, anchor })` mechanism the brand palettes already use
+  (zero new ramp math). `neutral.hue`/`chroma` stay required (the derived readout / the UI's Derive
+  mode); the anchor drives when present. `roleAnchorStep.neutral` stays 500 — that's the semantic
+  neutral *role's* preferred step for contrast resolution, independent of where the pinned *primitive*
+  lands. Surfaced as an optional advanced colour lever (`neutral.anchor`, "Pin a neutral") so the web
+  UI can render a Derive⇄Pin toggle. Gated (test.ts block 16): the pinned grey is reproduced at its
+  step (ΔE < 1), the derived ramp genuinely differs, and the pin flows through to the DTCG neutral
+  primitive. Default output byte-identical (no example sets an anchor; `out/*` unchanged). *Deferred
+  outlier:* a neutral kept as its OWN separate palette — expressible today via `brandColors`, no engine
+  work, so not built. Gates: test 307/307, nb-regression ΔE00 1.95, emit-dtcg 248/248.
 - **Namespace is a customizable lever — `root` on `BrandInput`, default placeholder `prism` (2026-07-02).**
   The emit namespace was hardcoded to `prism` in `brandTheme` (only the NB fixture used its own
   `nbds`). It's now `BrandInput.root` (optional, default `'prism'`): a single, mode-invariant token

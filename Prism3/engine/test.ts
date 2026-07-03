@@ -978,6 +978,32 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   ok(validateBrandInput({ ...input, root: 'ac.me' }).length > 0, 'namespace: schema rejects a dotted root');
 }
 
+// (16) PIN-A-NEUTRAL (docs/00 "pin-a-neutral") — a brand that ships a pre-defined grey sets
+// `neutral.anchor`; the ramp is then built AROUND it (pinned verbatim at its lightness step,
+// same mechanism as the brand palettes) instead of derived from the hue/chroma cast. Verifies
+// the pinned grey is reproduced, the derived ramp genuinely differs, it reaches the DTCG tree,
+// and the schema accepts it.
+{
+  const { input } = parseDesignMd(readFileSync(resolve(HERE, '../examples/aurora.design.md'), 'utf8'));
+  const grey = { l: 0.55, c: 0.006, h: 70 };           // a warm grey, hue ≠ aurora's neutral cast (285)
+  const placed = autoPlaceStep(grey.l);
+
+  const pinnedTheme = brandTheme({ ...input, neutral: { ...input.neutral, anchor: grey } });
+  const derivedTheme = brandTheme(input);
+  const pinnedStep = pinnedTheme.palettes.find((p) => p.palette === 'neutral')!.steps.find((s) => s.num === placed)!;
+  const derivedStep = derivedTheme.palettes.find((p) => p.palette === 'neutral')!.steps.find((s) => s.num === placed)!;
+
+  ok(deltaE2000(pinnedStep.rgb, oklchToRgb(grey)) < 1, `pin-a-neutral: the pinned grey is reproduced at neutral.${placed} (ΔE ${deltaE2000(pinnedStep.rgb, oklchToRgb(grey)).toFixed(2)})`);
+  ok(deltaE2000(derivedStep.rgb, oklchToRgb(grey)) > 1, 'pin-a-neutral: the derived ramp genuinely differs (pin actually re-homes the ramp)');
+
+  // reaches the DTCG tree: the pinned hex lands at that step under <root>.palette.neutral
+  const ntree = buildTree(pinnedTheme).tree as any;
+  ok(ntree.prism.palette.neutral[pinnedStep.key].$value === pinnedStep.hex, 'pin-a-neutral: the pinned grey flows through to the DTCG neutral primitive');
+
+  // schema accepts a pinned neutral
+  ok(validateBrandInput({ ...input, neutral: { ...input.neutral, anchor: grey } }).length === 0, 'pin-a-neutral: schema accepts neutral.anchor');
+}
+
 // ------------------------------------------------------------------- report
 console.log(`\nPrism3 engine tests: ${pass} passed, ${fails.length} failed`);
 if (fails.length) { fails.forEach((f) => console.log(`  ❌ ${f}`)); process.exitCode = 1; }
