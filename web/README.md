@@ -7,9 +7,28 @@ plugin will, and renders from the shared contracts:
 - **Knobs** from the lever manifest (`Prism3/engine/levers.ts`).
 - **Live component preview + per-mode contrast overlay** from `previewSpec`
   (`preview.ts`) resolved through `resolvePreview(theme)` (`resolve-preview.ts`).
+- **Generated palette ramps** straight off `brandTheme(input).palettes`.
 
 The point is continuity: a lever added once in the core appears here and in the
 Figma plugin without touching either UI (docs/08 §4).
+
+## Shell — a four-stage build order
+
+Organised as the order a theme actually composes:
+
+1. **Brand primitives** — the bespoke Stage 1: a scalable brand-colour list (primary
+   pinned + any number of accents), a tunable **neutral cast** with a **Derive⇄Pin**
+   toggle (Pin surfaces the engine's `neutral.anchor` — a pre-defined grey the ramp is
+   built around), and the generated ramps shown as labelled specimens.
+2. **Semantic colours** — the action-palette / status / disabled / icon levers + the
+   live preview and contrast overlay, with the per-mode selector (modes only matter
+   once colour resolves, so the selector lives here, not globally).
+3. **Typography** — the type lever group.
+4. **Form factor** — density / radius / elevation / layout / motion levers.
+
+Colour-axis edits re-resolve the engine and repaint only the volatile region (ramps or
+preview), so knob focus is never lost; a failed combination is caught and the last-good
+render preserved.
 
 ## Run
 
@@ -25,11 +44,15 @@ Imports reach the engine by relative path (`../../Prism3/engine/…`) and pull i
 **pure modules only** — never the I/O shells (`nb-fixture`, `emit-*`, `cli`), which
 touch `node:` and would not bundle for the browser.
 
-## Scaffold scope (what's here vs. next)
+## Scope (what's here vs. next)
 
-- ✅ Knobs render read-only from the manifest; the mode switch is live.
-- ✅ Preview colours + contrast overlay are resolved live per mode.
-- ⏭ **Next:** wire the knobs to mutate the `BrandInput` and re-resolve (the real
-  interactive loop); resolve geometry/type bindings from the token tree (needs a
-  pure tree accessor in the core); promote the engine to a named `@prism3/engine`
-  workspace package so imports read by name instead of relative path.
+- ✅ Four-stage shell; the colour axis is the live interactive loop (edit a brand
+  colour / neutral → the engine re-resolves and the ramps + preview repaint).
+- ✅ Stage 1 bespoke: brand-colour list (add / rename / remove), neutral Derive⇄Pin
+  (`neutral.anchor`), generated ramps with the pinned-anchor marker.
+- ✅ Preview colours + contrast overlay resolved live per mode; chips render real
+  geometry/type from the token tree.
+- ⏭ **Next:** the brand selector's **new-brand / import design.md** flow and the
+  **namespace (`root`)** field (brand-setup surface); **export tokens** from the UI;
+  move the live preview onto the type/form stages; promote the engine to a named
+  `@prism3/engine` workspace package so imports read by name instead of relative path.
