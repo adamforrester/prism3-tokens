@@ -54,6 +54,18 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
 
 ---
 
+- **Code-review fix CR-07 — web XSS: brand palette name reached `innerHTML`** (`web/src/main.ts:146`):
+  the ramp anchor label built its markup with `meta.innerHTML = \`anchor <b>${name}…\``, and `name` is a
+  brand-controlled `brandColors[].name` (pasted `design.md` / accent rename, no charset validation — CR-03).
+  A name like `x</b><img src=q onerror=…>` executed on the next ramp paint. Fix: build the label with
+  `el()`/`textContent` + a text node (the idiom the rest of the file already uses), never `innerHTML`.
+  **Verified headless:** added a 2nd accent named with a tag-breaking `<img onerror>` payload (so the theme
+  rebuilds cleanly), confirmed it reaches line 146 and renders as **literal text** — `<b>`.textContent is the
+  raw string, 0 `<img>` elements in the doc, `window.__xss` never set, no dialog. Web typecheck + build clean.
+  *Gate:* the honest gate is a headless web behavioural-smoke harness (gate blind-spot #8, also covers
+  M-15/16/17); the repo has no web test runner yet, so that harness is a separate infra task — noted, not
+  built here, to keep the fix surgical. The `readout.innerHTML` at `:283` is NOT a sink (`<input type=color>`
+  value is browser-constrained `#rrggbb`); `visualize.ts` `esc()` gaps are the separate LOW finding L-10.
 - **Code-review fix CR-01 — `contrast()` rounded before threshold comparison** (`color.ts` + emit
   boundaries; first of the project code-review backlog in `docs/15-code-review-findings.md` on the
   figma-components branch): `contrast()` did `Math.round(x*100)/100` *inside* the function, so every
