@@ -122,16 +122,52 @@ the package path, Figma RGB for the plugin path). Then a dev's direct package an
 designer's Token-Press export are structurally the same artifact. The #40 single-file
 export is a v1 stepping-stone that evolves into this.
 
-**⏳ PENDING EVALUATION — do not finalize this layout until we've seen Token Press.**
-Token Press is the *deployed reference* designers already use; the goal is consistency
-*with it*, so its actual export format is the spec. Token Press currently lives in a
-private org repo outside this session's scope. Plan: commit a **sample Token Press export**
-(and, if licensing allows, the exporter source) into `Prism3/reference/token-press/` — a
-repo in scope — then match `emit-dtcg` + the UI export to it byte-for-byte, and confirm
-`emit-figma`'s partitioning already agrees. **Open question deferred to that evaluation:**
-whether the export *logic* can be a single shared (pure, dependency-free) module both the
-engine and Token Press import — the ecosystem ideal — or whether we only align the *output*
-via the emitter contract. Decide after reading the code, not before.
+**The contract, grounded in Token Press v2.3.1** (evaluated 2026-07-03 against the plugin's
+agent brief AND its real output — the in-repo `Tokens/` layer *is* Token Press output, so it
+doubles as the format reference and the engine's regression target).
+
+**Layout** (Token Press §7): a ZIP of DTCG JSON, **one file per collection**, in a
+**directory-per-mode** structure that a collection opts into *only when it is multi-mode*:
+```
+tokens/
+├── shared/      <collection>.json   ← mode-invariant collections (primitives, radius, motion, …)
+├── <modeA>/     <collection>.json   ← a collection that varies by mode (e.g. color light/dark)
+└── <modeB>/     <collection>.json
+```
+Confirmed in-repo: NB's single-mode `color` sits in `shared/`; its desktop/mobile `typography`
+splits into per-mode dirs. **So the export layout is a direct function of the mode config
+(Pillar 1)** — a light-only brand emits flat/shared; enabling dark pushes the color collection
+into `light/`+`dark/`. (The reason is SD's file-globber: two files with the same DTCG path and
+different `$value` per mode → last-write-wins / stack overflow. Per-mode dirs keep each mode's
+source set collision-free.)
+
+**Leaf + file shape** (confirmed against `Tokens/New Balance/tokens/tokens/shared/radius.json`):
+- Leaf: `{ $type, $value, $extensions.figma: { variableId, collection, scopes, codeSyntax } }`.
+  `$value` is a raw value **or** a `{namespace.path}` alias.
+- File-level `$extensions`: `generator { name, version }` + `figma { collection {id,name,defaultModeId}, mode }`.
+- **Namespace is a single segment** (`nbds` in this export) — *aligns with #34*. The plugin's
+  `namespace` option supports dotted (`nbds.pds` for Prism2), but the engine emits single-segment.
+
+**Presets** (Token Press §3.1) the engine's export should mirror so a dev's package and a
+designer's export agree byte-for-byte:
+- **DTCG-spec** (default) — object dimensions/letter-spacing/duration (`{value, unit}`), DTCGColor
+  `{colorSpace, components, alpha}`, ratio line-height.
+- **Style Dictionary** — string forms (`"16px"`, `"50ms"`, `"rgba(…)"`) for SD 3.x/4.x built-in
+  transforms. A one-click recipe, not a different token set.
+- Extra bundled files (independent toggles): **CSS** custom properties, **raw Figma** variable dump
+  (≈ our `emit-figma`), **dot-notation** JSON.
+
+**The engine delta (Pillar 4 work):** `emit-dtcg` today emits a *single* `<id>.tokens.json` tree.
+Aligning = split it into per-collection files under the shared/per-mode layout, stamp the file-level
+`generator`+`figma` extensions, and expose the DTCG-spec / Style-Dictionary presets + extra-file
+toggles. Values already match (that's the NB regression); this aligns the *packaging*. `emit-figma`
+is the raw-Figma sibling and should share the same collection/mode partitioning.
+
+**Deferred (decide when building Pillar 4):** whether a single **pure, shared export module** can
+serve both the engine and Token Press (the ecosystem ideal). Token Press's *scan* half is
+Figma-API-coupled (reads live variables), but its *convert/emit* half (DTCG shaping, dimension/color
+formatting, the transition-composite compiler) is largely pure and ES2018 — a plausible shared core.
+Evaluate extractability before committing to share vs. merely align output.
 
 ---
 
