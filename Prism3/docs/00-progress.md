@@ -12,6 +12,11 @@
 Since the token layer completed, work has been the **designer↔developer↔agent E2E pipeline**
 (`07`/`08`/`09`/`10`). Shipped to `main`, newest first (see the decisions log for the why):
 
+- **Web dashboard — staged four-stage shell + Stage 1 redesign** (`web/src/main.ts`): the approved
+  design direction ported to the live app. Build order primitives → semantic → type → form; Stage 1
+  is bespoke (scalable brand-colour list, generated ramps off `brandTheme().palettes`, and a neutral
+  **Derive⇄Pin** toggle that surfaces the engine's `neutral.anchor`). Contextual per-mode selector on
+  the Semantic stage; colour edits repaint only the volatile region. Engine untouched (307/307).
 - **`emit-figma` — shadow + gradient** (`engine/emit-figma.ts` + `test.ts` block 14): styles,
   not variables (docs/08 §5 variable-type ceiling). **Shadow emits TWO style sets per step**
   (`shadow/xs..2xl + shadow/inset` for light-mode canonical; `shadow-dark/xs..2xl +
