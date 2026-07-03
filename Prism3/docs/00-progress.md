@@ -45,6 +45,16 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
 
 ---
 
+- **Deployment-target neutrality captured** (`docs/13-deployment-neutrality.md`): the owner named the
+  likely *delivery* of the north star — an **AWS / Bedrock hosted E2E service** using **LLMs as needed**
+  but with the **core staying pure deterministic code**. Recorded as an architectural *constraint*, not a
+  build task: three layers (pure core / assistive-LLM edge / host+state edge), and the rule that hosting,
+  persistence, auth, transport, and model calls live *outside* the core — LLMs propose inputs to and
+  narrate outputs from the engine, never compute a token value inside it. AWS is just the next I/O shell;
+  it validates the portable-core bet rather than changing it, and adds a *third* option for the export
+  core (a hosted service Token Press calls, vs. a vendored package) — another reason the `12` vendoring
+  call is safely deferrable. **The standing review check from here on: does a PR add I/O, state, or a
+  model call to a pure module? If yes, it belongs in a shell.** Nothing to build; the line to hold.
 - **Export-contract sequencing + Token Press eval** (`docs/12-token-press-monorepo-eval.md`): before
   building Pillar 4, two calls settled the order — (1) let the Figma-emitter agent **finish emit-figma**
   so the collection structure is stable (the shared `collections.ts` partition must mirror a settled
@@ -52,8 +62,16 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
   `@prism3/tokens-export` module both `emit-dtcg` and Token Press import — killing format drift by
   construction (recommended: **Option B**). `docs/12` is the hypothesis (from the Token Press handoff
   brief) + a §7 checklist for a repo-reviewing agent to validate feasibility against the real source →
-  go/no-go. Pillar 4's first line of code is gated on this (it sets the module boundary). Meanwhile
-  **Wireframe (1b)** is independent and proceeds. *Next: draft done → repo review → decide → build.*
+  go/no-go. **Repo review complete (§9/§9c, 2026-07-03):** a Token-Press-side agent validated §7 against
+  the real v2.3.1 source — Option B is *yellow* (separability/purity/presets ✅; composite *parity*
+  ❌ refuted, the two outputs disagree today). Resolution: **pick the canonical shape first** — all five
+  §9a shape decisions confirmed expressible against TP's source, with six refinements folded in
+  (per-family format options, shared filename sanitizer, Prism3-side unfolder, `propertyAliases` option,
+  core-owned `generator` block, +2–3d on the TP migration). Revised effort ≈ 2 weeks + 2–3d. Pillar 4's
+  first line of code is gated on this (it sets the module boundary) + emit-figma + the owner's move
+  decision; author it *at the shape boundary* regardless. Meanwhile **Wireframe (1b)** is independent and
+  proceeds. *Next: build Pillar 4 at the shape boundary once emit-figma clears; Token Press move is a
+  deferred, evidence-gated call.*
 - **Pillar 1 web toggle — Dark/HC in brand setup** (`web/src/main.ts`): the brand menu gains a
   **Modes** control — `Light` fixed, `Dark`/`HC` toggles that write `brandState.modes` (HC adds
   hc-light, + hc-dark only when dark is on); `New brand` starts light-only. The engine re-resolves

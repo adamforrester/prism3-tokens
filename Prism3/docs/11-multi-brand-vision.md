@@ -7,7 +7,9 @@
 > every exit path (engine package, Figma emit, Token Press) produces the same artifact.
 > It is the north star the mode/brand/override/export work builds toward — captured here
 > so it survives context loss and every surface (web, MCP, the Figma-emitter track) aims
-> at the same target. **Nothing here is built yet; this is the plan, phased.**
+> at the same target. **Nothing here is built yet; this is the plan, phased.** (The likely
+> *delivery* of this north star — an AWS / Bedrock hosted service with LLMs at the edges and
+> the pure core in the middle — is recorded as an architectural constraint in `13`.)
 
 ---
 
