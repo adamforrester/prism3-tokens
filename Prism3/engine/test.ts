@@ -23,7 +23,7 @@ import { leverManifest, leverGroups, buildLeverManifest, identityFields } from '
 import { previewSpec, previewTokenRefs, buildPreviewSpec } from './preview';
 import { resolvePreview } from './resolve-preview';
 import { exampleBrands, exampleBrandsJson, EXAMPLE_IDS } from './emit-brandinput';
-import { buildFigmaColor, buildFigmaFont, buildFigmaFontFluid, buildFigmaTextStyles, buildFigmaDims, buildFigmaLayout, buildFigmaShadow, buildFigmaGradient, fontStyleName, COLOR_MODES, FONT_FLUID_MODES, LAYOUT_MODES } from './emit-figma';
+import { buildFigmaColor, buildFigmaFont, buildFigmaFontFluid, buildFigmaTextStyles, buildFigmaDims, buildFigmaLayout, buildFigmaShadow, buildFigmaGradient, fontStyleName, figName, COLOR_MODES, FONT_FLUID_MODES, LAYOUT_MODES } from './emit-figma';
 import { buildTree, validateBrandInput } from './emit-dtcg';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -1199,6 +1199,67 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   // (i) A variable count sanity — the exact shape a Figma-MCP materialiser
   // will import: 10 vars × 5 modes (5 breakpoint + 3 grid + 2 container).
   ok(layout[0].variables.length === 10, `figma layout: 10 vars per mode (5 breakpoint + 3 grid + 2 container) — got ${layout[0].variables.length}`);
+}
+
+// (20) EMIT-FIGMA MODE OPT-OUT (post-#42 follow-up; #45 audit; reviewer flag on #46).
+// BrandInput.modes lets a brand ship any subset of {light, dark, hc-light, hc-dark}.
+// emit-figma's colour axis previously hardcoded all four; a light-only brand's
+// output would silently carry color.dark.json with light values (the alias fallback).
+// The fix reads theme.modes and intersects with the canonical COLOR_MODES ordering.
+// Gates: (a) NB (opts into all four) → four files, byte-identical to the pre-fix world
+// (asserted by the existing block 3 golden — this block adds mode-count coverage);
+// (b) light-only → ONE color file, `color.light.json`, no dark/hc-* silently emitted;
+// (c) [light,dark] → TWO files in canonical order; (d) canonical ORDER preserved
+// regardless of the order the user typed modes into their brief; (e) shadow already
+// gated the dark-mode extension key present (block 14 (e)) — reconfirm here that a
+// light-only brand emits NO shadow-dark/* styles (defensive, since the shadow builder
+// iterates $extensions.prism3.modes.dark and would emit if it existed).
+{
+  const { input } = parseDesignMd(readFileSync(resolve(HERE, '../examples/aurora.design.md'), 'utf8'));
+
+  // (a) default (all four modes) — unchanged from the shipped world
+  const full = brandTheme(input);
+  const fullColor = buildFigmaColor(full).color;
+  ok(fullColor.length === 4, `emit-figma mode opt-out: default brand emits four color files (got ${fullColor.length})`);
+  ok(fullColor.map((f) => f.$mode).join(',') === 'light,dark,hc-light,hc-dark', `emit-figma mode opt-out: default order is light,dark,hc-light,hc-dark`);
+
+  // (b) light-only — ONE file, the load-bearing fix
+  const lo = brandTheme({ ...input, modes: ['light'] });
+  const loColor = buildFigmaColor(lo).color;
+  ok(loColor.length === 1, `emit-figma mode opt-out: light-only brand emits ONE color file (got ${loColor.length})`);
+  ok(loColor[0].$mode === 'light', `emit-figma mode opt-out: light-only emits color.light.json (got color.${loColor[0].$mode}.json)`);
+  // The pre-fix bug would emit four files here — the alias fallback in the light branch
+  // would silently carry through. This gate is the fix's regression fence.
+  ok(loColor.every((f) => f.$mode === 'light'), `emit-figma mode opt-out: NO silent dark/hc-* emission for a light-only brand`);
+
+  // Shadow: a light-only brand emits NO shadow-dark/* styles (defensive — block 14 (e)
+  // already asserted the dark extension exists for NB; here we assert the negative).
+  const loShadow = buildFigmaShadow(lo);
+  const loDarkShadows = loShadow.styles.filter((s) => s.name.startsWith('shadow-dark/'));
+  ok(loDarkShadows.length === 0, `emit-figma mode opt-out: light-only brand emits NO shadow-dark/* styles (got ${loDarkShadows.length})`);
+
+  // (c) [light, dark] — two files, canonical order
+  const ld = brandTheme({ ...input, modes: ['light', 'dark'] });
+  const ldColor = buildFigmaColor(ld).color;
+  ok(ldColor.length === 2, `emit-figma mode opt-out: [light,dark] emits two color files (got ${ldColor.length})`);
+  ok(ldColor.map((f) => f.$mode).join(',') === 'light,dark', `emit-figma mode opt-out: [light,dark] modes in canonical order (got ${ldColor.map((f) => f.$mode).join(',')})`);
+
+  // (d) canonical ORDER preserved regardless of user-typed order. Typing [light, hc-light, dark]
+  // should still emit light,dark,hc-light (canonical), not the typed order.
+  const shuffled = brandTheme({ ...input, modes: ['light', 'hc-light', 'dark'] });
+  const shColor = buildFigmaColor(shuffled).color;
+  ok(shColor.map((f) => f.$mode).join(',') === 'light,dark,hc-light',
+    `emit-figma mode opt-out: canonical order preserved regardless of user-typed order (got ${shColor.map((f) => f.$mode).join(',')})`);
+
+  // (e) every emitted color file's per-role value comes from the RIGHT mode extension
+  // (not a silent light fallback). For [light, dark]: the dark file's action.default
+  // value must equal the dark extension's alias target, not the light $value.
+  const ldTree = (buildTree(ld).tree as any)[Object.keys(buildTree(ld).tree)[0]];
+  const darkFile = ldColor.find((f) => f.$mode === 'dark')!;
+  const darkAction = darkFile.variables.find((v) => v.name === 'color/action/default')!;
+  const darkExtAlias = ldTree.color.action.default.$extensions.prism3.modes.dark.$value.replace(/^\{|\}$/g, '');
+  ok(darkAction.alias?.name === figName(darkExtAlias),
+    `emit-figma mode opt-out: dark file's color/action/default alias is the DARK extension target, not a light fallback (got ${darkAction.alias?.name}, want ${figName(darkExtAlias)})`);
 }
 
 // ------------------------------------------------------------------- report
