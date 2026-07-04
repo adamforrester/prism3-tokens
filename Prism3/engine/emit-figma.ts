@@ -70,6 +70,12 @@ export type FigmaVar = {
 };
 export type FigmaCollectionFile = { $collection: string; $mode: string; variables: FigmaVar[] };
 
+/** The canonical, ordered set of appearance modes emit-figma can produce. A
+ *  given brand may opt out of `dark`/`hc-*` via `BrandInput.modes` — the
+ *  adapter iterates the intersection of THIS list and `theme.modes`, so a
+ *  light-only brand emits only `color.light.json` (not four files with dark
+ *  values silently falling back to light). Canonical order is preserved
+ *  regardless of the order the user typed modes into their brief. */
 export const COLOR_MODES = ['light', 'dark', 'hc-light', 'hc-dark'] as const;
 
 // role family (first segment after `color`) → Figma variable scopes (docs/10 §3).
@@ -136,7 +142,11 @@ export const buildFigmaColor = (theme: Theme): { palette: FigmaCollectionFile; c
   };
 
   const colLeaves = leaves(tree[root].color, `${root}.color`);
-  const color: FigmaCollectionFile[] = COLOR_MODES.map((mode) => ({
+  // Iterate only the modes THIS brand ships (respects BrandInput.modes opt-out —
+  // Pillar 1a). Preserve the canonical order from COLOR_MODES so file order is
+  // deterministic regardless of the order the user typed modes into their brief.
+  const emittedModes = COLOR_MODES.filter((m) => theme.modes.includes(m));
+  const color: FigmaCollectionFile[] = emittedModes.map((mode) => ({
     $collection: 'color',
     $mode: mode,
     variables: colLeaves.map(([dotted, leaf]) => {
