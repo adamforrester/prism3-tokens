@@ -460,6 +460,7 @@ Component sizes — t-shirt, density `comfortable` (height + paired padding from
 # Theme: aurora (prism.* / hex)
 
 - primary anchor (h285) pinned exactly at step 550
+- anchor 'accent' (L0.55 C0.15 h235) is OUT of sRGB gamut — max renderable chroma at this L/hue is ~0.117; it ships clamped toward the boundary, so its lightness and hue may drift. Lower its chroma to ~0.117 for an exact match.
 - brand colour 'accent' (h235) added
 - success: engine default hue 145
 - warning: engine default hue 75
@@ -927,6 +928,7 @@ Component sizes — t-shirt, density `compact` (height + paired padding from the
 # Theme: harbor (prism.* / hex)
 
 - primary anchor (h195) pinned exactly at step 600
+- anchor 'primary' (L0.46 C0.08 h195) is OUT of sRGB gamut — max renderable chroma at this L/hue is ~0.079; it ships clamped toward the boundary, so its lightness and hue may drift. Lower its chroma to ~0.079 for an exact match.
 - success: brand-supplied hue 150
 - warning: brand-supplied hue 70
 - info: engine default hue 245

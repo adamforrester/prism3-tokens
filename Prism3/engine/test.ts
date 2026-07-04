@@ -106,6 +106,17 @@ ok(autoPlaceStep(0.9) < autoPlaceStep(0.3), 'autoPlaceStep: lighter < darker');
   let m2 = false;
   try { generateRamp({ hue: 285, chroma: 0.18, anchor: { oklch: { l: 0.985, c: 0.1, h: 285 }, stepNum: 50 } }); } catch { m2 = true; }
   ok(m2, 'M-02: an anchor L that inverts the light→dark order throws (not a silent broken ramp)');
+
+  // M-03: an out-of-gamut anchor can't render exactly; the independent-channel clamp silently
+  // shifts L AND hue. The rendered colour genuinely drifts (the old anchor-ΔE gate compared two
+  // identically-clipped values → tautologically ~0, blind to this), and brandTheme now SURFACES
+  // it in the decisions log instead of shipping a quietly-shifted brand colour.
+  const oog = { l: 0.55, c: 0.32, h: 145 };
+  const rendered = rgbToOklch(generateRamp({ hue: 145, chroma: 0.2, anchor: { oklch: oog, stepNum: 500 } }).find((s) => s.num === 500)!.rgb);
+  ok(Math.abs(rendered.h - oog.h) > 1 || Math.abs(rendered.l - oog.l) > 0.02, 'M-03: an out-of-gamut anchor genuinely drifts in hue/L (the old anchor ΔE gate compared two identically-clipped values — tautological)');
+  const mkTheme = (o: { l: number; c: number; h: number }) => brandTheme({ id: 't', primary: { l: 0.6, c: 0.03, h: 200 }, neutral: { hue: 200, chroma: 0.01 }, brandColors: [{ name: 'x', oklch: o }] });
+  ok(mkTheme(oog).notes.some((n) => n.includes("anchor 'x'") && n.includes('OUT of sRGB gamut')), 'M-03: brandTheme surfaces an out-of-gamut anchor in the decisions log (not silent)');
+  ok(!mkTheme({ l: 0.5, c: 0.04, h: 200 }).notes.some((n) => n.includes('OUT of sRGB gamut')), 'M-03: an all-in-gamut brand produces no gamut warning');
 }
 
 // ------------------------------------------------ extreme white-label brands
