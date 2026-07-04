@@ -15,7 +15,7 @@
  */
 import { generateRamp, peakChromaL, autoPlaceStep, Step } from './ramp';
 import { dimensionGrid, spaceScale, radiusScale, componentSizes, SpaceStep, RadiusStep, SizeStep, Density } from './scale';
-import { oklchToRgb, RGB, contrast, hex as rgbHex } from './color';
+import { oklchToRgb, RGB, contrast, hex as rgbHex, inGamut, maxChroma } from './color';
 import type { ModeName } from './modes';
 
 /** The appearance modes the engine can generate. `light` is the required base; the rest
@@ -785,6 +785,20 @@ export const brandTheme = (input: BrandInput): Theme => {
   if (root !== 'prism') notes.push(`namespace: tokens emit under '${root}.*' (custom, not the 'prism' default)`);
   const anchorStep = autoPlaceStep(input.primary.l);
   notes.push(`primary anchor (h${input.primary.h}) pinned exactly at step ${anchorStep}`);
+
+  // M-03: a pinned anchor whose chroma is out of sRGB gamut can't be rendered exactly — the
+  // engine clamps toward the boundary, which silently nudges lightness AND hue (independent-
+  // channel clip). Surface it in the decisions log so the shift isn't invisible (the designer
+  // can lower the chroma). Rendering is unchanged here; a constant-hue chroma projection is the
+  // available upgrade (needs an all-emitter regen incl. emit-figma — see docs/00).
+  const gamutNote = (name: string, o: { l: number; c: number; h: number }) => {
+    if (inGamut(o)) return;
+    const mc = Math.round(maxChroma(o.l, o.h, o.c) * 1000) / 1000;
+    notes.push(`anchor '${name}' (L${o.l} C${o.c} h${o.h}) is OUT of sRGB gamut — max renderable chroma at this L/hue is ~${mc}; it ships clamped toward the boundary, so its lightness and hue may drift. Lower its chroma to ~${mc} for an exact match.`);
+  };
+  gamutNote('primary', input.primary);
+  for (const bc of input.brandColors ?? []) gamutNote(bc.name, bc.oklch);
+  if (input.neutral.anchor) gamutNote('neutral', input.neutral.anchor);
 
   // Neutral ramp: pinned around a pre-defined grey when `neutral.anchor` is set (built
   // from the anchor's hue/chroma, pinned verbatim at its lightness step — same mechanism

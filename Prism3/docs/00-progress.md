@@ -53,6 +53,24 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
 
 ---
 
+- **Code-review fixes M-01/02/03 — adversarial-anchor ramp hardening** (`ramp.ts`/`theme.ts`,
+  `docs/16` MED tier): three ramp-generation edge cases where a pathological anchor produced silent
+  garbage. **M-01** — `chromaForL` divided by `(lMax−peakL)`/`(peakL−lMin)`; an anchor L at lMax pinned
+  at a non-top step made the top steps hit 0/0 → `#NaNNaNNaN` (10 steps in the probe). Guarded both
+  spans; added a hex-shape gate (every step is `#rrggbb`). **M-02** — the anchor L is written verbatim
+  *after* the knot monotonic-clamp, so an anchor whose lightness disagrees with its step (e.g. L=0.985 at
+  step 50) left the ramp non-monotonic (step 50 lighter than 25), which the mode pickers misread. Added a
+  post-generation guard that throws on any light→dark inversion (a consistent anchor via autoPlaceStep
+  never trips it). **M-03** — an out-of-gamut anchor can't render exactly; `oklchToRgb`'s independent
+  channel clamp silently shifts L *and* hue (aurora accent drifts h 2.5°, L +0.04), and the old
+  anchor-ΔE gate compared two identically-clipped values (tautological). Fixed **coordination-safe**:
+  `brandTheme` now surfaces every out-of-gamut pinned anchor in the decisions log (aurora `accent`,
+  harbor `primary`) — rendering unchanged, no colour or `out/figma` ripple, only the note added; gate
+  measures real rendered-vs-requested drift. **Deferred upgrade:** a constant-hue chroma *projection*
+  (preserve L+hue, project C to the boundary) is the stronger fix but changes those brand colours and
+  needs an all-emitter regen incl. `out/figma` — the Figma agent's surface with #53 in flight — so it's
+  held for a coordinated change. Gates: test **414/414**, nb-regression exit 0, `out/*` colours
+  byte-identical.
 - **`emit-figma` — wireframe axis** (`engine/emit-figma.ts` + `test.ts` block 22, 2026-07-04):
   first mode-varying materialisation post-#50; unlocks Pillar 1b end-to-end in the Figma
   target. **Colour:** `'wireframe'` added to `COLOR_MODES` (canonical position: last); the
@@ -330,7 +348,7 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
   contracts the surfaces render from.
 - **`design.md` interchange + CLI** (dual-dialect) + the colour-role classifier + fidelity report.
 
-Engine gates as of 2026-07-04: `test.ts` **421/421** (240 colour + 25 typography + 8 namespace + 16 dims + 14 shadow/gradient + 4 pin-a-neutral + 5 design.md-round-trip + 19 mode-config/wireframe + 13 emit-figma-layout + 3 dim-overrides + 10 emit-figma-mode-opt-out + 27 emit-figma-generalise + 21 code-review-HIGH-fixes CR-01/03/04/05 + 16 emit-figma-wireframe);
+Engine gates as of 2026-07-04: `test.ts` **430/430** (240 colour + 25 typography + 8 namespace + 16 dims + 14 shadow/gradient + 4 pin-a-neutral + 5 design.md-round-trip + 19 mode-config/wireframe + 13 emit-figma-layout + 3 dim-overrides + 10 emit-figma-mode-opt-out + 27 emit-figma-generalise + 21 code-review-HIGH-fixes CR-01/03/04/05 + 16 emit-figma-wireframe + 9 code-review-MED ramp-hardening M-01/02/03);
 `emit-dtcg` 248/248 contracts per brand; `nb-regression` now a real gate (per-step ΔE ceilings + KNOWN_OUTLIERS, exits 1 on a fidelity regression — CR-06). The snapshot below is the
 2026-07-01 token-layer baseline.
 
