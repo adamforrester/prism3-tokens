@@ -30,6 +30,7 @@ import { buildTree, validateBrandInput } from './emit-dtcg';
 import { buildAiMetadata } from './ai-metadata';
 import { handleRpc, callTool, toolDefs } from './mcp';
 import { scoreConsumption, tokenPaths, normalizeRef, isPrimitiveRef, PRIMITIVE_TIERS } from './eval';
+import { runEval, buildPrompt, extractRefs, SAMPLE_TASKS } from './eval-run';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { resolve, dirname } from 'node:path';
@@ -1898,6 +1899,36 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   // empty → no NaN
   const empty = scoreConsumption([], tree, 'prism');
   ok(empty.total === 0 && empty.inventedRate === 0 && empty.primitiveLeakRate === 0, 'eval: empty ref list scores 0/0 without NaN');
+}
+
+// -------------------------------------------- consumption-eval harness (docs/17 §3, eval-run.ts)
+// The model call is INJECTED, so the whole pipeline (prompt → [mock model] → extract → score)
+// is deterministic + gated without an LLM. A keyed shell swaps the mock for a real Claude client.
+{
+  const theme = brandTheme({ id: 'evalrun', primary: { l: 0.5, c: 0.15, h: 250 }, neutral: { hue: 250, chroma: 0.01 } });
+  const { tree } = buildTree(theme);
+  const paths = [...tokenPaths(tree, 'prism')];
+  const S = paths.find((p) => !isPrimitiveRef(p))!, P = paths.find((p) => isPrimitiveRef(p))!;
+
+  ok(SAMPLE_TASKS.length === 4 && SAMPLE_TASKS.every((t) => t.name && t.brief), 'eval-run: SAMPLE_TASKS is the 4-task fixed set');
+  ok(buildPrompt(SAMPLE_TASKS, [S]).includes(S) && /reference ONLY these/.test(buildPrompt(SAMPLE_TASKS, [S])), 'eval-run: WITH-surface prompt embeds the catalogue');
+  ok(/best guess/.test(buildPrompt(SAMPLE_TASKS)) && !buildPrompt(SAMPLE_TASKS).includes('reference ONLY'), 'eval-run: WITHOUT-surface prompt tells the agent to guess (no catalogue)');
+
+  // extractRefs: JSON object, fenced JSON, and prose fallback
+  ok(extractRefs('{"a":["x.y","z.w"]}').flat.join(',') === 'x.y,z.w', 'eval-run: extractRefs reads a JSON {task:[refs]} object');
+  ok(extractRefs('```json\n{"a":["p.q"]}\n```').byTask.a?.[0] === 'p.q', 'eval-run: extractRefs tolerates ```json fences + surrounding prose');
+  ok(extractRefs('use color.action.default and space.400 here').flat.sort().join(',') === 'color.action.default,space.400', 'eval-run: extractRefs falls back to scraping dotted paths from prose');
+
+  // full run with a mock runner: 1 valid semantic + 1 invented + 1 valid primitive
+  const mock = async () => JSON.stringify({ 'primary-button': [S, 'color.totally.invented', P] });
+  const res = await runEval(tree, 'prism', mock, { catalog: [S], tasks: [{ name: 'primary-button', brief: 'x' }] });
+  ok(res.arm === 'with-surface', 'eval-run: catalogue present → with-surface arm');
+  const pb = res.byTask['primary-button'];
+  ok(pb.total === 3 && pb.invented.length === 1 && Math.abs(pb.inventedRate - 1 / 3) < 1e-9, 'eval-run: runEval scores the task — 1 invented of 3 (1/3)');
+  ok(pb.primitiveLeaks.length === 1 && Math.abs(pb.primitiveLeakRate - 0.5) < 1e-9, 'eval-run: the primitive ref among 2 valid → leak 0.5');
+  ok(res.aggregate.total === 3 && res.aggregate.valid === 2, 'eval-run: aggregate rolls up all refs (2 valid / 3)');
+  const without = await runEval(tree, 'prism', async () => '{"t":[]}', { tasks: [{ name: 't', brief: 'x' }] });
+  ok(without.arm === 'without-surface', 'eval-run: no catalogue → without-surface arm');
 }
 
 // ------------------------------------------------------------------- report

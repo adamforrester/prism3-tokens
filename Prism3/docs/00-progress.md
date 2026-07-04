@@ -145,6 +145,26 @@ here or a merged PR. Test count is **542/542** as of the sweep close.
 
 ---
 
+- **Consumption eval — harness + first measured run (`engine/eval-run.ts`, docs/17 §3/§5, 2026-07-04).**
+  The agent-in-the-loop harness on top of the scoring core: `SAMPLE_TASKS` (4 fixed component briefs),
+  `buildPrompt` (WITH-catalogue vs WITHOUT-guess arms), `extractRefs` (JSON `{task:[refs]}`, tolerating
+  ```json fences + prose fallback), and `runEval(tree, root, runner, {catalog})` → per-task + aggregate
+  `ConsumptionScore`. **Pure orchestration — the model call is an INJECTED `ModelRunner`**, so the whole
+  pipeline (prompt → model → extract → score) is deterministic + gated with a mock; a keyed environment
+  swaps in a real Claude client (no script-usable API key exists in the dev sandbox — Claude access is the
+  harness's managed OAuth, so real runs use the injected runner or, as here, subagents). **First measured
+  run** (two cold `general-purpose` subagents, `atlas` brand): **WITH** the token catalogue → **0% invented
+  / 0% primitive-leak** (53/53 valid); **WITHOUT** → **48% invented** (21/40 valid). The surface eliminated
+  token hallucination — "MCP-first > screenshot-first" as a number (48%→0%). Invention concentrated where
+  Prism3's names diverge from generic convention (`color.feedback.*`, `color.surface.raised`,
+  `typography.heading.md`); the agent guessed the guessable `color.action.*` states unaided. Caveat noted
+  in docs/17 §5: the WITHOUT baseline is partly stacked (denied the catalogue it was told to target) — the
+  honest headline is the *elimination*, and a screenshot→CSS→map-back baseline is a later refinement.
+  Deferred still: contract-compliance + rubric metrics (docs/17 §4). Gates: `test.ts` **567→578** (prompt/
+  extract/mock-run/arm-selection). Purely additive — `out/*` byte-identical.
+
+---
+
 - **Consumption eval — scoring core (`engine/eval.ts` + `docs/17`, roadmap C follow-on, 2026-07-04).**
   First increment of the ds-brain steal (docs/13 §2): measure whether an agent handed the MCP surface
   produces *compliant* output — the consumption side the engine never measured (it verifies generation

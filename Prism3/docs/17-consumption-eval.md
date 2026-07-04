@@ -63,12 +63,34 @@ Because step 2 needs a model, the harness is opt-in (an API key), not part of th
   did it honour `avoid_when` from the `.ai.json`. Checklist first; an LLM judge only if a
   dimension resists mechanical scoring.
 
-## 5. Success shape
+## 5. Success shape — and the first measured run
 
 A baseline number per (task, brand): invented-rate and primitive-leak-rate near 0, contract
 compliance near 1. The eval's value is **differential** — run the same tasks with the MCP
-surface vs. without (screenshot / raw-hex only) and show the surface moves the numbers. That
-is the four-layer-stack thesis, measured.
+surface vs. without (guess-the-names) and show the surface moves the numbers.
+
+### First run (2026-07-04) — the differential holds
+
+Two cold `general-purpose` subagents (fresh context, no repo access beyond what they were
+handed) ran the four `SAMPLE_TASKS` against the `atlas` brand. Scored by `scoreConsumption`:
+
+| Arm | Invented-token rate | Primitive-leak | Valid refs |
+|---|---|---|---|
+| **WITH** the token catalogue | **0%** | 0% | 53 / 53 |
+| **WITHOUT** (must guess) | **48%** | 0% | 21 / 40 |
+
+Given the catalogue the agent hallucinated **zero** token names and never reached into a
+primitive tier. Without it, **~half** its references were invented — plausible-but-wrong names
+(`color.feedback.success.surface`, `color.surface.raised`, `typography.heading.md`,
+`focus.ring.color`) where Prism3's naming diverges from generic convention. Notably it guessed
+the `color.action.*` states correctly *without* help — the invented rate concentrates exactly
+where the system's names are non-obvious, which is where a token surface earns its keep. That is
+"MCP-first > screenshot-first" (docs/07 §15) as a number: **48% → 0% hallucination**.
+
+Caveat: WITHOUT-arm invention is partly *stacked* (asked to target a system whose catalogue it
+was denied). The honest headline is the **elimination** the surface provides, not the 48% itself
+— a stronger baseline (agent works from a rendered screenshot and emits CSS, then we map back)
+is a later refinement. The harness (`eval-run.ts`) makes re-running either arm one call.
 
 ## 6. Dependency posture
 
