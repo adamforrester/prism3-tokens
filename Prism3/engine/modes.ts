@@ -211,6 +211,13 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
   };
   const paletteRole = (r: Role, surf: RGB, min: number): RatedNum =>
     chromatic(r2p[r], theme.roleAnchorStep[r], surf, min);
+  // Interactive-state direction: hover/pressed step the fill toward MORE contrast with the
+  // page it sits on — darker in a light mode (dir +1 = higher/darker step), lighter in a dark
+  // mode (dir -1). As the user engages (rest → hover → pressed) the control grows more prominent
+  // ("comes forward"), and the same move keeps the on-fill label legible (a darker fill lifts a
+  // white label's contrast; a lighter fill lifts a dark label's). At a ramp END the forward walk
+  // would overshoot and collapse the states onto one step — `walk` reflects inward there (L-01),
+  // i.e. an action colour pinned at the far end steps the OTHER way rather than saturating.
   const dir = cfg.family === 'light' ? +1 : -1;
   const walk = (palette: string, fromNum: number, steps: number): Cand => {
     const pal = palOf(palette);

@@ -28,6 +28,7 @@ import { exampleBrands, exampleBrandsJson, EXAMPLE_IDS } from './emit-brandinput
 import { buildFigmaColor, buildFigmaFont, buildFigmaFontFluid, buildFigmaTextStyles, buildFigmaDims, buildFigmaLayout, buildFigmaShadow, buildFigmaGradient, fontStyleName, figName, COLOR_MODES, FONT_FLUID_MODES, LAYOUT_MODES } from './emit-figma';
 import { buildTree, validateBrandInput } from './emit-dtcg';
 import { buildAiMetadata } from './ai-metadata';
+import { handleRpc, callTool, toolDefs } from './mcp';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { resolve, dirname } from 'node:path';
@@ -1815,6 +1816,47 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
     if (JSON.stringify(dv.scopes) !== JSON.stringify(wv.scopes)) shapeDrift.push(`${dv.name}: scopes ${dv.scopes.join(',')} vs ${wv.scopes.join(',')}`);
   }
   ok(shapeDrift.length === 0, `emit-figma wireframe: opting in preserves Default-mode radius byte-shape (name/value/alias/scopes)` + (shapeDrift.length ? ` — ${shapeDrift.slice(0, 3).join('; ')}` : ''));
+}
+
+// ---------------------------------------------------- MCP adapter (docs/08 §5, roadmap C)
+// The agent-callable surface over the core: dependency-free JSON-RPC. Gate the handshake,
+// the tool catalogue, the "derives from the lever manifest" tie, and a full theme_brand
+// round-trip — all against the PURE handleRpc/callTool (no stdio needed).
+{
+  const brandSchema = JSON.parse(readFileSync(resolve(HERE, '../schema/theme-schema.json'), 'utf8'));
+  const rpc = (method: string, params?: any) => handleRpc({ jsonrpc: '2.0', id: 1, method, params }, brandSchema);
+
+  // handshake
+  const init = rpc('initialize');
+  ok((init?.result as any)?.protocolVersion && (init?.result as any)?.serverInfo?.name === 'prism3-engine', 'MCP: initialize returns protocolVersion + serverInfo');
+  ok(rpc('notifications/initialized') === null, 'MCP: a notification (initialized) gets no response');
+  ok((rpc('bogus/method') as any)?.error?.code === -32601, 'MCP: an unknown method → JSON-RPC -32601 (method not found)');
+
+  // tool catalogue
+  const tools = (rpc('tools/list')?.result as any)?.tools as any[];
+  ok(Array.isArray(tools) && tools.map((t) => t.name).sort().join(',') === 'list_levers,theme_brand,validate_brand', 'MCP: tools/list advertises list_levers + theme_brand + validate_brand');
+  ok(tools.find((t) => t.name === 'theme_brand')?.inputSchema === brandSchema, 'MCP: theme_brand inputSchema IS the BrandInput schema (precise OKLCH-aware shape)');
+  ok(toolDefs(brandSchema).length === 3, 'MCP: toolDefs is a pure function of the brand schema');
+
+  // list_levers derives from the manifest (can't drift — the surface IS the manifest)
+  const leversText = (callTool('list_levers', {}).content[0].text);
+  const leversPayload = JSON.parse(leversText);
+  ok(leversPayload.levers.length === leverManifest.length && leversPayload.groups.length === leverGroups.length, 'MCP: list_levers returns the lever manifest verbatim (every lever an agent can turn)');
+
+  // theme_brand round-trip: a valid brand → tokens + metadata + all contracts pass
+  const themed = callTool('theme_brand', { id: 'mcp-probe', primary: { l: 0.5, c: 0.15, h: 250 }, neutral: { hue: 250, chroma: 0.01 } });
+  ok(themed.isError !== true, 'MCP: theme_brand on a valid brand is not an error');
+  const payload = JSON.parse(themed.content[0].text);
+  ok(payload.tokens?.prism && payload.id === 'mcp-probe', 'MCP: theme_brand returns the DTCG token tree under the root namespace');
+  ok(payload.contracts.checks > 0 && payload.contracts.pass === payload.contracts.checks && payload.contracts.failures.length === 0, `MCP: theme_brand reports all ${payload.contracts.checks} contrast contracts passing`);
+  ok(payload.aliases.broken.length === 0 && payload.aliases.resolved === payload.aliases.total, 'MCP: theme_brand reports every alias resolving');
+  ok(payload.aiMetadata && Array.isArray(payload.notes), 'MCP: theme_brand includes the .ai.json metadata + the decisions log');
+
+  // validate_brand: bad input → errors; good input → clean; and theme_brand rejects a bad brand loudly
+  ok(JSON.parse(callTool('validate_brand', { id: 'x' }).content[0].text).valid === false, 'MCP: validate_brand flags an incomplete brand (missing primary/neutral)');
+  ok(JSON.parse(callTool('validate_brand', { id: 'ok', primary: { l: 0.5, c: 0.15, h: 250 }, neutral: { hue: 250, chroma: 0.01 } }).content[0].text).valid === true, 'MCP: validate_brand passes a complete brand');
+  ok(callTool('theme_brand', { id: 'bad' }).isError === true, 'MCP: theme_brand on an invalid brand returns a tool-level error (isError), not a crash');
+  ok(callTool('no_such_tool', {}).isError === true, 'MCP: an unknown tool name → isError result');
 }
 
 // ------------------------------------------------------------------- report

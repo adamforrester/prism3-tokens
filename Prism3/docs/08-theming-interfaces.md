@@ -162,8 +162,15 @@ honoured from the start rather than retrofitted:
 4. **New Figma plugin shell** — the same renderer wearing a Figma face: bundles the core,
    renders knobs from the manifest, materialises via `$extensions.prism3.figma` (§2/§5).
    Absorbs the three separate Figma plugins' *function* (`09 §4`).
-5. **MCP adapter** — tools derived from the manifest; "an agent themes Prism3"
-   as a callable surface.
+5. **MCP adapter — ✅ DONE (2026-07-04, `engine/mcp.ts`).** "An agent themes Prism3" as a
+   callable surface. **Dependency-free JSON-RPC 2.0 over stdio** (no MCP SDK — owned like the
+   YAML parser + colour math). Three tools: `list_levers` (the lever manifest verbatim — the
+   knob catalogue, so the agent surface can't drift from the plugin/playground), `theme_brand`
+   (`BrandInput` → DTCG tree + `.ai.json` + per-mode contract results + decisions log), and
+   `validate_brand` (schema pre-flight). The knob *catalogue* derives from the manifest; the
+   input *shape* is `theme-schema.json` (OKLCH-aware). Pure `handleRpc`/`callTool` behind an
+   `isMain` stdio loop; gated in `test.ts` (handshake, catalogue, manifest-drift, a full
+   round-trip, error paths) + live stdio smoke-test. Run `npx tsx Prism3/engine/mcp.ts`.
 
 **Packaging:** the engine, web dashboard, and Figma plugin are one monorepo grown from
 `prism3-tokens`; the core stays buildless (tsx), the adapters get a bundler. Full repo

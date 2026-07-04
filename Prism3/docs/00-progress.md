@@ -54,6 +54,117 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
 - **Run commands:** `npx tsx Prism3/engine/emit-figma.ts` writes `out/figma/{nb,aurora,wendys}/*.json`;
   `npx tsx Prism3/engine/test.ts` gates everything (400/400 today).
 
+### Discussion backlog (2026-07-04) — owner-raised, awaiting decisions
+
+Five items surfaced by the owner once the code-review sweep (HIGH+MED+LOW, generator/web lane)
+closed. Logged so they survive context loss; **none is a commitment** until it lands as a decision
+here or a merged PR. Test count is **542/542** as of the sweep close.
+
+1. **Motion-in-Figma — what it unlocks (deferred, low urgency, NOT on the critical path).**
+   Motion is **doubly** blocked in Figma, not just once: (a) the Variable API has no `TIME`/duration
+   FLOAT scope (re-verified 2026-07-04), so a duration could only be a scope-less FLOAT; and (b) even
+   if it existed, Figma has **no binding consumer** — prototype transitions / smart-animate don't read
+   variables for duration or easing, so a motion variable would drive nothing. So the "unlock" is
+   currently theoretical. *When both land* it unlocks: the last generated axis (duration/easing/spring)
+   materialising into Figma → "every axis in Figma" complete; a **`reduced-motion` mode** (durations→0,
+   the motion analogue of wireframe — a `prefers-reduced-motion` accessibility win); and motion
+   round-tripping like colour/dimension. **But motion already flows to CODE consumers** (CSS
+   transitions/animations) through the DTCG / `design.md` layer, where it's actually consumed — Figma is
+   only a viewer, so this gap affects Figma-side *completeness*, not the E2E code pipeline. **Decision:**
+   keep deferred; recheck when Figma ships a `TIME` scope AND a prototype/animation binding target
+   (watch Config announcements). Already parked in the emit-figma-next queue (item 1 above) — this entry
+   adds the "what it unlocks" rationale. **Verified 2026-07-04** against the *live* Figma developer docs
+   (`developers.figma.com/docs/plugins/api/VariableScope`): the enum still has 14 FLOAT scopes, none for
+   time/duration/motion. `VariableScope` is **platform-defined** (returned to the auto-updating plugin
+   runtime), so updating the local Figma desktop app does NOT surface a missing scope — it's a genuine
+   Figma-platform gap, not a stale local install.
+
+2. **Independent emitter review (offered — owner to greenlight; Figma-emitter lane).** A *broad* re-read
+   would largely re-surface what the code review already catalogued (M-07/08/09 + L-13/14 are the known
+   emit-figma findings). Higher-value and non-duplicative: the **targeted adversarial pass docs/16
+   gate-blind-spot #2 already names** — run a *second brand* (aurora/harbor + the extreme white-label
+   fixtures: non-5-breakpoint, narrowed modes, gradients) through *every* emit-figma axis and diff the
+   output against docs/10–11 spec + expectations. That catches CR-08 / M-07/08/09-class bugs by
+   *generation*, not code-read. Would be **read-only** (produces findings handed to the Figma-emitter
+   thread; no edits to `emit-figma.ts`/`out/figma`), coordinated so it doesn't collide with in-flight
+   emitter work. **Open:** owner to greenlight scope (targeted second-brand pass vs full review).
+
+3. **`core/` prefix on primitive Figma collections (open decision — Figma-emitter lane + web export).**
+   Owner prefixed the primitive collections in the NB example with `core` to scan primitives-vs-semantics
+   at a glance. **Assessment:** it touches **only `$collection` names in the raw-figma format** — the DTCG
+   token paths, the `nbds.pds.*` / `prism.*` namespace, and the `{a.b.c}` aliases are all unchanged — so
+   it's low-risk and does **not** move the token taxonomy (owner's read confirmed). It's a sound, common
+   convention (Tokens Studio / many systems group `core`/`global`/`primitive` apart from `semantic`).
+   Today the emitter names primitive collections `palette`, `dimension`, `font`(family/size/weight) and
+   semantics `color`, `space`, `radius`, `size`, `border-width`, `focus`, `layout`, `opacity`, etc.
+   **Recommendation: adopt it** — but decide it as a convention so the *generated* output matches the
+   hand-authored NB file (else they drift). **Empirically resolved from the NB example** (`Tokens/New
+   Balance/**/raw-figma`, 2026-07-04): the owner used **hyphen**, `core-<axis>` — primitives are
+   `core-color`, `core-dimension`, `core-typography`, `core-breakpoint`, `core-motion`; semantics are bare
+   (`color`, `radius`, `space-size`, `layout`, `motion`). So the form question is settled (hyphen, matches
+   the file already tested importing into Figma). **The bigger implication:** this is a RENAME, not a bare
+   prefix — the engine currently names its primitive collections `palette` / `dimension` / `font`, so
+   adopting the convention means the emitter renames them to `core-color` / `core-dimension` /
+   `core-typography` (+ `core-breakpoint`, and `core-motion` when motion lands). There's also deeper
+   taxonomy divergence to decide separately (engine `space`/`size`/`border-width` vs NB `space-size`;
+   engine `text-styles` vs NB `typography`) — align the whole Figma collection taxonomy onto NB, or just
+   the `core-` primitive grouping? **Confirmed by owner:** `font-fluid` is SEMANTIC (not `core-`), and the
+   primitive set = `palette`/`dimension`/`font` → `core-color`/`core-dimension`/`core-typography`. **Still
+   open:** whole-taxonomy-align vs core-grouping-only; and the emitter's `variableId` round-trip must be
+   verified name-insensitive (expected — IDs are per-variable). **Implementation is the Figma-emitter
+   thread's** (emit-figma + out/figma), with a matching web-export tweak in the generator lane so the
+   playground and CLI/engine agree. The emitter review now running will report the exact current collection
+   names per brand to scope the rename.
+
+4. **Interactive-state DIRECTION rationale (settled — now documented).** *Q: do hover/pressed go darker
+   in light mode and lighter in dark mode?* **Yes** — `dir = family==='light' ? +1 : -1` (`modes.ts`):
+   light steps to higher step numbers (darker), dark steps to lower (lighter). **Thought process:** an
+   interactive state moves the fill toward **more contrast with the page it sits on** — light page →
+   darker fill, dark page → lighter fill — so as the user engages (rest→hover→pressed) the control grows
+   more prominent ("comes forward"), and the *same* move keeps the on-fill label legible (a darker fill
+   lifts a white label's contrast; a lighter fill lifts a dark label's). Matches the step-based source
+   systems (NB/Prism2) and mainstream convention (Carbon/Material darken-on-light). **The top-of-scale
+   case the owner solved before** — action colour at the far end, so hover/pressed must step *down*
+   instead of up — is now the **generalised L-01 fix (#60)**: on overshoot `walk` reflects inward,
+   keeping the states distinct; the trade-off at the extreme is that distinctness (a soft goal) wins over
+   the contrast-direction preference, while each state's hard contrast *contract* is still gated. Code
+   comment enriched in `modes.ts` alongside this entry. **No open question** — captured for the record.
+
+5. **Inspirations (`docs/13`) follow-through (tracked there; promote on decision).** Reviewed the
+   owner-supplied research: **Astryx** (Meta's agent-first DS — CLI-as-agent-surface, typed component
+   doc objects), **ds-brain** (a practitioner's DS×AI stack map — the *consumption-side eval harness* is
+   the genuinely new idea for us), **Specs CLI** (DirectedEdges — extraction-only; the read-back verifier
+   seat for a component-tier regression). `docs/13` already holds the convergence table + the "steal
+   becomes a commitment only when it lands in `00-progress`" rule, so the actionable candidates are
+   logged there, not duplicated here. **Candidates worth promoting when the agent-surface work starts:**
+   a `cli.ts query` subcommand over `.ai.json` (retrieval surface before MCP), an `.ai.json` *discovery*
+   layer (the sidecar is only useful to an agent that knows it exists), token-budget *tiers* for
+   `.ai.json`, and a **consumption eval** (rubric + invented-token rate) built alongside the MCP adapter.
+   **Open:** owner to say which (if any) to promote into the next-steps queue now vs. hold for the
+   component/agent-surface phase.
+
+---
+
+- **MCP adapter — layer C, "an agent themes Prism3" (`engine/mcp.ts`, docs/08 §5 / roadmap C, 2026-07-04).**
+  The agent-callable surface over the pure core is live: a **dependency-free JSON-RPC 2.0 server over
+  stdio** — deliberately NO `@modelcontextprotocol/sdk` (MCP is JSON-RPC + a 3-method core; owned the
+  transport like the YAML parser + colour math, keeping the no-`npm install` invariant). It's an **I/O
+  shell** (`node:` allowed; the pure core is imported, never touched) — the request handler
+  `handleRpc`/`callTool` are pure + unit-tested directly, only the stdio loop behind `isMain` touches the
+  process. **Three tools:** `list_levers` (returns the lever manifest verbatim — the knob catalogue the
+  plugin + playground also render from, so the agent surface can't drift from them), `theme_brand`
+  (a `BrandInput` → the DTCG token tree + `.ai.json` metadata + per-mode contract results + decisions
+  log — the generate-and-verify payoff in one call), and `validate_brand` (schema pre-flight). **Design
+  split:** the knob *catalogue* derives from the lever manifest (`list_levers`); the input *shape* is
+  `theme-schema.json` (the precise, OKLCH-aware validation half — a `control:'color'` lever is an OKLCH
+  object, not a string, so the manifest alone would be lossy). **Gates (`test.ts` 542→558):** the
+  handshake (`initialize`/notification-silence/`-32601`), the tool catalogue, `list_levers` ≡ the manifest
+  (drift gate), a full `theme_brand` round-trip (248/248 contracts + 647/647 aliases on the probe brand),
+  and error paths (invalid brand → `isError`, unknown tool/method). **Live stdio smoke-tested** end-to-end.
+  Purely additive — `out/*` byte-identical, pure core untouched. Run: `npx tsx Prism3/engine/mcp.ts`.
+  *Next candidates (deferred): richer tools (`preview_brand` → resolved colours + overlay; `describe_token`
+  → `.ai.json` query), and the consumption-eval harness (docs/13 ds-brain steal) alongside it.*
+
 ---
 
 - **Code-review fixes L-10 — visualiser honesty + a surfaced nb gap (batch C, closes my LOW lane)**
