@@ -56,6 +56,19 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
 
 ---
 
+- **Code-review fixes M-10/M-11 — metadata / gate completeness** (`ai-metadata.ts` / `tree.ts`, `docs/16`
+  MED tier; **completes the code-review MED tier in the generator/web lane**): two "the index/gate doesn't
+  see non-`$value` refs" blind spots. **M-11** — buildTree's alias-resolution walk validated `$value`,
+  composite sub-values, and mode-override `$value` refs, but NOT a fluid composite's
+  `$extensions.prism3.responsive.{min,max}.ref`, so a ladder edit could ship a dangling
+  `{root.font.size.NN}` while the alias gate reported clean. The walk now collects fluid refs too (alias
+  totals rose to nb 647 / aurora 646 / harbor 640, all resolve); gate: an independent full-tree ref-count
+  must equal `stats.aliases`. **M-10** — the `.ai.json` `aliased_by` reverse index was built from `$value`
+  refs only, so a primitive consumed SOLELY by a dark/HC override showed zero consumers (contradicting the
+  sidecar's own "cannot drift" note). An `allRefsOf` now collects `$value` + mode-override + fluid refs;
+  purely additive (new `aliased_by` ⊇ old for every primitive — 0 dropped, 53 grew on nb). First tests of
+  the previously-ungated sidecar. Gates: test **452/452**, nb-regression exit 0, token colours +
+  `out/figma` byte-identical (M-11 validation-only; M-10 enriches `*.ai.json` only).
 - **`emit-figma` wireframe axis — materialise-to-verify** (`Prism3/docs/assets/
   wireframe-specimen.png`, 2026-07-04): closes the parked visual-verification
   follow-up from #53 (Pillar 1b wireframe axis). Motion re-probed first —

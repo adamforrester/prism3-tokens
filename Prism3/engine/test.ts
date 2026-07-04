@@ -25,6 +25,7 @@ import { resolvePreview } from './resolve-preview';
 import { exampleBrands, exampleBrandsJson, EXAMPLE_IDS } from './emit-brandinput';
 import { buildFigmaColor, buildFigmaFont, buildFigmaFontFluid, buildFigmaTextStyles, buildFigmaDims, buildFigmaLayout, buildFigmaShadow, buildFigmaGradient, fontStyleName, figName, COLOR_MODES, FONT_FLUID_MODES, LAYOUT_MODES } from './emit-figma';
 import { buildTree, validateBrandInput } from './emit-dtcg';
+import { buildAiMetadata } from './ai-metadata';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { resolve, dirname } from 'node:path';
@@ -485,6 +486,59 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   const built = buildTree(theme);
   ok(built.stats.broken.length === 0 && built.stats.aliases > 0, `harbor: all ${built.stats.aliases} aliases resolve`);
   ok(theme.notes.some((n) => n.toLowerCase().includes('action colour defaults to the primary')), 'harbor: default action=primary flagged in notes');
+
+  // M-11: the alias gate must include fluid-typography responsive refs (`responsive.{min,max}.ref`)
+  // — a dangling {root.font.size.NN} used to ship while the gate reported clean. Independently
+  // count every {…} ref in the tree INCLUDING the fluid refs; buildTree's own count must match
+  // (if its walk skipped them — the bug — its count would be lower than this independent one).
+  {
+    const brandRoot = (built.tree as any)[Object.keys(built.tree)[0]];
+    let refs = 0, fluidRefs = 0;
+    const isRef = (s: any) => typeof s === 'string' && /^\{.+\}$/.test(s);
+    const count = (n: any): void => {
+      if (!n || typeof n !== 'object') return;
+      if (n.$type !== undefined) {
+        if (isRef(n.$value)) refs++;
+        else if (n.$value && typeof n.$value === 'object' && !Array.isArray(n.$value)) for (const s of Object.values(n.$value)) if (isRef(s)) refs++;
+        else if (Array.isArray(n.$value)) for (const it of n.$value) if (it && typeof it === 'object') for (const s of Object.values(it)) if (isRef(s)) refs++;
+        const mo = n.$extensions?.prism3?.modes;
+        if (mo && !Array.isArray(mo)) for (const mv of Object.values(mo)) if (isRef((mv as any)?.$value)) refs++;
+        const r = n.$extensions?.prism3?.responsive;
+        if (r?.fluid) for (const e of [r.min, r.max]) if (isRef(e?.ref)) { refs++; fluidRefs++; }
+        return;
+      }
+      for (const [k, v] of Object.entries(n)) if (!k.startsWith('$')) count(v);
+    };
+    count(brandRoot);
+    ok(fluidRefs > 0, `M-11: precondition — harbor has fluid composites (${fluidRefs} responsive refs)`);
+    ok(built.stats.aliases === refs, `M-11: the alias gate counts every ref incl. fluid responsive refs (gate ${built.stats.aliases} === independent ${refs})`);
+  }
+}
+// M-10: the .ai.json `aliased_by` reverse index must count mode-override (dark/HC) + fluid
+// consumers, not just $value refs — else a primitive consumed ONLY by a dark override shows zero
+// consumers, contradicting the sidecar's own "cannot drift" note. (The sidecar was otherwise
+// entirely ungated.) Prove mode/fluid refs add direct consumer edges a $value-only index misses.
+{
+  const t = brandTheme(parseDesignMd(readFileSync(resolve(HERE, '../examples/aurora.design.md'), 'utf8')).input);
+  const tree = buildTree(t).tree as any;
+  const R = t.root;
+  const refsInV = (v: any): string[] => { if (typeof v === 'string') { const m = v.match(/^\{(.+)\}$/); return m ? [m[1]] : []; } if (v && typeof v === 'object') return Object.values(v).flatMap(refsInV); return []; };
+  const strip = (ref: string) => (ref.startsWith(R + '.') ? ref.slice(R.length + 1) : ref);
+  const edgesValue = new Set<string>(), edgesAll = new Set<string>();
+  const wp = (o: any, p: string[]): void => {
+    if (!o || typeof o !== 'object') return;
+    if (o.$type !== undefined) {
+      for (const ref of refsInV(o.$value)) { const e = strip(ref) + '←' + p.join('.'); edgesValue.add(e); edgesAll.add(e); }
+      const mo = o.$extensions?.prism3?.modes; if (mo && !Array.isArray(mo)) for (const mv of Object.values(mo)) for (const ref of refsInV((mv as any)?.$value)) edgesAll.add(strip(ref) + '←' + p.join('.'));
+      const r = o.$extensions?.prism3?.responsive; if (r?.fluid) for (const end of [r.min, r.max]) { const m = String(end?.ref).match(/^\{(.+)\}$/); if (m) edgesAll.add(strip(m[1]) + '←' + p.join('.')); }
+      return;
+    }
+    for (const [k, v] of Object.entries(o)) if (!k.startsWith('$')) wp(v, [...p, k]);
+  };
+  wp(tree[R], []);
+  ok(edgesAll.size > edgesValue.size, `M-10: mode-override + fluid refs add ${edgesAll.size - edgesValue.size} direct consumer edges the $value-only index missed`);
+  const ai = buildAiMetadata(t, tree) as any;
+  ok(Object.values(ai.primitives).some((pr: any) => (pr.aliased_by?.length ?? 0) > 0), 'M-10: the emitted sidecar carries a populated aliased_by reverse index (was ungated)');
 }
 // (5) STANDARD dialect — the brand-skills / google-labs design.md path (docs/07 §11):
 // the reader + colour-role classifier + x-prism3 levers, on the real Wendy's file.

@@ -521,6 +521,14 @@ export const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats
             if (typeof sv === 'string') { const m = sv.match(/^\{(.+)\}$/); if (m) aliases.push({ path: path.join('.'), ref: m[1] }); }
           }
         }
+        // Fluid-typography refs (M-11): a fluid composite carries its mobile/desktop size
+        // aliases in $extensions.prism3.responsive.{min,max}.ref — validate them too, else a
+        // ladder edit ships a dangling {root.font.size.NN} while the alias gate reports clean.
+        const resp = node.$extensions?.prism3?.responsive;
+        if (resp?.fluid) for (const end of [resp.min, resp.max]) {
+          const sv = end?.ref;
+          if (typeof sv === 'string') { const m = sv.match(/^\{(.+)\}$/); if (m) aliases.push({ path: path.join('.'), ref: m[1] }); }
+        }
         return;
       }
       for (const [k, v] of Object.entries(node)) if (!k.startsWith('$')) walk(v, [...path, k]);
