@@ -49,7 +49,7 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
   `Zrn9YDqrFiwjs2IfKInNY0`). It has 4 specimen pages already (Colour, Typography, Dims,
   Shadow, Gradient) + all the corresponding variable collections + styles imported live.
 - **Run commands:** `npx tsx Prism3/engine/emit-figma.ts` writes `out/figma/{nb,aurora,wendys}/*.json`;
-  `npx tsx Prism3/engine/test.ts` gates everything (384/384 today).
+  `npx tsx Prism3/engine/test.ts` gates everything (400/400 today).
 
 ---
 
