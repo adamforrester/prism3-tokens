@@ -162,6 +162,18 @@ for (const b of brands) {
   ok(greige.notes.some((n) => n.includes('below the') && n.includes('floor')), 'M-05: the greige carve reason is surfaced in the decisions log');
 }
 
+// M-06: a non-primary actionPalette anchors the action role at the brand's PINNED accent step
+// (matching nbTheme's action=550=accent step), not the hardcoded 500 pivot that silently
+// discarded the brand's chosen shade. pickBrand still nudges to clear AA, so a11y is preserved.
+{
+  const step = autoPlaceStep(0.35);   // a dark accent pins well below 500
+  ok(step !== 500, `precondition: a dark accent pins off the 500 pivot (step ${step})`);
+  const acted = brandTheme({ id: 'act', primary: { l: 0.5, c: 0.08, h: 260 }, neutral: { hue: 260, chroma: 0.01 }, brandColors: [{ name: 'cta', oklch: { l: 0.35, c: 0.1, h: 260 } }], actionPalette: 'cta' });
+  ok(acted.roleAnchorStep.action === step, `M-06: a non-primary actionPalette anchors the action at the accent's pinned step ${step}, not 500`);
+  const prim = brandTheme({ id: 'p', primary: { l: 0.35, c: 0.1, h: 260 }, neutral: { hue: 260, chroma: 0.01 } });
+  ok(prim.roleAnchorStep.action === prim.roleAnchorStep.brand, 'M-06: actionPalette=primary still anchors the action at the primary step');
+}
+
 // ------------------------------------------- typography composite invariants
 // Guard the composite generator across lever combos: every sub-reference must
 // resolve to a real primitive, sizes stay on the ladder, no duplicate size within

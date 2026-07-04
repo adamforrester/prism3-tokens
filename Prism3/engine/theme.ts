@@ -924,9 +924,21 @@ export const brandTheme = (input: BrandInput): Theme => {
     }
   }
 
+  // Action anchor step (M-06): honour the brand's PINNED accent when `actionPalette` names a
+  // brandColor — resolve the action role at that accent's own step (matching the nbTheme fixture's
+  // semantics, action=550=accent step), not the hardcoded 500 pivot which silently discarded the
+  // brand's chosen shade while the note claimed the decision was honoured. `pickBrand` still nudges
+  // to clear AA on the floor, so accessibility is preserved regardless. 'primary' → the primary
+  // anchor; an unanchored palette (neutral / status) has no pinned step → the 500 mid pivot.
+  const actionBrandColor = (input.brandColors ?? []).find((b) => b.name === actionPalette);
+  const actionAnchorStep = actionPalette === 'primary' ? anchorStep
+    : actionBrandColor ? autoPlaceStep(actionBrandColor.oklch.l)
+    : 500;
+  if (actionBrandColor) notes.push(`action anchored at accent '${actionPalette}' step ${actionAnchorStep} (its pinned lightness) — the brand's own shade, nudged only if it fails AA on the floor`);
+
   return {
     id: input.id, root, namespace: `${root}.palette`, colorFormat: 'hex', modes, palettes, roleToPalette, notes,
-    roleAnchorStep: { brand: anchorStep, neutral: 500, success: 500, warning: 500, danger: 500, info: 500, action: actionPalette === 'primary' ? anchorStep : 500 },
+    roleAnchorStep: { brand: anchorStep, neutral: 500, success: 500, warning: 500, danger: 500, info: 500, action: actionAnchorStep },
     surfaces: input.surfaces,
     disabledStrategy: input.disabledStrategy ?? 'accessible',
     disabledMin: input.disabledMin ?? 3,
