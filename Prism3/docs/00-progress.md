@@ -18,39 +18,39 @@ Two threads are live: the **Figma-emitter agent** (owns `emit-figma.ts` + its `t
 gates; materialises axes into Figma via MCP) and the **generator thread** (everything
 else — engine core, web dashboard, docs). Coordinate via committed artefacts (docs/10 §6).
 
-- **emit-figma today:** colour + typography + dims + shadow + gradient axes shipped
-  (#28, #31, #33, #35). Fully specified in `docs/10-figma-materialization.md`.
-- **emit-figma next (docs/10 §7 queue post-audit, 2026-07-03):**
-  1. ★ **Layout** — one `layout` collection with breakpoint modes (sm/md/lg/xl/2xl),
-     carrying `grid/columns` + `grid/gutter` + `grid/margin` (per-mode) + `container/max`
-     + `container/narrow`. The DTCG tree already carries `figma.collection: 'layout',
-     mode: <bp>` on every leaf — target is prescribed.
-  2. **Motion** — verify Figma Plugin API has a `TIME` scope (Config 2026 landing);
-     emit `motion/duration/*` + `motion/duration-reduced/*` + `motion/stagger` if so.
-     easing/spring/transition composites have no Figma variable primitive — emit as
-     `motion-styles.json` reference metadata only.
-  3. **Generalise** — emit aurora + wendys through every axis (proves brand-agnostic;
-     lands the alias-driven form of aurora gradients).
-  4. **Follow-ups parked in docs/10 §7:** fix 3b (`font-tracking` FLOATs, bindable
-     letterSpacing); `foreground.secondary` ≡ `border.primary` (generator thread,
-     semantic-layer, not emit-figma); **mode opt-out awareness** — `emit-figma.ts`
-     hardcodes `COLOR_MODES = ['light', 'dark', 'hc-light', 'hc-dark']`; a light-only
-     brand's output silently carries dark-with-light-values files. Fix with layout or
-     motion pass, whichever lands first.
-  5. ★ **Wireframe mode (NEW, from generator thread 1b)** — `'wireframe'` is now a valid
-     opt-in mode. Two materialization changes for emit-figma when a brand opts in: (a) the
-     `color` collection gains a **wireframe** mode (greyscale — every role's
-     `$extensions.prism3.modes.wireframe.$value` aliases a `neutral.*` step); (b) **geometry
-     becomes mode-varying** — non-zero `radius.*` leaves now carry
+- **emit-figma today:** colour + typography + dims + shadow + gradient + **layout**
+  axes shipped (#28, #31, #33, #35, #46). Mode-opt-out fix landed (#49) — a light-only
+  brand no longer emits dark files with light values. **Generalise** landed (this PR) —
+  aurora + wendys now emit through every axis (aurora's alias-driven gradient Paint
+  Style is live). Fully specified in `docs/10-figma-materialization.md`.
+- **emit-figma next (docs/10 §7 queue post-#50, 2026-07-04):**
+  1. ★ **Wireframe mode (from generator thread 1b, #48)** — `'wireframe'` is a valid
+     opt-in mode. Two materialization changes when a brand opts in: (a) the `color`
+     collection gains a **wireframe** mode (greyscale, every role's
+     `$extensions.prism3.modes.wireframe.$value` aliases a `neutral.*` step); (b)
+     **geometry becomes mode-varying** — non-zero `radius.*` leaves carry
      `$extensions.prism3.modes.wireframe → {root.dimension.0}`. So the radius variable
-     collection needs a **wireframe mode** (radius → 0). This is the first non-colour/shadow
-     axis to vary by mode; it generalises the `COLOR_MODES` fix (4) into a per-axis mode set.
-     Only fires when `theme.modes.includes('wireframe')` — the default four are untouched.
+     collection needs a **wireframe mode** (radius → 0). This is the first non-colour/
+     shadow axis to vary by mode. Only fires when `theme.modes.includes('wireframe')` —
+     the default four are untouched. No example brand opts in today, so gate against a
+     synthetic wireframe-enabled brand (`brandTheme({ ...input, modes: [..., 'wireframe'] })`
+     — same pattern as blocks 18 + 20).
+  2. **Motion — STILL DEFERRED.** Probed the Figma Plugin API on 2026-07-03; `TIME`
+     scope is not in the FLOAT-var enum yet (Config 2026 hasn't surfaced it). Recheck
+     when it lands. easing/spring/transition composites have no Figma variable primitive
+     — emit as `motion-styles.json` reference metadata only.
+  3. **Follow-ups parked (typography #31):** fix 3b bindable form — `font-tracking`
+     FLOAT collection (6 tokens: tighter/tight/snug/normal/wide/wider); rebind
+     `letterSpacing` on all 36 text styles.
+  4. **Follow-up parked (materialise-to-verify, from #50):** import aurora + wendys
+     artifacts into the Prism3 Test File via Figma MCP. figma-console MCP disconnected
+     mid-session on 2026-07-03; the structural gates prove alias resolution + gradient
+     targets — this is purely visual confirmation.
 - **Test file:** the Figma-MCP thread's target is "Prism3 Test File" (fileKey
   `Zrn9YDqrFiwjs2IfKInNY0`). It has 4 specimen pages already (Colour, Typography, Dims,
   Shadow, Gradient) + all the corresponding variable collections + styles imported live.
-- **Run commands:** `npx tsx Prism3/engine/emit-figma.ts` writes `out/figma/nb/*.json`;
-  `npx tsx Prism3/engine/test.ts` gates everything (347/347 today).
+- **Run commands:** `npx tsx Prism3/engine/emit-figma.ts` writes `out/figma/{nb,aurora,wendys}/*.json`;
+  `npx tsx Prism3/engine/test.ts` gates everything (384/384 today).
 
 ---
 
@@ -127,8 +127,8 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
   built here, to keep the fix surgical. The `readout.innerHTML` at `:283` is NOT a sink (`<input type=color>`
   value is browser-constrained `#rrggbb`); `visualize.ts` `esc()` gaps are the separate LOW finding L-10.
 - **Code-review fix CR-01 — `contrast()` rounded before threshold comparison** (`color.ts` + emit
-  boundaries; first of the project code-review backlog in `docs/15-code-review-findings.md` on the
-  figma-components branch): `contrast()` did `Math.round(x*100)/100` *inside* the function, so every
+  boundaries; first of the project code-review backlog in `docs/16-code-review-findings.md`):
+  `contrast()` did `Math.round(x*100)/100` *inside* the function, so every
   WCAG pass/fail compared the rounded ratio — a role at raw 6.9948 read 7.00 and **false-passed** a
   7:1 HC contract. Fix: `contrast()` returns the **raw** ratio; `ResolvedRole.ratio` holds raw (gates
   now compare un-rounded); rounding moved to the emit boundaries only (`tree.ts` role `contrast`/
@@ -139,6 +139,17 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
   after the display-round fix. Added a regression gate (raw `#007ea1`/black = 4.4990 must read < 4.5;
   `contrast()` must not be pre-rounded). Gates: test **349/349**, nb-regression clean, emit-dtcg 622/622
   + 248/248, web typecheck clean. *One concern per PR + its gate, per the review's own guidance.*
+- **Project code review — findings documented, nothing fixed** (`docs/16-code-review-findings.md`,
+  2026-07-03): full-codebase review (engine + web + regression harness), baseline green first
+  (336/336, out/* byte-identical). 8 HIGH + 18 MEDIUM + 17 LOW findings, headline: `contrast()`
+  rounds before threshold comparison → WCAG false passes structurally invisible to the gates
+  (probe-verified: raw 4.49898 reported as 4.50-pass); the contrast floor is two steps shallower
+  than the shipped surface ladder; duplicate palette names silently hijack engine ramps; the
+  schema validator ignores boolean/enum-on-number/minItems; the YAML parser silently drops
+  misindented lines; nb-regression cannot fail (exit 0 always); web XSS via brandColors names;
+  emit-figma layout crashes on non-5-breakpoint brands. Four cross-cutting themes: self-referential
+  verification, NB-only structural gates, silent degradation over loud failure, validator weaker
+  than schema. §5 lists the gate blind spots to close as fixes land — **one fix + its gate per PR**.
 - **Pillar 1b — wireframe mode** (`modes.ts`/`theme.ts`/`tree.ts`, docs/11 Pillar 1b): `'wireframe'`
   is now a generated opt-in mode — a mechanical greyscale. `VALID_MODES` (five) splits from `ALL_MODES`
   (the default four, unchanged → four-mode golden byte-identical); wireframe is opt-in only, never a
@@ -306,8 +317,8 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
   contracts the surfaces render from.
 - **`design.md` interchange + CLI** (dual-dialect) + the colour-role classifier + fidelity report.
 
-Engine gates as of 2026-07-03: `test.ts` **347/347** (240 colour + 25 typography + 8 namespace + 16 dims + 14 shadow/gradient + 4 pin-a-neutral + 5 design.md-round-trip + 19 mode-config/wireframe + 13 emit-figma-layout + 3 dim-overrides);
-`emit-dtcg` 248/248 contracts per brand; `nb-regression` ΔE00 1.95. The snapshot below is the
+Engine gates as of 2026-07-04: `test.ts` **405/405** (240 colour + 25 typography + 8 namespace + 16 dims + 14 shadow/gradient + 4 pin-a-neutral + 5 design.md-round-trip + 19 mode-config/wireframe + 13 emit-figma-layout + 3 dim-overrides + 10 emit-figma-mode-opt-out + 27 emit-figma-generalise + 21 code-review-HIGH-fixes CR-01/03/04/05);
+`emit-dtcg` 248/248 contracts per brand; `nb-regression` now a real gate (per-step ΔE ceilings + KNOWN_OUTLIERS, exits 1 on a fidelity regression — CR-06). The snapshot below is the
 2026-07-01 token-layer baseline.
 
 ## Current status (2026-07-01)
@@ -395,7 +406,8 @@ Prism3/
 │   ├── 12-token-press-monorepo-eval.md ← the shared-export-core hypothesis (Option B: pure `@prism3/tokens-export` both emit-dtcg and Token Press import) + the §7 repo-review checklist → go/no-go gates Pillar 4
 │   ├── 13-inspirations.md           ← field notes on external agent-first DS work (Astryx, ds-brain map, Specs CLI, …) — takeaways, gaps identified, convergence table
 │   ├── 14-component-layer.md        ← the component-layer contract: components-as-data (seeded from the KB briefs, token-name-bound) → deterministic Figma materialization (plugin) + extraction-diff regression; LLM-optional by design
-│   └── 15-deployment-neutrality.md  ← deployment-target neutrality: pure core / assistive-LLM edge / host+state edge; the standing "no I/O, state, or model call in a pure module" review check
+│   ├── 15-deployment-neutrality.md  ← deployment-target neutrality: pure core / assistive-LLM edge / host+state edge; the standing "no I/O, state, or model call in a pure module" review check
+│   └── 16-code-review-findings.md   ← 2026-07-03 full-codebase review: the fix backlog (8 HIGH / 18 MED / 17 LOW, per-finding failure scenarios + gate coverage) + the gate blind-spot list (§5)
 ├── fixtures/
 │   └── figma/nb/                    ← the NB import: palette + color×4 modes + font + font-fluid×2 (byte-reproduce targets) + text-styles (as-imported snapshot) — emit-figma's regression corpus (docs/10)
 ├── schema/

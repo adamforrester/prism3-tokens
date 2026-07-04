@@ -1,0 +1,58 @@
+{
+  "$collection": "border-width",
+  "$mode": "Default",
+  "variables": [
+    {
+      "name": "border-width/none",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "STROKE_FLOAT"
+      ],
+      "description": "border-width none — 0px",
+      "value": 0,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/0"
+      }
+    },
+    {
+      "name": "border-width/hairline",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "STROKE_FLOAT"
+      ],
+      "description": "border-width hairline — 1px (default border floor)",
+      "value": 1,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/1"
+      }
+    },
+    {
+      "name": "border-width/thick",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "STROKE_FLOAT"
+      ],
+      "description": "border-width thick — 2px (emphasis / selected)",
+      "value": 2,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/2"
+      }
+    },
+    {
+      "name": "border-width/heavy",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "STROKE_FLOAT"
+      ],
+      "description": "border-width heavy — 4px",
+      "value": 4,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/4"
+      }
+    }
+  ]
+}

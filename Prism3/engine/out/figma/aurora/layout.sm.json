@@ -1,0 +1,122 @@
+{
+  "$collection": "layout",
+  "$mode": "sm",
+  "variables": [
+    {
+      "name": "breakpoint/xs",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "breakpoint xs — min-width 0px (mobile-first)",
+      "value": 0,
+      "alias": null
+    },
+    {
+      "name": "breakpoint/sm",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "breakpoint sm — min-width 480px (mobile-first)",
+      "value": 480,
+      "alias": null
+    },
+    {
+      "name": "breakpoint/md",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "breakpoint md — min-width 768px (mobile-first)",
+      "value": 768,
+      "alias": null
+    },
+    {
+      "name": "breakpoint/lg",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "breakpoint lg — min-width 1024px (mobile-first)",
+      "value": 1024,
+      "alias": null
+    },
+    {
+      "name": "breakpoint/xl",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "breakpoint xl — min-width 1440px (mobile-first)",
+      "value": 1440,
+      "alias": null
+    },
+    {
+      "name": "breakpoint/2xl",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "breakpoint 2xl — min-width 1920px (mobile-first)",
+      "value": 1920,
+      "alias": null
+    },
+    {
+      "name": "grid/columns",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "ALL_SCOPES"
+      ],
+      "description": "grid sm — 8 columns (design grid / Figma layout-grid; build with CSS Grid)",
+      "value": 8,
+      "alias": null
+    },
+    {
+      "name": "grid/gutter",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "GAP"
+      ],
+      "description": "grid sm gutter — 16px (spacing-scale alias)",
+      "value": 16,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "space/200"
+      }
+    },
+    {
+      "name": "grid/margin",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "GAP"
+      ],
+      "description": "grid sm margin — 24px (spacing-scale alias)",
+      "value": 24,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "space/300"
+      }
+    },
+    {
+      "name": "container/max",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "container max — 1280px content cap (fluid below it)",
+      "value": 1280,
+      "alias": null
+    },
+    {
+      "name": "container/narrow",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "container narrow — 720px reading measure (~65–75ch)",
+      "value": 720,
+      "alias": null
+    }
+  ]
+}

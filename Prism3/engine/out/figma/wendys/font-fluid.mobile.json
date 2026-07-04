@@ -1,0 +1,106 @@
+{
+  "$collection": "font-fluid",
+  "$mode": "mobile",
+  "variables": [
+    {
+      "name": "font-fluid/display/sm/strong",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 36,
+      "alias": null
+    },
+    {
+      "name": "font-fluid/display/md/strong",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 40,
+      "alias": null
+    },
+    {
+      "name": "font-fluid/display/lg/strong",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 40,
+      "alias": null
+    },
+    {
+      "name": "font-fluid/display/xl/strong",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 48,
+      "alias": null
+    },
+    {
+      "name": "font-fluid/display/2xl/strong",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 48,
+      "alias": null
+    },
+    {
+      "name": "font-fluid/display/3xl/strong",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 48,
+      "alias": null
+    },
+    {
+      "name": "font-fluid/title/md/strong",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 20,
+      "alias": null
+    },
+    {
+      "name": "font-fluid/title/lg/strong",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 24,
+      "alias": null
+    },
+    {
+      "name": "font-fluid/title/xl/strong",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 28,
+      "alias": null
+    },
+    {
+      "name": "font-fluid/title/2xl/strong",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 36,
+      "alias": null
+    }
+  ]
+}

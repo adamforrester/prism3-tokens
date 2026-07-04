@@ -1,0 +1,45 @@
+{
+  "$collection": "focus",
+  "$mode": "Default",
+  "variables": [
+    {
+      "name": "focus/ring/width",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "STROKE_FLOAT"
+      ],
+      "description": "focus ring width — 2px (WCAG 2.4.13 floor; 3px for extra clarity)",
+      "value": 2,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/2"
+      }
+    },
+    {
+      "name": "focus/ring/offset",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "STROKE_FLOAT"
+      ],
+      "description": "focus ring offset — 2px (separates ring from the element edge)",
+      "value": 2,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/2"
+      }
+    },
+    {
+      "name": "focus/ring/offset-field",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "STROKE_FLOAT"
+      ],
+      "description": "focus ring offset, form fields — 0px (ring hugs the field; Primer)",
+      "value": 0,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "dimension/0"
+      }
+    }
+  ]
+}
