@@ -25,6 +25,21 @@ const NB = resolve(repo, 'Tokens/New Balance/tokens/tokens/shared/core-color.jso
 const WHITE: RGB = { r: 255, g: 255, b: 255 };
 const BLACK: RGB = { r: 0, g: 0, b: 0 };
 
+// ---- regression GATE thresholds (CR-06: this run must be able to FAIL) ----
+// Every compared step must stay within the perceptual bar, EXCEPT the enumerated NB
+// hand-authoring divergences (docs/02 §4) — steps where NB was hand-nudged and the engine
+// deliberately does not reproduce the kink. Each outlier carries its OWN ceiling, so a NEW
+// regression there still trips the gate; this replaces the old static prose that would have
+// kept printing "known kink" over a fresh engine bug with the same signature. A per-step
+// ceiling (not a mean-of-means) means one catastrophic step can no longer hide under a good
+// aggregate; the covered-count assertion catches a truncated/renamed fixture (→ NaN mean).
+const PER_STEP_CEILING = 3.5;                    // ΔE00 bar for every non-hand-nudged step
+const KNOWN_OUTLIERS: Record<string, number> = { // NB hand-nudges: `${palette}.${stepKey}` → max ΔE00
+  'red.050': 4.7, 'red.100': 5.5, 'red.300': 7.7, 'red.900': 4.3, 'red.950': 5.1, 'amber.600': 9.8,
+};
+const EXPECTED_STEPS_PER_SPEC = 20;              // NB ships 20 steps/palette — fewer = truncated/renamed
+const failures: string[] = [];                  // any entry → non-zero exit at the end
+
 // ---- load real NB palettes ----
 const nb = JSON.parse(readFileSync(NB, 'utf8')).nbds.color as Record<string, any>;
 const parseRgb = (s: string): RGB => {
@@ -70,11 +85,15 @@ for (const spec of specs) {
     des.push(de);
     if (de > max) { max = de; maxKey = s.key; }
     if (de > worstStep.de) worstStep = { name: spec.name, key: s.key, de };
+    const ceiling = KNOWN_OUTLIERS[`${spec.palette}.${s.key}`] ?? PER_STEP_CEILING;
+    if (de > ceiling) failures.push(`ΔE00 ${spec.palette}.${s.key} = ${de.toFixed(2)} exceeds ceiling ${ceiling} (${KNOWN_OUTLIERS[`${spec.palette}.${s.key}`] != null ? 'known-outlier allowance' : 'per-step bar'})`);
     const flag = de > 3 ? ' ⚠️' : '';
     p(`| ${s.key} | ${bandLabel(s.band)} | \`${s.hex}\` | \`${hexOf(actual)}\` | ${de.toFixed(2)}${flag} |`);
   }
   const mean = des.reduce((a, b) => a + b, 0) / des.length;
   const within = des.filter((d) => d <= 3).length;
+  if (des.length !== EXPECTED_STEPS_PER_SPEC)
+    failures.push(`${spec.name} (${spec.palette}): compared ${des.length} steps, expected ${EXPECTED_STEPS_PER_SPEC} — truncated or renamed NB fixture (a shrunk denominator silently passes a mean-of-means).`);
   summary.push({ name: spec.name, mean, max, maxKey, covered: des.length, within });
   p('');
   p(`**ΔE00 mean ${mean.toFixed(2)}, max ${max.toFixed(2)} at ${maxKey}** over ${des.length} steps.`);
@@ -84,8 +103,15 @@ for (const spec of specs) {
 // ---- functional checks: tonal-band contrast contracts (§5.2) ----
 p('## Tonal-band contrast contracts (generated ramps)');
 p('');
-const red = buildRamp(specs[0]);
-const neutral = buildRamp(specs[3]);
+// Look up by palette, not position (L-12) — a spec-order change must not silently point the
+// contract gate at the wrong ramp.
+const rampByPalette = (pal: string): Step[] => {
+  const sp = specs.find((s) => s.palette === pal);
+  if (!sp) throw new Error(`nb-regression: no spec for palette '${pal}' (have: ${specs.map((s) => s.palette).join(', ')})`);
+  return buildRamp(sp);
+};
+const red = rampByPalette('red');
+const neutral = rampByPalette('neutral');
 const rgbAt = (r: Step[], n: number) => r.find((s) => s.num === n)!.rgb;
 
 const checks: { label: string; got: number; pass: boolean; rule: string }[] = [];
@@ -167,21 +193,28 @@ p('');
 // ---- verdict ----
 p('## Verdict');
 p('');
-const overallMax = Math.max(...summary.map((s) => s.max));
 const failed = checks.filter((c) => !c.pass);
 const meanOfMeans = summary.reduce((a, s) => a + s.mean, 0) / summary.length;
+// Fold the functional checks into the gate accumulator (they were report-only before CR-06).
+for (const f of failed) failures.push(`contrast contract failed: ${f.label} = ${f.got.toFixed(2)} (rule ${f.rule})`);
+if (dimPass !== dimChecks) failures.push(`dimension axis: ${dimPass}/${dimChecks} exact — a px lever drifted from Prism2 space / NB radius`);
 for (const s of summary) p(`- **${s.name}** — ΔE00 mean ${s.mean.toFixed(2)}, max ${s.max.toFixed(2)} (${s.maxKey}), within-tolerance ${s.within}/${s.covered}.`);
 p('');
 p(`- Aggregate ΔE00 mean across ramps: **${meanOfMeans.toFixed(2)}**.`);
-p(`- Worst step overall: **${worstStep.name} ${worstStep.key}** at ΔE00 ${worstStep.de.toFixed(2)} (an NB hand-applied hue kink — see docs/02 §4).`);
+p(`- Worst step overall: **${worstStep.name} ${worstStep.key}** at ΔE00 ${worstStep.de.toFixed(2)} (an NB hand-applied hue kink — see docs/02 §4; enumerated in KNOWN_OUTLIERS with its own ceiling).`);
 p(`- Contrast contracts: **${checks.length - failed.length}/${checks.length} pass**${failed.length ? ` — failing: ${failed.map((f) => f.label).join(', ')}` : '.'}`);
 p(`- Dimension axis (Prism2 space + NB radius): **${dimPass}/${dimChecks} exact matches**.`);
 p('');
-p(meanOfMeans <= 3
-  ? '> Aggregate mean within ΔE00 ≤ 3: the engine reproduces NB perceptually from the schema alone. Residual per-step outliers are NB hand-nudges (hue kinks), not engine error.'
-  : `> Aggregate mean exceeds ΔE00 3 (${meanOfMeans.toFixed(2)}). Review the ⚠️ rows.`);
+// ---- the gate: per-step ΔE ceilings + covered-count + contracts + dims → non-zero exit ----
+if (failures.length === 0) {
+  p(`> ✅ **NB regression PASS.** Every step within its ΔE00 ceiling (${PER_STEP_CEILING} bar; ${Object.keys(KNOWN_OUTLIERS).length} enumerated NB hand-nudges within their allowances), all ${summary.length}×${EXPECTED_STEPS_PER_SPEC} steps compared, ${checks.length}/${checks.length} contrast contracts, ${dimPass}/${dimChecks} dimensions. Aggregate mean ΔE00 ${meanOfMeans.toFixed(2)}. The engine reproduces NB perceptually from the schema alone; the enumerated outliers are NB hand-authoring the schema intentionally resists, not engine error.`);
+} else {
+  p(`> ❌ **NB regression FAIL** — ${failures.length} issue(s) (exit 1). A per-step ceiling / covered-count / contract / dimension check tripped — this is a real fidelity regression, not a report note:`);
+  for (const f of failures) p(`>   - ${f}`);
+  process.exitCode = 1;
+}
 p('');
-p('**Engine status:** contrast-role-targeted L placement is implemented — the Mid-Tone 500 is placed at the dual-side AA luminance pivot, so all band contrast contracts pass (and, because NB is Univers-derived, matching that pivot also tightened the perceptual fit). The residual outliers (amber.600, red.300) are NB hand-applied hue kinks; the engine deliberately does NOT reproduce these — per-step hue drift would be a brand input the schema intentionally resists. They are a characterisation of NB\'s hand-authoring, not a feature gap. Modes (light/dark/HC) and DTCG emit are also implemented.');
+p('**Engine status:** contrast-role-targeted L placement is implemented — the Mid-Tone 500 is placed at the dual-side AA luminance pivot, so all band contrast contracts pass. NB hand-authoring divergences are enumerated in `KNOWN_OUTLIERS` (each with a ceiling), so a NEW regression at those steps still fails the gate rather than being waved through as a "known kink". Modes (light/dark/HC) and DTCG emit are also implemented.');
 
 const reportPath = resolve(here, 'nb-regression-report.md');
 writeFileSync(reportPath, out.join('\n') + '\n');

@@ -133,7 +133,7 @@ const stripComment = (line: string): string => {
 };
 
 // --- block parser: indentation-driven recursive descent -----------------------
-type Line = { indent: number; content: string };
+type Line = { indent: number; content: string; src?: number };  // src = 1-based source line (for errors)
 const colonSplit = (s: string): number => {              // top-level `key:` colon (outside quotes/flow)
   let q = '', depth = 0;
   for (let i = 0; i < s.length; i++) {
@@ -183,7 +183,7 @@ const parseBlock = (lines: Line[]): Record<string, unknown> => {
         // remaining keys are deeper lines. Re-home the current line as the first
         // line of a mapping at a virtual indent, then let map() consume the rest.
         const virtual = indent + 2;
-        lines[pos] = { indent: virtual, content: after };
+        lines[pos] = { indent: virtual, content: after, src: lines[pos].src };
         a.push(map(virtual));
       } else if (after === '') {
         // `-` on its own line → the item is the nested block beneath it.
@@ -199,17 +199,26 @@ const parseBlock = (lines: Line[]): Record<string, unknown> => {
     return a;
   };
 
-  return map(lines.length ? lines[0].indent : 0);
+  const result = map(lines.length ? lines[0].indent : 0);
+  // CR-05: every line must be consumed. A misindented line (or a stray no-colon/prose line)
+  // ends the map/seq loop early — leaving it AND everything after it unparsed. Silently
+  // dropping a designer's lever is the worst failure here, so fail LOUD at the first orphan.
+  if (pos < lines.length) {
+    const bad = lines[pos];
+    throw new Error(`design.md: unparseable frontmatter at line ${bad.src ?? '?'} — "${bad.content}" (indent ${bad.indent}). This line's indentation doesn't fit its block, which would otherwise silently drop it and every line after it. Fix the indentation / structure.`);
+  }
+  return result;
 };
 
 /** Parse YAML-frontmatter source (no fences) into a plain object. */
 export const parseYamlSubset = (src: string): Record<string, unknown> => {
   const lines: Line[] = [];
-  for (const raw of src.split('\n')) {
-    const stripped = stripComment(raw);
+  const rawLines = src.split('\n');
+  for (let i = 0; i < rawLines.length; i++) {
+    const stripped = stripComment(rawLines[i]);
     if (stripped.trim() === '') continue;                  // blank / comment-only
     const indent = stripped.length - stripped.trimStart().length;
-    lines.push({ indent, content: stripped.slice(indent).trimEnd() });
+    lines.push({ indent, content: stripped.slice(indent).trimEnd(), src: i + 1 });
   }
   return lines.length ? parseBlock(lines) : {};
 };

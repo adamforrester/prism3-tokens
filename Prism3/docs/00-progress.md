@@ -54,6 +54,91 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
 
 ---
 
+- **Code-review fix CR-05 — design.md parser silently dropped misindented lines** (`design-md.ts`): the
+  YAML-subset parser's `map`/`seq` loops run `while lines[pos].indent === indent`, so a line whose indent
+  doesn't fit its block (one stray space) — or a no-colon/prose line (`if (ci < 0) break`) — ended the loop
+  early and left that line **and everything after it** unparsed, with **zero diagnostics**: a designer's
+  lever (or a whole trailing section) just vanished, and if the dropped key was optional the engine emitted
+  defaults silently. Fix: track a 1-based source line per `Line`, and after parsing **throw if any line was
+  left unconsumed**, naming the offending line number + content ("unparseable frontmatter at line N …").
+  Loud failure instead of silent drop. Verified: the finding's exact probes now throw — a `chroma:`
+  over-indented one space (drops `chroma` + trailing `radiusScale`) and a stray prose line (truncates the
+  rest) — while the correctly-indented equivalents still parse byte-identically. The web import already
+  try/catches `parseDesignMd`, so it now surfaces the error and keeps the working brand (better UX, no web
+  change). Gate: adversarial parser suite (over-indent / stray-line throw with a line number; valid parses
+  clean). test **368/368**, `out/*` byte-identical. **This clears the engine/web HIGH tier** (CR-01/03/04/
+  05/06/07); CR-08 + the emit-figma MEDs remain with the Figma-emitter agent.
+- **Code-review fix CR-04 — hand-rolled schema validator ignored keyword classes** (`emit-dtcg.ts`
+  + `theme-schema.json`): the validator (the boot check for the CLI *and* the sandbox hosts) had no
+  `boolean` branch (so `{type:boolean}` matched anything — incl. inside a `oneOf`, which is why
+  `gradients:"banana"` passed → `brandTheme` then crashed on `.map`), checked `enum` only under
+  `type:string` (numeric `titleFloor:[16,18]` unenforced), and never checked `minItems`/`maxItems`.
+  So `[schema] ✓ conforms` actively vouched for inputs the schema rejects. Fix: added `boolean` +
+  `integer` branches, moved `enum`/`const` to a **type-independent** check, added `minItems`/`maxItems`,
+  and a **loud-fail guard** — an unhandled `type` now throws instead of silently passing, so the
+  silent-ignore class can't recur. **The stricter validator immediately exposed a real schema↔engine
+  drift** (the finding's 2nd probe): `families.variable` was declared `boolean`, but the engine's
+  `BrandInput` accepts `boolean | Partial<Record<'display'|'text'|'mono', boolean>>` and **aurora uses
+  the per-face object** — so the schema was mis-describing the contract. Corrected the schema to the
+  real `oneOf[boolean, per-face-object]`; all three example brands conform again. Gate: adversarial
+  validator suite (`gradients:"banana"` / `titleFloor:17` / short `easingEmphasized` / `variable:"yes"`
+  all rejected; valid forms incl. the per-face object accepted). test **364/364**, `out/*`
+  byte-identical (validation-only; no token change). *A stronger validator also backstops CR-03/CR-05.*
+- **Code-review fix CR-06 — the NB regression can now fail** (`nb-regression.ts`): it was a pure report
+  generator — ΔE00 outliers, contract failures, and dimension mismatches rendered as ⚠️/❌ markdown rows and
+  it **always exited 0**, so a ramp-math regression shipped green (only a human reading the report noticed),
+  and its ≤3 verdict was a *mean-of-means* (a single ΔE-15 step hides under a good aggregate). Fix: a real
+  gate that sets `process.exitCode = 1` on any of — (1) a **per-step ΔE00 ceiling** (3.5 bar) with the NB
+  hand-nudges enumerated in a `KNOWN_OUTLIERS` allowlist (each with its own ceiling, so a *new* regression at
+  those steps still trips; replaces the static "known kink" prose that would have masked a fresh bug with the
+  same signature — finding (c)); (2) a **covered-count assertion** (20 steps/palette — a truncated/renamed
+  fixture → 0/0 NaN can no longer slip through — finding (a)); (3) any **contrast contract** fail; (4) any
+  **dimension** mismatch. Also hardened `specs[0]`/`specs[3]` → lookup-by-palette (L-12) so a spec-order
+  change can't point the contract gate at the wrong ramp. **Verified both directions:** current engine PASSES
+  (exit 0 — every step within ceiling, 4×20 covered, 11/11 contracts, 23/23 dims); a simulated regression
+  (amber.600 ceiling forced below its real 9.15) FAILS with exit 1 and a precise per-step message. test
+  355/355 (unaffected — test.ts doesn't run this), `out/*` byte-identical.
+- **Code-review fix CR-03 — brandColors palette-name guard (reserved / charset / duplicate)** (`theme.ts`):
+  brand-colour names were unvalidated, and the palette map is last-wins (`new Map(palettes)` /
+  `palette[name] = node`) — so a brandColor named `neutral`/`primary` silently **replaced** the engine
+  ramp the whole surface model builds on, a status name (`success`/`danger`) was itself replaced by the
+  later-pushed status ramp, and dotted/spaced/symbol names broke `{root.palette.…}` alias paths; contrast
+  picks then recomputed against the corrupted map and passed self-consistently (green gates, nonsense
+  output). Fix: `brandTheme()` now validates each `brandColors[].name` up front — rejects the 10 reserved
+  engine palette names (`primary`/`neutral`/`success`/`warning`/`info`/`danger`/`white`/`black`/
+  `*-alpha`), enforces the `^[a-z][a-z0-9-]*$` slug (also closes CR-07's XSS vector at the source — an
+  HTML-metachar name can't validate), and rejects duplicates. Matches the existing `root`/`actionPalette`
+  throw-at-boundary pattern, so the web import/rename path inherits it (rebuild fails → last-good kept).
+  Added a schema `pattern` on the name (belt-and-suspenders; enforced by `validateBrandInput`). Gate:
+  adversarial-name suite in the namespace block (reserved/dotted/spaced/symbol/duplicate all throw; a
+  valid slug is accepted; schema half agrees). Gates: test **355/355**, `out/*` byte-identical (aurora's
+  `accent` is valid — no valid brand changes), nb-regression clean. *L-06 (gradient names) is the adjacent
+  LOW finding — same class, left for its own pass.*
+- **Code-review fix CR-07 — web XSS: brand palette name reached `innerHTML`** (`web/src/main.ts:146`):
+  the ramp anchor label built its markup with `meta.innerHTML = \`anchor <b>${name}…\``, and `name` is a
+  brand-controlled `brandColors[].name` (pasted `design.md` / accent rename, no charset validation — CR-03).
+  A name like `x</b><img src=q onerror=…>` executed on the next ramp paint. Fix: build the label with
+  `el()`/`textContent` + a text node (the idiom the rest of the file already uses), never `innerHTML`.
+  **Verified headless:** added a 2nd accent named with a tag-breaking `<img onerror>` payload (so the theme
+  rebuilds cleanly), confirmed it reaches line 146 and renders as **literal text** — `<b>`.textContent is the
+  raw string, 0 `<img>` elements in the doc, `window.__xss` never set, no dialog. Web typecheck + build clean.
+  *Gate:* the honest gate is a headless web behavioural-smoke harness (gate blind-spot #8, also covers
+  M-15/16/17); the repo has no web test runner yet, so that harness is a separate infra task — noted, not
+  built here, to keep the fix surgical. The `readout.innerHTML` at `:283` is NOT a sink (`<input type=color>`
+  value is browser-constrained `#rrggbb`); `visualize.ts` `esc()` gaps are the separate LOW finding L-10.
+- **Code-review fix CR-01 — `contrast()` rounded before threshold comparison** (`color.ts` + emit
+  boundaries; first of the project code-review backlog in `docs/16-code-review-findings.md`):
+  `contrast()` did `Math.round(x*100)/100` *inside* the function, so every
+  WCAG pass/fail compared the rounded ratio — a role at raw 6.9948 read 7.00 and **false-passed** a
+  7:1 HC contract. Fix: `contrast()` returns the **raw** ratio; `ResolvedRole.ratio` holds raw (gates
+  now compare un-rounded); rounding moved to the emit boundaries only (`tree.ts` role `contrast`/
+  `contrastOnWhite`/gradient a11y, `ai-metadata.ts` `contrast_with`/gradient prose, `resolve-preview`
+  splits raw-for-pass from rounded-for-display). Caught real shipped false-passes: **harbor** `hc-light`
+  `success.700 @ 7.00` (raw 6.99) → corrected to `success.750 @ 8.43`; `on-success` cascaded 9.67→11.65.
+  NB roles unaffected → `nb.tokens.json` + emit-figma NB output **byte-identical**; aurora byte-identical
+  after the display-round fix. Added a regression gate (raw `#007ea1`/black = 4.4990 must read < 4.5;
+  `contrast()` must not be pre-rounded). Gates: test **349/349**, nb-regression clean, emit-dtcg 622/622
+  + 248/248, web typecheck clean. *One concern per PR + its gate, per the review's own guidance.*
 - **Project code review — findings documented, nothing fixed** (`docs/16-code-review-findings.md`,
   2026-07-03): full-codebase review (engine + web + regression harness), baseline green first
   (336/336, out/* byte-identical). 8 HIGH + 18 MEDIUM + 17 LOW findings, headline: `contrast()`
@@ -232,8 +317,8 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
   contracts the surfaces render from.
 - **`design.md` interchange + CLI** (dual-dialect) + the colour-role classifier + fidelity report.
 
-Engine gates as of 2026-07-04: `test.ts` **384/384** (240 colour + 25 typography + 8 namespace + 16 dims + 14 shadow/gradient + 4 pin-a-neutral + 5 design.md-round-trip + 19 mode-config/wireframe + 13 emit-figma-layout + 3 dim-overrides + 10 emit-figma-mode-opt-out + 27 emit-figma-generalise);
-`emit-dtcg` 248/248 contracts per brand; `nb-regression` ΔE00 1.95. The snapshot below is the
+Engine gates as of 2026-07-04: `test.ts` **405/405** (240 colour + 25 typography + 8 namespace + 16 dims + 14 shadow/gradient + 4 pin-a-neutral + 5 design.md-round-trip + 19 mode-config/wireframe + 13 emit-figma-layout + 3 dim-overrides + 10 emit-figma-mode-opt-out + 27 emit-figma-generalise + 21 code-review-HIGH-fixes CR-01/03/04/05);
+`emit-dtcg` 248/248 contracts per brand; `nb-regression` now a real gate (per-step ΔE ceilings + KNOWN_OUTLIERS, exits 1 on a fidelity regression — CR-06). The snapshot below is the
 2026-07-01 token-layer baseline.
 
 ## Current status (2026-07-01)

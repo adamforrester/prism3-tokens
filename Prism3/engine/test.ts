@@ -54,6 +54,14 @@ ok(approx(contrast(WHITE, BLACK), 21, 0.05), `contrast(white,black)=${contrast(W
 ok(approx(contrast(WHITE, WHITE), 1, 0.001), 'contrast(white,white)=1');
 ok(approx(contrast({ r: 80, g: 80, b: 80 }, WHITE), contrast(WHITE, { r: 80, g: 80, b: 80 }), 1e-9), 'contrast symmetric');
 ok(contrast({ r: 117, g: 117, b: 117 }, WHITE) >= 4.4 && contrast({ r: 117, g: 117, b: 117 }, WHITE) <= 4.7, 'contrast grey/white ≈ 4.5 (AA pivot)');
+// CR-01 regression: contrast() must return the RAW ratio so a pass/fail test is WCAG-correct.
+// #007ea1 on black measures 4.4990 — it must read BELOW 4.5 (a genuine AA fail), not round up
+// to a false pass. Guards against re-introducing a round() inside contrast().
+{
+  const marginal = contrast(hexToRgb('#007ea1'), BLACK);
+  ok(marginal < 4.5 && marginal > 4.49, `contrast() raw: #007ea1/black = ${marginal.toFixed(5)} < 4.5 (no round-up false AA pass)`);
+  ok(marginal !== Math.round(marginal * 100) / 100, 'contrast() returns un-rounded ratio (not pre-rounded to 2dp)');
+}
 
 // relative luminance bounds
 ok(approx(luminance(WHITE), 1, 1e-6), 'luminance(white)=1');
@@ -370,6 +378,18 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   ok(Array.isArray(y.brandColors) && y.brandColors.length === 1 && y.brandColors[0].name === 'accent' && y.brandColors[0].oklch.h === 235,
     'parser: block sequence of maps + nested flow map');
   ok(y.nested && y.nested.a === 1 && y.nested.b === 'two words', 'parser: nested block map + multi-word bare string');
+
+  // CR-05: a misindented line (or a stray no-colon/prose line) used to end the block loop
+  // early and SILENTLY drop that line + everything after it. Now every line must be consumed
+  // or the parser throws with the offending line number — a designer's lever can't vanish.
+  const threwOn = (s: string) => { try { parseYamlSubset(s); return false; } catch { return true; } };
+  ok(threwOn('id: x\nneutral:\n  hue: 200\n   chroma: 0.01\nradiusScale: 1'), 'CR-05: a key over-indented by one space throws (not silently dropped with the rest)');
+  ok(threwOn('id: x\nstray prose line\nneutral:\n  hue: 200'), 'CR-05: a stray no-colon line inside frontmatter throws (does not truncate the rest)');
+  ok(!threwOn('id: x\nneutral:\n  hue: 200\n  chroma: 0.01\nradiusScale: 1'), 'CR-05: correctly-indented equivalent still parses clean');
+  // the error names the offending source line (actionable)
+  let msg = '';
+  try { parseYamlSubset('id: x\nneutral:\n  hue: 200\n   chroma: 0.01'); } catch (e) { msg = (e as Error).message; }
+  ok(/line 4/.test(msg) && /chroma/.test(msg), 'CR-05: the error points at the offending line (number + content)');
 }
 // (2) parseDesignMd — frontmatter/prose split; a missing fence is an error.
 {
@@ -988,6 +1008,38 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   // schema half agrees: accepts a clean root, rejects a dotted one
   ok(validateBrandInput({ ...input, root: 'acme' }).length === 0, 'namespace: schema accepts a single-segment root');
   ok(validateBrandInput({ ...input, root: 'ac.me' }).length > 0, 'namespace: schema rejects a dotted root');
+
+  // CR-03: brand-colour names are validated at the engine boundary. A last-wins palette map
+  // means a name colliding with an engine ramp (neutral/primary/status) or a duplicate would
+  // silently corrupt output with green gates — so reserved / bad-charset / duplicate all throw.
+  // (aurora's gradient references its 'accent' brandColor, so drop both here to isolate the name guard)
+  const bc = (name: string) => ({ ...input, actionPalette: 'primary', gradients: [], brandColors: [{ name, oklch: { l: 0.55, c: 0.15, h: 235 } }] });
+  const rejects = (name: string) => { try { brandTheme(bc(name)); return false; } catch { return true; } };
+  ok(brandTheme(bc('brand-blue')).palettes.some((p) => p.palette === 'brand-blue'), 'CR-03: a valid slug brand-colour name is accepted');
+  ok(rejects('neutral') && rejects('primary'), 'CR-03: a brand colour named after an engine ramp (neutral/primary) throws (would hijack it)');
+  ok(rejects('success') && rejects('white'), 'CR-03: a brand colour named after a reserved palette (status / base swatch) throws');
+  ok(rejects('my.accent') && rejects('brand blue') && rejects('<img>'), 'CR-03: dotted / spaced / symbol brand-colour names throw (alias-path + XSS charset guard)');
+  let dupThrew = false;
+  try { brandTheme({ ...input, actionPalette: 'primary', gradients: [], brandColors: [{ name: 'twin', oklch: { l: 0.5, c: 0.1, h: 10 } }, { name: 'twin', oklch: { l: 0.6, c: 0.1, h: 200 } }] }); } catch { dupThrew = true; }
+  ok(dupThrew, 'CR-03: duplicate brand-colour names throw');
+  ok(validateBrandInput(bc('brand-blue')).length === 0 && validateBrandInput(bc('my.accent')).length > 0, 'CR-03: schema pattern accepts a slug, rejects a dotted brand-colour name');
+
+  // CR-04: the hand-rolled validator must enforce keyword classes it used to ignore — else
+  // `[schema] ✓ conforms` vouches for inputs brandTheme then crashes on / mis-emits. Baseline:
+  // aurora conforms (its `variable` is a per-face object — the schema now describes boolean|object).
+  ok(validateBrandInput(input).length === 0, 'CR-04: a valid brand (aurora) conforms');
+  // boolean branch (via gradients oneOf: [boolean, array]) — the headline probe.
+  ok(validateBrandInput({ ...input, gradients: 'banana' as any }).length > 0, 'CR-04: gradients:"banana" rejected (no boolean branch used to let it match the oneOf)');
+  ok(validateBrandInput({ ...input, gradients: true as any }).length === 0, 'CR-04: gradients:true still accepted (valid boolean)');
+  // numeric enum (was only checked under type:string)
+  ok(validateBrandInput({ ...input, typography: { ...(input.typography ?? {}), titleFloor: 17 } as any }).length > 0, 'CR-04: titleFloor:17 rejected (numeric enum [16,18] now enforced)');
+  ok(validateBrandInput({ ...input, typography: { ...(input.typography ?? {}), titleFloor: 18 } as any }).length === 0, 'CR-04: titleFloor:18 accepted (in enum)');
+  // minItems / maxItems (never checked before)
+  ok(validateBrandInput({ ...input, motionPersonality: { easingEmphasized: [0.2, 0] } as any }).length > 0, 'CR-04: easingEmphasized [0.2,0] rejected (minItems 4)');
+  ok(validateBrandInput({ ...input, motionPersonality: { easingEmphasized: [0.2, 0, 0.4, 1] } as any }).length === 0, 'CR-04: a 4-length easing accepted');
+  // families.variable is boolean|per-face-object — a string matches neither
+  ok(validateBrandInput({ ...input, typography: { families: { variable: 'yes' } } as any }).length > 0, 'CR-04: families.variable:"yes" rejected (boolean|object, not string)');
+  ok(validateBrandInput({ ...input, typography: { families: { variable: { display: true } } } as any }).length === 0, 'CR-04: families.variable per-face object accepted');
 }
 
 // (16) PIN-A-NEUTRAL (docs/00 "pin-a-neutral") — a brand that ships a pre-defined grey sets

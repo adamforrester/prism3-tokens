@@ -3277,8 +3277,8 @@
                   "min": 4.5
                 },
                 "hc-light": {
-                  "$value": "{prism.palette.success.700}",
-                  "contrast": 7,
+                  "$value": "{prism.palette.success.750}",
+                  "contrast": 8.43,
                   "against": "neutral.100",
                   "min": 7
                 },
@@ -4355,8 +4355,8 @@
                   "min": 4.5
                 },
                 "hc-light": {
-                  "$value": "{prism.palette.success.700}",
-                  "contrast": 7,
+                  "$value": "{prism.palette.success.750}",
+                  "contrast": 8.43,
                   "against": "neutral.100",
                   "min": 7
                 },
@@ -4820,7 +4820,7 @@
                 },
                 "hc-light": {
                   "$value": "{prism.palette.white}",
-                  "contrast": 9.67,
+                  "contrast": 11.65,
                   "against": "foreground.success",
                   "min": 4.5
                 },
@@ -5483,8 +5483,8 @@
                   "min": 4.5
                 },
                 "hc-light": {
-                  "$value": "{prism.palette.success.700}",
-                  "contrast": 7,
+                  "$value": "{prism.palette.success.750}",
+                  "contrast": 8.43,
                   "against": "neutral.100",
                   "min": 7
                 },
@@ -5948,7 +5948,7 @@
                 },
                 "hc-light": {
                   "$value": "{prism.palette.white}",
-                  "contrast": 9.67,
+                  "contrast": 11.65,
                   "against": "foreground.success",
                   "min": 4.5
                 },

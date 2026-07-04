@@ -45,7 +45,7 @@
         "additionalProperties": false,
         "required": ["name", "oklch"],
         "properties": {
-          "name": { "type": "string", "description": "Palette name (e.g. 'accent')." },
+          "name": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$", "description": "Palette name — a single lowercase slug (e.g. 'accent', 'brand-blue'). Must NOT be an engine-generated palette name (primary/neutral/success/warning/info/danger/white/black/black-alpha/white-alpha) or a duplicate; brandTheme() rejects those. No dots/spaces/symbols (it becomes an alias path segment)." },
           "oklch": { "$ref": "#/$defs/oklch" }
         }
       }
@@ -123,7 +123,7 @@
             "display": { "oneOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }], "description": "Display/hero face (defaults to the text face if omitted)." },
             "text": { "oneOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }], "description": "Body/UI workhorse face." },
             "mono": { "oneOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }], "description": "Monospace/code face." },
-            "variable": { "type": "boolean", "default": false, "description": "Whether the faces are variable fonts." }
+            "variable": { "oneOf": [{ "type": "boolean" }, { "type": "object", "additionalProperties": false, "properties": { "display": { "type": "boolean" }, "text": { "type": "boolean" }, "mono": { "type": "boolean" } } }], "default": false, "description": "Variable-font usage. A single boolean applies to all faces; a per-face object (e.g. { display: true, text: true }) flags each of display/text/mono independently (engine BrandInput: boolean | Partial<Record<'display'|'text'|'mono', boolean>>)." }
           }
         },
         "weightRoles": {

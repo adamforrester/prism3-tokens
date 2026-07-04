@@ -1161,7 +1161,7 @@ Palettes: primary, neutral, success, warning, info, danger. Danger draws from `d
 | foreground.inverse.secondary | black | — | — | · |
 | foreground.inverse.tertiary | black | — | — | · |
 | foreground.brand | primary.700 | 7.21 | 7 | ✅ |
-| foreground.success | success.700 | 7.00 | 7 | ✅ |
+| foreground.success | success.750 | 8.43 | 7 | ✅ |
 | foreground.warning | warning.700 | 7.12 | 7 | ✅ |
 | foreground.info | info.700 | 7.08 | 7 | ✅ |
 | foreground.brand-subtle | primary.100 | — | — | · |
@@ -1186,7 +1186,7 @@ Palettes: primary, neutral, success, warning, info, danger. Danger draws from `d
 | text.tertiary | neutral.600 | 4.88 | 4.5 | ✅ |
 | text.disabled | neutral.600 | 4.88 | 4.5 | ✅ |
 | text.brand | primary.700 | 7.21 | 7 | ✅ |
-| text.success | success.700 | 7.00 | 7 | ✅ |
+| text.success | success.750 | 8.43 | 7 | ✅ |
 | text.warning | warning.700 | 7.12 | 7 | ✅ |
 | text.danger | danger.700 | 7.24 | 7 | ✅ |
 | text.info | info.700 | 7.08 | 7 | ✅ |
@@ -1197,7 +1197,7 @@ Palettes: primary, neutral, success, warning, info, danger. Danger draws from `d
 | text.info-subtle | info.450 | — | — | · |
 | text.on-action | white | 9.96 | 4.5 | ✅ |
 | text.on-brand | white | 9.96 | 4.5 | ✅ |
-| text.on-success | white | 9.67 | 4.5 | ✅ |
+| text.on-success | white | 11.65 | 4.5 | ✅ |
 | text.on-warning | white | 9.84 | 4.5 | ✅ |
 | text.on-danger | white | 10.01 | 4.5 | ✅ |
 | text.on-info | white | 9.78 | 4.5 | ✅ |
@@ -1212,7 +1212,7 @@ Palettes: primary, neutral, success, warning, info, danger. Danger draws from `d
 | icon.tertiary | neutral.600 | 4.88 | 4.5 | ✅ |
 | icon.disabled | neutral.600 | 4.88 | 4.5 | ✅ |
 | icon.brand | primary.700 | 7.21 | 7 | ✅ |
-| icon.success | success.700 | 7.00 | 7 | ✅ |
+| icon.success | success.750 | 8.43 | 7 | ✅ |
 | icon.warning | warning.700 | 7.12 | 7 | ✅ |
 | icon.danger | danger.700 | 7.24 | 7 | ✅ |
 | icon.info | info.700 | 7.08 | 7 | ✅ |
@@ -1223,7 +1223,7 @@ Palettes: primary, neutral, success, warning, info, danger. Danger draws from `d
 | icon.info-subtle | info.450 | — | — | · |
 | icon.on-action | white | 9.96 | 4.5 | ✅ |
 | icon.on-brand | white | 9.96 | 4.5 | ✅ |
-| icon.on-success | white | 9.67 | 4.5 | ✅ |
+| icon.on-success | white | 11.65 | 4.5 | ✅ |
 | icon.on-warning | white | 9.84 | 4.5 | ✅ |
 | icon.on-danger | white | 10.01 | 4.5 | ✅ |
 | icon.on-info | white | 9.78 | 4.5 | ✅ |
