@@ -54,6 +54,20 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
 
 ---
 
+- **Code-review fix CR-06 — the NB regression can now fail** (`nb-regression.ts`): it was a pure report
+  generator — ΔE00 outliers, contract failures, and dimension mismatches rendered as ⚠️/❌ markdown rows and
+  it **always exited 0**, so a ramp-math regression shipped green (only a human reading the report noticed),
+  and its ≤3 verdict was a *mean-of-means* (a single ΔE-15 step hides under a good aggregate). Fix: a real
+  gate that sets `process.exitCode = 1` on any of — (1) a **per-step ΔE00 ceiling** (3.5 bar) with the NB
+  hand-nudges enumerated in a `KNOWN_OUTLIERS` allowlist (each with its own ceiling, so a *new* regression at
+  those steps still trips; replaces the static "known kink" prose that would have masked a fresh bug with the
+  same signature — finding (c)); (2) a **covered-count assertion** (20 steps/palette — a truncated/renamed
+  fixture → 0/0 NaN can no longer slip through — finding (a)); (3) any **contrast contract** fail; (4) any
+  **dimension** mismatch. Also hardened `specs[0]`/`specs[3]` → lookup-by-palette (L-12) so a spec-order
+  change can't point the contract gate at the wrong ramp. **Verified both directions:** current engine PASSES
+  (exit 0 — every step within ceiling, 4×20 covered, 11/11 contracts, 23/23 dims); a simulated regression
+  (amber.600 ceiling forced below its real 9.15) FAILS with exit 1 and a precise per-step message. test
+  355/355 (unaffected — test.ts doesn't run this), `out/*` byte-identical.
 - **Code-review fix CR-03 — brandColors palette-name guard (reserved / charset / duplicate)** (`theme.ts`):
   brand-colour names were unvalidated, and the palette map is last-wins (`new Map(palettes)` /
   `palette[name] = node`) — so a brandColor named `neutral`/`primary` silently **replaced** the engine
