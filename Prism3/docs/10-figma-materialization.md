@@ -255,10 +255,23 @@ border-width). The **4** uncovered — `motion`, `breakpoint`, `grid`, `containe
    No example brand opts into wireframe today, so gated against a SYNTHETIC
    wireframe-enabled brand (same pattern as blocks 18 + 20 — `brandTheme({ …input,
    modes: [..., 'wireframe'] })`). 16 new gates → `test.ts` **400/400 total**. Default
-   four-mode `out/figma/*` byte-identical (regenerated + verified). Materialise-to-verify
-   in Figma via the MCP is parked with the aurora + wendys materialisation follow-up
-   (figma-console MCP was disconnected on 2026-07-03). Once shipped, the
-   [Figma-emitter] queue's only remaining spec item is **motion**, still deferred.
+   four-mode `out/figma/*` byte-identical (regenerated + verified).
+   **Materialise-to-verify — ✅ DONE (2026-07-04):** the wireframe axis was
+   materialised into a live Figma file via the MCP on the specimen slice used
+   by the greyscale contract (7 palette primitives + 6 role vars × 2 modes +
+   5 radius vars × 2 modes, namespaced `wireframe-demo/*` in the Prism3 Test
+   File). A two-column specimen frame flips the SAME layer tree between the
+   `light`/`Default` and `wireframe`/`wireframe` modes via
+   `setExplicitVariableModeForCollection`: `color/foreground/brand` flips
+   `palette/primary/550` (violet) → `palette/neutral/600` (grey);
+   `color/action/default` flips `palette/accent/600` (azure) →
+   `palette/neutral/600`; every non-zero radius (`sm`/`md`/`lg`/`round`) flips
+   its bound `dimension/N` alias → `dimension/0` so corners square off.
+   Screenshot at `Prism3/docs/assets/wireframe-specimen.png`. The parked
+   **aurora + wendys full-materialise** follow-up from #50 remains open (its
+   own PR — end-to-end variable-artefact import for both brands, not just the
+   wireframe subset). Once that lands, the [Figma-emitter] queue's only
+   remaining spec item is **motion**, still deferred.
 1. **Typography — ✅ DONE (2026-07-02, #31).** `font` (38) + `font-fluid` (10 × mobile/desktop)
    byte-reproduce the fixtures; 36 text styles apply the six §4 fixes and gate against the
    corrected expectation (not the pre-fix `text-styles.json` snapshot). `tree.ts` LH/LS
