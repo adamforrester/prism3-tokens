@@ -53,6 +53,21 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
 
 ---
 
+- **Code-review fixes M-05/M-06 — theme-layer semantics** (`theme.ts`, `docs/16` MED tier): two
+  brand-semantic defects in the danger/action carve. **M-05** — `inRedTerritory` was hue-only, so a
+  warm greige primary (`c:0.03, h:30`) counted as "red" and `danger` reused the near-grey primary ramp
+  → destructive signalling collapsed to a near-neutral (and `h:47` vs `h:47.5` flipped the strategy with
+  no note). Fix: `inRedTerritory(hue, chroma)` now also requires `chroma ≥ RED_CHROMA_FLOOR (0.08)` — a
+  red-ish-but-desaturated primary carves a real saturated red; the two carve reasons + a knife-edge
+  boundary note are logged. **M-06** — `roleAnchorStep.action` was `primary ? anchorStep : 500`, so a
+  non-primary `actionPalette` (a named accent) got the hardcoded 500 pivot, never its own pinned shade,
+  while `nbTheme` anchors action at 550 (its accent step) — the white-label path diverged from the
+  regression's own semantics. Fix: a brandColor `actionPalette` anchors the action at that accent's own
+  step (`autoPlaceStep` of its L); `pickBrand` still nudges to clear AA, so a11y is preserved. Investigated
+  the finding's "needs an owner ruling" flag → **byte-identical for committed brand colours** (aurora's
+  accent coincidentally pins at 500; only decisions notes added), no a11y downside, aligns the engine with
+  itself — a strict improvement, applied. Gates: test **439/439**, nb-regression exit 0, `out/*` colours
+  byte-identical.
 - **Code-review fixes M-01/02/03 — adversarial-anchor ramp hardening** (`ramp.ts`/`theme.ts`,
   `docs/16` MED tier): three ramp-generation edge cases where a pathological anchor produced silent
   garbage. **M-01** — `chromaForL` divided by `(lMax−peakL)`/`(peakL−lMin)`; an anchor L at lMax pinned
