@@ -97,6 +97,15 @@ ok(autoPlaceStep(0.9) < autoPlaceStep(0.3), 'autoPlaceStep: lighter < darker');
   ok(hexOk(generateRamp({ hue: 285, chroma: 0.18, anchor: { oklch: { l: 0.975, c: 0.1, h: 285 }, stepNum: 500 } })), 'M-01: anchor L at lMax (mismatched step) — no NaN hex');
   ok(hexOk(generateRamp({ hue: 285, chroma: 0.18, anchor: { oklch: { l: 0.16, c: 0.05, h: 285 }, stepNum: 500 } })), 'M-01: anchor L at lMin (mismatched step) — no NaN hex');
   ok(hexOk(generateRamp({ hue: 145, chroma: 0.3, peakL: 0.9 })), 'M-01: unanchored vivid arc — no NaN hex');
+
+  // M-02: a pinned anchor whose lightness disagrees with its step position used to leave the
+  // ramp non-monotonic (a later step lighter than an earlier one — mode pickers misread it).
+  // Now it throws; a consistent anchor stays strictly light→dark.
+  const monotonic = (r: ReturnType<typeof generateRamp>) => r.every((s, i) => i === 0 || s.oklch.l <= r[i - 1].oklch.l + 1e-9);
+  ok(monotonic(ramp), 'M-02: a consistent ramp is monotonic non-increasing in L');
+  let m2 = false;
+  try { generateRamp({ hue: 285, chroma: 0.18, anchor: { oklch: { l: 0.985, c: 0.1, h: 285 }, stepNum: 50 } }); } catch { m2 = true; }
+  ok(m2, 'M-02: an anchor L that inverts the light→dark order throws (not a silent broken ramp)');
 }
 
 // ------------------------------------------------ extreme white-label brands

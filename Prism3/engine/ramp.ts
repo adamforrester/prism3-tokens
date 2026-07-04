@@ -159,7 +159,7 @@ export const generateRamp = (opts: RampOpts): Step[] => {
   }
   const Ls = lCurve(sorted, n);
 
-  return STEP_NUMS.map((num, i) => {
+  const steps = STEP_NUMS.map((num, i) => {
     let L = Ls[i], C: number, H: number;
     if (i === ai) {
       L = anchor!.oklch.l; C = anchor!.oklch.c; H = anchor!.oklch.h; // anchor exact
@@ -170,4 +170,14 @@ export const generateRamp = (opts: RampOpts): Step[] => {
     const rgb = oklchToRgb(o);
     return { num, key: stepKey(num), oklch: o, rgb, hex: hex(rgb), band: bandOf(num) };
   });
+  // M-02: the anchor L is written verbatim AFTER the knot monotonic-clamp, so an anchor whose
+  // lightness disagrees with its step position leaves the ramp non-monotonic (a later step
+  // lighter than an earlier one). The mode pickers assume number↔lightness ordering and would
+  // silently misread it — fail loud instead. (A consistent anchor, e.g. from autoPlaceStep as
+  // brandTheme uses, never trips this.)
+  for (let i = 1; i < steps.length; i++) {
+    if (steps[i].oklch.l > steps[i - 1].oklch.l + 1e-9)
+      throw new Error(`ramp: non-monotonic lightness — step ${steps[i].key} (L ${steps[i].oklch.l.toFixed(3)}) is lighter than ${steps[i - 1].key} (L ${steps[i - 1].oklch.l.toFixed(3)}). A pinned anchor's lightness disagrees with its step position; place the anchor at the step matching its L (autoPlaceStep).`);
+  }
+  return steps;
 };
