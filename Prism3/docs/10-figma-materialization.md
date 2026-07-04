@@ -246,7 +246,7 @@ border-width). The **4** uncovered — `motion`, `breakpoint`, `grid`, `containe
    gates. Materialised via MCP: 14 Effect Styles on a two-row (light/dark) specimen; 2 Paint
    Styles as violet-azure + violet-glow swatches (demo hex; aurora palette import lands with
    the generalise pass for the alias-driven form).
-4. **★ NEXT — Layout: `breakpoint` + `grid` + `container`.** The DTCG tree already carries
+4. **✅ DONE (2026-07-03, #46) — Layout: `breakpoint` + `grid` + `container`.** The DTCG tree already carries
    explicit Figma directives on every `grid.*` leaf: `figma.collection: 'layout', mode: <bp>`.
    That prescribes the target — **one `layout` variable collection with breakpoint modes**
    (`sm`/`md`/`lg`/`xl`/`2xl`), each mode carrying `grid/columns` (FLOAT, 4/8/12/12/12),
@@ -267,10 +267,18 @@ border-width). The **4** uncovered — `motion`, `breakpoint`, `grid`, `containe
    representation** — they emit into descriptions or a `motion-styles.json` companion (like
    `shadow-styles.json`) as reference metadata, not bindable primitives. Verify current
    Figma Plugin API surfaces `TIME` scope before implementing; if not landed yet, defer.
-6. **Generalise** — emit aurora + wendys too (prove brand-agnostic). No fixtures for those,
-   so gate on structural validity (aliases resolve, scopes present) + **materialise-to-verify**
-   in Figma. This is where the alias-driven aurora gradient form actually renders (aurora's
-   palette imported alongside).
+   **⏸ DEFERRED (2026-07-04, #50): probed the Plugin API — `TIME` is not in the FLOAT-var
+   scope enum yet (only `ALL_SCOPES`/`CORNER_RADIUS`/`WIDTH_HEIGHT`/`GAP`/… surfaced; `TIME`
+   rejected). Defer per the rule above; revisit when the scope lands.**
+6. **✅ DONE (2026-07-04, #50) — Generalise** — emit aurora + wendys too (prove brand-agnostic).
+   No fixtures for those, so gated on structural validity (every axis emits the right shape;
+   every colour/dims/layout alias resolves *within each brand*; no namespace leakage — `figName`
+   strips whichever root the brand carries). All three brands (nb fixture / aurora engine-native /
+   wendys STANDARD-dialect) compile through the same shell with no new adapter code. **The
+   alias-driven aurora gradient Paint Style now lands** — `gradient/brand → palette/primary/600` +
+   `palette/accent/500`, `gradient/glow → accent/400` + `accent/700`, every stop resolving to a
+   colour leaf in aurora's own tree. **Materialise-to-verify (aurora + wendys into Figma via MCP)
+   remains the one open follow-up** — deferred because the Figma MCP was disconnected mid-session.
 
 **Follow-up parked from typography (2026-07-02):** §4 fix 3b full form — ship a
 `font-tracking` FLOAT variable collection (6 tokens: tighter/tight/snug/normal/wide/wider,

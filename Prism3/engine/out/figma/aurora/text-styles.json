@@ -1,0 +1,1755 @@
+{
+  "$collection": "text-styles",
+  "styles": [
+    {
+      "name": "display/sm/strong",
+      "description": "display sm strong",
+      "properties": {
+        "fontFamily": {
+          "bound": true,
+          "variable": "font/family/display",
+          "collection": "font",
+          "resolvedType": "STRING"
+        },
+        "fontStyle": {
+          "bound": false,
+          "value": "Bold"
+        },
+        "fontSize": {
+          "bound": true,
+          "variable": "font-fluid/display/sm/strong",
+          "collection": "font-fluid",
+          "resolvedType": "FLOAT"
+        },
+        "fontWeight": {
+          "bound": true,
+          "variable": "font/weight-role/strong",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "lineHeight": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 105
+          }
+        },
+        "letterSpacing": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": -2
+          }
+        },
+        "textCase": {
+          "bindable": false,
+          "value": "ORIGINAL"
+        },
+        "textDecoration": {
+          "bindable": false,
+          "value": "NONE"
+        }
+      }
+    },
+    {
+      "name": "display/md/strong",
+      "description": "display md strong",
+      "properties": {
+        "fontFamily": {
+          "bound": true,
+          "variable": "font/family/display",
+          "collection": "font",
+          "resolvedType": "STRING"
+        },
+        "fontStyle": {
+          "bound": false,
+          "value": "Bold"
+        },
+        "fontSize": {
+          "bound": true,
+          "variable": "font-fluid/display/md/strong",
+          "collection": "font-fluid",
+          "resolvedType": "FLOAT"
+        },
+        "fontWeight": {
+          "bound": true,
+          "variable": "font/weight-role/strong",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "lineHeight": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 105
+          }
+        },
+        "letterSpacing": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": -2
+          }
+        },
+        "textCase": {
+          "bindable": false,
+          "value": "ORIGINAL"
+        },
+        "textDecoration": {
+          "bindable": false,
+          "value": "NONE"
+        }
+      }
+    },
+    {
+      "name": "display/lg/strong",
+      "description": "display lg strong",
+      "properties": {
+        "fontFamily": {
+          "bound": true,
+          "variable": "font/family/display",
+          "collection": "font",
+          "resolvedType": "STRING"
+        },
+        "fontStyle": {
+          "bound": false,
+          "value": "Bold"
+        },
+        "fontSize": {
+          "bound": true,
+          "variable": "font-fluid/display/lg/strong",
+          "collection": "font-fluid",
+          "resolvedType": "FLOAT"
+        },
+        "fontWeight": {
+          "bound": true,
+          "variable": "font/weight-role/strong",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "lineHeight": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 105
+          }
+        },
+        "letterSpacing": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": -3
+          }
+        },
+        "textCase": {
+          "bindable": false,
+          "value": "ORIGINAL"
+        },
+        "textDecoration": {
+          "bindable": false,
+          "value": "NONE"
+        }
+      }
+    },
+    {
+      "name": "display/xl/strong",
+      "description": "display xl strong",
+      "properties": {
+        "fontFamily": {
+          "bound": true,
+          "variable": "font/family/display",
+          "collection": "font",
+          "resolvedType": "STRING"
+        },
+        "fontStyle": {
+          "bound": false,
+          "value": "Bold"
+        },
+        "fontSize": {
+          "bound": true,
+          "variable": "font-fluid/display/xl/strong",
+          "collection": "font-fluid",
+          "resolvedType": "FLOAT"
+        },
+        "fontWeight": {
+          "bound": true,
+          "variable": "font/weight-role/strong",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "lineHeight": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 105
+          }
+        },
+        "letterSpacing": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": -3
+          }
+        },
+        "textCase": {
+          "bindable": false,
+          "value": "ORIGINAL"
+        },
+        "textDecoration": {
+          "bindable": false,
+          "value": "NONE"
+        }
+      }
+    },
+    {
+      "name": "title/2xs/strong",
+      "description": "title 2xs strong",
+      "properties": {
+        "fontFamily": {
+          "bound": true,
+          "variable": "font/family/display",
+          "collection": "font",
+          "resolvedType": "STRING"
+        },
+        "fontStyle": {
+          "bound": false,
+          "value": "Bold"
+        },
+        "fontSize": {
+          "bound": true,
+          "variable": "font/size/16",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "fontWeight": {
+          "bound": true,
+          "variable": "font/weight-role/strong",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "lineHeight": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 125
+          }
+        },
+        "letterSpacing": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": -1
+          }
+        },
+        "textCase": {
+          "bindable": false,
+          "value": "ORIGINAL"
+        },
+        "textDecoration": {
+          "bindable": false,
+          "value": "NONE"
+        }
+      }
+    },
+    {
+      "name": "title/xs/strong",
+      "description": "title xs strong",
+      "properties": {
+        "fontFamily": {
+          "bound": true,
+          "variable": "font/family/display",
+          "collection": "font",
+          "resolvedType": "STRING"
+        },
+        "fontStyle": {
+          "bound": false,
+          "value": "Bold"
+        },
+        "fontSize": {
+          "bound": true,
+          "variable": "font/size/20",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "fontWeight": {
+          "bound": true,
+          "variable": "font/weight-role/strong",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "lineHeight": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 125
+          }
+        },
+        "letterSpacing": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": -1
+          }
+        },
+        "textCase": {
+          "bindable": false,
+          "value": "ORIGINAL"
+        },
+        "textDecoration": {
+          "bindable": false,
+          "value": "NONE"
+        }
+      }
+    },
+    {
+      "name": "title/sm/strong",
+      "description": "title sm strong",
+      "properties": {
+        "fontFamily": {
+          "bound": true,
+          "variable": "font/family/display",
+          "collection": "font",
+          "resolvedType": "STRING"
+        },
+        "fontStyle": {
+          "bound": false,
+          "value": "Bold"
+        },
+        "fontSize": {
+          "bound": true,
+          "variable": "font-fluid/title/sm/strong",
+          "collection": "font-fluid",
+          "resolvedType": "FLOAT"
+        },
+        "fontWeight": {
+          "bound": true,
+          "variable": "font/weight-role/strong",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "lineHeight": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 125
+          }
+        },
+        "letterSpacing": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": -1
+          }
+        },
+        "textCase": {
+          "bindable": false,
+          "value": "ORIGINAL"
+        },
+        "textDecoration": {
+          "bindable": false,
+          "value": "NONE"
+        }
+      }
+    },
+    {
+      "name": "title/md/strong",
+      "description": "title md strong",
+      "properties": {
+        "fontFamily": {
+          "bound": true,
+          "variable": "font/family/display",
+          "collection": "font",
+          "resolvedType": "STRING"
+        },
+        "fontStyle": {
+          "bound": false,
+          "value": "Bold"
+        },
+        "fontSize": {
+          "bound": true,
+          "variable": "font-fluid/title/md/strong",
+          "collection": "font-fluid",
+          "resolvedType": "FLOAT"
+        },
+        "fontWeight": {
+          "bound": true,
+          "variable": "font/weight-role/strong",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "lineHeight": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 115
+          }
+        },
+        "letterSpacing": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": -1
+          }
+        },
+        "textCase": {
+          "bindable": false,
+          "value": "ORIGINAL"
+        },
+        "textDecoration": {
+          "bindable": false,
+          "value": "NONE"
+        }
+      }
+    },
+    {
+      "name": "title/lg/strong",
+      "description": "title lg strong",
+      "properties": {
+        "fontFamily": {
+          "bound": true,
+          "variable": "font/family/display",
+          "collection": "font",
+          "resolvedType": "STRING"
+        },
+        "fontStyle": {
+          "bound": false,
+          "value": "Bold"
+        },
+        "fontSize": {
+          "bound": true,
+          "variable": "font-fluid/title/lg/strong",
+          "collection": "font-fluid",
+          "resolvedType": "FLOAT"
+        },
+        "fontWeight": {
+          "bound": true,
+          "variable": "font/weight-role/strong",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "lineHeight": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 115
+          }
+        },
+        "letterSpacing": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": -1
+          }
+        },
+        "textCase": {
+          "bindable": false,
+          "value": "ORIGINAL"
+        },
+        "textDecoration": {
+          "bindable": false,
+          "value": "NONE"
+        }
+      }
+    },
+    {
+      "name": "title/xl/strong",
+      "description": "title xl strong",
+      "properties": {
+        "fontFamily": {
+          "bound": true,
+          "variable": "font/family/display",
+          "collection": "font",
+          "resolvedType": "STRING"
+        },
+        "fontStyle": {
+          "bound": false,
+          "value": "Bold"
+        },
+        "fontSize": {
+          "bound": true,
+          "variable": "font-fluid/title/xl/strong",
+          "collection": "font-fluid",
+          "resolvedType": "FLOAT"
+        },
+        "fontWeight": {
+          "bound": true,
+          "variable": "font/weight-role/strong",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "lineHeight": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 115
+          }
+        },
+        "letterSpacing": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": -1
+          }
+        },
+        "textCase": {
+          "bindable": false,
+          "value": "ORIGINAL"
+        },
+        "textDecoration": {
+          "bindable": false,
+          "value": "NONE"
+        }
+      }
+    },
+    {
+      "name": "title/2xl/strong",
+      "description": "title 2xl strong",
+      "properties": {
+        "fontFamily": {
+          "bound": true,
+          "variable": "font/family/display",
+          "collection": "font",
+          "resolvedType": "STRING"
+        },
+        "fontStyle": {
+          "bound": false,
+          "value": "Bold"
+        },
+        "fontSize": {
+          "bound": true,
+          "variable": "font-fluid/title/2xl/strong",
+          "collection": "font-fluid",
+          "resolvedType": "FLOAT"
+        },
+        "fontWeight": {
+          "bound": true,
+          "variable": "font/weight-role/strong",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "lineHeight": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 115
+          }
+        },
+        "letterSpacing": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": -1
+          }
+        },
+        "textCase": {
+          "bindable": false,
+          "value": "ORIGINAL"
+        },
+        "textDecoration": {
+          "bindable": false,
+          "value": "NONE"
+        }
+      }
+    },
+    {
+      "name": "body/sm/default",
+      "description": "body sm default",
+      "properties": {
+        "fontFamily": {
+          "bound": true,
+          "variable": "font/family/text",
+          "collection": "font",
+          "resolvedType": "STRING"
+        },
+        "fontStyle": {
+          "bound": false,
+          "value": "Regular"
+        },
+        "fontSize": {
+          "bound": true,
+          "variable": "font/size/14",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "fontWeight": {
+          "bound": true,
+          "variable": "font/weight-role/default",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "lineHeight": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 150
+          }
+        },
+        "letterSpacing": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 0
+          }
+        },
+        "textCase": {
+          "bindable": false,
+          "value": "ORIGINAL"
+        },
+        "textDecoration": {
+          "bindable": false,
+          "value": "NONE"
+        }
+      }
+    },
+    {
+      "name": "body/sm/default-link",
+      "description": "body sm default link",
+      "properties": {
+        "fontFamily": {
+          "bound": true,
+          "variable": "font/family/text",
+          "collection": "font",
+          "resolvedType": "STRING"
+        },
+        "fontStyle": {
+          "bound": false,
+          "value": "Regular"
+        },
+        "fontSize": {
+          "bound": true,
+          "variable": "font/size/14",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "fontWeight": {
+          "bound": true,
+          "variable": "font/weight-role/default",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "lineHeight": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 150
+          }
+        },
+        "letterSpacing": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 0
+          }
+        },
+        "textCase": {
+          "bindable": false,
+          "value": "ORIGINAL"
+        },
+        "textDecoration": {
+          "bindable": false,
+          "value": "UNDERLINE"
+        }
+      }
+    },
+    {
+      "name": "body/sm/strong",
+      "description": "body sm strong",
+      "properties": {
+        "fontFamily": {
+          "bound": true,
+          "variable": "font/family/text",
+          "collection": "font",
+          "resolvedType": "STRING"
+        },
+        "fontStyle": {
+          "bound": false,
+          "value": "Bold"
+        },
+        "fontSize": {
+          "bound": true,
+          "variable": "font/size/14",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "fontWeight": {
+          "bound": true,
+          "variable": "font/weight-role/strong",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "lineHeight": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 150
+          }
+        },
+        "letterSpacing": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 0
+          }
+        },
+        "textCase": {
+          "bindable": false,
+          "value": "ORIGINAL"
+        },
+        "textDecoration": {
+          "bindable": false,
+          "value": "NONE"
+        }
+      }
+    },
+    {
+      "name": "body/sm/strong-link",
+      "description": "body sm strong link",
+      "properties": {
+        "fontFamily": {
+          "bound": true,
+          "variable": "font/family/text",
+          "collection": "font",
+          "resolvedType": "STRING"
+        },
+        "fontStyle": {
+          "bound": false,
+          "value": "Bold"
+        },
+        "fontSize": {
+          "bound": true,
+          "variable": "font/size/14",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "fontWeight": {
+          "bound": true,
+          "variable": "font/weight-role/strong",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "lineHeight": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 150
+          }
+        },
+        "letterSpacing": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 0
+          }
+        },
+        "textCase": {
+          "bindable": false,
+          "value": "ORIGINAL"
+        },
+        "textDecoration": {
+          "bindable": false,
+          "value": "UNDERLINE"
+        }
+      }
+    },
+    {
+      "name": "body/md/default",
+      "description": "body md default",
+      "properties": {
+        "fontFamily": {
+          "bound": true,
+          "variable": "font/family/text",
+          "collection": "font",
+          "resolvedType": "STRING"
+        },
+        "fontStyle": {
+          "bound": false,
+          "value": "Regular"
+        },
+        "fontSize": {
+          "bound": true,
+          "variable": "font/size/16",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "fontWeight": {
+          "bound": true,
+          "variable": "font/weight-role/default",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "lineHeight": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 150
+          }
+        },
+        "letterSpacing": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 0
+          }
+        },
+        "textCase": {
+          "bindable": false,
+          "value": "ORIGINAL"
+        },
+        "textDecoration": {
+          "bindable": false,
+          "value": "NONE"
+        }
+      }
+    },
+    {
+      "name": "body/md/default-link",
+      "description": "body md default link",
+      "properties": {
+        "fontFamily": {
+          "bound": true,
+          "variable": "font/family/text",
+          "collection": "font",
+          "resolvedType": "STRING"
+        },
+        "fontStyle": {
+          "bound": false,
+          "value": "Regular"
+        },
+        "fontSize": {
+          "bound": true,
+          "variable": "font/size/16",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "fontWeight": {
+          "bound": true,
+          "variable": "font/weight-role/default",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "lineHeight": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 150
+          }
+        },
+        "letterSpacing": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 0
+          }
+        },
+        "textCase": {
+          "bindable": false,
+          "value": "ORIGINAL"
+        },
+        "textDecoration": {
+          "bindable": false,
+          "value": "UNDERLINE"
+        }
+      }
+    },
+    {
+      "name": "body/md/strong",
+      "description": "body md strong",
+      "properties": {
+        "fontFamily": {
+          "bound": true,
+          "variable": "font/family/text",
+          "collection": "font",
+          "resolvedType": "STRING"
+        },
+        "fontStyle": {
+          "bound": false,
+          "value": "Bold"
+        },
+        "fontSize": {
+          "bound": true,
+          "variable": "font/size/16",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "fontWeight": {
+          "bound": true,
+          "variable": "font/weight-role/strong",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "lineHeight": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 150
+          }
+        },
+        "letterSpacing": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 0
+          }
+        },
+        "textCase": {
+          "bindable": false,
+          "value": "ORIGINAL"
+        },
+        "textDecoration": {
+          "bindable": false,
+          "value": "NONE"
+        }
+      }
+    },
+    {
+      "name": "body/md/strong-link",
+      "description": "body md strong link",
+      "properties": {
+        "fontFamily": {
+          "bound": true,
+          "variable": "font/family/text",
+          "collection": "font",
+          "resolvedType": "STRING"
+        },
+        "fontStyle": {
+          "bound": false,
+          "value": "Bold"
+        },
+        "fontSize": {
+          "bound": true,
+          "variable": "font/size/16",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "fontWeight": {
+          "bound": true,
+          "variable": "font/weight-role/strong",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "lineHeight": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 150
+          }
+        },
+        "letterSpacing": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 0
+          }
+        },
+        "textCase": {
+          "bindable": false,
+          "value": "ORIGINAL"
+        },
+        "textDecoration": {
+          "bindable": false,
+          "value": "UNDERLINE"
+        }
+      }
+    },
+    {
+      "name": "body/lg/default",
+      "description": "body lg default",
+      "properties": {
+        "fontFamily": {
+          "bound": true,
+          "variable": "font/family/text",
+          "collection": "font",
+          "resolvedType": "STRING"
+        },
+        "fontStyle": {
+          "bound": false,
+          "value": "Regular"
+        },
+        "fontSize": {
+          "bound": true,
+          "variable": "font/size/18",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "fontWeight": {
+          "bound": true,
+          "variable": "font/weight-role/default",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "lineHeight": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 150
+          }
+        },
+        "letterSpacing": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 0
+          }
+        },
+        "textCase": {
+          "bindable": false,
+          "value": "ORIGINAL"
+        },
+        "textDecoration": {
+          "bindable": false,
+          "value": "NONE"
+        }
+      }
+    },
+    {
+      "name": "body/lg/default-link",
+      "description": "body lg default link",
+      "properties": {
+        "fontFamily": {
+          "bound": true,
+          "variable": "font/family/text",
+          "collection": "font",
+          "resolvedType": "STRING"
+        },
+        "fontStyle": {
+          "bound": false,
+          "value": "Regular"
+        },
+        "fontSize": {
+          "bound": true,
+          "variable": "font/size/18",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "fontWeight": {
+          "bound": true,
+          "variable": "font/weight-role/default",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "lineHeight": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 150
+          }
+        },
+        "letterSpacing": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 0
+          }
+        },
+        "textCase": {
+          "bindable": false,
+          "value": "ORIGINAL"
+        },
+        "textDecoration": {
+          "bindable": false,
+          "value": "UNDERLINE"
+        }
+      }
+    },
+    {
+      "name": "body/lg/strong",
+      "description": "body lg strong",
+      "properties": {
+        "fontFamily": {
+          "bound": true,
+          "variable": "font/family/text",
+          "collection": "font",
+          "resolvedType": "STRING"
+        },
+        "fontStyle": {
+          "bound": false,
+          "value": "Bold"
+        },
+        "fontSize": {
+          "bound": true,
+          "variable": "font/size/18",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "fontWeight": {
+          "bound": true,
+          "variable": "font/weight-role/strong",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "lineHeight": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 150
+          }
+        },
+        "letterSpacing": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 0
+          }
+        },
+        "textCase": {
+          "bindable": false,
+          "value": "ORIGINAL"
+        },
+        "textDecoration": {
+          "bindable": false,
+          "value": "NONE"
+        }
+      }
+    },
+    {
+      "name": "body/lg/strong-link",
+      "description": "body lg strong link",
+      "properties": {
+        "fontFamily": {
+          "bound": true,
+          "variable": "font/family/text",
+          "collection": "font",
+          "resolvedType": "STRING"
+        },
+        "fontStyle": {
+          "bound": false,
+          "value": "Bold"
+        },
+        "fontSize": {
+          "bound": true,
+          "variable": "font/size/18",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "fontWeight": {
+          "bound": true,
+          "variable": "font/weight-role/strong",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "lineHeight": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 150
+          }
+        },
+        "letterSpacing": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 0
+          }
+        },
+        "textCase": {
+          "bindable": false,
+          "value": "ORIGINAL"
+        },
+        "textDecoration": {
+          "bindable": false,
+          "value": "UNDERLINE"
+        }
+      }
+    },
+    {
+      "name": "label/sm/emphasis",
+      "description": "label sm emphasis",
+      "properties": {
+        "fontFamily": {
+          "bound": true,
+          "variable": "font/family/text",
+          "collection": "font",
+          "resolvedType": "STRING"
+        },
+        "fontStyle": {
+          "bound": false,
+          "value": "Medium"
+        },
+        "fontSize": {
+          "bound": true,
+          "variable": "font/size/12",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "fontWeight": {
+          "bound": true,
+          "variable": "font/weight-role/emphasis",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "lineHeight": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 115
+          }
+        },
+        "letterSpacing": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 0
+          }
+        },
+        "textCase": {
+          "bindable": false,
+          "value": "ORIGINAL"
+        },
+        "textDecoration": {
+          "bindable": false,
+          "value": "NONE"
+        }
+      }
+    },
+    {
+      "name": "label/md/emphasis",
+      "description": "label md emphasis",
+      "properties": {
+        "fontFamily": {
+          "bound": true,
+          "variable": "font/family/text",
+          "collection": "font",
+          "resolvedType": "STRING"
+        },
+        "fontStyle": {
+          "bound": false,
+          "value": "Medium"
+        },
+        "fontSize": {
+          "bound": true,
+          "variable": "font/size/14",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "fontWeight": {
+          "bound": true,
+          "variable": "font/weight-role/emphasis",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "lineHeight": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 115
+          }
+        },
+        "letterSpacing": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 0
+          }
+        },
+        "textCase": {
+          "bindable": false,
+          "value": "ORIGINAL"
+        },
+        "textDecoration": {
+          "bindable": false,
+          "value": "NONE"
+        }
+      }
+    },
+    {
+      "name": "caption/md/default",
+      "description": "caption md default",
+      "properties": {
+        "fontFamily": {
+          "bound": true,
+          "variable": "font/family/text",
+          "collection": "font",
+          "resolvedType": "STRING"
+        },
+        "fontStyle": {
+          "bound": false,
+          "value": "Regular"
+        },
+        "fontSize": {
+          "bound": true,
+          "variable": "font/size/11",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "fontWeight": {
+          "bound": true,
+          "variable": "font/weight-role/default",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "lineHeight": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 150
+          }
+        },
+        "letterSpacing": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 0
+          }
+        },
+        "textCase": {
+          "bindable": false,
+          "value": "ORIGINAL"
+        },
+        "textDecoration": {
+          "bindable": false,
+          "value": "NONE"
+        }
+      }
+    },
+    {
+      "name": "caption/md/default-link",
+      "description": "caption md default link",
+      "properties": {
+        "fontFamily": {
+          "bound": true,
+          "variable": "font/family/text",
+          "collection": "font",
+          "resolvedType": "STRING"
+        },
+        "fontStyle": {
+          "bound": false,
+          "value": "Regular"
+        },
+        "fontSize": {
+          "bound": true,
+          "variable": "font/size/11",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "fontWeight": {
+          "bound": true,
+          "variable": "font/weight-role/default",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "lineHeight": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 150
+          }
+        },
+        "letterSpacing": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 0
+          }
+        },
+        "textCase": {
+          "bindable": false,
+          "value": "ORIGINAL"
+        },
+        "textDecoration": {
+          "bindable": false,
+          "value": "UNDERLINE"
+        }
+      }
+    },
+    {
+      "name": "caption/md/strong",
+      "description": "caption md strong",
+      "properties": {
+        "fontFamily": {
+          "bound": true,
+          "variable": "font/family/text",
+          "collection": "font",
+          "resolvedType": "STRING"
+        },
+        "fontStyle": {
+          "bound": false,
+          "value": "Bold"
+        },
+        "fontSize": {
+          "bound": true,
+          "variable": "font/size/11",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "fontWeight": {
+          "bound": true,
+          "variable": "font/weight-role/strong",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "lineHeight": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 150
+          }
+        },
+        "letterSpacing": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 0
+          }
+        },
+        "textCase": {
+          "bindable": false,
+          "value": "ORIGINAL"
+        },
+        "textDecoration": {
+          "bindable": false,
+          "value": "NONE"
+        }
+      }
+    },
+    {
+      "name": "caption/md/strong-link",
+      "description": "caption md strong link",
+      "properties": {
+        "fontFamily": {
+          "bound": true,
+          "variable": "font/family/text",
+          "collection": "font",
+          "resolvedType": "STRING"
+        },
+        "fontStyle": {
+          "bound": false,
+          "value": "Bold"
+        },
+        "fontSize": {
+          "bound": true,
+          "variable": "font/size/11",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "fontWeight": {
+          "bound": true,
+          "variable": "font/weight-role/strong",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "lineHeight": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 150
+          }
+        },
+        "letterSpacing": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 0
+          }
+        },
+        "textCase": {
+          "bindable": false,
+          "value": "ORIGINAL"
+        },
+        "textDecoration": {
+          "bindable": false,
+          "value": "UNDERLINE"
+        }
+      }
+    },
+    {
+      "name": "caption/lg/default",
+      "description": "caption lg default",
+      "properties": {
+        "fontFamily": {
+          "bound": true,
+          "variable": "font/family/text",
+          "collection": "font",
+          "resolvedType": "STRING"
+        },
+        "fontStyle": {
+          "bound": false,
+          "value": "Regular"
+        },
+        "fontSize": {
+          "bound": true,
+          "variable": "font/size/12",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "fontWeight": {
+          "bound": true,
+          "variable": "font/weight-role/default",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "lineHeight": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 150
+          }
+        },
+        "letterSpacing": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 0
+          }
+        },
+        "textCase": {
+          "bindable": false,
+          "value": "ORIGINAL"
+        },
+        "textDecoration": {
+          "bindable": false,
+          "value": "NONE"
+        }
+      }
+    },
+    {
+      "name": "caption/lg/default-link",
+      "description": "caption lg default link",
+      "properties": {
+        "fontFamily": {
+          "bound": true,
+          "variable": "font/family/text",
+          "collection": "font",
+          "resolvedType": "STRING"
+        },
+        "fontStyle": {
+          "bound": false,
+          "value": "Regular"
+        },
+        "fontSize": {
+          "bound": true,
+          "variable": "font/size/12",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "fontWeight": {
+          "bound": true,
+          "variable": "font/weight-role/default",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "lineHeight": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 150
+          }
+        },
+        "letterSpacing": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 0
+          }
+        },
+        "textCase": {
+          "bindable": false,
+          "value": "ORIGINAL"
+        },
+        "textDecoration": {
+          "bindable": false,
+          "value": "UNDERLINE"
+        }
+      }
+    },
+    {
+      "name": "caption/lg/strong",
+      "description": "caption lg strong",
+      "properties": {
+        "fontFamily": {
+          "bound": true,
+          "variable": "font/family/text",
+          "collection": "font",
+          "resolvedType": "STRING"
+        },
+        "fontStyle": {
+          "bound": false,
+          "value": "Bold"
+        },
+        "fontSize": {
+          "bound": true,
+          "variable": "font/size/12",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "fontWeight": {
+          "bound": true,
+          "variable": "font/weight-role/strong",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "lineHeight": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 150
+          }
+        },
+        "letterSpacing": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 0
+          }
+        },
+        "textCase": {
+          "bindable": false,
+          "value": "ORIGINAL"
+        },
+        "textDecoration": {
+          "bindable": false,
+          "value": "NONE"
+        }
+      }
+    },
+    {
+      "name": "caption/lg/strong-link",
+      "description": "caption lg strong link",
+      "properties": {
+        "fontFamily": {
+          "bound": true,
+          "variable": "font/family/text",
+          "collection": "font",
+          "resolvedType": "STRING"
+        },
+        "fontStyle": {
+          "bound": false,
+          "value": "Bold"
+        },
+        "fontSize": {
+          "bound": true,
+          "variable": "font/size/12",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "fontWeight": {
+          "bound": true,
+          "variable": "font/weight-role/strong",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "lineHeight": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 150
+          }
+        },
+        "letterSpacing": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 0
+          }
+        },
+        "textCase": {
+          "bindable": false,
+          "value": "ORIGINAL"
+        },
+        "textDecoration": {
+          "bindable": false,
+          "value": "UNDERLINE"
+        }
+      }
+    },
+    {
+      "name": "eyebrow/emphasis",
+      "description": "eyebrow emphasis",
+      "properties": {
+        "fontFamily": {
+          "bound": true,
+          "variable": "font/family/display",
+          "collection": "font",
+          "resolvedType": "STRING"
+        },
+        "fontStyle": {
+          "bound": false,
+          "value": "Medium"
+        },
+        "fontSize": {
+          "bound": true,
+          "variable": "font/size/12",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "fontWeight": {
+          "bound": true,
+          "variable": "font/weight-role/emphasis",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "lineHeight": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 115
+          }
+        },
+        "letterSpacing": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 5
+          }
+        },
+        "textCase": {
+          "bindable": false,
+          "value": "UPPER"
+        },
+        "textDecoration": {
+          "bindable": false,
+          "value": "NONE"
+        }
+      }
+    },
+    {
+      "name": "code/inline/default",
+      "description": "code inline default",
+      "properties": {
+        "fontFamily": {
+          "bound": true,
+          "variable": "font/family/mono",
+          "collection": "font",
+          "resolvedType": "STRING"
+        },
+        "fontStyle": {
+          "bound": false,
+          "value": "Regular"
+        },
+        "fontSize": {
+          "bound": true,
+          "variable": "font/size/14",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "fontWeight": {
+          "bound": true,
+          "variable": "font/weight-role/default",
+          "collection": "font",
+          "resolvedType": "FLOAT"
+        },
+        "lineHeight": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 150
+          }
+        },
+        "letterSpacing": {
+          "bound": false,
+          "value": {
+            "unit": "PERCENT",
+            "value": 0
+          }
+        },
+        "textCase": {
+          "bindable": false,
+          "value": "ORIGINAL"
+        },
+        "textDecoration": {
+          "bindable": false,
+          "value": "NONE"
+        }
+      }
+    }
+  ]
+}

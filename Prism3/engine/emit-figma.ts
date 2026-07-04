@@ -50,11 +50,13 @@
  * Figma-MCP thread) plays this artifact in; Figma assigns the real variable ids
  * and resolves aliases by name, so we emit no ids.
  */
-import { writeFileSync, mkdirSync } from 'node:fs';
+import { writeFileSync, mkdirSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
-import { Theme } from './theme';
+import { Theme, brandTheme } from './theme';
 import { nbTheme } from './nb-fixture';
+import { parseDesignMd } from './design-md';
+import { parseStandardDesignMd, standardToBrandInput } from './standard-design-md';
 import { buildTree, at, subNode } from './tree';
 
 export type FigmaColor = { r: number; g: number; b: number; a: number };
@@ -882,8 +884,27 @@ export const buildFigmaGradient = (theme: Theme): FigmaPaintStylesFile => {
 // ---------------------------------------------------------------------- I/O
 const here = dirname(fileURLToPath(import.meta.url));
 const isMain = process.argv[1] ? resolve(process.argv[1]) === fileURLToPath(import.meta.url) : false;
+/** Compile an engine-native design.md at `<engine>/../examples/<file>` → Theme. */
+const compileNative = (file: string): Theme =>
+  brandTheme(parseDesignMd(readFileSync(resolve(here, `../examples/${file}`), 'utf8')).input);
+/** Compile a STANDARD-dialect design.md (brand-skills / google-labs) → Theme via
+ *  the reader + colour-role classifier + x-prism3 lever mapping. */
+const compileStandard = (file: string): Theme =>
+  brandTheme(standardToBrandInput(parseStandardDesignMd(readFileSync(resolve(here, `../examples/${file}`), 'utf8'))).input);
+
 if (isMain) {
-  const brands: Array<{ id: string; theme: Theme }> = [{ id: 'nb', theme: nbTheme() }];
+  // Generalise (docs/10 §7 item 6). NB is the byte-fixture regression target;
+  // AURORA proves the alias-driven Paint Style path (it opts into gradients and
+  // sets `action = accent`, so its colour axis exercises a decoupled action
+  // palette); WENDYS proves the standard-dialect front door (parseStandard +
+  // classifier + brandTheme → the same emit-figma shell). All three write to
+  // out/figma/<id>/. No new adapter code — the axes are already brand-agnostic;
+  // this is where that claim gets exercised.
+  const brands: Array<{ id: string; theme: Theme }> = [
+    { id: 'nb', theme: nbTheme() },
+    { id: 'aurora', theme: compileNative('aurora.design.md') },
+    { id: 'wendys', theme: compileStandard('wendys.design.md') },
+  ];
   for (const { id, theme } of brands) {
     const dir = resolve(here, 'out/figma', id);
     mkdirSync(dir, { recursive: true });
