@@ -1262,6 +1262,119 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
     `emit-figma mode opt-out: dark file's color/action/default alias is the DARK extension target, not a light fallback (got ${darkAction.alias?.name}, want ${figName(darkExtAlias)})`);
 }
 
+// (21) EMIT-FIGMA GENERALISE (docs/10 §7 item 6) — the queue's closing check:
+// the emit-figma adapter is brand-agnostic. Run it against aurora (engine-native
+// design.md, opts INTO gradients, action = accent) and wendys (STANDARD-dialect
+// through parseStandard + classifier + brandTheme) and gate every axis. This
+// isn't asserting fixture byte-identity (no fixtures for these brands — §2 only
+// freezes NB colour + typography); the gate is that (a) every axis produces
+// output with the right shape, (b) every alias resolves WITHIN each brand's
+// own emitted collections, (c) the namespace transform (figName) strips
+// whichever root the brand carries — aurora=prism (default), wendys=prism
+// (default), NB=nbds — with no leakage across brands, and (d) the aurora
+// gradient axis actually ships alias-driven stops that resolve to palette leaves
+// in the aurora tree (the alias-driven Paint Style form parked in the shadow +
+// gradient PR now materialises through the generalise pass).
+{
+  const auroraTheme = brandTheme(parseDesignMd(readFileSync(resolve(HERE, '../examples/aurora.design.md'), 'utf8')).input);
+  const wendysStd = parseStandardDesignMd(readFileSync(resolve(HERE, '../examples/wendys.design.md'), 'utf8'));
+  const wendysTheme = brandTheme(standardToBrandInput(wendysStd).input);
+
+  // Each brand runs through every axis. We assert structural claims uniformly:
+  // - palette + color(×4 modes when default) shape correct
+  // - every alias in EACH brand's emitted collections resolves WITHIN that brand
+  // - namespace lever holds — figName strips the brand's own root exactly once
+  // - every axis produces non-empty output where it should (gradient is opt-in;
+  //   aurora HAS gradients, wendys does not)
+  for (const [id, theme] of [['aurora', auroraTheme], ['wendys', wendysTheme]] as const) {
+    const { palette, color } = buildFigmaColor(theme);
+    const dims = buildFigmaDims(theme);
+    const layout = buildFigmaLayout(theme);
+    const font = buildFigmaFont(theme);
+    const fluid = buildFigmaFontFluid(theme);
+    const textStyles = buildFigmaTextStyles(theme);
+    const shadow = buildFigmaShadow(theme);
+    const gradient = buildFigmaGradient(theme);
+
+    // (a) Shape sanity — colour + palette + font + fluid + text-styles all present.
+    ok(palette.variables.length > 0, `figma generalise (${id}): palette has variables (${palette.variables.length})`);
+    ok(color.length === 4, `figma generalise (${id}): 4 colour modes emitted (default all four; got ${color.length})`);
+    ok(color.every((c) => c.variables.length === color[0].variables.length), `figma generalise (${id}): every colour mode file has the same variable-name set`);
+    ok(font.variables.length > 0, `figma generalise (${id}): font primitives emitted (${font.variables.length})`);
+    ok(fluid.length === 2 && fluid.every((f) => f.variables.length > 0), `figma generalise (${id}): font-fluid has both mobile + desktop modes`);
+    ok(textStyles.styles.length > 0, `figma generalise (${id}): text-styles emitted (${textStyles.styles.length})`);
+    ok(shadow.styles.length > 0, `figma generalise (${id}): shadow effect styles emitted (${shadow.styles.length})`);
+    ok(layout.length === 5, `figma generalise (${id}): 5 layout mode files (got ${layout.length})`);
+
+    // (b) COLOUR aliases — every per-mode alias name resolves within palette (name-based).
+    const paletteNames = new Set(palette.variables.map((v) => v.name));
+    const colorAliasBad: string[] = [];
+    for (const c of color) for (const v of c.variables) {
+      if (!v.alias || !paletteNames.has(v.alias.name)) colorAliasBad.push(`${c.$mode}:${v.name} → ${v.alias?.name ?? '<none>'}`);
+    }
+    ok(colorAliasBad.length === 0, `figma generalise (${id}): every colour alias resolves to a real palette variable within THIS brand` + (colorAliasBad.length ? ` — ${colorAliasBad.slice(0, 3).join(', ')}` : ''));
+
+    // (c) DIMS aliases — cross-collection resolution within the 7 emitted collections.
+    const dimNames = new Set<string>();
+    const allDimColls = [dims.dimension, dims.space, dims.radius, dims.size, dims.borderWidth, dims.focus, dims.opacity];
+    for (const c of allDimColls) for (const v of c.variables) dimNames.add(v.name);
+    const dimsAliasBad: string[] = [];
+    for (const c of allDimColls) for (const v of c.variables) {
+      if (v.alias && !dimNames.has(v.alias.name)) dimsAliasBad.push(`${c.$collection}:${v.name} → ${v.alias.name}`);
+    }
+    ok(dimsAliasBad.length === 0, `figma generalise (${id}): every dims alias resolves within the emitted collections` + (dimsAliasBad.length ? ` — ${dimsAliasBad.slice(0, 3).join(', ')}` : ''));
+
+    // (d) LAYOUT aliases — grid/gutter + grid/margin resolve into THIS brand's space collection.
+    const spaceNames = new Set(dims.space.variables.map((v) => v.name));
+    const layoutAliasBad: string[] = [];
+    for (const l of layout) for (const v of l.variables) {
+      if (v.name === 'grid/gutter' || v.name === 'grid/margin') {
+        if (!v.alias || !spaceNames.has(v.alias.name)) layoutAliasBad.push(`${l.$mode}:${v.name} → ${v.alias?.name ?? '<none>'}`);
+      }
+    }
+    ok(layoutAliasBad.length === 0, `figma generalise (${id}): every layout grid alias resolves within THIS brand's space collection` + (layoutAliasBad.length ? ` — ${layoutAliasBad.slice(0, 3).join(', ')}` : ''));
+
+    // (e) NAMESPACE strip — Figma variable names carry no brand prefix. figName
+    // strips exactly one root segment; walking every emitted name proves the
+    // transform is idempotent regardless of what root the brand carries. NB
+    // uses `nbds`; aurora + wendys both default to `prism` (no leakage back
+    // into the emitted names).
+    const allEmittedNames: string[] = [
+      ...palette.variables.map((v) => v.name),
+      ...color.flatMap((c) => c.variables.map((v) => v.name)),
+      ...allDimColls.flatMap((c) => c.variables.map((v) => v.name)),
+      ...layout.flatMap((l) => l.variables.map((v) => v.name)),
+      ...font.variables.map((v) => v.name),
+      ...fluid.flatMap((f) => f.variables.map((v) => v.name)),
+    ];
+    const namespaceLeaks = allEmittedNames.filter((n) => n.startsWith('prism/') || n.startsWith('nbds/') || n.startsWith('acme/'));
+    ok(namespaceLeaks.length === 0, `figma generalise (${id}): no brand-namespace leakage in emitted variable names (${allEmittedNames.length} names checked)` + (namespaceLeaks.length ? ` — LEAKS: ${namespaceLeaks.slice(0, 3).join(', ')}` : ''));
+  }
+
+  // (f) AURORA GRADIENTS — the alias-driven Paint Style form. Aurora opts in
+  // (gradients: true, custom array); its gradient axis emits ≥1 style, every
+  // stop carries a real alias, and every alias resolves to a palette leaf in
+  // aurora's DTCG tree.
+  const auroraGradient = buildFigmaGradient(auroraTheme);
+  ok(auroraGradient.styles.length > 0, `figma generalise (aurora): gradient axis emits ≥1 style (got ${auroraGradient.styles.length})`);
+  const auroraTree = buildTree(auroraTheme).tree as any;
+  const auroraRoot = Object.keys(auroraTree)[0];
+  const stopAliasBad: string[] = [];
+  for (const s of auroraGradient.styles) for (const stop of s.stops) {
+    if (!stop.alias) { stopAliasBad.push(`${s.name}@${stop.position} has no alias`); continue; }
+    const dottedPath = `${auroraRoot}.${stop.alias.replace(/\//g, '.')}`;
+    const leaf = dottedPath.split('.').reduce((n: any, seg) => n?.[seg], auroraTree);
+    if (!leaf || leaf.$type !== 'color') stopAliasBad.push(`${s.name}@${stop.position} → ${stop.alias} does not resolve to a colour leaf`);
+  }
+  ok(stopAliasBad.length === 0, `figma generalise (aurora): every gradient stop alias resolves to a colour leaf in aurora's DTCG` + (stopAliasBad.length ? ` — ${stopAliasBad.slice(0, 3).join('; ')}` : ''));
+
+  // (g) WENDYS carries no gradients (didn't opt in) — the axis emits an empty
+  // consistent shape, exactly like NB. Documents that opt-in works negatively
+  // on the standard-dialect front door too.
+  const wendysGradient = buildFigmaGradient(wendysTheme);
+  ok(wendysGradient.styles.length === 0 && wendysGradient.$collection === 'gradient-styles', `figma generalise (wendys): no gradients opted in → empty consistent-shape file (collection='gradient-styles')`);
+}
+
 // ------------------------------------------------------------------- report
 console.log(`\nPrism3 engine tests: ${pass} passed, ${fails.length} failed`);
 if (fails.length) { fails.forEach((f) => console.log(`  ❌ ${f}`)); process.exitCode = 1; }

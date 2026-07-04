@@ -1,0 +1,181 @@
+{
+  "$collection": "gradient-styles",
+  "styles": [
+    {
+      "name": "gradient/brand",
+      "description": "gradient brand — linear 135°, 2 stops, oklch interpolation — brand gradient (opt-in)",
+      "paintType": "GRADIENT_LINEAR",
+      "interpolation": "oklch",
+      "stops": [
+        {
+          "position": 0,
+          "color": {
+            "r": 0.32156863808631897,
+            "g": 0.2549019753932953,
+            "b": 0.686274528503418,
+            "a": 1
+          },
+          "alias": "palette/primary/600"
+        },
+        {
+          "position": 1,
+          "color": {
+            "r": 0,
+            "g": 0.48627451062202454,
+            "b": 0.7333333492279053,
+            "a": 1
+          },
+          "alias": "palette/accent/500"
+        }
+      ],
+      "sampledStops": [
+        {
+          "position": 0,
+          "color": {
+            "r": 0.32156863808631897,
+            "g": 0.2549019753932953,
+            "b": 0.686274528503418,
+            "a": 1
+          },
+          "alias": null
+        },
+        {
+          "position": 0.25,
+          "color": {
+            "r": 0.2549019753932953,
+            "g": 0.3137255012989044,
+            "b": 0.7215686440467834,
+            "a": 1
+          },
+          "alias": null
+        },
+        {
+          "position": 0.5,
+          "color": {
+            "r": 0.15294118225574493,
+            "g": 0.3764705955982208,
+            "b": 0.7411764860153198,
+            "a": 1
+          },
+          "alias": null
+        },
+        {
+          "position": 0.75,
+          "color": {
+            "r": 0,
+            "g": 0.4313725531101227,
+            "b": 0.7450980544090271,
+            "a": 1
+          },
+          "alias": null
+        },
+        {
+          "position": 1,
+          "color": {
+            "r": 0,
+            "g": 0.48627451062202454,
+            "b": 0.7333333492279053,
+            "a": 1
+          },
+          "alias": null
+        }
+      ],
+      "a11y": {
+        "worstOnWhite": 4.56,
+        "worstOnBlack": 2.73,
+        "note": "text-on-gradient: white text clears 4.56:1 at the lightest stop, black text 2.73:1 at the darkest — a text overlay must meet its ratio at the worst-case point (constrain the lightness range or add a scrim); NEITHER plain overlay clears 4.5:1 body text — use a scrim or a solid container"
+      },
+      "angle": 135
+    },
+    {
+      "name": "gradient/glow",
+      "description": "gradient glow — radial (circle), 2 stops, oklch interpolation — brand gradient (opt-in)",
+      "paintType": "GRADIENT_RADIAL",
+      "interpolation": "oklch",
+      "stops": [
+        {
+          "position": 0,
+          "color": {
+            "r": 0.2078431397676468,
+            "g": 0.5843137502670288,
+            "b": 0.7764706015586853,
+            "a": 1
+          },
+          "alias": "palette/accent/400"
+        },
+        {
+          "position": 1,
+          "color": {
+            "r": 0,
+            "g": 0.27843138575553894,
+            "b": 0.4000000059604645,
+            "a": 1
+          },
+          "alias": "palette/accent/700"
+        }
+      ],
+      "sampledStops": [
+        {
+          "position": 0,
+          "color": {
+            "r": 0.2078431397676468,
+            "g": 0.5843137502670288,
+            "b": 0.7764706015586853,
+            "a": 1
+          },
+          "alias": null
+        },
+        {
+          "position": 0.25,
+          "color": {
+            "r": 0.1568627506494522,
+            "g": 0.5058823823928833,
+            "b": 0.6784313917160034,
+            "a": 1
+          },
+          "alias": null
+        },
+        {
+          "position": 0.5,
+          "color": {
+            "r": 0.10588235408067703,
+            "g": 0.4274509847164154,
+            "b": 0.5803921818733215,
+            "a": 1
+          },
+          "alias": null
+        },
+        {
+          "position": 0.75,
+          "color": {
+            "r": 0.05098039284348488,
+            "g": 0.3529411852359772,
+            "b": 0.48627451062202454,
+            "a": 1
+          },
+          "alias": null
+        },
+        {
+          "position": 1,
+          "color": {
+            "r": 0,
+            "g": 0.27843138575553894,
+            "b": 0.4000000059604645,
+            "a": 1
+          },
+          "alias": null
+        }
+      ],
+      "a11y": {
+        "worstOnWhite": 3.35,
+        "worstOnBlack": 2.09,
+        "note": "text-on-gradient: white text clears 3.35:1 at the lightest stop, black text 2.09:1 at the darkest — a text overlay must meet its ratio at the worst-case point (constrain the lightness range or add a scrim); NEITHER plain overlay clears 4.5:1 body text — use a scrim or a solid container"
+      },
+      "center": [
+        0.5,
+        0.4
+      ],
+      "shape": "circle"
+    }
+  ]
+}

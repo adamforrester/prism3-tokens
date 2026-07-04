@@ -1,0 +1,112 @@
+{
+  "$collection": "layout",
+  "$mode": "2xl",
+  "variables": [
+    {
+      "name": "breakpoint/sm",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "breakpoint sm — min-width 0px (mobile-first)",
+      "value": 0,
+      "alias": null
+    },
+    {
+      "name": "breakpoint/md",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "breakpoint md — min-width 768px (mobile-first)",
+      "value": 768,
+      "alias": null
+    },
+    {
+      "name": "breakpoint/lg",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "breakpoint lg — min-width 1024px (mobile-first)",
+      "value": 1024,
+      "alias": null
+    },
+    {
+      "name": "breakpoint/xl",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "breakpoint xl — min-width 1440px (mobile-first)",
+      "value": 1440,
+      "alias": null
+    },
+    {
+      "name": "breakpoint/2xl",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "breakpoint 2xl — min-width 1920px (mobile-first)",
+      "value": 1920,
+      "alias": null
+    },
+    {
+      "name": "grid/columns",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "ALL_SCOPES"
+      ],
+      "description": "grid 2xl — 12 columns (design grid / Figma layout-grid; build with CSS Grid)",
+      "value": 12,
+      "alias": null
+    },
+    {
+      "name": "grid/gutter",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "GAP"
+      ],
+      "description": "grid 2xl gutter — 32px (spacing-scale alias)",
+      "value": 32,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "space/400"
+      }
+    },
+    {
+      "name": "grid/margin",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "GAP"
+      ],
+      "description": "grid 2xl margin — 48px (spacing-scale alias)",
+      "value": 48,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "space/600"
+      }
+    },
+    {
+      "name": "container/max",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "container max — 1440px content cap (fluid below it)",
+      "value": 1440,
+      "alias": null
+    },
+    {
+      "name": "container/narrow",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "WIDTH_HEIGHT"
+      ],
+      "description": "container narrow — 720px reading measure (~65–75ch)",
+      "value": 720,
+      "alias": null
+    }
+  ]
+}
