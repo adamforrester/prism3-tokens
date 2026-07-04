@@ -31,20 +31,23 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
   (byte-identical to the pre-1b world), a wireframe-opted brand ships two files where
   non-zero radii alias `dimension/0`. Fully specified in `docs/10-figma-materialization.md`.
 - **emit-figma next (docs/10 §7 queue post-this-PR, 2026-07-04):**
-  1. **Motion — STILL DEFERRED.** Probed the Figma Plugin API on 2026-07-03; `TIME`
-     scope is not in the FLOAT-var enum yet (Config 2026 hasn't surfaced it). Recheck
-     when it lands. easing/spring/transition composites have no Figma variable primitive
-     — emit as `motion-styles.json` reference metadata only.
+  1. **Motion — STILL DEFERRED.** Re-probed the Figma Plugin API 2026-07-04 (via
+     WebFetch of the current VariableScope docs): FLOAT scopes are
+     `ALL_SCOPES / TEXT_CONTENT / CORNER_RADIUS / WIDTH_HEIGHT / GAP / OPACITY /
+     STROKE_FLOAT / EFFECT_FLOAT / FONT_WEIGHT / FONT_SIZE / LINE_HEIGHT /
+     LETTER_SPACING / PARAGRAPH_SPACING / PARAGRAPH_INDENT` — no `TIME` scope,
+     no motion/duration/animation scope. Config 2026 hasn't surfaced it. Recheck
+     when it lands. easing/spring/transition composites have no Figma variable
+     primitive — emit as `motion-styles.json` reference metadata only.
   2. **Follow-ups parked (typography #31):** fix 3b bindable form — `font-tracking`
      FLOAT collection (6 tokens: tighter/tight/snug/normal/wide/wider); rebind
      `letterSpacing` on all 36 text styles.
-  3. **Follow-up parked (materialise-to-verify, from #50 + this PR):** import aurora
-     + wendys artifacts into the Prism3 Test File via Figma MCP, and materialise the
-     wireframe axis (colour fifth mode + radius per-mode files) into a synthetic
-     wireframe-enabled brand so the specimen frame visually confirms greyscale +
-     square-corner rendering. figma-console MCP disconnected mid-session on 2026-07-03;
-     the structural gates prove alias resolution + gradient targets + wireframe alias
-     shape — this is purely visual confirmation.
+  3. **Follow-up parked (aurora + wendys full-materialise, from #50):** import the
+     full aurora + wendys variable-artefact set into the Prism3 Test File via
+     Figma MCP so their palette / color-×4-modes / typography / dims / layout /
+     shadow / gradient collections all render live (structural gates already
+     prove correctness; this is end-to-end visual confirmation). Separate PR —
+     scope is heavier than a doc update.
 - **Test file:** the Figma-MCP thread's target is "Prism3 Test File" (fileKey
   `Zrn9YDqrFiwjs2IfKInNY0`). It has 4 specimen pages already (Colour, Typography, Dims,
   Shadow, Gradient) + all the corresponding variable collections + styles imported live.
@@ -53,6 +56,28 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
 
 ---
 
+- **`emit-figma` wireframe axis — materialise-to-verify** (`Prism3/docs/assets/
+  wireframe-specimen.png`, 2026-07-04): closes the parked visual-verification
+  follow-up from #53 (Pillar 1b wireframe axis). Motion re-probed first —
+  `TIME` still absent from the Figma FLOAT-var scope enum
+  (`ALL_SCOPES / CORNER_RADIUS / WIDTH_HEIGHT / GAP / OPACITY / STROKE_FLOAT /
+  EFFECT_FLOAT / FONT_WEIGHT / FONT_SIZE / LINE_HEIGHT / LETTER_SPACING /
+  PARAGRAPH_SPACING / PARAGRAPH_INDENT / TEXT_CONTENT`); motion stays deferred.
+  Materialised the wireframe axis into the Prism3 Test File via figma-console
+  MCP on a specimen slice (7 palette primitives + 6 role vars × 2 modes + 5
+  radius vars × 2 modes, namespaced `wireframe-demo/*`). A two-column frame
+  flips the SAME structural layer tree between `light` and `wireframe` via
+  `setExplicitVariableModeForCollection`, and Figma's alias engine resolves
+  the flip live: `color/foreground/brand` violet → grey,
+  `color/action/default` azure → grey, `radius.md/lg/round` positive → 0. The
+  neutral roles (`background`, `text/primary`, `foreground/primary`, `border/
+  primary`) stay identical in both columns as expected (Pillar 1b passthrough
+  rule). This is the first end-to-end visual proof of the wireframe axis —
+  the structural gates (test.ts block 22) prove the artefact shape, the
+  specimen proves Figma's runtime resolves them. Docs-only: `docs/00` +
+  `docs/10` updated; screenshot added under `docs/assets/`; engine untouched
+  (test **448/448**, `out/*` byte-identical). The aurora + wendys
+  full-materialise from #50 remains parked (separate PR — heavier scope).
 - **Code-review fixes M-15/16/17 — web failing-state robustness** (`web/src/main.ts`, `docs/16` MED tier):
   three UX defects when a live edit doesn't resolve. **M-15** — exports ran off the live `brandState`, so
   tokens.json re-ran `brandTheme` uncaught (a failing edit threw in the click handler → no download, no
