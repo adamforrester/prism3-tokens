@@ -145,6 +145,28 @@ here or a merged PR. Test count is **542/542** as of the sweep close.
 
 ---
 
+- **MCP adapter — layer C, "an agent themes Prism3" (`engine/mcp.ts`, docs/08 §5 / roadmap C, 2026-07-04).**
+  The agent-callable surface over the pure core is live: a **dependency-free JSON-RPC 2.0 server over
+  stdio** — deliberately NO `@modelcontextprotocol/sdk` (MCP is JSON-RPC + a 3-method core; owned the
+  transport like the YAML parser + colour math, keeping the no-`npm install` invariant). It's an **I/O
+  shell** (`node:` allowed; the pure core is imported, never touched) — the request handler
+  `handleRpc`/`callTool` are pure + unit-tested directly, only the stdio loop behind `isMain` touches the
+  process. **Three tools:** `list_levers` (returns the lever manifest verbatim — the knob catalogue the
+  plugin + playground also render from, so the agent surface can't drift from them), `theme_brand`
+  (a `BrandInput` → the DTCG token tree + `.ai.json` metadata + per-mode contract results + decisions
+  log — the generate-and-verify payoff in one call), and `validate_brand` (schema pre-flight). **Design
+  split:** the knob *catalogue* derives from the lever manifest (`list_levers`); the input *shape* is
+  `theme-schema.json` (the precise, OKLCH-aware validation half — a `control:'color'` lever is an OKLCH
+  object, not a string, so the manifest alone would be lossy). **Gates (`test.ts` 542→558):** the
+  handshake (`initialize`/notification-silence/`-32601`), the tool catalogue, `list_levers` ≡ the manifest
+  (drift gate), a full `theme_brand` round-trip (248/248 contracts + 647/647 aliases on the probe brand),
+  and error paths (invalid brand → `isError`, unknown tool/method). **Live stdio smoke-tested** end-to-end.
+  Purely additive — `out/*` byte-identical, pure core untouched. Run: `npx tsx Prism3/engine/mcp.ts`.
+  *Next candidates (deferred): richer tools (`preview_brand` → resolved colours + overlay; `describe_token`
+  → `.ai.json` query), and the consumption-eval harness (docs/13 ds-brain steal) alongside it.*
+
+---
+
 - **Code-review fixes L-10 — visualiser honesty + a surfaced nb gap (batch C, closes my LOW lane)**
   (`visualize.ts`, `docs/16` LOW tier). Three visualiser fixes: (a) the semantic-role table + preview
   render the modes the tree ACTUALLY carries (derived from `$extensions.prism3.modes`, canonical order)
