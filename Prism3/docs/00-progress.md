@@ -53,6 +53,19 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
 
 ---
 
+- **Code-review fixes M-15/16/17 — web failing-state robustness** (`web/src/main.ts`, `docs/16` MED tier):
+  three UX defects when a live edit doesn't resolve. **M-15** — exports ran off the live `brandState`, so
+  tokens.json re-ran `brandTheme` uncaught (a failing edit threw in the click handler → no download, no
+  feedback) and design.md serialized a brief its own importer rejects; both now export the **last-good**
+  input/theme (always valid, re-importable, and exactly what the ramps already show). **M-16** — ramps
+  paint from the last-good theme but the anchor badge computed from the live (maybe-failing) state → wrong
+  swatch flagged; now a `lastGoodInput` (cloned on each successful rebuild) drives `anchorStepFor`.
+  **M-17** — an import error rebuilt the menu with a fresh empty textarea (and a mode-toggle mid-paste did
+  too), wiping the paste; `importText` now survives re-renders, cleared only on a successful load.
+  **Verified headless** (forced failing state = accent renamed to reserved `neutral`): both exports
+  download without crashing, the accent ramp keeps its anchor badge, a garbage paste shows the error +
+  retains the text across a re-render; web typecheck + build clean, 0 page errors. No automated gate — the
+  honest gate is a headless web-smoke harness, still the pending infra task first flagged for CR-07.
 - **Code-review fixes M-12/13/14 — parser/CLI hardening** (`classify-colors.ts` / `color.ts` / `cli.ts`
   / `standard-design-md.ts` / `emit-dtcg.ts`, `docs/16` MED tier): three silent-crash / silent-drop paths
   in the standard-`design.md` ingest. **M-12** — the colour classifier lowercased for *classification*
