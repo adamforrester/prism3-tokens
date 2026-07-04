@@ -475,6 +475,7 @@ Component sizes — t-shirt, density `comfortable` (height + paired padding from
 - typography: curated rem size ladder (22 steps, 10–160px — NOT ratio-derived; covers all bases, clean values); weight roles subtle/default/emphasis/strong → 300/400/500/700; families display=Clash Display, text=Inter, mono=JetBrains Mono (variable: display/text); typeScale 'expressive'. 35 semantic composites (title/display sizes shifted by typeScale; display capped at 128px; title floor 16px) — NOTE: requested ceiling 128px; effective top display is 112px (typeScale shifts sizes off the exact ladder rung). responsive: 9 fluid composites (size-dependent mobile shrink — research-validated, Carbon fluid-display curve: body static, titles ~1 rung, display converges to ~40–48px; one min/max pair → web clamp() 360–1440px + Figma desktop/mobile modes). Line-height unitless multiplier in $value; px-from-ratio materialization for Figma in $extensions.
 - disabled: 'accessible' — disabled text/icon/border clears 3:1 on the floor (legible, contrast-preserving; the field-rare default). Set disabledStrategy:'conventional' for the sub-AA exempt look.
 - light primary surface is NON-default (neutral.50) — CONFIRM this is the page colour; the contrast floor moves with it
+- action anchored at accent 'accent' step 500 (its pinned lightness) — the brand's own shade, nudged only if it fails AA on the floor
 
 Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws from `danger`.
 
