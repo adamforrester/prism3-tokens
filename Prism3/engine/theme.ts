@@ -128,8 +128,14 @@ const hueDist = (a: number, b: number): number => {
   const d = Math.abs(a - b) % 360;
   return d > 180 ? 360 - d : d;
 };
-/** Is this primary hue close enough to the danger red that it IS the danger hue? */
-export const inRedTerritory = (hue: number): boolean => hueDist(hue, STATUS_DEFAULTS.danger.h) <= 20;
+// A hue in the red window still needs enough chroma to READ as red — below this it's a warm
+// grey/greige, not a danger signal (M-05). Reusing such a primary for `danger` would collapse
+// destructive signalling to a near-neutral. ~0.08 is the floor where a red starts to register.
+export const RED_CHROMA_FLOOR = 0.08;
+/** Is this primary a SATURATED red — close enough in hue AND chromatic enough to BE the danger
+ *  hue? A red-ish but desaturated (greige) primary is not red: danger must carve its own. */
+export const inRedTerritory = (hue: number, chroma: number): boolean =>
+  hueDist(hue, STATUS_DEFAULTS.danger.h) <= 20 && chroma >= RED_CHROMA_FLOOR;
 
 /** Generate a vivid, unanchored status ramp from a canonical hue. */
 const statusRamp = (hue: number, chroma: number): Step[] =>
@@ -855,17 +861,26 @@ export const brandTheme = (input: BrandInput): Theme => {
   if (input.status?.danger) {
     palettes.push({ palette: 'danger', role: 'danger', description: 'danger status (brand-supplied)', steps: statusRamp(input.status.danger.h, input.status.danger.chroma) });
     notes.push(`danger: brand-supplied hue ${input.status.danger.h}`);
-  } else if (inRedTerritory(input.primary.h)) {
-    // The brand's own hue IS the danger hue — reuse the primary palette rather
+  } else if (inRedTerritory(input.primary.h, input.primary.c)) {
+    // The brand's own colour IS a saturated red — reuse the primary palette rather
     // than minting a near-duplicate red.
     roleToPalette.danger = 'primary';
-    notes.push(`danger: primary hue ${input.primary.h} is in red territory → danger reuses the primary palette (no separate red)`);
+    notes.push(`danger: primary hue ${input.primary.h} (chroma ${input.primary.c}) is a saturated red → danger reuses the primary palette (no separate red)`);
   } else {
-    // Primary is not red, so carve a dedicated danger red the brand never gave us.
+    // Primary is not a saturated red, so carve a dedicated danger red the brand never gave us.
     const d = STATUS_DEFAULTS.danger;
     palettes.push({ palette: 'danger', role: 'danger', description: 'danger status (engine-carved red — primary is not red)', steps: statusRamp(d.h, d.chroma) });
-    notes.push(`danger: primary hue ${input.primary.h} is NOT red → carved a dedicated danger red at hue ${d.h}`);
+    // Distinguish the two carve reasons (M-05): a red-ish-but-greige primary must NOT be reused
+    // for danger (a near-grey can't signal destruction), even though its hue is in the window.
+    const hueIsRed = hueDist(input.primary.h, STATUS_DEFAULTS.danger.h) <= 20;
+    notes.push(hueIsRed
+      ? `danger: primary hue ${input.primary.h} is red-ish but its chroma ${input.primary.c} is below the ${RED_CHROMA_FLOOR} floor to read as danger → carved a dedicated saturated red at hue ${d.h} (a near-grey warm primary can't signal destructive actions)`
+      : `danger: primary hue ${input.primary.h} is NOT red → carved a dedicated danger red at hue ${d.h}`);
   }
+  // Knife-edge note (M-05): flag when the primary hue sits within 3° of the ±20° red boundary —
+  // a small hue shift would flip danger between reuse-primary and carve-red.
+  if (Math.abs(hueDist(input.primary.h, STATUS_DEFAULTS.danger.h) - 20) <= 3 && input.primary.c >= RED_CHROMA_FLOOR)
+    notes.push(`danger: primary hue ${input.primary.h} is near the red-territory boundary (±20° of ${STATUS_DEFAULTS.danger.h}) — a small hue shift would flip the danger strategy`);
 
   const baseUnit = input.baseUnit ?? 4;
   const spaceBase = input.spaceBase ?? 8;
@@ -909,9 +924,21 @@ export const brandTheme = (input: BrandInput): Theme => {
     }
   }
 
+  // Action anchor step (M-06): honour the brand's PINNED accent when `actionPalette` names a
+  // brandColor — resolve the action role at that accent's own step (matching the nbTheme fixture's
+  // semantics, action=550=accent step), not the hardcoded 500 pivot which silently discarded the
+  // brand's chosen shade while the note claimed the decision was honoured. `pickBrand` still nudges
+  // to clear AA on the floor, so accessibility is preserved regardless. 'primary' → the primary
+  // anchor; an unanchored palette (neutral / status) has no pinned step → the 500 mid pivot.
+  const actionBrandColor = (input.brandColors ?? []).find((b) => b.name === actionPalette);
+  const actionAnchorStep = actionPalette === 'primary' ? anchorStep
+    : actionBrandColor ? autoPlaceStep(actionBrandColor.oklch.l)
+    : 500;
+  if (actionBrandColor) notes.push(`action anchored at accent '${actionPalette}' step ${actionAnchorStep} (its pinned lightness) — the brand's own shade, nudged only if it fails AA on the floor`);
+
   return {
     id: input.id, root, namespace: `${root}.palette`, colorFormat: 'hex', modes, palettes, roleToPalette, notes,
-    roleAnchorStep: { brand: anchorStep, neutral: 500, success: 500, warning: 500, danger: 500, info: 500, action: actionPalette === 'primary' ? anchorStep : 500 },
+    roleAnchorStep: { brand: anchorStep, neutral: 500, success: 500, warning: 500, danger: 500, info: 500, action: actionAnchorStep },
     surfaces: input.surfaces,
     disabledStrategy: input.disabledStrategy ?? 'accessible',
     disabledMin: input.disabledMin ?? 3,
