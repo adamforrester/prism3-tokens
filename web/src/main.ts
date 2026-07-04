@@ -79,6 +79,9 @@ const stageOfLever = (l: Lever): StageKey => {
 
 // ---- engine read-model -----------------------------------------------------
 let theme: Theme = brandTheme(brandState);
+// The last input that resolved cleanly — the ramps + anchor badges render from THIS, so when a
+// live edit fails (lastError set) the flagged anchor swatch still matches the shown ramp (M-16).
+let lastGoodInput: BrandInput = structuredClone(brandState);
 let rp: ResolvedPreview = resolvePreview(theme);
 let currentMode: Mode = rp.modes[0];
 let lastError: string | null = null;
@@ -99,6 +102,7 @@ const rebuild = (): void => {
     const t = brandTheme(brandState);
     rp = resolvePreview(t);
     theme = t;
+    lastGoodInput = structuredClone(brandState);   // M-16: anchor badges read this, not the (maybe failing) live state
     lastError = null;
   } catch (e) {
     lastError = (e as Error).message;
@@ -130,9 +134,11 @@ const pageBg = (mode: Mode): string => rp.colors['color.background.primary']?.[m
 
 /** The per-palette pinned anchor step (null = derived, no anchor). */
 const anchorStepFor = (palette: string): number | null => {
-  if (palette === 'primary') return autoPlaceStep(brandState.primary.l);
-  if (palette === 'neutral') return brandState.neutral.anchor ? autoPlaceStep(brandState.neutral.anchor.l) : null;
-  const bc = (brandState.brandColors ?? []).find((b) => b.name === palette);
+  // Read the LAST-GOOD input (M-16): the ramps paint from the last-good theme, so the anchor
+  // badge must be computed from the same source — else a failing live edit flags the wrong swatch.
+  if (palette === 'primary') return autoPlaceStep(lastGoodInput.primary.l);
+  if (palette === 'neutral') return lastGoodInput.neutral.anchor ? autoPlaceStep(lastGoodInput.neutral.anchor.l) : null;
+  const bc = (lastGoodInput.brandColors ?? []).find((b) => b.name === palette);
   return bc ? autoPlaceStep(bc.oklch.l) : null;
 };
 
@@ -518,12 +524,13 @@ let barHost: HTMLElement;
 let brandMenuOpen = false;
 let importOpen = false;
 let importErr: string | null = null;
+let importText = '';            // M-17: survives re-renders so a failed paste isn't wiped
 let outsideBound = false;
 
 /** Replace the working brand wholesale (switch / new / import) and re-render. */
 const loadBrand = (input: BrandInput): void => {
   brandState = structuredClone(input);
-  brandMenuOpen = false; importOpen = false; importErr = null;
+  brandMenuOpen = false; importOpen = false; importErr = null; importText = '';
   stage = 'primitives';
   rebuild();
   currentMode = rp.modes[0];
@@ -553,14 +560,19 @@ const download = (filename: string, text: string, mime: string): void => {
   setTimeout(() => URL.revokeObjectURL(url), 0);
 };
 
-const slug = (): string => (brandState.id || 'brand').trim().replace(/\s+/g, '-') || 'brand';
+const slug = (): string => (lastGoodInput.id || 'brand').trim().replace(/\s+/g, '-') || 'brand';
 
-/** Export the current brand as design.md — round-trips straight back into Import. */
-const exportDesignMd = (): void => download(`${slug()}.design.md`, toDesignMd(brandState), 'text/markdown');
+// Both exports run off the LAST-GOOD state, never the live one (M-15). Previously tokens.json
+// re-ran `brandTheme(brandState)` uncaught — a failing edit threw in the click handler (no
+// download, no feedback) — and design.md serialized the failing state into a brief its own
+// importer rejects. The last-good input/theme is always valid and is exactly what the ramps +
+// preview already show (the errbar tells the user the current edit is what's unresolved).
+/** Export the last-good brand as design.md — round-trips straight back into Import. */
+const exportDesignMd = (): void => download(`${slug()}.design.md`, toDesignMd(lastGoodInput), 'text/markdown');
 
-/** Export the resolved DTCG token tree (buildTree), namespaced under the brand's root. */
+/** Export the resolved DTCG token tree (buildTree) of the last-good theme, namespaced under `root`. */
 const exportTokens = (): void => {
-  const tree = buildTree(brandTheme(brandState)).tree;
+  const tree = buildTree(theme).tree;   // `theme` is the last-good — always valid, never throws
   download(`${slug()}.tokens.json`, JSON.stringify(tree, null, 2), 'application/json');
 };
 
@@ -569,6 +581,7 @@ const exportTokens = (): void => {
  *  until both pass. (The full schema validator is node-bound, so it can't run here —
  *  brandTheme's own guards + the live contract overlay cover the rest.) */
 const tryImport = (text: string): void => {
+  importText = text;              // M-17: keep the paste so an error re-render doesn't wipe it
   let input: BrandInput;
   try { input = parseDesignMd(text).input; }
   catch (e) { importErr = (e as Error).message; renderBar(); return; }
@@ -648,6 +661,8 @@ const renderBrandMenu = (): HTMLElement => {
     const ta = el('textarea', 'bm-ta') as HTMLTextAreaElement;
     ta.placeholder = 'Paste a design.md — --- YAML frontmatter --- then prose…';
     ta.spellcheck = false;
+    ta.value = importText;                                   // M-17: restore across re-renders
+    ta.oninput = () => { importText = ta.value; };           // a mode-toggle mid-paste won't lose it
     box.append(ta);
     if (importErr) box.append(el('p', 'bm-err', importErr));
     const load = el('button', 'bm-load', 'Load') as HTMLButtonElement;
