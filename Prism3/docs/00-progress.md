@@ -54,6 +54,22 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
 
 ---
 
+- **Code-review fix CR-04 — hand-rolled schema validator ignored keyword classes** (`emit-dtcg.ts`
+  + `theme-schema.json`): the validator (the boot check for the CLI *and* the sandbox hosts) had no
+  `boolean` branch (so `{type:boolean}` matched anything — incl. inside a `oneOf`, which is why
+  `gradients:"banana"` passed → `brandTheme` then crashed on `.map`), checked `enum` only under
+  `type:string` (numeric `titleFloor:[16,18]` unenforced), and never checked `minItems`/`maxItems`.
+  So `[schema] ✓ conforms` actively vouched for inputs the schema rejects. Fix: added `boolean` +
+  `integer` branches, moved `enum`/`const` to a **type-independent** check, added `minItems`/`maxItems`,
+  and a **loud-fail guard** — an unhandled `type` now throws instead of silently passing, so the
+  silent-ignore class can't recur. **The stricter validator immediately exposed a real schema↔engine
+  drift** (the finding's 2nd probe): `families.variable` was declared `boolean`, but the engine's
+  `BrandInput` accepts `boolean | Partial<Record<'display'|'text'|'mono', boolean>>` and **aurora uses
+  the per-face object** — so the schema was mis-describing the contract. Corrected the schema to the
+  real `oneOf[boolean, per-face-object]`; all three example brands conform again. Gate: adversarial
+  validator suite (`gradients:"banana"` / `titleFloor:17` / short `easingEmphasized` / `variable:"yes"`
+  all rejected; valid forms incl. the per-face object accepted). test **364/364**, `out/*`
+  byte-identical (validation-only; no token change). *A stronger validator also backstops CR-03/CR-05.*
 - **Code-review fix CR-06 — the NB regression can now fail** (`nb-regression.ts`): it was a pure report
   generator — ΔE00 outliers, contract failures, and dimension mismatches rendered as ⚠️/❌ markdown rows and
   it **always exited 0**, so a ramp-math regression shipped green (only a human reading the report noticed),

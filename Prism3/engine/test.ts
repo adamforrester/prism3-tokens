@@ -1011,6 +1011,23 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   try { brandTheme({ ...input, actionPalette: 'primary', gradients: [], brandColors: [{ name: 'twin', oklch: { l: 0.5, c: 0.1, h: 10 } }, { name: 'twin', oklch: { l: 0.6, c: 0.1, h: 200 } }] }); } catch { dupThrew = true; }
   ok(dupThrew, 'CR-03: duplicate brand-colour names throw');
   ok(validateBrandInput(bc('brand-blue')).length === 0 && validateBrandInput(bc('my.accent')).length > 0, 'CR-03: schema pattern accepts a slug, rejects a dotted brand-colour name');
+
+  // CR-04: the hand-rolled validator must enforce keyword classes it used to ignore — else
+  // `[schema] ✓ conforms` vouches for inputs brandTheme then crashes on / mis-emits. Baseline:
+  // aurora conforms (its `variable` is a per-face object — the schema now describes boolean|object).
+  ok(validateBrandInput(input).length === 0, 'CR-04: a valid brand (aurora) conforms');
+  // boolean branch (via gradients oneOf: [boolean, array]) — the headline probe.
+  ok(validateBrandInput({ ...input, gradients: 'banana' as any }).length > 0, 'CR-04: gradients:"banana" rejected (no boolean branch used to let it match the oneOf)');
+  ok(validateBrandInput({ ...input, gradients: true as any }).length === 0, 'CR-04: gradients:true still accepted (valid boolean)');
+  // numeric enum (was only checked under type:string)
+  ok(validateBrandInput({ ...input, typography: { ...(input.typography ?? {}), titleFloor: 17 } as any }).length > 0, 'CR-04: titleFloor:17 rejected (numeric enum [16,18] now enforced)');
+  ok(validateBrandInput({ ...input, typography: { ...(input.typography ?? {}), titleFloor: 18 } as any }).length === 0, 'CR-04: titleFloor:18 accepted (in enum)');
+  // minItems / maxItems (never checked before)
+  ok(validateBrandInput({ ...input, motionPersonality: { easingEmphasized: [0.2, 0] } as any }).length > 0, 'CR-04: easingEmphasized [0.2,0] rejected (minItems 4)');
+  ok(validateBrandInput({ ...input, motionPersonality: { easingEmphasized: [0.2, 0, 0.4, 1] } as any }).length === 0, 'CR-04: a 4-length easing accepted');
+  // families.variable is boolean|per-face-object — a string matches neither
+  ok(validateBrandInput({ ...input, typography: { families: { variable: 'yes' } } as any }).length > 0, 'CR-04: families.variable:"yes" rejected (boolean|object, not string)');
+  ok(validateBrandInput({ ...input, typography: { families: { variable: { display: true } } } as any }).length === 0, 'CR-04: families.variable per-face object accepted');
 }
 
 // (16) PIN-A-NEUTRAL (docs/00 "pin-a-neutral") — a brand that ships a pre-defined grey sets
