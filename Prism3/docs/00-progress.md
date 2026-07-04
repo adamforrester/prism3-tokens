@@ -145,6 +145,24 @@ here or a merged PR. Test count is **542/542** as of the sweep close.
 
 ---
 
+- **Consumption eval — scoring core (`engine/eval.ts` + `docs/17`, roadmap C follow-on, 2026-07-04).**
+  First increment of the ds-brain steal (docs/13 §2): measure whether an agent handed the MCP surface
+  produces *compliant* output — the consumption side the engine never measured (it verifies generation
+  exhaustively but had no read on consumption). Built the **pure, deterministic scoring half**:
+  `scoreConsumption(refs, tree, root)` → **invented-token rate** (refs to token paths that don't exist —
+  the hallucination metric; cheap because the name contract is locked, docs/11) + **primitive-leak rate**
+  (valid refs reaching past the semantic layer into `palette`/`dimension`/`font` — `PRIMITIVE_TIERS`,
+  exactly the `core-*` grouping). `normalizeRef` accepts brace / root-qualified / relative forms; rates are
+  occurrence-based, reported lists unique+sorted. **Pure — no `node:`, no LLM** — the agent-in-the-loop
+  runner (drive a model on sample tasks against the MCP server, extract its refs, score them) is a deferred
+  **edge shell** using the Claude API (docs/17 §3), opt-in, never the pure core. Contract-compliance +
+  rubric metrics deferred to that phase (§4). The eval's payoff is *differential* — same tasks with the MCP
+  surface vs. without, showing the surface moves the numbers (the four-layer thesis, measured). Gated in
+  `test.ts` (558→567; clean/invented/leak/normalise/occurrence-rate/empty). Purely additive — `out/*`
+  byte-identical. Design in `docs/17-consumption-eval.md`.
+
+---
+
 - **MCP adapter — layer C, "an agent themes Prism3" (`engine/mcp.ts`, docs/08 §5 / roadmap C, 2026-07-04).**
   The agent-callable surface over the pure core is live: a **dependency-free JSON-RPC 2.0 server over
   stdio** — deliberately NO `@modelcontextprotocol/sdk` (MCP is JSON-RPC + a 3-method core; owned the
