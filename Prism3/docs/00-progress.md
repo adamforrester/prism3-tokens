@@ -53,6 +53,20 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
 
 ---
 
+- **Code-review fixes M-12/13/14 — parser/CLI hardening** (`classify-colors.ts` / `color.ts` / `cli.ts`
+  / `standard-design-md.ts` / `emit-dtcg.ts`, `docs/16` MED tier): three silent-crash / silent-drop paths
+  in the standard-`design.md` ingest. **M-12** — the colour classifier lowercased for *classification*
+  (`roleOf`) but extracted anchors with literal lowercase keys, so `{ Primary: … }` / `{ Error: … }`
+  classified right yet dropped the anchor (or threw "no primary"). Now a lowercase-role→hex map (with the
+  original token kept for mark/log) drives extraction — case-insensitive end to end. **M-13** — `hexToRgb`
+  rejected 8-digit alpha hex (`#C8102EFF`, common in real extractions) as "invalid hex", and `cli.ts`'s
+  `standardToBrandInput` call sat outside any try/catch → raw stack trace. Now `hexToRgb` accepts
+  `#RGBA`/`#RRGGBBAA` and drops the (opaque-anchor-irrelevant) alpha, and the CLI wraps the classify call
+  → readable diagnosis + exit 1 (verified: a no-primary brief prints "✖ could not classify …" and exits 1).
+  **M-14** — `Number('soft')` → NaN passed `typeof === 'number'` + every min/max compare → NaNpx radius.
+  Rejected at ingest (specific message) *and* hardened the validator's number/integer branch to require
+  `Number.isFinite` (backstop for any number field). Gates: test **448/448**, nb-regression exit 0, `out/*`
+  byte-identical (all three are CLI-ingest paths, not the committed brands).
 - **Code-review fixes M-05/M-06 — theme-layer semantics** (`theme.ts`, `docs/16` MED tier): two
   brand-semantic defects in the danger/action carve. **M-05** — `inRedTerritory` was hue-only, so a
   warm greige primary (`c:0.03, h:30`) counted as "red" and `danger` reused the near-grey primary ramp

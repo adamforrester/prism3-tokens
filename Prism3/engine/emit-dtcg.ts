@@ -81,7 +81,9 @@ const validate = (data: any, schema: any, defs: any, path = ''): string[] => {
     if (schema.maxItems !== undefined && data.length > schema.maxItems) e.push(`${at}: ${data.length} item(s) > maxItems ${schema.maxItems}`);
     if (schema.items) data.forEach((it, i) => e.push(...validate(it, schema.items, defs, `${path}[${i}]`)));
   } else if (t === 'number' || t === 'integer') {
-    if (typeof data !== 'number') e.push(`${at}: expected ${t}`);
+    // Reject NaN / ±Infinity: they pass `typeof === 'number'` and make every min/max comparison
+    // false, so an unchecked `Number('soft')` → NaN would validate as a legal number (M-14).
+    if (typeof data !== 'number' || !Number.isFinite(data)) e.push(`${at}: expected a finite ${t}${typeof data === 'number' ? ` (got ${data})` : ''}`);
     else {
       if (t === 'integer' && !Number.isInteger(data)) e.push(`${at}: ${data} is not an integer`);
       if (schema.minimum !== undefined && data < schema.minimum) e.push(`${at}: ${data} < ${schema.minimum}`);

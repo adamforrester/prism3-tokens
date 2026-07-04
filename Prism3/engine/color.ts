@@ -84,7 +84,11 @@ export const hex = ({ r, g, b }: RGB): string =>
  */
 export const hexToRgb = (s: string): RGB => {
   let h = s.trim().replace(/^#/, '');
-  if (h.length === 3) h = h.split('').map((c) => c + c).join('');
+  // Accept #RGB and #RGBA (expand each nibble), and drop the alpha of #RRGGBBAA / #RGBA —
+  // 8-digit alpha hex like `#C8102EFF` is common in real extractions; a brand anchor is opaque,
+  // so the alpha is irrelevant and must not be rejected as "invalid hex" (M-13).
+  if (h.length === 3 || h.length === 4) h = h.split('').map((c) => c + c).join('');
+  if (h.length === 8) h = h.slice(0, 6);
   if (h.length !== 6 || /[^0-9a-fA-F]/.test(h)) throw new Error(`invalid hex colour: '${s}'`);
   return { r: parseInt(h.slice(0, 2), 16), g: parseInt(h.slice(2, 4), 16), b: parseInt(h.slice(4, 6), 16) };
 };

@@ -63,6 +63,17 @@ ok(contrast({ r: 117, g: 117, b: 117 }, WHITE) >= 4.4 && contrast({ r: 117, g: 1
   ok(marginal !== Math.round(marginal * 100) / 100, 'contrast() returns un-rounded ratio (not pre-rounded to 2dp)');
 }
 
+// M-13: hexToRgb accepts 8-digit alpha hex (`#RRGGBBAA`, common in real extractions) and 4-digit
+// `#RGBA` by dropping the alpha (anchors are opaque) — a trailing FF must not read as "invalid
+// hex" and crash the standard-dialect CLI. Genuinely malformed hex is still rejected.
+{
+  ok(hex(hexToRgb('#C8102EFF')) === '#c8102e', 'M-13: 8-digit alpha hex drops the alpha (#C8102EFF → #c8102e)');
+  ok(hex(hexToRgb('#c8102e88')) === '#c8102e', 'M-13: a non-FF alpha is dropped to the opaque colour');
+  ok(hex(hexToRgb('#f008')) === '#ff0000', 'M-13: 4-digit #RGBA expands + drops alpha');
+  let bad = false; try { hexToRgb('#12345'); } catch { bad = true; }
+  ok(bad, 'M-13: a malformed (5-digit) hex is still rejected');
+}
+
 // relative luminance bounds
 ok(approx(luminance(WHITE), 1, 1e-6), 'luminance(white)=1');
 ok(approx(luminance(BLACK), 0, 1e-6), 'luminance(black)=0');
@@ -484,6 +495,14 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   ok(!!cls.input.status.danger, 'classifier: error → status.danger (the one rename)');
   ok(!!cls.input.status.success && !!cls.input.status.warning, 'classifier: success + warning classified from the flat map');
   ok(cls.input.brandColors.some((b) => b.name === 'secondary') && cls.input.brandColors.some((b) => b.name === 'tertiary'), 'classifier: secondary + tertiary → brandColors[]');
+  // M-12: classification lowercases, so anchor EXTRACTION must too — a mixed/upper-case map
+  // must anchor identically, not silently drop the anchor (or throw "no primary").
+  const mixed = classifyColors({ Primary: '#3366cc', Error: '#cc2222', Secondary: '#22aa88', Neutral: '#888888' });
+  ok(!!mixed.input.primary && !!mixed.input.status.danger && mixed.input.brandColors.some((b) => b.name === 'secondary'),
+    'M-12: mixed-case keys (Primary/Error/Secondary) classify + extract identically to lowercase');
+  let m12threw = false;
+  try { classifyColors({ PRIMARY: '#123456' }); } catch { m12threw = true; }
+  ok(!m12threw, 'M-12: an all-caps PRIMARY no longer throws "no primary"');
   const { input, xApplied } = standardToBrandInput(std);
   ok(input.id === 'wendys', "standardToBrandInput: id derived from name (Wendy's → wendys)");
   ok(xApplied.length === 0, 'wendys: no x-prism3 block → engine defaults (the plain-spec guarantee)');
@@ -505,6 +524,13 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   const applied = applyXPrism3(probe, { radiusScale: 2, typeScale: 'expressive', motionTempo: 'snappy', density: 'compact' });
   ok(probe.radiusScale === 2 && probe.typography?.typeScale === 'expressive' && probe.motionPersonality?.tempo === 'snappy' && probe.density === 'compact' && applied.length === 4,
     'applyXPrism3: levers map onto BrandInput (brand-skills → engine round-trip)');
+  // M-14: a non-numeric radiusScale (`Number('soft')` → NaN) must be rejected at ingest, not
+  // slipped through to NaNpx radius tokens (NaN passes typeof-number + every min/max compare).
+  let m14ingest = false;
+  try { applyXPrism3({ id: 'p', primary: { l: 0.5, c: 0.1, h: 20 }, neutral: { hue: 20, chroma: 0.01 } } as BrandInput, { radiusScale: 'soft' }); } catch { m14ingest = true; }
+  ok(m14ingest, 'M-14: x-prism3.radiusScale="soft" throws at ingest (not a NaN radius)');
+  ok(applyXPrism3({ id: 'p', primary: { l: 0.5, c: 0.1, h: 20 }, neutral: { hue: 20, chroma: 0.01 } } as BrandInput, { radiusScale: 1.5 }).length === 1, 'M-14: a numeric radiusScale still applies');
+  ok(validateBrandInput({ id: 't', primary: { l: 0.5, c: 0.05, h: 200 }, neutral: { hue: 200, chroma: 0.01 }, radiusScale: NaN } as any).length > 0, 'M-14: the validator rejects a NaN number (backstop)');
   const nativeStd = parseStandardDesignMd(readFileSync(resolve(HERE, '../examples/harbor.design.md'), 'utf8'));
   ok(Object.keys(nativeStd.colors).length === 0, 'dialect detection: an engine-native brief has no top-level colors map (routes native)');
 }
