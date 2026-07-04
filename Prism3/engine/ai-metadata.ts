@@ -215,9 +215,21 @@ export const buildAiMetadata = (theme: Theme, tree: any) => {
   };
   walk(brand, []);
   const strip = (ref: string) => (ref.startsWith(root + '.') ? ref.slice(root.length + 1) : ref);
+  // Every ref a leaf makes — not just `$value`, but its per-mode (dark/HC) overrides AND a fluid
+  // composite's responsive size refs (M-10). Without these, a primitive consumed SOLELY by a dark
+  // override (or a fluid mobile size) shows zero consumers — contradicting the sidecar's own
+  // "cannot drift" claim and hiding a load-bearing dark-side step from impact analysis.
+  const allRefsOf = (node: any): string[] => {
+    const refs = [...refsIn(node.$value)];
+    const modeOv = node.$extensions?.prism3?.modes;
+    if (modeOv && typeof modeOv === 'object' && !Array.isArray(modeOv)) for (const mv of Object.values(modeOv)) refs.push(...refsIn((mv as any)?.$value));
+    const resp = node.$extensions?.prism3?.responsive;
+    if (resp?.fluid) for (const e of [resp.min, resp.max]) { const m = String(e?.ref ?? '').match(/^\{(.+)\}$/); if (m) refs.push(m[1]); }
+    return refs;
+  };
   // Direct reverse edges (target → tokens that reference it directly).
   const directBy: Record<string, string[]> = {};
-  for (const { path, node } of leaves) for (const ref of refsIn(node.$value)) (directBy[strip(ref)] ??= []).push(path);
+  for (const { path, node } of leaves) for (const ref of allRefsOf(node)) (directBy[strip(ref)] ??= []).push(path);
   // TRANSITIVE closure: a primitive's referrers include indirect ones too, so the
   // two-hop weight chain (composite → weight-role → numeric) is visible — the KB's
   // "re-map a brand's weights, every composite reflows" payoff is now provable from
