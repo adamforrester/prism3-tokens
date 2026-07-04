@@ -54,6 +54,20 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
 
 ---
 
+- **Code-review fix CR-05 — design.md parser silently dropped misindented lines** (`design-md.ts`): the
+  YAML-subset parser's `map`/`seq` loops run `while lines[pos].indent === indent`, so a line whose indent
+  doesn't fit its block (one stray space) — or a no-colon/prose line (`if (ci < 0) break`) — ended the loop
+  early and left that line **and everything after it** unparsed, with **zero diagnostics**: a designer's
+  lever (or a whole trailing section) just vanished, and if the dropped key was optional the engine emitted
+  defaults silently. Fix: track a 1-based source line per `Line`, and after parsing **throw if any line was
+  left unconsumed**, naming the offending line number + content ("unparseable frontmatter at line N …").
+  Loud failure instead of silent drop. Verified: the finding's exact probes now throw — a `chroma:`
+  over-indented one space (drops `chroma` + trailing `radiusScale`) and a stray prose line (truncates the
+  rest) — while the correctly-indented equivalents still parse byte-identically. The web import already
+  try/catches `parseDesignMd`, so it now surfaces the error and keeps the working brand (better UX, no web
+  change). Gate: adversarial parser suite (over-indent / stray-line throw with a line number; valid parses
+  clean). test **368/368**, `out/*` byte-identical. **This clears the engine/web HIGH tier** (CR-01/03/04/
+  05/06/07); CR-08 + the emit-figma MEDs remain with the Figma-emitter agent.
 - **Code-review fix CR-04 — hand-rolled schema validator ignored keyword classes** (`emit-dtcg.ts`
   + `theme-schema.json`): the validator (the boot check for the CLI *and* the sandbox hosts) had no
   `boolean` branch (so `{type:boolean}` matched anything — incl. inside a `oneOf`, which is why

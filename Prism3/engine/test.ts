@@ -378,6 +378,18 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   ok(Array.isArray(y.brandColors) && y.brandColors.length === 1 && y.brandColors[0].name === 'accent' && y.brandColors[0].oklch.h === 235,
     'parser: block sequence of maps + nested flow map');
   ok(y.nested && y.nested.a === 1 && y.nested.b === 'two words', 'parser: nested block map + multi-word bare string');
+
+  // CR-05: a misindented line (or a stray no-colon/prose line) used to end the block loop
+  // early and SILENTLY drop that line + everything after it. Now every line must be consumed
+  // or the parser throws with the offending line number — a designer's lever can't vanish.
+  const threwOn = (s: string) => { try { parseYamlSubset(s); return false; } catch { return true; } };
+  ok(threwOn('id: x\nneutral:\n  hue: 200\n   chroma: 0.01\nradiusScale: 1'), 'CR-05: a key over-indented by one space throws (not silently dropped with the rest)');
+  ok(threwOn('id: x\nstray prose line\nneutral:\n  hue: 200'), 'CR-05: a stray no-colon line inside frontmatter throws (does not truncate the rest)');
+  ok(!threwOn('id: x\nneutral:\n  hue: 200\n  chroma: 0.01\nradiusScale: 1'), 'CR-05: correctly-indented equivalent still parses clean');
+  // the error names the offending source line (actionable)
+  let msg = '';
+  try { parseYamlSubset('id: x\nneutral:\n  hue: 200\n   chroma: 0.01'); } catch (e) { msg = (e as Error).message; }
+  ok(/line 4/.test(msg) && /chroma/.test(msg), 'CR-05: the error points at the offending line (number + content)');
 }
 // (2) parseDesignMd — frontmatter/prose split; a missing fence is an error.
 {
