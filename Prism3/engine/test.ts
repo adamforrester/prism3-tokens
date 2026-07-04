@@ -89,6 +89,14 @@ ok(autoPlaceStep(0.9) < autoPlaceStep(0.3), 'autoPlaceStep: lighter < darker');
   const ramp = generateRamp({ hue: 23, chroma: 0.215, anchor: { oklch: anchorOklch, stepNum: 550 } });
   const step = ramp.find((s) => s.num === 550)!;
   ok(deltaE2000(step.rgb, oklchToRgb(anchorOklch)) < 1, `anchor preserved (ΔE ${deltaE2000(step.rgb, oklchToRgb(anchorOklch)).toFixed(2)})`);
+
+  // M-01: every ramp step must be a well-formed #rrggbb — a degenerate anchor L (== lMax/lMin)
+  // used to divide by zero in the chroma arc → `#NaNNaNNaN`. Cover normal + extreme-L anchors.
+  const hexOk = (r: ReturnType<typeof generateRamp>) => r.every((s) => /^#[0-9a-f]{6}$/.test(s.hex));
+  ok(hexOk(ramp), 'M-01: normal ramp emits only #rrggbb hex');
+  ok(hexOk(generateRamp({ hue: 285, chroma: 0.18, anchor: { oklch: { l: 0.975, c: 0.1, h: 285 }, stepNum: 500 } })), 'M-01: anchor L at lMax (mismatched step) — no NaN hex');
+  ok(hexOk(generateRamp({ hue: 285, chroma: 0.18, anchor: { oklch: { l: 0.16, c: 0.05, h: 285 }, stepNum: 500 } })), 'M-01: anchor L at lMin (mismatched step) — no NaN hex');
+  ok(hexOk(generateRamp({ hue: 145, chroma: 0.3, peakL: 0.9 })), 'M-01: unanchored vivid arc — no NaN hex');
 }
 
 // ------------------------------------------------ extreme white-label brands

@@ -82,10 +82,14 @@ const chromaForL = (
   let shape: number;
   if (arc) {
     if (L >= peakL) {
-      const t = Math.min(1, (L - peakL) / (lMax - peakL));
+      // Guard the degenerate span: an anchor at (or beyond) lMax makes lMax−peakL ≤ 0, so
+      // 0/0 → NaN → `#NaNNaNNaN` (M-01). At the peak the ratio is 0 anyway (full chroma).
+      const span = lMax - peakL;
+      const t = span > 1e-9 ? Math.min(1, (L - peakL) / span) : 0;
       shape = 0.05 + 0.95 * (1 - t) ** 1.3; // tints desaturate toward white
     } else {
-      const t = Math.min(1, (peakL - L) / (peakL - lMin));
+      const span = peakL - lMin;
+      const t = span > 1e-9 ? Math.min(1, (peakL - L) / span) : 0;
       shape = 0.45 + 0.55 * (1 - t); // shades keep more chroma than tints
     }
   } else {
