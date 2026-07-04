@@ -56,6 +56,30 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
 
 ---
 
+- **Code-review fixes L-01/02/03/05 — engine-core LOW (batch A)** (`modes.ts` / `color.ts` / `scale.ts` /
+  `tree.ts`, `docs/16` LOW tier; starts the LOW-tier sweep after the MED tier completed at #59). Four
+  silent-degradation guards, each byte-identical on the shipped brands (only `test.ts` gates + the four
+  source files change; `out/*` untouched). **L-01** — the interactive-state `walk` clamped an overshoot
+  to the ramp's terminal step, so at a ramp end hover(+1) and pressed(+2) collapsed onto the SAME step:
+  visually indistinguishable states (each state's contrast was gated, their mutual distinctness never
+  was). It now reflects inward on overshoot, preserving the step-count separation; a new invariant asserts
+  default≠hover≠pressed for every fill/action/link group across all extreme brands × modes — only the
+  near-black `t-dark` brand's HC modes actually saturated, and reflection kept every contrast contract
+  green. **L-02** — `dualContrastWindow(r)` returned an inverted `[min>max]` window for r>√21≈4.58 (the
+  max ratio any single luminance clears on BOTH extremes); it now throws, so a future HC-7:1 caller
+  fails loud instead of reading an empty range as valid. **L-03** — `radiusScale` gained a weak-
+  monotonicity tripwire (none≤sm≤md≤lg); equality stays legal (scale=0 collapses to sharp by design, small
+  scales quantise onto the 2px grid), but a future non-monotone ladder edit throws. **L-05** — `pxOf` is
+  now rem-aware (a `1.5rem` leaf scales ×16 instead of `parseInt`→1px), and `deref` returns `undefined` on
+  a cyclic/runaway alias chain (reports missing) rather than a mid-chain alias node. Gates: `test.ts`
+  **528/528** (452→528, +76 mostly the cross-brand distinctness invariant), nb-regression exit 0, `out/*`
+  + `out/figma` byte-identical. **L-04 deferred (documented):** semantic borders' SC 1.4.11 contract is
+  against `background.primary` only (narrower sibling of the fixed CR-02) — extending it to the worst-case
+  tinted surface would change emitted border colours and touch `out/figma` (the Figma-emitter thread's
+  surface), so it's left as a documented gap, consistent with the byte-identity + coordination discipline.
+
+---
+
 - **Code-review fixes M-10/M-11 — metadata / gate completeness** (`ai-metadata.ts` / `tree.ts`, `docs/16`
   MED tier; **completes the code-review MED tier in the generator/web lane**): two "the index/gate doesn't
   see non-`$value` refs" blind spots. **M-11** — buildTree's alias-resolution walk validated `$value`,

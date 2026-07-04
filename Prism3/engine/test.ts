@@ -11,8 +11,10 @@
  *     Each must build and clear EVERY mode contract — the real robustness test.
  * Exits non-zero on any failure.
  */
-import { rgbToOklch, oklchToRgb, hex, hexToRgb, contrast, luminance, maxChroma, inGamut, deltaE2000, RGB } from './color';
+import { rgbToOklch, oklchToRgb, hex, hexToRgb, contrast, luminance, maxChroma, inGamut, deltaE2000, dualContrastWindow, RGB } from './color';
 import { generateRamp, autoPlaceStep, STEP_NUMS } from './ramp';
+import { radiusScale } from './scale';
+import { at, deref, pxOf } from './tree';
 import { brandTheme, BrandInput, inRedTerritory } from './theme';
 import { nbTheme } from './nb-fixture';
 import { resolveAllModes } from './modes';
@@ -149,6 +151,16 @@ for (const b of brands) {
     const checked = Object.entries(m.roles).filter(([, r]) => r.min > 0);
     const broken = checked.filter(([, r]) => r.ratio < r.min);
     ok(broken.length === 0, `[${b.id}/${m.mode}] all ${checked.length} contracts pass` + (broken.length ? ` — FAILED: ${broken.map(([k, r]) => `${k} ${r.ratio}<${r.min}`).join(', ')}` : ''));
+    // L-01: stateful groups must stay visually distinct — a `walk` that saturated
+    // at a ramp end would collapse hover/pressed onto the default. default (walk 0)
+    // ≠ hover (walk 1) ≠ pressed (walk 2), by path, for every fill/action/link group.
+    const path = (k: string) => (m.roles as any)[k]?.path;
+    for (const g of ['action', 'foreground.danger']) {
+      const [d, h, p] = [path(`${g}.default`), path(`${g}.hover`), path(`${g}.pressed`)];
+      if (d && h && p) ok(d !== h && d !== p && h !== p, `[${b.id}/${m.mode}] ${g} states are distinct (default/hover/pressed = ${d?.split('.').pop()}/${h?.split('.').pop()}/${p?.split('.').pop()})`);
+    }
+    const [ld, lh, lv] = [path('text.link.default'), path('text.link.hover'), path('text.link.visited')];
+    if (ld && lh && lv) ok(ld !== lh && ld !== lv && lh !== lv, `[${b.id}/${m.mode}] text.link states are distinct`);
   }
 }
 
@@ -157,6 +169,46 @@ for (const b of brands) {
   const modes = resolveAllModes(nbTheme());
   const broken = modes.flatMap((m) => Object.entries(m.roles).filter(([, r]) => r.min > 0 && r.ratio < r.min).map(([k]) => `${m.mode}.${k}`));
   ok(broken.length === 0, 'nbTheme all contracts pass' + (broken.length ? ` — FAILED: ${broken.join(', ')}` : ''));
+}
+
+// L-02: dualContrastWindow is only defined up to √21 ≈ 4.583 (the max ratio any single
+// luminance clears on BOTH extremes). At 4.5 it returns a valid non-empty window; past
+// √21 it must THROW rather than hand back an inverted [min>max] pair.
+{
+  const [lo, hi] = dualContrastWindow(4.5);
+  ok(lo < hi && lo > 0 && hi < 1, `L-02: dualContrastWindow(4.5) is a valid non-empty window [${lo.toFixed(3)}, ${hi.toFixed(3)}]`);
+  let threw = false;
+  try { dualContrastWindow(7); } catch { threw = true; }
+  ok(threw, 'L-02: dualContrastWindow(7) throws — no luminance clears 7:1 on both black and white (would have been an inverted window)');
+  ok(dualContrastWindow(Math.sqrt(21))[0] <= dualContrastWindow(Math.sqrt(21))[1] + 1e-9, 'L-02: exactly √21 is the degenerate boundary (min ≈ max), still allowed');
+}
+
+// L-03: radiusScale is weakly monotone (none ≤ sm ≤ md ≤ lg) for any scale ≥ 0 — small
+// scales legitimately snap rungs together, but a rung is never SMALLER than its predecessor.
+// A non-monotone input (negative scale) trips the gate.
+{
+  for (const s of [0, 0.25, 0.5, 1, 1.5, 2]) {
+    const ladder = radiusScale(s).filter((r) => !r.pill);
+    const mono = ladder.every((r, i) => i === 0 || r.px >= ladder[i - 1].px);
+    ok(mono, `L-03: radiusScale(${s}) is weakly monotone (${ladder.map((r) => r.px).join('≤')})`);
+  }
+  ok(radiusScale(0).filter((r) => !r.pill).every((r) => r.px === 0), 'L-03: scale=0 collapses the ladder to all-sharp by design (equality allowed)');
+  ok(radiusScale(0.25).filter((r) => !r.pill).map((r) => r.px).join(',') === '0,0,2,2', 'L-03: a small scale quantises onto the 2px sub-grid (none=sm=0, md=lg=2) — a documented resolution limit, not a bug');
+  // The gate itself is a construction-time tripwire: RADIUS_LADDER factors are
+  // monotone and Math.max(0,·)/snap2 preserve that for any scale ≥ 0, so no scalar
+  // input can violate it — it guards a FUTURE non-monotone ladder edit. Assert the
+  // property holds at the extremes rather than trying to force the (unreachable) throw.
+  ok(radiusScale(1000).filter((r) => !r.pill).every((r, i, a) => i === 0 || r.px >= a[i - 1].px), 'L-03: monotonicity holds even at an absurd scale (gate never false-trips a valid ladder)');
+}
+
+// L-05: pxOf is rem-aware (a rem leaf scales by 16, not truncated as px), and deref reports
+// a runaway/cyclic alias chain as missing (undefined) rather than a mid-chain node.
+{
+  const tree: any = { root: { a: { $value: '1.5rem' }, b: { $value: '8px' }, loop: { $value: '{root.loop}' } } };
+  ok(pxOf(tree, tree.root.b) === 8, 'L-05: pxOf reads a px leaf directly (8px → 8)');
+  ok(pxOf(tree, tree.root.a) === 24, 'L-05: pxOf scales a rem leaf by 16 (1.5rem → 24px), not parseInt→1');
+  ok(deref(tree, tree.root.loop) === undefined, 'L-05: deref returns undefined on a cyclic alias chain (missing), not a mid-chain alias node');
+  ok(deref(tree, tree.root.b)?.$value === '8px' && at(tree, 'root.b')?.$value === '8px', 'L-05: deref/at resolve a normal leaf unchanged');
 }
 
 // M-05: red-territory detection is chroma-aware. A red-ish but DESATURATED (greige) primary

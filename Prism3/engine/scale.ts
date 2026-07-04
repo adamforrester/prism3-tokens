@@ -83,6 +83,14 @@ export const radiusScale = (scale: number, baseMd = 4, pill = 128): RadiusStep[]
   const ramp: RadiusStep[] = RADIUS_LADDER.map(({ name, factor }) => ({
     name, px: name === 'none' ? 0 : Math.max(0, snap2(baseMd * factor * scale)),
   }));
+  // Weak-monotonicity gate (L-03): radii must never DECREASE as the rung grows
+  // (none ≤ sm ≤ md ≤ lg). Equality is allowed by design — small scales snap
+  // adjacent rungs onto the same 2px sub-grid, and scale=0 collapses all to sharp
+  // — but a rung smaller than its predecessor means a non-monotone (NaN/negative
+  // scale, or a broken ladder edit) slipped the Number.isFinite guard upstream.
+  for (let i = 1; i < ramp.length; i++)
+    if (ramp[i].px < ramp[i - 1].px)
+      throw new Error(`radiusScale: non-monotone rung ${ramp[i].name}=${ramp[i].px}px < ${ramp[i - 1].name}=${ramp[i - 1].px}px (scale=${scale})`);
   ramp.push({ name: 'round', px: pill, pill: true });
   return ramp;
 };

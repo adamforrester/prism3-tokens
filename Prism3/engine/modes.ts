@@ -212,7 +212,25 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
   const paletteRole = (r: Role, surf: RGB, min: number): RatedNum =>
     chromatic(r2p[r], theme.roleAnchorStep[r], surf, min);
   const dir = cfg.family === 'light' ? +1 : -1;
-  const walk = (palette: string, fromNum: number, steps: number): Cand => pStep(palOf(palette), fromNum + dir * 50 * steps);
+  const walk = (palette: string, fromNum: number, steps: number): Cand => {
+    const pal = palOf(palette);
+    const ramp = ramps.get(pal)!;
+    const near = (n: number) => ramp.reduce((a, b) => (Math.abs(b.num - n) < Math.abs(a.num - n) ? b : a));
+    const lo = ramp.reduce((m, s) => Math.min(m, s.num), Infinity);
+    const hi = ramp.reduce((m, s) => Math.max(m, s.num), -Infinity);
+    // Distinctness (L-01): the forward walk is fromNum + dir*50*steps. When that
+    // OVERSHOOTS the ramp end, `near` clamps it to the terminal step — so two
+    // different step-counts (hover=1, pressed=2) collapse onto the SAME terminal
+    // step and the interactive states become visually indistinguishable. Each
+    // state's contrast is gated, but their mutual distinctness never was. On
+    // overshoot, reflect and walk inward the other way, preserving the step-count
+    // separation. Inward is toward mid-ramp, so it stays within the gamut the
+    // ramp already vetted; the contract gate still guards each state's contrast.
+    const fwd = fromNum + dir * 50 * steps;
+    const target = fwd < lo || fwd > hi ? fromNum - dir * 50 * steps : fwd;
+    const s = near(target);
+    return cand(`${ns}.${pal}.${s.key}`, s.rgb);
+  };
   const neutralLow = (): Cand => pStep(r2p.neutral, cfg.family === 'light' ? 200 : 750);
   const tintStep = cfg.family === 'light' ? 100 : 900;       // subtle semantic SURFACE tint
   const mutedStep = cfg.family === 'light' ? 450 : 350;      // muted semantic INK

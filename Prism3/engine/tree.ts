@@ -553,10 +553,20 @@ export type TreeNode = any;
 export const at = (tree: TreeNode, path: string): TreeNode => path.split('.').reduce((n, s) => n?.[s], tree);
 export const deref = (tree: TreeNode, node: TreeNode): TreeNode => {
   let cur = node, guard = 0;
-  while (cur && typeof cur.$value === 'string' && /^\{.+\}$/.test(cur.$value) && guard++ < 10) cur = at(tree, cur.$value.slice(1, -1));
+  while (cur && typeof cur.$value === 'string' && /^\{.+\}$/.test(cur.$value)) {
+    if (guard++ >= 10) return undefined; // cycle / runaway chain — report missing, not a mid-chain alias node (L-05)
+    cur = at(tree, cur.$value.slice(1, -1));
+  }
   return cur;
 };
-export const pxOf = (tree: TreeNode, node: TreeNode): number => { const t = deref(tree, node); return parseInt(String(t?.$value).replace('px', ''), 10) || 0; };
+export const pxOf = (tree: TreeNode, node: TreeNode): number => {
+  const v = String(deref(tree, node)?.$value);
+  // A rem leaf must scale by 16, not be truncated as if it were px — `parseInt`
+  // on '1.5rem' silently yields 1(px). Geometry tokens are authored in px today,
+  // so this is defensive, but it keeps pxOf honest if a rem leaf ever reaches it. (L-05)
+  if (v.endsWith('rem')) return parseFloat(v) * 16 || 0;
+  return parseInt(v.replace('px', ''), 10) || 0;
+};
 export const subNode = (tree: TreeNode, aliasStr: any): TreeNode => at(tree, String(aliasStr).replace(/^\{|\}$/g, ''));
 export const numOf = (tree: TreeNode, node: TreeNode): number => { const t = deref(tree, node); return typeof t?.$value === 'number' ? t.$value : parseFloat(String(t?.$value)) || 0; };
 export const remPxOf = (tree: TreeNode, node: TreeNode): number => { const t = deref(tree, node); const px = t?.$extensions?.prism3?.px; if (px) return px; const v = String(t?.$value); return v.endsWith('rem') ? parseFloat(v) * 16 : parseFloat(v) || 0; };
