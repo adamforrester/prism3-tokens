@@ -18,39 +18,39 @@ Two threads are live: the **Figma-emitter agent** (owns `emit-figma.ts` + its `t
 gates; materialises axes into Figma via MCP) and the **generator thread** (everything
 else — engine core, web dashboard, docs). Coordinate via committed artefacts (docs/10 §6).
 
-- **emit-figma today:** colour + typography + dims + shadow + gradient axes shipped
-  (#28, #31, #33, #35). Fully specified in `docs/10-figma-materialization.md`.
-- **emit-figma next (docs/10 §7 queue post-audit, 2026-07-03):**
-  1. ★ **Layout** — one `layout` collection with breakpoint modes (sm/md/lg/xl/2xl),
-     carrying `grid/columns` + `grid/gutter` + `grid/margin` (per-mode) + `container/max`
-     + `container/narrow`. The DTCG tree already carries `figma.collection: 'layout',
-     mode: <bp>` on every leaf — target is prescribed.
-  2. **Motion** — verify Figma Plugin API has a `TIME` scope (Config 2026 landing);
-     emit `motion/duration/*` + `motion/duration-reduced/*` + `motion/stagger` if so.
-     easing/spring/transition composites have no Figma variable primitive — emit as
-     `motion-styles.json` reference metadata only.
-  3. **Generalise** — emit aurora + wendys through every axis (proves brand-agnostic;
-     lands the alias-driven form of aurora gradients).
-  4. **Follow-ups parked in docs/10 §7:** fix 3b (`font-tracking` FLOATs, bindable
-     letterSpacing); `foreground.secondary` ≡ `border.primary` (generator thread,
-     semantic-layer, not emit-figma); **mode opt-out awareness** — `emit-figma.ts`
-     hardcodes `COLOR_MODES = ['light', 'dark', 'hc-light', 'hc-dark']`; a light-only
-     brand's output silently carries dark-with-light-values files. Fix with layout or
-     motion pass, whichever lands first.
-  5. ★ **Wireframe mode (NEW, from generator thread 1b)** — `'wireframe'` is now a valid
-     opt-in mode. Two materialization changes for emit-figma when a brand opts in: (a) the
-     `color` collection gains a **wireframe** mode (greyscale — every role's
-     `$extensions.prism3.modes.wireframe.$value` aliases a `neutral.*` step); (b) **geometry
-     becomes mode-varying** — non-zero `radius.*` leaves now carry
+- **emit-figma today:** colour + typography + dims + shadow + gradient + **layout**
+  axes shipped (#28, #31, #33, #35, #46). Mode-opt-out fix landed (#49) — a light-only
+  brand no longer emits dark files with light values. **Generalise** landed (this PR) —
+  aurora + wendys now emit through every axis (aurora's alias-driven gradient Paint
+  Style is live). Fully specified in `docs/10-figma-materialization.md`.
+- **emit-figma next (docs/10 §7 queue post-#50, 2026-07-04):**
+  1. ★ **Wireframe mode (from generator thread 1b, #48)** — `'wireframe'` is a valid
+     opt-in mode. Two materialization changes when a brand opts in: (a) the `color`
+     collection gains a **wireframe** mode (greyscale, every role's
+     `$extensions.prism3.modes.wireframe.$value` aliases a `neutral.*` step); (b)
+     **geometry becomes mode-varying** — non-zero `radius.*` leaves carry
      `$extensions.prism3.modes.wireframe → {root.dimension.0}`. So the radius variable
-     collection needs a **wireframe mode** (radius → 0). This is the first non-colour/shadow
-     axis to vary by mode; it generalises the `COLOR_MODES` fix (4) into a per-axis mode set.
-     Only fires when `theme.modes.includes('wireframe')` — the default four are untouched.
+     collection needs a **wireframe mode** (radius → 0). This is the first non-colour/
+     shadow axis to vary by mode. Only fires when `theme.modes.includes('wireframe')` —
+     the default four are untouched. No example brand opts in today, so gate against a
+     synthetic wireframe-enabled brand (`brandTheme({ ...input, modes: [..., 'wireframe'] })`
+     — same pattern as blocks 18 + 20).
+  2. **Motion — STILL DEFERRED.** Probed the Figma Plugin API on 2026-07-03; `TIME`
+     scope is not in the FLOAT-var enum yet (Config 2026 hasn't surfaced it). Recheck
+     when it lands. easing/spring/transition composites have no Figma variable primitive
+     — emit as `motion-styles.json` reference metadata only.
+  3. **Follow-ups parked (typography #31):** fix 3b bindable form — `font-tracking`
+     FLOAT collection (6 tokens: tighter/tight/snug/normal/wide/wider); rebind
+     `letterSpacing` on all 36 text styles.
+  4. **Follow-up parked (materialise-to-verify, from #50):** import aurora + wendys
+     artifacts into the Prism3 Test File via Figma MCP. figma-console MCP disconnected
+     mid-session on 2026-07-03; the structural gates prove alias resolution + gradient
+     targets — this is purely visual confirmation.
 - **Test file:** the Figma-MCP thread's target is "Prism3 Test File" (fileKey
   `Zrn9YDqrFiwjs2IfKInNY0`). It has 4 specimen pages already (Colour, Typography, Dims,
   Shadow, Gradient) + all the corresponding variable collections + styles imported live.
-- **Run commands:** `npx tsx Prism3/engine/emit-figma.ts` writes `out/figma/nb/*.json`;
-  `npx tsx Prism3/engine/test.ts` gates everything (347/347 today).
+- **Run commands:** `npx tsx Prism3/engine/emit-figma.ts` writes `out/figma/{nb,aurora,wendys}/*.json`;
+  `npx tsx Prism3/engine/test.ts` gates everything (384/384 today).
 
 ---
 
