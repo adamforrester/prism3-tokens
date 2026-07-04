@@ -485,6 +485,33 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   const built = buildTree(theme);
   ok(built.stats.broken.length === 0 && built.stats.aliases > 0, `harbor: all ${built.stats.aliases} aliases resolve`);
   ok(theme.notes.some((n) => n.toLowerCase().includes('action colour defaults to the primary')), 'harbor: default action=primary flagged in notes');
+
+  // M-11: the alias gate must include fluid-typography responsive refs (`responsive.{min,max}.ref`)
+  // — a dangling {root.font.size.NN} used to ship while the gate reported clean. Independently
+  // count every {…} ref in the tree INCLUDING the fluid refs; buildTree's own count must match
+  // (if its walk skipped them — the bug — its count would be lower than this independent one).
+  {
+    const brandRoot = (built.tree as any)[Object.keys(built.tree)[0]];
+    let refs = 0, fluidRefs = 0;
+    const isRef = (s: any) => typeof s === 'string' && /^\{.+\}$/.test(s);
+    const count = (n: any): void => {
+      if (!n || typeof n !== 'object') return;
+      if (n.$type !== undefined) {
+        if (isRef(n.$value)) refs++;
+        else if (n.$value && typeof n.$value === 'object' && !Array.isArray(n.$value)) for (const s of Object.values(n.$value)) if (isRef(s)) refs++;
+        else if (Array.isArray(n.$value)) for (const it of n.$value) if (it && typeof it === 'object') for (const s of Object.values(it)) if (isRef(s)) refs++;
+        const mo = n.$extensions?.prism3?.modes;
+        if (mo && !Array.isArray(mo)) for (const mv of Object.values(mo)) if (isRef((mv as any)?.$value)) refs++;
+        const r = n.$extensions?.prism3?.responsive;
+        if (r?.fluid) for (const e of [r.min, r.max]) if (isRef(e?.ref)) { refs++; fluidRefs++; }
+        return;
+      }
+      for (const [k, v] of Object.entries(n)) if (!k.startsWith('$')) count(v);
+    };
+    count(brandRoot);
+    ok(fluidRefs > 0, `M-11: precondition — harbor has fluid composites (${fluidRefs} responsive refs)`);
+    ok(built.stats.aliases === refs, `M-11: the alias gate counts every ref incl. fluid responsive refs (gate ${built.stats.aliases} === independent ${refs})`);
+  }
 }
 // (5) STANDARD dialect — the brand-skills / google-labs design.md path (docs/07 §11):
 // the reader + colour-role classifier + x-prism3 levers, on the real Wendy's file.
