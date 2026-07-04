@@ -29,7 +29,7 @@ import { buildFigmaColor, buildFigmaFont, buildFigmaFontFluid, buildFigmaTextSty
 import { buildTree, validateBrandInput } from './emit-dtcg';
 import { buildAiMetadata } from './ai-metadata';
 import { handleRpc, callTool, toolDefs } from './mcp';
-import { scoreConsumption, tokenPaths, normalizeRef, isPrimitiveRef, PRIMITIVE_TIERS } from './eval';
+import { scoreConsumption, scoreContractCompliance, tokenPaths, normalizeRef, isPrimitiveRef, PRIMITIVE_TIERS } from './eval';
 import { runEval, buildPrompt, extractRefs, SAMPLE_TASKS } from './eval-run';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -1899,6 +1899,25 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   // empty → no NaN
   const empty = scoreConsumption([], tree, 'prism');
   ok(empty.total === 0 && empty.inventedRate === 0 && empty.primitiveLeakRate === 0, 'eval: empty ref list scores 0/0 without NaN');
+
+  // contract compliance (docs/17 §4): did the agent pair legible colours, in every mode?
+  const good = scoreContractCompliance([{ fg: 'color.text.primary', bg: 'color.background.primary' }], theme);
+  ok(good.checked === 4 && good.pass === 4 && good.rate === 1 && good.failures.length === 0, 'eval: text.primary on background.primary clears 4.5 in all 4 modes (compliant)');
+  const bad = scoreContractCompliance([{ fg: 'color.background.secondary', bg: 'color.background.primary' }], theme);
+  ok(bad.pass === 0 && bad.failures.length === bad.checked && bad.checked > 0 && bad.rate === 0, 'eval: two adjacent page surfaces as a text pair fail 4.5 in every mode');
+  ok(bad.failures.every((f) => f.min === 4.5) && bad.failures[0].ratio < 4.5, 'eval: a text-kind failure records the 4.5 floor + the (raw, rounded) ratio below it');
+  // kind lowers the floor to 3 (WCAG 1.4.11 / large text)
+  const ui = scoreContractCompliance([{ fg: 'color.background.secondary', bg: 'color.background.primary', kind: 'ui' }], theme);
+  ok(ui.failures.every((f) => f.min === 3), 'eval: kind:ui/large-text drops the contract floor to 3:1');
+  // mixed pass+fail → rate strictly between 0 and 1; unresolved pair flagged, not counted
+  const mixed = scoreContractCompliance([
+    { fg: 'color.text.primary', bg: 'color.background.primary' },
+    { fg: 'color.background.secondary', bg: 'color.background.primary' },
+    { fg: 'color.made.up.role', bg: 'color.background.primary' },
+  ], theme);
+  ok(mixed.rate > 0 && mixed.rate < 1, 'eval: a mix of passing + failing pairs → compliance rate between 0 and 1');
+  ok(mixed.unresolved.length === 1 && /made\.up/.test(mixed.unresolved[0]), 'eval: a pair naming a non-colour role is reported unresolved, not scored');
+  ok(scoreContractCompliance([], theme).rate === 1 && scoreContractCompliance([], theme).checked === 0, 'eval: no pairs → vacuously compliant (rate 1, checked 0), no NaN');
 }
 
 // -------------------------------------------- consumption-eval harness (docs/17 §3, eval-run.ts)

@@ -52,16 +52,22 @@ the pure core; same split as the MCP stdio loop). Shape:
 Because step 2 needs a model, the harness is opt-in (an API key), not part of the default
 `test.ts` gate — the *scoring* is gated, the *runs* are a separate command.
 
-## 4. Deferred metrics (add with the harness)
+## 4. Further metrics
 
-- **Contract compliance** — for the fg/bg token pairs the agent's output actually pairs
-  (e.g. a text role on a surface role), resolve both per mode and check the contrast clears
-  the pair's implied floor. This reuses `resolve-preview`'s contract math; the open design
-  question is inferring the *expected min* for an agent-chosen pair (text→4.5, non-text→3,
-  large-text→3) — likely a small classifier over the role names.
-- **Rubric layer** — semantic-role vs primitive use (partly the leak rate), mode-correctness,
-  did it honour `avoid_when` from the `.ai.json`. Checklist first; an LLM judge only if a
-  dimension resists mechanical scoring.
+- **Contract compliance — ✅ BUILT (`scoreContractCompliance`, `eval.ts`).** For the fg/bg colour
+  pairs an agent pairs on screen (`UsedPair { fg, bg, kind }`), resolve both roles per mode
+  (`resolveAllModes`) and check the **raw** contrast (CR-01) clears the kind's floor — text 4.5,
+  `ui`/`large-text` 3 (WCAG 1.4.11 / 1.4.3-large). Returns `{ checked, pass, rate, failures[],
+  unresolved[] }`: a pair fails if it's below floor in *any* mode where both roles resolve; a pair
+  naming a non-colour role lands in `unresolved` rather than being scored; no pairs → vacuously
+  compliant (rate 1). The `resolve-preview` contract math applied to *consumption* — the docs/04
+  differentiator turned on the agent's output. Gated in `test.ts` (pass/fail/kind-floor/mixed/
+  unresolved/empty). **Still to wire:** eliciting the pairs from the agent — the harness currently
+  extracts a flat ref list; a `pairs` output mode (ask the agent which ink sits on which surface) is
+  the next harness step, mirroring how `scoreConsumption` preceded `runEval`.
+- **Rubric layer — DEFERRED.** Semantic-role vs primitive use (partly the leak rate),
+  mode-correctness, did it honour `avoid_when` from the `.ai.json`. Checklist first; an LLM judge
+  only if a dimension resists mechanical scoring.
 
 ## 5. Success shape — and the first measured run
 
