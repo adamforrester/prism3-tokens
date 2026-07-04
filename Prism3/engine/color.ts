@@ -132,6 +132,13 @@ export const luminance = (rgb: RGB): number => relLuminance(rgb);
  * accident of even spacing.
  */
 export const dualContrastWindow = (ratio = 4.5): [number, number] => {
+  // The most any single luminance can clear against BOTH extremes is √21 ≈ 4.583
+  // (at the geometric-mean luminance where the black-side and white-side ratios
+  // meet). Past that the window inverts (min > max) — an empty set. Return no
+  // window by throwing rather than handing back an inverted [min>max] pair a
+  // caller would misread as a valid range (e.g. a future HC 7:1 caller). L-02.
+  if (ratio > Math.sqrt(21))
+    throw new Error(`dualContrastWindow: no colour clears ${ratio}:1 on both black and white — the max dual-side ratio is √21 ≈ 4.58`);
   const min = ratio * 0.05 - 0.05; // passes on black
   const max = 1.05 / ratio - 0.05; // passes on white
   return [min, max];
