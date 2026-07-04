@@ -143,7 +143,10 @@ const rampEl = (name: string, steps: { num: number; key: string; hex: string }[]
   head.append(el('span', 'ramp-name', name));
   const meta = el('span', 'ramp-anchor');
   const aKey = anchorStep != null ? steps.find((s) => s.num === anchorStep)?.key : undefined;
-  meta.innerHTML = aKey ? `anchor <b class="mono">${name}/${aKey}</b>` : `<span class="faint">derived scale</span>`;
+  // Built via el()/textContent, never innerHTML — `name` is a brand-controlled palette name
+  // (pasted design.md / accent rename) and would otherwise be an XSS sink (CR-07).
+  if (aKey) meta.append(document.createTextNode('anchor '), el('b', 'mono', `${name}/${aKey}`));
+  else meta.append(el('span', 'faint', 'derived scale'));
   head.append(meta);
   wrap.append(head);
   const sorted = [...steps].sort((a, b) => a.num - b.num);

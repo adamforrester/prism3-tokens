@@ -47,7 +47,7 @@ const primitiveLeaf = (theme: Theme, paletteDesc: string, s: Step, isAnchor: boo
   return {
     $type: 'color', $value: colorValue(s.rgb, theme.colorFormat),
     $description: `${paletteDesc} ${s.key} — ${bandName[s.band]} band${role ? ` — ${role}` : ''}`,
-    $extensions: { prism3: { generated: true, source: 'oklch', oklch: { l: round(s.oklch.l), c: round(s.oklch.c), h: round(s.oklch.h, 2) }, hex: s.hex, band: s.band, anchor: isAnchor, contrastOnWhite: contrast(s.rgb, WHITE) } },
+    $extensions: { prism3: { generated: true, source: 'oklch', oklch: { l: round(s.oklch.l), c: round(s.oklch.c), h: round(s.oklch.h, 2) }, hex: s.hex, band: s.band, anchor: isAnchor, contrastOnWhite: round(contrast(s.rgb, WHITE), 2) } },
   };
 };
 const baseLeaf = (theme: Theme, rgb: RGB, description: string, band: string): Token => ({
@@ -137,15 +137,16 @@ const gradientCss = (g: ResolvedGradient, fmt: 'rgb' | 'hex'): string => {
 const gradientLeaf = (g: ResolvedGradient, fmt: 'rgb' | 'hex'): Token => {
   const paintType = g.kind === 'radial' ? 'GRADIENT_RADIAL' : 'GRADIENT_LINEAR';
   const geom = g.kind === 'radial' ? { center: g.center, shape: g.shape } : { angle: g.angle };
-  const aa = Math.min(g.worstOnWhite, g.worstOnBlack);
+  const aa = Math.min(g.worstOnWhite, g.worstOnBlack);   // raw threshold (CR-01: compare un-rounded)
+  const wOnW = round(g.worstOnWhite, 2), wOnB = round(g.worstOnBlack, 2); // rounded for display/emit
   return {
     $type: 'gradient',
     $value: g.stops.map((s) => ({ color: `{${s.aliasOf}}`, position: round3(s.position) })),
     $description: `gradient ${g.name} — ${g.kind}${g.kind === 'linear' ? ` ${g.angle}°` : ` (${g.shape})`}, ${g.stops.length} stops, ${g.interpolation} interpolation — brand gradient (opt-in)`,
     $extensions: { prism3: { generated: true, role: 'composite', kind: g.kind, ...geom, interpolation: g.interpolation,
       css: gradientCss(g, fmt),
-      a11y: { worstOnWhite: g.worstOnWhite, worstOnBlack: g.worstOnBlack,
-        note: `text-on-gradient: white text clears ${g.worstOnWhite}:1 at the lightest stop, black text ${g.worstOnBlack}:1 at the darkest — a text overlay must meet its ratio at the worst-case point (constrain the lightness range or add a scrim)${aa < 4.5 ? '; NEITHER plain overlay clears 4.5:1 body text — use a scrim or a solid container' : ''}` },
+      a11y: { worstOnWhite: wOnW, worstOnBlack: wOnB,
+        note: `text-on-gradient: white text clears ${wOnW}:1 at the lightest stop, black text ${wOnB}:1 at the darkest — a text overlay must meet its ratio at the worst-case point (constrain the lightness range or add a scrim)${aa < 4.5 ? '; NEITHER plain overlay clears 4.5:1 body text — use a scrim or a solid container' : ''}` },
       figma: { kind: 'paint-style', styleType: 'PAINT', paintType, binds: ['gradientStops[].color'], baked: ['type', g.kind === 'radial' ? 'center/shape' : 'angle', 'positions'],
         sampledStops: g.sampled,
         note: 'Figma Paint Style (gradient fill) — created via the Plugin API only (REST cannot write/read Paint values). Only stop COLOURS bind to COLOR variables (Plugin API Update 92); kind, angle/transform and stop positions are baked. Figma interpolates in sRGB only, so bind the canonical stop colours AND lay down sampledStops to approximate the OKLCH curve.' } } },
@@ -308,12 +309,12 @@ export const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats
     for (const m of OVERRIDE_MODES) {
       const rr = byMode.get(m)?.roles[roleKey];
       if (!rr) continue; // defensive — every mode resolves the same role set today
-      modeOverrides[m] = { $value: `{${rr.path}}`, contrast: rr.ratio, against: rr.against, ...(rr.min > 0 ? { min: rr.min } : {}) };
+      modeOverrides[m] = { $value: `{${rr.path}}`, contrast: round(rr.ratio, 2), against: rr.against, ...(rr.min > 0 ? { min: rr.min } : {}) };
     }
     // Elevation is not a colour group — a component composes a foreground tier +
     // a shadow step (see docs/06). No parallel `elevation.*` tree is emitted.
     const leaf = aliasLeaf(lr.path, lr.description, {
-      contrast: lr.ratio, against: lr.against, ...(lr.min > 0 ? { min: lr.min } : {}),
+      contrast: round(lr.ratio, 2), against: lr.against, ...(lr.min > 0 ? { min: lr.min } : {}),
       modes: modeOverrides,
       figma: { collection: 'color', modes: ['light', ...OVERRIDE_MODES], note: 'one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*' },
     });

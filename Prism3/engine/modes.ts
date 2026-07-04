@@ -81,6 +81,8 @@ export type ModeCfg = {
   borderTarget: number; nonTextMin: number;
 };
 
+// `ratio` is the RAW WCAG contrast (un-rounded) — compare it directly against `min`; round
+// only when serialising (CR-01). `min` of 0 means "not a contrast-gated role" (surfaces).
 export type ResolvedRole = { path: string; description: string; ratio: number; against: string; min: number; hex: string };
 export type ModeResult = { mode: ModeName; surface: RGB; roles: Record<string, ResolvedRole> };
 
@@ -166,8 +168,10 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
 
   const roles: Record<string, ResolvedRole> = {};
   const rated = (c: Cand, surf: RGB): Rated => ({ ...c, ratio: contrast(c.rgb, surf) });
+  // ratio is the RAW contrast — every gate/pass check compares it against `min` un-rounded
+  // (CR-01). Rounding to 2dp happens only where it's serialised (tree.ts / ai-metadata.ts).
   const put = (key: string, r: Rated, description: string, against: string, min: number) =>
-    { roles[key] = { path: r.path, description, ratio: Math.round(r.ratio * 100) / 100, against, min, hex: hex(r.rgb) }; };
+    { roles[key] = { path: r.path, description, ratio: r.ratio, against, min, hex: hex(r.rgb) }; };
   const putSurf = (key: string, c: Cand, description: string) =>
     { roles[key] = { path: c.path, description, ratio: 1, against: 'self', min: 0, hex: hex(c.rgb) }; };
 

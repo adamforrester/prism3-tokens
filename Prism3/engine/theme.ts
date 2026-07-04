@@ -112,6 +112,17 @@ const STATUS_DEFAULTS: Record<'success' | 'warning' | 'danger' | 'info', OKLCH &
   info: { l: 0.55, c: 0.13, h: 245, chroma: 0.13 },
 };
 
+// Palette names the engine always mints — a brandColor may not collide with these, else
+// `new Map(palettes)` / `palette[name] = node` (last-wins) would let a brandColor named
+// `neutral`/`primary` REPLACE the ramp the whole surface model is built on, or a status name
+// silently replace the brandColor — gates stay green on corrupted output (CR-03). Includes the
+// tree.ts base swatches (`white`/`black`/`*-alpha`).
+const RESERVED_PALETTES = new Set(['primary', 'neutral', 'success', 'warning', 'info', 'danger', 'white', 'black', 'black-alpha', 'white-alpha']);
+// A brandColor name is a palette slug: it becomes a `{root.palette.<name>.<step>}` alias path,
+// so it must be a single lowercase kebab segment — no dots (break alias paths), spaces, or
+// symbols (also closes the CR-07 XSS vector at the source: an HTML-metachar name can't validate).
+const PALETTE_NAME_RE = /^[a-z][a-z0-9-]*$/;
+
 /** Angular distance between two hues (degrees, 0..180). */
 const hueDist = (a: number, b: number): number => {
   const d = Math.abs(a - b) % 360;
@@ -790,6 +801,18 @@ export const brandTheme = (input: BrandInput): Theme => {
   ];
 
   // Additional brand colours (secondary / tertiary / accents) — arbitrary count.
+  // Validate names first (CR-03): reject reserved collisions, bad charset, and duplicates —
+  // all of which would otherwise silently corrupt the palette map with green gates.
+  const seenNames = new Set<string>();
+  for (const bc of input.brandColors ?? []) {
+    if (!PALETTE_NAME_RE.test(bc.name))
+      throw new Error(`brand colour name '${bc.name}' must be a single lowercase slug (letters/digits/hyphen, start with a letter — no dots, spaces, or symbols)`);
+    if (RESERVED_PALETTES.has(bc.name))
+      throw new Error(`brand colour name '${bc.name}' is reserved (an engine-generated palette) — it would overwrite that ramp; pick a distinct name`);
+    if (seenNames.has(bc.name))
+      throw new Error(`duplicate brand colour name '${bc.name}' — brand colour names must be unique`);
+    seenNames.add(bc.name);
+  }
   for (const bc of input.brandColors ?? []) {
     palettes.push({ palette: bc.name, role: 'brand', description: `Brand ${bc.name}`, steps: generateRamp({ hue: bc.oklch.h, chroma: bc.oklch.c, anchor: { oklch: bc.oklch, stepNum: autoPlaceStep(bc.oklch.l) } }) });
     notes.push(`brand colour '${bc.name}' (h${bc.oklch.h}) added`);

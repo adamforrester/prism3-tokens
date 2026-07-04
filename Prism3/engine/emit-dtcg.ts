@@ -52,27 +52,46 @@ export const emitTheme = (theme: Theme, outDir: string): { tree: any; modes: Mod
 // Dependency-free validator for the JSON-Schema subset the BrandInput contract
 // uses (schema/theme-schema.json) — guards the documented contract against drift
 // from the actual white-label input, and gates every CLI run.
+// Types the hand-rolled validator understands. A schema `type` outside this set means the
+// schema author reached for a construct the validator can't enforce — fail LOUD rather than
+// silently vouch for it (CR-04's root cause: a `{"type":"boolean"}` with no boolean branch
+// fell through and "matched" anything, incl. inside oneOf → `gradients: "banana"` passed).
+const KNOWN_TYPES = new Set(['object', 'array', 'number', 'integer', 'string', 'boolean']);
 const validate = (data: any, schema: any, defs: any, path = ''): string[] => {
   if (schema.$ref) return validate(data, defs[schema.$ref.split('/').pop()!], defs, path);
   if (schema.oneOf) return schema.oneOf.some((s: any) => validate(data, s, defs, path).length === 0) ? [] : [`${path || '(root)'}: matches none of oneOf`];
   const e: string[] = [];
+  const at = path || '(root)';
+  // Value constraints — type-INDEPENDENT. `enum` was previously only checked under
+  // type:string, so a numeric enum (titleFloor: [16,18]) went unenforced (CR-04).
+  if (schema.enum && !schema.enum.includes(data)) e.push(`${at}: ${JSON.stringify(data)} not in [${schema.enum.join(', ')}]`);
+  if (schema.const !== undefined && data !== schema.const) e.push(`${at}: ${JSON.stringify(data)} !== const ${JSON.stringify(schema.const)}`);
   const t = schema.type;
+  if (t !== undefined && !KNOWN_TYPES.has(t))
+    throw new Error(`theme-schema validator: unsupported "type": "${t}" at ${at} — teach the hand-rolled validator this type before the schema uses it (silent-ignore guard, CR-04)`);
   if (t === 'object') {
-    if (typeof data !== 'object' || data === null || Array.isArray(data)) return [`${path || '(root)'}: expected object`];
+    if (typeof data !== 'object' || data === null || Array.isArray(data)) return [`${at}: expected object`];
     const props = schema.properties ?? {};
-    for (const req of schema.required ?? []) if (!(req in data)) e.push(`${path || '(root)'}: missing required '${req}'`);
+    for (const req of schema.required ?? []) if (!(req in data)) e.push(`${at}: missing required '${req}'`);
     if (schema.additionalProperties === false) for (const k of Object.keys(data)) if (!(k in props)) e.push(`${path ? path + '.' : ''}${k}: unknown property (not in contract)`);
     for (const [k, v] of Object.entries(data)) if (props[k]) e.push(...validate(v, props[k], defs, path ? `${path}.${k}` : k));
   } else if (t === 'array') {
-    if (!Array.isArray(data)) return [`${path}: expected array`];
+    if (!Array.isArray(data)) return [`${at}: expected array`];
+    if (schema.minItems !== undefined && data.length < schema.minItems) e.push(`${at}: ${data.length} item(s) < minItems ${schema.minItems}`);
+    if (schema.maxItems !== undefined && data.length > schema.maxItems) e.push(`${at}: ${data.length} item(s) > maxItems ${schema.maxItems}`);
     if (schema.items) data.forEach((it, i) => e.push(...validate(it, schema.items, defs, `${path}[${i}]`)));
-  } else if (t === 'number') {
-    if (typeof data !== 'number') e.push(`${path}: expected number`);
-    else { if (schema.minimum !== undefined && data < schema.minimum) e.push(`${path}: ${data} < ${schema.minimum}`); if (schema.maximum !== undefined && data > schema.maximum) e.push(`${path}: ${data} > ${schema.maximum}`); }
+  } else if (t === 'number' || t === 'integer') {
+    if (typeof data !== 'number') e.push(`${at}: expected ${t}`);
+    else {
+      if (t === 'integer' && !Number.isInteger(data)) e.push(`${at}: ${data} is not an integer`);
+      if (schema.minimum !== undefined && data < schema.minimum) e.push(`${at}: ${data} < ${schema.minimum}`);
+      if (schema.maximum !== undefined && data > schema.maximum) e.push(`${at}: ${data} > ${schema.maximum}`);
+    }
   } else if (t === 'string') {
-    if (typeof data !== 'string') e.push(`${path}: expected string`);
-    else if (schema.enum && !schema.enum.includes(data)) e.push(`${path}: '${data}' not in [${schema.enum.join(', ')}]`);
-    else if (schema.pattern && !new RegExp(schema.pattern).test(data)) e.push(`${path}: '${data}' does not match /${schema.pattern}/`);
+    if (typeof data !== 'string') e.push(`${at}: expected string`);
+    else if (schema.pattern && !new RegExp(schema.pattern).test(data)) e.push(`${at}: '${data}' does not match /${schema.pattern}/`);
+  } else if (t === 'boolean') {
+    if (typeof data !== 'boolean') e.push(`${at}: expected boolean`);
   }
   return e;
 };
