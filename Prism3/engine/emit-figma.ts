@@ -77,8 +77,14 @@ export type FigmaCollectionFile = { $collection: string; $mode: string; variable
  *  adapter iterates the intersection of THIS list and `theme.modes`, so a
  *  light-only brand emits only `color.light.json` (not four files with dark
  *  values silently falling back to light). Canonical order is preserved
- *  regardless of the order the user typed modes into their brief. */
-export const COLOR_MODES = ['light', 'dark', 'hc-light', 'hc-dark'] as const;
+ *  regardless of the order the user typed modes into their brief.
+ *  `wireframe` (docs/11 Pillar 1b, #48) is an opt-in generated greyscale
+ *  mode — every chromatic role's `$extensions.prism3.modes.wireframe.$value`
+ *  aliases a neutral step, so the color axis emits `color.wireframe.json`
+ *  automatically for any brand that opts in. Canonical position is last
+ *  (after hc-dark) so file order stays deterministic; the default four
+ *  brands don't include it → their output is byte-identical. */
+export const COLOR_MODES = ['light', 'dark', 'hc-light', 'hc-dark', 'wireframe'] as const;
 
 // role family (first segment after `color`) → Figma variable scopes (docs/10 §3).
 const COLOR_SCOPES: Record<string, string[]> = {
@@ -483,7 +489,13 @@ const aliasFigName = (aliasStr: string): string => {
 export type FigmaDimsCollections = {
   dimension: FigmaCollectionFile;
   space: FigmaCollectionFile;
-  radius: FigmaCollectionFile;
+  /** Per-mode collection files (like the colour axis). Default: `[{$mode:'Default',…}]`
+   *  — a single-entry array so a non-wireframe brand's `radius.json` stays byte-identical.
+   *  When a brand opts into wireframe (docs/11 Pillar 1b), the array carries a second
+   *  entry `{$mode:'wireframe',…}` where every non-zero radius aliases `dimension/0`
+   *  — the FIRST non-colour/shadow axis to be mode-varying, and the load-bearing
+   *  precedent for any future mode-varying geometry. Non-wireframe brands untouched. */
+  radius: FigmaCollectionFile[];
   size: FigmaCollectionFile;
   borderWidth: FigmaCollectionFile;
   focus: FigmaCollectionFile;
@@ -524,18 +536,38 @@ export const buildFigmaDims = (theme: Theme): FigmaDimsCollections => {
     };
   });
 
-  const radiusVars: FigmaVar[] = Object.keys(brand.radius).map((key) => {
-    const leaf = brand.radius[key];
-    const isAlias = typeof leaf.$value === 'string' && /^\{.+\}$/.test(leaf.$value);
-    return {
-      name: `radius/${key}`,
-      resolvedType: 'FLOAT' as const,
-      scopes: RADIUS_SCOPES,
-      description: desc(leaf),
-      value: pxFromValue(tree, leaf.$value),
-      alias: isAlias ? { type: 'VARIABLE_ALIAS' as const, name: aliasFigName(leaf.$value) } : null,
-    };
-  });
+  // Radius is the FIRST non-colour/shadow axis to be MODE-VARYING (docs/11 Pillar 1b).
+  // When the brand opts into `wireframe`, non-zero radius leaves carry a
+  // `$extensions.prism3.modes.wireframe → {root.dimension.0}` override in the DTCG tree
+  // (tree.ts:340–346) — the same per-mode override shape colour/shadow use. Materialise
+  // that here as a wireframe MODE on the `radius` variable collection: in the wireframe
+  // mode file every non-zero radius var aliases `dimension/0`; radius.none stays 0 with
+  // no redundant override (matches tree.ts behaviour). Non-wireframe brands emit a
+  // single Default-mode file (byte-identical to the pre-1b world).
+  const wireframe = theme.modes.includes('wireframe');
+  const radiusVarsFor = (mode: 'Default' | 'wireframe'): FigmaVar[] =>
+    Object.keys(brand.radius).map((key) => {
+      const leaf = brand.radius[key];
+      const wfOverride = mode === 'wireframe' ? leaf.$extensions?.prism3?.modes?.wireframe : undefined;
+      // Wireframe leaves DTCG-only until the brand opts in — even for opted-in brands,
+      // `radius.none` (already 0) carries no override, so we fall through to the leaf.
+      const source: any = wfOverride ?? leaf;
+      const isAlias = typeof source.$value === 'string' && /^\{.+\}$/.test(source.$value);
+      return {
+        name: `radius/${key}`,
+        resolvedType: 'FLOAT' as const,
+        scopes: RADIUS_SCOPES,
+        description: desc(leaf),
+        value: pxFromValue(tree, source.$value),
+        alias: isAlias ? { type: 'VARIABLE_ALIAS' as const, name: aliasFigName(source.$value) } : null,
+      };
+    });
+  const radiusFiles: FigmaCollectionFile[] = wireframe
+    ? [
+        { $collection: 'radius', $mode: 'Default', variables: radiusVarsFor('Default') },
+        { $collection: 'radius', $mode: 'wireframe', variables: radiusVarsFor('wireframe') },
+      ]
+    : [{ $collection: 'radius', $mode: 'Default', variables: radiusVarsFor('Default') }];
 
   // size — nested { <tShirt>: { height, padding-x, padding-y } }. Emit one FLOAT
   // per leaf; height aliases dimension, padding aliases space.
@@ -605,7 +637,7 @@ export const buildFigmaDims = (theme: Theme): FigmaDimsCollections => {
   return {
     dimension: c('dimension', dimVars),
     space: c('space', spaceVars),
-    radius: c('radius', radiusVars),
+    radius: radiusFiles,
     size: c('size', sizeVars),
     borderWidth: c('border-width', borderVars),
     focus: c('focus', focusVars),
@@ -918,10 +950,24 @@ if (isMain) {
     const textStyles = buildFigmaTextStyles(theme);
     writeFileSync(resolve(dir, 'text-styles.json'), JSON.stringify(textStyles, null, 2) + '\n');
     const dims = buildFigmaDims(theme);
-    for (const [_key, coll] of Object.entries(dims)) {
-      writeFileSync(resolve(dir, `${coll.$collection}.json`), JSON.stringify(coll, null, 2) + '\n');
+    // Radius is per-mode (docs/11 Pillar 1b): a non-wireframe brand emits ONE
+    // Default-mode file at `radius.json` (byte-identical to the pre-1b world);
+    // a wireframe-opted-in brand emits per-mode filenames `radius.Default.json`
+    // + `radius.wireframe.json`, matching the colour axis convention.
+    for (const [key, val] of Object.entries(dims)) {
+      if (key === 'radius') {
+        const arr = val as FigmaCollectionFile[];
+        if (arr.length === 1) writeFileSync(resolve(dir, `radius.json`), JSON.stringify(arr[0], null, 2) + '\n');
+        else for (const c of arr) writeFileSync(resolve(dir, `radius.${c.$mode}.json`), JSON.stringify(c, null, 2) + '\n');
+      } else {
+        const coll = val as FigmaCollectionFile;
+        writeFileSync(resolve(dir, `${coll.$collection}.json`), JSON.stringify(coll, null, 2) + '\n');
+      }
     }
-    const dimsCount = (Object.values(dims) as FigmaCollectionFile[]).reduce((n, c) => n + c.variables.length, 0);
+    const dimsCount = (Object.values(dims) as (FigmaCollectionFile | FigmaCollectionFile[])[]).reduce((n, v) => {
+      if (Array.isArray(v)) return n + v[0].variables.length; // radius: count once (same names across modes)
+      return n + v.variables.length;
+    }, 0);
     const layout = buildFigmaLayout(theme);
     for (const l of layout) writeFileSync(resolve(dir, `layout.${l.$mode}.json`), JSON.stringify(l, null, 2) + '\n');
     const shadows = buildFigmaShadow(theme);

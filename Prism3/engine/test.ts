@@ -606,7 +606,10 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   const emitted: Record<string, any> = { palette };
   for (const c of color) emitted[`color.${c.$mode}`] = c;
 
-  for (const key of ['palette', ...COLOR_MODES.map((m) => `color.${m}`)]) {
+  // NB opts into the default four modes (no wireframe), so `color` here has 4 entries.
+  // Iterate the modes actually emitted rather than the full COLOR_MODES set — the
+  // wireframe mode is opt-in and has no NB fixture (docs/11 Pillar 1b).
+  for (const key of ['palette', ...color.map((c) => `color.${c.$mode}`)]) {
     const fix = JSON.parse(readFileSync(resolve(FIXDIR, `${key}.json`), 'utf8'));
     const out = emitted[key];
     const fixByName = new Map<string, any>(fix.variables.map((v: any) => [v.name, v]));
@@ -789,7 +792,7 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   const got = {
     dimension: dims.dimension.variables.length,
     space: dims.space.variables.length,
-    radius: dims.radius.variables.length,
+    radius: dims.radius[0].variables.length,
     size: dims.size.variables.length,
     'border-width': dims.borderWidth.variables.length,
     focus: dims.focus.variables.length,
@@ -800,7 +803,9 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   }
 
   // (b) Every FLOAT var carries a valid non-empty scope set and resolvedType=FLOAT.
-  const allDimColls = [dims.dimension, dims.space, dims.radius, dims.size, dims.borderWidth, dims.focus, dims.opacity];
+  // radius is now per-mode (Pillar 1b); the Default-mode file is [0], byte-identical
+  // to the pre-1b world for a non-wireframe brand like NB.
+  const allDimColls = [dims.dimension, dims.space, dims.radius[0], dims.size, dims.borderWidth, dims.focus, dims.opacity];
   const badType: string[] = [], badScope: string[] = [];
   for (const c of allDimColls) for (const v of c.variables) {
     if (v.resolvedType !== 'FLOAT') badType.push(`${c.$collection}:${v.name}`);
@@ -1368,7 +1373,7 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
 
     // (c) DIMS aliases — cross-collection resolution within the 7 emitted collections.
     const dimNames = new Set<string>();
-    const allDimColls = [dims.dimension, dims.space, dims.radius, dims.size, dims.borderWidth, dims.focus, dims.opacity];
+    const allDimColls = [dims.dimension, dims.space, dims.radius[0], dims.size, dims.borderWidth, dims.focus, dims.opacity];
     for (const c of allDimColls) for (const v of c.variables) dimNames.add(v.name);
     const dimsAliasBad: string[] = [];
     for (const c of allDimColls) for (const v of c.variables) {
@@ -1425,6 +1430,155 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   // on the standard-dialect front door too.
   const wendysGradient = buildFigmaGradient(wendysTheme);
   ok(wendysGradient.styles.length === 0 && wendysGradient.$collection === 'gradient-styles', `figma generalise (wendys): no gradients opted in → empty consistent-shape file (collection='gradient-styles')`);
+}
+
+// (22) EMIT-FIGMA WIREFRAME (docs/10 §7 item 1; docs/11 Pillar 1b — #48 in the engine,
+// this PR in emit-figma). `'wireframe'` is a valid opt-in mode: two materialisation
+// changes fire, gated behind `theme.modes.includes('wireframe')` so the default four-mode
+// world is unchanged.
+//
+//   (a) COLOUR — the color collection gains a `wireframe` MODE. Every role's
+//       `$extensions.prism3.modes.wireframe.$value` (already emitted by tree.ts) aliases
+//       a `palette/neutral/*` step (greyscale); the emit-figma iteration path is the same
+//       as dark/hc-* — the load-bearing change is `COLOR_MODES` gaining `'wireframe'` so
+//       the intersection with `theme.modes` picks it up.
+//   (b) GEOMETRY — this is the NEW shape. Non-zero `radius.*` DTCG leaves carry a
+//       `$extensions.prism3.modes.wireframe → {root.dimension.0}` override (tree.ts).
+//       emit-figma materialises that as a wireframe MODE on the `radius` variable
+//       collection: `radius/*` in the wireframe mode file aliases `dimension/0`.
+//       `radius.none` (already 0) carries no override in the DTCG → stays 0 in both modes.
+//       This is the FIRST non-colour/shadow axis to be MODE-VARYING, and the
+//       load-bearing precedent for any future mode-varying geometry.
+//
+// No example brand opts into wireframe today, so we gate against a SYNTHETIC
+// wireframe-enabled brand (same pattern as blocks 18 + 20: `brandTheme({ …input,
+// modes: [..., 'wireframe'] })`). Default (four-mode) behaviour is untouched —
+// verified by the byte-identical `out/*` regeneration and blocks 3/11 still green.
+{
+  const { input } = parseDesignMd(readFileSync(resolve(HERE, '../examples/aurora.design.md'), 'utf8'));
+
+  // ---- COLOUR AXIS ----------------------------------------------------------
+  // (a1) A default (no wireframe) brand emits four colour files — same as pre-1b. This
+  // asserts wireframe adds no silent phantom mode; block 20 (d) already checks canonical
+  // ordering — this reconfirms the four-file world stays four files when wireframe is off.
+  const def = brandTheme(input);
+  const defColor = buildFigmaColor(def).color;
+  ok(defColor.length === 4, `emit-figma wireframe: default (no wireframe) still emits 4 colour files (got ${defColor.length})`);
+  ok(!defColor.some((c) => c.$mode === 'wireframe'), `emit-figma wireframe: no phantom wireframe file when the brand didn't opt in`);
+
+  // (a2) Synthetic wireframe-opted-in brand — colour axis gains a 5th mode file, canonical
+  // position last (matches COLOR_MODES order). Every role's per-mode value comes from
+  // the wireframe extension in the DTCG tree, not a silent light fallback.
+  const wf = brandTheme({ ...input, modes: ['light', 'dark', 'hc-light', 'hc-dark', 'wireframe'] });
+  const wfColor = buildFigmaColor(wf).color;
+  ok(wfColor.length === 5, `emit-figma wireframe: opted-in brand emits 5 colour files (got ${wfColor.length})`);
+  ok(wfColor.map((c) => c.$mode).join(',') === 'light,dark,hc-light,hc-dark,wireframe',
+    `emit-figma wireframe: canonical mode order preserved (got ${wfColor.map((c) => c.$mode).join(',')})`);
+  const wfMode = wfColor.find((c) => c.$mode === 'wireframe')!;
+
+  // (a3) The wireframe file's role names + shape match the light file (same variable
+  // set — modes carry the same names by different values, per docs/06 §7b).
+  const lightNames = new Set(wfColor.find((c) => c.$mode === 'light')!.variables.map((v) => v.name));
+  const wfNames = new Set(wfMode.variables.map((v) => v.name));
+  ok(lightNames.size === wfNames.size && [...lightNames].every((n) => wfNames.has(n)),
+    `emit-figma wireframe: wireframe file carries the same variable-name set as light (${lightNames.size} vars)`);
+
+  // (a4) Every wireframe-mode alias points at a `palette/neutral/*` step (greyscale —
+  // the point of the mode). Also verify per-role that the alias matches the DTCG
+  // extension target byte-for-byte (no silent light fallback).
+  const wfTreeBuilt = buildTree(wf);
+  const wfTree = (wfTreeBuilt.tree as any)[wf.root];
+  const nonNeutralAliases: string[] = [];
+  const mismatchedAliases: string[] = [];
+  for (const v of wfMode.variables) {
+    // trace the DTCG leaf back for this Figma name (color/<family>/…)
+    const dtcgPath = v.name.split('/').slice(1); // drop the 'color' segment
+    let node: any = wfTree.color;
+    for (const seg of dtcgPath) node = node?.[seg];
+    if (!node) continue;
+    const ext = node.$extensions?.prism3?.modes?.wireframe?.$value;
+    if (typeof ext !== 'string') continue; // some roles may keep the light value in wireframe (already-neutral); accept whatever the tree emits
+    const wantName = figName(ext.replace(/^\{|\}$/g, ''));
+    if (v.alias?.name !== wantName) mismatchedAliases.push(`${v.name} → ${v.alias?.name} (want ${wantName})`);
+    if (v.alias && !v.alias.name.startsWith('palette/neutral/') && !v.alias.name.startsWith('palette/white') && !v.alias.name.startsWith('palette/black')) {
+      // Wireframe is a greyscale mode — every chromatic role should route to the neutral
+      // ramp (or pure white/black for those specific primitive roles).
+      nonNeutralAliases.push(`${v.name} → ${v.alias.name}`);
+    }
+  }
+  ok(mismatchedAliases.length === 0, `emit-figma wireframe: every wireframe-mode alias matches the DTCG wireframe extension exactly (no silent fallback)` + (mismatchedAliases.length ? ` — ${mismatchedAliases.slice(0, 3).join('; ')}` : ''));
+  ok(nonNeutralAliases.length === 0, `emit-figma wireframe: every wireframe alias routes to palette/neutral/* (greyscale contract)` + (nonNeutralAliases.length ? ` — ${nonNeutralAliases.slice(0, 3).join('; ')}` : ''));
+
+  // (a5) The wireframe file's non-alias fallback values (belt-and-suspenders {r,g,b,a})
+  // are neutral too — verify a representative saturated role (action.default in the
+  // light file uses the accent palette; wireframe collapses to neutral). Structural
+  // proof the value shipped alongside the alias is the neutral colour, not the light
+  // chromatic one.
+  const wfAction = wfMode.variables.find((v) => v.name === 'color/action/default')!;
+  const lightAction = wfColor.find((c) => c.$mode === 'light')!.variables.find((v) => v.name === 'color/action/default')!;
+  const rgbDist = Math.abs((wfAction.value as any).r - (wfAction.value as any).g)
+                + Math.abs((wfAction.value as any).g - (wfAction.value as any).b);
+  const lightRgbDist = Math.abs((lightAction.value as any).r - (lightAction.value as any).g)
+                     + Math.abs((lightAction.value as any).g - (lightAction.value as any).b);
+  ok(rgbDist < 0.02, `emit-figma wireframe: color/action/default resolves to a neutral (r≈g≈b, spread ${rgbDist.toFixed(3)})`);
+  ok(lightRgbDist > 0.05, `emit-figma wireframe: baseline sanity — light action is CHROMATIC (spread ${lightRgbDist.toFixed(3)}, > 0.05)`);
+
+  // ---- GEOMETRY AXIS — the NEW mode-varying shape (radius) ------------------
+  // (b1) Default (no wireframe) brand's `radius` remains a single Default-mode file —
+  // byte-identical to the pre-1b world. Non-wireframe brands ship as before.
+  const defDims = buildFigmaDims(def);
+  ok(Array.isArray(defDims.radius) && defDims.radius.length === 1, `emit-figma wireframe: non-wireframe brand's radius is a single Default file (got length ${defDims.radius.length})`);
+  ok(defDims.radius[0].$mode === 'Default', `emit-figma wireframe: non-wireframe brand's radius mode is Default (got ${defDims.radius[0].$mode})`);
+
+  // (b2) Wireframe-opted-in brand's `radius` collection carries TWO modes — Default
+  // + wireframe. Both files carry the same variable-name set (mode column is the
+  // value axis, same shape as colour). This is the FIRST non-colour/shadow axis
+  // to be mode-varying — the load-bearing precedent for future mode-varying
+  // geometry (docs/00 progress + docs/11 Pillar 1b).
+  const wfDims = buildFigmaDims(wf);
+  ok(wfDims.radius.length === 2, `emit-figma wireframe: wireframe-opted brand's radius has 2 modes (got ${wfDims.radius.length})`);
+  const modeSeq = wfDims.radius.map((r) => r.$mode).join(',');
+  ok(modeSeq === 'Default,wireframe', `emit-figma wireframe: radius modes in canonical order Default,wireframe (got ${modeSeq})`);
+
+  const defaultRadiusFile = wfDims.radius[0];
+  const wfRadiusFile = wfDims.radius[1];
+  const defaultNames = new Set(defaultRadiusFile.variables.map((v) => v.name));
+  const wfRadiusNames = new Set(wfRadiusFile.variables.map((v) => v.name));
+  ok(defaultNames.size === wfRadiusNames.size && [...defaultNames].every((n) => wfRadiusNames.has(n)),
+    `emit-figma wireframe: radius wireframe mode carries the same variable-name set as Default (${defaultNames.size} vars)`);
+
+  // (b3) Every NON-ZERO radius var aliases `dimension/0` in the wireframe mode. Zero
+  // radius (`radius.none`) stays 0 with no override (matches tree.ts:345 — the
+  // "already-0 needs no override" invariant), so its wireframe entry keeps its
+  // Default alias.
+  const wfAliasBad: string[] = [];
+  for (const wfVar of wfRadiusFile.variables) {
+    const defVar = defaultRadiusFile.variables.find((v) => v.name === wfVar.name)!;
+    if (defVar.value === 0) {
+      // Zero radius keeps its Default form — the DTCG carries no wireframe override.
+      if (wfVar.value !== 0) wfAliasBad.push(`${wfVar.name}: zero-radius should stay 0 in wireframe (got ${wfVar.value})`);
+    } else {
+      // Non-zero radius must alias dimension/0 (value 0) in the wireframe mode.
+      if (wfVar.value !== 0) wfAliasBad.push(`${wfVar.name}: non-zero-radius should be 0 in wireframe (got ${wfVar.value})`);
+      if (wfVar.alias?.name !== 'dimension/0') wfAliasBad.push(`${wfVar.name}: alias=${wfVar.alias?.name} (want dimension/0)`);
+    }
+  }
+  ok(wfAliasBad.length === 0, `emit-figma wireframe: every non-zero radius aliases dimension/0 in wireframe mode; radius.none stays 0` + (wfAliasBad.length ? ` — ${wfAliasBad.slice(0, 3).join('; ')}` : ''));
+
+  // (b4) Default-mode radius file for the wireframe-opted brand is IDENTICAL in shape
+  // (name, scopes, value, alias) to the non-wireframe brand's radius file — the
+  // Default mode is the light-canonical world; wireframe is purely additive. This
+  // gates the invariant that opting into wireframe never mutates the Default mode.
+  const defRadiusFile = defDims.radius[0];
+  const shapeDrift: string[] = [];
+  for (const dv of defRadiusFile.variables) {
+    const wv = defaultRadiusFile.variables.find((v) => v.name === dv.name);
+    if (!wv) { shapeDrift.push(`${dv.name}: missing in wireframe-opted Default file`); continue; }
+    if (dv.value !== wv.value) shapeDrift.push(`${dv.name}: value ${dv.value} vs ${wv.value}`);
+    if ((dv.alias?.name ?? null) !== (wv.alias?.name ?? null)) shapeDrift.push(`${dv.name}: alias ${dv.alias?.name} vs ${wv.alias?.name}`);
+    if (JSON.stringify(dv.scopes) !== JSON.stringify(wv.scopes)) shapeDrift.push(`${dv.name}: scopes ${dv.scopes.join(',')} vs ${wv.scopes.join(',')}`);
+  }
+  ok(shapeDrift.length === 0, `emit-figma wireframe: opting in preserves Default-mode radius byte-shape (name/value/alias/scopes)` + (shapeDrift.length ? ` — ${shapeDrift.slice(0, 3).join('; ')}` : ''));
 }
 
 // ------------------------------------------------------------------- report
