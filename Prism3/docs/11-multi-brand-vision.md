@@ -85,7 +85,11 @@ then re-nudges to clear the same contrast min** — so the greyscale still holds
 step, e.g. a bold fill's 4.5:1). Radius → 0 is expressed as a per-mode override
 (`$extensions.prism3.modes.wireframe → dimension.0`), making **geometry the first mode-varying
 non-colour axis**. Opt-in only (`VALID_MODES` ⊃ the default four); the engine's default four are
-byte-identical. The **web toggle + per-mode preview geometry** is the remaining 1b web follow-up.
+byte-identical. **Shipped end-to-end (2026-07-04):** engine (#48) → web toggle + per-mode preview
+geometry (landed post-#48) → **emit-figma materialisation** (this PR): the `color` collection
+gains a fifth `wireframe` mode (greyscale, aliased to `palette/neutral/*`) and the `radius`
+collection becomes per-mode (`radius.Default.json` + `radius.wireframe.json` where non-zero
+radii alias `dimension/0`) — the load-bearing precedent for any future mode-varying geometry.
 
 ### Pillar 2 — Override layer *("generative but customizable")*
 Generated values are the baseline; a per-brand, per-mode **override map** lets the user

@@ -20,37 +20,36 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
 
 - **emit-figma today:** colour + typography + dims + shadow + gradient + **layout**
   axes shipped (#28, #31, #33, #35, #46). Mode-opt-out fix landed (#49) — a light-only
-  brand no longer emits dark files with light values. **Generalise** landed (this PR) —
-  aurora + wendys now emit through every axis (aurora's alias-driven gradient Paint
-  Style is live). Fully specified in `docs/10-figma-materialization.md`.
-- **emit-figma next (docs/10 §7 queue post-#50, 2026-07-04):**
-  1. ★ **Wireframe mode (from generator thread 1b, #48)** — `'wireframe'` is a valid
-     opt-in mode. Two materialization changes when a brand opts in: (a) the `color`
-     collection gains a **wireframe** mode (greyscale, every role's
-     `$extensions.prism3.modes.wireframe.$value` aliases a `neutral.*` step); (b)
-     **geometry becomes mode-varying** — non-zero `radius.*` leaves carry
-     `$extensions.prism3.modes.wireframe → {root.dimension.0}`. So the radius variable
-     collection needs a **wireframe mode** (radius → 0). This is the first non-colour/
-     shadow axis to vary by mode. Only fires when `theme.modes.includes('wireframe')` —
-     the default four are untouched. No example brand opts in today, so gate against a
-     synthetic wireframe-enabled brand (`brandTheme({ ...input, modes: [..., 'wireframe'] })`
-     — same pattern as blocks 18 + 20).
-  2. **Motion — STILL DEFERRED.** Probed the Figma Plugin API on 2026-07-03; `TIME`
+  brand no longer emits dark files with light values. **Generalise** landed (#50) —
+  aurora + wendys emit through every axis (aurora's alias-driven gradient Paint Style
+  is live). **Wireframe mode** landed (this PR) — `'wireframe'` is now materialised on
+  the two axes it touches in the DTCG tree: colour gets a fifth mode (greyscale, every
+  role's `$extensions.prism3.modes.wireframe.$value` routes to a `palette/neutral/*`
+  step), and **radius becomes the first mode-varying non-colour/shadow axis** —
+  `buildFigmaDims` returns `radius: FigmaCollectionFile[]` (per-mode, same shape as
+  `color`); a non-wireframe brand ships a single Default-mode `radius.json`
+  (byte-identical to the pre-1b world), a wireframe-opted brand ships two files where
+  non-zero radii alias `dimension/0`. Fully specified in `docs/10-figma-materialization.md`.
+- **emit-figma next (docs/10 §7 queue post-this-PR, 2026-07-04):**
+  1. **Motion — STILL DEFERRED.** Probed the Figma Plugin API on 2026-07-03; `TIME`
      scope is not in the FLOAT-var enum yet (Config 2026 hasn't surfaced it). Recheck
      when it lands. easing/spring/transition composites have no Figma variable primitive
      — emit as `motion-styles.json` reference metadata only.
-  3. **Follow-ups parked (typography #31):** fix 3b bindable form — `font-tracking`
+  2. **Follow-ups parked (typography #31):** fix 3b bindable form — `font-tracking`
      FLOAT collection (6 tokens: tighter/tight/snug/normal/wide/wider); rebind
      `letterSpacing` on all 36 text styles.
-  4. **Follow-up parked (materialise-to-verify, from #50):** import aurora + wendys
-     artifacts into the Prism3 Test File via Figma MCP. figma-console MCP disconnected
-     mid-session on 2026-07-03; the structural gates prove alias resolution + gradient
-     targets — this is purely visual confirmation.
+  3. **Follow-up parked (materialise-to-verify, from #50 + this PR):** import aurora
+     + wendys artifacts into the Prism3 Test File via Figma MCP, and materialise the
+     wireframe axis (colour fifth mode + radius per-mode files) into a synthetic
+     wireframe-enabled brand so the specimen frame visually confirms greyscale +
+     square-corner rendering. figma-console MCP disconnected mid-session on 2026-07-03;
+     the structural gates prove alias resolution + gradient targets + wireframe alias
+     shape — this is purely visual confirmation.
 - **Test file:** the Figma-MCP thread's target is "Prism3 Test File" (fileKey
   `Zrn9YDqrFiwjs2IfKInNY0`). It has 4 specimen pages already (Colour, Typography, Dims,
   Shadow, Gradient) + all the corresponding variable collections + styles imported live.
 - **Run commands:** `npx tsx Prism3/engine/emit-figma.ts` writes `out/figma/{nb,aurora,wendys}/*.json`;
-  `npx tsx Prism3/engine/test.ts` gates everything (384/384 today).
+  `npx tsx Prism3/engine/test.ts` gates everything (400/400 today).
 
 ---
 
@@ -72,6 +71,20 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
   needs an all-emitter regen incl. `out/figma` — the Figma agent's surface with #53 in flight — so it's
   held for a coordinated change. Gates: test **414/414**, nb-regression exit 0, `out/*` colours
   byte-identical.
+- **`emit-figma` — wireframe axis** (`engine/emit-figma.ts` + `test.ts` block 22, 2026-07-04):
+  first mode-varying materialisation post-#50; unlocks Pillar 1b end-to-end in the Figma
+  target. **Colour:** `'wireframe'` added to `COLOR_MODES` (canonical position: last); the
+  existing intersection with `theme.modes` picks it up and the per-role alias comes from
+  `$extensions.prism3.modes.wireframe.$value` — zero extra adapter body. **Radius:** first
+  non-colour/shadow axis to be mode-varying — `buildFigmaDims` returns
+  `radius: FigmaCollectionFile[]` (per-mode files, same shape as `color`). A non-wireframe
+  brand emits a single `radius.json` (byte-identical to the pre-1b world); a
+  wireframe-opted brand emits `radius.Default.json` + `radius.wireframe.json`, non-zero
+  radii aliasing `dimension/0` and `radius.none` unchanged. No example brand opts in
+  today; gated against a synthetic wireframe brand (same pattern as blocks 18 + 20).
+  Gates: **400/400** (+16 wireframe: five colour-axis + eleven radius-axis + one drift
+  fence), nb-regression ΔE00 1.95, emit-dtcg 248/248, default `out/figma/*`
+  byte-identical (verified). Load-bearing precedent for any future mode-varying geometry.
 - **Code-review fix CR-05 — design.md parser silently dropped misindented lines** (`design-md.ts`): the
   YAML-subset parser's `map`/`seq` loops run `while lines[pos].indent === indent`, so a line whose indent
   doesn't fit its block (one stray space) — or a no-colon/prose line (`if (ci < 0) break`) — ended the loop
@@ -335,7 +348,7 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
   contracts the surfaces render from.
 - **`design.md` interchange + CLI** (dual-dialect) + the colour-role classifier + fidelity report.
 
-Engine gates as of 2026-07-04: `test.ts` **405/405** (240 colour + 25 typography + 8 namespace + 16 dims + 14 shadow/gradient + 4 pin-a-neutral + 5 design.md-round-trip + 19 mode-config/wireframe + 13 emit-figma-layout + 3 dim-overrides + 10 emit-figma-mode-opt-out + 27 emit-figma-generalise + 21 code-review-HIGH-fixes CR-01/03/04/05);
+Engine gates as of 2026-07-04: `test.ts` **430/430** (240 colour + 25 typography + 8 namespace + 16 dims + 14 shadow/gradient + 4 pin-a-neutral + 5 design.md-round-trip + 19 mode-config/wireframe + 13 emit-figma-layout + 3 dim-overrides + 10 emit-figma-mode-opt-out + 27 emit-figma-generalise + 21 code-review-HIGH-fixes CR-01/03/04/05 + 16 emit-figma-wireframe + 9 code-review-MED ramp-hardening M-01/02/03);
 `emit-dtcg` 248/248 contracts per brand; `nb-regression` now a real gate (per-step ΔE ceilings + KNOWN_OUTLIERS, exits 1 on a fidelity regression — CR-06). The snapshot below is the
 2026-07-01 token-layer baseline.
 
