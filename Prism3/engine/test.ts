@@ -484,6 +484,14 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   ok(!!cls.input.status.danger, 'classifier: error → status.danger (the one rename)');
   ok(!!cls.input.status.success && !!cls.input.status.warning, 'classifier: success + warning classified from the flat map');
   ok(cls.input.brandColors.some((b) => b.name === 'secondary') && cls.input.brandColors.some((b) => b.name === 'tertiary'), 'classifier: secondary + tertiary → brandColors[]');
+  // M-12: classification lowercases, so anchor EXTRACTION must too — a mixed/upper-case map
+  // must anchor identically, not silently drop the anchor (or throw "no primary").
+  const mixed = classifyColors({ Primary: '#3366cc', Error: '#cc2222', Secondary: '#22aa88', Neutral: '#888888' });
+  ok(!!mixed.input.primary && !!mixed.input.status.danger && mixed.input.brandColors.some((b) => b.name === 'secondary'),
+    'M-12: mixed-case keys (Primary/Error/Secondary) classify + extract identically to lowercase');
+  let m12threw = false;
+  try { classifyColors({ PRIMARY: '#123456' }); } catch { m12threw = true; }
+  ok(!m12threw, 'M-12: an all-caps PRIMARY no longer throws "no primary"');
   const { input, xApplied } = standardToBrandInput(std);
   ok(input.id === 'wendys', "standardToBrandInput: id derived from name (Wendy's → wendys)");
   ok(xApplied.length === 0, 'wendys: no x-prism3 block → engine defaults (the plain-spec guarantee)');
