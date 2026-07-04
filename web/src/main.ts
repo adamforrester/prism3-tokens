@@ -560,7 +560,9 @@ const download = (filename: string, text: string, mime: string): void => {
   setTimeout(() => URL.revokeObjectURL(url), 0);
 };
 
-const slug = (): string => (lastGoodInput.id || 'brand').trim().replace(/\s+/g, '-') || 'brand';
+// L-11: a design.md pasted with a bare numeric `id:` (e.g. `id: 2026`) parses `id` as a
+// number; `.trim()` on a number throws and crashes BOTH exports. Coerce to string first.
+const slug = (): string => String(lastGoodInput.id || 'brand').trim().replace(/\s+/g, '-') || 'brand';
 
 // Both exports run off the LAST-GOOD state, never the live one (M-15). Previously tokens.json
 // re-ran `brandTheme(brandState)` uncaught — a failing edit threw in the click handler (no

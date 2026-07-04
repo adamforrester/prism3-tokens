@@ -412,8 +412,28 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   let threw = false;
   try { grBrand('gr-bad', [{ name: 'x', stops: [{ palette: 'nope', step: 600, position: 0 }, { palette: 'primary', step: 600, position: 1 }] }]); } catch { threw = true; }
   ok(threw, 'gradient referencing an undefined palette throws');
+  // L-06: a gradient name becomes a token path segment, so it needs the same slug charset
+  // palette names enforce (CR-03) and must be unique among gradients.
+  const goodStops = [{ palette: 'primary', step: 600, position: 0 }, { palette: 'accent', step: 500, position: 1 }];
+  let badName = false;
+  try { grBrand('gr-dot', [{ name: 'brand.fade', stops: goodStops }]); } catch { badName = true; }
+  ok(badName, "L-06: a dotted gradient name ('brand.fade') throws (would break the {a.b.c} alias convention)");
+  let dupGrad = false;
+  try { grBrand('gr-dup', [{ name: 'fade', stops: goodStops }, { name: 'fade', stops: goodStops }]); } catch { dupGrad = true; }
+  ok(dupGrad, 'L-06: two gradients named the same throw (duplicate gradient name)');
+  ok(grBrand('gr-ok-name', [{ name: 'brand-fade', stops: goodStops }]).gradient.gradients.length === 1, 'L-06: a valid slug gradient name still builds');
   // NB ships no gradients.
   ok(nbTheme().gradient.gradients.length === 0, 'NB ships no gradients (it had none)');
+}
+
+// L-07: a brand-SUPPLIED status override seeds a vivid, UNANCHORED ramp from its hue+chroma
+// (not pinned at its measured lightness) — say so in the decisions log so a measured swatch
+// isn't wrongly implied to round-trip. The engine-default branch note is unchanged.
+{
+  const withOverride = brandTheme({ id: 'st', primary: { l: 0.5, c: 0.12, h: 200 }, neutral: { hue: 200, chroma: 0.01 }, status: { success: { l: 0.5, c: 0.15, h: 150, chroma: 0.15 } } });
+  ok(withOverride.notes.some((n) => n.startsWith('success: brand-supplied hue 150') && n.includes('not pinned at its measured lightness')), 'L-07: a brand-supplied status note flags that the ramp is unanchored (measured swatch may not appear verbatim)');
+  const noOverride = brandTheme({ id: 'st2', primary: { l: 0.5, c: 0.12, h: 200 }, neutral: { hue: 200, chroma: 0.01 } });
+  ok(noOverride.notes.some((n) => n === 'success: engine default hue 145'), 'L-07: the engine-default status note is unchanged (byte-identical for brands without overrides)');
 }
 
 // ------------------------------------------- surface/content model invariants
@@ -509,6 +529,11 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   let msg = '';
   try { parseYamlSubset('id: x\nneutral:\n  hue: 200\n   chroma: 0.01'); } catch (e) { msg = (e as Error).message; }
   ok(/line 4/.test(msg) && /chroma/.test(msg), 'CR-05: the error points at the offending line (number + content)');
+  // L-08: a duplicate key at the same level silently last-wins in object assignment — now it
+  // throws (a pasted-twice `id:`/`primary:` block can't quietly lose one).
+  ok(threwOn('id: a\nid: b'), 'L-08: a duplicate top-level key throws (no silent last-win)');
+  ok(threwOn('neutral:\n  hue: 200\n  hue: 300'), 'L-08: a duplicate nested key throws');
+  ok(!threwOn('id: a\nneutral:\n  hue: 200'), 'L-08: distinct keys at the same level still parse clean');
 }
 // (2) parseDesignMd — frontmatter/prose split; a missing fence is an error.
 {
@@ -518,6 +543,11 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   let threw = false;
   try { parseDesignMd('no fence here\nid: x\n'); } catch { threw = true; }
   ok(threw, 'parseDesignMd: missing frontmatter fence throws');
+  // L-08: the closing fence is an EXACT `---` line, not any line that starts with `---`. A
+  // frontmatter line like `name: --- x ---` (or a `----` rule in prose) must not close early.
+  const fenced = parseDesignMd('---\nid: x\nname: "--- not a fence ---"\nprimary: { l: 0.5, c: 0.1, h: 200 }\n---\n\nBody.\n');
+  ok((fenced.input as any).name === '--- not a fence ---' && (fenced.input as any).primary.h === 200, 'L-08: a `---`-containing VALUE inside frontmatter does not close the fence early (whole block parsed)');
+  ok(fenced.prose === 'Body.', 'L-08: prose still starts after the real (exact-`---`) closing fence');
 }
 // (3) FAITHFULNESS — aurora.design.md compiles to the committed golden, byte-for-byte.
 {
@@ -597,6 +627,13 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
 {
   const std = parseStandardDesignMd(readFileSync(resolve(HERE, '../examples/wendys.design.md'), 'utf8'));
   ok(Object.keys(std.colors).length === 24 && Object.keys(std.typography).length === 25, 'wendys standard: reader sees 24 colours + 25 type tokens');
+  // L-15: an UNQUOTED `#hex` colour value is read as a YAML comment and stripped to null. Give
+  // an actionable error at the reader ("quote it") rather than a baffling `invalid hex 'null'`
+  // two layers down. A quoted hex reads back fine.
+  let hexComment = '';
+  try { parseStandardDesignMd('---\nname: b\ncolors:\n  primary: #ff0000\n---\n'); } catch (e) { hexComment = (e as Error).message; }
+  ok(/primary/.test(hexComment) && /quote it/.test(hexComment), "L-15: an unquoted '#hex' colour throws a quote-it hint, not a downstream 'invalid hex null'");
+  ok(parseStandardDesignMd('---\nname: b\ncolors:\n  primary: "#ff0000"\n---\n').colors.primary === '#ff0000', 'L-15: a quoted hex reads back verbatim');
   const cls = classifyColors(std.colors);
   ok(!!cls.input.status.danger, 'classifier: error → status.danger (the one rename)');
   ok(!!cls.input.status.success && !!cls.input.status.warning, 'classifier: success + warning classified from the flat map');

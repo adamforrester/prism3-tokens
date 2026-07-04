@@ -154,12 +154,18 @@ const parseBlock = (lines: Line[]): Record<string, unknown> => {
 
   const map = (indent: number): Record<string, unknown> => {
     const o: Record<string, unknown> = {};
+    const seen = new Set<string>();
     while (pos < lines.length && lines[pos].indent === indent && !lines[pos].content.startsWith('- ')) {
       const line = lines[pos].content;
       const ci = colonSplit(line);
       if (ci < 0) break;                                   // not a mapping line at this level
       const key = unquote(line.slice(0, ci)).trim();
       const rest = line.slice(ci + 1).trim();
+      // L-08: a duplicate key at the same level silently last-wins in plain object
+      // assignment — a designer who pastes two `primary:` blocks would lose one without
+      // warning. Fail loud instead (mirrors the misindent guard below).
+      if (seen.has(key)) throw new Error(`design.md: duplicate key '${key}' at line ${lines[pos].src ?? '?'} — a repeated key silently overwrites the earlier one; remove one.`);
+      seen.add(key);
       pos++;
       if (rest !== '') { o[key] = parseScalarOrFlow(rest); continue; }
       // Empty value → nested block on the following deeper lines. A block sequence
@@ -235,14 +241,15 @@ export const parseDesignMd = (text: string): DesignMd => {
   if (firstLine !== '---') {
     throw new Error("design.md must open with a '---' YAML frontmatter fence on the first line");
   }
-  const rest = text.slice(nl + 1);
-  const close = rest.indexOf('\n---');
-  if (close < 0) throw new Error("design.md frontmatter is not closed with a '---' line");
-  const fm = rest.slice(0, close);
-  // Prose = everything after the closing fence line.
-  const afterFence = rest.slice(close + 4);
-  const proseStart = afterFence.indexOf('\n');
-  const prose = (proseStart < 0 ? '' : afterFence.slice(proseStart + 1)).trim();
+  // L-08: the closing fence must be a line that is EXACTLY `---` (after trim), not any
+  // line that merely STARTS with `---`. The old `indexOf('\n---')` prefix match let a
+  // frontmatter line like `--- levers ---` (or `----`) close the block early, silently
+  // truncating everything after it. Scan for the first exact `---` line instead.
+  const restLines = text.slice(nl + 1).split('\n');
+  const closeIdx = restLines.findIndex((l) => l.trim() === '---');
+  if (closeIdx < 0) throw new Error("design.md frontmatter is not closed with a '---' line");
+  const fm = restLines.slice(0, closeIdx).join('\n');
+  const prose = restLines.slice(closeIdx + 1).join('\n').trim();
   return { input: parseYamlSubset(fm) as unknown as BrandInput, prose };
 };
 

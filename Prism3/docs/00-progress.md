@@ -56,6 +56,33 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
 
 ---
 
+- **Code-review fixes L-06/07/08/09/11/15/16 — theme/parser/CLI LOW (batch B)** (`theme.ts` / `design-md.ts`
+  / `cli.ts` / `standard-design-md.ts` / `resolve-preview.ts` / `web/main.ts`, `docs/16` LOW tier; second
+  LOW batch). Seven input-boundary hardenings — token *values* unchanged everywhere; the only `out/*` delta
+  is two lines of harbor's **decisions-log prose** (L-07, additive rationale, same class as the M-03/05/06
+  notes) + the regenerated `modes-report.md`; `out/figma` untouched. **L-06** — gradient names now get the
+  same slug charset + uniqueness guard palette names got in CR-03 (a dotted/spaced gradient name would break
+  the `{a.b.c}` alias convention, caught only at emit if at all); RESERVED_PALETTES doesn't apply (gradients
+  live in their own namespace). **L-07** — a brand-supplied status override seeds a **vivid, unanchored**
+  ramp from its hue+chroma (not pinned at its measured lightness, unlike a brandColors accent). This is by
+  design (a status role needs a full accessible ramp, not one swatch) but wasn't said; the note now flags
+  that the measured swatch may not appear verbatim (harbor's success/warning notes gained the clause — the
+  only shipped-brand output delta). **L-08** — two `design-md` parser gaps: the closing frontmatter fence is
+  now an **exact** `---` line (the old `indexOf('\n---')` prefix match let a `--- x ---` value line close the
+  block early and silently truncate the rest), and a **duplicate key** at one level now throws instead of
+  silently last-winning. **L-09** — `--out` no longer swallows a following flag (`--out --fidelity` used to
+  create a directory literally named `--fidelity`); a flag-like value fails loud. **L-11** — the web `slug()`
+  string-coerces `id`, so a design.md pasted with a bare numeric `id:` no longer crashes both exports on
+  `.trim()`. **L-15** — an unquoted `#hex` colour in a standard design.md (read as a YAML comment → null) now
+  throws an actionable "quote it" error at the reader instead of a baffling `invalid hex 'null'` two layers
+  down. **L-16** — `resolve-preview`'s `colors`/`byMode` are now typed `Partial<Record<ModeName,…>>` (matching
+  the existing `dimOverrides`), so a consumer can't assume `.dark` exists on a narrowed-modes brand; every
+  consumer already guarded with `?.`, so it's a type-honesty fix (web `tsc --noEmit` clean). Gates: `test.ts`
+  **540/540** (528→540), emit-dtcg 647/646/640 aliases resolve + 248/248 contracts, nb-regression exit 0,
+  web tsc clean, `out/figma` byte-identical, L-09 verified by driving the CLI both ways.
+
+---
+
 - **Code-review fixes L-01/02/03/05 — engine-core LOW (batch A)** (`modes.ts` / `color.ts` / `scale.ts` /
   `tree.ts`, `docs/16` LOW tier; starts the LOW-tier sweep after the MED tier completed at #59). Four
   silent-degradation guards, each byte-identical on the shipped brands (only `test.ts` gates + the four

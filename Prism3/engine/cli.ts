@@ -75,7 +75,14 @@ const main = () => {
   let fidelity = false;
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
-    if (a === '--out' || a === '-o') { outDir = argv[++i]; if (!outDir) fail('--out needs a directory argument'); }
+    if (a === '--out' || a === '-o') {
+      // L-09: consume the NEXT token as the directory — but not if it looks like a flag
+      // (`--out --fidelity` would otherwise create a directory literally named `--fidelity`
+      // and silently swallow the flag). A path beginning with `-` must be given as `./-name`.
+      const next = argv[i + 1];
+      if (!next || next.startsWith('-')) fail(`--out needs a directory argument${next ? ` (got the flag '${next}')` : ''}`);
+      outDir = argv[++i];
+    }
     else if (a === '--fidelity') fidelity = true;
     else if (a === '--help' || a === '-h') {
       console.log('Usage: tsx cli.ts <design.md> [--out <dir>] [--fidelity]\n\n  <design.md>   a brand brief with YAML frontmatter — engine-native (examples/*.design.md)\n                OR a standard brand-skills / google-labs design.md (flat colors + x-prism3)\n  --out <dir>   output directory for <id>.tokens.json + <id>.ai.json (default: engine/out)\n  --fidelity    (standard dialect) also write <id>-fidelity-report.md — the observed-vs-generated diff');

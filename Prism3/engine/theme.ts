@@ -725,6 +725,19 @@ const lerpRgb = (a: RGB, b: RGB, t: number): RGB => ({ r: Math.round(a.r + (b.r 
 const buildGradient = (spec: BrandInput['gradients'], palettes: PaletteBuild[], root: string): GradientAxis => {
   if (!spec) return { gradients: [] };
   const inputs: GradientInput[] = spec === true ? [DEFAULT_BRAND_GRADIENT('primary')] : spec;
+  // L-06: a gradient name becomes a token path segment (`<root>.gradient.<name>`), so it
+  // needs the same slug charset palette names enforce (CR-03) — a dotted/spaced name would
+  // break the `{a.b.c}` alias convention, caught only at emit if at all. Names live in the
+  // gradient namespace (not the palette one), so RESERVED_PALETTES doesn't apply, but they
+  // must be a valid slug and unique among gradients.
+  const seenGradNames = new Set<string>();
+  for (const g of inputs) {
+    if (!PALETTE_NAME_RE.test(g.name))
+      throw new Error(`gradient name '${g.name}' must be a single lowercase slug (letters/digits/hyphen, start with a letter — no dots, spaces, or symbols)`);
+    if (seenGradNames.has(g.name))
+      throw new Error(`duplicate gradient name '${g.name}' — gradient names must be unique`);
+    seenGradNames.add(g.name);
+  }
   const stepOf = (palette: string, step: number): Step => {
     const p = palettes.find((pp) => pp.palette === palette);
     if (!p) throw new Error(`gradient: palette '${palette}' is not defined (have: ${palettes.map((x) => x.palette).join(', ')})`);
@@ -839,8 +852,16 @@ export const brandTheme = (input: BrandInput): Theme => {
   }
 
   const status = (k: 'success' | 'warning' | 'info') => {
-    const s = (k !== 'info' && input.status?.[k]) ? input.status[k]! : STATUS_DEFAULTS[k];
-    notes.push(`${k}: ${k !== 'info' && input.status?.[k] ? 'brand-supplied' : 'engine default'} hue ${s.h}`);
+    const supplied = k !== 'info' && input.status?.[k];
+    const s = supplied ? input.status![k]! : STATUS_DEFAULTS[k];
+    // L-07: a brand-supplied status override seeds a fresh VIVID, UNANCHORED ramp from its
+    // hue + chroma cast (placed at peak-chroma L) — it is NOT pinned verbatim at its own
+    // lightness step the way a brandColors accent is. This is by design (a status role needs
+    // a full accessible ramp, not one measured swatch), but it means a measured status colour
+    // won't round-trip exactly, so say so rather than imply the swatch is reproduced.
+    notes.push(supplied
+      ? `${k}: brand-supplied hue ${s.h} — seeds a vivid ramp from its hue+chroma (not pinned at its measured lightness; the exact swatch may not appear verbatim)`
+      : `${k}: engine default hue ${s.h}`);
     return { palette: k, role: k as Role, description: `${k} status`, steps: statusRamp(s.h, s.chroma) };
   };
   palettes.push(status('success'), status('warning'), status('info'));
