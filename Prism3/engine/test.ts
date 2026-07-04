@@ -63,6 +63,17 @@ ok(contrast({ r: 117, g: 117, b: 117 }, WHITE) >= 4.4 && contrast({ r: 117, g: 1
   ok(marginal !== Math.round(marginal * 100) / 100, 'contrast() returns un-rounded ratio (not pre-rounded to 2dp)');
 }
 
+// M-13: hexToRgb accepts 8-digit alpha hex (`#RRGGBBAA`, common in real extractions) and 4-digit
+// `#RGBA` by dropping the alpha (anchors are opaque) — a trailing FF must not read as "invalid
+// hex" and crash the standard-dialect CLI. Genuinely malformed hex is still rejected.
+{
+  ok(hex(hexToRgb('#C8102EFF')) === '#c8102e', 'M-13: 8-digit alpha hex drops the alpha (#C8102EFF → #c8102e)');
+  ok(hex(hexToRgb('#c8102e88')) === '#c8102e', 'M-13: a non-FF alpha is dropped to the opaque colour');
+  ok(hex(hexToRgb('#f008')) === '#ff0000', 'M-13: 4-digit #RGBA expands + drops alpha');
+  let bad = false; try { hexToRgb('#12345'); } catch { bad = true; }
+  ok(bad, 'M-13: a malformed (5-digit) hex is still rejected');
+}
+
 // relative luminance bounds
 ok(approx(luminance(WHITE), 1, 1e-6), 'luminance(white)=1');
 ok(approx(luminance(BLACK), 0, 1e-6), 'luminance(black)=0');
