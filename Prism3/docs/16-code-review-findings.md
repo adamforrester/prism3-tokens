@@ -1,4 +1,4 @@
-# 15 — Project code review: findings (2026-07-03)
+# 16 — Project code review: findings (2026-07-03)
 
 > A full-codebase review of the engine (`Prism3/engine/*`), the web adapter
 > (`web/src/main.ts`), and the regression harness — **findings only, nothing

@@ -23,7 +23,7 @@ import { leverManifest, leverGroups, buildLeverManifest, identityFields } from '
 import { previewSpec, previewTokenRefs, buildPreviewSpec } from './preview';
 import { resolvePreview } from './resolve-preview';
 import { exampleBrands, exampleBrandsJson, EXAMPLE_IDS } from './emit-brandinput';
-import { buildFigmaColor, buildFigmaFont, buildFigmaFontFluid, buildFigmaTextStyles, buildFigmaDims, buildFigmaLayout, buildFigmaShadow, buildFigmaGradient, fontStyleName, COLOR_MODES, FONT_FLUID_MODES, LAYOUT_MODES } from './emit-figma';
+import { buildFigmaColor, buildFigmaFont, buildFigmaFontFluid, buildFigmaTextStyles, buildFigmaDims, buildFigmaLayout, buildFigmaShadow, buildFigmaGradient, fontStyleName, figName, COLOR_MODES, FONT_FLUID_MODES, LAYOUT_MODES } from './emit-figma';
 import { buildTree, validateBrandInput } from './emit-dtcg';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -527,7 +527,8 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
 // contract actually HOLDS in every mode — the automated version of the PR #20 manual
 // contrast check (the overlay's claims are true on the resolved colours, not assumed).
 {
-  const rp = resolvePreview(brandTheme(parseDesignMd(readFileSync(resolve(HERE, '../examples/harbor.design.md'), 'utf8')).input));
+  const pinput = parseDesignMd(readFileSync(resolve(HERE, '../examples/harbor.design.md'), 'utf8')).input;
+  const rp = resolvePreview(brandTheme(pinput));
   ok(rp.modes.length === 4, 'resolved preview: all four modes projected' + (rp.modes.length !== 4 ? ` — got ${rp.modes.length}` : ''));
 
   const noHex = Object.entries(rp.colors).filter(([, byMode]) => rp.modes.some((m) => !byMode[m])).map(([k]) => k);
@@ -544,6 +545,17 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   ok(Object.keys(rp.dims).length > 0 && badDim.length === 0, 'resolved preview: every dimension binding → positive px' + (badDim.length ? ` — BAD: ${badDim.join(', ')}` : ''));
   const badType = Object.entries(rp.type).filter(([, t]) => !t.fontFamily || !(t.fontSizePx > 0)).map(([k]) => k);
   ok(Object.keys(rp.type).length > 0 && badType.length === 0, 'resolved preview: every type binding → family + positive size' + (badType.length ? ` — BAD: ${badType.join(', ')}` : ''));
+
+  // Per-mode geometry (docs/11 1b): with no wireframe, dims carry NO overrides; opting into
+  // wireframe surfaces a radius→0 override the preview reads for the wireframe column, while
+  // the canonical `dims` baseline stays positive (light) and space/size stay override-free.
+  ok(Object.keys(rp.dimOverrides).length === 0, 'resolved preview: default modes carry no per-mode dim overrides');
+  const wfRp = resolvePreview(brandTheme({ ...pinput, modes: ['light', 'wireframe'] }));
+  const radiusRef = Object.keys(wfRp.dims).find((k) => k.startsWith('radius.') && wfRp.dims[k] > 0)!;
+  ok(wfRp.dimOverrides[radiusRef]?.wireframe === 0 && wfRp.dims[radiusRef] > 0,
+    `resolved preview: wireframe zeroes ${radiusRef} via an override (baseline ${wfRp.dims[radiusRef]}px stays)`);
+  const spaceRef = Object.keys(wfRp.dims).find((k) => k.startsWith('space.'));
+  ok(!spaceRef || !wfRp.dimOverrides[spaceRef], 'resolved preview: wireframe leaves space untouched (only radius zeroes)');
 }
 // (10) EXAMPLE-BRANDS ARTIFACT (docs/09) — the browser hosts boot from
 // schema/example-brands.json (the design.md parser is node-only). Gate that the
@@ -1033,10 +1045,11 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   ok(parseDesignMd(toDesignMd(minimal as any, 'Hello prose.')).prose === 'Hello prose.', 'design.md round-trip: prose survives the fence');
 }
 
-// (18) MODE CONFIG (docs/11 Pillar 1) — light is the required base; dark/HC are opt-in.
-// Omitted → all four (back-compat, byte-identical golden in block 3). A light-only brand
-// resolves + emits ONE mode with no per-mode colour overrides; light+dark carries the dark
-// override but not HC. Guards: must include light; an unknown mode (wireframe not yet real).
+// (18) MODE CONFIG (docs/11 Pillar 1) — light is the required base; dark/HC/wireframe opt-in.
+// Omitted → the default four (back-compat, byte-identical golden in block 3). A light-only
+// brand resolves + emits ONE mode with no per-mode colour overrides; light+dark carries the
+// dark override but not HC. Wireframe (1b) is a generated greyscale mode (non-neutral roles →
+// equivalent neutral; radius → 0), opt-in only. Guards: must include light; unknown mode throws.
 {
   const { input } = parseDesignMd(readFileSync(resolve(HERE, '../examples/aurora.design.md'), 'utf8'));
 
@@ -1058,12 +1071,30 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
 
   let t1 = false, t2 = false;
   try { brandTheme({ ...input, modes: ['dark'] as any }); } catch { t1 = true; }
-  try { brandTheme({ ...input, modes: ['light', 'wireframe'] as any }); } catch { t2 = true; }
+  try { brandTheme({ ...input, modes: ['light', 'bogus'] as any }); } catch { t2 = true; }
   ok(t1, 'mode config: modes without light throws');
-  ok(t2, 'mode config: an unknown mode (wireframe, not yet real) throws');
+  ok(t2, 'mode config: an unknown mode throws');
 
   ok(validateBrandInput({ ...input, modes: ['light', 'dark'] }).length === 0, 'mode config: schema accepts a valid modes subset');
+  ok(validateBrandInput({ ...input, modes: ['light', 'wireframe'] }).length === 0, 'mode config: schema accepts wireframe (opt-in)');
   ok(validateBrandInput({ ...input, modes: ['light', 'bogus'] }).length > 0, 'mode config: schema rejects an unknown mode');
+
+  // Wireframe (1b): opt-in greyscale mode. Non-neutral roles remap to the neutral ramp at the
+  // same position (still clearing each min); radius zeroes. Never a default.
+  const wf = brandTheme({ ...input, modes: ['light', 'wireframe'] });
+  ok(wf.modes.includes('wireframe') && resolvePreview(wf).modes.includes('wireframe'), 'wireframe: opt-in mode resolves + previews');
+  ok(!brandTheme(input).modes.includes('wireframe'), 'wireframe: never a default (opt-in only)');
+  const R = wf.root, neutralPal = wf.roleToPalette.neutral, actionPal = wf.roleToPalette.action;
+  const wfBuilt = buildTree(wf);
+  const wfTree = (wfBuilt.tree as any)[R];
+  const act = wfTree.color.action.default;
+  ok(actionPal !== neutralPal && act.$value.includes(`.${actionPal}.`), 'wireframe: light $value stays the chromatic (accent) pick');
+  ok(act.$extensions.prism3.modes.wireframe.$value.includes(`.${neutralPal}.`), 'wireframe: the wireframe override remaps a chromatic role → neutral (greyscale)');
+  ok(wfTree.radius.md.$extensions.prism3.modes?.wireframe?.$value === `{${R}.dimension.0}`, 'wireframe: radius.md carries a wireframe → dimension.0 override');
+  ok(!wfTree.radius.none.$extensions?.prism3?.modes, 'wireframe: radius.none (already 0) carries no redundant override');
+  const wfMode = wfBuilt.modes.find((m) => m.mode === 'wireframe')!;
+  const wfChecks = Object.values(wfMode.roles).filter((r) => r.min > 0);
+  ok(wfChecks.length > 0 && wfChecks.every((r) => r.ratio >= r.min), `wireframe: every contrast contract holds on the greyscale (${wfChecks.length} checks)`);
 }
 
 // (19) EMIT-FIGMA LAYOUT (docs/10 §7 item 4) — one `layout` variable collection
@@ -1168,6 +1199,180 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   // (i) A variable count sanity — the exact shape a Figma-MCP materialiser
   // will import: 10 vars × 5 modes (5 breakpoint + 3 grid + 2 container).
   ok(layout[0].variables.length === 10, `figma layout: 10 vars per mode (5 breakpoint + 3 grid + 2 container) — got ${layout[0].variables.length}`);
+}
+
+// (20) EMIT-FIGMA MODE OPT-OUT (post-#42 follow-up; #45 audit; reviewer flag on #46).
+// BrandInput.modes lets a brand ship any subset of {light, dark, hc-light, hc-dark}.
+// emit-figma's colour axis previously hardcoded all four; a light-only brand's
+// output would silently carry color.dark.json with light values (the alias fallback).
+// The fix reads theme.modes and intersects with the canonical COLOR_MODES ordering.
+// Gates: (a) NB (opts into all four) → four files, byte-identical to the pre-fix world
+// (asserted by the existing block 3 golden — this block adds mode-count coverage);
+// (b) light-only → ONE color file, `color.light.json`, no dark/hc-* silently emitted;
+// (c) [light,dark] → TWO files in canonical order; (d) canonical ORDER preserved
+// regardless of the order the user typed modes into their brief; (e) shadow already
+// gated the dark-mode extension key present (block 14 (e)) — reconfirm here that a
+// light-only brand emits NO shadow-dark/* styles (defensive, since the shadow builder
+// iterates $extensions.prism3.modes.dark and would emit if it existed).
+{
+  const { input } = parseDesignMd(readFileSync(resolve(HERE, '../examples/aurora.design.md'), 'utf8'));
+
+  // (a) default (all four modes) — unchanged from the shipped world
+  const full = brandTheme(input);
+  const fullColor = buildFigmaColor(full).color;
+  ok(fullColor.length === 4, `emit-figma mode opt-out: default brand emits four color files (got ${fullColor.length})`);
+  ok(fullColor.map((f) => f.$mode).join(',') === 'light,dark,hc-light,hc-dark', `emit-figma mode opt-out: default order is light,dark,hc-light,hc-dark`);
+
+  // (b) light-only — ONE file, the load-bearing fix
+  const lo = brandTheme({ ...input, modes: ['light'] });
+  const loColor = buildFigmaColor(lo).color;
+  ok(loColor.length === 1, `emit-figma mode opt-out: light-only brand emits ONE color file (got ${loColor.length})`);
+  ok(loColor[0].$mode === 'light', `emit-figma mode opt-out: light-only emits color.light.json (got color.${loColor[0].$mode}.json)`);
+  // The pre-fix bug would emit four files here — the alias fallback in the light branch
+  // would silently carry through. This gate is the fix's regression fence.
+  ok(loColor.every((f) => f.$mode === 'light'), `emit-figma mode opt-out: NO silent dark/hc-* emission for a light-only brand`);
+
+  // Shadow: a light-only brand emits NO shadow-dark/* styles (defensive — block 14 (e)
+  // already asserted the dark extension exists for NB; here we assert the negative).
+  const loShadow = buildFigmaShadow(lo);
+  const loDarkShadows = loShadow.styles.filter((s) => s.name.startsWith('shadow-dark/'));
+  ok(loDarkShadows.length === 0, `emit-figma mode opt-out: light-only brand emits NO shadow-dark/* styles (got ${loDarkShadows.length})`);
+
+  // (c) [light, dark] — two files, canonical order
+  const ld = brandTheme({ ...input, modes: ['light', 'dark'] });
+  const ldColor = buildFigmaColor(ld).color;
+  ok(ldColor.length === 2, `emit-figma mode opt-out: [light,dark] emits two color files (got ${ldColor.length})`);
+  ok(ldColor.map((f) => f.$mode).join(',') === 'light,dark', `emit-figma mode opt-out: [light,dark] modes in canonical order (got ${ldColor.map((f) => f.$mode).join(',')})`);
+
+  // (d) canonical ORDER preserved regardless of user-typed order. Typing [light, hc-light, dark]
+  // should still emit light,dark,hc-light (canonical), not the typed order.
+  const shuffled = brandTheme({ ...input, modes: ['light', 'hc-light', 'dark'] });
+  const shColor = buildFigmaColor(shuffled).color;
+  ok(shColor.map((f) => f.$mode).join(',') === 'light,dark,hc-light',
+    `emit-figma mode opt-out: canonical order preserved regardless of user-typed order (got ${shColor.map((f) => f.$mode).join(',')})`);
+
+  // (e) every emitted color file's per-role value comes from the RIGHT mode extension
+  // (not a silent light fallback). For [light, dark]: the dark file's action.default
+  // value must equal the dark extension's alias target, not the light $value.
+  const ldTree = (buildTree(ld).tree as any)[Object.keys(buildTree(ld).tree)[0]];
+  const darkFile = ldColor.find((f) => f.$mode === 'dark')!;
+  const darkAction = darkFile.variables.find((v) => v.name === 'color/action/default')!;
+  const darkExtAlias = ldTree.color.action.default.$extensions.prism3.modes.dark.$value.replace(/^\{|\}$/g, '');
+  ok(darkAction.alias?.name === figName(darkExtAlias),
+    `emit-figma mode opt-out: dark file's color/action/default alias is the DARK extension target, not a light fallback (got ${darkAction.alias?.name}, want ${figName(darkExtAlias)})`);
+}
+
+// (21) EMIT-FIGMA GENERALISE (docs/10 §7 item 6) — the queue's closing check:
+// the emit-figma adapter is brand-agnostic. Run it against aurora (engine-native
+// design.md, opts INTO gradients, action = accent) and wendys (STANDARD-dialect
+// through parseStandard + classifier + brandTheme) and gate every axis. This
+// isn't asserting fixture byte-identity (no fixtures for these brands — §2 only
+// freezes NB colour + typography); the gate is that (a) every axis produces
+// output with the right shape, (b) every alias resolves WITHIN each brand's
+// own emitted collections, (c) the namespace transform (figName) strips
+// whichever root the brand carries — aurora=prism (default), wendys=prism
+// (default), NB=nbds — with no leakage across brands, and (d) the aurora
+// gradient axis actually ships alias-driven stops that resolve to palette leaves
+// in the aurora tree (the alias-driven Paint Style form parked in the shadow +
+// gradient PR now materialises through the generalise pass).
+{
+  const auroraTheme = brandTheme(parseDesignMd(readFileSync(resolve(HERE, '../examples/aurora.design.md'), 'utf8')).input);
+  const wendysStd = parseStandardDesignMd(readFileSync(resolve(HERE, '../examples/wendys.design.md'), 'utf8'));
+  const wendysTheme = brandTheme(standardToBrandInput(wendysStd).input);
+
+  // Each brand runs through every axis. We assert structural claims uniformly:
+  // - palette + color(×4 modes when default) shape correct
+  // - every alias in EACH brand's emitted collections resolves WITHIN that brand
+  // - namespace lever holds — figName strips the brand's own root exactly once
+  // - every axis produces non-empty output where it should (gradient is opt-in;
+  //   aurora HAS gradients, wendys does not)
+  for (const [id, theme] of [['aurora', auroraTheme], ['wendys', wendysTheme]] as const) {
+    const { palette, color } = buildFigmaColor(theme);
+    const dims = buildFigmaDims(theme);
+    const layout = buildFigmaLayout(theme);
+    const font = buildFigmaFont(theme);
+    const fluid = buildFigmaFontFluid(theme);
+    const textStyles = buildFigmaTextStyles(theme);
+    const shadow = buildFigmaShadow(theme);
+    const gradient = buildFigmaGradient(theme);
+
+    // (a) Shape sanity — colour + palette + font + fluid + text-styles all present.
+    ok(palette.variables.length > 0, `figma generalise (${id}): palette has variables (${palette.variables.length})`);
+    ok(color.length === 4, `figma generalise (${id}): 4 colour modes emitted (default all four; got ${color.length})`);
+    ok(color.every((c) => c.variables.length === color[0].variables.length), `figma generalise (${id}): every colour mode file has the same variable-name set`);
+    ok(font.variables.length > 0, `figma generalise (${id}): font primitives emitted (${font.variables.length})`);
+    ok(fluid.length === 2 && fluid.every((f) => f.variables.length > 0), `figma generalise (${id}): font-fluid has both mobile + desktop modes`);
+    ok(textStyles.styles.length > 0, `figma generalise (${id}): text-styles emitted (${textStyles.styles.length})`);
+    ok(shadow.styles.length > 0, `figma generalise (${id}): shadow effect styles emitted (${shadow.styles.length})`);
+    ok(layout.length === 5, `figma generalise (${id}): 5 layout mode files (got ${layout.length})`);
+
+    // (b) COLOUR aliases — every per-mode alias name resolves within palette (name-based).
+    const paletteNames = new Set(palette.variables.map((v) => v.name));
+    const colorAliasBad: string[] = [];
+    for (const c of color) for (const v of c.variables) {
+      if (!v.alias || !paletteNames.has(v.alias.name)) colorAliasBad.push(`${c.$mode}:${v.name} → ${v.alias?.name ?? '<none>'}`);
+    }
+    ok(colorAliasBad.length === 0, `figma generalise (${id}): every colour alias resolves to a real palette variable within THIS brand` + (colorAliasBad.length ? ` — ${colorAliasBad.slice(0, 3).join(', ')}` : ''));
+
+    // (c) DIMS aliases — cross-collection resolution within the 7 emitted collections.
+    const dimNames = new Set<string>();
+    const allDimColls = [dims.dimension, dims.space, dims.radius, dims.size, dims.borderWidth, dims.focus, dims.opacity];
+    for (const c of allDimColls) for (const v of c.variables) dimNames.add(v.name);
+    const dimsAliasBad: string[] = [];
+    for (const c of allDimColls) for (const v of c.variables) {
+      if (v.alias && !dimNames.has(v.alias.name)) dimsAliasBad.push(`${c.$collection}:${v.name} → ${v.alias.name}`);
+    }
+    ok(dimsAliasBad.length === 0, `figma generalise (${id}): every dims alias resolves within the emitted collections` + (dimsAliasBad.length ? ` — ${dimsAliasBad.slice(0, 3).join(', ')}` : ''));
+
+    // (d) LAYOUT aliases — grid/gutter + grid/margin resolve into THIS brand's space collection.
+    const spaceNames = new Set(dims.space.variables.map((v) => v.name));
+    const layoutAliasBad: string[] = [];
+    for (const l of layout) for (const v of l.variables) {
+      if (v.name === 'grid/gutter' || v.name === 'grid/margin') {
+        if (!v.alias || !spaceNames.has(v.alias.name)) layoutAliasBad.push(`${l.$mode}:${v.name} → ${v.alias?.name ?? '<none>'}`);
+      }
+    }
+    ok(layoutAliasBad.length === 0, `figma generalise (${id}): every layout grid alias resolves within THIS brand's space collection` + (layoutAliasBad.length ? ` — ${layoutAliasBad.slice(0, 3).join(', ')}` : ''));
+
+    // (e) NAMESPACE strip — Figma variable names carry no brand prefix. figName
+    // strips exactly one root segment; walking every emitted name proves the
+    // transform is idempotent regardless of what root the brand carries. NB
+    // uses `nbds`; aurora + wendys both default to `prism` (no leakage back
+    // into the emitted names).
+    const allEmittedNames: string[] = [
+      ...palette.variables.map((v) => v.name),
+      ...color.flatMap((c) => c.variables.map((v) => v.name)),
+      ...allDimColls.flatMap((c) => c.variables.map((v) => v.name)),
+      ...layout.flatMap((l) => l.variables.map((v) => v.name)),
+      ...font.variables.map((v) => v.name),
+      ...fluid.flatMap((f) => f.variables.map((v) => v.name)),
+    ];
+    const namespaceLeaks = allEmittedNames.filter((n) => n.startsWith('prism/') || n.startsWith('nbds/') || n.startsWith('acme/'));
+    ok(namespaceLeaks.length === 0, `figma generalise (${id}): no brand-namespace leakage in emitted variable names (${allEmittedNames.length} names checked)` + (namespaceLeaks.length ? ` — LEAKS: ${namespaceLeaks.slice(0, 3).join(', ')}` : ''));
+  }
+
+  // (f) AURORA GRADIENTS — the alias-driven Paint Style form. Aurora opts in
+  // (gradients: true, custom array); its gradient axis emits ≥1 style, every
+  // stop carries a real alias, and every alias resolves to a palette leaf in
+  // aurora's DTCG tree.
+  const auroraGradient = buildFigmaGradient(auroraTheme);
+  ok(auroraGradient.styles.length > 0, `figma generalise (aurora): gradient axis emits ≥1 style (got ${auroraGradient.styles.length})`);
+  const auroraTree = buildTree(auroraTheme).tree as any;
+  const auroraRoot = Object.keys(auroraTree)[0];
+  const stopAliasBad: string[] = [];
+  for (const s of auroraGradient.styles) for (const stop of s.stops) {
+    if (!stop.alias) { stopAliasBad.push(`${s.name}@${stop.position} has no alias`); continue; }
+    const dottedPath = `${auroraRoot}.${stop.alias.replace(/\//g, '.')}`;
+    const leaf = dottedPath.split('.').reduce((n: any, seg) => n?.[seg], auroraTree);
+    if (!leaf || leaf.$type !== 'color') stopAliasBad.push(`${s.name}@${stop.position} → ${stop.alias} does not resolve to a colour leaf`);
+  }
+  ok(stopAliasBad.length === 0, `figma generalise (aurora): every gradient stop alias resolves to a colour leaf in aurora's DTCG` + (stopAliasBad.length ? ` — ${stopAliasBad.slice(0, 3).join('; ')}` : ''));
+
+  // (g) WENDYS carries no gradients (didn't opt in) — the axis emits an empty
+  // consistent shape, exactly like NB. Documents that opt-in works negatively
+  // on the standard-dialect front door too.
+  const wendysGradient = buildFigmaGradient(wendysTheme);
+  ok(wendysGradient.styles.length === 0 && wendysGradient.$collection === 'gradient-styles', `figma generalise (wendys): no gradients opted in → empty consistent-shape file (collection='gradient-styles')`);
 }
 
 // ------------------------------------------------------------------- report

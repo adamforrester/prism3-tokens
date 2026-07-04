@@ -1,0 +1,531 @@
+{
+  "$collection": "shadow-styles",
+  "styles": [
+    {
+      "name": "shadow/xs",
+      "description": "shadow xs — elevation 1 of 6, 2-layer (key+ambient) — light mode",
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 1
+          },
+          "offset": {
+            "x": 0,
+            "y": 1
+          },
+          "radius": 3,
+          "spread": 0,
+          "visible": true,
+          "blendMode": "NORMAL"
+        },
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 1
+          },
+          "offset": {
+            "x": 0,
+            "y": 1
+          },
+          "radius": 4,
+          "spread": 0,
+          "visible": true,
+          "blendMode": "NORMAL"
+        }
+      ]
+    },
+    {
+      "name": "shadow/sm",
+      "description": "shadow sm — elevation 2 of 6, 2-layer (key+ambient) — light mode",
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 1
+          },
+          "offset": {
+            "x": 0,
+            "y": 1
+          },
+          "radius": 3,
+          "spread": -1,
+          "visible": true,
+          "blendMode": "NORMAL"
+        },
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 1
+          },
+          "offset": {
+            "x": 0,
+            "y": 2
+          },
+          "radius": 8,
+          "spread": -1,
+          "visible": true,
+          "blendMode": "NORMAL"
+        }
+      ]
+    },
+    {
+      "name": "shadow/md",
+      "description": "shadow md — elevation 3 of 6, 2-layer (key+ambient) — light mode",
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 1
+          },
+          "offset": {
+            "x": 0,
+            "y": 2
+          },
+          "radius": 5,
+          "spread": -2,
+          "visible": true,
+          "blendMode": "NORMAL"
+        },
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 1
+          },
+          "offset": {
+            "x": 0,
+            "y": 4
+          },
+          "radius": 16,
+          "spread": -3,
+          "visible": true,
+          "blendMode": "NORMAL"
+        }
+      ]
+    },
+    {
+      "name": "shadow/lg",
+      "description": "shadow lg — elevation 4 of 6, 2-layer (key+ambient) — light mode",
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 1
+          },
+          "offset": {
+            "x": 0,
+            "y": 3
+          },
+          "radius": 8,
+          "spread": -3,
+          "visible": true,
+          "blendMode": "NORMAL"
+        },
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 1
+          },
+          "offset": {
+            "x": 0,
+            "y": 8
+          },
+          "radius": 26,
+          "spread": -5,
+          "visible": true,
+          "blendMode": "NORMAL"
+        }
+      ]
+    },
+    {
+      "name": "shadow/xl",
+      "description": "shadow xl — elevation 5 of 6, 2-layer (key+ambient) — light mode",
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 1
+          },
+          "offset": {
+            "x": 0,
+            "y": 4
+          },
+          "radius": 10,
+          "spread": -4,
+          "visible": true,
+          "blendMode": "NORMAL"
+        },
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 1
+          },
+          "offset": {
+            "x": 0,
+            "y": 14
+          },
+          "radius": 42,
+          "spread": -8,
+          "visible": true,
+          "blendMode": "NORMAL"
+        }
+      ]
+    },
+    {
+      "name": "shadow/2xl",
+      "description": "shadow 2xl — elevation 6 of 6, 2-layer (key+ambient) — light mode",
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 1
+          },
+          "offset": {
+            "x": 0,
+            "y": 6
+          },
+          "radius": 16,
+          "spread": -6,
+          "visible": true,
+          "blendMode": "NORMAL"
+        },
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 1
+          },
+          "offset": {
+            "x": 0,
+            "y": 22
+          },
+          "radius": 68,
+          "spread": -12,
+          "visible": true,
+          "blendMode": "NORMAL"
+        }
+      ]
+    },
+    {
+      "name": "shadow/inset",
+      "description": "shadow inset — inner shadow for wells / pressed states / inputs — light mode",
+      "effects": [
+        {
+          "type": "INNER_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 1
+          },
+          "offset": {
+            "x": 0,
+            "y": 2
+          },
+          "radius": 5,
+          "spread": 0,
+          "visible": true,
+          "blendMode": "NORMAL"
+        }
+      ]
+    },
+    {
+      "name": "shadow-dark/xs",
+      "description": "shadow xs — elevation 1 of 6, 2-layer (key+ambient) — dark mode (reduced; surface-lift pattern)",
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 1
+          },
+          "offset": {
+            "x": 0,
+            "y": 1
+          },
+          "radius": 3,
+          "spread": 0,
+          "visible": true,
+          "blendMode": "NORMAL"
+        },
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 1
+          },
+          "offset": {
+            "x": 0,
+            "y": 1
+          },
+          "radius": 4,
+          "spread": 0,
+          "visible": true,
+          "blendMode": "NORMAL"
+        }
+      ]
+    },
+    {
+      "name": "shadow-dark/sm",
+      "description": "shadow sm — elevation 2 of 6, 2-layer (key+ambient) — dark mode (reduced; surface-lift pattern)",
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 1
+          },
+          "offset": {
+            "x": 0,
+            "y": 1
+          },
+          "radius": 3,
+          "spread": -1,
+          "visible": true,
+          "blendMode": "NORMAL"
+        },
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 1
+          },
+          "offset": {
+            "x": 0,
+            "y": 2
+          },
+          "radius": 8,
+          "spread": -1,
+          "visible": true,
+          "blendMode": "NORMAL"
+        }
+      ]
+    },
+    {
+      "name": "shadow-dark/md",
+      "description": "shadow md — elevation 3 of 6, 2-layer (key+ambient) — dark mode (reduced; surface-lift pattern)",
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 1
+          },
+          "offset": {
+            "x": 0,
+            "y": 2
+          },
+          "radius": 5,
+          "spread": -2,
+          "visible": true,
+          "blendMode": "NORMAL"
+        },
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 1
+          },
+          "offset": {
+            "x": 0,
+            "y": 4
+          },
+          "radius": 16,
+          "spread": -3,
+          "visible": true,
+          "blendMode": "NORMAL"
+        }
+      ]
+    },
+    {
+      "name": "shadow-dark/lg",
+      "description": "shadow lg — elevation 4 of 6, 2-layer (key+ambient) — dark mode (reduced; surface-lift pattern)",
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 1
+          },
+          "offset": {
+            "x": 0,
+            "y": 3
+          },
+          "radius": 8,
+          "spread": -3,
+          "visible": true,
+          "blendMode": "NORMAL"
+        },
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 1
+          },
+          "offset": {
+            "x": 0,
+            "y": 8
+          },
+          "radius": 26,
+          "spread": -5,
+          "visible": true,
+          "blendMode": "NORMAL"
+        }
+      ]
+    },
+    {
+      "name": "shadow-dark/xl",
+      "description": "shadow xl — elevation 5 of 6, 2-layer (key+ambient) — dark mode (reduced; surface-lift pattern)",
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 1
+          },
+          "offset": {
+            "x": 0,
+            "y": 4
+          },
+          "radius": 10,
+          "spread": -4,
+          "visible": true,
+          "blendMode": "NORMAL"
+        },
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 1
+          },
+          "offset": {
+            "x": 0,
+            "y": 14
+          },
+          "radius": 42,
+          "spread": -8,
+          "visible": true,
+          "blendMode": "NORMAL"
+        }
+      ]
+    },
+    {
+      "name": "shadow-dark/2xl",
+      "description": "shadow 2xl — elevation 6 of 6, 2-layer (key+ambient) — dark mode (reduced; surface-lift pattern)",
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 1
+          },
+          "offset": {
+            "x": 0,
+            "y": 6
+          },
+          "radius": 16,
+          "spread": -6,
+          "visible": true,
+          "blendMode": "NORMAL"
+        },
+        {
+          "type": "DROP_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 1
+          },
+          "offset": {
+            "x": 0,
+            "y": 22
+          },
+          "radius": 68,
+          "spread": -12,
+          "visible": true,
+          "blendMode": "NORMAL"
+        }
+      ]
+    },
+    {
+      "name": "shadow-dark/inset",
+      "description": "shadow inset — inner shadow for wells / pressed states / inputs — dark mode (reduced; surface-lift pattern)",
+      "effects": [
+        {
+          "type": "INNER_SHADOW",
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 1
+          },
+          "offset": {
+            "x": 0,
+            "y": 2
+          },
+          "radius": 5,
+          "spread": 0,
+          "visible": true,
+          "blendMode": "NORMAL"
+        }
+      ]
+    }
+  ]
+}

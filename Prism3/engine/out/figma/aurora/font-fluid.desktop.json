@@ -1,0 +1,96 @@
+{
+  "$collection": "font-fluid",
+  "$mode": "desktop",
+  "variables": [
+    {
+      "name": "font-fluid/display/sm/strong",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 56,
+      "alias": null
+    },
+    {
+      "name": "font-fluid/display/md/strong",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 72,
+      "alias": null
+    },
+    {
+      "name": "font-fluid/display/lg/strong",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 96,
+      "alias": null
+    },
+    {
+      "name": "font-fluid/display/xl/strong",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 112,
+      "alias": null
+    },
+    {
+      "name": "font-fluid/title/sm/strong",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 24,
+      "alias": null
+    },
+    {
+      "name": "font-fluid/title/md/strong",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 28,
+      "alias": null
+    },
+    {
+      "name": "font-fluid/title/lg/strong",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 32,
+      "alias": null
+    },
+    {
+      "name": "font-fluid/title/xl/strong",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 36,
+      "alias": null
+    },
+    {
+      "name": "font-fluid/title/2xl/strong",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_SIZE"
+      ],
+      "description": "",
+      "value": 48,
+      "alias": null
+    }
+  ]
+}

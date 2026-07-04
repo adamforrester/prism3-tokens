@@ -333,11 +333,18 @@ export const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats
   const spaceKeyOf = new Map<number, string>(theme.dims.space.map((s) => [s.px, s.key]));
   for (const s of theme.dims.space) space[s.key] = dimAlias(`${root}.dimension.${s.px}`, `space.${s.key} — ${s.px}px (${s.mult}× ${theme.dims.spaceBase}px base)`, { px: s.px, mult: s.mult });
   // radius ramp (t-shirt)
+  // Wireframe (docs/11 Pillar 1b) zeroes every radius: geometry becomes mode-varying, so a
+  // non-zero radius carries a `modes.wireframe` override aliasing `dimension.0` — the same
+  // per-mode override shape colour/shadow use. Only when the brand opted into wireframe.
   const radius: Record<string, Token> = {};
+  const wireframe = theme.modes.includes('wireframe');
   for (const r of theme.dims.radius) {
-    radius[r.name] = gridSet.has(r.px)
+    const leaf = gridSet.has(r.px)
       ? dimAlias(`${root}.dimension.${r.px}`, `radius ${r.name} — ${r.px}px${r.pill ? ' (pill)' : ''}`, { px: r.px, radiusScale: theme.dims.radiusScaleValue })
       : dimLeaf(r.px, `radius ${r.name} — ${r.px}px (off-grid literal)`);
+    if (wireframe && r.px !== 0)
+      leaf.$extensions.prism3.modes = { wireframe: { $value: `{${root}.dimension.0}`, px: 0, note: 'wireframe zeroes all radius (sharp corners)' } };
+    radius[r.name] = leaf;
   }
   // component tier: each size binds a height + paired padding from the shared
   // scales, so a `md` control is identical across components. DENSITY acts here.
