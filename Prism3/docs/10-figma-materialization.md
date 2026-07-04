@@ -160,6 +160,20 @@ Figma-target rendering (role→scopes, name transform, per-mode alias) lives in 
   swatches with `cornerRadius`, `width`, `height`, `padding*`, `opacity`, `strokeWeight`
   bound to their respective FLOAT vars. Container fills bound to `color/background|foreground/*`
   (spike lesson).
+- **Wireframe mode — ✅ BUILT (2026-07-04, this PR).** `'wireframe'` is now materialised
+  on the two axes it touches in the DTCG tree (docs/11 Pillar 1b, #48). **Colour:**
+  `'wireframe'` added to `COLOR_MODES` (canonical position: last). Zero adapter-body
+  work — the existing intersection with `theme.modes` picks the mode up and the alias
+  target comes straight from `$extensions.prism3.modes.wireframe.$value` (routed to a
+  `palette/neutral/*` step by tree.ts). **Radius:** the FIRST non-colour/shadow axis to
+  be mode-varying. `buildFigmaDims` returns `radius: FigmaCollectionFile[]` (per-mode
+  files, same shape as `color`); a non-wireframe brand emits a single Default-mode
+  file `radius.json` (byte-identical to the pre-1b world); a wireframe-opted-in brand
+  emits two files (`radius.Default.json` + `radius.wireframe.json`), non-zero radii
+  aliasing `dimension/0` in wireframe, `radius.none` untouched. `test.ts` block 22
+  gates both changes against a synthetic wireframe brand (no example opts in today);
+  16 new gates → **400/400 total**. Default four-mode `out/figma/*` verified
+  byte-identical.
 - **Shadow + gradient — ✅ BUILT (2026-07-02).** `engine/emit-figma.ts` → `out/figma/nb/`
   `shadow-styles.json` (14 Effect Style specs) + `gradient-styles.json` (0 for NB — opt-in).
   Shadow emits TWO style sets per step (`shadow/xs..2xl + shadow/inset` for light-mode
@@ -224,6 +238,27 @@ border-width). The **4** uncovered — `motion`, `breakpoint`, `grid`, `containe
 `motion` (item 5).
 
 **Queue, in order:**
+0. **✅ DONE (2026-07-04, this PR) — Wireframe mode (from Pillar 1b, #48).** `'wireframe'`
+   is an opt-in generated greyscale mode; emit-figma materialises it on TWO axes.
+   (a) The `color` collection gains a `wireframe` MODE — added `'wireframe'` to
+   `COLOR_MODES` (canonical position: last). Every role's
+   `$extensions.prism3.modes.wireframe.$value` aliases a `palette/neutral/*` step;
+   the emit-figma intersection with `theme.modes` picks it up automatically. (b)
+   The `radius` collection becomes MODE-VARYING — non-zero `radius.*` DTCG leaves
+   carry `$extensions.prism3.modes.wireframe → {root.dimension.0}` (tree.ts:340–346).
+   `buildFigmaDims` now returns `radius: FigmaCollectionFile[]` (per-mode files, same
+   shape as `color`): a non-wireframe brand emits a single `radius.json` (Default
+   mode, byte-identical to the pre-1b world); a wireframe-opted-in brand emits two
+   files (`radius.Default.json` + `radius.wireframe.json`) where non-zero radii alias
+   `dimension/0` and `radius.none` stays 0. This is the FIRST non-colour/shadow axis
+   to be mode-varying — the load-bearing precedent for future mode-varying geometry.
+   No example brand opts into wireframe today, so gated against a SYNTHETIC
+   wireframe-enabled brand (same pattern as blocks 18 + 20 — `brandTheme({ …input,
+   modes: [..., 'wireframe'] })`). 16 new gates → `test.ts` **400/400 total**. Default
+   four-mode `out/figma/*` byte-identical (regenerated + verified). Materialise-to-verify
+   in Figma via the MCP is parked with the aurora + wendys materialisation follow-up
+   (figma-console MCP was disconnected on 2026-07-03). Once shipped, the
+   [Figma-emitter] queue's only remaining spec item is **motion**, still deferred.
 1. **Typography — ✅ DONE (2026-07-02, #31).** `font` (38) + `font-fluid` (10 × mobile/desktop)
    byte-reproduce the fixtures; 36 text styles apply the six §4 fixes and gate against the
    corrected expectation (not the pre-fix `text-styles.json` snapshot). `tree.ts` LH/LS
