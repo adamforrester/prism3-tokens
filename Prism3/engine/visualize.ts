@@ -78,13 +78,15 @@ for (const b of brands) {
   for (const pal of palettes) {
     const steps = STEP_ORDER(Object.keys(data.palette[pal]));
     txt.push(`\n  ${pal}`);
-    html.push(`<div class="palette"><div class="plabel">${pal}</div><div class="ramp">`);
+    html.push(`<div class="palette"><div class="plabel">${esc(pal)}</div><div class="ramp">`);
     for (const k of steps) {
       const node = data.palette[pal][k];
       const hex = hexOf(tree, node);
       const anchor = node.$extensions?.prism3?.anchor;
       txt.push(`    ${(pal + '.' + k).padEnd(18)} ${hex}${anchor ? '   ← brand anchor' : ''}`);
-      html.push(`<div class="sw" style="background:${hex};color:${textOn(hex)}" title="${pal}.${k} ${hex}"><span>${k}${anchor ? ' ★' : ''}</span><small>${hex}</small></div>`);
+      // L-10: esc the brand-controlled palette name (defence-in-depth — CR-03/L-06 already
+      // constrain it to a slug, so this is byte-identical for a valid brand).
+      html.push(`<div class="sw" style="background:${hex};color:${textOn(hex)}" title="${esc(pal)}.${k} ${hex}"><span>${k}${anchor ? ' ★' : ''}</span><small>${hex}</small></div>`);
     }
     html.push('</div></div>');
   }
@@ -94,7 +96,6 @@ for (const b of brands) {
   // the dark / hc-light / hc-dark values as overrides in `$extensions.prism3.modes`.
   txt.push('\n— SEMANTIC COLOUR ROLES (per mode) —');
   html.push('<h3>Semantic roles <span class="muted">(one token · resolved per mode)</span></h3>');
-  const MODES = ['light', 'dark', 'hc-light', 'hc-dark'];
   // Role keys are property-led and nest (group / variant / state); flatten to
   // dotted paths that point at leaves (`$value`-bearing nodes).
   const roleKeys: string[] = [];
@@ -107,6 +108,17 @@ for (const b of brands) {
     }
   };
   flatten(data.color, '');
+  // L-10: render the modes the tree ACTUALLY carries, not a hardcoded four — a narrowed-modes
+  // brand (light only, or one that ships wireframe) would otherwise draw empty/omitted columns.
+  // `light` is the canonical `$value`; the rest live in `$extensions.prism3.modes`. Canonical
+  // order preserved so the shipped (all-four) brands stay byte-identical.
+  const MODE_ORDER = ['light', 'dark', 'hc-light', 'hc-dark', 'wireframe'];
+  const present = new Set<string>(['light']);
+  for (const rk of roleKeys) {
+    const rn = rk.split('.').reduce((acc: any, s) => acc?.[s], data.color);
+    for (const m of Object.keys(rn.$extensions?.prism3?.modes ?? {})) present.add(m);
+  }
+  const MODES = MODE_ORDER.filter((m) => present.has(m));
   html.push('<table class="sem"><thead><tr><th>role</th>' + MODES.map((m) => `<th>${m}</th>`).join('') + '</tr></thead><tbody>');
   for (const rk of roleKeys) {
     const roleNode = rk.split('.').reduce((acc: any, s) => acc?.[s], data.color);
@@ -405,7 +417,10 @@ for (const b of brands) {
       const rows = cs.map((c) => {
         const dots = PVMODES.map((m) => { const r = c.byMode[m]; return r ? `<i class="${r.pass ? 'ok' : 'no'}" title="${m}: ${r.ratio}:1 (min ${c.min})">${PVABBR[m]}</i>` : ''; }).join('');
         const lr = c.byMode.light;
-        return `<div class="ccrow"><span class="cclabel">${esc(c.label ?? '')}</span><span class="ccratio">${lr ? lr.ratio : '—'}≥${c.min}</span><span class="ccdots">${dots}</span></div>`;
+        // L-10: show the ACTUAL relation — a failing light contract used to print `3.20≥4.5`,
+        // literally false. Use `<` + a fail class when it doesn't clear the min.
+        const ratioCell = lr ? `${lr.ratio}${lr.pass ? '≥' : '<'}${c.min}` : `—≥${c.min}`;
+        return `<div class="ccrow"><span class="cclabel">${esc(c.label ?? '')}</span><span class="ccratio${lr && !lr.pass ? ' no' : ''}">${ratioCell}</span><span class="ccdots">${dots}</span></div>`;
       }).join('');
       html.push(`<div class="pvrow"><div class="pvchip" style="${chipStyle}">${esc(v.name)}</div><div class="pvcc">${rows}</div></div>`);
     }
