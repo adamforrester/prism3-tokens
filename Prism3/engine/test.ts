@@ -13,7 +13,7 @@
  */
 import { rgbToOklch, oklchToRgb, hex, hexToRgb, contrast, luminance, maxChroma, inGamut, deltaE2000, RGB } from './color';
 import { generateRamp, autoPlaceStep, STEP_NUMS } from './ramp';
-import { brandTheme, BrandInput } from './theme';
+import { brandTheme, BrandInput, inRedTerritory } from './theme';
 import { nbTheme } from './nb-fixture';
 import { resolveAllModes } from './modes';
 import { parseDesignMd, parseYamlSubset, toDesignMd } from './design-md';
@@ -61,6 +61,17 @@ ok(contrast({ r: 117, g: 117, b: 117 }, WHITE) >= 4.4 && contrast({ r: 117, g: 1
   const marginal = contrast(hexToRgb('#007ea1'), BLACK);
   ok(marginal < 4.5 && marginal > 4.49, `contrast() raw: #007ea1/black = ${marginal.toFixed(5)} < 4.5 (no round-up false AA pass)`);
   ok(marginal !== Math.round(marginal * 100) / 100, 'contrast() returns un-rounded ratio (not pre-rounded to 2dp)');
+}
+
+// M-13: hexToRgb accepts 8-digit alpha hex (`#RRGGBBAA`, common in real extractions) and 4-digit
+// `#RGBA` by dropping the alpha (anchors are opaque) — a trailing FF must not read as "invalid
+// hex" and crash the standard-dialect CLI. Genuinely malformed hex is still rejected.
+{
+  ok(hex(hexToRgb('#C8102EFF')) === '#c8102e', 'M-13: 8-digit alpha hex drops the alpha (#C8102EFF → #c8102e)');
+  ok(hex(hexToRgb('#c8102e88')) === '#c8102e', 'M-13: a non-FF alpha is dropped to the opaque colour');
+  ok(hex(hexToRgb('#f008')) === '#ff0000', 'M-13: 4-digit #RGBA expands + drops alpha');
+  let bad = false; try { hexToRgb('#12345'); } catch { bad = true; }
+  ok(bad, 'M-13: a malformed (5-digit) hex is still rejected');
 }
 
 // relative luminance bounds
@@ -145,6 +156,33 @@ for (const b of brands) {
   const modes = resolveAllModes(nbTheme());
   const broken = modes.flatMap((m) => Object.entries(m.roles).filter(([, r]) => r.min > 0 && r.ratio < r.min).map(([k]) => `${m.mode}.${k}`));
   ok(broken.length === 0, 'nbTheme all contracts pass' + (broken.length ? ` — FAILED: ${broken.join(', ')}` : ''));
+}
+
+// M-05: red-territory detection is chroma-aware. A red-ish but DESATURATED (greige) primary
+// must NOT be reused as danger — a near-grey can't signal destruction — so it carves a real
+// saturated red; a genuinely saturated red primary still reuses itself.
+{
+  ok(!inRedTerritory(30, 0.03), 'M-05: a warm greige (h30, c0.03) is NOT red territory (chroma below floor)');
+  ok(inRedTerritory(27, 0.17), 'M-05: a saturated red (h27, c0.17) IS red territory');
+  const greige = brandTheme({ id: 'greige', primary: { l: 0.5, c: 0.03, h: 30 }, neutral: { hue: 30, chroma: 0.01 } });
+  ok(greige.roleToPalette.danger === 'danger', 'M-05: a greige-warm primary carves a dedicated danger palette (does NOT reuse the near-grey primary)');
+  const dMid = greige.palettes.find((p) => p.palette === 'danger')!.steps.find((s) => s.num === 500)!;
+  ok(dMid.oklch.c > 0.08, `M-05: the carved danger is a saturated red (mid chroma ${dMid.oklch.c.toFixed(3)} > floor), not a near-grey`);
+  const satRed = brandTheme({ id: 'red', primary: { l: 0.55, c: 0.17, h: 27 }, neutral: { hue: 27, chroma: 0.01 } });
+  ok(satRed.roleToPalette.danger === 'primary', 'M-05: a saturated red primary still reuses itself as danger (no near-duplicate red)');
+  ok(greige.notes.some((n) => n.includes('below the') && n.includes('floor')), 'M-05: the greige carve reason is surfaced in the decisions log');
+}
+
+// M-06: a non-primary actionPalette anchors the action role at the brand's PINNED accent step
+// (matching nbTheme's action=550=accent step), not the hardcoded 500 pivot that silently
+// discarded the brand's chosen shade. pickBrand still nudges to clear AA, so a11y is preserved.
+{
+  const step = autoPlaceStep(0.35);   // a dark accent pins well below 500
+  ok(step !== 500, `precondition: a dark accent pins off the 500 pivot (step ${step})`);
+  const acted = brandTheme({ id: 'act', primary: { l: 0.5, c: 0.08, h: 260 }, neutral: { hue: 260, chroma: 0.01 }, brandColors: [{ name: 'cta', oklch: { l: 0.35, c: 0.1, h: 260 } }], actionPalette: 'cta' });
+  ok(acted.roleAnchorStep.action === step, `M-06: a non-primary actionPalette anchors the action at the accent's pinned step ${step}, not 500`);
+  const prim = brandTheme({ id: 'p', primary: { l: 0.35, c: 0.1, h: 260 }, neutral: { hue: 260, chroma: 0.01 } });
+  ok(prim.roleAnchorStep.action === prim.roleAnchorStep.brand, 'M-06: actionPalette=primary still anchors the action at the primary step');
 }
 
 // ------------------------------------------- typography composite invariants
@@ -457,6 +495,14 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   ok(!!cls.input.status.danger, 'classifier: error → status.danger (the one rename)');
   ok(!!cls.input.status.success && !!cls.input.status.warning, 'classifier: success + warning classified from the flat map');
   ok(cls.input.brandColors.some((b) => b.name === 'secondary') && cls.input.brandColors.some((b) => b.name === 'tertiary'), 'classifier: secondary + tertiary → brandColors[]');
+  // M-12: classification lowercases, so anchor EXTRACTION must too — a mixed/upper-case map
+  // must anchor identically, not silently drop the anchor (or throw "no primary").
+  const mixed = classifyColors({ Primary: '#3366cc', Error: '#cc2222', Secondary: '#22aa88', Neutral: '#888888' });
+  ok(!!mixed.input.primary && !!mixed.input.status.danger && mixed.input.brandColors.some((b) => b.name === 'secondary'),
+    'M-12: mixed-case keys (Primary/Error/Secondary) classify + extract identically to lowercase');
+  let m12threw = false;
+  try { classifyColors({ PRIMARY: '#123456' }); } catch { m12threw = true; }
+  ok(!m12threw, 'M-12: an all-caps PRIMARY no longer throws "no primary"');
   const { input, xApplied } = standardToBrandInput(std);
   ok(input.id === 'wendys', "standardToBrandInput: id derived from name (Wendy's → wendys)");
   ok(xApplied.length === 0, 'wendys: no x-prism3 block → engine defaults (the plain-spec guarantee)');
@@ -478,6 +524,13 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   const applied = applyXPrism3(probe, { radiusScale: 2, typeScale: 'expressive', motionTempo: 'snappy', density: 'compact' });
   ok(probe.radiusScale === 2 && probe.typography?.typeScale === 'expressive' && probe.motionPersonality?.tempo === 'snappy' && probe.density === 'compact' && applied.length === 4,
     'applyXPrism3: levers map onto BrandInput (brand-skills → engine round-trip)');
+  // M-14: a non-numeric radiusScale (`Number('soft')` → NaN) must be rejected at ingest, not
+  // slipped through to NaNpx radius tokens (NaN passes typeof-number + every min/max compare).
+  let m14ingest = false;
+  try { applyXPrism3({ id: 'p', primary: { l: 0.5, c: 0.1, h: 20 }, neutral: { hue: 20, chroma: 0.01 } } as BrandInput, { radiusScale: 'soft' }); } catch { m14ingest = true; }
+  ok(m14ingest, 'M-14: x-prism3.radiusScale="soft" throws at ingest (not a NaN radius)');
+  ok(applyXPrism3({ id: 'p', primary: { l: 0.5, c: 0.1, h: 20 }, neutral: { hue: 20, chroma: 0.01 } } as BrandInput, { radiusScale: 1.5 }).length === 1, 'M-14: a numeric radiusScale still applies');
+  ok(validateBrandInput({ id: 't', primary: { l: 0.5, c: 0.05, h: 200 }, neutral: { hue: 200, chroma: 0.01 }, radiusScale: NaN } as any).length > 0, 'M-14: the validator rejects a NaN number (backstop)');
   const nativeStd = parseStandardDesignMd(readFileSync(resolve(HERE, '../examples/harbor.design.md'), 'utf8'));
   ok(Object.keys(nativeStd.colors).length === 0, 'dialect detection: an engine-native brief has no top-level colors map (routes native)');
 }

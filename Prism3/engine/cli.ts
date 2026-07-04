@@ -103,7 +103,12 @@ const main = () => {
 
   if (isStandard) {
     // ---- STANDARD dialect: classify the flat colours into anchors ----
-    const { input, classification, xApplied } = standardToBrandInput(std);
+    // Wrapped (M-13): classifyColors can throw ("no primary" / an invalid hex), so route it
+    // through fail() for a readable diagnosis + exit 1 rather than a raw stack trace.
+    let classified;
+    try { classified = standardToBrandInput(std); }
+    catch (e) { return fail(`could not classify '${std.name}' (standard dialect): ${(e as Error).message}`); }
+    const { input, classification, xApplied } = classified;
     console.log(`[standard] '${std.name}' → id '${input.id}' — ${Object.keys(std.colors).length} colours, ${Object.keys(std.typography).length} type tokens; x-prism3: ${xApplied.length ? xApplied.join(', ') : 'none (defaults)'}`);
     validateOrExit(input, designPath!);
     let theme: Theme;

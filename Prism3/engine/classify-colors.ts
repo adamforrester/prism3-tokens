@@ -115,20 +115,28 @@ export const classifyColors = (colors: Record<string, string>): ColorClassificat
   }
   const mark = (token: string) => { const p = provided.find((x) => x.token === token); if (p) p.usedAsAnchor = true; };
 
+  // Role lookup is case-insensitive (roleOf lowercases), so anchor EXTRACTION must be too —
+  // otherwise `{ Primary: … }` / `{ Error: … }` classify correctly but their `colors[role]`
+  // lookup misses, dropping the anchor silently (M-12). Map each canonical role → its hex and
+  // ORIGINAL token (for mark/log); a case collision keeps the last, matching the map's own semantics.
+  const lc: Record<string, string> = {};       // lowercase role → hex
+  const origKey: Record<string, string> = {};  // lowercase role → original token
+  for (const [token, hex] of Object.entries(colors)) { const k = token.toLowerCase(); lc[k] = hex; origKey[k] = token; }
+
   // --- primary anchor (required) ---
-  if (!colors.primary) throw new Error("classify-colors: no 'primary' colour in the map — cannot anchor the brand palette");
-  const primary = oklchOf(colors.primary);
-  mark('primary');
-  log.push({ token: 'primary', decision: `→ brand anchor (pinned) oklch(${primary.l} ${primary.c} ${primary.h})` });
+  if (!lc.primary) throw new Error("classify-colors: no 'primary' colour in the map — cannot anchor the brand palette");
+  const primary = oklchOf(lc.primary);
+  mark(origKey.primary);
+  log.push({ token: origKey.primary, decision: `→ brand anchor (pinned) oklch(${primary.l} ${primary.c} ${primary.h})` });
 
   // --- additional brand palettes: secondary, tertiary ---
   const brandColors: { name: string; oklch: OKLCH }[] = [];
   for (const name of ['secondary', 'tertiary']) {
-    if (colors[name]) {
-      const o = oklchOf(colors[name]);
+    if (lc[name]) {
+      const o = oklchOf(lc[name]);
       brandColors.push({ name, oklch: o });
-      mark(name);
-      log.push({ token: name, decision: `→ brandColors[] '${name}' (pinned) oklch(${o.l} ${o.c} ${o.h})` });
+      mark(origKey[name]);
+      log.push({ token: origKey[name], decision: `→ brandColors[] '${name}' (pinned) oklch(${o.l} ${o.c} ${o.h})` });
     }
   }
 
@@ -156,12 +164,12 @@ export const classifyColors = (colors: Record<string, string>): ColorClassificat
   const status: ColorInput['status'] = {};
   const statusMap: [string, 'success' | 'warning' | 'danger'][] = [['success', 'success'], ['warning', 'warning'], ['error', 'danger']];
   for (const [token, key] of statusMap) {
-    if (colors[token]) {
-      const o = oklchOf(colors[token]);
+    if (lc[token]) {
+      const o = oklchOf(lc[token]);
       status[key] = { l: o.l, c: o.c, h: o.h, chroma: o.c };
-      mark(token);
+      mark(origKey[token]);
       const rename = token === 'error' ? ' [RENAME error→danger]' : '';
-      log.push({ token, decision: `→ status.${key}${rename} hue ${o.h}, chroma ${o.c} (lightness placed by the status ramp, not pinned)` });
+      log.push({ token: origKey[token], decision: `→ status.${key}${rename} hue ${o.h}, chroma ${o.c} (lightness placed by the status ramp, not pinned)` });
     }
   }
 
