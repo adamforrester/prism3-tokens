@@ -25,14 +25,16 @@ import { buildTree, at, subNode, pxOf, numOf, remPxOf, familyOf } from './tree';
 
 export type PreviewContractResult = {
   component: string; variant: string; fg: string; bg: string; min: number; label?: string;
-  byMode: Record<ModeName, { ratio: number; pass: boolean }>;
+  byMode: Partial<Record<ModeName, { ratio: number; pass: boolean }>>;
 };
 /** A resolved typography composite (mode-invariant) — the atoms a chip / Text Style needs. */
 export type ResolvedType = { fontFamily: string; fontWeight: number; fontSizePx: number };
 export type ResolvedPreview = {
   modes: ModeName[];
-  /** colour role (spec path, e.g. `color.action.default`) → per-mode hex. */
-  colors: Record<string, Record<ModeName, string>>;
+  /** colour role (spec path, e.g. `color.action.default`) → per-mode hex. Sparse:
+   *  a narrowed-modes theme only carries the modes it generates (L-16 — typed
+   *  `Partial` so a consumer can't assume `.dark` exists on a light-only brand). */
+  colors: Record<string, Partial<Record<ModeName, string>>>;
   /** each declared contract, evaluated on the resolved colours per mode. */
   contracts: PreviewContractResult[];
   /** dimension binding (e.g. `radius.md`, `space.300`) → px. The canonical (light) baseline. */
@@ -59,7 +61,7 @@ export const resolvePreview = (theme: Theme, spec: PreviewSpec = previewSpec): R
   }
   const colors: ResolvedPreview['colors'] = {};
   for (const ref of [...refs].sort()) {
-    const byMode = {} as Record<ModeName, string>;
+    const byMode = {} as Partial<Record<ModeName, string>>;
     modes.forEach((m, i) => { const h = hexOf(ref, i); if (h) byMode[m.mode] = h; });
     colors[ref] = byMode;
   }
@@ -67,7 +69,7 @@ export const resolvePreview = (theme: Theme, spec: PreviewSpec = previewSpec): R
   // Each declared contract, computed on the RESOLVED colours (real fg on real bg).
   const contracts: PreviewContractResult[] = [];
   for (const c of spec.components) for (const v of c.variants) for (const ct of v.contracts ?? []) {
-    const byMode = {} as Record<ModeName, { ratio: number; pass: boolean }>;
+    const byMode = {} as Partial<Record<ModeName, { ratio: number; pass: boolean }>>;
     modes.forEach((m, i) => {
       const fg = hexOf(ct.fg, i), bg = hexOf(ct.bg, i);
       if (fg && bg) {

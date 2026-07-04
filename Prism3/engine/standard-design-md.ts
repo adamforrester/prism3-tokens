@@ -76,7 +76,13 @@ export const parseStandardDesignMd = (text: string): StandardDesignMd => {
   const raw = parseYamlSubset(fm);
   const colorsRaw = asRecord(raw.colors);
   const colors: Record<string, string> = {};
-  for (const [k, v] of Object.entries(colorsRaw)) colors[k] = String(v);
+  for (const [k, v] of Object.entries(colorsRaw)) {
+    // L-15: an unquoted `#hex` value is read as a YAML comment and stripped to null, which
+    // would surface downstream as a baffling `invalid hex 'null'`. Point at the real cause.
+    if (v == null || v === '')
+      throw new Error(`colour '${k}' has no value — a bare '#hex' is read as a comment; quote it, e.g. ${k}: "#3366ff"`);
+    colors[k] = String(v);
+  }
   return {
     name: raw.name != null ? String(raw.name) : 'brand',
     version: raw.version != null ? String(raw.version) : undefined,

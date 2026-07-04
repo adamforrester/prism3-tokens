@@ -930,8 +930,8 @@ Component sizes — t-shirt, density `compact` (height + paired padding from the
 
 - primary anchor (h195) pinned exactly at step 600
 - anchor 'primary' (L0.46 C0.08 h195) is OUT of sRGB gamut — max renderable chroma at this L/hue is ~0.079; it ships clamped toward the boundary, so its lightness and hue may drift. Lower its chroma to ~0.079 for an exact match.
-- success: brand-supplied hue 150
-- warning: brand-supplied hue 70
+- success: brand-supplied hue 150 — seeds a vivid ramp from its hue+chroma (not pinned at its measured lightness; the exact swatch may not appear verbatim)
+- warning: brand-supplied hue 70 — seeds a vivid ramp from its hue+chroma (not pinned at its measured lightness; the exact swatch may not appear verbatim)
 - info: engine default hue 245
 - action colour defaults to the PRIMARY brand palette — CONFIRM this hue is the intended interactive colour for this brand
 - danger: brand-supplied hue 27
