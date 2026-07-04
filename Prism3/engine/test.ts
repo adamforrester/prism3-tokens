@@ -524,6 +524,13 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   const applied = applyXPrism3(probe, { radiusScale: 2, typeScale: 'expressive', motionTempo: 'snappy', density: 'compact' });
   ok(probe.radiusScale === 2 && probe.typography?.typeScale === 'expressive' && probe.motionPersonality?.tempo === 'snappy' && probe.density === 'compact' && applied.length === 4,
     'applyXPrism3: levers map onto BrandInput (brand-skills → engine round-trip)');
+  // M-14: a non-numeric radiusScale (`Number('soft')` → NaN) must be rejected at ingest, not
+  // slipped through to NaNpx radius tokens (NaN passes typeof-number + every min/max compare).
+  let m14ingest = false;
+  try { applyXPrism3({ id: 'p', primary: { l: 0.5, c: 0.1, h: 20 }, neutral: { hue: 20, chroma: 0.01 } } as BrandInput, { radiusScale: 'soft' }); } catch { m14ingest = true; }
+  ok(m14ingest, 'M-14: x-prism3.radiusScale="soft" throws at ingest (not a NaN radius)');
+  ok(applyXPrism3({ id: 'p', primary: { l: 0.5, c: 0.1, h: 20 }, neutral: { hue: 20, chroma: 0.01 } } as BrandInput, { radiusScale: 1.5 }).length === 1, 'M-14: a numeric radiusScale still applies');
+  ok(validateBrandInput({ id: 't', primary: { l: 0.5, c: 0.05, h: 200 }, neutral: { hue: 200, chroma: 0.01 }, radiusScale: NaN } as any).length > 0, 'M-14: the validator rejects a NaN number (backstop)');
   const nativeStd = parseStandardDesignMd(readFileSync(resolve(HERE, '../examples/harbor.design.md'), 'utf8'));
   ok(Object.keys(nativeStd.colors).length === 0, 'dialect detection: an engine-native brief has no top-level colors map (routes native)');
 }

@@ -119,7 +119,13 @@ export const deriveFamilies = (typography: StandardDesignMd['typography']): { di
  *  Passed through as-is; the engine's schema validates the values. */
 export const applyXPrism3 = (input: BrandInput, x: Record<string, unknown>): string[] => {
   const applied: string[] = [];
-  if (x.radiusScale != null) { input.radiusScale = Number(x.radiusScale); applied.push(`radiusScale=${input.radiusScale}`); }
+  if (x.radiusScale != null) {
+    // M-14: Number('soft') is NaN, and NaN passes `typeof … === 'number'` + all min/max
+    // comparisons (they're false), so it would slip to NaNpx radius tokens. Reject at ingest.
+    const rs = Number(x.radiusScale);
+    if (!Number.isFinite(rs)) throw new Error(`x-prism3.radiusScale must be a number (0=sharp … 2=soft), got ${JSON.stringify(x.radiusScale)}`);
+    input.radiusScale = rs; applied.push(`radiusScale=${rs}`);
+  }
   if (x.typeScale != null) { input.typography = { ...input.typography, typeScale: x.typeScale as any }; applied.push(`typeScale=${x.typeScale}`); }
   if (x.density != null) { input.density = x.density as any; applied.push(`density=${x.density}`); }
   if (x.motionTempo != null) { input.motionPersonality = { tempo: x.motionTempo as any }; applied.push(`motionTempo=${x.motionTempo}`); }
