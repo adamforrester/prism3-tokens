@@ -54,6 +54,82 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
 - **Run commands:** `npx tsx Prism3/engine/emit-figma.ts` writes `out/figma/{nb,aurora,wendys}/*.json`;
   `npx tsx Prism3/engine/test.ts` gates everything (400/400 today).
 
+### Discussion backlog (2026-07-04) — owner-raised, awaiting decisions
+
+Five items surfaced by the owner once the code-review sweep (HIGH+MED+LOW, generator/web lane)
+closed. Logged so they survive context loss; **none is a commitment** until it lands as a decision
+here or a merged PR. Test count is **542/542** as of the sweep close.
+
+1. **Motion-in-Figma — what it unlocks (deferred, low urgency, NOT on the critical path).**
+   Motion is **doubly** blocked in Figma, not just once: (a) the Variable API has no `TIME`/duration
+   FLOAT scope (re-verified 2026-07-04), so a duration could only be a scope-less FLOAT; and (b) even
+   if it existed, Figma has **no binding consumer** — prototype transitions / smart-animate don't read
+   variables for duration or easing, so a motion variable would drive nothing. So the "unlock" is
+   currently theoretical. *When both land* it unlocks: the last generated axis (duration/easing/spring)
+   materialising into Figma → "every axis in Figma" complete; a **`reduced-motion` mode** (durations→0,
+   the motion analogue of wireframe — a `prefers-reduced-motion` accessibility win); and motion
+   round-tripping like colour/dimension. **But motion already flows to CODE consumers** (CSS
+   transitions/animations) through the DTCG / `design.md` layer, where it's actually consumed — Figma is
+   only a viewer, so this gap affects Figma-side *completeness*, not the E2E code pipeline. **Decision:**
+   keep deferred; recheck when Figma ships a `TIME` scope AND a prototype/animation binding target
+   (watch Config announcements). Already parked in the emit-figma-next queue (item 1 above) — this entry
+   adds the "what it unlocks" rationale.
+
+2. **Independent emitter review (offered — owner to greenlight; Figma-emitter lane).** A *broad* re-read
+   would largely re-surface what the code review already catalogued (M-07/08/09 + L-13/14 are the known
+   emit-figma findings). Higher-value and non-duplicative: the **targeted adversarial pass docs/16
+   gate-blind-spot #2 already names** — run a *second brand* (aurora/harbor + the extreme white-label
+   fixtures: non-5-breakpoint, narrowed modes, gradients) through *every* emit-figma axis and diff the
+   output against docs/10–11 spec + expectations. That catches CR-08 / M-07/08/09-class bugs by
+   *generation*, not code-read. Would be **read-only** (produces findings handed to the Figma-emitter
+   thread; no edits to `emit-figma.ts`/`out/figma`), coordinated so it doesn't collide with in-flight
+   emitter work. **Open:** owner to greenlight scope (targeted second-brand pass vs full review).
+
+3. **`core/` prefix on primitive Figma collections (open decision — Figma-emitter lane + web export).**
+   Owner prefixed the primitive collections in the NB example with `core` to scan primitives-vs-semantics
+   at a glance. **Assessment:** it touches **only `$collection` names in the raw-figma format** — the DTCG
+   token paths, the `nbds.pds.*` / `prism.*` namespace, and the `{a.b.c}` aliases are all unchanged — so
+   it's low-risk and does **not** move the token taxonomy (owner's read confirmed). It's a sound, common
+   convention (Tokens Studio / many systems group `core`/`global`/`primitive` apart from `semantic`).
+   Today the emitter names primitive collections `palette`, `dimension`, `font`(family/size/weight) and
+   semantics `color`, `space`, `radius`, `size`, `border-width`, `focus`, `layout`, `opacity`, etc.
+   **Recommendation: adopt it** — but decide it as a convention so the *generated* output matches the
+   hand-renamed NB file (else they drift). **Open sub-questions for the owner:** (a) exact primitive set
+   to prefix — `palette` + `dimension` + the `font` primitives, and does `font-fluid` count as primitive
+   or semantic? (b) prefix form — `core/palette` (slash, sorts + groups) vs `core-palette`; (c) confirm
+   the emitter's `variableId` round-trip is insensitive to collection *name* (expected — IDs are
+   per-variable — but the Figma thread should verify); (d) the **web UI export** must adopt the same
+   convention if/where it emits raw-figma, so the playground and the CLI/engine don't disagree.
+   **Owner to confirm (a)/(b); implementation is the Figma-emitter thread's** (emit-figma + out/figma),
+   with a matching web-export tweak in the generator lane once the convention is fixed.
+
+4. **Interactive-state DIRECTION rationale (settled — now documented).** *Q: do hover/pressed go darker
+   in light mode and lighter in dark mode?* **Yes** — `dir = family==='light' ? +1 : -1` (`modes.ts`):
+   light steps to higher step numbers (darker), dark steps to lower (lighter). **Thought process:** an
+   interactive state moves the fill toward **more contrast with the page it sits on** — light page →
+   darker fill, dark page → lighter fill — so as the user engages (rest→hover→pressed) the control grows
+   more prominent ("comes forward"), and the *same* move keeps the on-fill label legible (a darker fill
+   lifts a white label's contrast; a lighter fill lifts a dark label's). Matches the step-based source
+   systems (NB/Prism2) and mainstream convention (Carbon/Material darken-on-light). **The top-of-scale
+   case the owner solved before** — action colour at the far end, so hover/pressed must step *down*
+   instead of up — is now the **generalised L-01 fix (#60)**: on overshoot `walk` reflects inward,
+   keeping the states distinct; the trade-off at the extreme is that distinctness (a soft goal) wins over
+   the contrast-direction preference, while each state's hard contrast *contract* is still gated. Code
+   comment enriched in `modes.ts` alongside this entry. **No open question** — captured for the record.
+
+5. **Inspirations (`docs/13`) follow-through (tracked there; promote on decision).** Reviewed the
+   owner-supplied research: **Astryx** (Meta's agent-first DS — CLI-as-agent-surface, typed component
+   doc objects), **ds-brain** (a practitioner's DS×AI stack map — the *consumption-side eval harness* is
+   the genuinely new idea for us), **Specs CLI** (DirectedEdges — extraction-only; the read-back verifier
+   seat for a component-tier regression). `docs/13` already holds the convergence table + the "steal
+   becomes a commitment only when it lands in `00-progress`" rule, so the actionable candidates are
+   logged there, not duplicated here. **Candidates worth promoting when the agent-surface work starts:**
+   a `cli.ts query` subcommand over `.ai.json` (retrieval surface before MCP), an `.ai.json` *discovery*
+   layer (the sidecar is only useful to an agent that knows it exists), token-budget *tiers* for
+   `.ai.json`, and a **consumption eval** (rubric + invented-token rate) built alongside the MCP adapter.
+   **Open:** owner to say which (if any) to promote into the next-steps queue now vs. hold for the
+   component/agent-surface phase.
+
 ---
 
 - **Code-review fixes L-10 — visualiser honesty + a surfaced nb gap (batch C, closes my LOW lane)**
