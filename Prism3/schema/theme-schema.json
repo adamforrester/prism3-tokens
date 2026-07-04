@@ -45,7 +45,7 @@
         "additionalProperties": false,
         "required": ["name", "oklch"],
         "properties": {
-          "name": { "type": "string", "description": "Palette name (e.g. 'accent')." },
+          "name": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$", "description": "Palette name — a single lowercase slug (e.g. 'accent', 'brand-blue'). Must NOT be an engine-generated palette name (primary/neutral/success/warning/info/danger/white/black/black-alpha/white-alpha) or a duplicate; brandTheme() rejects those. No dots/spaces/symbols (it becomes an alias path segment)." },
           "oklch": { "$ref": "#/$defs/oklch" }
         }
       }

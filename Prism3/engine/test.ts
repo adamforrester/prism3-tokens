@@ -996,6 +996,21 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   // schema half agrees: accepts a clean root, rejects a dotted one
   ok(validateBrandInput({ ...input, root: 'acme' }).length === 0, 'namespace: schema accepts a single-segment root');
   ok(validateBrandInput({ ...input, root: 'ac.me' }).length > 0, 'namespace: schema rejects a dotted root');
+
+  // CR-03: brand-colour names are validated at the engine boundary. A last-wins palette map
+  // means a name colliding with an engine ramp (neutral/primary/status) or a duplicate would
+  // silently corrupt output with green gates — so reserved / bad-charset / duplicate all throw.
+  // (aurora's gradient references its 'accent' brandColor, so drop both here to isolate the name guard)
+  const bc = (name: string) => ({ ...input, actionPalette: 'primary', gradients: [], brandColors: [{ name, oklch: { l: 0.55, c: 0.15, h: 235 } }] });
+  const rejects = (name: string) => { try { brandTheme(bc(name)); return false; } catch { return true; } };
+  ok(brandTheme(bc('brand-blue')).palettes.some((p) => p.palette === 'brand-blue'), 'CR-03: a valid slug brand-colour name is accepted');
+  ok(rejects('neutral') && rejects('primary'), 'CR-03: a brand colour named after an engine ramp (neutral/primary) throws (would hijack it)');
+  ok(rejects('success') && rejects('white'), 'CR-03: a brand colour named after a reserved palette (status / base swatch) throws');
+  ok(rejects('my.accent') && rejects('brand blue') && rejects('<img>'), 'CR-03: dotted / spaced / symbol brand-colour names throw (alias-path + XSS charset guard)');
+  let dupThrew = false;
+  try { brandTheme({ ...input, actionPalette: 'primary', gradients: [], brandColors: [{ name: 'twin', oklch: { l: 0.5, c: 0.1, h: 10 } }, { name: 'twin', oklch: { l: 0.6, c: 0.1, h: 200 } }] }); } catch { dupThrew = true; }
+  ok(dupThrew, 'CR-03: duplicate brand-colour names throw');
+  ok(validateBrandInput(bc('brand-blue')).length === 0 && validateBrandInput(bc('my.accent')).length > 0, 'CR-03: schema pattern accepts a slug, rejects a dotted brand-colour name');
 }
 
 // (16) PIN-A-NEUTRAL (docs/00 "pin-a-neutral") — a brand that ships a pre-defined grey sets

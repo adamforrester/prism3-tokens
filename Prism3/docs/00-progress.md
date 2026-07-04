@@ -54,6 +54,22 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
 
 ---
 
+- **Code-review fix CR-03 — brandColors palette-name guard (reserved / charset / duplicate)** (`theme.ts`):
+  brand-colour names were unvalidated, and the palette map is last-wins (`new Map(palettes)` /
+  `palette[name] = node`) — so a brandColor named `neutral`/`primary` silently **replaced** the engine
+  ramp the whole surface model builds on, a status name (`success`/`danger`) was itself replaced by the
+  later-pushed status ramp, and dotted/spaced/symbol names broke `{root.palette.…}` alias paths; contrast
+  picks then recomputed against the corrupted map and passed self-consistently (green gates, nonsense
+  output). Fix: `brandTheme()` now validates each `brandColors[].name` up front — rejects the 10 reserved
+  engine palette names (`primary`/`neutral`/`success`/`warning`/`info`/`danger`/`white`/`black`/
+  `*-alpha`), enforces the `^[a-z][a-z0-9-]*$` slug (also closes CR-07's XSS vector at the source — an
+  HTML-metachar name can't validate), and rejects duplicates. Matches the existing `root`/`actionPalette`
+  throw-at-boundary pattern, so the web import/rename path inherits it (rebuild fails → last-good kept).
+  Added a schema `pattern` on the name (belt-and-suspenders; enforced by `validateBrandInput`). Gate:
+  adversarial-name suite in the namespace block (reserved/dotted/spaced/symbol/duplicate all throw; a
+  valid slug is accepted; schema half agrees). Gates: test **355/355**, `out/*` byte-identical (aurora's
+  `accent` is valid — no valid brand changes), nb-regression clean. *L-06 (gradient names) is the adjacent
+  LOW finding — same class, left for its own pass.*
 - **Code-review fix CR-07 — web XSS: brand palette name reached `innerHTML`** (`web/src/main.ts:146`):
   the ramp anchor label built its markup with `meta.innerHTML = \`anchor <b>${name}…\``, and `name` is a
   brand-controlled `brandColors[].name` (pasted `design.md` / accent rename, no charset validation — CR-03).
