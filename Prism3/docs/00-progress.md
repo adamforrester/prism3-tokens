@@ -73,7 +73,11 @@ here or a merged PR. Test count is **542/542** as of the sweep close.
    only a viewer, so this gap affects Figma-side *completeness*, not the E2E code pipeline. **Decision:**
    keep deferred; recheck when Figma ships a `TIME` scope AND a prototype/animation binding target
    (watch Config announcements). Already parked in the emit-figma-next queue (item 1 above) — this entry
-   adds the "what it unlocks" rationale.
+   adds the "what it unlocks" rationale. **Verified 2026-07-04** against the *live* Figma developer docs
+   (`developers.figma.com/docs/plugins/api/VariableScope`): the enum still has 14 FLOAT scopes, none for
+   time/duration/motion. `VariableScope` is **platform-defined** (returned to the auto-updating plugin
+   runtime), so updating the local Figma desktop app does NOT surface a missing scope — it's a genuine
+   Figma-platform gap, not a stale local install.
 
 2. **Independent emitter review (offered — owner to greenlight; Figma-emitter lane).** A *broad* re-read
    would largely re-surface what the code review already catalogued (M-07/08/09 + L-13/14 are the known
@@ -94,14 +98,23 @@ here or a merged PR. Test count is **542/542** as of the sweep close.
    Today the emitter names primitive collections `palette`, `dimension`, `font`(family/size/weight) and
    semantics `color`, `space`, `radius`, `size`, `border-width`, `focus`, `layout`, `opacity`, etc.
    **Recommendation: adopt it** — but decide it as a convention so the *generated* output matches the
-   hand-renamed NB file (else they drift). **Open sub-questions for the owner:** (a) exact primitive set
-   to prefix — `palette` + `dimension` + the `font` primitives, and does `font-fluid` count as primitive
-   or semantic? (b) prefix form — `core/palette` (slash, sorts + groups) vs `core-palette`; (c) confirm
-   the emitter's `variableId` round-trip is insensitive to collection *name* (expected — IDs are
-   per-variable — but the Figma thread should verify); (d) the **web UI export** must adopt the same
-   convention if/where it emits raw-figma, so the playground and the CLI/engine don't disagree.
-   **Owner to confirm (a)/(b); implementation is the Figma-emitter thread's** (emit-figma + out/figma),
-   with a matching web-export tweak in the generator lane once the convention is fixed.
+   hand-authored NB file (else they drift). **Empirically resolved from the NB example** (`Tokens/New
+   Balance/**/raw-figma`, 2026-07-04): the owner used **hyphen**, `core-<axis>` — primitives are
+   `core-color`, `core-dimension`, `core-typography`, `core-breakpoint`, `core-motion`; semantics are bare
+   (`color`, `radius`, `space-size`, `layout`, `motion`). So the form question is settled (hyphen, matches
+   the file already tested importing into Figma). **The bigger implication:** this is a RENAME, not a bare
+   prefix — the engine currently names its primitive collections `palette` / `dimension` / `font`, so
+   adopting the convention means the emitter renames them to `core-color` / `core-dimension` /
+   `core-typography` (+ `core-breakpoint`, and `core-motion` when motion lands). There's also deeper
+   taxonomy divergence to decide separately (engine `space`/`size`/`border-width` vs NB `space-size`;
+   engine `text-styles` vs NB `typography`) — align the whole Figma collection taxonomy onto NB, or just
+   the `core-` primitive grouping? **Confirmed by owner:** `font-fluid` is SEMANTIC (not `core-`), and the
+   primitive set = `palette`/`dimension`/`font` → `core-color`/`core-dimension`/`core-typography`. **Still
+   open:** whole-taxonomy-align vs core-grouping-only; and the emitter's `variableId` round-trip must be
+   verified name-insensitive (expected — IDs are per-variable). **Implementation is the Figma-emitter
+   thread's** (emit-figma + out/figma), with a matching web-export tweak in the generator lane so the
+   playground and CLI/engine agree. The emitter review now running will report the exact current collection
+   names per brand to scope the rename.
 
 4. **Interactive-state DIRECTION rationale (settled — now documented).** *Q: do hover/pressed go darker
    in light mode and lighter in dark mode?* **Yes** — `dir = family==='light' ? +1 : -1` (`modes.ts`):
