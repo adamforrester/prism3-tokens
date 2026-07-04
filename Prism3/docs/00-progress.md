@@ -56,6 +56,33 @@ else — engine core, web dashboard, docs). Coordinate via committed artefacts (
 
 ---
 
+- **Code-review fixes L-10 — visualiser honesty + a surfaced nb gap (batch C, closes my LOW lane)**
+  (`visualize.ts`, `docs/16` LOW tier). Three visualiser fixes: (a) the semantic-role table + preview
+  render the modes the tree ACTUALLY carries (derived from `$extensions.prism3.modes`, canonical order)
+  instead of a hardcoded four — a narrowed-modes brand no longer draws empty columns; (b) a failing light
+  contract now prints its ACTUAL relation (`4.22<4.5` + a `no` class) instead of the literally-false
+  `4.22≥4.5` the old code always printed; (c) the brand-controlled palette name is `esc`-ed
+  (defence-in-depth — CR-03/L-06 already constrain it to a slug, so byte-identical for a valid brand).
+  `out/*.tokens.json` + `out/figma` byte-identical; only `out/tokens.html` regenerated (which also picked
+  up ~6 lines of pre-existing staleness — the committed html was behind the committed tokens.json on main).
+  **Surfaced finding (flagged, NOT fixed here):** making the visualiser honest revealed 4 pre-existing
+  light-mode shortfalls in **hand-authored nb** — `text.{success,danger,info}` and `badge info-subtle` on
+  the `-subtle` tint surface land ~4.0–4.2:1, under AA 4.5. It's a CR-02-sibling (the role is contracted
+  against the floor but used on a specific tint surface) and/or a preview-spec min-calibration question
+  (alert body text is often large-text 3:1). Engine-GENERATED brands (aurora/harbor) clear it all-green;
+  only the hand-authored NB reproduction shows it. Captured as a tested fact (test §10b) — a colour/spec
+  fix would move nb token values + the regression baseline + is a design decision, so it's left for a
+  follow-up call, not folded into this LOW visualiser PR. **L-12 was already resolved** during CR-06
+  (`nb-regression` looks contracts up by palette name via `rampByPalette`, not positional `specs[0]/[3]`).
+  **L-17 documented, not implemented:** the web rebuild runs `brandTheme`+`buildTree`+DOM synchronously per
+  input event with no debounce — the review verified it has NO re-entry bug (all synchronous); a debounce
+  is an optional perf enhancement with a small UX behaviour change and no web test harness, so it's left
+  deferred rather than gold-plated. Gates: `test.ts` **542/542**, nb-regression exit 0, `out/*.tokens.json`
+  + `out/figma` byte-identical. This **closes the LOW tier in the generator/web lane**; remaining LOW work is
+  L-13/L-14 (`emit-figma`, the Figma-emitter thread's lane).
+
+---
+
 - **Code-review fixes L-06/07/08/09/11/15/16 — theme/parser/CLI LOW (batch B)** (`theme.ts` / `design-md.ts`
   / `cli.ts` / `standard-design-md.ts` / `resolve-preview.ts` / `web/main.ts`, `docs/16` LOW tier; second
   LOW batch). Seven input-boundary hardenings — token *values* unchanged everywhere; the only `out/*` delta
