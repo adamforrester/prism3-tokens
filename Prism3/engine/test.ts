@@ -29,6 +29,7 @@ import { buildFigmaColor, buildFigmaFont, buildFigmaFontFluid, buildFigmaTextSty
 import { buildTree, validateBrandInput } from './emit-dtcg';
 import { buildAiMetadata } from './ai-metadata';
 import { handleRpc, callTool, toolDefs } from './mcp';
+import { scoreConsumption, tokenPaths, normalizeRef, isPrimitiveRef, PRIMITIVE_TIERS } from './eval';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { resolve, dirname } from 'node:path';
@@ -1857,6 +1858,46 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   ok(JSON.parse(callTool('validate_brand', { id: 'ok', primary: { l: 0.5, c: 0.15, h: 250 }, neutral: { hue: 250, chroma: 0.01 } }).content[0].text).valid === true, 'MCP: validate_brand passes a complete brand');
   ok(callTool('theme_brand', { id: 'bad' }).isError === true, 'MCP: theme_brand on an invalid brand returns a tool-level error (isError), not a crash');
   ok(callTool('no_such_tool', {}).isError === true, 'MCP: an unknown tool name → isError result');
+}
+
+// ------------------------------------------- consumption eval (docs/17, roadmap C follow-on)
+// The PURE, deterministic scoring half: given the token refs an agent's output uses + the tree,
+// compute the invented-token rate (hallucination) and the primitive-leak rate (reaching past the
+// semantic layer into palette/dimension/font). No LLM needed — the name contract is locked.
+{
+  const theme = brandTheme({ id: 'eval', primary: { l: 0.5, c: 0.15, h: 250 }, neutral: { hue: 250, chroma: 0.01 } });
+  const { tree } = buildTree(theme);
+  const paths = [...tokenPaths(tree, 'prism')];
+  const semantic = paths.find((p) => !isPrimitiveRef(p))!;   // a real semantic leaf (color.*/space.* …)
+  const primitive = paths.find((p) => isPrimitiveRef(p))!;   // a real primitive leaf (palette.*/dimension.*/font.*)
+  ok(paths.length > 100 && !!semantic && !!primitive, `eval: tokenPaths enumerates the tree's leaves (${paths.length}) incl. semantic + primitive tiers`);
+  ok(PRIMITIVE_TIERS.has('palette') && PRIMITIVE_TIERS.has('dimension') && PRIMITIVE_TIERS.has('font') && !PRIMITIVE_TIERS.has('color'),
+    'eval: primitive tiers = palette/dimension/font (the core-* grouping); color is semantic');
+
+  // all-semantic output → 0 invented, 0 leak
+  const clean = scoreConsumption([semantic, semantic], tree, 'prism');
+  ok(clean.invented.length === 0 && clean.inventedRate === 0 && clean.primitiveLeakRate === 0, 'eval: valid semantic refs → 0 invented, 0 primitive-leak');
+
+  // invented refs (hallucinated token names) → counted with the right rate
+  const inv = scoreConsumption(['color.nope.nope', 'space.999999', semantic], tree, 'prism');
+  ok(inv.invented.length === 2 && inv.valid === 1 && Math.abs(inv.inventedRate - 2 / 3) < 1e-9, 'eval: nonexistent refs → invented, rate 2/3, the one real ref valid');
+
+  // a primitive ref among valid refs → leak rate reflects reaching past the semantic layer
+  const leak = scoreConsumption([primitive, semantic], tree, 'prism');
+  ok(leak.invented.length === 0 && leak.primitiveLeaks.length === 1 && Math.abs(leak.primitiveLeakRate - 0.5) < 1e-9, 'eval: a primitive ref among 2 valid refs → primitive-leak rate 0.5');
+
+  // normalizeRef: brace + root-qualified forms resolve identically to relative
+  ok(normalizeRef(`{prism.${semantic}}`, 'prism') === semantic && normalizeRef(`prism.${semantic}`, 'prism') === semantic, 'eval: normalizeRef strips the brace wrapper + the root namespace');
+  const braced = scoreConsumption([`{prism.${semantic}}`, `prism.${primitive}`], tree, 'prism');
+  ok(braced.valid === 2 && braced.primitiveLeaks.length === 1, 'eval: braced + root-qualified refs normalise and score like relative refs');
+
+  // occurrence-based rate: a duplicated invented ref counts twice in the rate, once in the list
+  const dup = scoreConsumption(['color.nope.nope', 'color.nope.nope', semantic, semantic], tree, 'prism');
+  ok(dup.invented.length === 1 && Math.abs(dup.inventedRate - 0.5) < 1e-9, 'eval: a repeated hallucination is listed once but rated by occurrence (2/4)');
+
+  // empty → no NaN
+  const empty = scoreConsumption([], tree, 'prism');
+  ok(empty.total === 0 && empty.inventedRate === 0 && empty.primitiveLeakRate === 0, 'eval: empty ref list scores 0/0 without NaN');
 }
 
 // ------------------------------------------------------------------- report
