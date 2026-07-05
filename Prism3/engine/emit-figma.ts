@@ -538,15 +538,21 @@ export const buildFigmaDims = (theme: Theme): FigmaDimsCollections => {
   }));
 
   // space — aliases into dimension. Value = resolved px (belt-and-suspenders).
+  // M-09: guard the alias like every sibling axis (radius/size/border/focus). Space
+  // is the one axis that emitted `alias` UNCONDITIONALLY — so a leaf carrying a raw px
+  // value (not a `{…}` alias) would ship `alias.name: ''` (aliasFigName returns '' off
+  // a non-brace value): a dangling, empty-named binding Figma silently drops the link
+  // for. Emit an alias only when the value IS a brace reference; otherwise null.
   const spaceVars: FigmaVar[] = Object.keys(brand.space).map((key) => {
     const leaf = brand.space[key];
+    const isAlias = typeof leaf.$value === 'string' && /^\{.+\}$/.test(leaf.$value);
     return {
       name: `space/${key}`,
       resolvedType: 'FLOAT' as const,
       scopes: SPACE_SCOPES,
       description: desc(leaf),
       value: pxFromValue(tree, leaf.$value),
-      alias: { type: 'VARIABLE_ALIAS' as const, name: aliasFigName(leaf.$value) },
+      alias: isAlias ? { type: 'VARIABLE_ALIAS' as const, name: aliasFigName(leaf.$value) } : null,
     };
   });
 

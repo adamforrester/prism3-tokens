@@ -1888,6 +1888,28 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   throws('#ff', '2-digit hex');             // not a valid hex length
 }
 
+// ---------------------------------------------------- M-09: space alias guarded like siblings
+// buildFigmaDims emitted the `space` alias UNCONDITIONALLY — so a space leaf carrying a
+// raw px value (not a `{…}` reference) would ship `alias.name: ''` (a dangling empty-named
+// binding). Every sibling axis (radius/size/border/focus) guards with `isAlias ? … : null`;
+// space now matches.
+{
+  const dims = buildFigmaDims(nbTheme());
+
+  // Engine brands alias every space step into dimension — so all aliases resolve to a
+  // non-empty `dimension/*` name, and NONE carries the empty-string dangling name that
+  // the pre-M-09 unconditional-alias code would emit off a non-brace value.
+  const emptyNamed = dims.space.variables.filter((v) => v.alias && !v.alias.name);
+  ok(emptyNamed.length === 0, `M-09: no space var ships an empty-named alias (got ${emptyNamed.length})`);
+  ok(dims.space.variables.every((v) => v.alias && v.alias.name.startsWith('dimension/')), 'M-09: every space var aliases a dimension/* primitive');
+
+  // The invariant the guard enforces: a space alias is either null or a NON-EMPTY
+  // VARIABLE_ALIAS — never the `{ name: '' }` dangling binding. This is the same shape
+  // contract radius/size/border/focus already satisfy; space now joins them.
+  ok(dims.space.variables.every((v) => v.alias === null || (v.alias.type === 'VARIABLE_ALIAS' && v.alias.name.length > 0)),
+    'M-09: every space alias is either null or a non-empty VARIABLE_ALIAS (never { name: \'\' })');
+}
+
 // ---------------------------------------------------- MCP adapter (docs/08 §5, roadmap C)
 // The agent-callable surface over the core: dependency-free JSON-RPC. Gate the handshake,
 // the tool catalogue, the "derives from the lever manifest" tie, and a full theme_brand
