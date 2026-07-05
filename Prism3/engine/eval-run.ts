@@ -12,7 +12,7 @@
  * catalogue → 0% invented / 0% primitive-leak (53/53 valid); WITHOUT → 48% invented (21/40 valid).
  * See docs/17 §5.
  */
-import { scoreConsumption, ConsumptionScore } from './eval';
+import { scoreConsumption, ConsumptionScore, scoreContractCompliance, ContractCompliance, UsedPair } from './eval';
 
 export type EvalTask = { name: string; brief: string };
 
@@ -34,12 +34,17 @@ export type ModelRunner = (prompt: string) => Promise<string>;
  * paths); absent ⇒ the WITHOUT arm (the agent must guess the system's names). Both ask for a
  * strict JSON object mapping each task to the token dotted-paths the agent would reference.
  */
-export const buildPrompt = (tasks: EvalTask[], catalog?: string[]): string => {
+export const buildPrompt = (tasks: EvalTask[], catalog?: string[], wantPairs = false): string => {
   const surface = catalog
     ? `You have the system's token catalogue — reference ONLY these paths:\n${catalog.join('\n')}\n`
     : `You do NOT have the token catalogue — reference tokens by your best guess of how such a system names them.\n`;
   const taskList = tasks.map((t) => `- **${t.name}**: ${t.brief}`).join('\n');
-  return `You are a frontend engineer building UI components for the "Prism3" design system, referencing design tokens by dotted path (e.g. color.action.default, space.400, radius.md).\n${surface}\nFor each task, list the token dotted-paths you would reference:\n${taskList}\n\nReturn ONLY a JSON object mapping each task name to an array of token paths:\n{${tasks.map((t) => `"${t.name}": ["..."]`).join(', ')}}`;
+  const preamble = `You are a frontend engineer building UI components for the "Prism3" design system, referencing design tokens by dotted path (e.g. color.action.default, space.400, radius.md).\n${surface}\n`;
+  if (!wantPairs) {
+    return `${preamble}For each task, list the token dotted-paths you would reference:\n${taskList}\n\nReturn ONLY a JSON object mapping each task name to an array of token paths:\n{${tasks.map((t) => `"${t.name}": ["..."]`).join(', ')}}`;
+  }
+  // Pairs mode: also elicit the ink-on-surface colour PAIRINGS so contract-compliance can be scored.
+  return `${preamble}For each task, give (a) every design token you'd reference, and (b) the ink-on-surface COLOUR PAIRINGS you'd render — each as {fg, bg, kind} where kind is "text" (body copy, needs 4.5:1), "large-text", or "ui" (borders/icons/large — needs 3:1). Only pair colour roles.\n${taskList}\n\nReturn ONLY a JSON object mapping each task name to {"refs": ["..."], "pairs": [{"fg":"color.…","bg":"color.…","kind":"text"}]}:\n{${tasks.map((t) => `"${t.name}": {"refs":["..."],"pairs":[...]}`).join(', ')}}`;
 };
 
 /** Extract the token refs a model returned. Prefers a JSON `{task:[refs]}` object (tolerating
@@ -54,7 +59,9 @@ export const extractRefs = (text: string): { byTask: Record<string, string[]>; f
       const obj = JSON.parse(m[0]);
       if (obj && typeof obj === 'object' && !Array.isArray(obj)) {
         for (const [k, v] of Object.entries(obj)) {
-          const refs = (Array.isArray(v) ? v : []).filter((x): x is string => typeof x === 'string');
+          // A task value is either `[refs]` (refs-only mode) or `{refs, pairs}` (pairs mode).
+          const arr = Array.isArray(v) ? v : (v && typeof v === 'object' && Array.isArray((v as any).refs) ? (v as any).refs : []);
+          const refs = arr.filter((x: unknown): x is string => typeof x === 'string');
           byTask[k] = refs; flat.push(...refs);
         }
         if (flat.length) return { byTask, flat };
@@ -67,24 +74,61 @@ export const extractRefs = (text: string): { byTask: Record<string, string[]>; f
   return { byTask: { all: uniq }, flat: uniq };
 };
 
+/** Extract the ink-on-surface pairs a model returned in pairs mode — the `pairs` array under each
+ *  task in `{task: {refs, pairs}}`. Non-conforming entries are skipped; a `fg`+`bg` string pair is
+ *  the minimum. Returns per-task + flat. Empty when the output isn't a conforming pairs object. */
+export const extractPairs = (text: string): { byTask: Record<string, UsedPair[]>; all: UsedPair[] } => {
+  const byTask: Record<string, UsedPair[]> = {};
+  const all: UsedPair[] = [];
+  const m = text.match(/\{[\s\S]*\}/);
+  if (m) {
+    try {
+      const obj = JSON.parse(m[0]);
+      if (obj && typeof obj === 'object' && !Array.isArray(obj)) {
+        for (const [k, v] of Object.entries(obj)) {
+          const raw = (v && typeof v === 'object' && Array.isArray((v as any).pairs)) ? (v as any).pairs : [];
+          const pairs: UsedPair[] = raw
+            .filter((p: any) => p && typeof p.fg === 'string' && typeof p.bg === 'string')
+            .map((p: any) => ({ fg: p.fg, bg: p.bg, ...(p.kind === 'ui' || p.kind === 'large-text' || p.kind === 'text' ? { kind: p.kind } : {}) }));
+          if (pairs.length) { byTask[k] = pairs; all.push(...pairs); }
+        }
+      }
+    } catch { /* no pairs recoverable */ }
+  }
+  return { byTask, all };
+};
+
 export type EvalResult = {
   arm: 'with-surface' | 'without-surface';
   byTask: Record<string, ConsumptionScore>;
   aggregate: ConsumptionScore;
+  // present only when a `theme` was supplied (pairs mode): did the agent pair colours legibly?
+  complianceByTask?: Record<string, ContractCompliance>;
+  complianceAggregate?: ContractCompliance;
 };
 
 /**
  * Run one arm end-to-end: build the prompt, call the injected runner, extract refs, score each
- * task + the aggregate against the tree. `catalog` present ⇒ the with-surface arm.
+ * task + the aggregate against the tree. `catalog` present ⇒ the with-surface arm. When `theme`
+ * is supplied the prompt also elicits ink-on-surface PAIRS, scored for contract compliance.
  */
 export const runEval = async (
   tree: any, root: string, runner: ModelRunner,
-  opts: { tasks?: EvalTask[]; catalog?: string[] } = {},
+  opts: { tasks?: EvalTask[]; catalog?: string[]; theme?: any } = {},
 ): Promise<EvalResult> => {
   const tasks = opts.tasks ?? SAMPLE_TASKS;
-  const output = await runner(buildPrompt(tasks, opts.catalog));
+  const wantPairs = !!opts.theme;
+  const output = await runner(buildPrompt(tasks, opts.catalog, wantPairs));
   const { byTask: refsByTask, flat } = extractRefs(output);
   const byTask: Record<string, ConsumptionScore> = {};
   for (const t of tasks) if (refsByTask[t.name]) byTask[t.name] = scoreConsumption(refsByTask[t.name], tree, root);
-  return { arm: opts.catalog ? 'with-surface' : 'without-surface', byTask, aggregate: scoreConsumption(flat, tree, root) };
+  const result: EvalResult = { arm: opts.catalog ? 'with-surface' : 'without-surface', byTask, aggregate: scoreConsumption(flat, tree, root) };
+  if (wantPairs) {
+    const { byTask: pairsByTask, all } = extractPairs(output);
+    const complianceByTask: Record<string, ContractCompliance> = {};
+    for (const t of tasks) if (pairsByTask[t.name]) complianceByTask[t.name] = scoreContractCompliance(pairsByTask[t.name], opts.theme);
+    result.complianceByTask = complianceByTask;
+    result.complianceAggregate = scoreContractCompliance(all, opts.theme);
+  }
+  return result;
 };

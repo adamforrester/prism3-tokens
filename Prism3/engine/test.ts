@@ -30,7 +30,7 @@ import { buildTree, validateBrandInput } from './emit-dtcg';
 import { buildAiMetadata } from './ai-metadata';
 import { handleRpc, callTool, toolDefs } from './mcp';
 import { scoreConsumption, scoreContractCompliance, tokenPaths, normalizeRef, isPrimitiveRef, PRIMITIVE_TIERS } from './eval';
-import { runEval, buildPrompt, extractRefs, SAMPLE_TASKS } from './eval-run';
+import { runEval, buildPrompt, extractRefs, extractPairs, SAMPLE_TASKS } from './eval-run';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { resolve, dirname } from 'node:path';
@@ -1948,6 +1948,18 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   ok(res.aggregate.total === 3 && res.aggregate.valid === 2, 'eval-run: aggregate rolls up all refs (2 valid / 3)');
   const without = await runEval(tree, 'prism', async () => '{"t":[]}', { tasks: [{ name: 't', brief: 'x' }] });
   ok(without.arm === 'without-surface', 'eval-run: no catalogue → without-surface arm');
+
+  // pairs mode (contract-compliance on real agent output): prompt elicits fg/bg pairs, runEval scores them
+  ok(/PAIRINGS/.test(buildPrompt(SAMPLE_TASKS, undefined, true)) && /"pairs"/.test(buildPrompt(SAMPLE_TASKS, undefined, true)), 'eval-run: pairs-mode prompt elicits {fg,bg,kind} pairings');
+  ok(!/PAIRINGS/.test(buildPrompt(SAMPLE_TASKS)), 'eval-run: refs-mode prompt does not ask for pairings');
+  const pairsJson = '{"card": {"refs": ["color.text.primary","color.background.primary"], "pairs": [{"fg":"color.text.primary","bg":"color.background.primary","kind":"text"},{"fg":"color.background.secondary","bg":"color.background.primary"}]}}';
+  ok(extractPairs(pairsJson).all.length === 2 && extractPairs(pairsJson).byTask.card[0].kind === 'text', 'eval-run: extractPairs pulls the {fg,bg,kind} pairs from a pairs-mode object');
+  ok(extractRefs(pairsJson).flat.length === 2, 'eval-run: extractRefs still recovers the refs[] from a pairs-mode object');
+  const withPairs = await runEval(tree, 'prism', async () => pairsJson, { theme, tasks: [{ name: 'card', brief: 'x' }] });
+  ok(withPairs.complianceAggregate !== undefined && withPairs.complianceByTask?.card !== undefined, 'eval-run: supplying a theme enables compliance scoring on the elicited pairs');
+  ok(withPairs.complianceAggregate!.checked > 0 && withPairs.complianceAggregate!.pass < withPairs.complianceAggregate!.checked, 'eval-run: the good text pair passes + the adjacent-surface pair fails → compliance rate < 1');
+  const refsOnly = await runEval(tree, 'prism', async () => pairsJson, { tasks: [{ name: 'card', brief: 'x' }] });
+  ok(refsOnly.complianceAggregate === undefined, 'eval-run: no theme → refs-only, no compliance scoring (back-compat)');
 }
 
 // ------------------------------------------------------------------- report

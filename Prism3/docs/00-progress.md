@@ -161,6 +161,24 @@ here or a merged PR. Test count is **542/542** as of the sweep close.
 
 ---
 
+- **Consumption eval — pairs-mode harness + first live compliance number (`engine/eval-run.ts`, docs/17
+  §4/§5, 2026-07-04).** Wired contract-compliance onto real agent output: passing a `theme` to `runEval`
+  flips the prompt to **pairs mode** (`buildPrompt(..., wantPairs)`) — the agent returns
+  `{task:{refs,pairs}}`, `extractPairs` pulls the `{fg,bg,kind}` pairings, and `runEval` scores
+  `complianceByTask`/`complianceAggregate` alongside consumption (back-compat: no `theme` → refs-only).
+  **First live run** (cold subagent, WITH catalogue, `atlas`): invented **0%** / leak **0%** / contract
+  compliance **72/76 = 95%**. The 4 failures are the *interesting* part — **semantic-intent edges the token
+  names can't carry**: `text.on-disabled` on `action.disabled` (3.05:1, the agent didn't know disabled is
+  WCAG-exempt) and `border.primary` on `background.primary` (1.4:1, it used the *decorative* border as a
+  3:1 `ui` element). Both are where the raw surface is insufficient and the agent needs `.ai.json`
+  `avoid_when` / a consumption skill (backlog #6) — so the 5% gap is a measured argument for the metadata
+  layer + the natural next differential (with vs. without `.ai.json`). Implies two metric refinements: a
+  `disabled`/exempt kind, and honouring decorative-vs-functional role intent. Gates: `test.ts` **585→592**
+  (pairs prompt/extractPairs/runEval-compliance/back-compat). Purely additive — `out/*` byte-identical.
+  Rubric layer still deferred (docs/17 §4).
+
+---
+
 - **Consumption eval — contract-compliance metric (`engine/eval.ts` `scoreContractCompliance`, docs/17 §4,
   2026-07-04).** The third consumption metric, and the docs/04 contrast differentiator turned on the
   *agent's* output: for the fg/bg colour pairs an agent pairs on screen (`UsedPair { fg, bg, kind }`),
