@@ -423,6 +423,48 @@ here or a merged PR. Test count is **542/542** as of the sweep close.
   purely additive (new `aliased_by` ⊇ old for every primitive — 0 dropped, 53 grew on nb). First tests of
   the previously-ungated sidecar. Gates: test **452/452**, nb-regression exit 0, token colours +
   `out/figma` byte-identical (M-11 validation-only; M-10 enriches `*.ai.json` only).
+- **`emit-figma` — hide primitives from library consumers + thread DTCG
+  descriptions into every Figma variable** (`engine/emit-figma.ts` +
+  `engine/test.ts` block 23, 2026-07-04). Primitives (palette + dimension +
+  opacity + font/family + font/size + font/weight — 217 variables in NB)
+  now carry `hiddenFromPublishing: true`, so a file that subscribes to this
+  as a design-token library only sees the SEMANTIC layer in the picker
+  (color/space/radius/size/border-width/focus/layout/font-fluid/
+  font/weight-role — 349 variables in NB). Scopes stay at their real
+  role-family targets across every tier — Figma's Plugin API rejects
+  non-matching scopes ("Invalid scope for this variable type" if you try
+  `TEXT_CONTENT` on a COLOR/FLOAT var), and `scopes: []` is documented +
+  probe-verified as ALL_SCOPES (setBoundVariableForPaint succeeds on a var
+  with scopes=[]), so there is NO scopes-based mechanism to hide primitives
+  from LOCAL pickers in the definer file. Production discipline: publish
+  tokens as a library, author components in a separate consumer file, and
+  hidden-from-publishing narrows the picker end-to-end. Also **threads
+  `$description`**: every emit-figma variable's `description` now reads
+  from the DTCG leaf's `$description` (the source-of-truth prose that
+  already lived in `nb.tokens.json` + `nb.ai.json`). Font/family
+  descriptions retain the fixture's stack line (fix #4) and append the
+  DTCG description. Semantic-tier bytes are unchanged except the new
+  descriptions; primitive-tier bytes gain `hiddenFromPublishing: true` +
+  descriptions. Fixture-match gates hold (scopes match the frozen Token
+  Press export exactly; the fixture never carried hide/description fields,
+  and emit-figma now adds them separately-tracked). New block 23 gates
+  the intent: 217 primitives hidden + 349 semantics not hidden + zero
+  empty descriptions + spot-check descriptions equal their DTCG source +
+  emit determinism. **Materialised to Figma via MCP (2026-07-04):**
+  re-imported `wireframe-demo/*` with the new policy — palette flagged
+  hidden, all 18 vars carrying prose descriptions — and re-rendered the
+  two-column light↔wireframe specimen (screenshot at
+  `Prism3/docs/assets/hidden-primitives-specimen.png`). Gates: test
+  **621/621** (rebased onto the emitter-thread merges — #73 `core-*`
+  collection rename, #74 CR-08 layout-per-breakpoint, #75 M-08/M-09
+  parseColor + space-alias — so the primitive collections read
+  `core-palette`/`core-dimension`/`core-font`, the aurora layout keeps its
+  `xs` breakpoint, and the hex-brand alpha ramps stay correct; block-23's
+  7 intent gates union with the consumption-eval blocks);
+  nb-regression clean (ΔE00 1.95); emit-dtcg 248/248 contrasts per brand,
+  every alias resolves; `out/figma/*` regenerated from scratch on the new
+  baseline (primitives gain `hiddenFromPublishing` + descriptions; semantics
+  gain descriptions), byte-identical on regen.
 - **`emit-figma` wireframe axis — materialise-to-verify** (`Prism3/docs/assets/
   wireframe-specimen.png`, 2026-07-04): closes the parked visual-verification
   follow-up from #53 (Pillar 1b wireframe axis). Motion re-probed first —

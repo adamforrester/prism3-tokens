@@ -9,7 +9,7 @@
         "FRAME_FILL",
         "SHAPE_FILL"
       ],
-      "description": "",
+      "description": "Page surface — the canvas / base",
       "value": {
         "r": 0,
         "g": 0,
@@ -28,7 +28,7 @@
         "FRAME_FILL",
         "SHAPE_FILL"
       ],
-      "description": "",
+      "description": "Page surface, second tier — a slightly tinted page / band",
       "value": {
         "r": 0,
         "g": 0,
@@ -47,7 +47,7 @@
         "FRAME_FILL",
         "SHAPE_FILL"
       ],
-      "description": "",
+      "description": "Page surface, third tier",
       "value": {
         "r": 0,
         "g": 0,
@@ -66,7 +66,7 @@
         "FRAME_FILL",
         "SHAPE_FILL"
       ],
-      "description": "",
+      "description": "Inverse page surface — a dark band in light mode",
       "value": {
         "r": 1,
         "g": 1,
@@ -85,7 +85,7 @@
         "FRAME_FILL",
         "SHAPE_FILL"
       ],
-      "description": "",
+      "description": "Inverse page surface, second tier",
       "value": {
         "r": 1,
         "g": 1,
@@ -104,7 +104,7 @@
         "FRAME_FILL",
         "SHAPE_FILL"
       ],
-      "description": "",
+      "description": "Inverse page surface, third tier",
       "value": {
         "r": 1,
         "g": 1,
@@ -123,7 +123,7 @@
         "FRAME_FILL",
         "SHAPE_FILL"
       ],
-      "description": "",
+      "description": "Scrim — 40% black backdrop (modals / drawers)",
       "value": {
         "r": 0,
         "g": 0,
@@ -143,7 +143,7 @@
         "SHAPE_FILL",
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "Default surface placed on the page — a card",
       "value": {
         "r": 0,
         "g": 0,
@@ -163,7 +163,7 @@
         "SHAPE_FILL",
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "A second surface — a panel / nested container",
       "value": {
         "r": 0,
         "g": 0,
@@ -183,7 +183,7 @@
         "SHAPE_FILL",
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "A third surface step",
       "value": {
         "r": 0,
         "g": 0,
@@ -203,7 +203,7 @@
         "SHAPE_FILL",
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "Inverse / bold surface — a dark fill in light mode",
       "value": {
         "r": 1,
         "g": 1,
@@ -223,7 +223,7 @@
         "SHAPE_FILL",
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "Inverse surface, second tier",
       "value": {
         "r": 1,
         "g": 1,
@@ -243,7 +243,7 @@
         "SHAPE_FILL",
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "Inverse surface, third tier",
       "value": {
         "r": 1,
         "g": 1,
@@ -263,7 +263,7 @@
         "SHAPE_FILL",
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "Bold brand fill — clears 4.5:1 on the floor (neutral.050)",
       "value": {
         "r": 0.8980392217636108,
         "g": 0.5686274766921997,
@@ -283,7 +283,7 @@
         "SHAPE_FILL",
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "Bold success fill — clears 4.5:1 on the floor (neutral.050)",
       "value": {
         "r": 0.49803921580314636,
         "g": 0.686274528503418,
@@ -303,7 +303,7 @@
         "SHAPE_FILL",
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "Bold warning fill — clears 4.5:1 on the floor (neutral.050)",
       "value": {
         "r": 0.8039215803146362,
         "g": 0.6235294342041016,
@@ -323,7 +323,7 @@
         "SHAPE_FILL",
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "Bold info fill — clears 4.5:1 on the floor (neutral.050)",
       "value": {
         "r": 0.40784314274787903,
         "g": 0.6823529601097107,
@@ -343,7 +343,7 @@
         "SHAPE_FILL",
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "Subtle brand tint surface — banners, badges, selected rows",
       "value": {
         "r": 0.2078431397676468,
         "g": 0,
@@ -363,7 +363,7 @@
         "SHAPE_FILL",
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "Subtle success tint surface — banners, badges, selected rows",
       "value": {
         "r": 0,
         "g": 0.11372549086809158,
@@ -383,7 +383,7 @@
         "SHAPE_FILL",
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "Subtle warning tint surface — banners, badges, selected rows",
       "value": {
         "r": 0.1568627506494522,
         "g": 0.06666667014360428,
@@ -403,7 +403,7 @@
         "SHAPE_FILL",
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "Subtle danger tint surface — banners, badges, selected rows",
       "value": {
         "r": 0.2078431397676468,
         "g": 0,
@@ -423,7 +423,7 @@
         "SHAPE_FILL",
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "Subtle info tint surface — banners, badges, selected rows",
       "value": {
         "r": 0,
         "g": 0.09803921729326248,
@@ -443,7 +443,7 @@
         "SHAPE_FILL",
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "Danger / destructive fill — default",
       "value": {
         "r": 0.8980392217636108,
         "g": 0.5686274766921997,
@@ -463,7 +463,7 @@
         "SHAPE_FILL",
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "Danger / destructive fill — hover",
       "value": {
         "r": 0.9098039269447327,
         "g": 0.6392157077789307,
@@ -483,7 +483,7 @@
         "SHAPE_FILL",
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "Danger / destructive fill — pressed",
       "value": {
         "r": 0.9215686321258545,
         "g": 0.7058823704719543,
@@ -503,7 +503,7 @@
         "SHAPE_FILL",
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "Danger / destructive fill — focused",
       "value": {
         "r": 0.9098039269447327,
         "g": 0.6392157077789307,
@@ -523,7 +523,7 @@
         "SHAPE_FILL",
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "Danger / destructive fill — selected",
       "value": {
         "r": 0.9215686321258545,
         "g": 0.7058823704719543,
@@ -543,7 +543,7 @@
         "SHAPE_FILL",
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "Danger / destructive fill — disabled",
       "value": {
         "r": 0.20392157137393951,
         "g": 0.21960784494876862,
@@ -563,7 +563,7 @@
         "SHAPE_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Interactive (action) fill — default",
       "value": {
         "r": 0.8980392217636108,
         "g": 0.5686274766921997,
@@ -583,7 +583,7 @@
         "SHAPE_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Interactive (action) fill — hover",
       "value": {
         "r": 0.9098039269447327,
         "g": 0.6392157077789307,
@@ -603,7 +603,7 @@
         "SHAPE_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Interactive (action) fill — pressed",
       "value": {
         "r": 0.9215686321258545,
         "g": 0.7058823704719543,
@@ -623,7 +623,7 @@
         "SHAPE_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Interactive (action) fill — focused",
       "value": {
         "r": 0.9098039269447327,
         "g": 0.6392157077789307,
@@ -643,7 +643,7 @@
         "SHAPE_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Interactive (action) fill — selected",
       "value": {
         "r": 0.9215686321258545,
         "g": 0.7058823704719543,
@@ -663,7 +663,7 @@
         "SHAPE_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Interactive (action) fill — disabled",
       "value": {
         "r": 0.20392157137393951,
         "g": 0.21960784494876862,
@@ -681,7 +681,7 @@
       "scopes": [
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "Primary text — strongest neutral",
       "value": {
         "r": 1,
         "g": 1,
@@ -699,7 +699,7 @@
       "scopes": [
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "Secondary text — 4.5:1 on the floor",
       "value": {
         "r": 0.6392157077789307,
         "g": 0.658823549747467,
@@ -717,7 +717,7 @@
       "scopes": [
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "Tertiary text — 3:1 on the floor",
       "value": {
         "r": 0.4901960790157318,
         "g": 0.5137255191802979,
@@ -735,7 +735,7 @@
       "scopes": [
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "Disabled text — clears 3:1 (accessible)",
       "value": {
         "r": 0.4901960790157318,
         "g": 0.5137255191802979,
@@ -753,7 +753,7 @@
       "scopes": [
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "brand text — 4.5:1 on the floor",
       "value": {
         "r": 0.8980392217636108,
         "g": 0.5686274766921997,
@@ -771,7 +771,7 @@
       "scopes": [
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "success text — 4.5:1 on the floor",
       "value": {
         "r": 0.49803921580314636,
         "g": 0.686274528503418,
@@ -789,7 +789,7 @@
       "scopes": [
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "warning text — 4.5:1 on the floor",
       "value": {
         "r": 0.8039215803146362,
         "g": 0.6235294342041016,
@@ -807,7 +807,7 @@
       "scopes": [
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "danger text — 4.5:1 on the floor",
       "value": {
         "r": 0.8980392217636108,
         "g": 0.5686274766921997,
@@ -825,7 +825,7 @@
       "scopes": [
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "info text — 4.5:1 on the floor",
       "value": {
         "r": 0.40784314274787903,
         "g": 0.6823529601097107,
@@ -843,7 +843,7 @@
       "scopes": [
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "Muted brand text — low-emphasis accent",
       "value": {
         "r": 0.8823529481887817,
         "g": 0.49803921580314636,
@@ -861,7 +861,7 @@
       "scopes": [
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "Muted success text — low-emphasis accent",
       "value": {
         "r": 0.4117647111415863,
         "g": 0.6431372761726379,
@@ -879,7 +879,7 @@
       "scopes": [
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "Muted warning text — low-emphasis accent",
       "value": {
         "r": 0.7803921699523926,
         "g": 0.5647059082984924,
@@ -897,7 +897,7 @@
       "scopes": [
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "Muted danger text — low-emphasis accent",
       "value": {
         "r": 0.8823529481887817,
         "g": 0.49803921580314636,
@@ -915,7 +915,7 @@
       "scopes": [
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "Muted info text — low-emphasis accent",
       "value": {
         "r": 0.29411765933036804,
         "g": 0.6313725709915161,
@@ -933,7 +933,7 @@
       "scopes": [
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "text on the action fill",
       "value": {
         "r": 0,
         "g": 0,
@@ -951,7 +951,7 @@
       "scopes": [
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "text on a solid brand fill",
       "value": {
         "r": 0,
         "g": 0,
@@ -969,7 +969,7 @@
       "scopes": [
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "text on a solid success fill",
       "value": {
         "r": 0,
         "g": 0,
@@ -987,7 +987,7 @@
       "scopes": [
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "text on a solid warning fill",
       "value": {
         "r": 0,
         "g": 0,
@@ -1005,7 +1005,7 @@
       "scopes": [
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "text on a solid danger fill",
       "value": {
         "r": 0,
         "g": 0,
@@ -1023,7 +1023,7 @@
       "scopes": [
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "text on a solid info fill",
       "value": {
         "r": 0,
         "g": 0,
@@ -1041,7 +1041,7 @@
       "scopes": [
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "text on an inverse surface",
       "value": {
         "r": 0,
         "g": 0,
@@ -1059,7 +1059,7 @@
       "scopes": [
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "text on a disabled fill — muted, clears 3:1",
       "value": {
         "r": 0.6392157077789307,
         "g": 0.658823549747467,
@@ -1077,7 +1077,7 @@
       "scopes": [
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "Link text — default",
       "value": {
         "r": 0.8980392217636108,
         "g": 0.5686274766921997,
@@ -1095,7 +1095,7 @@
       "scopes": [
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "Link text — hover",
       "value": {
         "r": 0.9098039269447327,
         "g": 0.6392157077789307,
@@ -1113,7 +1113,7 @@
       "scopes": [
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "Link text — visited",
       "value": {
         "r": 0.9215686321258545,
         "g": 0.7058823704719543,
@@ -1131,7 +1131,7 @@
       "scopes": [
         "TEXT_FILL"
       ],
-      "description": "",
+      "description": "Link text — focused",
       "value": {
         "r": 0.8980392217636108,
         "g": 0.5686274766921997,
@@ -1151,7 +1151,7 @@
         "SHAPE_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Primary icon — strongest neutral",
       "value": {
         "r": 1,
         "g": 1,
@@ -1171,7 +1171,7 @@
         "SHAPE_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Secondary icon — 4.5:1 on the floor",
       "value": {
         "r": 0.6392157077789307,
         "g": 0.658823549747467,
@@ -1191,7 +1191,7 @@
         "SHAPE_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Tertiary icon — 3:1 on the floor",
       "value": {
         "r": 0.4901960790157318,
         "g": 0.5137255191802979,
@@ -1211,7 +1211,7 @@
         "SHAPE_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Disabled icon — clears 3:1 (accessible)",
       "value": {
         "r": 0.4901960790157318,
         "g": 0.5137255191802979,
@@ -1231,7 +1231,7 @@
         "SHAPE_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "brand icon — 4.5:1 on the floor",
       "value": {
         "r": 0.8980392217636108,
         "g": 0.5686274766921997,
@@ -1251,7 +1251,7 @@
         "SHAPE_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "success icon — 4.5:1 on the floor",
       "value": {
         "r": 0.49803921580314636,
         "g": 0.686274528503418,
@@ -1271,7 +1271,7 @@
         "SHAPE_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "warning icon — 4.5:1 on the floor",
       "value": {
         "r": 0.8039215803146362,
         "g": 0.6235294342041016,
@@ -1291,7 +1291,7 @@
         "SHAPE_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "danger icon — 4.5:1 on the floor",
       "value": {
         "r": 0.8980392217636108,
         "g": 0.5686274766921997,
@@ -1311,7 +1311,7 @@
         "SHAPE_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "info icon — 4.5:1 on the floor",
       "value": {
         "r": 0.40784314274787903,
         "g": 0.6823529601097107,
@@ -1331,7 +1331,7 @@
         "SHAPE_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Muted brand icon — low-emphasis accent",
       "value": {
         "r": 0.8823529481887817,
         "g": 0.49803921580314636,
@@ -1351,7 +1351,7 @@
         "SHAPE_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Muted success icon — low-emphasis accent",
       "value": {
         "r": 0.4117647111415863,
         "g": 0.6431372761726379,
@@ -1371,7 +1371,7 @@
         "SHAPE_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Muted warning icon — low-emphasis accent",
       "value": {
         "r": 0.7803921699523926,
         "g": 0.5647059082984924,
@@ -1391,7 +1391,7 @@
         "SHAPE_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Muted danger icon — low-emphasis accent",
       "value": {
         "r": 0.8823529481887817,
         "g": 0.49803921580314636,
@@ -1411,7 +1411,7 @@
         "SHAPE_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Muted info icon — low-emphasis accent",
       "value": {
         "r": 0.29411765933036804,
         "g": 0.6313725709915161,
@@ -1431,7 +1431,7 @@
         "SHAPE_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "icon on the action fill",
       "value": {
         "r": 0,
         "g": 0,
@@ -1451,7 +1451,7 @@
         "SHAPE_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "icon on a solid brand fill",
       "value": {
         "r": 0,
         "g": 0,
@@ -1471,7 +1471,7 @@
         "SHAPE_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "icon on a solid success fill",
       "value": {
         "r": 0,
         "g": 0,
@@ -1491,7 +1491,7 @@
         "SHAPE_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "icon on a solid warning fill",
       "value": {
         "r": 0,
         "g": 0,
@@ -1511,7 +1511,7 @@
         "SHAPE_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "icon on a solid danger fill",
       "value": {
         "r": 0,
         "g": 0,
@@ -1531,7 +1531,7 @@
         "SHAPE_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "icon on a solid info fill",
       "value": {
         "r": 0,
         "g": 0,
@@ -1551,7 +1551,7 @@
         "SHAPE_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "icon on an inverse surface",
       "value": {
         "r": 0,
         "g": 0,
@@ -1571,7 +1571,7 @@
         "SHAPE_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "icon on a disabled fill — muted, clears 3:1",
       "value": {
         "r": 0.6392157077789307,
         "g": 0.658823549747467,
@@ -1591,7 +1591,7 @@
         "SHAPE_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Link icon — default",
       "value": {
         "r": 0.8980392217636108,
         "g": 0.5686274766921997,
@@ -1611,7 +1611,7 @@
         "SHAPE_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Link icon — hover",
       "value": {
         "r": 0.9098039269447327,
         "g": 0.6392157077789307,
@@ -1631,7 +1631,7 @@
         "SHAPE_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Link icon — visited",
       "value": {
         "r": 0.9215686321258545,
         "g": 0.7058823704719543,
@@ -1651,7 +1651,7 @@
         "SHAPE_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Link icon — focused",
       "value": {
         "r": 0.8980392217636108,
         "g": 0.5686274766921997,
@@ -1669,7 +1669,7 @@
       "scopes": [
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Default border — decorative, ~1.4:1",
       "value": {
         "r": 0.43921568989753723,
         "g": 0.4627451002597809,
@@ -1687,7 +1687,7 @@
       "scopes": [
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Stronger border / divider",
       "value": {
         "r": 0.6941176652908325,
         "g": 0.7058823704719543,
@@ -1705,7 +1705,7 @@
       "scopes": [
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Border on inverse surfaces",
       "value": {
         "r": 0.43921568989753723,
         "g": 0.4627451002597809,
@@ -1723,7 +1723,7 @@
       "scopes": [
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "brand border — 3:1 (SC 1.4.11)",
       "value": {
         "r": 0.8352941274642944,
         "g": 0.239215686917305,
@@ -1741,7 +1741,7 @@
       "scopes": [
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "success border — 3:1 (SC 1.4.11)",
       "value": {
         "r": 0.21960784494876862,
         "g": 0.5529412031173706,
@@ -1759,7 +1759,7 @@
       "scopes": [
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "warning border — 3:1 (SC 1.4.11)",
       "value": {
         "r": 0.7019608020782471,
         "g": 0.3843137323856354,
@@ -1777,7 +1777,7 @@
       "scopes": [
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "danger border — 3:1 (SC 1.4.11)",
       "value": {
         "r": 0.8352941274642944,
         "g": 0.239215686917305,
@@ -1795,7 +1795,7 @@
       "scopes": [
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "info border — 3:1 (SC 1.4.11)",
       "value": {
         "r": 0.1921568661928177,
         "g": 0.48235294222831726,
@@ -1813,7 +1813,7 @@
       "scopes": [
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Focus ring colour (keyboard focus)",
       "value": {
         "r": 0.8980392217636108,
         "g": 0.5686274766921997,

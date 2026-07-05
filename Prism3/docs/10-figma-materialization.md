@@ -71,11 +71,28 @@ variable's Figma id, then emit the `color` vars as `VARIABLE_ALIAS` pointing at 
 **Variable shape** (per entry in `variables[]`):
 ```jsonc
 { "id": "VariableID:…", "name": "color/background/primary", "resolvedType": "COLOR",
-  "scopes": ["FRAME_FILL","SHAPE_FILL"], "description": "",
-  "value": { "r":…, "g":…, "b":…, "a":1 },              // per-mode resolved {r,g,b,a} 0–1
+  "scopes": ["FRAME_FILL","SHAPE_FILL"],
+  "description": "Page surface — the canvas / base",   // DTCG $description threaded (2026-07-04)
+  "value": { "r":…, "g":…, "b":…, "a":1 },             // per-mode resolved {r,g,b,a} 0–1
   "alias": { "type":"VARIABLE_ALIAS", "id":"VariableID:…", "name":"palette/neutral/050" },
   "codeSyntax": {} }
 ```
+
+**Ref-tier PRIMITIVES also carry `"hiddenFromPublishing": true`** (2026-07-04).
+Every var in `palette`, `dimension`, `opacity`, `font/family/*`, `font/size/*`,
+`font/weight/*` sets this flag so consumers of the file as a design-token
+library only see the semantic layer in the picker. **Limitation:** the flag
+narrows the picker only ACROSS a library-consumption boundary; in the file
+that defines the primitives they still appear in the local picker. Figma
+exposes no scopes-based mechanism to hide from local pickers — the enum
+is strictly typed per resolvedType (rejects "bogus" scopes with "Invalid
+scope for this variable type"), and `scopes: []` is documented + probe-
+verified as ALL_SCOPES (setBoundVariableForPaint succeeds on a var with
+scopes=[]). Production discipline: publish tokens as a library, author
+components in a separate consumer file. Scopes on primitives stay at
+their real role-family targets so, if a component author does need to
+bind a raw primitive for a bespoke case (after unhiding), guidance is
+still correct.
 
 **Naming transform** (DTCG → Figma): strip the brand namespace (`nbds.`/`prism.`); dots →
 slashes; the first segment is the collection (`palette` / `color`); **zero-pad sub-100 scale

@@ -79,8 +79,45 @@ export type FigmaVar = {
   description: string;
   value: FigmaVarValue;
   alias: { type: 'VARIABLE_ALIAS'; name: string } | null;
+  /** Present + `true` only on ref-tier PRIMITIVE variables (palette, dimension,
+   *  font/family, font/size, font/weight, opacity). Figma's official mechanism
+   *  for "consumers of this file (as a library) shouldn't see this in the
+   *  picker." Note the limitation: this only narrows the picker across a
+   *  library-consumption boundary; in the file that DEFINES the primitives
+   *  they still appear in the local picker (Figma has no scopes-based
+   *  local-hide — see the module-level PRIMITIVE marker comment). Omitted on
+   *  semantic-tier vars → JSON stays free of the noise field (semantic bytes
+   *  are byte-identical to the pre-hide world modulo the new `description`s). */
+  hiddenFromPublishing?: boolean;
 };
 export type FigmaCollectionFile = { $collection: string; $mode: string; variables: FigmaVar[] };
+
+/** Read the DTCG leaf's $description into Figma's `description` field so
+ *  designers see the source-of-truth prose in the Variables panel sidebar
+ *  (`space.100 — 8px (1× 8px base)` etc.) without polluting the Figma name
+ *  (which stays namespace-stripped per §3). */
+const desc = (leaf: any): string => String(leaf?.$description ?? '');
+
+/** Ref-tier PRIMITIVE marker. `hiddenFromPublishing: true` is Figma's OFFICIAL
+ *  mechanism for "consumers of this file (as a library) shouldn't pick this."
+ *  Applied to palette + dimension + opacity + font/family + font/size +
+ *  font/weight so cross-file library consumers only see the semantic layer.
+ *
+ *  LIMITATION worth naming: hidden-from-publishing only narrows the picker
+ *  ACROSS a library-consumption boundary. In the file that DEFINES the
+ *  primitives, they still show in the local picker. Figma DOES NOT expose a
+ *  scopes-based way to hide a variable from local pickers — the enum is
+ *  strictly typed per resolvedType (COLOR: ALL_FILLS/ALL_SCOPES/FRAME_FILL/
+ *  SHAPE_FILL/TEXT_FILL/STROKE_COLOR/EFFECT_COLOR; FLOAT: TEXT_CONTENT/
+ *  CORNER_RADIUS/WIDTH_HEIGHT/GAP/OPACITY/STROKE_FLOAT/EFFECT_FLOAT/FONT_*),
+ *  and `scopes: []` behaves as ALL_SCOPES (probe-verified 2026-07-04:
+ *  setBoundVariableForPaint succeeds on a var with scopes=[]). So a bogus
+ *  non-matching scope like TEXT_CONTENT would be rejected by the API
+ *  ("Invalid scope for this variable type") — there is no path to a
+ *  local-picker hide. The production discipline: publish tokens as a
+ *  library, author components in a separate consumer file, and
+ *  hidden-from-publishing narrows the picker end-to-end. Definer-file
+ *  authoring accepts primitive visibility as the trade. */
 
 /** The canonical, ordered set of appearance modes emit-figma can produce. A
  *  given brand may opt out of `dark`/`hc-*` via `BrandInput.modes` — the
@@ -153,13 +190,23 @@ export const buildFigmaColor = (theme: Theme): { palette: FigmaCollectionFile; c
   const palette: FigmaCollectionFile = {
     $collection: 'core-palette',
     $mode: 'Default',
+    // Palette primitives are REF TIER — designers should reach for `color/*`
+    // semantics that alias these steps, not the raw palette. Set
+    // `hiddenFromPublishing: true` so consumers of this file as a library
+    // don't see them in the picker; the local picker in the definer file
+    // still shows them (Figma has no scopes-based local-hide — see the
+    // module-level PRIMITIVE marker comment for the API limitation).
+    // Scopes stay at the four colour fill/stroke targets so, if a component
+    // author does need to bind a raw primitive for a bespoke case, the
+    // picker guidance is still correct per role family.
     variables: leaves(tree[root].palette, `${root}.palette`).map(([dotted, leaf]) => ({
       name: figName(dotted),
       resolvedType: 'COLOR',
       scopes: PALETTE_SCOPES,
-      description: '',
+      description: desc(leaf),
       value: parseColor(leaf.$value),
       alias: null,
+      hiddenFromPublishing: true,
     })),
   };
 
@@ -181,7 +228,7 @@ export const buildFigmaColor = (theme: Theme): { palette: FigmaCollectionFile; c
         name: figName(dotted),
         resolvedType: 'COLOR' as const,
         scopes: COLOR_SCOPES[family] ?? ['FRAME_FILL', 'SHAPE_FILL'],
-        description: '',
+        description: desc(leaf),
         value: parseColor(targetLeaf?.$value),
         alias: { type: 'VARIABLE_ALIAS' as const, name: figName(targetDotted) },
       };
@@ -235,7 +282,12 @@ export const buildFigmaFont = (theme: Theme): FigmaCollectionFile => {
   const font = tree[root].font;
   const variables: FigmaVar[] = [];
 
-  // font/family/* — STRING primitives, primary face bound, full stack in description.
+  // font/family/* — STRING PRIMITIVES (ref tier). Primary face is the bound
+  // value; full fallback stack lives in the description (fix #4). Scope
+  // FONT_FAMILY is the correct guidance for text-style consumers (which is
+  // where family primitives ARE actually bound, via the composite text style),
+  // so we don't narrow it further. hiddenFromPublishing hides them from
+  // library consumers.
   for (const familyRole of Object.keys(font.family)) {
     const leaf = font.family[familyRole];
     const stack: string[] = Array.isArray(leaf.$value) ? leaf.$value : [String(leaf.$value)];
@@ -243,39 +295,52 @@ export const buildFigmaFont = (theme: Theme): FigmaCollectionFile => {
       name: `font/family/${familyRole}`,
       resolvedType: 'STRING',
       scopes: ['FONT_FAMILY'],
-      description: stackDescription(stack),
+      description: [stackDescription(stack), desc(leaf)].filter(Boolean).join(' — '),
       value: stack[0],
       alias: null,
+      hiddenFromPublishing: true,
     });
   }
 
-  // font/size/N — FLOAT primitives (curated ladder; static, not per-mode).
+  // font/size/N — FLOAT PRIMITIVES (curated ladder; static, not per-mode).
+  // hiddenFromPublishing hides these from library consumers; consumers reach
+  // text styles / the fluid composite, not raw sizes.
   for (const key of Object.keys(font.size)) {
+    const leaf = font.size[key];
     variables.push({
       name: `font/size/${key}`,
       resolvedType: 'FLOAT',
       scopes: ['FONT_SIZE'],
-      description: '',
+      description: desc(leaf),
       value: Number(key),
       alias: null,
+      hiddenFromPublishing: true,
     });
   }
 
-  // font/weight/N — FLOAT numeric reference tier (100..900).
+  // font/weight/N — FLOAT numeric reference tier (100..900). PRIMITIVES —
+  // brand-facing consumers pick `font/weight-role/*` (subtle/default/emphasis/
+  // strong), not the raw numeric. hiddenFromPublishing hides from library
+  // consumers; the FONT_WEIGHT scope keeps the picker guidance correct if a
+  // bespoke component needs to bind directly.
   for (const key of Object.keys(font.weight)) {
+    const leaf = font.weight[key];
     variables.push({
       name: `font/weight/${key}`,
       resolvedType: 'FLOAT',
       scopes: ['FONT_WEIGHT'],
-      description: '',
+      description: desc(leaf),
       value: Number(key),
       alias: null,
+      hiddenFromPublishing: true,
     });
   }
 
-  // font/weight-role/{role} — FLOAT aliased to the numeric weight. The DTCG
-  // encodes the numeric target under $extensions.prism3.numeric and the alias
-  // path under aliasOf; the Figma-target name is `font/weight/<numeric>`.
+  // font/weight-role/{role} — SEMANTIC. FLOAT aliased to the numeric weight.
+  // Visible in the picker — this IS the brand-facing lever (a brand swaps
+  // `emphasis: 600 → 500` and every emphasis style follows). The DTCG encodes
+  // the numeric target under $extensions.prism3.numeric and the alias path
+  // under aliasOf; the Figma-target name is `font/weight/<numeric>`.
   for (const roleKey of Object.keys(font['weight-role'])) {
     const leaf = font['weight-role'][roleKey];
     const numeric = leaf.$extensions?.prism3?.numeric as number;
@@ -283,7 +348,7 @@ export const buildFigmaFont = (theme: Theme): FigmaCollectionFile => {
       name: `font/weight-role/${roleKey}`,
       resolvedType: 'FLOAT',
       scopes: ['FONT_WEIGHT'],
-      description: '',
+      description: desc(leaf),
       value: numeric,
       alias: { type: 'VARIABLE_ALIAS', name: `font/weight/${numeric}` },
     });
@@ -296,7 +361,7 @@ export const buildFigmaFont = (theme: Theme): FigmaCollectionFile => {
 // entry says fluid, then read `responsive.figma.modes.{mobile,desktop}` for the
 // per-mode FLOAT values. Composite path (dot-joined below `type.`) is the Figma
 // variable name suffix under `font-fluid/`.
-type FluidRow = { name: string; mobile: number; desktop: number };
+type FluidRow = { name: string; mobile: number; desktop: number; description: string };
 const collectFluidRows = (typeNode: any, prefix: string, out: FluidRow[] = []): FluidRow[] => {
   for (const k in typeNode) {
     if (k[0] === '$') continue;
@@ -304,7 +369,12 @@ const collectFluidRows = (typeNode: any, prefix: string, out: FluidRow[] = []): 
     if (child && child.$type === 'typography') {
       const r = child.$extensions?.prism3?.responsive;
       if (r?.fluid && r?.figma?.modes) {
-        out.push({ name: `${prefix}${k}`, mobile: r.figma.modes.mobile, desktop: r.figma.modes.desktop });
+        out.push({
+          name: `${prefix}${k}`,
+          mobile: r.figma.modes.mobile,
+          desktop: r.figma.modes.desktop,
+          description: desc(child),
+        });
       }
     } else if (child && typeof child === 'object') {
       collectFluidRows(child, `${prefix}${k}/`, out);
@@ -327,7 +397,7 @@ export const buildFigmaFontFluid = (theme: Theme): FigmaCollectionFile[] => {
       name: `font-fluid/${r.name}`,
       resolvedType: 'FLOAT' as const,
       scopes: ['FONT_SIZE'],
-      description: '',
+      description: r.description,
       value: mode === 'mobile' ? r.mobile : r.desktop,
       alias: null,
     })),
@@ -521,13 +591,12 @@ export const buildFigmaDims = (theme: Theme): FigmaDimsCollections => {
   const root = Object.keys(tree)[0];
   const brand = tree[root];
 
-  // Every dims var carries the DTCG leaf's $description into Figma's `description`
-  // field — so designers see the source-of-truth prose in the Variables panel
-  // sidebar (`space.100 — 8px (1× 8px base)` etc.) without polluting the Figma
-  // name (which stays namespace-stripped per §3).
-  const desc = (leaf: any): string => String(leaf?.$description ?? '');
-
-  // dimension primitives — value is the numeric px; no alias.
+  // dimension primitives — REF TIER. Value is the numeric px; no alias.
+  // hiddenFromPublishing hides from library consumers who should reach
+  // `space`/`radius`/`size`/`border-width`/`focus` semantics (all of which
+  // alias into this scale). Scopes stay at the four dim targets so, if a
+  // component author needs a raw primitive for a bespoke case, the picker
+  // guidance is still correct.
   const dimVars: FigmaVar[] = Object.keys(brand.dimension).map((key) => ({
     name: `dimension/${key}`,
     resolvedType: 'FLOAT' as const,
@@ -535,6 +604,7 @@ export const buildFigmaDims = (theme: Theme): FigmaDimsCollections => {
     description: desc(brand.dimension[key]),
     value: pxFromValue(tree, brand.dimension[key].$value),
     alias: null,
+    hiddenFromPublishing: true,
   }));
 
   // space — aliases into dimension. Value = resolved px (belt-and-suspenders).
@@ -639,11 +709,14 @@ export const buildFigmaDims = (theme: Theme): FigmaDimsCollections => {
     });
   }
 
-  // Opacity — Figma's OPACITY-scoped FLOAT is interpreted as PERCENT (0–100),
-  // not fraction. The DTCG tree stores the CSS-correct fraction (`0.9`), so the
-  // adapter multiplies by 100 for the Figma target. Verified live: passing 0.9
-  // renders as 0.9% (nearly invisible), not 90%. This is a Figma-target
-  // rendering decision, so it lives here — the DTCG stays 0–1 for CSS.
+  // Opacity — REF TIER PRIMITIVES. Figma's OPACITY-scoped FLOAT is interpreted
+  // as PERCENT (0–100), not fraction. The DTCG tree stores the CSS-correct
+  // fraction (`0.9`), so the adapter multiplies by 100 for the Figma target.
+  // Verified live: passing 0.9 renders as 0.9% (nearly invisible), not 90%.
+  // This is a Figma-target rendering decision, so it lives here — the DTCG
+  // stays 0–1 for CSS. hiddenFromPublishing hides these from library
+  // consumers; the OPACITY scope keeps the picker guidance correct if a
+  // bespoke component needs to bind directly.
   const opacityVars: FigmaVar[] = Object.keys(brand.opacity).map((key) => ({
     name: `opacity/${key}`,
     resolvedType: 'FLOAT' as const,
@@ -651,6 +724,7 @@ export const buildFigmaDims = (theme: Theme): FigmaDimsCollections => {
     description: desc(brand.opacity[key]),
     value: Math.round((brand.opacity[key].$value as number) * 100),
     alias: null,
+    hiddenFromPublishing: true,
   }));
 
   const c = (name: string, variables: FigmaVar[]): FigmaCollectionFile => ({ $collection: name, $mode: 'Default', variables });
@@ -727,13 +801,12 @@ export const buildFigmaLayout = (theme: Theme): FigmaCollectionFile[] => {
   const gridNode = brand.grid;
   const containerNode = brand.container;
 
-  const desc = (leaf: any): string => String(leaf?.$description ?? '');
-
-  // CR-08: emit one layout mode per breakpoint the brand ACTUALLY ships (the grid node's keys,
-  // already in ascending order) — NOT a hardcoded 5. A 6-breakpoint brand (aurora: xs..2xl)
+  // CR-08 (#74): emit one layout mode per breakpoint the brand ACTUALLY ships (the grid node's
+  // keys, already in ascending order) — NOT a hardcoded 5. A 6-breakpoint brand (aurora: xs..2xl)
   // otherwise silently drops its base `xs` grid, and a ≤3-breakpoint brand would read
   // `gridNode[mode]` undefined and crash. `LAYOUT_MODES` stays the DEFAULT breakpoint-name set
   // (a 4-floor brief auto-names them sm..2xl); the emit follows whatever the brand generated.
+  // (`desc` is now the module-level helper hoisted for the #76 description threading.)
   const modes = Object.keys(gridNode);
 
   return modes.map((mode) => {

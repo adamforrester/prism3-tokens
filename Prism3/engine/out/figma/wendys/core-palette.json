@@ -11,14 +11,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Pure white — Highlight base / default surface",
       "value": {
         "r": 1,
         "g": 1,
         "b": 1,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/black",
@@ -29,14 +30,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Pure black — Shadow base",
       "value": {
         "r": 0,
         "g": 0,
         "b": 0,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/primary/100",
@@ -47,14 +49,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand primary 100 — Quarter-Tone band",
       "value": {
         "r": 0.9411764740943909,
         "g": 0.8196078538894653,
         "b": 0.8117647171020508,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/primary/150",
@@ -65,14 +68,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand primary 150 — Quarter-Tone band",
       "value": {
         "r": 0.9215686321258545,
         "g": 0.7490196228027344,
         "b": 0.7372549176216125,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/primary/200",
@@ -83,14 +87,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand primary 200 — Quarter-Tone band",
       "value": {
         "r": 0.9058823585510254,
         "g": 0.6745098233222961,
         "b": 0.658823549747467,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/primary/250",
@@ -101,14 +106,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand primary 250 — Quarter-Tone band",
       "value": {
         "r": 0.8901960849761963,
         "g": 0.5960784554481506,
         "b": 0.5843137502670288,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/primary/300",
@@ -119,14 +125,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand primary 300 — Quarter-Tone band",
       "value": {
         "r": 0.8705882430076599,
         "g": 0.5176470875740051,
         "b": 0.5058823823928833,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/primary/350",
@@ -137,14 +144,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand primary 350 — Quarter-Tone band",
       "value": {
         "r": 0.8509804010391235,
         "g": 0.43529412150382996,
         "b": 0.4274509847164154,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/primary/400",
@@ -155,14 +163,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand primary 400 — Mid-Tone band",
       "value": {
         "r": 0.8313725590705872,
         "g": 0.3450980484485626,
         "b": 0.3490196168422699,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/primary/450",
@@ -173,14 +182,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand primary 450 — Mid-Tone band",
       "value": {
         "r": 0.8078431487083435,
         "g": 0.239215686917305,
         "b": 0.2666666805744171,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/primary/500",
@@ -191,14 +201,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand primary 500 — Mid-Tone band — brand anchor (exact, pinned)",
       "value": {
         "r": 0.7843137383460999,
         "g": 0.062745101749897,
         "b": 0.18039216101169586,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/primary/550",
@@ -209,14 +220,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand primary 550 — Mid-Tone band",
       "value": {
         "r": 0.7098039388656616,
         "g": 0.0235294122248888,
         "b": 0.15294118225574493,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/primary/600",
@@ -227,14 +239,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand primary 600 — Mid-Tone band",
       "value": {
         "r": 0.6313725709915161,
         "g": 0,
         "b": 0.125490203499794,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/primary/650",
@@ -245,14 +258,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand primary 650 — Three-Quarter-Tone band",
       "value": {
         "r": 0.5529412031173706,
         "g": 0,
         "b": 0.10588235408067703,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/primary/700",
@@ -263,14 +277,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand primary 700 — Three-Quarter-Tone band",
       "value": {
         "r": 0.47843137383461,
         "g": 0,
         "b": 0.08627451211214066,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/primary/750",
@@ -281,14 +296,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand primary 750 — Three-Quarter-Tone band",
       "value": {
         "r": 0.40392157435417175,
         "g": 0,
         "b": 0.06666667014360428,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/primary/800",
@@ -299,14 +315,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand primary 800 — Three-Quarter-Tone band",
       "value": {
         "r": 0.3333333432674408,
         "g": 0,
         "b": 0.0470588244497776,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/primary/850",
@@ -317,14 +334,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand primary 850 — Three-Quarter-Tone band",
       "value": {
         "r": 0.26274511218070984,
         "g": 0,
         "b": 0.0313725508749485,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/primary/900",
@@ -335,14 +353,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand primary 900 — Three-Quarter-Tone band",
       "value": {
         "r": 0.20000000298023224,
         "g": 0,
         "b": 0.01568627543747425,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/primary/950",
@@ -353,14 +372,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand primary 950 — Shadow band",
       "value": {
         "r": 0.13725490868091583,
         "g": 0,
         "b": 0.007843137718737125,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/primary/025",
@@ -371,14 +391,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand primary 025 — Highlight band",
       "value": {
         "r": 0.9960784316062927,
         "g": 0.95686274766922,
         "b": 0.95686274766922,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/primary/050",
@@ -389,14 +410,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand primary 050 — Highlight band",
       "value": {
         "r": 0.9607843160629272,
         "g": 0.8901960849761963,
         "b": 0.886274516582489,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/neutral/100",
@@ -407,14 +429,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Neutral 100 — Quarter-Tone band",
       "value": {
         "r": 0.8588235378265381,
         "g": 0.8588235378265381,
         "b": 0.8627451062202454,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/neutral/150",
@@ -425,14 +448,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Neutral 150 — Quarter-Tone band",
       "value": {
         "r": 0.8078431487083435,
         "g": 0.8078431487083435,
         "b": 0.8117647171020508,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/neutral/200",
@@ -443,14 +467,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Neutral 200 — Quarter-Tone band",
       "value": {
         "r": 0.7529411911964417,
         "g": 0.7568627595901489,
         "b": 0.7607843279838562,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/neutral/250",
@@ -461,14 +486,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Neutral 250 — Quarter-Tone band",
       "value": {
         "r": 0.7019608020782471,
         "g": 0.7058823704719543,
         "b": 0.7098039388656616,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/neutral/300",
@@ -479,14 +505,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Neutral 300 — Quarter-Tone band",
       "value": {
         "r": 0.6509804129600525,
         "g": 0.6549019813537598,
         "b": 0.658823549747467,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/neutral/350",
@@ -497,14 +524,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Neutral 350 — Quarter-Tone band",
       "value": {
         "r": 0.6000000238418579,
         "g": 0.6039215922355652,
         "b": 0.6117647290229797,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/neutral/400",
@@ -515,14 +543,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Neutral 400 — Mid-Tone band",
       "value": {
         "r": 0.5529412031173706,
         "g": 0.5568627715110779,
         "b": 0.5607843399047852,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/neutral/450",
@@ -533,14 +562,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Neutral 450 — Mid-Tone band",
       "value": {
         "r": 0.501960813999176,
         "g": 0.5098039507865906,
         "b": 0.5137255191802979,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/neutral/500",
@@ -551,14 +581,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Neutral 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
       "value": {
         "r": 0.45490196347236633,
         "g": 0.4588235318660736,
         "b": 0.46666666865348816,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/neutral/550",
@@ -569,14 +600,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Neutral 550 — Mid-Tone band",
       "value": {
         "r": 0.40392157435417175,
         "g": 0.4117647111415863,
         "b": 0.4156862795352936,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/neutral/600",
@@ -587,14 +619,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Neutral 600 — Mid-Tone band",
       "value": {
         "r": 0.3529411852359772,
         "g": 0.3607843220233917,
         "b": 0.3686274588108063,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/neutral/650",
@@ -605,14 +638,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Neutral 650 — Three-Quarter-Tone band",
       "value": {
         "r": 0.30588236451148987,
         "g": 0.3137255012989044,
         "b": 0.3176470696926117,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/neutral/700",
@@ -623,14 +657,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Neutral 700 — Three-Quarter-Tone band",
       "value": {
         "r": 0.25882354378700256,
         "g": 0.26274511218070984,
         "b": 0.2705882489681244,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/neutral/750",
@@ -641,14 +676,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Neutral 750 — Three-Quarter-Tone band",
       "value": {
         "r": 0.21568627655506134,
         "g": 0.21960784494876862,
         "b": 0.2235294133424759,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/neutral/800",
@@ -659,14 +695,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Neutral 800 — Three-Quarter-Tone band",
       "value": {
         "r": 0.1725490242242813,
         "g": 0.1725490242242813,
         "b": 0.1764705926179886,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/neutral/850",
@@ -677,14 +714,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Neutral 850 — Three-Quarter-Tone band",
       "value": {
         "r": 0.12941177189350128,
         "g": 0.13333334028720856,
         "b": 0.13333334028720856,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/neutral/900",
@@ -695,14 +733,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Neutral 900 — Three-Quarter-Tone band",
       "value": {
         "r": 0.09019608050584793,
         "g": 0.09019608050584793,
         "b": 0.0941176488995552,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/neutral/950",
@@ -713,14 +752,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Neutral 950 — Shadow band",
       "value": {
         "r": 0.05098039284348488,
         "g": 0.05098039284348488,
         "b": 0.054901961237192154,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/neutral/025",
@@ -731,14 +771,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Neutral 025 — Highlight band",
       "value": {
         "r": 0.9686274528503418,
         "g": 0.9686274528503418,
         "b": 0.9686274528503418,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/neutral/050",
@@ -749,14 +790,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Neutral 050 — Highlight band",
       "value": {
         "r": 0.9137254953384399,
         "g": 0.9137254953384399,
         "b": 0.9137254953384399,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/secondary/100",
@@ -767,14 +809,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand secondary 100 — Quarter-Tone band",
       "value": {
         "r": 0.8078431487083435,
         "g": 0.8627451062202454,
         "b": 0.8941176533699036,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/secondary/150",
@@ -785,14 +828,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand secondary 150 — Quarter-Tone band",
       "value": {
         "r": 0.7333333492279053,
         "g": 0.8117647171020508,
         "b": 0.8588235378265381,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/secondary/200",
@@ -803,14 +847,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand secondary 200 — Quarter-Tone band",
       "value": {
         "r": 0.6549019813537598,
         "g": 0.7607843279838562,
         "b": 0.8235294222831726,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/secondary/250",
@@ -821,14 +866,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand secondary 250 — Quarter-Tone band",
       "value": {
         "r": 0.572549045085907,
         "g": 0.7098039388656616,
         "b": 0.7921568751335144,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/secondary/300",
@@ -839,14 +885,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand secondary 300 — Quarter-Tone band",
       "value": {
         "r": 0.4901960790157318,
         "g": 0.6627451181411743,
         "b": 0.7607843279838562,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/secondary/350",
@@ -857,14 +904,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand secondary 350 — Quarter-Tone band",
       "value": {
         "r": 0.4000000059604645,
         "g": 0.6117647290229797,
         "b": 0.729411780834198,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/secondary/400",
@@ -875,14 +923,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand secondary 400 — Mid-Tone band",
       "value": {
         "r": 0.30980393290519714,
         "g": 0.5647059082984924,
         "b": 0.6980392336845398,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/secondary/450",
@@ -893,14 +942,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand secondary 450 — Mid-Tone band",
       "value": {
         "r": 0.20000000298023224,
         "g": 0.5137255191802979,
         "b": 0.6666666865348816,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/secondary/500",
@@ -911,14 +961,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand secondary 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
       "value": {
         "r": 0,
         "g": 0.46666666865348816,
         "b": 0.6392157077789307,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/secondary/550",
@@ -929,14 +980,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand secondary 550 — Mid-Tone band",
       "value": {
         "r": 0,
         "g": 0.4156862795352936,
         "b": 0.572549045085907,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/secondary/600",
@@ -947,14 +999,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand secondary 600 — Mid-Tone band",
       "value": {
         "r": 0,
         "g": 0.3686274588108063,
         "b": 0.5058823823928833,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/secondary/650",
@@ -965,14 +1018,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand secondary 650 — Three-Quarter-Tone band",
       "value": {
         "r": 0,
         "g": 0.3176470696926117,
         "b": 0.4431372582912445,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/secondary/700",
@@ -983,14 +1037,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand secondary 700 — Three-Quarter-Tone band",
       "value": {
         "r": 0,
         "g": 0.2705882489681244,
         "b": 0.3803921639919281,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/secondary/750",
@@ -1001,14 +1056,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand secondary 750 — Three-Quarter-Tone band",
       "value": {
         "r": 0,
         "g": 0.22745098173618317,
         "b": 0.32156863808631897,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/secondary/800",
@@ -1019,14 +1075,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand secondary 800 — Three-Quarter-Tone band",
       "value": {
         "r": 0,
         "g": 0.18039216101169586,
         "b": 0.26274511218070984,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/secondary/850",
@@ -1037,14 +1094,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand secondary 850 — Three-Quarter-Tone band",
       "value": {
         "r": 0,
         "g": 0.1411764770746231,
         "b": 0.20392157137393951,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/secondary/900",
@@ -1055,14 +1113,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand secondary 900 — Three-Quarter-Tone band",
       "value": {
         "r": 0,
         "g": 0.09803921729326248,
         "b": 0.14901961386203766,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/secondary/950",
@@ -1073,14 +1132,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand secondary 950 — Shadow band",
       "value": {
         "r": 0,
         "g": 0.05882352963089943,
         "b": 0.09803921729326248,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/secondary/025",
@@ -1091,14 +1151,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand secondary 025 — Highlight band",
       "value": {
         "r": 0.9529411792755127,
         "g": 0.9686274528503418,
         "b": 0.9803921580314636,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/secondary/050",
@@ -1109,14 +1170,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand secondary 050 — Highlight band",
       "value": {
         "r": 0.886274516582489,
         "g": 0.9176470637321472,
         "b": 0.9333333373069763,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/tertiary/100",
@@ -1127,14 +1189,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand tertiary 100 — Quarter-Tone band",
       "value": {
         "r": 0.9176470637321472,
         "g": 0.843137264251709,
         "b": 0.843137264251709,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/tertiary/150",
@@ -1145,14 +1208,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand tertiary 150 — Quarter-Tone band",
       "value": {
         "r": 0.8901960849761963,
         "g": 0.7843137383460999,
         "b": 0.7843137383460999,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/tertiary/200",
@@ -1163,14 +1227,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand tertiary 200 — Quarter-Tone band",
       "value": {
         "r": 0.8627451062202454,
         "g": 0.7254902124404907,
         "b": 0.7254902124404907,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/tertiary/250",
@@ -1181,14 +1246,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand tertiary 250 — Quarter-Tone band",
       "value": {
         "r": 0.8352941274642944,
         "g": 0.6666666865348816,
         "b": 0.6666666865348816,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/tertiary/300",
@@ -1199,14 +1265,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand tertiary 300 — Quarter-Tone band",
       "value": {
         "r": 0.8117647171020508,
         "g": 0.6039215922355652,
         "b": 0.6078431606292725,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/tertiary/350",
@@ -1217,14 +1284,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand tertiary 350 — Quarter-Tone band",
       "value": {
         "r": 0.7843137383460999,
         "g": 0.545098066329956,
         "b": 0.5490196347236633,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/tertiary/400",
@@ -1235,14 +1303,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand tertiary 400 — Mid-Tone band",
       "value": {
         "r": 0.7568627595901489,
         "g": 0.48235294222831726,
         "b": 0.4901960790157318,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/tertiary/450",
@@ -1253,14 +1322,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand tertiary 450 — Mid-Tone band",
       "value": {
         "r": 0.7333333492279053,
         "g": 0.41960784792900085,
         "b": 0.4313725531101227,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/tertiary/500",
@@ -1271,14 +1341,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand tertiary 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
       "value": {
         "r": 0.7019608020782471,
         "g": 0.35686275362968445,
         "b": 0.3764705955982208,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/tertiary/550",
@@ -1289,14 +1360,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand tertiary 550 — Mid-Tone band",
       "value": {
         "r": 0.6627451181411743,
         "g": 0.2549019753932953,
         "b": 0.29019609093666077,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/tertiary/600",
@@ -1307,14 +1379,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand tertiary 600 — Mid-Tone band",
       "value": {
         "r": 0.615686297416687,
         "g": 0.13333334028720856,
         "b": 0.2078431397676468,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/tertiary/650",
@@ -1325,14 +1398,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand tertiary 650 — Three-Quarter-Tone band",
       "value": {
         "r": 0.5411764979362488,
         "g": 0.10588235408067703,
         "b": 0.1764705926179886,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/tertiary/700",
@@ -1343,14 +1417,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand tertiary 700 — Three-Quarter-Tone band",
       "value": {
         "r": 0.47058823704719543,
         "g": 0.0784313753247261,
         "b": 0.14509804546833038,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/tertiary/750",
@@ -1361,14 +1436,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand tertiary 750 — Three-Quarter-Tone band",
       "value": {
         "r": 0.4000000059604645,
         "g": 0.0470588244497776,
         "b": 0.11372549086809158,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/tertiary/800",
@@ -1379,14 +1455,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand tertiary 800 — Three-Quarter-Tone band",
       "value": {
         "r": 0.3294117748737335,
         "g": 0.0235294122248888,
         "b": 0.08235294371843338,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/tertiary/850",
@@ -1397,14 +1474,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand tertiary 850 — Three-Quarter-Tone band",
       "value": {
         "r": 0.2666666805744171,
         "g": 0.007843137718737125,
         "b": 0.054901961237192154,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/tertiary/900",
@@ -1415,14 +1493,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand tertiary 900 — Three-Quarter-Tone band",
       "value": {
         "r": 0.20000000298023224,
         "g": 0,
         "b": 0.0313725508749485,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/tertiary/950",
@@ -1433,14 +1512,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand tertiary 950 — Shadow band",
       "value": {
         "r": 0.13333334028720856,
         "g": 0,
         "b": 0.01568627543747425,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/tertiary/025",
@@ -1451,14 +1531,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand tertiary 025 — Highlight band",
       "value": {
         "r": 0.9882352948188782,
         "g": 0.9607843160629272,
         "b": 0.9607843160629272,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/tertiary/050",
@@ -1469,14 +1550,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Brand tertiary 050 — Highlight band",
       "value": {
         "r": 0.9490196108818054,
         "g": 0.9019607901573181,
         "b": 0.9019607901573181,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/success/100",
@@ -1487,14 +1569,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "success status 100 — Quarter-Tone band",
       "value": {
         "r": 0.7098039388656616,
         "g": 0.9254902005195618,
         "b": 0.686274528503418,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/success/150",
@@ -1505,14 +1588,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "success status 150 — Quarter-Tone band",
       "value": {
         "r": 0.5764706134796143,
         "g": 0.8980392217636108,
         "b": 0.5490196347236633,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/success/200",
@@ -1523,14 +1607,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "success status 200 — Quarter-Tone band",
       "value": {
         "r": 0.5333333611488342,
         "g": 0.843137264251709,
         "b": 0.5098039507865906,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/success/250",
@@ -1541,14 +1626,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "success status 250 — Quarter-Tone band",
       "value": {
         "r": 0.4901960790157318,
         "g": 0.7843137383460999,
         "b": 0.46666666865348816,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/success/300",
@@ -1559,14 +1645,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "success status 300 — Quarter-Tone band",
       "value": {
         "r": 0.4470588266849518,
         "g": 0.729411780834198,
         "b": 0.4274509847164154,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/success/350",
@@ -1577,14 +1664,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "success status 350 — Quarter-Tone band",
       "value": {
         "r": 0.40784314274787903,
         "g": 0.6745098233222961,
         "b": 0.3843137323856354,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/success/400",
@@ -1595,14 +1683,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "success status 400 — Mid-Tone band",
       "value": {
         "r": 0.364705890417099,
         "g": 0.6196078658103943,
         "b": 0.3450980484485626,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/success/450",
@@ -1613,14 +1702,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "success status 450 — Mid-Tone band",
       "value": {
         "r": 0.32549020648002625,
         "g": 0.5647059082984924,
         "b": 0.30588236451148987,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/success/500",
@@ -1631,14 +1721,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "success status 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
       "value": {
         "r": 0.2862745225429535,
         "g": 0.5137255191802979,
         "b": 0.2666666805744171,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/success/550",
@@ -1649,14 +1740,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "success status 550 — Mid-Tone band",
       "value": {
         "r": 0.24313725531101227,
         "g": 0.4588235318660736,
         "b": 0.23137255012989044,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/success/600",
@@ -1667,14 +1759,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "success status 600 — Mid-Tone band",
       "value": {
         "r": 0.20392157137393951,
         "g": 0.40392157435417175,
         "b": 0.1921568661928177,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/success/650",
@@ -1685,14 +1778,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "success status 650 — Three-Quarter-Tone band",
       "value": {
         "r": 0.16470588743686676,
         "g": 0.3529411852359772,
         "b": 0.15294118225574493,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/success/700",
@@ -1703,14 +1797,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "success status 700 — Three-Quarter-Tone band",
       "value": {
         "r": 0.12941177189350128,
         "g": 0.30588236451148987,
         "b": 0.11764705926179886,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/success/750",
@@ -1721,14 +1816,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "success status 750 — Three-Quarter-Tone band",
       "value": {
         "r": 0.09019608050584793,
         "g": 0.2549019753932953,
         "b": 0.08235294371843338,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/success/800",
@@ -1739,14 +1835,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "success status 800 — Three-Quarter-Tone band",
       "value": {
         "r": 0.054901961237192154,
         "g": 0.2078431397676468,
         "b": 0.0470588244497776,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/success/850",
@@ -1757,14 +1854,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "success status 850 — Three-Quarter-Tone band",
       "value": {
         "r": 0.019607843831181526,
         "g": 0.16078431904315948,
         "b": 0.01568627543747425,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/success/900",
@@ -1775,14 +1873,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "success status 900 — Three-Quarter-Tone band",
       "value": {
         "r": 0,
         "g": 0.11764705926179886,
         "b": 0,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/success/950",
@@ -1793,14 +1892,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "success status 950 — Shadow band",
       "value": {
         "r": 0,
         "g": 0.07450980693101883,
         "b": 0,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/success/025",
@@ -1811,14 +1911,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "success status 025 — Highlight band",
       "value": {
         "r": 0.95686274766922,
         "g": 0.9725490212440491,
         "b": 0.95686274766922,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/success/050",
@@ -1829,14 +1930,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "success status 050 — Highlight band",
       "value": {
         "r": 0.8470588326454163,
         "g": 0.9450980424880981,
         "b": 0.8392156958580017,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/warning/100",
@@ -1847,14 +1949,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "warning status 100 — Quarter-Tone band",
       "value": {
         "r": 0.9529411792755127,
         "g": 0.8352941274642944,
         "b": 0.7764706015586853,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/warning/150",
@@ -1865,14 +1968,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "warning status 150 — Quarter-Tone band",
       "value": {
         "r": 0.9490196108818054,
         "g": 0.7686274647712708,
         "b": 0.6784313917160034,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/warning/200",
@@ -1883,14 +1987,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "warning status 200 — Quarter-Tone band",
       "value": {
         "r": 0.9450980424880981,
         "g": 0.7019608020782471,
         "b": 0.572549045085907,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/warning/250",
@@ -1901,14 +2006,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "warning status 250 — Quarter-Tone band",
       "value": {
         "r": 0.9411764740943909,
         "g": 0.6274510025978088,
         "b": 0.4627451002597809,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/warning/300",
@@ -1919,14 +2025,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "warning status 300 — Quarter-Tone band",
       "value": {
         "r": 0.9372549057006836,
         "g": 0.5490196347236633,
         "b": 0.33725491166114807,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/warning/350",
@@ -1937,14 +2044,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "warning status 350 — Quarter-Tone band",
       "value": {
         "r": 0.9098039269447327,
         "g": 0.48235294222831726,
         "b": 0.23137255012989044,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/warning/400",
@@ -1955,14 +2063,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "warning status 400 — Mid-Tone band",
       "value": {
         "r": 0.8470588326454163,
         "g": 0.4431372582912445,
         "b": 0.20000000298023224,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/warning/450",
@@ -1973,14 +2082,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "warning status 450 — Mid-Tone band",
       "value": {
         "r": 0.7803921699523926,
         "g": 0.4000000059604645,
         "b": 0.16862745583057404,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/warning/500",
@@ -1991,14 +2101,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "warning status 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
       "value": {
         "r": 0.7176470756530762,
         "g": 0.3607843220233917,
         "b": 0.13725490868091583,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/warning/550",
@@ -2009,14 +2120,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "warning status 550 — Mid-Tone band",
       "value": {
         "r": 0.6470588445663452,
         "g": 0.3137255012989044,
         "b": 0.10196078568696976,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/warning/600",
@@ -2027,14 +2139,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "warning status 600 — Mid-Tone band",
       "value": {
         "r": 0.5764706134796143,
         "g": 0.2705882489681244,
         "b": 0.06666667014360428,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/warning/650",
@@ -2045,14 +2158,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "warning status 650 — Three-Quarter-Tone band",
       "value": {
         "r": 0.5098039507865906,
         "g": 0.22745098173618317,
         "b": 0.0235294122248888,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/warning/700",
@@ -2063,14 +2177,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "warning status 700 — Three-Quarter-Tone band",
       "value": {
         "r": 0.4431372582912445,
         "g": 0.18431372940540314,
         "b": 0,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/warning/750",
@@ -2081,14 +2196,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "warning status 750 — Three-Quarter-Tone band",
       "value": {
         "r": 0.3686274588108063,
         "g": 0.14901961386203766,
         "b": 0,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/warning/800",
@@ -2099,14 +2215,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "warning status 800 — Three-Quarter-Tone band",
       "value": {
         "r": 0.2980392277240753,
         "g": 0.11764705926179886,
         "b": 0,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/warning/850",
@@ -2117,14 +2234,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "warning status 850 — Three-Quarter-Tone band",
       "value": {
         "r": 0.23137255012989044,
         "g": 0.08235294371843338,
         "b": 0,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/warning/900",
@@ -2135,14 +2253,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "warning status 900 — Three-Quarter-Tone band",
       "value": {
         "r": 0.16862745583057404,
         "g": 0.05098039284348488,
         "b": 0,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/warning/950",
@@ -2153,14 +2272,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "warning status 950 — Shadow band",
       "value": {
         "r": 0.10980392247438431,
         "g": 0.0235294122248888,
         "b": 0,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/warning/025",
@@ -2171,14 +2291,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "warning status 025 — Highlight band",
       "value": {
         "r": 0.9882352948188782,
         "g": 0.9607843160629272,
         "b": 0.9490196108818054,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/warning/050",
@@ -2189,14 +2310,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "warning status 050 — Highlight band",
       "value": {
         "r": 0.9647058844566345,
         "g": 0.9019607901573181,
         "b": 0.8705882430076599,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/info/100",
@@ -2207,14 +2329,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "info status 100 — Quarter-Tone band",
       "value": {
         "r": 0.7960784435272217,
         "g": 0.8705882430076599,
         "b": 0.9372549057006836,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/info/150",
@@ -2225,14 +2348,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "info status 150 — Quarter-Tone band",
       "value": {
         "r": 0.7098039388656616,
         "g": 0.8235294222831726,
         "b": 0.9254902005195618,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/info/200",
@@ -2243,14 +2367,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "info status 200 — Quarter-Tone band",
       "value": {
         "r": 0.615686297416687,
         "g": 0.7764706015586853,
         "b": 0.9176470637321472,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/info/250",
@@ -2261,14 +2386,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "info status 250 — Quarter-Tone band",
       "value": {
         "r": 0.5176470875740051,
         "g": 0.729411780834198,
         "b": 0.9098039269447327,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/info/300",
@@ -2279,14 +2405,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "info status 300 — Quarter-Tone band",
       "value": {
         "r": 0.40784314274787903,
         "g": 0.6823529601097107,
         "b": 0.9058823585510254,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/info/350",
@@ -2297,14 +2424,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "info status 350 — Quarter-Tone band",
       "value": {
         "r": 0.29411765933036804,
         "g": 0.6313725709915161,
         "b": 0.8941176533699036,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/info/400",
@@ -2315,14 +2443,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "info status 400 — Mid-Tone band",
       "value": {
         "r": 0.25882354378700256,
         "g": 0.5803921818733215,
         "b": 0.8274509906768799,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/info/450",
@@ -2333,14 +2462,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "info status 450 — Mid-Tone band",
       "value": {
         "r": 0.22745098173618317,
         "g": 0.529411792755127,
         "b": 0.7647058963775635,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/info/500",
@@ -2351,14 +2481,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "info status 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
       "value": {
         "r": 0.1921568661928177,
         "g": 0.48235294222831726,
         "b": 0.6980392336845398,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/info/550",
@@ -2369,14 +2500,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "info status 550 — Mid-Tone band",
       "value": {
         "r": 0.1568627506494522,
         "g": 0.4274509847164154,
         "b": 0.6313725709915161,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/info/600",
@@ -2387,14 +2519,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "info status 600 — Mid-Tone band",
       "value": {
         "r": 0.12156862765550613,
         "g": 0.3764705955982208,
         "b": 0.5647059082984924,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/info/650",
@@ -2405,14 +2538,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "info status 650 — Three-Quarter-Tone band",
       "value": {
         "r": 0.08627451211214066,
         "g": 0.32549020648002625,
         "b": 0.49803921580314636,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/info/700",
@@ -2423,14 +2557,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "info status 700 — Three-Quarter-Tone band",
       "value": {
         "r": 0.05098039284348488,
         "g": 0.27843138575553894,
         "b": 0.43529412150382996,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/info/750",
@@ -2441,14 +2576,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "info status 750 — Three-Quarter-Tone band",
       "value": {
         "r": 0.0117647061124444,
         "g": 0.22745098173618317,
         "b": 0.37254902720451355,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/info/800",
@@ -2459,14 +2595,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "info status 800 — Three-Quarter-Tone band",
       "value": {
         "r": 0,
         "g": 0.18431372940540314,
         "b": 0.30588236451148987,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/info/850",
@@ -2477,14 +2614,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "info status 850 — Three-Quarter-Tone band",
       "value": {
         "r": 0,
         "g": 0.13725490868091583,
         "b": 0.239215686917305,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/info/900",
@@ -2495,14 +2633,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "info status 900 — Three-Quarter-Tone band",
       "value": {
         "r": 0,
         "g": 0.09803921729326248,
         "b": 0.1764705926179886,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/info/950",
@@ -2513,14 +2652,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "info status 950 — Shadow band",
       "value": {
         "r": 0,
         "g": 0.054901961237192154,
         "b": 0.11764705926179886,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/info/025",
@@ -2531,14 +2671,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "info status 025 — Highlight band",
       "value": {
         "r": 0.9529411792755127,
         "g": 0.9686274528503418,
         "b": 0.9843137264251709,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/info/050",
@@ -2549,14 +2690,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "info status 050 — Highlight band",
       "value": {
         "r": 0.8784313797950745,
         "g": 0.9215686321258545,
         "b": 0.95686274766922,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/danger/100",
@@ -2567,14 +2709,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "danger status (brand-supplied) 100 — Quarter-Tone band",
       "value": {
         "r": 0.9490196108818054,
         "g": 0.8352941274642944,
         "b": 0.8274509906768799,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/danger/150",
@@ -2585,14 +2728,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "danger status (brand-supplied) 150 — Quarter-Tone band",
       "value": {
         "r": 0.9372549057006836,
         "g": 0.7686274647712708,
         "b": 0.7607843279838562,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/danger/200",
@@ -2603,14 +2747,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "danger status (brand-supplied) 200 — Quarter-Tone band",
       "value": {
         "r": 0.9254902005195618,
         "g": 0.7019608020782471,
         "b": 0.6901960968971252,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/danger/250",
@@ -2621,14 +2766,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "danger status (brand-supplied) 250 — Quarter-Tone band",
       "value": {
         "r": 0.9176470637321472,
         "g": 0.6313725709915161,
         "b": 0.6196078658103943,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/danger/300",
@@ -2639,14 +2785,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "danger status (brand-supplied) 300 — Quarter-Tone band",
       "value": {
         "r": 0.9058823585510254,
         "g": 0.5607843399047852,
         "b": 0.5490196347236633,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/danger/350",
@@ -2657,14 +2804,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "danger status (brand-supplied) 350 — Quarter-Tone band",
       "value": {
         "r": 0.8941176533699036,
         "g": 0.48235294222831726,
         "b": 0.47843137383461,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/danger/400",
@@ -2675,14 +2823,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "danger status (brand-supplied) 400 — Mid-Tone band",
       "value": {
         "r": 0.8823529481887817,
         "g": 0.40392157435417175,
         "b": 0.40392157435417175,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/danger/450",
@@ -2693,14 +2842,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "danger status (brand-supplied) 450 — Mid-Tone band",
       "value": {
         "r": 0.8588235378265381,
         "g": 0.32156863808631897,
         "b": 0.33725491166114807,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/danger/500",
@@ -2711,14 +2861,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "danger status (brand-supplied) 500 — Mid-Tone band — mid-tone AA pivot (≥4.5:1 on white & black)",
       "value": {
         "r": 0.7921568751335144,
         "g": 0.2862745225429535,
         "b": 0.3019607961177826,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/danger/550",
@@ -2729,14 +2880,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "danger status (brand-supplied) 550 — Mid-Tone band",
       "value": {
         "r": 0.7137255072593689,
         "g": 0.24705882370471954,
         "b": 0.26274511218070984,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/danger/600",
@@ -2747,14 +2899,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "danger status (brand-supplied) 600 — Mid-Tone band",
       "value": {
         "r": 0.6352941393852234,
         "g": 0.2078431397676468,
         "b": 0.2235294133424759,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/danger/650",
@@ -2765,14 +2918,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "danger status (brand-supplied) 650 — Three-Quarter-Tone band",
       "value": {
         "r": 0.5607843399047852,
         "g": 0.16862745583057404,
         "b": 0.18431372940540314,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/danger/700",
@@ -2783,14 +2937,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "danger status (brand-supplied) 700 — Three-Quarter-Tone band",
       "value": {
         "r": 0.48627451062202454,
         "g": 0.12941177189350128,
         "b": 0.14901961386203766,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/danger/750",
@@ -2801,14 +2956,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "danger status (brand-supplied) 750 — Three-Quarter-Tone band",
       "value": {
         "r": 0.4156862795352936,
         "g": 0.09019608050584793,
         "b": 0.11372549086809158,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/danger/800",
@@ -2819,14 +2975,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "danger status (brand-supplied) 800 — Three-Quarter-Tone band",
       "value": {
         "r": 0.3450980484485626,
         "g": 0.05098039284348488,
         "b": 0.0784313753247261,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/danger/850",
@@ -2837,14 +2994,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "danger status (brand-supplied) 850 — Three-Quarter-Tone band",
       "value": {
         "r": 0.27843138575553894,
         "g": 0.0117647061124444,
         "b": 0.04313725605607033,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/danger/900",
@@ -2855,14 +3013,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "danger status (brand-supplied) 900 — Three-Quarter-Tone band",
       "value": {
         "r": 0.2078431397676468,
         "g": 0,
         "b": 0.019607843831181526,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/danger/950",
@@ -2873,14 +3032,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "danger status (brand-supplied) 950 — Shadow band",
       "value": {
         "r": 0.13725490868091583,
         "g": 0,
         "b": 0.007843137718737125,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/danger/025",
@@ -2891,14 +3051,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "danger status (brand-supplied) 025 — Highlight band",
       "value": {
         "r": 0.9921568632125854,
         "g": 0.9607843160629272,
         "b": 0.95686274766922,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/danger/050",
@@ -2909,14 +3070,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "danger status (brand-supplied) 050 — Highlight band",
       "value": {
         "r": 0.9647058844566345,
         "g": 0.8980392217636108,
         "b": 0.8941176533699036,
         "a": 1
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/black-alpha/5",
@@ -2927,14 +3089,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Black alpha 5% — alpha, composites over any surface",
       "value": {
         "r": 0,
         "g": 0,
         "b": 0,
         "a": 0.05098039284348488
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/black-alpha/10",
@@ -2945,14 +3108,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Black alpha 10% — alpha, composites over any surface",
       "value": {
         "r": 0,
         "g": 0,
         "b": 0,
         "a": 0.10196078568696976
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/black-alpha/20",
@@ -2963,14 +3127,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Black alpha 20% — alpha, composites over any surface",
       "value": {
         "r": 0,
         "g": 0,
         "b": 0,
         "a": 0.20000000298023224
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/black-alpha/30",
@@ -2981,14 +3146,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Black alpha 30% — alpha, composites over any surface",
       "value": {
         "r": 0,
         "g": 0,
         "b": 0,
         "a": 0.3019607961177826
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/black-alpha/40",
@@ -2999,14 +3165,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Black alpha 40% — alpha, composites over any surface",
       "value": {
         "r": 0,
         "g": 0,
         "b": 0,
         "a": 0.4000000059604645
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/black-alpha/50",
@@ -3017,14 +3184,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Black alpha 50% — alpha, composites over any surface",
       "value": {
         "r": 0,
         "g": 0,
         "b": 0,
         "a": 0.501960813999176
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/black-alpha/60",
@@ -3035,14 +3203,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Black alpha 60% — alpha, composites over any surface",
       "value": {
         "r": 0,
         "g": 0,
         "b": 0,
         "a": 0.6000000238418579
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/black-alpha/70",
@@ -3053,14 +3222,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Black alpha 70% — alpha, composites over any surface",
       "value": {
         "r": 0,
         "g": 0,
         "b": 0,
         "a": 0.7019608020782471
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/black-alpha/80",
@@ -3071,14 +3241,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Black alpha 80% — alpha, composites over any surface",
       "value": {
         "r": 0,
         "g": 0,
         "b": 0,
         "a": 0.800000011920929
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/black-alpha/90",
@@ -3089,14 +3260,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "Black alpha 90% — alpha, composites over any surface",
       "value": {
         "r": 0,
         "g": 0,
         "b": 0,
         "a": 0.9019607901573181
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/white-alpha/5",
@@ -3107,14 +3279,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "White alpha 5% — alpha, composites over any surface",
       "value": {
         "r": 1,
         "g": 1,
         "b": 1,
         "a": 0.05098039284348488
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/white-alpha/10",
@@ -3125,14 +3298,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "White alpha 10% — alpha, composites over any surface",
       "value": {
         "r": 1,
         "g": 1,
         "b": 1,
         "a": 0.10196078568696976
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/white-alpha/20",
@@ -3143,14 +3317,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "White alpha 20% — alpha, composites over any surface",
       "value": {
         "r": 1,
         "g": 1,
         "b": 1,
         "a": 0.20000000298023224
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/white-alpha/30",
@@ -3161,14 +3336,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "White alpha 30% — alpha, composites over any surface",
       "value": {
         "r": 1,
         "g": 1,
         "b": 1,
         "a": 0.3019607961177826
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/white-alpha/40",
@@ -3179,14 +3355,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "White alpha 40% — alpha, composites over any surface",
       "value": {
         "r": 1,
         "g": 1,
         "b": 1,
         "a": 0.4000000059604645
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/white-alpha/50",
@@ -3197,14 +3374,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "White alpha 50% — alpha, composites over any surface",
       "value": {
         "r": 1,
         "g": 1,
         "b": 1,
         "a": 0.501960813999176
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/white-alpha/60",
@@ -3215,14 +3393,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "White alpha 60% — alpha, composites over any surface",
       "value": {
         "r": 1,
         "g": 1,
         "b": 1,
         "a": 0.6000000238418579
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/white-alpha/70",
@@ -3233,14 +3412,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "White alpha 70% — alpha, composites over any surface",
       "value": {
         "r": 1,
         "g": 1,
         "b": 1,
         "a": 0.7019608020782471
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/white-alpha/80",
@@ -3251,14 +3431,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "White alpha 80% — alpha, composites over any surface",
       "value": {
         "r": 1,
         "g": 1,
         "b": 1,
         "a": 0.800000011920929
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "palette/white-alpha/90",
@@ -3269,14 +3450,15 @@
         "TEXT_FILL",
         "STROKE_COLOR"
       ],
-      "description": "",
+      "description": "White alpha 90% — alpha, composites over any surface",
       "value": {
         "r": 1,
         "g": 1,
         "b": 1,
         "a": 0.9019607901573181
       },
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     }
   ]
 }
