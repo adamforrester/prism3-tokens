@@ -129,6 +129,7 @@ export const button: ComponentDef = {
     wcag: ['1.4.11 Non-text Contrast (the focus ring + boundary ≥ 3:1)', '2.4.7 Focus Visible', '2.4.13 Focus Appearance', '2.5.3 Label in Name', '2.5.5 / 2.5.8 Target Size', '4.1.2 Name/Role/Value'],
     keyboard: 'Native <button>: Enter activates on keydown, Space on keyup. (This asymmetry vs a link — which activates on Enter only, Space scrolls — is exactly why a navigating "button" must be a real link.)',
     focus: 'A :focus-visible ring (color.border.focus) with an outline-offset so a sliver of background separates ring from border — it must NOT blend into the button\'s own fill (WCAG 1.4.11, target 3:1). Never suppressed. Focus is RETAINED through pending and inactive (aria-disabled, not native disabled).',
+    aria: 'State attributes are distinct, not interchangeable: aria-pressed only for a toggle-button; aria-expanded (+ aria-haspopup) for a menu/disclosure trigger; aria-checked only for the switch role. Do not conflate them. Busy: while isPending, set aria-busy and announce via a polite live region ("Saving…") since a spinner is invisible to assistive tech; keep the control focusable so the busy state is discoverable. isInactive/isPending use aria-disabled (not native disabled) so focus and the explanatory name/description stay reachable.',
   },
 
   content: {
@@ -182,9 +183,9 @@ export const button: ComponentDef = {
       'intent bundles hierarchy + tone, so a low-emphasis destructive ("quiet Delete") is expressed as intent=danger appearance=plain rather than a fully orthogonal emphasis×tone split.',
     ],
     unverified: [
-      'FINDING (token layer): the neutral secondary.solid fill (foreground.secondary) has no hover/pressed/disabled states — only action (primary) and foreground.danger carry interaction states. A solid secondary button cannot express hover today.',
-      'FINDING (token layer): no type.label.lg composite — large buttons reuse type.label.md.',
-      'FINDING (engine): the focus-ring 3:1 non-text contrast (1.4.11) is asserted here but not yet engine-verified — that is the next contract to add (owner-approved).',
+      'FINDING (token layer, HIGH — affects the DEFAULT button): interaction states (hover/pressed) exist ONLY on the two solid semantic roles, action (primary) and foreground.danger. Every neutral / non-solid role — foreground.secondary, and the brand/danger/neutral text + border roles used by outline & plain — is a single flat value. So NO outline or plain variant of any intent, AND solid secondary, can express hover/pressed. Because the component default is intent=secondary + appearance=solid, the default button is itself hover-less. Blocks `stable`; the fix is a token-engine job (generate interaction states for the neutral + non-solid roles).',
+      'FINDING (token layer): no type.label.lg composite — large buttons reuse type.label.md (large differs from medium only in height/padding, not type scale).',
+      'FINDING (engine): the focus-ring 3:1 non-text contrast (1.4.11) is asserted here but not yet engine-verified — the next contract to add (owner-approved).',
     ],
   },
 };

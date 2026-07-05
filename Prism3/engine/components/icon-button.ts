@@ -27,7 +27,7 @@ export const iconButton: ComponentDef = {
   // Delta from Button: the label becomes an icon; the name moves to a required accessible name.
   props: [
     { name: 'icon', type: 'slot', required: true, description: 'The single icon. Rendered aria-hidden — the IconButton owns the name.' },
-    { name: 'aria-label', type: 'string', required: true, description: 'REQUIRED accessible name (there is no visible text). A verb naming the action ("Close", "More actions"). Enforced at the type level; a dev warning fires if absent.' },
+    { name: 'aria-label', type: 'string', required: true, description: 'REQUIRED accessible name (there is no visible text). A verb naming the action ("Close", "More actions"). Enforced at the TYPE LEVEL — a missing name is a compile error, not merely a runtime warning; that type-level requirement is the entire reason IconButton is a separate component.' },
     { name: 'intent', type: "enum: 'primary' | 'secondary' | 'danger' | 'ghost'", values: ['primary', 'secondary', 'danger', 'ghost'], default: 'secondary', required: false, description: 'Inherited from Button. Icon-only actions are most often secondary/ghost.' },
     { name: 'appearance', type: "enum: 'solid' | 'outline' | 'plain'", values: ['solid', 'outline', 'plain'], default: 'plain', required: false, description: 'Default plain — icon-only actions usually sit in toolbars, not as filled CTAs.' },
     { name: 'size', type: "enum: 'small' | 'medium' | 'large'", values: ['small', 'medium', 'large'], default: 'medium', required: false, description: 'Square control; height drives both dimensions.' },
@@ -56,10 +56,24 @@ export const iconButton: ComponentDef = {
     'size.small.side': 'size.sm.height',
     'size.medium.side': 'size.md.height',
     'size.large.side': 'size.lg.height',
-    // most common icon-button skins (rest inherited from Button)
-    'secondary.plain.icon': 'color.icon.primary',
+    // FULL intent × appearance icon skin, bound EXPLICITLY. The icon-glyph skin differs from
+    // Button's fill+label skin, so it is not merged from the parent — `inherits: button` here
+    // denotes API/behaviour/state inheritance, NOT a token merge. (Same interaction-state gap
+    // as Button applies: only the solid action/danger roles carry hover/pressed — see button notes.)
     'primary.solid.fill': 'color.action.default',
     'primary.solid.icon': 'color.icon.on-action',
+    'primary.outline.border': 'color.border.brand',
+    'primary.outline.icon': 'color.icon.brand',
+    'primary.plain.icon': 'color.icon.brand',
+    'secondary.solid.fill': 'color.foreground.secondary',
+    'secondary.solid.icon': 'color.icon.primary',
+    'secondary.outline.border': 'color.border.secondary',
+    'secondary.outline.icon': 'color.icon.primary',
+    'secondary.plain.icon': 'color.icon.primary',
+    'danger.solid.fill': 'color.foreground.danger.default',
+    'danger.solid.icon': 'color.icon.on-danger',
+    'danger.outline.border': 'color.border.danger',
+    'danger.outline.icon': 'color.icon.danger',
     'danger.plain.icon': 'color.icon.danger',
     'icon.disabled': 'color.icon.disabled',
   },
@@ -69,6 +83,7 @@ export const iconButton: ComponentDef = {
     wcag: ['4.1.2 Name/Role/Value (the mandatory accessible name)', '2.5.3 Label in Name', '1.4.11 Non-text Contrast (focus ring ≥ 3:1; AND the icon glyph itself ≥ 3:1 against its background)', '2.4.7 Focus Visible', '2.5.5 / 2.5.8 Target Size (icon-only buttons are the most likely to fail the 24×24 / 44×44 floor — expand the hit area beyond the optical size)'],
     keyboard: 'Native <button> — Enter on keydown, Space on keyup. Identical to Button.',
     focus: 'Same offset :focus-visible ring as Button; retained through pending/inactive.',
+    aria: 'aria-label is the accessible name (required). If it triggers a menu, add aria-haspopup + aria-expanded; aria-pressed only if it is a toggle. While isPending, set aria-busy and keep it focusable. Do NOT put a tooltip on a natively-disabled icon button (unreachable) — use isInactive so the reason stays reachable.',
   },
 
   content: {
