@@ -123,11 +123,15 @@ export const parseColor = (v: unknown): FigmaColor => {
     const p = m[1].split(',').map((x) => parseFloat(x.trim()));
     return { r: Math.fround(p[0] / 255), g: Math.fround(p[1] / 255), b: Math.fround(p[2] / 255), a: Math.fround(p[3] ?? 1) };
   }
-  const h = s.replace(/^#/, '');
-  if (/^[0-9a-f]{6}$/i.test(h)) {
-    return { r: Math.fround(parseInt(h.slice(0, 2), 16) / 255), g: Math.fround(parseInt(h.slice(2, 4), 16) / 255), b: Math.fround(parseInt(h.slice(4, 6), 16) / 255), a: 1 };
-  }
-  return { r: 0, g: 0, b: 0, a: 1 };
+  let h = s.replace(/^#/, '').toLowerCase();
+  if (/^[0-9a-f]{3}$/.test(h)) h = h.split('').map((c) => c + c).join('');   // #f00 → ff0000 (M-08)
+  const byte = (i: number) => Math.fround(parseInt(h.slice(i, i + 2), 16) / 255);
+  if (/^[0-9a-f]{6}$/.test(h)) return { r: byte(0), g: byte(2), b: byte(4), a: 1 };
+  if (/^[0-9a-f]{8}$/.test(h)) return { r: byte(0), g: byte(2), b: byte(4), a: byte(6) }; // #RRGGBBAA
+  // M-08: loud-fail instead of a silent {0,0,0,1}. An unresolvable alias target
+  // (`parseColor(undefined)`) or a malformed colour would otherwise ship as a BLACK
+  // swatch carrying a dangling alias — exactly the silent degradation the emitter must not do.
+  throw new Error(`emit-figma parseColor: cannot parse colour '${s}' — expected #hex (3/6/8) or rgb()/rgba(); an unresolved alias or malformed value reached the emitter`);
 };
 
 /** Every leaf under a subtree, as [dotted-path-from-tree-root, leaf]. */

@@ -25,7 +25,7 @@ import { leverManifest, leverGroups, buildLeverManifest, identityFields } from '
 import { previewSpec, previewTokenRefs, buildPreviewSpec } from './preview';
 import { resolvePreview } from './resolve-preview';
 import { exampleBrands, exampleBrandsJson, EXAMPLE_IDS } from './emit-brandinput';
-import { buildFigmaColor, buildFigmaFont, buildFigmaFontFluid, buildFigmaTextStyles, buildFigmaDims, buildFigmaLayout, buildFigmaShadow, buildFigmaGradient, fontStyleName, figName, COLOR_MODES, FONT_FLUID_MODES, LAYOUT_MODES } from './emit-figma';
+import { buildFigmaColor, buildFigmaFont, buildFigmaFontFluid, buildFigmaTextStyles, buildFigmaDims, buildFigmaLayout, buildFigmaShadow, buildFigmaGradient, fontStyleName, figName, parseColor, COLOR_MODES, FONT_FLUID_MODES, LAYOUT_MODES } from './emit-figma';
 import { buildTree, validateBrandInput } from './emit-dtcg';
 import { buildAiMetadata } from './ai-metadata';
 import { handleRpc, callTool, toolDefs } from './mcp';
@@ -1852,6 +1852,40 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
     if (JSON.stringify(dv.scopes) !== JSON.stringify(wv.scopes)) shapeDrift.push(`${dv.name}: scopes ${dv.scopes.join(',')} vs ${wv.scopes.join(',')}`);
   }
   ok(shapeDrift.length === 0, `emit-figma wireframe: opting in preserves Default-mode radius byte-shape (name/value/alias/scopes)` + (shapeDrift.length ? ` — ${shapeDrift.slice(0, 3).join('; ')}` : ''));
+}
+
+// ---------------------------------------------------- M-08: parseColor loud-fail + hex forms
+// parseColor used to return a silent {0,0,0,1} BLACK for anything it couldn't parse —
+// so an unresolvable alias target (`parseColor(undefined)`) or a malformed value would
+// ship a black swatch carrying a dangling alias. Now it (a) handles 3-digit and 8-digit
+// hex, and (b) THROWS on genuinely unparseable input rather than degrading to black.
+{
+  const eq = (a: any, b: any) => a.r === b.r && a.g === b.g && a.b === b.b && a.a === b.a;
+
+  // 3-digit hex expands like CSS: #f00 → #ff0000.
+  ok(eq(parseColor('#f00'), parseColor('#ff0000')), 'M-08: 3-digit hex #f00 expands to #ff0000');
+  ok(eq(parseColor('#abc'), parseColor('#aabbcc')), 'M-08: 3-digit hex #abc expands to #aabbcc');
+
+  // 8-digit hex carries the alpha byte.
+  const withAlpha = parseColor('#12345678');
+  ok(withAlpha.a === Math.fround(0x78 / 255), `M-08: 8-digit hex #RRGGBBAA parses alpha (got a=${withAlpha.a})`);
+  ok(withAlpha.r === Math.fround(0x12 / 255) && withAlpha.g === Math.fround(0x34 / 255) && withAlpha.b === Math.fround(0x56 / 255), 'M-08: 8-digit hex parses RGB alongside alpha');
+
+  // 6-digit hex + rgb()/rgba() still work (no regression).
+  ok(eq(parseColor('#ffffff'), { r: 1, g: 1, b: 1, a: 1 }), 'M-08: 6-digit hex still parses');
+  ok(parseColor('rgba(0, 0, 0, 0.6)').a === Math.fround(0.6), 'M-08: rgba() alpha still parses');
+  ok(parseColor('rgb(255, 0, 0)').r === 1, 'M-08: rgb() still parses');
+
+  // The load-bearing change: unparseable input THROWS (loud-fail), never a silent black.
+  const throws = (v: unknown, label: string) => {
+    let threw = false;
+    try { parseColor(v); } catch { threw = true; }
+    ok(threw, `M-08: parseColor(${label}) THROWS instead of returning silent black`);
+  };
+  throws(undefined, 'undefined');           // the unresolvable-alias path (targetLeaf?.$value)
+  throws('{prism.color.action.default}', 'an unresolved brace alias'); // a raw alias reaching the emitter
+  throws('not-a-colour', 'garbage');
+  throws('#ff', '2-digit hex');             // not a valid hex length
 }
 
 // ---------------------------------------------------- MCP adapter (docs/08 §5, roadmap C)
