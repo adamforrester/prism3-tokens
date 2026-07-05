@@ -33,6 +33,7 @@ import { scoreConsumption, scoreContractCompliance, tokenPaths, normalizeRef, is
 import { runEval, buildPrompt, extractRefs, extractPairs, SAMPLE_TASKS } from './eval-run';
 import { validateComponentDef, ComponentDef } from './component-schema';
 import { button } from './components/button';
+import { iconButton } from './components/icon-button';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { resolve, dirname } from 'node:path';
@@ -2222,18 +2223,27 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
 // brand-INVARIANT structure bound to a VERIFIED contract (docs/14 §2), not observed values:
 // build the def once, every brand materialises because the bindings resolve through roles.
 {
-  const s = validateComponentDef(button);
-  ok(s.errors.length === 0, `component: Button def is structurally valid${s.errors.length ? ' — ' + s.errors.join('; ') : ''}`);
-
   const nbT = nbTheme();
   const nbTree = buildTree(nbT).tree;
   const auroraT = brandTheme(parseDesignMd(readFileSync(resolve(HERE, '../examples/aurora.design.md'), 'utf8')).input);
   const auroraTree = buildTree(auroraT).tree;
-  const vnb = validateComponentDef(button, nbTree, nbT.root);
-  const vau = validateComponentDef(button, auroraTree, auroraT.root);
-  ok(vnb.errors.length === 0, `component: every Button token binding resolves in nb${vnb.errors.length ? ' — ' + vnb.errors.join('; ') : ''}`);
-  ok(vau.errors.length === 0, `component: every Button token binding resolves in aurora${vau.errors.length ? ' — ' + vau.errors.join('; ') : ''}`);
-  ok(vnb.warnings.length === 0 && vau.warnings.length === 0, `component: Button binds only semantic roles, no primitive-tier leak${[...vnb.warnings, ...vau.warnings].length ? ' — ' + [...vnb.warnings, ...vau.warnings].join('; ') : ''}`);
+
+  // Both calibration defs: structurally valid, and every token binding resolves across TWO
+  // brands (build-once / materialise-everywhere), binding only semantic roles (no primitive leak).
+  for (const [name, def] of [['Button', button], ['IconButton', iconButton]] as [string, ComponentDef][]) {
+    const s = validateComponentDef(def);
+    ok(s.errors.length === 0, `component: ${name} def is structurally valid${s.errors.length ? ' — ' + s.errors.join('; ') : ''}`);
+    const vnb = validateComponentDef(def, nbTree, nbT.root);
+    const vau = validateComponentDef(def, auroraTree, auroraT.root);
+    ok(vnb.errors.length === 0, `component: every ${name} token binding resolves in nb${vnb.errors.length ? ' — ' + vnb.errors.join('; ') : ''}`);
+    ok(vau.errors.length === 0, `component: every ${name} token binding resolves in aurora${vau.errors.length ? ' — ' + vau.errors.join('; ') : ''}`);
+    ok(vnb.warnings.length === 0 && vau.warnings.length === 0, `component: ${name} binds only semantic roles, no primitive-tier leak${[...vnb.warnings, ...vau.warnings].length ? ' — ' + [...vnb.warnings, ...vau.warnings].join('; ') : ''}`);
+  }
+
+  // Button v1 carries the practice's resolved model: two-axis intent × appearance, secondary default.
+  ok(button.props.find((p) => p.name === 'intent')?.default === 'secondary', 'component: Button intent defaults to secondary (one primary per view)');
+  ok(!!button.props.find((p) => p.name === 'appearance'), 'component: Button carries the appearance axis (two-axis model, not a single variant enum)');
+  ok(iconButton.inherits === 'button' && !!iconButton.props.find((p) => p.name === 'aria-label')?.required, 'component: IconButton inherits button + REQUIRES an accessible name');
 
   // The drift gate bites: a broken def is caught (missing avoid_when + an unresolvable binding).
   const broken = { ...button, ai: { ...button.ai, avoidWhen: '' }, tokens: { ...button.tokens, bogus: 'color.nope.nope' } } as ComponentDef;
