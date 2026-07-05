@@ -31,6 +31,8 @@ import { buildAiMetadata } from './ai-metadata';
 import { handleRpc, callTool, toolDefs } from './mcp';
 import { scoreConsumption, scoreContractCompliance, tokenPaths, normalizeRef, isPrimitiveRef, PRIMITIVE_TIERS } from './eval';
 import { runEval, buildPrompt, extractRefs, extractPairs, SAMPLE_TASKS } from './eval-run';
+import { validateComponentDef, ComponentDef } from './component-schema';
+import { button } from './components/button';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { resolve, dirname } from 'node:path';
@@ -2212,6 +2214,32 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   const first = JSON.stringify(buildFigmaColor(theme).palette);
   const second = JSON.stringify(buildFigmaColor(theme).palette);
   ok(first === second, 'figma palette: emit is deterministic (regeneration byte-identical)');
+}
+
+// ----------------------------------------- component-definition schema (docs/14 §2, DRAFT v0)
+// Button, the first component def, validated against component-schema.ts — and its token
+// bindings resolved against TWO brands' generated trees. That proves the definition is
+// brand-INVARIANT structure bound to a VERIFIED contract (docs/14 §2), not observed values:
+// build the def once, every brand materialises because the bindings resolve through roles.
+{
+  const s = validateComponentDef(button);
+  ok(s.errors.length === 0, `component: Button def is structurally valid${s.errors.length ? ' — ' + s.errors.join('; ') : ''}`);
+
+  const nbT = nbTheme();
+  const nbTree = buildTree(nbT).tree;
+  const auroraT = brandTheme(parseDesignMd(readFileSync(resolve(HERE, '../examples/aurora.design.md'), 'utf8')).input);
+  const auroraTree = buildTree(auroraT).tree;
+  const vnb = validateComponentDef(button, nbTree, nbT.root);
+  const vau = validateComponentDef(button, auroraTree, auroraT.root);
+  ok(vnb.errors.length === 0, `component: every Button token binding resolves in nb${vnb.errors.length ? ' — ' + vnb.errors.join('; ') : ''}`);
+  ok(vau.errors.length === 0, `component: every Button token binding resolves in aurora${vau.errors.length ? ' — ' + vau.errors.join('; ') : ''}`);
+  ok(vnb.warnings.length === 0 && vau.warnings.length === 0, `component: Button binds only semantic roles, no primitive-tier leak${[...vnb.warnings, ...vau.warnings].length ? ' — ' + [...vnb.warnings, ...vau.warnings].join('; ') : ''}`);
+
+  // The drift gate bites: a broken def is caught (missing avoid_when + an unresolvable binding).
+  const broken = { ...button, ai: { ...button.ai, avoidWhen: '' }, tokens: { ...button.tokens, bogus: 'color.nope.nope' } } as ComponentDef;
+  const vb = validateComponentDef(broken, nbTree, nbT.root);
+  ok(vb.errors.some((e) => /avoidWhen/.test(e)), 'component: missing ai.avoidWhen fails the gate');
+  ok(vb.errors.some((e) => /bogus/.test(e) && /does not resolve/.test(e)), 'component: a broken token binding fails the gate');
 }
 
 // ------------------------------------------------------------------- report
