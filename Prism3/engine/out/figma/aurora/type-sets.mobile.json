@@ -1,6 +1,6 @@
 {
-  "$collection": "font-fluid",
-  "$mode": "desktop",
+  "$collection": "type-sets",
+  "$mode": "mobile",
   "variables": [
     {
       "name": "font-fluid/display/sm/strong",
@@ -9,7 +9,7 @@
         "FONT_SIZE"
       ],
       "description": "",
-      "value": 56,
+      "value": 40,
       "alias": null
     },
     {
@@ -19,7 +19,7 @@
         "FONT_SIZE"
       ],
       "description": "",
-      "value": 72,
+      "value": 40,
       "alias": null
     },
     {
@@ -29,7 +29,7 @@
         "FONT_SIZE"
       ],
       "description": "",
-      "value": 96,
+      "value": 48,
       "alias": null
     },
     {
@@ -39,7 +39,7 @@
         "FONT_SIZE"
       ],
       "description": "",
-      "value": 112,
+      "value": 48,
       "alias": null
     },
     {
@@ -49,7 +49,7 @@
         "FONT_SIZE"
       ],
       "description": "",
-      "value": 24,
+      "value": 20,
       "alias": null
     },
     {
@@ -59,7 +59,7 @@
         "FONT_SIZE"
       ],
       "description": "",
-      "value": 28,
+      "value": 24,
       "alias": null
     },
     {
@@ -69,7 +69,7 @@
         "FONT_SIZE"
       ],
       "description": "",
-      "value": 32,
+      "value": 28,
       "alias": null
     },
     {
@@ -79,7 +79,7 @@
         "FONT_SIZE"
       ],
       "description": "",
-      "value": 36,
+      "value": 32,
       "alias": null
     },
     {
@@ -89,7 +89,7 @@
         "FONT_SIZE"
       ],
       "description": "",
-      "value": 48,
+      "value": 40,
       "alias": null
     }
   ]

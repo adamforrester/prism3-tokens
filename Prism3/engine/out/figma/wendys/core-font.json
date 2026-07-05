@@ -1,5 +1,5 @@
 {
-  "$collection": "font",
+  "$collection": "core-font",
   "$mode": "Default",
   "variables": [
     {
@@ -8,8 +8,8 @@
       "scopes": [
         "FONT_FAMILY"
       ],
-      "description": "stack: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif",
-      "value": "Inter",
+      "description": "stack: wendysFresh, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif",
+      "value": "wendysFresh",
       "alias": null
     },
     {
@@ -18,8 +18,8 @@
       "scopes": [
         "FONT_FAMILY"
       ],
-      "description": "stack: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif",
-      "value": "Inter",
+      "description": "stack: Roboto, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif",
+      "value": "Roboto",
       "alias": null
     },
     {
