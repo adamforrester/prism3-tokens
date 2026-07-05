@@ -156,8 +156,34 @@ here or a merged PR. Test count is **542/542** as of the sweep close.
    as with/without-surface); **(ii)** a skill fills the exact **docs/13 gap** — Astryx's `agent-docs`
    injection + the `.ai.json` "no discovery layer; the sidecar is only useful to an agent that knows it
    exists" note. And it slots into the existing chain: `brand-skills` (extract → `design.md`) → Prism3
-   (tokens) → a `prism3-consume` skill (tokens → compliant UI). **Deferred — natural home is the
-   component/agent-surface phase; the eval makes it testable when it lands.**
+   (tokens) → a `prism3-consume` skill (tokens → compliant UI). **✅ BOTH BUILT (2026-07-05):**
+   `prism3-consume` (a) — measured by the eval's with-skill arm (100% compliance, see the decisions log +
+   docs/17 §5); `prism3-theme` (b) — verified by the cold-agent compile loop (two fresh briefs compiled
+   first-try clean, all 248 contracts holding). Skill placement (this repo vs. distributable) remains open.**
+
+---
+
+- **`prism3-theme` authoring skill + cold-agent compile verification (`Prism3/skills/prism3-theme/SKILL.md`,
+  2026-07-05).** Backlog #6 **(b)** built and verified — the *authoring* counterpart to `prism3-consume`,
+  completing the two-skill story. A portable SKILL teaches an agent to turn a brand brief into a compiling
+  `design.md`: the input contract (required `id`/`primary`(OKLCH)/`neutral`; the lever table with schema
+  enums), the **discipline** (pin the brand's exact anchors in OKLCH and let the engine derive
+  ramps/modes/contrast — never hand-author steps; omit a lever → its default = the plain-spec guarantee;
+  adjective → lever mapping), and the **compile loop** (run `cli.ts`, read the contract results
+  `aliases N/N | contracts M/M` + the notes, fix the *input* on a failed contract, re-run). Grounds itself
+  in `schema/theme-schema.json` + the two example briefs (aurora maximal / harbor minimal) rather than
+  duplicating them. **Verified with a hard pass/fail:** two cold `general-purpose` subagents, each given
+  only the skill + the referenced examples/schema, authored a `design.md` from a fresh brief (**ember** —
+  warm red-orange food-delivery, action-on-hero, one gradient; **sage** — muted-green wellness, tinted
+  warm canvas, brand-supplied status, system fonts). Both **compiled first-try clean via `cli.ts`, exit 0,
+  all 248 mode-contrast contracts holding** (ember 651/651 aliases, sage 640/640). Notably ember's warm
+  red-orange landed in red territory so the engine folded `danger` into the primary palette + noted it —
+  the "declare identity, engine derives system" contract working without the agent needing to know.
+  **Pure docs/skill — no engine code, `out/*` byte-identical, `test.ts` unchanged (626).** The ember/sage
+  briefs were throwaway verification (not committed as gated examples — that'd be a separate scope change
+  to `emit-dtcg`; aurora/harbor already gate the CLI). **Placement OPEN** (same as #6a, flagged in the PR):
+  the skill lives in `prism3-tokens` for now. Closes backlog #6 (both skills built); a larger multi-brand
+  eval sample + wiring the authoring loop into a measured harness remain the refinements.
 
 ---
 
