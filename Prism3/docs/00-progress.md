@@ -163,6 +163,25 @@ here or a merged PR. Test count is **542/542** as of the sweep close.
 
 ---
 
+- **Figma plugin & host architecture grounding (`docs/18-plugin-and-host-architecture.md`, 2026-07-05).**
+  A capability-grounding doc ahead of the plugin build (owner deferred the build itself past the long
+  weekend; wants the web UI QA'd + the architecture pinned first). Sourced from the current Figma Plugin
+  API docs. Nails: the **two-context execution model** (sandbox main thread = `figma.*` + document but no
+  DOM/network; UI iframe = DOM/network but no `figma.*`; message-passing between) and how it maps onto our
+  hosts — the engine core + control UI + preview run in the **iframe** (same code as the web dashboard),
+  the **main thread is a thin variable/node writer** (the only plugin-specific tier), so `08 §3`'s shared
+  layer lands exactly on the thread boundary. Documents the writable API surface (variables: create /
+  addMode / setValueForMode / alias / bind; components: createComponent / combineAsVariants /
+  `SLOT` property = the KB §15 slot contract) and the hard boundary (behaviour / a11y / motion / non-visual
+  config are **not canvas-representable** — they live in code, which is what "lossy" actually meant; the
+  canvas *build* from data is reliable). **Offline `.fig` ruled OUT** (closed format, no reliable writer) —
+  the only reliable route onto the canvas is the Plugin API / Figma MCP. Adds the primitive-token vs.
+  headless-primitive terminology guard. Cross-ref added from `08 §5`. Pure docs — no code, `out/*`
+  untouched, `test.ts` unchanged (626). Complements `14` (component layer) — this is the *host capability*
+  half, `14` is the *component-data* half.
+
+---
+
 - **`prism3-theme` authoring skill + cold-agent compile verification (`Prism3/skills/prism3-theme/SKILL.md`,
   2026-07-05).** Backlog #6 **(b)** built and verified — the *authoring* counterpart to `prism3-consume`,
   completing the two-skill story. A portable SKILL teaches an agent to turn a brand brief into a compiling

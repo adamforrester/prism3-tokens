@@ -99,6 +99,10 @@ who consumes them, so materialising into Figma has two parallel routes:
 - **Agentic:** the **Figma MCP** writes variables/modes directly — an agent
   materialises with no plugin UI at all (generate → MCP applies).
 
+For the plugin's *capability* grounding — the two-thread execution model that decides
+which code is shared vs. adapter-specific, the variable/component API surface, and why an
+offline `.fig` is ruled out on reliability — see `18-plugin-and-host-architecture.md`.
+
 Both honour the same directives; they differ only in the driver. **Ceiling to
 respect** (from the Figma round-trip research, `07 §11` + KB `_research` figma-
 variables-styles-roundtrip): Figma variables are only `COLOR` / `FLOAT` / `STRING`
