@@ -96,6 +96,13 @@ brace refs `{nbds.palette.red.550}` → `palette/red/550`.
 `{r,g,b,a}` **and** the same alias — the alias is what actually drives it; the literal value is
 belt-and-suspenders. Alpha roles (`scrim` → `black-alpha/60`) alias the alpha palette.
 
+**Colour parsing (`parseColor`, M-08).** `$value` arrives as `rgb()`/`rgba()`, 6-digit `#hex`,
+3-digit `#hex`, or — for `colorFormat:'hex'` brands — **8-digit `#RRGGBBAA`** (the `black-alpha`/
+`white-alpha` ramp and hex-format shadow colours carry their opacity in the trailing byte). All
+four forms parse to `{r,g,b,a}`. Anything else (an unresolvable alias target reaching the emitter,
+a malformed value) **throws** — never a silent `{0,0,0,1}` black swatch. (Pre-M-08 there was no
+8-digit branch, so hex-format brands' entire alpha ramp shipped as opaque black.)
+
 **API route:** Figma Plugin / MCP only (REST Variables API is Enterprise-only — `08 §5`).
 
 ## 4. The typography contract (spec — six fixes from the spike)

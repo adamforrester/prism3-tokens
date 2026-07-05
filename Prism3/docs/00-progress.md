@@ -161,6 +161,29 @@ here or a merged PR. Test count is **542/542** as of the sweep close.
 
 ---
 
+- **emit-figma: the MED batch — M-08 silent-black + M-09 space-alias guard (`emit-figma.ts` + `out/figma`,
+  2026-07-05).** Taken by the generator thread (emitter thread paused, owner-authorised); the two emit-figma
+  MED findings the review named, each a *silent-degradation → loud-fail* hardening. **M-08 (a real shipping
+  bug):** `parseColor` returned a silent `{0,0,0,1}` (opaque BLACK) for anything it couldn't parse, and it
+  had **no 8-digit-hex branch** — so for `colorFormat:'hex'` brands the entire `black-alpha`/`white-alpha`
+  transparency ramp (`#0000000d`…) and the shadow colours (`#060411xx`) were shipped to Figma as opaque
+  pure black: the alpha ramp flattened, shadow colour wrong (black, not the brand navy) *and* opaque. Now
+  it expands 3-digit hex like CSS (`#f00`→`#ff0000`), carries the alpha byte on 8-digit `#RRGGBBAA`, and
+  **throws** on genuinely unparseable input (incl. the `parseColor(undefined)` unresolvable-alias path)
+  rather than degrading to black. Regenerating corrected **aurora + wendys** `out/figma` (both hex-format);
+  **nb** (`colorFormat:'rgb'`) untouched — the rgba path never regressed. **M-09 (latent):** `buildFigmaDims`
+  emitted the `space` alias UNCONDITIONALLY, unlike every sibling axis (radius/size/border-width/focus),
+  which guard with `isAlias ? {…} : null`. A space leaf carrying a raw px value (not a `{…}` ref) would ship
+  `alias: { name: '' }` — a dangling empty-named binding Figma drops the link for. Space now matches the
+  sibling contract; byte-identical for engine brands (space always aliases into dimension), so `out/figma`
+  is unchanged by M-09. Two commits (one finding each). Gates: `test.ts` **600→614** (M-08: hex forms +
+  alpha + rgb()/rgba() no-regress + the throw on undefined/unresolved-alias/garbage; M-09: no empty-named
+  alias, every space aliases `dimension/*`, alias is null-or-nonempty), nb-regression exit 0, DTCG aliases
+  647/647, mode contracts 248/248. `out/*.tokens.json` untouched. Closes the emit-figma MED tier; L-13/L-14
+  (emitter LOW) still queued for that thread.
+
+---
+
 - **emit-figma: CR-08 layout-breakpoint fix (#65; `emit-figma.ts` + `out/figma`, 2026-07-05).** Taken by
   the generator thread (emitter thread paused, owner-authorised) — a real *shipping* bug the emitter review
   surfaced. `buildFigmaLayout` iterated a hardcoded `LAYOUT_MODES` (sm..2xl, 5) and read `gridNode[mode]`
