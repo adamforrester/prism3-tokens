@@ -1415,10 +1415,12 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   const dims = buildFigmaDims(theme);
   const layout = buildFigmaLayout(theme);
 
-  // (a) 5 mode files, one per breakpoint, in the prescribed order.
-  ok(layout.length === 5, `figma layout: 5 mode files emitted (got ${layout.length})`);
+  // (a) one mode file per breakpoint the brand SHIPS (CR-08 — derived from the grid node, not a
+  // hardcoded 5), in ascending order. NB ships the default 5 (sm..2xl == LAYOUT_MODES).
+  const gridKeys = Object.keys(brand.grid);
+  ok(layout.length === gridKeys.length && layout.length === 5, `figma layout: one mode file per breakpoint (got ${layout.length}, grid has ${gridKeys.length})`);
   const modeSeq = layout.map((l) => l.$mode).join(',');
-  ok(modeSeq === LAYOUT_MODES.join(','), `figma layout: modes emitted in [${LAYOUT_MODES.join(',')}] order (got [${modeSeq}])`);
+  ok(modeSeq === gridKeys.join(',') && modeSeq === LAYOUT_MODES.join(','), `figma layout: modes follow the brand's breakpoints [${gridKeys.join(',')}] (got [${modeSeq}])`);
   ok(layout.every((l) => l.$collection === 'layout'), `figma layout: every file is $collection = 'layout'`);
 
   // (b) Every mode file carries the SAME variable-name set — the mode column
@@ -1502,6 +1504,30 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   // (i) A variable count sanity — the exact shape a Figma-MCP materialiser
   // will import: 10 vars × 5 modes (5 breakpoint + 3 grid + 2 container).
   ok(layout[0].variables.length === 10, `figma layout: 10 vars per mode (5 breakpoint + 3 grid + 2 container) — got ${layout[0].variables.length}`);
+}
+
+// (19b) CR-08 (#65) — the layout axis must follow the brand's ACTUAL breakpoints, not a hardcoded
+// 5. AURORA ships SIX breakpoints (xs..2xl); `buildFigmaLayout` used to iterate LAYOUT_MODES
+// (sm..2xl) and read gridNode[mode] by name, silently DROPPING aurora's base `xs` grid (0px,
+// 4-col mobile-first) on every regen while still emitting `breakpoint/xs` as a constant — an
+// internally inconsistent artifact. This gates the emit LAYER on a non-5-breakpoint brand (the
+// engine grid layer was tested, the Figma emit layer wasn't — the gate blind spot the review named).
+{
+  const aurora = brandTheme(parseDesignMd(readFileSync(resolve(HERE, '../examples/aurora.design.md'), 'utf8')).input);
+  const { tree } = buildTree(aurora);
+  const brand = tree[Object.keys(tree)[0]];
+  const gridKeys = Object.keys(brand.grid); // [xs, sm, md, lg, xl, 2xl]
+  const layout = buildFigmaLayout(aurora);
+  const dims = buildFigmaDims(aurora);
+  ok(gridKeys.length === 6 && gridKeys[0] === 'xs', `CR-08: aurora ships 6 breakpoints starting at xs (got [${gridKeys.join(',')}])`);
+  ok(layout.length === 6 && layout.map((l) => l.$mode).join(',') === gridKeys.join(','), `CR-08: aurora emits a layout mode per breakpoint incl. the base xs (got [${layout.map((l) => l.$mode).join(',')}])`);
+  const xs = layout.find((l) => l.$mode === 'xs');
+  const xsCols = xs?.variables.find((v) => v.name === 'grid/columns');
+  ok(!!xsCols && xsCols.value === brand.grid.xs.columns.$value, `CR-08: the xs grid carries aurora's base column count (${brand.grid.xs.columns.$value}), not dropped`);
+  const spaceNames = new Set(dims.space.variables.map((v) => v.name));
+  const dangling = layout.flatMap((l) => l.variables.filter((v) => v.alias && !spaceNames.has(v.alias.name)).map((v) => `${l.$mode}:${v.name}`));
+  ok(dangling.length === 0, `CR-08: every aurora layout alias resolves into space/* across all 6 modes (${dangling.length} dangling)`);
+  ok(layout[0].variables.length === 11, `CR-08: aurora emits 11 vars per mode (6 breakpoint + 3 grid + 2 container), got ${layout[0].variables.length}`);
 }
 
 // (20) EMIT-FIGMA MODE OPT-OUT (post-#42 follow-up; #45 audit; reviewer flag on #46).
@@ -1607,7 +1633,8 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
     ok(fluid.length === 2 && fluid.every((f) => f.variables.length > 0), `figma generalise (${id}): font-fluid has both mobile + desktop modes`);
     ok(textStyles.styles.length > 0, `figma generalise (${id}): text-styles emitted (${textStyles.styles.length})`);
     ok(shadow.styles.length > 0, `figma generalise (${id}): shadow effect styles emitted (${shadow.styles.length})`);
-    ok(layout.length === 5, `figma generalise (${id}): 5 layout mode files (got ${layout.length})`);
+    const gridKeys = (() => { const t = buildTree(theme).tree; return Object.keys(t[Object.keys(t)[0]].grid); })();
+    ok(layout.length === gridKeys.length && layout.map((l) => l.$mode).join(',') === gridKeys.join(','), `figma generalise (${id}): one layout mode file per breakpoint [${gridKeys.join(',')}] — got [${layout.map((l) => l.$mode).join(',')}]`); // CR-08: follows the brand's breakpoints (aurora 6 / wendys 5)
 
     // (b) COLOUR aliases — every per-mode alias name resolves within palette (name-based).
     const paletteNames = new Set(palette.variables.map((v) => v.name));
