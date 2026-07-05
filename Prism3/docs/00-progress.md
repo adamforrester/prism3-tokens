@@ -161,6 +161,22 @@ here or a merged PR. Test count is **542/542** as of the sweep close.
 
 ---
 
+- **emit-figma: CR-08 layout-breakpoint fix (#65; `emit-figma.ts` + `out/figma`, 2026-07-05).** Taken by
+  the generator thread (emitter thread paused, owner-authorised) — a real *shipping* bug the emitter review
+  surfaced. `buildFigmaLayout` iterated a hardcoded `LAYOUT_MODES` (sm..2xl, 5) and read `gridNode[mode]`
+  by name, so aurora's **six** breakpoints (xs..2xl) silently **dropped the base `xs` grid** (0px, 4-col
+  mobile-first) on every regen — while still emitting `breakpoint/xs` as a constant, an internally
+  inconsistent artifact; a ≤3-bp brand would have read `undefined` and crashed. **Fix:** derive the layout
+  modes from the brand's actual grid keys (`Object.keys(gridNode)`, already ascending), not the hardcoded
+  set. `LAYOUT_MODES` stays exported as the default breakpoint-name set. `out/figma/aurora/` now carries
+  the previously-missing `layout.xs.json`; nb/wendys unchanged (5 bp). **Gate (the emit-layer blind spot
+  the review named):** a new aurora (6-bp) block asserts one layout mode per breakpoint incl. `xs`, the xs
+  grid carries the real base column count, every alias resolves across all 6 modes; the nb + generalise
+  assertions are now breakpoint-derived (aurora 6 / wendys 5), not hardcoded 5. `test.ts` **595→600**,
+  DTCG untouched. Closes #65; #67 (Token Press) still for that thread.
+
+---
+
 - **emit-figma: `core-` collection rename (#66; `emit-figma.ts` + `out/figma`, 2026-07-05).** Taken by the
   **generator thread while the emitter thread was paused** (owner-authorised). The Figma PRIMITIVE
   collections now carry a `core-` prefix for at-a-glance scannability in Figma's collection list:

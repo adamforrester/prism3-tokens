@@ -719,7 +719,14 @@ export const buildFigmaLayout = (theme: Theme): FigmaCollectionFile[] => {
 
   const desc = (leaf: any): string => String(leaf?.$description ?? '');
 
-  return LAYOUT_MODES.map((mode) => {
+  // CR-08: emit one layout mode per breakpoint the brand ACTUALLY ships (the grid node's keys,
+  // already in ascending order) — NOT a hardcoded 5. A 6-breakpoint brand (aurora: xs..2xl)
+  // otherwise silently drops its base `xs` grid, and a ≤3-breakpoint brand would read
+  // `gridNode[mode]` undefined and crash. `LAYOUT_MODES` stays the DEFAULT breakpoint-name set
+  // (a 4-floor brief auto-names them sm..2xl); the emit follows whatever the brand generated.
+  const modes = Object.keys(gridNode);
+
+  return modes.map((mode) => {
     const variables: FigmaVar[] = [];
 
     // breakpoint/* — mode-invariant reference constants (same value in every
