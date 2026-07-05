@@ -123,6 +123,28 @@ gap is not noise — it's a measured argument for the metadata/skill layer, and 
 the *next* differential (with vs. without the `.ai.json` guidance). Two metric refinements it implies:
 a `disabled`/exempt kind, and honouring a role's decorative-vs-functional intent from its metadata.
 
+### Guided run (2026-07-04) — the `.ai.json` closes the gap: 95% → 100%
+
+The differential the pairs-mode gap called for. Same cold-agent setup, WITH catalogue, but also handed
+the **`.ai.json` semantic guidance** (each colour role's `when_to_use | avoid_when | contrast`, via
+`runEval`'s `guidance` arm). The two edges resolved *exactly* as the guidance directed:
+
+| Arm | invented | leak | contract compliance |
+|---|---|---|---|
+| WITHOUT surface (guess names) | 48% | 0% | — (roles unresolved) |
+| WITH catalogue (names) | 0% | 0% | 95% (72/76) |
+| **WITH catalogue + `.ai.json` (semantics)** | **0%** | **0%** | **100% (68/68)** |
+
+Guided by `border.primary`'s *"AVOID: not a 3:1 target — use border.secondary/border.focus"* the agent
+**dropped** the decorative border from its contrast pairs; guided by `on-disabled`'s stated `3:1` intent
+it **reclassified** the disabled label to `ui` (which clears 3:1); and it moved to proper surfaces
+(`foreground.success-subtle`, `foreground.primary`). **Each layer of the surface earns its keep as a
+number:** the catalogue (names) kills hallucination (48%→0%); the `.ai.json` (semantics) kills
+mis-classification (95%→100%). That is the four-layer stack — raw hex → names → semantic metadata —
+demonstrated, one metric per layer. A **consumption skill** (backlog #6) would package this same
+guidance as portable instructions for agents that don't call the MCP — and the eval would measure it the
+identical way.
+
 ## 6. Dependency posture
 
 Scoring (`eval.ts`) is pure + gateable + bundlable — own it. The agent run is an edge shell
