@@ -1,5 +1,18 @@
 # 10 — Figma materialization (the `emit-figma` contract)
 
+> **⚠️ Collection rename (#66, 2026-07-05, generator thread while the emitter thread was paused):**
+> the PRIMITIVE collections are now `core-`-prefixed for at-a-glance scannability in Figma's
+> collection list — **`palette` → `core-palette`**, **`dimension` → `core-dimension`**, **`font` →
+> `core-font`**, and **`font-fluid` → `type-sets`** (the responsive fluid-size collection). This is a
+> **`$collection` label + output-filename** change ONLY: the DTCG tree, the `<root>.*` namespace, and
+> the Figma **variable names** (`palette/red/550`, `font/family/*`, `font-fluid/*`) are unchanged — so
+> the `variableId` round-trip and every cross-collection alias resolve exactly as before (0 dangling,
+> verified). Semantic collections keep bare names. The tables/prose below still show the pre-rename
+> labels; treat `palette`↔`core-palette`, `font`↔`core-font`, `font-fluid`↔`type-sets`,
+> `dimension`↔`core-dimension` when reading. The `fixtures/figma/nb` byte-repro target keeps the OLD
+> labels pending Token Press confirmation (#67) — the gate compares names/scopes/aliases/values, not
+> the `$collection` label. Emitter thread: fold the rename through this doc's tables when you resume.
+
 > `07 §11.1` names the owned tools; `08 §5` sets the two materialization routes and the
 > Figma variable-type ceiling; `09 §4` decides the plugin absorbs the materialization
 > function. This doc is the **contract** that makes it concrete: the exact Figma shape the

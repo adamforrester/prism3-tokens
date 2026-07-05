@@ -161,6 +161,28 @@ here or a merged PR. Test count is **542/542** as of the sweep close.
 
 ---
 
+- **emit-figma: `core-` collection rename (#66; `emit-figma.ts` + `out/figma`, 2026-07-05).** Taken by the
+  **generator thread while the emitter thread was paused** (owner-authorised). The Figma PRIMITIVE
+  collections now carry a `core-` prefix for at-a-glance scannability in Figma's collection list:
+  `palette→core-palette`, `dimension→core-dimension`, `font→core-font`, and `font-fluid→type-sets` (the
+  responsive fluid-size collection). **Label-only, by design:** changed the four `$collection` labels, the
+  text-style binding `collection` fields, and the output filenames (now `$collection`-derived). **Unchanged:**
+  the DTCG tree, the `<root>.*` namespace, and every Figma **variable name** (`palette/red/550`,
+  `font/family/*`, `font-fluid/*`) — they still mirror the DTCG paths, so the `variableId` round-trip and
+  all cross-collection aliases resolve exactly as before (verified: **0 dangling** across nb/aurora/wendys,
+  369/408/428 vars). Semantic collections keep bare names. `out/figma/*` regenerated (files renamed
+  `core-*`/`type-sets`, old ones removed). **Fixture stance (#67):** `fixtures/figma/nb` keeps the OLD
+  `$collection` labels — the byte-repro gate compares variable names/scopes/aliases/values (unchanged), NOT
+  the label; the fixture is the Token Press byte-repro target and stays put until Token Press confirms the
+  new labels. Deliberately did NOT adopt NB's `core-color`/`core-typography` base words nor merge
+  `space`/`size` — the engine keeps its scope-per-collection split (better than the hand-file), per the
+  narrow-scope decision. docs/10 carries a rename callout for the emitter thread to fold through on resume.
+  Gates: `test.ts` **595/595** (text-styles collection assertion updated to `core-font`/`type-sets`),
+  0 dangling aliases. `out/*.tokens.json` untouched (DTCG unchanged). Coordination: #66 (this), #67 (Token
+  Press), #65 (CR-08 still queued for the emitter thread).
+
+---
+
 - **Consumption eval — the `.ai.json` guidance differential: 95% → 100% (`engine/eval-run.ts`, docs/17 §5,
   2026-07-04).** The experiment the pairs-mode gap called for, and the payoff of the whole arc. Added a
   `guidance` arm to the harness (`buildPrompt(..., guidance)` / `runEval({ guidance })`): the cold agent

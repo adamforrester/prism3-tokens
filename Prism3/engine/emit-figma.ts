@@ -1,22 +1,32 @@
 /**
  * emit-figma.ts — I/O shell: the DTCG token tree → a Figma import artifact (docs/10).
  *
+ * COLLECTION NAMING (#66, 2026-07-05): the PRIMITIVE collections carry a `core-` prefix so a
+ * designer scans primitives-vs-semantics at a glance in Figma's collection list —
+ * `core-palette` / `core-dimension` / `core-font`, and `type-sets` (the responsive fluid-size
+ * collection, ex-`font-fluid`). This is a **collection-label** convention only: the DTCG token
+ * tree, the `<root>.*` namespace, and — crucially — the Figma VARIABLE NAMES are unchanged. Every
+ * variable name still mirrors its DTCG path (`palette/red/550`, `font/family/display`,
+ * `font-fluid/…`), so the `variableId` round-trip and every cross-collection alias resolve
+ * exactly as before. Semantic collections keep their bare names (`color`, `space`, `radius`,
+ * `size`, `border-width`, `focus`, `opacity`, `layout`). See docs/00 + issue #66/#67 (Token Press).
+ *
  * Axes shipped:
- *   • COLOUR — `palette` primitives (Default mode) + `color` semantics (4 modes),
- *     every semantic a VARIABLE_ALIAS into `palette`. Byte-reproduces
- *     `fixtures/figma/nb/{palette,color.<mode>}.json`.
- *   • TYPOGRAPHY — `font` primitives (family STRING + size/weight FLOAT + weight-role
- *     FLOAT aliased) + `font-fluid` (per-mode FLOATs for the fluid composites) +
+ *   • COLOUR — `core-palette` primitives (Default mode) + `color` semantics (4 modes),
+ *     every semantic a VARIABLE_ALIAS into a `palette/…` variable. Byte-reproduces
+ *     `fixtures/figma/nb/{palette,color.<mode>}.json` (variable names/scopes/aliases/values).
+ *   • TYPOGRAPHY — `core-font` primitives (family STRING + size/weight FLOAT + weight-role
+ *     FLOAT aliased) + `type-sets` (per-mode FLOATs for the fluid composites) +
  *     text styles for every composite, applying the six §4 fixes: (1) no wrapper
- *     `text/` prefix; (2) prescribed collection names (`font`, `font-fluid`);
+ *     `text/` prefix; (2) prescribed collection names (`core-font`, `type-sets`);
  *     (3a) lineHeight baked as PERCENT (unitless × 100 — mode/size-independent);
  *     (3b) letterSpacing baked as PERCENT (em × 100 — this PR bakes; a follow-up
  *     lands bindable tracking FLOATs); (4) primary family bound + full stack in
  *     description; (5) fontStyle derived from the weight-role via a named-instance
  *     table (mono falls back for weights it lacks).
  *   • DIMS — the whole geometric layer emitted as SEVEN FLOAT collections:
- *     `dimension` (fine-grid primitives), `space`/`radius`/`size`/`border-width`/
- *     `focus` (all aliased into `dimension` — the primitives are shared) + `opacity`
+ *     `core-dimension` (fine-grid primitives), `space`/`radius`/`size`/`border-width`/
+ *     `focus` (all aliased into a `dimension/…` variable — the primitives are shared) + `opacity`
  *     (0–100 percent for Figma OPACITY scope, converted from the DTCG 0–1). No
  *     fixtures for this axis (§2 covers colour + typography only), so the gate is
  *     structural: counts match the DTCG tree, every alias target resolves within
@@ -137,7 +147,7 @@ export const buildFigmaColor = (theme: Theme): { palette: FigmaCollectionFile; c
   const root = Object.keys(tree)[0];
 
   const palette: FigmaCollectionFile = {
-    $collection: 'palette',
+    $collection: 'core-palette',
     $mode: 'Default',
     variables: leaves(tree[root].palette, `${root}.palette`).map(([dotted, leaf]) => ({
       name: figName(dotted),
@@ -275,7 +285,7 @@ export const buildFigmaFont = (theme: Theme): FigmaCollectionFile => {
     });
   }
 
-  return { $collection: 'font', $mode: 'Default', variables };
+  return { $collection: 'core-font', $mode: 'Default', variables };
 };
 
 // Fluid composites — walk the type tree and pick composites whose responsive
@@ -307,7 +317,7 @@ export const buildFigmaFontFluid = (theme: Theme): FigmaCollectionFile[] => {
   const rows = collectFluidRows(tree[root].type, '');
 
   return FONT_FLUID_MODES.map((mode) => ({
-    $collection: 'font-fluid',
+    $collection: 'type-sets',
     $mode: mode,
     variables: rows.map((r) => ({
       name: `font-fluid/${r.name}`,
@@ -350,10 +360,10 @@ const familyRoleFromAlias = (aliasStr: string): string => {
 };
 // Resolve a composite's size — bound to `font/<size>` (static) or
 // `font-fluid/<path>` (fluid). Returns { variable, collection } for the bind.
-const sizeBinding = (compositePath: string, sizeAlias: string, fluid: boolean): { variable: string; collection: 'font' | 'font-fluid' } => {
-  if (fluid) return { variable: `font-fluid/${compositePath}`, collection: 'font-fluid' };
+const sizeBinding = (compositePath: string, sizeAlias: string, fluid: boolean): { variable: string; collection: 'core-font' | 'type-sets' } => {
+  if (fluid) return { variable: `font-fluid/${compositePath}`, collection: 'type-sets' };
   const m = /font\.size\.([^.}]+)\}?$/.exec(sizeAlias);
-  return { variable: `font/size/${m ? m[1] : ''}`, collection: 'font' };
+  return { variable: `font/size/${m ? m[1] : ''}`, collection: 'core-font' };
 };
 const weightRoleFromAlias = (aliasStr: string): string => {
   const m = /font\.weight-role\.([^.}]+)\}?$/.exec(aliasStr);
@@ -414,12 +424,12 @@ export const buildFigmaTextStyles = (theme: Theme): FigmaTextStylesFile => {
       name: compositeToStyleName(path),
       description,
       properties: {
-        fontFamily: { bound: true, variable: `font/family/${familyRole}`, collection: 'font', resolvedType: 'STRING' },
+        fontFamily: { bound: true, variable: `font/family/${familyRole}`, collection: 'core-font', resolvedType: 'STRING' },
         // fontStyle baked — derived from weight-role via the named-instance table.
         // Mono families collapse Semi Bold → Medium (see fontStyleName).
         fontStyle: { bound: false, value: styleName },
         fontSize: { bound: true, variable: sb.variable, collection: sb.collection, resolvedType: 'FLOAT' },
-        fontWeight: { bound: true, variable: `font/weight-role/${weightRole}`, collection: 'font', resolvedType: 'FLOAT' },
+        fontWeight: { bound: true, variable: `font/weight-role/${weightRole}`, collection: 'core-font', resolvedType: 'FLOAT' },
         lineHeight: { bound: false, value: { unit: 'PERCENT', value: Math.round(lhMult * 100) } },
         letterSpacing: { bound: false, value: { unit: 'PERCENT', value: Math.round(lsEm * 10000) / 100 } },
         textCase: { bindable: false, value: textCase },
@@ -635,7 +645,7 @@ export const buildFigmaDims = (theme: Theme): FigmaDimsCollections => {
 
   const c = (name: string, variables: FigmaVar[]): FigmaCollectionFile => ({ $collection: name, $mode: 'Default', variables });
   return {
-    dimension: c('dimension', dimVars),
+    dimension: c('core-dimension', dimVars),
     space: c('space', spaceVars),
     radius: radiusFiles,
     size: c('size', sizeVars),
@@ -941,12 +951,13 @@ if (isMain) {
     const dir = resolve(here, 'out/figma', id);
     mkdirSync(dir, { recursive: true });
     const { palette, color } = buildFigmaColor(theme);
-    writeFileSync(resolve(dir, 'palette.json'), JSON.stringify(palette, null, 2) + '\n');
-    for (const c of color) writeFileSync(resolve(dir, `color.${c.$mode}.json`), JSON.stringify(c, null, 2) + '\n');
+    // Filenames follow the $collection label (so the core-*/type-sets rename carries through).
+    writeFileSync(resolve(dir, `${palette.$collection}.json`), JSON.stringify(palette, null, 2) + '\n');
+    for (const c of color) writeFileSync(resolve(dir, `${c.$collection}.${c.$mode}.json`), JSON.stringify(c, null, 2) + '\n');
     const font = buildFigmaFont(theme);
-    writeFileSync(resolve(dir, 'font.json'), JSON.stringify(font, null, 2) + '\n');
+    writeFileSync(resolve(dir, `${font.$collection}.json`), JSON.stringify(font, null, 2) + '\n');
     const fluid = buildFigmaFontFluid(theme);
-    for (const f of fluid) writeFileSync(resolve(dir, `font-fluid.${f.$mode}.json`), JSON.stringify(f, null, 2) + '\n');
+    for (const f of fluid) writeFileSync(resolve(dir, `${f.$collection}.${f.$mode}.json`), JSON.stringify(f, null, 2) + '\n');
     const textStyles = buildFigmaTextStyles(theme);
     writeFileSync(resolve(dir, 'text-styles.json'), JSON.stringify(textStyles, null, 2) + '\n');
     const dims = buildFigmaDims(theme);

@@ -839,6 +839,11 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
 // scopes, and — the load-bearing property — every semantic aliases the SAME palette
 // variable by name in every mode (0 broken/mismatched). Values compared to float32
 // tolerance (Figma stores colour as float32; the importer's rounding differs by ~5e-7).
+// NB (#66): the byte-repro is on variable NAMES / scopes / aliases / values — NOT the
+// `$collection` label. The emitter now labels the primitives `core-palette` / `core-font`
+// / `type-sets` (#66), while the frozen fixture keeps the pre-rename labels; the fixture is
+// the Token Press byte-repro target and stays put until Token Press confirms the new labels
+// (#67). The load-bearing contract (names/aliases/values) is unchanged, which is what this gates.
 {
   const FIXDIR = resolve(HERE, '../fixtures/figma/nb');
   const { palette, color } = buildFigmaColor(nbTheme());
@@ -948,12 +953,14 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   const upperMismatch: string[] = [], decoMismatch: string[] = [];
   for (const s of ts.styles) {
     const p = s.properties;
-    // fix #2 — collection is `font` or `font-fluid`, matching what the fixture bound.
+    // fix #2 — collection is the typography primitive `core-font` (renamed from `font`, #66) or
+    // `type-sets` (renamed from `font-fluid`) for the fluid composites. The bound VARIABLE names
+    // still mirror the DTCG paths (`font/…`, `font-fluid/…`) — the rename is a collection label only.
     const fx = expectedByCorrectedName.get(s.name);
     if (!fx) continue;
-    if (!(p.fontFamily as any).bound || (p.fontFamily as any).collection !== 'font') collBad.push(`${s.name}:family`);
-    if (!(p.fontSize as any).bound || !['font', 'font-fluid'].includes((p.fontSize as any).collection)) collBad.push(`${s.name}:size`);
-    if (!(p.fontWeight as any).bound || (p.fontWeight as any).collection !== 'font') collBad.push(`${s.name}:weight`);
+    if (!(p.fontFamily as any).bound || (p.fontFamily as any).collection !== 'core-font') collBad.push(`${s.name}:family`);
+    if (!(p.fontSize as any).bound || !['core-font', 'type-sets'].includes((p.fontSize as any).collection)) collBad.push(`${s.name}:size`);
+    if (!(p.fontWeight as any).bound || (p.fontWeight as any).collection !== 'core-font') collBad.push(`${s.name}:weight`);
     // The pre-fix fixture bound fontSize to the same collection the corrected
     // emit chooses (font-fluid for fluid composites, font for static) — that
     // structure survives the fixes. Verify same binding target.
@@ -990,7 +997,7 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
     if ((p.textCase as any).value !== fx.properties.textCase.value) upperMismatch.push(`${s.name}: ${(p.textCase as any).value} ≠ ${fx.properties.textCase.value}`);
     if ((p.textDecoration as any).value !== fx.properties.textDecoration.value) decoMismatch.push(`${s.name}: ${(p.textDecoration as any).value} ≠ ${fx.properties.textDecoration.value}`);
   }
-  ok(collBad.length === 0, 'figma text-styles: fix #2 — every bound property uses the prescribed collection (font / font-fluid)' + (collBad.length ? ` — ${collBad.slice(0, 3).join(', ')}` : ''));
+  ok(collBad.length === 0, 'figma text-styles: fix #2 — every bound property uses the prescribed collection (core-font / type-sets)' + (collBad.length ? ` — ${collBad.slice(0, 3).join(', ')}` : ''));
   ok(famBad.length === 0, 'figma text-styles: fix #4 — fontFamily binds font/family/<role> (primary face; full stack in variable description)' + (famBad.length ? ` — ${famBad.slice(0, 3).join('; ')}` : ''));
   ok(sizeBind.length === 0, 'figma text-styles: fontSize binds the same var as the fixture (font/<size> or font-fluid/<path>)' + (sizeBind.length ? ` — ${sizeBind.slice(0, 3).join('; ')}` : ''));
   ok(weightBind.length === 0, 'figma text-styles: fontWeight binds font/weight-role/<role>' + (weightBind.length ? ` — ${weightBind.slice(0, 3).join('; ')}` : ''));
