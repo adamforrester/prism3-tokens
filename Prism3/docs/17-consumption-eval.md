@@ -62,9 +62,10 @@ Because step 2 needs a model, the harness is opt-in (an API key), not part of th
   naming a non-colour role lands in `unresolved` rather than being scored; no pairs → vacuously
   compliant (rate 1). The `resolve-preview` contract math applied to *consumption* — the docs/04
   differentiator turned on the agent's output. Gated in `test.ts` (pass/fail/kind-floor/mixed/
-  unresolved/empty). **Still to wire:** eliciting the pairs from the agent — the harness currently
-  extracts a flat ref list; a `pairs` output mode (ask the agent which ink sits on which surface) is
-  the next harness step, mirroring how `scoreConsumption` preceded `runEval`.
+  unresolved/empty). **Wired into the harness (`eval-run.ts`):** passing a `theme` to `runEval` flips
+  the prompt to **pairs mode** (`buildPrompt(..., wantPairs)`), the agent returns
+  `{task:{refs,pairs}}`, `extractPairs` pulls the `{fg,bg,kind}` pairings, and `runEval` scores
+  `complianceByTask`/`complianceAggregate` alongside consumption.
 - **Rubric layer — DEFERRED.** Semantic-role vs primitive use (partly the leak rate),
   mode-correctness, did it honour `avoid_when` from the `.ai.json`. Checklist first; an LLM judge
   only if a dimension resists mechanical scoring.
@@ -97,6 +98,30 @@ Caveat: WITHOUT-arm invention is partly *stacked* (asked to target a system whos
 was denied). The honest headline is the **elimination** the surface provides, not the 48% itself
 — a stronger baseline (agent works from a rendered screenshot and emits CSS, then we map back)
 is a later refinement. The harness (`eval-run.ts`) makes re-running either arm one call.
+
+### Pairs-mode run (2026-07-04) — compliance surfaces the *next* layer's value
+
+A cold subagent ran the four tasks WITH the catalogue in **pairs mode** (`atlas` brand), declaring
+its ink-on-surface `{fg,bg,kind}` pairings; scored by `scoreContractCompliance`:
+
+| Task | invented | leak | contract compliance |
+|---|---|---|---|
+| primary-button | 0% | 0% | 22/24 (92%) |
+| success-alert | 0% | 0% | 16/16 (100%) |
+| form-field-error | 0% | 0% | 20/20 (100%) |
+| card | 0% | 0% | 14/16 (88%) |
+| **aggregate** | **0%** | **0%** | **72/76 (95%)** |
+
+The surface still zeroes hallucination — and compliance is a live **95%**, with the 4 failures on
+**semantic-intent edges the token *names* can't carry**: (1) `text.on-disabled` on `action.disabled`
+(3.05:1) — the agent classed the disabled label as `text` 4.5, not knowing disabled is WCAG-exempt;
+(2) `border.primary` on `background.primary` (1.4:1) — it used the *decorative* border as a 3:1 `ui`
+element, but the engine makes `border.primary` intentionally low-contrast (decorative borders are
+exempt). Both are exactly where the raw surface is insufficient and the agent needs the **semantic
+guidance** in `.ai.json` (`avoid_when`) or a **consumption skill** (00-progress backlog #6). So the 5%
+gap is not noise — it's a measured argument for the metadata/skill layer, and a natural place to run
+the *next* differential (with vs. without the `.ai.json` guidance). Two metric refinements it implies:
+a `disabled`/exempt kind, and honouring a role's decorative-vs-functional intent from its metadata.
 
 ## 6. Dependency posture
 
