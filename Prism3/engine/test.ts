@@ -2066,6 +2066,21 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   let seen = '';
   await runEval(tree, 'prism', async (p) => { seen = p; return pairsJson; }, { theme, guidance: 'border.primary — decorative', catalog: ['color.border.primary'], tasks: [{ name: 'card', brief: 'x' }] });
   ok(/Semantic guidance/.test(seen) && /decorative/.test(seen), 'eval-run: runEval threads guidance into the prompt the runner sees');
+
+  // skill arm (the portable-instructions differential, docs/17 §4): unlike `guidance` (per-brand
+  // .ai.json data), the skill carries brand-agnostic RULES and composes on top of the catalogue.
+  const SKILL = 'Reach for the semantic role, not the primitive. border.primary is decorative — not a 3:1 target.';
+  const skilled = buildPrompt(SAMPLE_TASKS, ['color.border.primary'], true, undefined, SKILL);
+  ok(/Consumption skill/.test(skilled) && skilled.includes(SKILL), 'eval-run: skill is embedded in the prompt surface');
+  ok(!/Consumption skill/.test(buildPrompt(SAMPLE_TASKS, ['color.border.primary'], true)), 'eval-run: no skill → prompt has no skill block');
+  // skill composes WITH guidance (both blocks present) — they are different layers, not exclusive.
+  const both = buildPrompt(SAMPLE_TASKS, ['color.border.primary'], true, 'border.primary — decorative', SKILL);
+  ok(/Semantic guidance/.test(both) && /Consumption skill/.test(both), 'eval-run: skill + guidance compose (both blocks present)');
+  // back-compat: a call with neither guidance nor skill is byte-identical to the pre-skill prompt.
+  ok(buildPrompt(SAMPLE_TASKS, ['color.border.primary'], true) === buildPrompt(SAMPLE_TASKS, ['color.border.primary'], true, undefined, undefined), 'eval-run: omitting skill leaves the prompt byte-identical (back-compat)');
+  let seenSkill = '';
+  await runEval(tree, 'prism', async (p) => { seenSkill = p; return pairsJson; }, { theme, skill: SKILL, catalog: ['color.border.primary'], tasks: [{ name: 'card', brief: 'x' }] });
+  ok(/Consumption skill/.test(seenSkill) && seenSkill.includes(SKILL), 'eval-run: runEval threads the skill into the prompt the runner sees');
 }
 
 // (23) EMIT-FIGMA — hide primitives + thread descriptions (docs/10 §3, this PR).

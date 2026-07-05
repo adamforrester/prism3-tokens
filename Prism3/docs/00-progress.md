@@ -161,6 +161,28 @@ here or a merged PR. Test count is **542/542** as of the sweep close.
 
 ---
 
+- **`prism3-consume` skill + the with-skill eval differential (`Prism3/skills/prism3-consume/SKILL.md`,
+  `eval-run.ts`, docs/17 §4/§5, 2026-07-05).** Backlog #6 (a) built and measured — the agent-facing
+  *consumption* layer of the four-layer stack. A portable, **brand-agnostic** SKILL packages the
+  consumption discipline (semantic-role-not-primitive, respect modes, the decorative-border /
+  disabled-exempt edges, the ink-on-surface pairs self-check) as instructions for any downstream agent —
+  MCP or not. Wired into the eval as a `skill` arm (`buildPrompt(…, guidance, skill)` / `runEval({ skill })`),
+  the portable sibling of the per-brand `guidance` (`.ai.json`) arm; the two **compose** (the skill teaches
+  an agent to *read* the sidecar's `avoid_when`). **Measured (aurora, 4 tasks, 2 cold subagents/arm, pairs
+  mode):** catalogue-only 93/86% compliance (always leaks `palette.success.050`); +`.ai.json` 94/97%;
+  **+skill 100%/100%, 0% invented, 0% leak** — the portable skill matches-or-beats the per-brand sidecar,
+  fixing both the leak (→`foreground.success-subtle`) and the two compliance edges (on-disabled→`ui`,
+  decorative border dropped) that the raw metadata didn't reliably close. Honest limits: n=2, one brand,
+  four tasks — directional. **Placement is an OPEN question** (flagged in the PR): the skill lives in
+  `prism3-tokens` for now (co-located with the eval that proves it + the `.ai.json` it packages); whether it
+  eventually ships as a distributable skill (its own repo / into `brand-skills`) is undecided — moving a
+  markdown file later is cheap. Gates: `test.ts` **621→626** (skill embedded / absent / composes-with-guidance /
+  back-compat byte-identity / threaded through runEval). Purely additive — `out/*` byte-identical, DTCG
+  untouched. Closes the consumption-eval arc's final layer; the authoring skill (`prism3-theme`, backlog #6b)
+  and a larger multi-brand sample remain the obvious next refinements.
+
+---
+
 - **emit-figma: the MED batch — M-08 silent-black + M-09 space-alias guard (`emit-figma.ts` + `out/figma`,
   2026-07-05).** Taken by the generator thread (emitter thread paused, owner-authorised); the two emit-figma
   MED findings the review named, each a *silent-degradation → loud-fail* hardening. **M-08 (a real shipping

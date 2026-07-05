@@ -66,6 +66,16 @@ Because step 2 needs a model, the harness is opt-in (an API key), not part of th
   the prompt to **pairs mode** (`buildPrompt(..., wantPairs)`), the agent returns
   `{task:{refs,pairs}}`, `extractPairs` pulls the `{fg,bg,kind}` pairings, and `runEval` scores
   `complianceByTask`/`complianceAggregate` alongside consumption.
+- **Consumption-skill arm — ✅ BUILT (`skill` param, `eval-run.ts`; the `prism3-consume` SKILL).**
+  The portable-instructions layer, alongside the per-brand `guidance` (`.ai.json`) arm. `buildPrompt(…,
+  guidance, skill)` and `runEval({ skill })` inject a brand-agnostic instruction bundle — the
+  `Prism3/skills/prism3-consume/SKILL.md` discipline: semantic-role-not-primitive, respect modes, the
+  decorative-border / disabled-exempt edges, the pairs self-check. Unlike `guidance` (95 roles of
+  per-brand data) the skill carries **no brand-specific role names**, so the differential measures
+  whether *portable* discipline reaches the compliance the per-brand sidecar did. Composes with
+  `guidance` (both blocks, not exclusive) — the skill teaches an agent to *read* the `.ai.json`'s
+  `avoid_when`. Gated in `test.ts` (embedded / absent / composes-with-guidance / back-compat byte-identity
+  / threaded through `runEval`).
 - **Rubric layer — DEFERRED.** Semantic-role vs primitive use (partly the leak rate),
   mode-correctness, did it honour `avoid_when` from the `.ai.json`. Checklist first; an LLM judge
   only if a dimension resists mechanical scoring.
@@ -144,6 +154,39 @@ mis-classification (95%→100%). That is the four-layer stack — raw hex → na
 demonstrated, one metric per layer. A **consumption skill** (backlog #6) would package this same
 guidance as portable instructions for agents that don't call the MCP — and the eval would measure it the
 identical way.
+
+### Skill run (2026-07-05) — the portable skill hits the ceiling: 100%, no per-brand sidecar
+
+The differential the last line called for. The `prism3-consume` skill (`Prism3/skills/prism3-consume/`)
+packages the discipline as **brand-agnostic** instructions; the `skill` arm hands an agent the catalogue
++ the skill (but **not** the per-brand `.ai.json`). To keep the comparison internally consistent, all
+three arms were re-run this session on **one committed brand (`aurora`)**, four `SAMPLE_TASKS`, pairs
+mode, **two cold `general-purpose` subagents per arm** (fresh context, handed only the prompt, no repo
+access). Mean per arm:
+
+| Arm | invented | leak | contract compliance (2 trials) |
+|---|---|---|---|
+| WITH catalogue (names only) | 0% | ~2% (`palette.success.050`) | 93% / 86% |
+| WITH catalogue + `.ai.json` (per-brand semantics) | 0% | 0% | 94% / 97% |
+| **WITH catalogue + skill (portable discipline)** | **0%** | **0%** | **100% / 100%** |
+
+The skill arm cleared **100% both trials**, with zero hallucination and zero primitive-leak — it fixed
+*both* failure classes the bare catalogue hit: the leak (it reached for `foreground.success-subtle`, not
+`palette.success.050`) **and** the two compliance edges (classified `on-disabled` as `ui`, and **dropped**
+the decorative `border.primary` from its contrast pairs). Notably the raw `.ai.json` arm *didn't* reliably
+close those here (94/97% — it kept pairing `border.primary` as a 3:1 target) — the rules stated as
+**explicit procedures** landed better than 95 roles of data the agent had to apply itself. That is
+backlog #6 answered as a number: **the portable skill matches-or-beats the per-brand sidecar (100%),
+carrying no brand-specific names** — so the guidance travels to any Prism3 brand and to agents that never
+call the MCP.
+
+Honest caveats: n=2 per arm, one brand, four tasks — directional, not a large sample (same
+single-trial-scale discipline as the runs above). The skill and `.ai.json` are **not** exclusive: the
+skill's payoff is packaging the *reasoning*, and part of what it teaches is to *read* the sidecar's
+`avoid_when`. And the skill arm checks slightly fewer pairs (60 vs 68) precisely because it correctly
+drops the exempt decorative-border pairing — that's right modelling, not avoidance (the dropped pair is
+genuinely exempt from the 3:1 contract). The harness makes re-running any arm one call; a larger sample
++ more brands is the obvious next refinement.
 
 ## 6. Dependency posture
 
