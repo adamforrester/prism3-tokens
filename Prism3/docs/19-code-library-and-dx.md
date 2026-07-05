@@ -90,7 +90,13 @@ want ownership — but it's now the *exception path*, from a clean package, not 
   `03 §7`) + **one portable `component-consume` skill** (the analog of `prism3-consume`), measured by the
   same eval discipline. Lesson carried from the token result: the *portable skill beat the per-role data
   dump* — so **one strong skill + a rich registry over 40 thin per-component skills**; per-item skills
-  only where a component is genuinely idiosyncratic.
+  only where a component is genuinely idiosyncratic. Three learnings folded in from `13` (inspirations):
+  (a) **token-budget tiers** — the registry projects at three widths (index → summary → full entry), the
+  Astryx `--compact` idea, so an agent pulls only what fits its context; (b) a **generated discovery
+  index** injected into the consuming project's agent files (Astryx `agent-docs`) — the `.ai.json` is only
+  useful to an agent that knows it exists, so shipping a compressed index into `CLAUDE.md`-equivalents is
+  the discovery layer; (c) **retrieval-first access** — a `cli query` subcommand over the registry
+  (search → fetch-on-demand), the zero-server peer to the MCP tool that works in any shell.
 - **Storybook (a requirement) is three things:** the **workbench**, the **verification surface** (a11y
   addon + visual regression, per component per theme), and the **theme-switch demo** — and its stories
   are **generated** from the definitions. Another projection, and another gate.
