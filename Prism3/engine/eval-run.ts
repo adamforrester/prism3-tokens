@@ -34,10 +34,14 @@ export type ModelRunner = (prompt: string) => Promise<string>;
  * paths); absent ⇒ the WITHOUT arm (the agent must guess the system's names). Both ask for a
  * strict JSON object mapping each task to the token dotted-paths the agent would reference.
  */
-export const buildPrompt = (tasks: EvalTask[], catalog?: string[], wantPairs = false): string => {
-  const surface = catalog
+export const buildPrompt = (tasks: EvalTask[], catalog?: string[], wantPairs = false, guidance?: string): string => {
+  const cat = catalog
     ? `You have the system's token catalogue — reference ONLY these paths:\n${catalog.join('\n')}\n`
     : `You do NOT have the token catalogue — reference tokens by your best guess of how such a system names them.\n`;
+  // Optional semantic guidance (the .ai.json layer): when_to_use / avoid_when / intended contrast per
+  // role. Honouring it lets an agent skip contrast checks the raw names can't convey (a decorative
+  // border isn't a 3:1 target; a disabled label is exempt) — the metadata differential.
+  const surface = guidance ? `${cat}\nSemantic guidance — honour when_to_use / avoid_when / intended contrast (only pair colours where a real contrast contract applies):\n${guidance}\n` : cat;
   const taskList = tasks.map((t) => `- **${t.name}**: ${t.brief}`).join('\n');
   const preamble = `You are a frontend engineer building UI components for the "Prism3" design system, referencing design tokens by dotted path (e.g. color.action.default, space.400, radius.md).\n${surface}\n`;
   if (!wantPairs) {
@@ -114,11 +118,11 @@ export type EvalResult = {
  */
 export const runEval = async (
   tree: any, root: string, runner: ModelRunner,
-  opts: { tasks?: EvalTask[]; catalog?: string[]; theme?: any } = {},
+  opts: { tasks?: EvalTask[]; catalog?: string[]; theme?: any; guidance?: string } = {},
 ): Promise<EvalResult> => {
   const tasks = opts.tasks ?? SAMPLE_TASKS;
   const wantPairs = !!opts.theme;
-  const output = await runner(buildPrompt(tasks, opts.catalog, wantPairs));
+  const output = await runner(buildPrompt(tasks, opts.catalog, wantPairs, opts.guidance));
   const { byTask: refsByTask, flat } = extractRefs(output);
   const byTask: Record<string, ConsumptionScore> = {};
   for (const t of tasks) if (refsByTask[t.name]) byTask[t.name] = scoreConsumption(refsByTask[t.name], tree, root);

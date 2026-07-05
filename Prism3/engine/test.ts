@@ -1960,6 +1960,15 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   ok(withPairs.complianceAggregate!.checked > 0 && withPairs.complianceAggregate!.pass < withPairs.complianceAggregate!.checked, 'eval-run: the good text pair passes + the adjacent-surface pair fails → compliance rate < 1');
   const refsOnly = await runEval(tree, 'prism', async () => pairsJson, { tasks: [{ name: 'card', brief: 'x' }] });
   ok(refsOnly.complianceAggregate === undefined, 'eval-run: no theme → refs-only, no compliance scoring (back-compat)');
+
+  // guidance arm (the .ai.json metadata differential): the prompt carries when_to_use/avoid_when so the
+  // agent can skip contrast checks the raw names can't convey (decorative border / disabled label).
+  const guided = buildPrompt(SAMPLE_TASKS, ['color.border.primary'], true, 'border.primary — decorative hairline; avoid_when: NOT a 3:1 target');
+  ok(/Semantic guidance/.test(guided) && /decorative hairline/.test(guided), 'eval-run: guidance is embedded in the prompt surface');
+  ok(!/Semantic guidance/.test(buildPrompt(SAMPLE_TASKS, ['color.border.primary'], true)), 'eval-run: no guidance → prompt has no guidance block');
+  let seen = '';
+  await runEval(tree, 'prism', async (p) => { seen = p; return pairsJson; }, { theme, guidance: 'border.primary — decorative', catalog: ['color.border.primary'], tasks: [{ name: 'card', brief: 'x' }] });
+  ok(/Semantic guidance/.test(seen) && /decorative/.test(seen), 'eval-run: runEval threads guidance into the prompt the runner sees');
 }
 
 // ------------------------------------------------------------------- report

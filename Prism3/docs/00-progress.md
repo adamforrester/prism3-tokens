@@ -161,6 +161,24 @@ here or a merged PR. Test count is **542/542** as of the sweep close.
 
 ---
 
+- **Consumption eval — the `.ai.json` guidance differential: 95% → 100% (`engine/eval-run.ts`, docs/17 §5,
+  2026-07-04).** The experiment the pairs-mode gap called for, and the payoff of the whole arc. Added a
+  `guidance` arm to the harness (`buildPrompt(..., guidance)` / `runEval({ guidance })`): the cold agent
+  gets the catalogue AND each colour role's `.ai.json` `when_to_use | avoid_when | contrast`. **Live result
+  — the three-arm differential:** WITHOUT surface → 48% invented; WITH catalogue (names) → 0% invented /
+  **95%** compliance; WITH catalogue + `.ai.json` (semantics) → 0% invented / **100%** compliance (68/68).
+  The guided agent did exactly what the metadata directed — **dropped** the decorative `border.primary`
+  from its contrast pairs (its `avoid_when`: *"not a 3:1 target"*), **reclassified** `on-disabled` to the
+  3:1 it declares, and moved to proper surfaces. **Each layer earns its keep as a number:** names kill
+  hallucination (48→0), the `.ai.json` semantics kill mis-classification (95→100) — the four-layer stack
+  (raw hex → names → metadata) demonstrated, one metric per layer. Directly motivates a **consumption
+  skill** (backlog #6): it would package the same guidance portably, measured the identical way. Gates:
+  `test.ts` **592→595** (guidance embedded / absent / threaded through runEval). Purely additive — `out/*`
+  byte-identical. *This closes the consumption-eval arc: three metrics, the full with/without-surface AND
+  with/without-guidance differentials, live.*
+
+---
+
 - **Consumption eval — pairs-mode harness + first live compliance number (`engine/eval-run.ts`, docs/17
   §4/§5, 2026-07-04).** Wired contract-compliance onto real agent output: passing a `theme` to `runEval`
   flips the prompt to **pairs mode** (`buildPrompt(..., wantPairs)`) — the agent returns
