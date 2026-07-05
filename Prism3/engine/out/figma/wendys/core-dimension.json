@@ -13,7 +13,8 @@
       ],
       "description": "0px — dimension primitive",
       "value": 0,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "dimension/1",
@@ -26,7 +27,8 @@
       ],
       "description": "1px — dimension primitive",
       "value": 1,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "dimension/2",
@@ -39,7 +41,8 @@
       ],
       "description": "2px — dimension primitive",
       "value": 2,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "dimension/4",
@@ -52,7 +55,8 @@
       ],
       "description": "4px — dimension primitive",
       "value": 4,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "dimension/6",
@@ -65,7 +69,8 @@
       ],
       "description": "6px — dimension primitive",
       "value": 6,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "dimension/8",
@@ -78,7 +83,8 @@
       ],
       "description": "8px — dimension primitive",
       "value": 8,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "dimension/12",
@@ -91,7 +97,8 @@
       ],
       "description": "12px — dimension primitive",
       "value": 12,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "dimension/16",
@@ -104,7 +111,8 @@
       ],
       "description": "16px — dimension primitive",
       "value": 16,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "dimension/20",
@@ -117,7 +125,8 @@
       ],
       "description": "20px — dimension primitive",
       "value": 20,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "dimension/24",
@@ -130,7 +139,8 @@
       ],
       "description": "24px — dimension primitive",
       "value": 24,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "dimension/28",
@@ -143,7 +153,8 @@
       ],
       "description": "28px — dimension primitive",
       "value": 28,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "dimension/32",
@@ -156,7 +167,8 @@
       ],
       "description": "32px — dimension primitive",
       "value": 32,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "dimension/36",
@@ -169,7 +181,8 @@
       ],
       "description": "36px — dimension primitive",
       "value": 36,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "dimension/40",
@@ -182,7 +195,8 @@
       ],
       "description": "40px — dimension primitive",
       "value": 40,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "dimension/44",
@@ -195,7 +209,8 @@
       ],
       "description": "44px — dimension primitive",
       "value": 44,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "dimension/48",
@@ -208,7 +223,8 @@
       ],
       "description": "48px — dimension primitive",
       "value": 48,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "dimension/52",
@@ -221,7 +237,8 @@
       ],
       "description": "52px — dimension primitive",
       "value": 52,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "dimension/56",
@@ -234,7 +251,8 @@
       ],
       "description": "56px — dimension primitive",
       "value": 56,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "dimension/60",
@@ -247,7 +265,8 @@
       ],
       "description": "60px — dimension primitive",
       "value": 60,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "dimension/64",
@@ -260,7 +279,8 @@
       ],
       "description": "64px — dimension primitive",
       "value": 64,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "dimension/68",
@@ -273,7 +293,8 @@
       ],
       "description": "68px — dimension primitive",
       "value": 68,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "dimension/72",
@@ -286,7 +307,8 @@
       ],
       "description": "72px — dimension primitive",
       "value": 72,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "dimension/76",
@@ -299,7 +321,8 @@
       ],
       "description": "76px — dimension primitive",
       "value": 76,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "dimension/80",
@@ -312,7 +335,8 @@
       ],
       "description": "80px — dimension primitive",
       "value": 80,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "dimension/84",
@@ -325,7 +349,8 @@
       ],
       "description": "84px — dimension primitive",
       "value": 84,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "dimension/88",
@@ -338,7 +363,8 @@
       ],
       "description": "88px — dimension primitive",
       "value": 88,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "dimension/92",
@@ -351,7 +377,8 @@
       ],
       "description": "92px — dimension primitive",
       "value": 92,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "dimension/96",
@@ -364,7 +391,8 @@
       ],
       "description": "96px — dimension primitive",
       "value": 96,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "dimension/100",
@@ -377,7 +405,8 @@
       ],
       "description": "100px — dimension primitive",
       "value": 100,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "dimension/104",
@@ -390,7 +419,8 @@
       ],
       "description": "104px — dimension primitive",
       "value": 104,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "dimension/108",
@@ -403,7 +433,8 @@
       ],
       "description": "108px — dimension primitive",
       "value": 108,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "dimension/112",
@@ -416,7 +447,8 @@
       ],
       "description": "112px — dimension primitive",
       "value": 112,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "dimension/116",
@@ -429,7 +461,8 @@
       ],
       "description": "116px — dimension primitive",
       "value": 116,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "dimension/120",
@@ -442,7 +475,8 @@
       ],
       "description": "120px — dimension primitive",
       "value": 120,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "dimension/124",
@@ -455,7 +489,8 @@
       ],
       "description": "124px — dimension primitive",
       "value": 124,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "dimension/128",
@@ -468,7 +503,8 @@
       ],
       "description": "128px — dimension primitive",
       "value": 128,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     }
   ]
 }

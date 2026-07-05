@@ -8,7 +8,7 @@
       "scopes": [
         "FONT_SIZE"
       ],
-      "description": "",
+      "description": "display sm strong — 36→48px fluid Inter (display role), tight line-height, strong weight, tight tracking — consumer-facing type style",
       "value": 48,
       "alias": null
     },
@@ -18,7 +18,7 @@
       "scopes": [
         "FONT_SIZE"
       ],
-      "description": "",
+      "description": "display md strong — 40→64px fluid Inter (display role), tight line-height, strong weight, tight tracking — consumer-facing type style",
       "value": 64,
       "alias": null
     },
@@ -28,7 +28,7 @@
       "scopes": [
         "FONT_SIZE"
       ],
-      "description": "",
+      "description": "display lg strong — 40→80px fluid Inter (display role), tight line-height, strong weight, tight tracking — consumer-facing type style",
       "value": 80,
       "alias": null
     },
@@ -38,7 +38,7 @@
       "scopes": [
         "FONT_SIZE"
       ],
-      "description": "",
+      "description": "display xl strong — 48→96px fluid Inter (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
       "value": 96,
       "alias": null
     },
@@ -48,7 +48,7 @@
       "scopes": [
         "FONT_SIZE"
       ],
-      "description": "",
+      "description": "display 2xl strong — 48→128px fluid Inter (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
       "value": 128,
       "alias": null
     },
@@ -58,7 +58,7 @@
       "scopes": [
         "FONT_SIZE"
       ],
-      "description": "",
+      "description": "display 3xl strong — 48→160px fluid Inter (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
       "value": 160,
       "alias": null
     },
@@ -68,7 +68,7 @@
       "scopes": [
         "FONT_SIZE"
       ],
-      "description": "",
+      "description": "title md strong — 20→24px fluid Inter (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
       "value": 24,
       "alias": null
     },
@@ -78,7 +78,7 @@
       "scopes": [
         "FONT_SIZE"
       ],
-      "description": "",
+      "description": "title lg strong — 24→28px fluid Inter (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
       "value": 28,
       "alias": null
     },
@@ -88,7 +88,7 @@
       "scopes": [
         "FONT_SIZE"
       ],
-      "description": "",
+      "description": "title xl strong — 28→32px fluid Inter (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
       "value": 32,
       "alias": null
     },
@@ -98,7 +98,7 @@
       "scopes": [
         "FONT_SIZE"
       ],
-      "description": "",
+      "description": "title 2xl strong — 36→40px fluid Inter (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
       "value": 40,
       "alias": null
     }

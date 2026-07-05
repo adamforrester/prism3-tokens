@@ -8,7 +8,7 @@
       "scopes": [
         "FONT_SIZE"
       ],
-      "description": "",
+      "description": "display sm strong — 40→56px fluid Clash Display (display role), tight line-height, strong weight, tight tracking — consumer-facing type style",
       "value": 56,
       "alias": null
     },
@@ -18,7 +18,7 @@
       "scopes": [
         "FONT_SIZE"
       ],
-      "description": "",
+      "description": "display md strong — 40→72px fluid Clash Display (display role), tight line-height, strong weight, tight tracking — consumer-facing type style",
       "value": 72,
       "alias": null
     },
@@ -28,7 +28,7 @@
       "scopes": [
         "FONT_SIZE"
       ],
-      "description": "",
+      "description": "display lg strong — 48→96px fluid Clash Display (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
       "value": 96,
       "alias": null
     },
@@ -38,7 +38,7 @@
       "scopes": [
         "FONT_SIZE"
       ],
-      "description": "",
+      "description": "display xl strong — 48→112px fluid Clash Display (display role), tight line-height, strong weight, tighter tracking — consumer-facing type style",
       "value": 112,
       "alias": null
     },
@@ -48,7 +48,7 @@
       "scopes": [
         "FONT_SIZE"
       ],
-      "description": "",
+      "description": "title sm strong — 20→24px fluid Clash Display (display role), compact line-height, strong weight, snug tracking — consumer-facing type style",
       "value": 24,
       "alias": null
     },
@@ -58,7 +58,7 @@
       "scopes": [
         "FONT_SIZE"
       ],
-      "description": "",
+      "description": "title md strong — 24→28px fluid Clash Display (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
       "value": 28,
       "alias": null
     },
@@ -68,7 +68,7 @@
       "scopes": [
         "FONT_SIZE"
       ],
-      "description": "",
+      "description": "title lg strong — 28→32px fluid Clash Display (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
       "value": 32,
       "alias": null
     },
@@ -78,7 +78,7 @@
       "scopes": [
         "FONT_SIZE"
       ],
-      "description": "",
+      "description": "title xl strong — 32→36px fluid Clash Display (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
       "value": 36,
       "alias": null
     },
@@ -88,7 +88,7 @@
       "scopes": [
         "FONT_SIZE"
       ],
-      "description": "",
+      "description": "title 2xl strong — 40→48px fluid Clash Display (display role), snug line-height, strong weight, snug tracking — consumer-facing type style",
       "value": 48,
       "alias": null
     }

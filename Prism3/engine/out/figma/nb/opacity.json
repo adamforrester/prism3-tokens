@@ -10,7 +10,8 @@
       ],
       "description": "opacity 0% (0)",
       "value": 0,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "opacity/5",
@@ -20,7 +21,8 @@
       ],
       "description": "opacity 5% (0.05)",
       "value": 5,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "opacity/10",
@@ -30,7 +32,8 @@
       ],
       "description": "opacity 10% (0.1)",
       "value": 10,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "opacity/20",
@@ -40,7 +43,8 @@
       ],
       "description": "opacity 20% (0.2)",
       "value": 20,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "opacity/30",
@@ -50,7 +54,8 @@
       ],
       "description": "opacity 30% (0.3)",
       "value": 30,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "opacity/40",
@@ -60,7 +65,8 @@
       ],
       "description": "opacity 40% (0.4)",
       "value": 40,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "opacity/50",
@@ -70,7 +76,8 @@
       ],
       "description": "opacity 50% (0.5)",
       "value": 50,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "opacity/60",
@@ -80,7 +87,8 @@
       ],
       "description": "opacity 60% (0.6)",
       "value": 60,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "opacity/70",
@@ -90,7 +98,8 @@
       ],
       "description": "opacity 70% (0.7)",
       "value": 70,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "opacity/80",
@@ -100,7 +109,8 @@
       ],
       "description": "opacity 80% (0.8)",
       "value": 80,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "opacity/90",
@@ -110,7 +120,8 @@
       ],
       "description": "opacity 90% (0.9)",
       "value": 90,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     },
     {
       "name": "opacity/100",
@@ -120,7 +131,8 @@
       ],
       "description": "opacity 100% (1)",
       "value": 100,
-      "alias": null
+      "alias": null,
+      "hiddenFromPublishing": true
     }
   ]
 }

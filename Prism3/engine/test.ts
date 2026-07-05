@@ -14,7 +14,7 @@
 import { rgbToOklch, oklchToRgb, hex, hexToRgb, contrast, luminance, maxChroma, inGamut, deltaE2000, dualContrastWindow, RGB } from './color';
 import { generateRamp, autoPlaceStep, STEP_NUMS } from './ramp';
 import { radiusScale } from './scale';
-import { at, deref, pxOf } from './tree';
+import { at, deref, pxOf, buildTree } from './tree';
 import { brandTheme, BrandInput, inRedTerritory } from './theme';
 import { nbTheme } from './nb-fixture';
 import { resolveAllModes } from './modes';
@@ -896,6 +896,11 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   const extraF = [...emitByName.keys()].filter((n) => !fontByName.has(n));
   ok(missingF.length === 0 && extraF.length === 0, `figma font: variable names match fixture (${fontFix.variables.length})` + (missingF.length ? ` — MISSING ${missingF.slice(0, 3).join(',')}` : '') + (extraF.length ? ` — EXTRA ${extraF.slice(0, 3).join(',')}` : ''));
 
+  // Scopes are restored to their real per-family targets across primitive +
+  // semantic (this PR keeps the fixture-match here — hidden-from-publishing
+  // handles the hide, scopes remain guidance for bespoke picker use).
+  // Family descriptions now lead with the fixture's stack line (fix #4) and
+  // have the DTCG $description appended — assert `startsWith` on the fixture.
   const badFT: string[] = [], badFS: string[] = [], badFV: string[] = [], badFA: string[] = [], badFD: string[] = [];
   for (const [name, fv] of fontByName) {
     const ov = emitByName.get(name); if (!ov) continue;
@@ -903,13 +908,13 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
     if (JSON.stringify([...fv.scopes].sort()) !== JSON.stringify([...ov.scopes].sort())) badFS.push(name);
     if (fv.value !== ov.value) badFV.push(name);
     if ((fv.alias?.name ?? null) !== (ov.alias?.name ?? null)) badFA.push(name);
-    if (fv.description !== ov.description) badFD.push(name);
+    if (name.startsWith('font/family/') && !ov.description.startsWith(fv.description)) badFD.push(name);
   }
   ok(badFT.length === 0, 'figma font: resolvedType matches fixture' + (badFT.length ? ` — ${badFT.slice(0, 3).join(',')}` : ''));
   ok(badFS.length === 0, 'figma font: scopes match fixture' + (badFS.length ? ` — ${badFS.slice(0, 3).join(',')}` : ''));
   ok(badFV.length === 0, 'figma font: values match fixture' + (badFV.length ? ` — ${badFV.slice(0, 3).join(',')}` : ''));
   ok(badFA.length === 0, 'figma font: weight-role aliases target the same numeric weight as fixture' + (badFA.length ? ` — ${badFA.slice(0, 3).join(',')}` : ''));
-  ok(badFD.length === 0, 'figma font: family descriptions carry the full fallback stack (fix #4)' + (badFD.length ? ` — ${badFD.slice(0, 3).join(',')}` : ''));
+  ok(badFD.length === 0, 'figma font: family descriptions still lead with the full fallback stack (fix #4 preserved)' + (badFD.length ? ` — ${badFD.slice(0, 3).join(',')}` : ''));
 
   // (b) font-fluid.{mobile,desktop} — byte-reproduce (10 vars per mode).
   const fluid = buildFigmaFontFluid(theme);
@@ -1071,6 +1076,8 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
 
   // (d) Scopes narrow correctly per family — the picker in Figma should only
   // show `space/*` under GAP contexts, `radius/*` under CORNER_RADIUS, etc.
+  // `dimension` (ref-tier primitive) keeps its broad scope so, if a component
+  // author unhides + uses one directly, guidance is still correct.
   const scopeFor: Record<string, string[]> = {
     dimension: ['WIDTH_HEIGHT', 'GAP', 'CORNER_RADIUS', 'STROKE_FLOAT'],
     space: ['GAP'],
@@ -2059,6 +2066,137 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   let seen = '';
   await runEval(tree, 'prism', async (p) => { seen = p; return pairsJson; }, { theme, guidance: 'border.primary — decorative', catalog: ['color.border.primary'], tasks: [{ name: 'card', brief: 'x' }] });
   ok(/Semantic guidance/.test(seen) && /decorative/.test(seen), 'eval-run: runEval threads guidance into the prompt the runner sees');
+}
+
+// (23) EMIT-FIGMA — hide primitives + thread descriptions (docs/10 §3, this PR).
+// Two intent policies gated together because they land in the same emit pass.
+//
+// (a) PRIMITIVE TIER is hidden from library consumers. Every var in a
+//     ref-tier collection (palette, dimension, font/family/*, font/size/*,
+//     font/weight/*, opacity) carries `hiddenFromPublishing: true` (Figma's
+//     official mechanism for "consumers of this file as a library shouldn't
+//     see this in the picker"). Scopes stay at their real role-family targets
+//     — Figma's Plugin API rejects "bogus" scopes ("Invalid scope for this
+//     variable type" if you try `TEXT_CONTENT` on a COLOR/FLOAT var), and
+//     `scopes: []` is documented as ALL_SCOPES (probe-verified 2026-07-04:
+//     setBoundVariableForPaint succeeds on a var with scopes=[]), so
+//     there is no scopes-based mechanism to hide a variable from LOCAL
+//     pickers in the definer file. The production discipline: publish
+//     tokens as a library and consume in a separate authoring file —
+//     hidden-from-publishing narrows the picker end-to-end there.
+//
+// (b) SEMANTIC TIER stays visible. `color/*`, `space`, `radius`, `size`,
+//     `border-width`, `focus`, `font-fluid`, `font/weight-role/*`, `layout`
+//     all keep their role-family scopes and carry no `hiddenFromPublishing`
+//     field (JSON stays clean — semantic bytes are unchanged from the pre-
+//     hide world modulo the new descriptions).
+//
+// (c) DESCRIPTIONS ARE THREADED. Every Figma variable's `description` reads
+//     from the underlying DTCG leaf's `$description` — the source of truth for
+//     token metadata (see nb.tokens.json + nb.ai.json). Zero empty descriptions
+//     across every emit-figma variable. Designers see the same prose in
+//     Figma's Variables panel that appears in DTCG consumers + the AI sidecar.
+{
+  const theme = nbTheme();
+  const { palette, color } = buildFigmaColor(theme);
+  const font = buildFigmaFont(theme);
+  const fluid = buildFigmaFontFluid(theme);
+  const dims = buildFigmaDims(theme);
+  const layout = buildFigmaLayout(theme);
+
+  // Primitive-tier: every var must have hiddenFromPublishing=true. Scopes stay
+  // at real role-family targets (Figma's Plugin API rejects "bogus"/non-matching
+  // scopes and treats scopes=[] as ALL_SCOPES; hidden-from-publishing is
+  // the only scopes-safe mechanism).
+  const primitiveGroups: Array<{ tag: string; vars: any[]; expectScopes: string[] }> = [
+    { tag: 'palette', vars: palette.variables, expectScopes: ['FRAME_FILL', 'SHAPE_FILL', 'TEXT_FILL', 'STROKE_COLOR'] },
+    { tag: 'dimension', vars: dims.dimension.variables, expectScopes: ['WIDTH_HEIGHT', 'GAP', 'CORNER_RADIUS', 'STROKE_FLOAT'] },
+    { tag: 'opacity', vars: dims.opacity.variables, expectScopes: ['OPACITY'] },
+    { tag: 'font/family', vars: font.variables.filter((v) => v.name.startsWith('font/family/')), expectScopes: ['FONT_FAMILY'] },
+    { tag: 'font/size', vars: font.variables.filter((v) => v.name.startsWith('font/size/')), expectScopes: ['FONT_SIZE'] },
+    { tag: 'font/weight', vars: font.variables.filter((v) => v.name.startsWith('font/weight/')), expectScopes: ['FONT_WEIGHT'] },
+  ];
+  const notHidden: string[] = [];
+  const wrongScope: string[] = [];
+  for (const g of primitiveGroups) {
+    for (const v of g.vars) {
+      if (v.hiddenFromPublishing !== true) notHidden.push(`${g.tag}:${v.name}`);
+      // Scope sets are unordered — compare as sorted sets.
+      if (JSON.stringify([...v.scopes].sort()) !== JSON.stringify([...g.expectScopes].sort()))
+        wrongScope.push(`${g.tag}:${v.name} = [${v.scopes.join(',')}]`);
+    }
+  }
+  ok(notHidden.length === 0, `figma primitives: every ref-tier var has hiddenFromPublishing=true (${primitiveGroups.reduce((n, g) => n + g.vars.length, 0)} vars across ${primitiveGroups.length} collections)` + (notHidden.length ? ` — ${notHidden.slice(0, 3).join(', ')}` : ''));
+  ok(wrongScope.length === 0, 'figma primitives: each ref-tier collection carries its role-family scopes (hidden-from-publishing does the hide; scopes still guide bespoke use)' + (wrongScope.length ? ` — ${wrongScope.slice(0, 3).join(', ')}` : ''));
+
+  // Semantic-tier: every var must NOT be hidden.
+  const semanticGroups: Array<{ tag: string; vars: any[] }> = [
+    { tag: 'color', vars: color.flatMap((c) => c.variables) },
+    { tag: 'space', vars: dims.space.variables },
+    { tag: 'radius', vars: dims.radius.flatMap((c) => c.variables) },
+    { tag: 'size', vars: dims.size.variables },
+    { tag: 'border-width', vars: dims.borderWidth.variables },
+    { tag: 'focus', vars: dims.focus.variables },
+    { tag: 'font-fluid', vars: fluid.flatMap((c) => c.variables) },
+    { tag: 'font/weight-role', vars: font.variables.filter((v) => v.name.startsWith('font/weight-role/')) },
+    { tag: 'layout', vars: layout.flatMap((c) => c.variables) },
+  ];
+  const wronglyHidden: string[] = [];
+  for (const g of semanticGroups) {
+    for (const v of g.vars) {
+      if (v.hiddenFromPublishing) wronglyHidden.push(`${g.tag}:${v.name}`);
+    }
+  }
+  ok(wronglyHidden.length === 0, `figma semantics: no semantic-tier var is hidden from publishing (${semanticGroups.reduce((n, g) => n + g.vars.length, 0)} vars across ${semanticGroups.length} collections)` + (wronglyHidden.length ? ` — ${wronglyHidden.slice(0, 3).join(', ')}` : ''));
+
+  // Descriptions: every var across every collection has a non-empty description.
+  const allColls: Array<{ tag: string; vars: any[] }> = [...primitiveGroups, ...semanticGroups];
+  const emptyDesc: string[] = [];
+  for (const g of allColls) for (const v of g.vars) {
+    if (!v.description || v.description.length === 0) emptyDesc.push(`${g.tag}:${v.name}`);
+  }
+  ok(emptyDesc.length === 0, `figma descriptions: every variable carries a non-empty description sourced from the DTCG $description (${allColls.reduce((n, g) => n + g.vars.length, 0)} vars total)` + (emptyDesc.length ? ` — ${emptyDesc.slice(0, 3).join(', ')}` : ''));
+
+  // Descriptions actually match the DTCG source (spot-check a handful of paths
+  // across axes so a silent decoupling — someone writing custom description
+  // text in the adapter — would be caught).
+  const { tree } = buildTree(theme);
+  const R = Object.keys(tree)[0];
+  const spotChecks: Array<[string, any, string]> = [
+    ['palette/red/550', tree[R].palette.red['550'], palette.variables.find((v) => v.name === 'palette/red/550')!.description],
+    ['color/background/primary', tree[R].color.background.primary, color[0].variables.find((v) => v.name === 'color/background/primary')!.description],
+    ['space/100', tree[R].space['100'], dims.space.variables.find((v) => v.name === 'space/100')!.description],
+    ['radius/md', tree[R].radius.md, dims.radius[0].variables.find((v) => v.name === 'radius/md')!.description],
+    ['opacity/50', tree[R].opacity['50'], dims.opacity.variables.find((v) => v.name === 'opacity/50')!.description],
+    ['font/size/16', tree[R].font.size['16'], font.variables.find((v) => v.name === 'font/size/16')!.description],
+    ['font/weight/400', tree[R].font.weight['400'], font.variables.find((v) => v.name === 'font/weight/400')!.description],
+  ];
+  const descMismatch: string[] = [];
+  for (const [name, leaf, actual] of spotChecks) {
+    // family carries the stack line FIRST, then the description; other tokens are exact.
+    if (name.startsWith('font/family/')) continue;
+    if (actual !== String(leaf.$description ?? '')) descMismatch.push(name);
+  }
+  ok(descMismatch.length === 0, 'figma descriptions: spot-check across axes matches the DTCG $description verbatim' + (descMismatch.length ? ` — ${descMismatch.slice(0, 3).join(', ')}` : ''));
+
+  // font/family descriptions: still lead with the stack (fix #4 preserved),
+  // AND the DTCG $description is threaded onto the end.
+  const familyFusion: string[] = [];
+  for (const v of font.variables.filter((v) => v.name.startsWith('font/family/'))) {
+    const role = v.name.split('/')[2];
+    const leaf = tree[R].font.family[role];
+    const stackFirst = /^stack: [^—]+/.test(v.description);
+    const carriesDtcg = v.description.includes(String(leaf.$description ?? ''));
+    if (!stackFirst || !carriesDtcg) familyFusion.push(v.name);
+  }
+  ok(familyFusion.length === 0, 'figma font/family: description leads with the stack (fix #4) AND ends with the DTCG $description' + (familyFusion.length ? ` — ${familyFusion.slice(0, 3).join(', ')}` : ''));
+
+  // Drift fence: same brand emits deterministically. Regenerate twice; the
+  // sorted-keys JSON MUST be byte-identical. Catches accidental
+  // Math.random / Date.now use, which the workflow rules ban.
+  const first = JSON.stringify(buildFigmaColor(theme).palette);
+  const second = JSON.stringify(buildFigmaColor(theme).palette);
+  ok(first === second, 'figma palette: emit is deterministic (regeneration byte-identical)');
 }
 
 // ------------------------------------------------------------------- report
