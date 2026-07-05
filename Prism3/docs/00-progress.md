@@ -143,6 +143,36 @@ here or a merged PR. Test count is **542/542** as of the sweep close.
    **Open:** owner to say which (if any) to promote into the next-steps queue now vs. hold for the
    component/agent-surface phase.
 
+6. **LLM skills in the agentic workflow (owner-raised, note for future discussion — 2026-07-04).**
+   *Would building Claude/LLM "skills" (packaged SKILL.md instruction bundles, like the `brand-skills`
+   repo ships) help the Prism3 agentic workflow?* **Take: yes, at two points, and they're complementary
+   to — not a replacement for — the MCP surface.** The MCP adapter is the callable *tools*; a skill is the
+   *instructions + discovery* layer that teaches an agent WHEN/HOW to drive them. (a) An **authoring skill**
+   (`prism3-theme`) — teach an agent to brief a brand → drive `theme_brand`/the CLI → read the contract
+   results → emit `design.md`. (b) A **consumption skill** (`prism3-consume`) — teach a *downstream* agent
+   to use the generated tokens well: semantic roles not primitives, respect modes, honour `avoid_when`.
+   Two nice ties: **(i)** a consumption skill's value is directly **measurable by the eval we just built** —
+   add a "with-skill" arm and see if it moves invented/leak/contract-compliance (the same differential shape
+   as with/without-surface); **(ii)** a skill fills the exact **docs/13 gap** — Astryx's `agent-docs`
+   injection + the `.ai.json` "no discovery layer; the sidecar is only useful to an agent that knows it
+   exists" note. And it slots into the existing chain: `brand-skills` (extract → `design.md`) → Prism3
+   (tokens) → a `prism3-consume` skill (tokens → compliant UI). **Deferred — natural home is the
+   component/agent-surface phase; the eval makes it testable when it lands.**
+
+---
+
+- **Consumption eval — contract-compliance metric (`engine/eval.ts` `scoreContractCompliance`, docs/17 §4,
+  2026-07-04).** The third consumption metric, and the docs/04 contrast differentiator turned on the
+  *agent's* output: for the fg/bg colour pairs an agent pairs on screen (`UsedPair { fg, bg, kind }`),
+  resolve both roles per mode (`resolveAllModes`) and check the **raw** contrast (CR-01) clears the kind's
+  floor — text 4.5, `ui`/`large-text` 3 (WCAG 1.4.11 / 1.4.3-large). Returns `{ checked, pass, rate,
+  failures[], unresolved[] }`; fails if below floor in *any* mode where both roles resolve, a non-colour
+  role lands in `unresolved` (not scored), no pairs → vacuously compliant (rate 1). Pure — reuses the
+  existing mode/colour core, no new deps. Gated in `test.ts` (**578→585**: pass/fail/kind-floor/mixed/
+  unresolved/empty). **Still to wire (docs/17 §4):** eliciting the pairs from the agent — the harness
+  extracts a flat ref list today; a `pairs` output mode is the next harness step (mirrors how
+  `scoreConsumption` preceded `runEval`). Rubric layer still deferred. Purely additive — `out/*` byte-identical.
+
 ---
 
 - **Consumption eval — harness + first measured run (`engine/eval-run.ts`, docs/17 §3/§5, 2026-07-04).**
