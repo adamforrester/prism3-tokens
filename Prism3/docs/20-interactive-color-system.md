@@ -140,7 +140,9 @@ Every `interactive.*` token is **generated** (walk the intent's palette for fill
    - ✅ inc-4 inverse surface-context (`interactive.<color>.on-inverse`) + `neutralEmphasis` + opt-in `accentPalette`.
    - ⏳ **Legacy-role removal deferred to #67** — the `action.*` → `interactive.*` *rename* (dropping `action.*`, per-colour `foreground.danger.disabled`, `interactive.*.fill.disabled`, `text.disabled`) deletes vars present in the frozen real-NB figma fixture, so it lands with the NB-fidelity reconciliation. Until then the legacy roles stay generated alongside the new families.
    - ⏳ `overlay-tint` lever value (per-colour hue at alpha) — needs per-colour alpha ramps.
-3. Rebind Button/IconButton (and the eval preview) to `interactive.*` / `disabled.*`.
+3. ✅ Rebind Button/IconButton (and the eval preview) to `interactive.*` / `disabled.*` — reconciled to
+   `filled/outline/text × primary/neutral/destructive`; the v1 HIGH finding (hover-less default button)
+   is closed because neutral now carries states. `brand.*`-on-buttons leak removed from the preview.
 4. `field.*` with the Text Field calibration component.
 
 ---

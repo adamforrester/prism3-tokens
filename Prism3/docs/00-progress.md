@@ -7,7 +7,16 @@
 
 ---
 
-## Latest (2026-07-06) — interactive colour family (docs/20), increments 1–4 of the engine PR
+## Latest (2026-07-06) — interactive colour family (docs/20), increments 1–4 + component rebind
+
+**Component rebind (Button / IconButton / eval preview).** Rebound to the reconciled two-axis model —
+appearance `{filled, outline, text}` × intent `{primary, neutral, destructive}` — bound to `interactive.<intent>.*`
++ cross-cutting `disabled.*`. **This closes the v1 HIGH finding**: neutral (was the stateless
+`foreground.secondary`) now carries hover/pressed/on-fill like every colour, so the default button is no
+longer hover-less; the matrix is uniform. `ghost`/`secondary`/`solid`/`plain` retired to the reconciled
+vocabulary; default intent = neutral, appearance = filled. `preview.ts` rebound too (removing the
+`brand.*`-on-buttons leak docs/20 §1 flagged); outline/text hover uses the overlay wash. Component defs
+still validate against both nb + aurora; web tsc clean. test 654→**655**.
 
 **Increment 4 — inverse surface-context + `neutralEmphasis` + opt-in `accentPalette` (additive).**
 - `interactive.<color>.on-inverse` (docs/20 §9): the ink for an outline/text control on a dark hero /

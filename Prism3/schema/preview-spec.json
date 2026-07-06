@@ -4,14 +4,14 @@
   "components": [
     {
       "id": "button",
-      "label": "Button (primary)",
-      "description": "The primary action — filled, on the action palette, across its states.",
+      "label": "Button (primary, filled)",
+      "description": "The primary action — interactive.primary filled, across its states; disabled is the cross-cutting disabled.* family.",
       "variants": [
         {
-          "name": "default",
+          "name": "rest",
           "bindings": {
-            "bg": "color.action.default",
-            "text": "color.text.on-action",
+            "bg": "color.interactive.primary.fill.rest",
+            "text": "color.interactive.primary.on-fill",
             "radius": "radius.md",
             "padX": "space.300",
             "padY": "space.150",
@@ -19,8 +19,8 @@
           },
           "contracts": [
             {
-              "fg": "color.text.on-action",
-              "bg": "color.action.default",
+              "fg": "color.interactive.primary.on-fill",
+              "bg": "color.interactive.primary.fill.rest",
               "min": 4.5,
               "label": "label on fill"
             }
@@ -29,8 +29,8 @@
         {
           "name": "hover",
           "bindings": {
-            "bg": "color.action.hover",
-            "text": "color.text.on-action",
+            "bg": "color.interactive.primary.fill.hover",
+            "text": "color.interactive.primary.on-fill",
             "radius": "radius.md",
             "padX": "space.300",
             "padY": "space.150",
@@ -38,8 +38,8 @@
           },
           "contracts": [
             {
-              "fg": "color.text.on-action",
-              "bg": "color.action.hover",
+              "fg": "color.interactive.primary.on-fill",
+              "bg": "color.interactive.primary.fill.hover",
               "min": 4.5,
               "label": "label on fill"
             }
@@ -48,8 +48,8 @@
         {
           "name": "pressed",
           "bindings": {
-            "bg": "color.action.pressed",
-            "text": "color.text.on-action",
+            "bg": "color.interactive.primary.fill.pressed",
+            "text": "color.interactive.primary.on-fill",
             "radius": "radius.md",
             "padX": "space.300",
             "padY": "space.150",
@@ -57,8 +57,8 @@
           },
           "contracts": [
             {
-              "fg": "color.text.on-action",
-              "bg": "color.action.pressed",
+              "fg": "color.interactive.primary.on-fill",
+              "bg": "color.interactive.primary.fill.pressed",
               "min": 4.5,
               "label": "label on fill"
             }
@@ -67,8 +67,8 @@
         {
           "name": "disabled",
           "bindings": {
-            "bg": "color.action.disabled",
-            "text": "color.text.on-disabled",
+            "bg": "color.disabled.surface",
+            "text": "color.disabled.on-disabled",
             "radius": "radius.md",
             "padX": "space.300",
             "padY": "space.150",
@@ -76,8 +76,8 @@
           },
           "contracts": [
             {
-              "fg": "color.text.on-disabled",
-              "bg": "color.action.disabled",
+              "fg": "color.disabled.on-disabled",
+              "bg": "color.disabled.surface",
               "min": 3,
               "label": "label on fill"
             }
@@ -87,15 +87,15 @@
     },
     {
       "id": "button-secondary",
-      "label": "Button (secondary)",
-      "description": "White-fill + brand border and label — the demoted action.",
+      "label": "Button (primary, outline)",
+      "description": "The demoted action — interactive.primary outline: border + text ink, no fill (no brand.* leak).",
       "variants": [
         {
           "name": "default",
           "bindings": {
             "bg": "color.background.primary",
-            "border": "color.border.brand",
-            "text": "color.foreground.brand",
+            "border": "color.interactive.primary.border",
+            "text": "color.interactive.primary.text",
             "radius": "radius.md",
             "padX": "space.300",
             "padY": "space.150",
@@ -103,13 +103,13 @@
           },
           "contracts": [
             {
-              "fg": "color.foreground.brand",
+              "fg": "color.interactive.primary.text",
               "bg": "color.background.primary",
               "min": 4.5,
               "label": "label on page"
             },
             {
-              "fg": "color.border.brand",
+              "fg": "color.interactive.primary.border",
               "bg": "color.background.primary",
               "min": 3,
               "label": "border on page"
@@ -358,7 +358,7 @@
           "name": "selected",
           "bindings": {
             "text": "color.text.brand",
-            "indicator": "color.action.default",
+            "indicator": "color.interactive.primary.border",
             "type": "type.label.md.emphasis",
             "padX": "space.200",
             "padY": "space.150"
@@ -371,7 +371,7 @@
               "label": "selected label"
             },
             {
-              "fg": "color.action.default",
+              "fg": "color.interactive.primary.border",
               "bg": "color.background.primary",
               "min": 3,
               "label": "indicator"

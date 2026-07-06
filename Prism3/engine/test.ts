@@ -2383,9 +2383,11 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
     ok(vnb.warnings.length === 0 && vau.warnings.length === 0, `component: ${name} binds only semantic roles, no primitive-tier leak${[...vnb.warnings, ...vau.warnings].length ? ' — ' + [...vnb.warnings, ...vau.warnings].join('; ') : ''}`);
   }
 
-  // Button v1 carries the practice's resolved model: two-axis intent × appearance, secondary default.
-  ok(button.props.find((p) => p.name === 'intent')?.default === 'secondary', 'component: Button intent defaults to secondary (one primary per view)');
-  ok(!!button.props.find((p) => p.name === 'appearance'), 'component: Button carries the appearance axis (two-axis model, not a single variant enum)');
+  // Button carries the reconciled two-axis model bound to interactive.* (docs/20): intent
+  // {primary,neutral,destructive} × appearance {filled,outline,text}, neutral default.
+  ok(button.props.find((p) => p.name === 'intent')?.default === 'neutral', 'component: Button intent defaults to neutral (one primary per view)');
+  ok(JSON.stringify(button.variants.appearance) === JSON.stringify(['filled', 'outline', 'text']), 'component: Button appearance axis is filled/outline/text (reconciled)');
+  ok(!Object.values(button.tokens).some((v) => /color\.action\.|color\.foreground\.danger\.|foreground\.secondary/.test(String(v))), 'component: Button binds interactive.*/disabled.*, not the legacy action./danger./secondary roles');
   ok(iconButton.inherits === 'button' && !!iconButton.props.find((p) => p.name === 'aria-label')?.required, 'component: IconButton inherits button + REQUIRES an accessible name');
 
   // The drift gate bites: a broken def is caught (missing avoid_when + an unresolvable binding).

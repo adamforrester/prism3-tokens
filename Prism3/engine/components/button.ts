@@ -4,9 +4,10 @@
  * re-litigated settled decisions; this is faithful to the practice's resolved model.
  *
  * The practice's resolved decisions carried in here:
- *  - TWO-AXIS variant model: intent {primary, secondary, danger, ghost} × appearance
- *    {solid, outline, plain} × size — NOT a single overloaded `variant` enum (brief §3).
- *  - Default intent = secondary (one primary per view; the loud button is the deliberate
+ *  - TWO-AXIS variant model: intent {primary, neutral, destructive} × appearance
+ *    {filled, outline, text} × size — NOT a single overloaded `variant` enum (brief §3;
+ *    reconciled to the interactive vocabulary per docs/20 / KB button.md §3).
+ *  - Default intent = neutral (one primary per view; the loud button is the deliberate
  *    choice, not the default) (§4, §15).
  *  - The state TRIO: isPending (focusable aria-disabled, delayed spinner, width-preserved,
  *    busy-announced), isInactive (focusable disabled — relevant-but-unsatisfied), isDisabled
@@ -16,10 +17,14 @@
  *  - Icon-ONLY is a distinct component (icon-button) so the accessible name is required at
  *    the type level (§6, §10).
  *
- * Calibration findings surfaced by binding the full matrix (see notes.findings): the engine
- * generates interaction states for `action` (primary) and `foreground.danger` but NOT for the
- * neutral `foreground.secondary` surface, and there is no `type.label.lg` — both are token-layer
- * gaps the engine-verified-focus-ring PR + a follow-up should close.
+ * Rebound to the interactive colour system (docs/20): the two-axis model is now the
+ * reconciled vocabulary — appearance {filled, outline, text} × colour {primary, neutral,
+ * destructive} (+ accent when a brand declares one) — bound to `interactive.<colour>.*`
+ * with cross-cutting `disabled.*`. This CLOSES the v1 HIGH finding: neutral (was the
+ * stateless `foreground.secondary`) now carries hover/pressed/on-fill like every colour,
+ * so the default button is no longer hover-less. outline/text hover uses the overlay wash
+ * (assumes `outlineInteraction: overlay-neutral`, the default). `ghost` is retired — a
+ * quiet button is `intent=neutral appearance=text`. (`type.label.lg` gap still stands.)
  */
 import { ComponentDef } from '../component-schema';
 
@@ -35,8 +40,8 @@ export const button: ComponentDef = {
   props: [
     { name: 'children', type: 'node (label)', required: true, description: 'Visible label; verb-first, sentence case, ≤3 words. (Not required for the icon-only case — that is a distinct icon-button.)' },
     { name: 'onClick', type: 'function', required: false, description: 'Action handler. Suppressed while isPending or isInactive.' },
-    { name: 'intent', type: "enum: 'primary' | 'secondary' | 'danger' | 'ghost'", values: ['primary', 'secondary', 'danger', 'ghost'], default: 'secondary', required: false, description: 'Semantic role + colour. One primary per view. ghost is the conventional alias for intent=secondary + appearance=plain.' },
-    { name: 'appearance', type: "enum: 'solid' | 'outline' | 'plain'", values: ['solid', 'outline', 'plain'], default: 'solid', required: false, description: 'Visual fill, decoupled from intent so the matrix scales by addition, not multiplication.' },
+    { name: 'intent', type: "enum: 'primary' | 'neutral' | 'destructive'", values: ['primary', 'neutral', 'destructive'], default: 'neutral', required: false, description: 'Semantic colour, drawn from interactive.<intent>.* (docs/20). One primary per view; neutral is the workhorse default; destructive for delete/remove. accent is available when the brand declares one. (Reconciled from the old primary/secondary/danger/ghost — secondary→neutral, danger→destructive, ghost retired to intent=neutral appearance=text.)' },
+    { name: 'appearance', type: "enum: 'filled' | 'outline' | 'text'", values: ['filled', 'outline', 'text'], default: 'filled', required: false, description: 'Visual treatment over the colour, decoupled from intent so the matrix scales by addition. filled = interactive fill + on-fill ink; outline = border + text ink; text = ink only. (Reconciled from solid/outline/plain.)' },
     { name: 'size', type: "enum: 'small' | 'medium' | 'large'", values: ['small', 'medium', 'large'], default: 'medium', required: false, description: 'Control size — drives height, padding, and label type.' },
     { name: 'fullWidth', type: 'boolean', default: false, required: false, description: 'Stretch to container. Aliases: block / isFullWidth.' },
     { name: 'type', type: "enum: 'button' | 'submit' | 'reset'", values: ['button', 'submit', 'reset'], default: 'button', required: false, description: "Opinionated default 'button' to neutralise the platform's submit-on-enter-in-form trap; require 'submit' explicitly." },
@@ -51,16 +56,18 @@ export const button: ComponentDef = {
 
   states: ['rest', 'hover', 'focus-visible', 'pressed', 'pending', 'inactive', 'disabled'],
   variants: {
-    intent: ['primary', 'secondary', 'danger', 'ghost'],
-    appearance: ['solid', 'outline', 'plain'],
+    intent: ['primary', 'neutral', 'destructive'],
+    appearance: ['filled', 'outline', 'text'],
     size: ['small', 'medium', 'large'],
     width: ['auto', 'full'],
     modifiers: ['leading-visual', 'trailing-visual', 'pending'],
   },
 
-  // Full intent × appearance × size skin, bound to semantic roles. State-qualified slots
-  // carry a dotted state suffix. ghost is omitted as a distinct skin — it resolves to
-  // secondary.plain per the brief. Keys structure the matrix; the generators read them.
+  // Full colour × appearance × size skin, bound to the interactive.* family + cross-cutting
+  // disabled.*. Every colour now carries the SAME shape (fill+states / on-fill / border / text
+  // / overlay), so the matrix is uniform — no per-colour gaps. State-qualified slots carry a
+  // dotted state suffix. accent is omitted from the base matrix (brand-conditional — it exists
+  // only when the brand declares an accent palette). Keys structure the matrix; generators read them.
   tokens: {
     // base (variant-independent)
     'radius': 'radius.md',
@@ -80,48 +87,62 @@ export const button: ComponentDef = {
     'size.large.padding-x': 'size.lg.padding-x',
     'size.large.padding-y': 'size.lg.padding-y',
     'size.large.height': 'size.lg.height',
-    'size.large.type': 'type.label.md.emphasis', // FINDING: no type.label.lg — reuses md
+    'size.large.type': 'type.label.md.emphasis', // FINDING (still open): no type.label.lg — reuses md
 
-    // primary — action.* carries full interaction states
-    'primary.solid.fill': 'color.action.default',
-    'primary.solid.fill.hover': 'color.action.hover',
-    'primary.solid.fill.pressed': 'color.action.pressed',
-    'primary.solid.fill.disabled': 'color.action.disabled',
-    'primary.solid.label': 'color.text.on-action',
-    'primary.solid.label.disabled': 'color.text.on-disabled',
-    'primary.solid.icon': 'color.icon.on-action',
-    'primary.outline.border': 'color.border.brand',
-    'primary.outline.label': 'color.text.brand',
-    'primary.outline.icon': 'color.icon.brand',
-    'primary.plain.label': 'color.text.brand',
-    'primary.plain.icon': 'color.icon.brand',
+    // primary — interactive.primary.* (full states)
+    'primary.filled.fill': 'color.interactive.primary.fill.rest',
+    'primary.filled.fill.hover': 'color.interactive.primary.fill.hover',
+    'primary.filled.fill.pressed': 'color.interactive.primary.fill.pressed',
+    'primary.filled.label': 'color.interactive.primary.on-fill',
+    'primary.filled.icon': 'color.interactive.primary.on-fill',
+    'primary.outline.border': 'color.interactive.primary.border',
+    'primary.outline.label': 'color.interactive.primary.text',
+    'primary.outline.icon': 'color.interactive.primary.text',
+    'primary.outline.overlay.hover': 'color.interactive.primary.overlay.hover',
+    'primary.outline.overlay.pressed': 'color.interactive.primary.overlay.pressed',
+    'primary.text.label': 'color.interactive.primary.text',
+    'primary.text.icon': 'color.interactive.primary.text',
+    'primary.text.overlay.hover': 'color.interactive.primary.overlay.hover',
+    'primary.on-inverse.label': 'color.interactive.primary.on-inverse',
 
-    // secondary — neutral surface; FINDING: no hover/pressed states on foreground.secondary
-    'secondary.solid.fill': 'color.foreground.secondary',
-    'secondary.solid.label': 'color.text.primary',
-    'secondary.solid.icon': 'color.icon.primary',
-    'secondary.outline.border': 'color.border.secondary',
-    'secondary.outline.label': 'color.text.primary',
-    'secondary.outline.icon': 'color.icon.primary',
-    'secondary.plain.label': 'color.text.primary',
-    'secondary.plain.icon': 'color.icon.primary',
+    // neutral — the workhorse default; now carries hover/pressed like every colour (v1 gap CLOSED)
+    'neutral.filled.fill': 'color.interactive.neutral.fill.rest',
+    'neutral.filled.fill.hover': 'color.interactive.neutral.fill.hover',
+    'neutral.filled.fill.pressed': 'color.interactive.neutral.fill.pressed',
+    'neutral.filled.label': 'color.interactive.neutral.on-fill',
+    'neutral.filled.icon': 'color.interactive.neutral.on-fill',
+    'neutral.outline.border': 'color.interactive.neutral.border',
+    'neutral.outline.label': 'color.interactive.neutral.text',
+    'neutral.outline.icon': 'color.interactive.neutral.text',
+    'neutral.outline.overlay.hover': 'color.interactive.neutral.overlay.hover',
+    'neutral.outline.overlay.pressed': 'color.interactive.neutral.overlay.pressed',
+    'neutral.text.label': 'color.interactive.neutral.text',
+    'neutral.text.icon': 'color.interactive.neutral.text',
+    'neutral.text.overlay.hover': 'color.interactive.neutral.overlay.hover',
+    'neutral.on-inverse.label': 'color.interactive.neutral.on-inverse',
 
-    // danger — foreground.danger.* carries full interaction states
-    'danger.solid.fill': 'color.foreground.danger.default',
-    'danger.solid.fill.hover': 'color.foreground.danger.hover',
-    'danger.solid.fill.pressed': 'color.foreground.danger.pressed',
-    'danger.solid.fill.disabled': 'color.foreground.danger.disabled',
-    'danger.solid.label': 'color.text.on-danger',
-    'danger.solid.icon': 'color.icon.on-danger',
-    'danger.outline.border': 'color.border.danger',
-    'danger.outline.label': 'color.text.danger',
-    'danger.outline.icon': 'color.icon.danger',
-    'danger.plain.label': 'color.text.danger',
-    'danger.plain.icon': 'color.icon.danger',
+    // destructive — interactive.destructive.* (full states)
+    'destructive.filled.fill': 'color.interactive.destructive.fill.rest',
+    'destructive.filled.fill.hover': 'color.interactive.destructive.fill.hover',
+    'destructive.filled.fill.pressed': 'color.interactive.destructive.fill.pressed',
+    'destructive.filled.label': 'color.interactive.destructive.on-fill',
+    'destructive.filled.icon': 'color.interactive.destructive.on-fill',
+    'destructive.outline.border': 'color.interactive.destructive.border',
+    'destructive.outline.label': 'color.interactive.destructive.text',
+    'destructive.outline.icon': 'color.interactive.destructive.text',
+    'destructive.outline.overlay.hover': 'color.interactive.destructive.overlay.hover',
+    'destructive.outline.overlay.pressed': 'color.interactive.destructive.overlay.pressed',
+    'destructive.text.label': 'color.interactive.destructive.text',
+    'destructive.text.icon': 'color.interactive.destructive.text',
+    'destructive.text.overlay.hover': 'color.interactive.destructive.overlay.hover',
+    'destructive.on-inverse.label': 'color.interactive.destructive.on-inverse',
 
-    // shared disabled ink for the non-solid appearances (solid skins bind their own on-disabled)
-    'label.disabled': 'color.text.disabled',
-    'icon.disabled': 'color.icon.disabled',
+    // cross-cutting disabled (docs/20 §7) — ONE treatment, any intent/appearance
+    'disabled.fill': 'color.disabled.surface',
+    'disabled.on-fill': 'color.disabled.on-disabled',
+    'disabled.label': 'color.disabled.text',
+    'disabled.icon': 'color.disabled.icon',
+    'disabled.border': 'color.disabled.border',
   },
 
   accessibility: {
@@ -142,8 +163,8 @@ export const button: ComponentDef = {
     usage: 'Use for an immediate action in the current context — submit/save/reset a form, trigger a UI state change (open modal, toggle drawer), or fire async work. Assign intent=primary by the action\'s importance TO THIS VIEW; exactly one per view/region.',
     do: [
       'Lead with a verb, name the object ("Publish post", not "Submit")',
-      'Keep exactly one primary per view; use secondary/ghost for the rest',
-      'Pair a danger button with an adjacent neutral escape ("Cancel"/"Keep")',
+      'Keep exactly one primary per view; use neutral (with outline/text appearances) for the rest',
+      'Pair a destructive button with an adjacent neutral escape ("Cancel"/"Keep")',
       'Use isInactive (focusable) for a control blocked by satisfiable state; reserve isDisabled for the irrelevant',
     ],
     dont: [
@@ -179,13 +200,15 @@ export const button: ComponentDef = {
   notes: {
     contested: [
       'native isDisabled vs focusable isInactive — the practice defaults to isInactive for relevant-but-blocked, but focusable aria-disabled is not yet the field-wide default (per-engagement decision).',
-      'ghost (intent) vs plain (appearance) overlap — ghost is carried as an alias for secondary.plain, not a distinct skin.',
-      'intent bundles hierarchy + tone, so a low-emphasis destructive ("quiet Delete") is expressed as intent=danger appearance=plain rather than a fully orthogonal emphasis×tone split.',
+      'intent bundles hierarchy + tone, so a low-emphasis destructive ("quiet Delete") is expressed as intent=destructive appearance=text rather than a fully orthogonal emphasis×tone split.',
+      'outline/text hover uses the interactive overlay wash, which assumes outlineInteraction=overlay-neutral (the default); a solid-tint / none brand rebinds those slots (foreground.<colour>-subtle / no hover).',
+    ],
+    evolution: [
+      'RESOLVED (was the v1 HIGH finding): interaction states existed only on the solid action/danger roles, so the default (neutral) button was hover-less. The interactive colour system (docs/20) gives every colour — primary/neutral/destructive — the full fill+states/on-fill/border/text/overlay shape, so the matrix is now uniform and the default button has proper hover/pressed. Disabled is the cross-cutting disabled.* family, no longer scattered per-colour.',
     ],
     unverified: [
-      'FINDING (token layer, HIGH — affects the DEFAULT button): interaction states (hover/pressed) exist ONLY on the two solid semantic roles, action (primary) and foreground.danger. Every neutral / non-solid role — foreground.secondary, and the brand/danger/neutral text + border roles used by outline & plain — is a single flat value. So NO outline or plain variant of any intent, AND solid secondary, can express hover/pressed. Because the component default is intent=secondary + appearance=solid, the default button is itself hover-less. Blocks `stable`; the fix is a token-engine job (generate interaction states for the neutral + non-solid roles).',
-      'FINDING (token layer): no type.label.lg composite — large buttons reuse type.label.md (large differs from medium only in height/padding, not type scale).',
-      'FINDING (engine): the focus-ring 3:1 non-text contrast (1.4.11) is asserted here but not yet engine-verified — the next contract to add (owner-approved).',
+      'FINDING (token layer, still open): no type.label.lg composite — large buttons reuse type.label.md (large differs from medium only in height/padding, not type scale).',
+      'FINDING (engine): the focus-ring 3:1 non-text contrast (1.4.11) is asserted here but not yet engine-verified — a follow-up contract.',
     ],
   },
 };
