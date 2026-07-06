@@ -79,6 +79,9 @@ export type ComponentDef = {
     wcag?: string[];
     keyboard?: string;
     focus?: string;
+    /** ARIA state attributes + their correct use (pressed/expanded/haspopup/checked
+     *  are distinct, not interchangeable), and any live-region / busy announcement. */
+    aria?: string;
   };
 
   // ---- content (§15, SCALES) ----
