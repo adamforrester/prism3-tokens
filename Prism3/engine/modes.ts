@@ -387,6 +387,17 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
     }
   }
 
+  // ---- disabled — cross-cutting (docs/20 §7): ONE treatment, not per-colour. A disabled
+  // control looks disabled regardless of intent (surface / on-disabled / text / icon /
+  // border), governed by the `disabledStrategy` lever. Additive for now — the per-colour
+  // action.disabled / foreground.danger.disabled / interactive.*.fill.disabled remain until
+  // components rebind to `disabled.*` and the scattered states are removed in the migration.
+  putSurf('disabled.surface', neutralLow(), 'Disabled control fill — one muted neutral, any intent');
+  { const d = onDisabled(); put('disabled.on-disabled', d.r, `Label / icon on a disabled fill — muted but ${accessibleDisabled ? `clears ${d.min}:1` : 'sub-AA (WCAG-exempt)'}`, 'disabled.surface', d.min); }
+  { const d = disabledText(); put('disabled.text', d.r, accessibleDisabled ? `Disabled text — clears ${disabledTarget}:1 (accessible)` : 'Disabled text — sub-AA (WCAG-exempt)', d.against, d.min); }
+  { const d = disabledText(); put('disabled.icon', d.r, accessibleDisabled ? `Disabled icon — clears ${disabledTarget}:1 (accessible)` : 'Disabled icon — sub-AA (WCAG-exempt)', d.against, d.min); }
+  put('disabled.border', rated(neutralLow(), baseRgb), 'Disabled control border — muted neutral', 'background.primary', 0);
+
   // -------------------------------------------------------------- text (+ icon)
   // Ink. Built from a floor PROFILE so `text` (4.5:1) and `icon` can diverge: with
   // iconContrast '3:1' icons resolve against the WCAG 1.4.11 non-text floor for

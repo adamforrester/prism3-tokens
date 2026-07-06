@@ -42,6 +42,7 @@ const SIGNAL: Record<string, string> = {
 };
 const genMeaning = (group: string, variant: string): string => {
   if (group === 'action') return 'Interactivity / actions';
+  if (group === 'disabled') return 'Unavailable / inactive state';
   if (variant === 'link') return 'Interactivity / navigation';
   if (variant === 'focus') return 'Keyboard focus indication';
   if (SIGNAL[variant]) return SIGNAL[variant];                                  // intent fill/text/icon/border (incl. danger)
@@ -102,6 +103,15 @@ const describe = (group: string, variant: string, state: string | undefined): { 
     if (variant === 'inverse') return { desc: 'Border on inverse surfaces', when_to_use: 'Borders on background.inverse / foreground.inverse.', avoid_when: 'Do not use on default surfaces.', paired_with: ['background.inverse.primary'] };
     if (variant === 'focus') return { desc: 'Focus ring colour', when_to_use: 'The keyboard-focus indicator on interactive elements.', avoid_when: 'Do not use as a decorative divider (use border.primary).', paired_with: ['background.primary'] };
     if (intent) return { desc: `${cap(intent)} validation border`, when_to_use: `Validation/state borders for ${variant} (e.g. invalid fields).`, avoid_when: `Do not use as ${variant} ink or fill — use text.${variant} / foreground.${variant}.` };
+  }
+
+  // disabled — cross-cutting (docs/20 §7): one treatment, any intent.
+  if (group === 'disabled') {
+    if (variant === 'surface') return { desc: 'Disabled control fill', when_to_use: 'The fill of ANY disabled control (button, chip, field), regardless of intent — a disabled control looks disabled.', avoid_when: 'Do not use for enabled controls (use interactive.*.fill / foreground.*).', paired_with: ['disabled.on-disabled'] };
+    if (variant === 'on-disabled') return { desc: 'Label / icon on a disabled fill', when_to_use: "The label or icon on a disabled control's fill — muted but legible on it.", avoid_when: 'Do not use on an enabled fill (use interactive.*.on-fill) or on the page (use disabled.text).', paired_with: ['disabled.surface'] };
+    if (variant === 'text') return { desc: 'Disabled text', when_to_use: 'Text of a disabled or inactive element (a disabled outline/text control, disabled body copy).', avoid_when: 'Do not use for active content (use text.primary/secondary).' };
+    if (variant === 'icon') return { desc: 'Disabled icon', when_to_use: 'Icon of a disabled or inactive element.', avoid_when: 'Do not use for active icons (use icon.primary/secondary).' };
+    if (variant === 'border') return { desc: 'Disabled control border', when_to_use: 'The border of a disabled outline control.', avoid_when: 'Do not use as a page divider (use border.primary) or on an enabled control (use interactive.*.border).', paired_with: ['disabled.surface'] };
   }
 
   if (group === 'scrim') return { desc: 'Semi-transparent backdrop behind modals / drawers', when_to_use: 'The dimming layer behind a modal, dialog, or drawer.', avoid_when: 'Do not use as a solid surface or for any opaque element.', paired_with: ['foreground.inverse.primary'] };

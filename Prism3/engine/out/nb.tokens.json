@@ -5285,6 +5285,220 @@
           }
         }
       },
+      "disabled": {
+        "surface": {
+          "$type": "color",
+          "$value": "{nbds.palette.neutral.200}",
+          "$description": "Disabled control fill — one muted neutral, any intent",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.palette.neutral.200",
+              "contrast": 1,
+              "against": "self",
+              "modes": {
+                "dark": {
+                  "$value": "{nbds.palette.neutral.750}",
+                  "contrast": 1,
+                  "against": "self"
+                },
+                "hc-light": {
+                  "$value": "{nbds.palette.neutral.200}",
+                  "contrast": 1,
+                  "against": "self"
+                },
+                "hc-dark": {
+                  "$value": "{nbds.palette.neutral.750}",
+                  "contrast": 1,
+                  "against": "self"
+                }
+              },
+              "figma": {
+                "collection": "color",
+                "modes": [
+                  "light",
+                  "dark",
+                  "hc-light",
+                  "hc-dark"
+                ],
+                "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+              }
+            }
+          }
+        },
+        "on-disabled": {
+          "$type": "color",
+          "$value": "{nbds.palette.neutral.550}",
+          "$description": "Label / icon on a disabled fill — muted but clears 3:1",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.palette.neutral.550",
+              "contrast": 3.04,
+              "against": "disabled.surface",
+              "min": 3,
+              "modes": {
+                "dark": {
+                  "$value": "{nbds.palette.neutral.450}",
+                  "contrast": 3.08,
+                  "against": "disabled.surface",
+                  "min": 3
+                },
+                "hc-light": {
+                  "$value": "{nbds.palette.neutral.650}",
+                  "contrast": 4.51,
+                  "against": "disabled.surface",
+                  "min": 4.5
+                },
+                "hc-dark": {
+                  "$value": "{nbds.palette.neutral.300}",
+                  "contrast": 4.92,
+                  "against": "disabled.surface",
+                  "min": 4.5
+                }
+              },
+              "figma": {
+                "collection": "color",
+                "modes": [
+                  "light",
+                  "dark",
+                  "hc-light",
+                  "hc-dark"
+                ],
+                "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+              }
+            }
+          }
+        },
+        "text": {
+          "$type": "color",
+          "$value": "{nbds.palette.neutral.450}",
+          "$description": "Disabled text — clears 3:1 (accessible)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.palette.neutral.450",
+              "contrast": 3.16,
+              "against": "neutral.050",
+              "min": 3,
+              "modes": {
+                "dark": {
+                  "$value": "{nbds.palette.neutral.550}",
+                  "contrast": 3.27,
+                  "against": "neutral.900",
+                  "min": 3
+                },
+                "hc-light": {
+                  "$value": "{nbds.palette.neutral.550}",
+                  "contrast": 4.52,
+                  "against": "neutral.050",
+                  "min": 4.5
+                },
+                "hc-dark": {
+                  "$value": "{nbds.palette.neutral.450}",
+                  "contrast": 4.68,
+                  "against": "neutral.900",
+                  "min": 4.5
+                }
+              },
+              "figma": {
+                "collection": "color",
+                "modes": [
+                  "light",
+                  "dark",
+                  "hc-light",
+                  "hc-dark"
+                ],
+                "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+              }
+            }
+          }
+        },
+        "icon": {
+          "$type": "color",
+          "$value": "{nbds.palette.neutral.450}",
+          "$description": "Disabled icon — clears 3:1 (accessible)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.palette.neutral.450",
+              "contrast": 3.16,
+              "against": "neutral.050",
+              "min": 3,
+              "modes": {
+                "dark": {
+                  "$value": "{nbds.palette.neutral.550}",
+                  "contrast": 3.27,
+                  "against": "neutral.900",
+                  "min": 3
+                },
+                "hc-light": {
+                  "$value": "{nbds.palette.neutral.550}",
+                  "contrast": 4.52,
+                  "against": "neutral.050",
+                  "min": 4.5
+                },
+                "hc-dark": {
+                  "$value": "{nbds.palette.neutral.450}",
+                  "contrast": 4.68,
+                  "against": "neutral.900",
+                  "min": 4.5
+                }
+              },
+              "figma": {
+                "collection": "color",
+                "modes": [
+                  "light",
+                  "dark",
+                  "hc-light",
+                  "hc-dark"
+                ],
+                "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+              }
+            }
+          }
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{nbds.palette.neutral.200}",
+          "$description": "Disabled control border — muted neutral",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.palette.neutral.200",
+              "contrast": 1.81,
+              "against": "background.primary",
+              "modes": {
+                "dark": {
+                  "$value": "{nbds.palette.neutral.750}",
+                  "contrast": 1.65,
+                  "against": "background.primary"
+                },
+                "hc-light": {
+                  "$value": "{nbds.palette.neutral.200}",
+                  "contrast": 1.81,
+                  "against": "background.primary"
+                },
+                "hc-dark": {
+                  "$value": "{nbds.palette.neutral.750}",
+                  "contrast": 1.78,
+                  "against": "background.primary"
+                }
+              },
+              "figma": {
+                "collection": "color",
+                "modes": [
+                  "light",
+                  "dark",
+                  "hc-light",
+                  "hc-dark"
+                ],
+                "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+              }
+            }
+          }
+        }
+      },
       "text": {
         "primary": {
           "$type": "color",

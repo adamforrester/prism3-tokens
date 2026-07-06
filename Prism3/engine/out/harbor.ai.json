@@ -1406,6 +1406,96 @@
         }
       ]
     },
+    "disabled.surface": {
+      "$description": "Disabled control fill.",
+      "meaning": "Unavailable / inactive state",
+      "when_to_use": "The fill of ANY disabled control (button, chip, field), regardless of intent — a disabled control looks disabled.",
+      "avoid_when": "Do not use for enabled controls (use interactive.*.fill / foreground.*).",
+      "mode_overrides": {
+        "light": "{prism.palette.neutral.200}",
+        "dark": "{prism.palette.neutral.750}",
+        "hc-light": "{prism.palette.neutral.200}",
+        "hc-dark": "{prism.palette.neutral.750}"
+      },
+      "paired_with": [
+        "disabled.on-disabled"
+      ]
+    },
+    "disabled.on-disabled": {
+      "$description": "Label / icon on a disabled fill.",
+      "meaning": "Unavailable / inactive state",
+      "when_to_use": "The label or icon on a disabled control's fill — muted but legible on it.",
+      "avoid_when": "Do not use on an enabled fill (use interactive.*.on-fill) or on the page (use disabled.text).",
+      "mode_overrides": {
+        "light": "{prism.palette.neutral.550}",
+        "dark": "{prism.palette.neutral.450}",
+        "hc-light": "{prism.palette.neutral.650}",
+        "hc-dark": "{prism.palette.neutral.300}"
+      },
+      "paired_with": [
+        "disabled.surface"
+      ],
+      "contrast_with": [
+        {
+          "token": "disabled.surface",
+          "min": "3:1",
+          "ratio": 3.08
+        }
+      ]
+    },
+    "disabled.text": {
+      "$description": "Disabled text.",
+      "meaning": "Unavailable / inactive state",
+      "when_to_use": "Text of a disabled or inactive element (a disabled outline/text control, disabled body copy).",
+      "avoid_when": "Do not use for active content (use text.primary/secondary).",
+      "mode_overrides": {
+        "light": "{prism.palette.neutral.500}",
+        "dark": "{prism.palette.neutral.550}",
+        "hc-light": "{prism.palette.neutral.600}",
+        "hc-dark": "{prism.palette.neutral.450}"
+      },
+      "contrast_with": [
+        {
+          "token": "neutral.100",
+          "min": "3:1",
+          "ratio": 3.32
+        }
+      ]
+    },
+    "disabled.icon": {
+      "$description": "Disabled icon.",
+      "meaning": "Unavailable / inactive state",
+      "when_to_use": "Icon of a disabled or inactive element.",
+      "avoid_when": "Do not use for active icons (use icon.primary/secondary).",
+      "mode_overrides": {
+        "light": "{prism.palette.neutral.500}",
+        "dark": "{prism.palette.neutral.550}",
+        "hc-light": "{prism.palette.neutral.600}",
+        "hc-dark": "{prism.palette.neutral.450}"
+      },
+      "contrast_with": [
+        {
+          "token": "neutral.100",
+          "min": "3:1",
+          "ratio": 3.32
+        }
+      ]
+    },
+    "disabled.border": {
+      "$description": "Disabled control border.",
+      "meaning": "Unavailable / inactive state",
+      "when_to_use": "The border of a disabled outline control.",
+      "avoid_when": "Do not use as a page divider (use border.primary) or on an enabled control (use interactive.*.border).",
+      "mode_overrides": {
+        "light": "{prism.palette.neutral.200}",
+        "dark": "{prism.palette.neutral.750}",
+        "hc-light": "{prism.palette.neutral.200}",
+        "hc-dark": "{prism.palette.neutral.750}"
+      },
+      "paired_with": [
+        "disabled.surface"
+      ]
+    },
     "text.primary": {
       "$description": "Primary (highest-emphasis) text.",
       "meaning": "Content hierarchy / reading emphasis",
@@ -3537,6 +3627,8 @@
         "color.action.disabled",
         "color.border.inverse",
         "color.border.primary",
+        "color.disabled.border",
+        "color.disabled.surface",
         "color.foreground.danger.disabled",
         "color.foreground.tertiary",
         "color.interactive.destructive.fill.disabled",
@@ -3565,6 +3657,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
+        "color.disabled.on-disabled",
         "color.icon.on-disabled",
         "color.icon.secondary",
         "color.text.on-disabled",
@@ -3593,6 +3686,9 @@
       "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
         "color.border.secondary",
+        "color.disabled.icon",
+        "color.disabled.on-disabled",
+        "color.disabled.text",
         "color.icon.disabled",
         "color.icon.on-disabled",
         "color.icon.secondary",
@@ -3614,6 +3710,8 @@
         "color.border.inverse",
         "color.border.primary",
         "color.border.secondary",
+        "color.disabled.icon",
+        "color.disabled.text",
         "color.icon.disabled",
         "color.icon.tertiary",
         "color.interactive.neutral.border",
@@ -3628,6 +3726,9 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
+        "color.disabled.icon",
+        "color.disabled.on-disabled",
+        "color.disabled.text",
         "color.icon.disabled",
         "color.icon.on-disabled",
         "color.icon.tertiary",
@@ -3644,6 +3745,8 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
+        "color.disabled.icon",
+        "color.disabled.text",
         "color.icon.disabled",
         "color.icon.secondary",
         "color.icon.tertiary",
@@ -3659,6 +3762,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
+        "color.disabled.on-disabled",
         "color.icon.on-disabled",
         "color.text.on-disabled"
       ]
@@ -3684,6 +3788,8 @@
       "aliased_by": [
         "color.action.disabled",
         "color.border.primary",
+        "color.disabled.border",
+        "color.disabled.surface",
         "color.foreground.danger.disabled",
         "color.interactive.destructive.fill.disabled",
         "color.interactive.neutral.fill.disabled",

@@ -7,7 +7,17 @@
 
 ---
 
-## Latest (2026-07-06) — interactive colour family (docs/20), increments 1–2 of the engine PR
+## Latest (2026-07-06) — interactive colour family (docs/20), increments 1–3 of the engine PR
+
+**Increment 3 — cross-cutting `disabled.*` (additive).** One disabled treatment regardless of intent
+(docs/20 §7): `disabled.{surface, on-disabled, text, icon, border}`, governed by `disabledStrategy`.
+`disabled.on-disabled` is gated against `disabled.surface` (accessible: 3:1). Contract count 360→**372**.
+Kept **additive** — the scattered `action.disabled` / `foreground.danger.disabled` / `interactive.*.fill.disabled`
+remain generated so NB byte-repro holds; components rebind to `disabled.*` in the migration step. `color/disabled/`
+is a new engine-added family, added to the figma fixture allowlist. **Important scoping note:** removing the
+legacy `action.*` roles (the docs/20 §11 rename) would delete `color/action/*` vars that ARE in the frozen
+real-NB fixture — that's the NB-fidelity reconciliation the review tied to **#67**, so this PR keeps the legacy
+roles and defers their removal there. test 646→**648**.
 
 **Increment 2 — overlays + composited-contrast gate + `outlineInteraction` lever (additive).**
 - `interactive.<color>.overlay.{hover,pressed,selected}` — translucent washes that composite over

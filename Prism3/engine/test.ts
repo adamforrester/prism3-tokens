@@ -248,6 +248,25 @@ for (const b of brands) {
   ok(noOverlay.length === 0, 'interactive: outlineInteraction=none emits no overlays' + (noOverlay.length ? ` — ${noOverlay.slice(0, 2).join(',')}` : ''));
 }
 
+// DISABLED — cross-cutting family (docs/20 §7): one treatment regardless of intent,
+// present in every mode, with its on-ink gated against the disabled surface.
+{
+  const modes = resolveAllModes(nbTheme());
+  const shapeMissing: string[] = [];
+  for (const m of modes)
+    for (const k of ['surface', 'on-disabled', 'text', 'icon', 'border'])
+      if (!(`disabled.${k}` in m.roles)) shapeMissing.push(`${m.mode}:disabled.${k}`);
+  ok(shapeMissing.length === 0, 'disabled: surface/on-disabled/text/icon/border in every mode' + (shapeMissing.length ? ` — ${shapeMissing.slice(0, 3).join(',')}` : ''));
+
+  const onFails: string[] = [];
+  for (const m of modes) {
+    const r = m.roles['disabled.on-disabled'];
+    if (r.against !== 'disabled.surface') onFails.push(`${m.mode}:against=${r.against}`);
+    if (r.min > 0 && r.ratio < r.min) onFails.push(`${m.mode}:${r.ratio.toFixed(2)}<${r.min}`);
+  }
+  ok(onFails.length === 0, 'disabled: on-disabled is gated against disabled.surface (accessible strategy)' + (onFails.length ? ` — ${onFails.join(',')}` : ''));
+}
+
 // L-02: dualContrastWindow is only defined up to √21 ≈ 4.583 (the max ratio any single
 // luminance clears on BOTH extremes). At 4.5 it returns a valid non-empty window; past
 // √21 it must THROW rather than hand back an inverted [min>max] pair.
@@ -939,7 +958,7 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
     // pinned for shape/scope in the dedicated interactive block below, not here — so this
     // gate still fails on a spurious var inside a REAL family. (Fixture-character decision,
     // 2026-07-06; pairs with #67.)
-    const ENGINE_ADDED_FAMILIES = ['color/interactive/'];
+    const ENGINE_ADDED_FAMILIES = ['color/interactive/', 'color/disabled/'];
     const missing = [...fixByName.keys()].filter((n) => !outByName.has(n));
     const extra = [...outByName.keys()].filter((n) => !fixByName.has(n) && !ENGINE_ADDED_FAMILIES.some((p) => n.startsWith(p)));
     ok(missing.length === 0 && extra.length === 0, `figma ${key}: variable names match fixture (${fix.variables.length})` + (missing.length ? ` — MISSING ${missing.slice(0, 3).join(',')}` : '') + (extra.length ? ` — EXTRA ${extra.slice(0, 3).join(',')}` : ''));

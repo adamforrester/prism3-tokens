@@ -1357,6 +1357,101 @@
       }
     },
     {
+      "name": "color/disabled/surface",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Disabled control fill — one muted neutral, any intent",
+      "value": {
+        "r": 0.7568627595901489,
+        "g": 0.7568627595901489,
+        "b": 0.7647058963775635,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/neutral/200"
+      }
+    },
+    {
+      "name": "color/disabled/on-disabled",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Label / icon on a disabled fill — muted but clears 3:1",
+      "value": {
+        "r": 0.40784314274787903,
+        "g": 0.40784314274787903,
+        "b": 0.4274509847164154,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/neutral/550"
+      }
+    },
+    {
+      "name": "color/disabled/text",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Disabled text — clears 3:1 (accessible)",
+      "value": {
+        "r": 0.4588235318660736,
+        "g": 0.4627451002597809,
+        "b": 0.47843137383461,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/neutral/500"
+      }
+    },
+    {
+      "name": "color/disabled/icon",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Disabled icon — clears 3:1 (accessible)",
+      "value": {
+        "r": 0.4588235318660736,
+        "g": 0.4627451002597809,
+        "b": 0.47843137383461,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/neutral/500"
+      }
+    },
+    {
+      "name": "color/disabled/border",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Disabled control border — muted neutral",
+      "value": {
+        "r": 0.7568627595901489,
+        "g": 0.7568627595901489,
+        "b": 0.7647058963775635,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/neutral/200"
+      }
+    },
+    {
       "name": "color/text/primary",
       "resolvedType": "COLOR",
       "scopes": [
