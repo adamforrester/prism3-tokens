@@ -84,6 +84,13 @@ export type Theme = {
   // correct (graphical objects), letting secondary/semantic icons run lighter
   // than text. `icon.primary` stays strong either way.
   iconContrast: 'text' | '3:1';
+  // How an OUTLINE / TEXT interactive control expresses hover/pressed/selected
+  // (docs/20 §10). 'overlay-neutral' (default): a translucent neutral wash that
+  // composites over any surface — the `interactive.<color>.overlay.*` tokens are
+  // generated. 'solid-tint': an opaque subtle surface instead (`foreground.<color>-
+  // subtle`), no overlays. 'none': no hover expression, no overlays. (`overlay-tint`
+  // — the colour's own hue at low alpha — is scheduled; needs per-colour alpha ramps.)
+  outlineInteraction: 'overlay-neutral' | 'solid-tint' | 'none';
   dims: Dims;
   motion: MotionAxis;
   typography: Typography;
@@ -190,6 +197,10 @@ export type BrandInput = {
   /** Icon contrast floor. Default 'text' (icons mirror text, 4.5:1). '3:1'
    *  resolves icons against the WCAG 1.4.11 non-text floor so they may diverge. */
   iconContrast?: 'text' | '3:1';
+  /** How an outline/text interactive control expresses hover (docs/20 §10). Default
+   *  'overlay-neutral' (generate translucent `interactive.<color>.overlay.*` washes);
+   *  'solid-tint' uses opaque `foreground.<color>-subtle` instead; 'none' omits both. */
+  outlineInteraction?: 'overlay-neutral' | 'solid-tint' | 'none';
   /** Motion personality (schema-optional #6). `tempo` scales the duration ramp;
    *  `easingEmphasized` overrides the expressive curve. Reduce-motion variants are
    *  always derived. Omit for the 'standard' tempo. */
@@ -935,6 +946,10 @@ export const brandTheme = (input: BrandInput): Theme => {
   notes.push(dStrat === 'accessible'
     ? `disabled: 'accessible' — disabled text/icon/border clears ${input.disabledMin ?? 3}:1 on the floor (legible, contrast-preserving; the field-rare default). Set disabledStrategy:'conventional' for the sub-AA exempt look.`
     : `disabled: 'conventional' — disabled is intentionally sub-AA (WCAG 1.4.3/1.4.11 inactive-component exemption); CONFIRM this engagement accepts the reduced legibility`);
+  const oInt = input.outlineInteraction ?? 'overlay-neutral';
+  notes.push(oInt === 'overlay-neutral'
+    ? `interactive overlays: 'overlay-neutral' (default) — outline/text controls + rows/menus hover with a translucent neutral wash (interactive.<color>.overlay.*), contrast-verified on the composited surface. Set 'solid-tint' (opaque foreground.<color>-subtle) or 'none' to opt out.`
+    : `interactive overlays: '${oInt}' — no translucent overlay tokens; outline/text hover uses ${oInt === 'solid-tint' ? 'opaque foreground.<color>-subtle surfaces' : 'no hover expression'}`);
 
   // ---- surface confirmation ----
   for (const [mode, sf] of Object.entries(input.surfaces ?? {})) {
@@ -964,6 +979,7 @@ export const brandTheme = (input: BrandInput): Theme => {
     disabledStrategy: input.disabledStrategy ?? 'accessible',
     disabledMin: input.disabledMin ?? 3,
     iconContrast: input.iconContrast ?? 'text',
+    outlineInteraction: input.outlineInteraction ?? 'overlay-neutral',
     dims: buildDims(baseUnit, spaceBase, density, rScale, baseMd),
     motion: buildMotion(input.motionPersonality),
     typography,
@@ -1013,7 +1029,7 @@ export const nbThemeFrom = (s: NbMeasured): Theme => {
     id: 'nb', root: 'nbds', namespace: 'nbds.palette', colorFormat: 'rgb', modes: ALL_MODES, palettes,
     roleToPalette: { brand: 'red', neutral: 'neutral', success: 'green', warning: 'amber', danger: 'red', info: 'info', action: 'red' },
     roleAnchorStep: { brand: 550, neutral: 500, success: 500, warning: 500, danger: 550, info: 500, action: 550 },
-    disabledStrategy: 'accessible', disabledMin: 3, iconContrast: 'text',
+    disabledStrategy: 'accessible', disabledMin: 3, iconContrast: 'text', outlineInteraction: 'overlay-neutral',
     dims, motion: buildMotion(),
     typography: buildTypography(),
     shadow: buildShadow(s.neutralHue.hue, { tint: { amount: 0 } }),  // NB ships pure-black shadows

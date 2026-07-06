@@ -1208,6 +1208,204 @@
         }
       ]
     },
+    "interactive.primary.overlay.hover": {
+      "$description": "Primary interactive overlay — hover.",
+      "meaning": "Interactivity / actions",
+      "when_to_use": "A translucent primary hover wash for outline/text controls and hover/pressed/selected rows, menus, cards — composites over ANY surface (page, dark hero, image).",
+      "avoid_when": "Do not use as an opaque fill (use interactive.primary.fill.* or foreground.primary-subtle) or as a modal backdrop (use scrim.*).",
+      "mode_overrides": {
+        "light": "{nbds.palette.black-alpha.10}",
+        "dark": "{nbds.palette.white-alpha.10}",
+        "hc-light": "{nbds.palette.black-alpha.10}",
+        "hc-dark": "{nbds.palette.white-alpha.10}"
+      },
+      "paired_with": [
+        "text.primary"
+      ],
+      "contrast_with": [
+        {
+          "token": "text.primary",
+          "min": "4.5:1",
+          "ratio": 15.51
+        }
+      ]
+    },
+    "interactive.primary.overlay.pressed": {
+      "$description": "Primary interactive overlay — pressed.",
+      "meaning": "Interactivity / actions",
+      "when_to_use": "A translucent primary pressed wash for outline/text controls and hover/pressed/selected rows, menus, cards — composites over ANY surface (page, dark hero, image).",
+      "avoid_when": "Do not use as an opaque fill (use interactive.primary.fill.* or foreground.primary-subtle) or as a modal backdrop (use scrim.*).",
+      "mode_overrides": {
+        "light": "{nbds.palette.black-alpha.20}",
+        "dark": "{nbds.palette.white-alpha.20}",
+        "hc-light": "{nbds.palette.black-alpha.20}",
+        "hc-dark": "{nbds.palette.white-alpha.20}"
+      },
+      "paired_with": [
+        "text.primary"
+      ],
+      "contrast_with": [
+        {
+          "token": "text.primary",
+          "min": "4.5:1",
+          "ratio": 12.11
+        }
+      ]
+    },
+    "interactive.primary.overlay.selected": {
+      "$description": "Primary interactive overlay — selected.",
+      "meaning": "Interactivity / actions",
+      "when_to_use": "A translucent primary selected wash for outline/text controls and hover/pressed/selected rows, menus, cards — composites over ANY surface (page, dark hero, image).",
+      "avoid_when": "Do not use as an opaque fill (use interactive.primary.fill.* or foreground.primary-subtle) or as a modal backdrop (use scrim.*).",
+      "mode_overrides": {
+        "light": "{nbds.palette.black-alpha.20}",
+        "dark": "{nbds.palette.white-alpha.20}",
+        "hc-light": "{nbds.palette.black-alpha.20}",
+        "hc-dark": "{nbds.palette.white-alpha.20}"
+      },
+      "paired_with": [
+        "text.primary"
+      ],
+      "contrast_with": [
+        {
+          "token": "text.primary",
+          "min": "4.5:1",
+          "ratio": 12.11
+        }
+      ]
+    },
+    "interactive.neutral.overlay.hover": {
+      "$description": "Neutral interactive overlay — hover.",
+      "meaning": "Interactivity / actions",
+      "when_to_use": "A translucent neutral hover wash for outline/text controls and hover/pressed/selected rows, menus, cards — composites over ANY surface (page, dark hero, image).",
+      "avoid_when": "Do not use as an opaque fill (use interactive.neutral.fill.* or foreground.neutral-subtle) or as a modal backdrop (use scrim.*).",
+      "mode_overrides": {
+        "light": "{nbds.palette.black-alpha.10}",
+        "dark": "{nbds.palette.white-alpha.10}",
+        "hc-light": "{nbds.palette.black-alpha.10}",
+        "hc-dark": "{nbds.palette.white-alpha.10}"
+      },
+      "paired_with": [
+        "text.primary"
+      ],
+      "contrast_with": [
+        {
+          "token": "text.primary",
+          "min": "4.5:1",
+          "ratio": 15.51
+        }
+      ]
+    },
+    "interactive.neutral.overlay.pressed": {
+      "$description": "Neutral interactive overlay — pressed.",
+      "meaning": "Interactivity / actions",
+      "when_to_use": "A translucent neutral pressed wash for outline/text controls and hover/pressed/selected rows, menus, cards — composites over ANY surface (page, dark hero, image).",
+      "avoid_when": "Do not use as an opaque fill (use interactive.neutral.fill.* or foreground.neutral-subtle) or as a modal backdrop (use scrim.*).",
+      "mode_overrides": {
+        "light": "{nbds.palette.black-alpha.20}",
+        "dark": "{nbds.palette.white-alpha.20}",
+        "hc-light": "{nbds.palette.black-alpha.20}",
+        "hc-dark": "{nbds.palette.white-alpha.20}"
+      },
+      "paired_with": [
+        "text.primary"
+      ],
+      "contrast_with": [
+        {
+          "token": "text.primary",
+          "min": "4.5:1",
+          "ratio": 12.11
+        }
+      ]
+    },
+    "interactive.neutral.overlay.selected": {
+      "$description": "Neutral interactive overlay — selected.",
+      "meaning": "Interactivity / actions",
+      "when_to_use": "A translucent neutral selected wash for outline/text controls and hover/pressed/selected rows, menus, cards — composites over ANY surface (page, dark hero, image).",
+      "avoid_when": "Do not use as an opaque fill (use interactive.neutral.fill.* or foreground.neutral-subtle) or as a modal backdrop (use scrim.*).",
+      "mode_overrides": {
+        "light": "{nbds.palette.black-alpha.20}",
+        "dark": "{nbds.palette.white-alpha.20}",
+        "hc-light": "{nbds.palette.black-alpha.20}",
+        "hc-dark": "{nbds.palette.white-alpha.20}"
+      },
+      "paired_with": [
+        "text.primary"
+      ],
+      "contrast_with": [
+        {
+          "token": "text.primary",
+          "min": "4.5:1",
+          "ratio": 12.11
+        }
+      ]
+    },
+    "interactive.destructive.overlay.hover": {
+      "$description": "Destructive interactive overlay — hover.",
+      "meaning": "Interactivity / actions",
+      "when_to_use": "A translucent destructive hover wash for outline/text controls and hover/pressed/selected rows, menus, cards — composites over ANY surface (page, dark hero, image).",
+      "avoid_when": "Do not use as an opaque fill (use interactive.destructive.fill.* or foreground.destructive-subtle) or as a modal backdrop (use scrim.*).",
+      "mode_overrides": {
+        "light": "{nbds.palette.black-alpha.10}",
+        "dark": "{nbds.palette.white-alpha.10}",
+        "hc-light": "{nbds.palette.black-alpha.10}",
+        "hc-dark": "{nbds.palette.white-alpha.10}"
+      },
+      "paired_with": [
+        "text.primary"
+      ],
+      "contrast_with": [
+        {
+          "token": "text.primary",
+          "min": "4.5:1",
+          "ratio": 15.51
+        }
+      ]
+    },
+    "interactive.destructive.overlay.pressed": {
+      "$description": "Destructive interactive overlay — pressed.",
+      "meaning": "Interactivity / actions",
+      "when_to_use": "A translucent destructive pressed wash for outline/text controls and hover/pressed/selected rows, menus, cards — composites over ANY surface (page, dark hero, image).",
+      "avoid_when": "Do not use as an opaque fill (use interactive.destructive.fill.* or foreground.destructive-subtle) or as a modal backdrop (use scrim.*).",
+      "mode_overrides": {
+        "light": "{nbds.palette.black-alpha.20}",
+        "dark": "{nbds.palette.white-alpha.20}",
+        "hc-light": "{nbds.palette.black-alpha.20}",
+        "hc-dark": "{nbds.palette.white-alpha.20}"
+      },
+      "paired_with": [
+        "text.primary"
+      ],
+      "contrast_with": [
+        {
+          "token": "text.primary",
+          "min": "4.5:1",
+          "ratio": 12.11
+        }
+      ]
+    },
+    "interactive.destructive.overlay.selected": {
+      "$description": "Destructive interactive overlay — selected.",
+      "meaning": "Interactivity / actions",
+      "when_to_use": "A translucent destructive selected wash for outline/text controls and hover/pressed/selected rows, menus, cards — composites over ANY surface (page, dark hero, image).",
+      "avoid_when": "Do not use as an opaque fill (use interactive.destructive.fill.* or foreground.destructive-subtle) or as a modal backdrop (use scrim.*).",
+      "mode_overrides": {
+        "light": "{nbds.palette.black-alpha.20}",
+        "dark": "{nbds.palette.white-alpha.20}",
+        "hc-light": "{nbds.palette.black-alpha.20}",
+        "hc-dark": "{nbds.palette.white-alpha.20}"
+      },
+      "paired_with": [
+        "text.primary"
+      ],
+      "contrast_with": [
+        {
+          "token": "text.primary",
+          "min": "4.5:1",
+          "ratio": 12.11
+        }
+      ]
+    },
     "text.primary": {
       "$description": "Primary (highest-emphasis) text.",
       "meaning": "Content hierarchy / reading emphasis",
@@ -4201,14 +4399,27 @@
       "meaning": "Black at 10% alpha (composites over any surface)",
       "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
-      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "color.interactive.destructive.overlay.hover",
+        "color.interactive.neutral.overlay.hover",
+        "color.interactive.primary.overlay.hover"
+      ]
     },
     "palette.black-alpha.20": {
       "$description": "Black alpha 20% — alpha, composites over any surface",
       "meaning": "Black at 20% alpha (composites over any surface)",
       "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
-      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "color.interactive.destructive.overlay.pressed",
+        "color.interactive.destructive.overlay.selected",
+        "color.interactive.neutral.overlay.pressed",
+        "color.interactive.neutral.overlay.selected",
+        "color.interactive.primary.overlay.pressed",
+        "color.interactive.primary.overlay.selected"
+      ]
     },
     "palette.black-alpha.30": {
       "$description": "Black alpha 30% — alpha, composites over any surface",
@@ -4280,14 +4491,27 @@
       "meaning": "White at 10% alpha (composites over any surface)",
       "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
-      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "color.interactive.destructive.overlay.hover",
+        "color.interactive.neutral.overlay.hover",
+        "color.interactive.primary.overlay.hover"
+      ]
     },
     "palette.white-alpha.20": {
       "$description": "White alpha 20% — alpha, composites over any surface",
       "meaning": "White at 20% alpha (composites over any surface)",
       "intent": "Overlay / scrim / shadow compositing (alpha — composites over any surface)",
       "tier": "primitive",
-      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "color.interactive.destructive.overlay.pressed",
+        "color.interactive.destructive.overlay.selected",
+        "color.interactive.neutral.overlay.pressed",
+        "color.interactive.neutral.overlay.selected",
+        "color.interactive.primary.overlay.pressed",
+        "color.interactive.primary.overlay.selected"
+      ]
     },
     "palette.white-alpha.30": {
       "$description": "White alpha 30% — alpha, composites over any surface",

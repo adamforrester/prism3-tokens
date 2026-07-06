@@ -7,7 +7,26 @@
 
 ---
 
-## Latest (2026-07-06) — interactive colour family (docs/20), increment 1 of the engine PR
+## Latest (2026-07-06) — interactive colour family (docs/20), increments 1–2 of the engine PR
+
+**Increment 2 — overlays + composited-contrast gate + `outlineInteraction` lever (additive).**
+- `interactive.<color>.overlay.{hover,pressed,selected}` — translucent washes that composite over
+  ANY surface (page, dark hero, image): the outline/text-appearance hover + rows/menus/cards story.
+  `overlay-neutral` (default) uses the mode-adaptive neutral alpha ramp (black-alpha light / white-alpha
+  dark), hover 10% / pressed 20% / selected 20%.
+- **Composited-contrast gate (docs/20 §13):** each overlay is a real contract — `text.primary` must stay
+  ≥ AA on the page *once the overlay sits on it* (`color.ts` gains a `composite()` alpha-over helper).
+  This can fail (a too-heavy lightening wash in dark mode) so it genuinely constrains the alphas; all hold
+  (NB ratios 12–16). Contract count 324→**360** per brand.
+- **`outlineInteraction` lever** (`overlay-neutral` | `solid-tint` | `none`) wired through the input model,
+  schema, lever manifest, and `.ai.json`. `solid-tint`/`none` emit no overlays (opaque `foreground.<color>-
+  subtle` / no hover). `overlay-tint` (per-colour hue at alpha) is scheduled — it needs per-colour alpha ramps.
+- Figma: `overlay` slot scoped FRAME/SHAPE_FILL, aliases the alpha ramp. Fixtures unchanged (overlays are
+  `color/interactive/*`, already allow-listed). test 644→**646** (overlay presence/gate/mode-adaptive + lever opt-out).
+
+Gates: test 646/646, nb-regression ΔE00 1.95, emit-dtcg 360/360 per brand, web tsc clean, `out/*` regenerated.
+
+### Increment 1 — the `interactive.<color>` family (additive)
 
 Building the redesign specced in `docs/20-interactive-color-system.md` as gated increments on
 `claude/prism3-e2e-integration-8fwul4` (one PR when the family is complete). **Increment 1 (this

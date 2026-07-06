@@ -846,6 +846,63 @@
       }
     },
     {
+      "name": "color/interactive/primary/overlay/hover",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "primary interactive overlay — hover (10% neutral wash; composites over any surface)",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.10196078568696976
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/black-alpha/10"
+      }
+    },
+    {
+      "name": "color/interactive/primary/overlay/pressed",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "primary interactive overlay — pressed (20% neutral wash; composites over any surface)",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.20000000298023224
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/black-alpha/20"
+      }
+    },
+    {
+      "name": "color/interactive/primary/overlay/selected",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "primary interactive overlay — selected (20% neutral wash; composites over any surface)",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.20000000298023224
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/black-alpha/20"
+      }
+    },
+    {
       "name": "color/interactive/destructive/fill/rest",
       "resolvedType": "COLOR",
       "scopes": [
@@ -1016,6 +1073,63 @@
       }
     },
     {
+      "name": "color/interactive/destructive/overlay/hover",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "destructive interactive overlay — hover (10% neutral wash; composites over any surface)",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.10196078568696976
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/black-alpha/10"
+      }
+    },
+    {
+      "name": "color/interactive/destructive/overlay/pressed",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "destructive interactive overlay — pressed (20% neutral wash; composites over any surface)",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.20000000298023224
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/black-alpha/20"
+      }
+    },
+    {
+      "name": "color/interactive/destructive/overlay/selected",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "destructive interactive overlay — selected (20% neutral wash; composites over any surface)",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.20000000298023224
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/black-alpha/20"
+      }
+    },
+    {
       "name": "color/interactive/neutral/fill/rest",
       "resolvedType": "COLOR",
       "scopes": [
@@ -1183,6 +1297,63 @@
       "alias": {
         "type": "VARIABLE_ALIAS",
         "name": "palette/neutral/500"
+      }
+    },
+    {
+      "name": "color/interactive/neutral/overlay/hover",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "neutral interactive overlay — hover (10% neutral wash; composites over any surface)",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.10196078568696976
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/black-alpha/10"
+      }
+    },
+    {
+      "name": "color/interactive/neutral/overlay/pressed",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "neutral interactive overlay — pressed (20% neutral wash; composites over any surface)",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.20000000298023224
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/black-alpha/20"
+      }
+    },
+    {
+      "name": "color/interactive/neutral/overlay/selected",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "neutral interactive overlay — selected (20% neutral wash; composites over any surface)",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.20000000298023224
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/black-alpha/20"
       }
     },
     {

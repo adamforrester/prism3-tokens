@@ -25,7 +25,7 @@
  * HIGH CONTRAST the neutral surface ladders flatten to the base — HC separates
  * regions by BORDER (the ≥4.5:1 border target), not by near-invisible tints.
  */
-import { RGB, contrast, hex } from './color';
+import { RGB, contrast, hex, composite } from './color';
 import { Step } from './ramp';
 import { Theme, SurfaceSpec, SurfacesConfig, Role } from './theme';
 
@@ -363,6 +363,29 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
   iFill('neutral', neutralStepR(cfg.family === 'light' ? 150 : 850), r2p.neutral, 0);
   put('interactive.neutral.text', pickMostExtreme(textCands, baseRgb), 'Neutral interactive ink (outline / text appearance) — strongest neutral', 'background.primary', cfg.secondaryMin);
   put('interactive.neutral.border', pickMinPass(ramp, baseRgb, cfg.nonTextMin), 'Neutral interactive border (outline)', 'background.primary', cfg.nonTextMin);
+
+  // interactive overlays (docs/20 §6) — translucent hover/pressed/selected washes that
+  // composite over ANY surface (page, dark hero, image), the outline/text-appearance and
+  // row/menu/card hover story. `overlay-neutral` (default) uses the mode-adaptive neutral
+  // alpha ramp (darken in light, lighten in dark). The composited RESULT is contrast-gated
+  // (§13): text.primary must stay ≥ AA on the page once the overlay sits on it — a real
+  // contract that fails on too-heavy a wash (notably a lightening overlay in dark mode).
+  // `solid-tint` (opaque foreground.<color>-subtle) and `none` opt out — no overlay tokens.
+  if (theme.outlineInteraction === 'overlay-neutral') {
+    const overlayPal = cfg.family === 'light' ? 'black-alpha' : 'white-alpha';
+    const overlayBase = cfg.family === 'light' ? BLACK : WHITE;
+    const OVERLAY_ALPHA: [string, number][] = [['hover', 10], ['pressed', 20], ['selected', 20]];
+    const contentRgb = pickMostExtreme(textCands, baseRgb).rgb;   // text.primary — the strongest content ink
+    for (const color of ['primary', 'neutral', 'destructive']) {
+      for (const [st, step] of OVERLAY_ALPHA) {
+        const ratio = contrast(contentRgb, composite(baseRgb, overlayBase, step / 100));
+        put(`interactive.${color}.overlay.${st}`,
+          { path: `${ns}.${overlayPal}.${step}`, rgb: overlayBase, ratio },
+          `${color} interactive overlay — ${st} (${step}% neutral wash; composites over any surface)`,
+          'text.primary', cfg.secondaryMin);
+      }
+    }
+  }
 
   // -------------------------------------------------------------- text (+ icon)
   // Ink. Built from a floor PROFILE so `text` (4.5:1) and `icon` can diverge: with

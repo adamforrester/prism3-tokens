@@ -90,6 +90,12 @@
       "default": "text",
       "description": "OPTIONAL. Icon contrast floor. 'text' (default): icons mirror text at 4.5:1. '3:1': icons resolve against the WCAG SC 1.4.11 non-text floor (graphical objects), letting secondary/semantic icons run lighter than text; icon.primary stays strong."
     },
+    "outlineInteraction": {
+      "type": "string",
+      "enum": ["overlay-neutral", "solid-tint", "none"],
+      "default": "overlay-neutral",
+      "description": "OPTIONAL. How an outline/text interactive control expresses hover/pressed/selected (docs/20 §10). 'overlay-neutral' (default): generate translucent `interactive.<color>.overlay.*` washes that composite over any surface (each is contrast-verified on the composited result). 'solid-tint': use opaque `foreground.<color>-subtle` surfaces instead — no overlays. 'none': no hover expression, no overlays. ('overlay-tint' — the colour's own hue at low alpha — is scheduled; it needs per-colour alpha ramps.)"
+    },
     "motionPersonality": {
       "type": "object",
       "additionalProperties": false,

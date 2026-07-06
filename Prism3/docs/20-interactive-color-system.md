@@ -86,7 +86,7 @@ Prism3 keeps inverse but reframes it as a **surface *context*** ("this control s
 
 ## 10. Levers (brand inputs)
 
-- **`outlineInteraction`** — `overlay-neutral` · `overlay-tint` (the colour's hue at low alpha) · `solid-tint` · `none`. How an outline/text control expresses hover (the "what do we fill it with" question, answered per brand).
+- **`outlineInteraction`** — `overlay-neutral` · `overlay-tint` (the colour's hue at low alpha) · `solid-tint` · `none`. How an outline/text control expresses hover (the "what do we fill it with" question, answered per brand). *(inc-2: `overlay-neutral` (default) generates the neutral washes + composited-contrast gate; `solid-tint`/`none` opt out. `overlay-tint` is scheduled — needs per-colour alpha ramps.)*
 - **`neutralEmphasis`** — `subtle` (light-grey, the default) · `strong` (bold near-black neutral). The neutral button's boldness.
 - **`accent`** — implicit: present iff the brand declares an accent colour (§3).
 - **`inverse`** — whether the brand ships the inverse surface-context (§9).

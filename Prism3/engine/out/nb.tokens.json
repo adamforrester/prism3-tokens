@@ -4108,6 +4108,140 @@
                 }
               }
             }
+          },
+          "overlay": {
+            "hover": {
+              "$type": "color",
+              "$value": "{nbds.palette.black-alpha.10}",
+              "$description": "primary interactive overlay — hover (10% neutral wash; composites over any surface)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.palette.black-alpha.10",
+                  "contrast": 15.51,
+                  "against": "text.primary",
+                  "min": 4.5,
+                  "modes": {
+                    "dark": {
+                      "$value": "{nbds.palette.white-alpha.10}",
+                      "contrast": 14.26,
+                      "against": "text.primary",
+                      "min": 4.5
+                    },
+                    "hc-light": {
+                      "$value": "{nbds.palette.black-alpha.10}",
+                      "contrast": 16.75,
+                      "against": "text.primary",
+                      "min": 7
+                    },
+                    "hc-dark": {
+                      "$value": "{nbds.palette.white-alpha.10}",
+                      "contrast": 17.49,
+                      "against": "text.primary",
+                      "min": 7
+                    }
+                  },
+                  "figma": {
+                    "collection": "color",
+                    "modes": [
+                      "light",
+                      "dark",
+                      "hc-light",
+                      "hc-dark"
+                    ],
+                    "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                  }
+                }
+              }
+            },
+            "pressed": {
+              "$type": "color",
+              "$value": "{nbds.palette.black-alpha.20}",
+              "$description": "primary interactive overlay — pressed (20% neutral wash; composites over any surface)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.palette.black-alpha.20",
+                  "contrast": 12.11,
+                  "against": "text.primary",
+                  "min": 4.5,
+                  "modes": {
+                    "dark": {
+                      "$value": "{nbds.palette.white-alpha.20}",
+                      "contrast": 10.07,
+                      "against": "text.primary",
+                      "min": 4.5
+                    },
+                    "hc-light": {
+                      "$value": "{nbds.palette.black-alpha.20}",
+                      "contrast": 13.08,
+                      "against": "text.primary",
+                      "min": 7
+                    },
+                    "hc-dark": {
+                      "$value": "{nbds.palette.white-alpha.20}",
+                      "contrast": 12.63,
+                      "against": "text.primary",
+                      "min": 7
+                    }
+                  },
+                  "figma": {
+                    "collection": "color",
+                    "modes": [
+                      "light",
+                      "dark",
+                      "hc-light",
+                      "hc-dark"
+                    ],
+                    "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                  }
+                }
+              }
+            },
+            "selected": {
+              "$type": "color",
+              "$value": "{nbds.palette.black-alpha.20}",
+              "$description": "primary interactive overlay — selected (20% neutral wash; composites over any surface)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.palette.black-alpha.20",
+                  "contrast": 12.11,
+                  "against": "text.primary",
+                  "min": 4.5,
+                  "modes": {
+                    "dark": {
+                      "$value": "{nbds.palette.white-alpha.20}",
+                      "contrast": 10.07,
+                      "against": "text.primary",
+                      "min": 4.5
+                    },
+                    "hc-light": {
+                      "$value": "{nbds.palette.black-alpha.20}",
+                      "contrast": 13.08,
+                      "against": "text.primary",
+                      "min": 7
+                    },
+                    "hc-dark": {
+                      "$value": "{nbds.palette.white-alpha.20}",
+                      "contrast": 12.63,
+                      "against": "text.primary",
+                      "min": 7
+                    }
+                  },
+                  "figma": {
+                    "collection": "color",
+                    "modes": [
+                      "light",
+                      "dark",
+                      "hc-light",
+                      "hc-dark"
+                    ],
+                    "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                  }
+                }
+              }
+            }
           }
         },
         "destructive": {
@@ -4504,6 +4638,140 @@
                 }
               }
             }
+          },
+          "overlay": {
+            "hover": {
+              "$type": "color",
+              "$value": "{nbds.palette.black-alpha.10}",
+              "$description": "destructive interactive overlay — hover (10% neutral wash; composites over any surface)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.palette.black-alpha.10",
+                  "contrast": 15.51,
+                  "against": "text.primary",
+                  "min": 4.5,
+                  "modes": {
+                    "dark": {
+                      "$value": "{nbds.palette.white-alpha.10}",
+                      "contrast": 14.26,
+                      "against": "text.primary",
+                      "min": 4.5
+                    },
+                    "hc-light": {
+                      "$value": "{nbds.palette.black-alpha.10}",
+                      "contrast": 16.75,
+                      "against": "text.primary",
+                      "min": 7
+                    },
+                    "hc-dark": {
+                      "$value": "{nbds.palette.white-alpha.10}",
+                      "contrast": 17.49,
+                      "against": "text.primary",
+                      "min": 7
+                    }
+                  },
+                  "figma": {
+                    "collection": "color",
+                    "modes": [
+                      "light",
+                      "dark",
+                      "hc-light",
+                      "hc-dark"
+                    ],
+                    "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                  }
+                }
+              }
+            },
+            "pressed": {
+              "$type": "color",
+              "$value": "{nbds.palette.black-alpha.20}",
+              "$description": "destructive interactive overlay — pressed (20% neutral wash; composites over any surface)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.palette.black-alpha.20",
+                  "contrast": 12.11,
+                  "against": "text.primary",
+                  "min": 4.5,
+                  "modes": {
+                    "dark": {
+                      "$value": "{nbds.palette.white-alpha.20}",
+                      "contrast": 10.07,
+                      "against": "text.primary",
+                      "min": 4.5
+                    },
+                    "hc-light": {
+                      "$value": "{nbds.palette.black-alpha.20}",
+                      "contrast": 13.08,
+                      "against": "text.primary",
+                      "min": 7
+                    },
+                    "hc-dark": {
+                      "$value": "{nbds.palette.white-alpha.20}",
+                      "contrast": 12.63,
+                      "against": "text.primary",
+                      "min": 7
+                    }
+                  },
+                  "figma": {
+                    "collection": "color",
+                    "modes": [
+                      "light",
+                      "dark",
+                      "hc-light",
+                      "hc-dark"
+                    ],
+                    "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                  }
+                }
+              }
+            },
+            "selected": {
+              "$type": "color",
+              "$value": "{nbds.palette.black-alpha.20}",
+              "$description": "destructive interactive overlay — selected (20% neutral wash; composites over any surface)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.palette.black-alpha.20",
+                  "contrast": 12.11,
+                  "against": "text.primary",
+                  "min": 4.5,
+                  "modes": {
+                    "dark": {
+                      "$value": "{nbds.palette.white-alpha.20}",
+                      "contrast": 10.07,
+                      "against": "text.primary",
+                      "min": 4.5
+                    },
+                    "hc-light": {
+                      "$value": "{nbds.palette.black-alpha.20}",
+                      "contrast": 13.08,
+                      "against": "text.primary",
+                      "min": 7
+                    },
+                    "hc-dark": {
+                      "$value": "{nbds.palette.white-alpha.20}",
+                      "contrast": 12.63,
+                      "against": "text.primary",
+                      "min": 7
+                    }
+                  },
+                  "figma": {
+                    "collection": "color",
+                    "modes": [
+                      "light",
+                      "dark",
+                      "hc-light",
+                      "hc-dark"
+                    ],
+                    "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                  }
+                }
+              }
+            }
           }
         },
         "neutral": {
@@ -4877,6 +5145,140 @@
                     "hc-dark"
                   ],
                   "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                }
+              }
+            }
+          },
+          "overlay": {
+            "hover": {
+              "$type": "color",
+              "$value": "{nbds.palette.black-alpha.10}",
+              "$description": "neutral interactive overlay — hover (10% neutral wash; composites over any surface)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.palette.black-alpha.10",
+                  "contrast": 15.51,
+                  "against": "text.primary",
+                  "min": 4.5,
+                  "modes": {
+                    "dark": {
+                      "$value": "{nbds.palette.white-alpha.10}",
+                      "contrast": 14.26,
+                      "against": "text.primary",
+                      "min": 4.5
+                    },
+                    "hc-light": {
+                      "$value": "{nbds.palette.black-alpha.10}",
+                      "contrast": 16.75,
+                      "against": "text.primary",
+                      "min": 7
+                    },
+                    "hc-dark": {
+                      "$value": "{nbds.palette.white-alpha.10}",
+                      "contrast": 17.49,
+                      "against": "text.primary",
+                      "min": 7
+                    }
+                  },
+                  "figma": {
+                    "collection": "color",
+                    "modes": [
+                      "light",
+                      "dark",
+                      "hc-light",
+                      "hc-dark"
+                    ],
+                    "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                  }
+                }
+              }
+            },
+            "pressed": {
+              "$type": "color",
+              "$value": "{nbds.palette.black-alpha.20}",
+              "$description": "neutral interactive overlay — pressed (20% neutral wash; composites over any surface)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.palette.black-alpha.20",
+                  "contrast": 12.11,
+                  "against": "text.primary",
+                  "min": 4.5,
+                  "modes": {
+                    "dark": {
+                      "$value": "{nbds.palette.white-alpha.20}",
+                      "contrast": 10.07,
+                      "against": "text.primary",
+                      "min": 4.5
+                    },
+                    "hc-light": {
+                      "$value": "{nbds.palette.black-alpha.20}",
+                      "contrast": 13.08,
+                      "against": "text.primary",
+                      "min": 7
+                    },
+                    "hc-dark": {
+                      "$value": "{nbds.palette.white-alpha.20}",
+                      "contrast": 12.63,
+                      "against": "text.primary",
+                      "min": 7
+                    }
+                  },
+                  "figma": {
+                    "collection": "color",
+                    "modes": [
+                      "light",
+                      "dark",
+                      "hc-light",
+                      "hc-dark"
+                    ],
+                    "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                  }
+                }
+              }
+            },
+            "selected": {
+              "$type": "color",
+              "$value": "{nbds.palette.black-alpha.20}",
+              "$description": "neutral interactive overlay — selected (20% neutral wash; composites over any surface)",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "nbds.palette.black-alpha.20",
+                  "contrast": 12.11,
+                  "against": "text.primary",
+                  "min": 4.5,
+                  "modes": {
+                    "dark": {
+                      "$value": "{nbds.palette.white-alpha.20}",
+                      "contrast": 10.07,
+                      "against": "text.primary",
+                      "min": 4.5
+                    },
+                    "hc-light": {
+                      "$value": "{nbds.palette.black-alpha.20}",
+                      "contrast": 13.08,
+                      "against": "text.primary",
+                      "min": 7
+                    },
+                    "hc-dark": {
+                      "$value": "{nbds.palette.white-alpha.20}",
+                      "contrast": 12.63,
+                      "against": "text.primary",
+                      "min": 7
+                    }
+                  },
+                  "figma": {
+                    "collection": "color",
+                    "modes": [
+                      "light",
+                      "dark",
+                      "hc-light",
+                      "hc-dark"
+                    ],
+                    "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                  }
                 }
               }
             }

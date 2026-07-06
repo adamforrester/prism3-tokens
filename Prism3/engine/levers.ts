@@ -144,6 +144,9 @@ export const leverManifest: Lever[] = [
     description: 'Accessible keeps disabled text legible on the floor; conventional uses the field-standard dimmed look.' },
   { key: 'disabledMin', group: 'advanced', label: 'Disabled contrast floor', control: 'slider', default: 3, min: 2, max: 4.5, step: 0.5,
     description: 'Contrast floor for the accessible disabled strategy (escalates to 4.5:1 in high-contrast).' },
+  { key: 'outlineInteraction', group: 'advanced', label: 'Outline hover', control: 'enum', default: 'overlay-neutral',
+    options: enumOpts(['overlay-neutral', 'Neutral overlay wash'], ['solid-tint', 'Opaque subtle tint'], ['none', 'No hover expression']),
+    description: 'How outline/text controls express hover/pressed/selected. Overlay = translucent neutral wash (composites over any surface); solid-tint = opaque foreground.<color>-subtle; none = omit.' },
   { key: 'gradients', group: 'advanced', label: 'Gradients', control: 'toggle', default: false,
     description: 'Opt-in (off by default). On ships one default brand gradient; an explicit array ships specific ones.' },
 ];

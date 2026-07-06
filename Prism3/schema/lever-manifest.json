@@ -438,6 +438,28 @@
       "description": "Contrast floor for the accessible disabled strategy (escalates to 4.5:1 in high-contrast)."
     },
     {
+      "key": "outlineInteraction",
+      "group": "advanced",
+      "label": "Outline hover",
+      "control": "enum",
+      "default": "overlay-neutral",
+      "options": [
+        {
+          "value": "overlay-neutral",
+          "label": "Neutral overlay wash"
+        },
+        {
+          "value": "solid-tint",
+          "label": "Opaque subtle tint"
+        },
+        {
+          "value": "none",
+          "label": "No hover expression"
+        }
+      ],
+      "description": "How outline/text controls express hover/pressed/selected. Overlay = translucent neutral wash (composites over any surface); solid-tint = opaque foreground.<color>-subtle; none = omit."
+    },
+    {
       "key": "gradients",
       "group": "advanced",
       "label": "Gradients",

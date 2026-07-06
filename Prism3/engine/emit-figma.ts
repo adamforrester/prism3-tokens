@@ -152,6 +152,7 @@ const INTERACTIVE_SLOT_SCOPES: Record<string, string[]> = {
   text: ['TEXT_FILL'],
   border: ['STROKE_COLOR'],
   icon: ['FRAME_FILL', 'SHAPE_FILL', 'STROKE_COLOR'],
+  overlay: ['FRAME_FILL', 'SHAPE_FILL'], // a translucent wash painted over a surface
 };
 // color.<family>.… → scopes. `interactive` defers to its slot (segment[3]).
 const colorScopes = (dotted: string): string[] => {

@@ -225,6 +225,27 @@ for (const b of brands) {
   if (scopeOf('color/interactive/primary/border') !== JSON.stringify(['STROKE_COLOR'])) scopeBad.push('primary/border');
   if (scopeOf('color/interactive/primary/fill/rest') !== JSON.stringify(['FRAME_FILL', 'SHAPE_FILL'])) scopeBad.push('primary/fill/rest');
   ok(scopeBad.length === 0, 'interactive: Figma slots carry slot-aware scopes' + (scopeBad.length ? ` — ${scopeBad.join(',')}` : ''));
+
+  // (f) overlays (docs/20 §6): each colour has hover/pressed/selected washes, mode-adaptive
+  //     (black-alpha light / white-alpha dark), and the COMPOSITED result is a gated contract
+  //     — text.primary stays ≥ AA on the tinted surface in every mode (the wash-out guard).
+  const overlayFails: string[] = [];
+  for (const m of modes) {
+    const pal = m.mode.includes('dark') ? 'white-alpha' : 'black-alpha';
+    for (const c of ['primary', 'neutral', 'destructive'])
+      for (const st of ['hover', 'pressed', 'selected']) {
+        const r = m.roles[`interactive.${c}.overlay.${st}`];
+        if (!r) { overlayFails.push(`${m.mode}:${c}.${st}:absent`); continue; }
+        if (r.min < 4.5 || r.ratio < r.min) overlayFails.push(`${m.mode}:${c}.${st}:${r.ratio.toFixed(2)}<${r.min}`);
+        if (!r.path.includes(pal)) overlayFails.push(`${m.mode}:${c}.${st}:pal=${r.path}`);
+      }
+  }
+  ok(overlayFails.length === 0, 'interactive: overlays present, mode-adaptive, composited-contrast gated in every mode' + (overlayFails.length ? ` — ${overlayFails.slice(0, 3).join(',')}` : ''));
+
+  // (g) the outlineInteraction lever opts out: 'none' emits NO overlay tokens.
+  const noOverlay = resolveAllModes({ ...nbTheme(), outlineInteraction: 'none' })
+    .flatMap((m) => Object.keys(m.roles)).filter((k) => k.includes('.overlay.'));
+  ok(noOverlay.length === 0, 'interactive: outlineInteraction=none emits no overlays' + (noOverlay.length ? ` — ${noOverlay.slice(0, 2).join(',')}` : ''));
 }
 
 // L-02: dualContrastWindow is only defined up to √21 ≈ 4.583 (the max ratio any single
