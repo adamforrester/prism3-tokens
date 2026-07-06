@@ -98,7 +98,12 @@ review. `background` is the canvas; `foreground` is what sits on it:
   fills in light) + bold semantic fills (`brand`/`success`/`warning`/`info`) +
   `{semantic}-subtle` tints + the stateful `danger.*` fill. `foreground.primary`
   sits on `background.primary`.
-- `action.*` — the interactive fill + states (top-level).
+- `interactive.<colour>.*` — **the interactive colour family** (docs/20): `primary` · `neutral`
+  · `destructive` (+ opt-in `accent`), each with `fill` (+ `rest`/hover/pressed/… states),
+  `on-fill`, `text`, `border`, `overlay.*` washes, and an `on-inverse` ink. Cross-cutting
+  `disabled.*` (surface/on-disabled/text/icon/border) is one treatment for any intent. This is
+  what components bind. (`action.*` — the original top-level interactive fill — remains generated
+  for NB byte-repro; its removal, the `action`→`interactive` rename, lands with the #67 reconciliation.)
 - `text.*` / `icon.*` — **ink**: `primary/secondary/tertiary/disabled`, semantic +
   `{semantic}-subtle` (muted), `on-action`/`on-{semantic}`/`on-inverse` pairs, an
   `on-disabled` pair (the label on a disabled fill — Carbon's `text-on-color-
