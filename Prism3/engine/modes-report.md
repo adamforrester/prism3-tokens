@@ -75,6 +75,9 @@ Palettes: red, green, amber, neutral, info. Danger draws from `red`.
 | interactive.neutral.on-fill | neutral.950 | 12.33 | 4.5 | ✅ |
 | interactive.neutral.text | neutral.950 | 19.44 | 4.5 | ✅ |
 | interactive.neutral.border | neutral.400 | 3.27 | 3 | ✅ |
+| interactive.primary.on-inverse | red.450 | 5.05 | 4.5 | ✅ |
+| interactive.destructive.on-inverse | red.450 | 5.05 | 4.5 | ✅ |
+| interactive.neutral.on-inverse | neutral.025 | 18.11 | 4.5 | ✅ |
 | interactive.primary.overlay.hover | black-alpha.10 | 15.51 | 4.5 | ✅ |
 | interactive.primary.overlay.pressed | black-alpha.20 | 12.11 | 4.5 | ✅ |
 | interactive.primary.overlay.selected | black-alpha.20 | 12.11 | 4.5 | ✅ |
@@ -216,6 +219,9 @@ Palettes: red, green, amber, neutral, info. Danger draws from `red`.
 | interactive.neutral.on-fill | neutral.025 | 14.91 | 4.5 | ✅ |
 | interactive.neutral.text | neutral.025 | 18.11 | 4.5 | ✅ |
 | interactive.neutral.border | neutral.550 | 3.54 | 3 | ✅ |
+| interactive.primary.on-inverse | red.550 | 5.24 | 4.5 | ✅ |
+| interactive.destructive.on-inverse | red.550 | 5.24 | 4.5 | ✅ |
+| interactive.neutral.on-inverse | neutral.950 | 18.11 | 4.5 | ✅ |
 | interactive.primary.overlay.hover | white-alpha.10 | 14.26 | 4.5 | ✅ |
 | interactive.primary.overlay.pressed | white-alpha.20 | 10.07 | 4.5 | ✅ |
 | interactive.primary.overlay.selected | white-alpha.20 | 10.07 | 4.5 | ✅ |
@@ -357,6 +363,9 @@ Palettes: red, green, amber, neutral, info. Danger draws from `red`.
 | interactive.neutral.on-fill | black | 13.32 | 4.5 | ✅ |
 | interactive.neutral.text | black | 21.00 | 7 | ✅ |
 | interactive.neutral.border | neutral.500 | 4.59 | 4.5 | ✅ |
+| interactive.primary.on-inverse | red.350 | 7.52 | 7 | ✅ |
+| interactive.destructive.on-inverse | red.350 | 7.52 | 7 | ✅ |
+| interactive.neutral.on-inverse | white | 21.00 | 7 | ✅ |
 | interactive.primary.overlay.hover | black-alpha.10 | 16.75 | 7 | ✅ |
 | interactive.primary.overlay.pressed | black-alpha.20 | 13.08 | 7 | ✅ |
 | interactive.primary.overlay.selected | black-alpha.20 | 13.08 | 7 | ✅ |
@@ -498,6 +507,9 @@ Palettes: red, green, amber, neutral, info. Danger draws from `red`.
 | interactive.neutral.on-fill | white | 16.00 | 4.5 | ✅ |
 | interactive.neutral.text | white | 21.00 | 7 | ✅ |
 | interactive.neutral.border | neutral.500 | 4.57 | 4.5 | ✅ |
+| interactive.primary.on-inverse | red.650 | 8.29 | 7 | ✅ |
+| interactive.destructive.on-inverse | red.650 | 8.29 | 7 | ✅ |
+| interactive.neutral.on-inverse | black | 21.00 | 7 | ✅ |
 | interactive.primary.overlay.hover | white-alpha.10 | 17.49 | 7 | ✅ |
 | interactive.primary.overlay.pressed | white-alpha.20 | 12.63 | 7 | ✅ |
 | interactive.primary.overlay.selected | white-alpha.20 | 12.63 | 7 | ✅ |
@@ -641,6 +653,7 @@ Component sizes — t-shirt, density `comfortable` (height + paired padding from
 - interactive overlays: 'overlay-neutral' (default) — outline/text controls + rows/menus hover with a translucent neutral wash (interactive.<color>.overlay.*), contrast-verified on the composited surface. Set 'solid-tint' (opaque foreground.<color>-subtle) or 'none' to opt out.
 - light primary surface is NON-default (neutral.50) — CONFIRM this is the page colour; the contrast floor moves with it
 - action anchored at accent 'accent' step 500 (its pinned lightness) — the brand's own shade, nudged only if it fails AA on the floor
+- neutral interactive emphasis: 'subtle' (light-grey, default); inverse surface-context: on (interactive.<color>.on-inverse generated)
 
 Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws from `danger`.
 
@@ -709,6 +722,9 @@ Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws
 | interactive.neutral.on-fill | neutral.950 | 12.36 | 4.5 | ✅ |
 | interactive.neutral.text | neutral.950 | 16.01 | 4.5 | ✅ |
 | interactive.neutral.border | neutral.450 | 3.16 | 3 | ✅ |
+| interactive.primary.on-inverse | accent.450 | 4.87 | 4.5 | ✅ |
+| interactive.destructive.on-inverse | danger.450 | 4.95 | 4.5 | ✅ |
+| interactive.neutral.on-inverse | neutral.025 | 18.13 | 4.5 | ✅ |
 | interactive.primary.overlay.hover | black-alpha.10 | 12.82 | 4.5 | ✅ |
 | interactive.primary.overlay.pressed | black-alpha.20 | 10.06 | 4.5 | ✅ |
 | interactive.primary.overlay.selected | black-alpha.20 | 10.06 | 4.5 | ✅ |
@@ -850,6 +866,9 @@ Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws
 | interactive.neutral.on-fill | neutral.025 | 14.99 | 4.5 | ✅ |
 | interactive.neutral.text | neutral.025 | 18.13 | 4.5 | ✅ |
 | interactive.neutral.border | neutral.550 | 3.51 | 3 | ✅ |
+| interactive.primary.on-inverse | accent.550 | 5.31 | 4.5 | ✅ |
+| interactive.destructive.on-inverse | danger.550 | 5.18 | 4.5 | ✅ |
+| interactive.neutral.on-inverse | neutral.950 | 18.13 | 4.5 | ✅ |
 | interactive.primary.overlay.hover | white-alpha.10 | 14.26 | 4.5 | ✅ |
 | interactive.primary.overlay.pressed | white-alpha.20 | 10.07 | 4.5 | ✅ |
 | interactive.primary.overlay.selected | white-alpha.20 | 10.07 | 4.5 | ✅ |
@@ -991,6 +1010,9 @@ Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws
 | interactive.neutral.on-fill | black | 13.36 | 4.5 | ✅ |
 | interactive.neutral.text | black | 21.00 | 7 | ✅ |
 | interactive.neutral.border | neutral.500 | 4.54 | 4.5 | ✅ |
+| interactive.primary.on-inverse | accent.350 | 7.36 | 7 | ✅ |
+| interactive.destructive.on-inverse | danger.350 | 7.44 | 7 | ✅ |
+| interactive.neutral.on-inverse | white | 21.00 | 7 | ✅ |
 | interactive.primary.overlay.hover | black-alpha.10 | 16.75 | 7 | ✅ |
 | interactive.primary.overlay.pressed | black-alpha.20 | 13.08 | 7 | ✅ |
 | interactive.primary.overlay.selected | black-alpha.20 | 13.08 | 7 | ✅ |
@@ -1132,6 +1154,9 @@ Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws
 | interactive.neutral.on-fill | white | 16.06 | 4.5 | ✅ |
 | interactive.neutral.text | white | 21.00 | 7 | ✅ |
 | interactive.neutral.border | neutral.500 | 4.63 | 4.5 | ✅ |
+| interactive.primary.on-inverse | accent.650 | 8.30 | 7 | ✅ |
+| interactive.destructive.on-inverse | danger.650 | 8.22 | 7 | ✅ |
+| interactive.neutral.on-inverse | black | 21.00 | 7 | ✅ |
 | interactive.primary.overlay.hover | white-alpha.10 | 17.49 | 7 | ✅ |
 | interactive.primary.overlay.pressed | white-alpha.20 | 12.63 | 7 | ✅ |
 | interactive.primary.overlay.selected | white-alpha.20 | 12.63 | 7 | ✅ |
@@ -1273,6 +1298,7 @@ Component sizes — t-shirt, density `compact` (height + paired padding from the
 - disabled: 'accessible' — disabled text/icon/border clears 3:1 on the floor (legible, contrast-preserving; the field-rare default). Set disabledStrategy:'conventional' for the sub-AA exempt look.
 - interactive overlays: 'overlay-neutral' (default) — outline/text controls + rows/menus hover with a translucent neutral wash (interactive.<color>.overlay.*), contrast-verified on the composited surface. Set 'solid-tint' (opaque foreground.<color>-subtle) or 'none' to opt out.
 - light primary surface is NON-default (neutral.50) — CONFIRM this is the page colour; the contrast floor moves with it
+- neutral interactive emphasis: 'subtle' (light-grey, default); inverse surface-context: on (interactive.<color>.on-inverse generated)
 
 Palettes: primary, neutral, success, warning, info, danger. Danger draws from `danger`.
 
@@ -1341,6 +1367,9 @@ Palettes: primary, neutral, success, warning, info, danger. Danger draws from `d
 | interactive.neutral.on-fill | neutral.950 | 12.36 | 4.5 | ✅ |
 | interactive.neutral.text | neutral.950 | 15.98 | 4.5 | ✅ |
 | interactive.neutral.border | neutral.450 | 3.20 | 3 | ✅ |
+| interactive.primary.on-inverse | primary.450 | 5.00 | 4.5 | ✅ |
+| interactive.destructive.on-inverse | danger.450 | 4.94 | 4.5 | ✅ |
+| interactive.neutral.on-inverse | neutral.025 | 18.11 | 4.5 | ✅ |
 | interactive.primary.overlay.hover | black-alpha.10 | 12.80 | 4.5 | ✅ |
 | interactive.primary.overlay.pressed | black-alpha.20 | 10.04 | 4.5 | ✅ |
 | interactive.primary.overlay.selected | black-alpha.20 | 10.04 | 4.5 | ✅ |
@@ -1482,6 +1511,9 @@ Palettes: primary, neutral, success, warning, info, danger. Danger draws from `d
 | interactive.neutral.on-fill | neutral.025 | 14.96 | 4.5 | ✅ |
 | interactive.neutral.text | neutral.025 | 18.11 | 4.5 | ✅ |
 | interactive.neutral.border | neutral.550 | 3.51 | 3 | ✅ |
+| interactive.primary.on-inverse | primary.600 | 6.33 | 4.5 | ✅ |
+| interactive.destructive.on-inverse | danger.550 | 5.21 | 4.5 | ✅ |
+| interactive.neutral.on-inverse | neutral.950 | 18.11 | 4.5 | ✅ |
 | interactive.primary.overlay.hover | white-alpha.10 | 14.24 | 4.5 | ✅ |
 | interactive.primary.overlay.pressed | white-alpha.20 | 10.05 | 4.5 | ✅ |
 | interactive.primary.overlay.selected | white-alpha.20 | 10.05 | 4.5 | ✅ |
@@ -1623,6 +1655,9 @@ Palettes: primary, neutral, success, warning, info, danger. Danger draws from `d
 | interactive.neutral.on-fill | black | 13.36 | 4.5 | ✅ |
 | interactive.neutral.text | black | 21.00 | 7 | ✅ |
 | interactive.neutral.border | neutral.500 | 4.59 | 4.5 | ✅ |
+| interactive.primary.on-inverse | primary.350 | 7.47 | 7 | ✅ |
+| interactive.destructive.on-inverse | danger.350 | 7.46 | 7 | ✅ |
+| interactive.neutral.on-inverse | white | 21.00 | 7 | ✅ |
 | interactive.primary.overlay.hover | black-alpha.10 | 16.75 | 7 | ✅ |
 | interactive.primary.overlay.pressed | black-alpha.20 | 13.08 | 7 | ✅ |
 | interactive.primary.overlay.selected | black-alpha.20 | 13.08 | 7 | ✅ |
@@ -1764,6 +1799,9 @@ Palettes: primary, neutral, success, warning, info, danger. Danger draws from `d
 | interactive.neutral.on-fill | white | 16.03 | 4.5 | ✅ |
 | interactive.neutral.text | white | 21.00 | 7 | ✅ |
 | interactive.neutral.border | neutral.500 | 4.57 | 4.5 | ✅ |
+| interactive.primary.on-inverse | primary.650 | 8.28 | 7 | ✅ |
+| interactive.destructive.on-inverse | danger.650 | 8.25 | 7 | ✅ |
+| interactive.neutral.on-inverse | black | 21.00 | 7 | ✅ |
 | interactive.primary.overlay.hover | white-alpha.10 | 17.49 | 7 | ✅ |
 | interactive.primary.overlay.pressed | white-alpha.20 | 12.63 | 7 | ✅ |
 | interactive.primary.overlay.selected | white-alpha.20 | 12.63 | 7 | ✅ |

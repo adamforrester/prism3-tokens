@@ -147,6 +147,13 @@ export const leverManifest: Lever[] = [
   { key: 'outlineInteraction', group: 'advanced', label: 'Outline hover', control: 'enum', default: 'overlay-neutral',
     options: enumOpts(['overlay-neutral', 'Neutral overlay wash'], ['solid-tint', 'Opaque subtle tint'], ['none', 'No hover expression']),
     description: 'How outline/text controls express hover/pressed/selected. Overlay = translucent neutral wash (composites over any surface); solid-tint = opaque foreground.<color>-subtle; none = omit.' },
+  { key: 'neutralEmphasis', group: 'advanced', label: 'Neutral emphasis', control: 'enum', default: 'subtle',
+    options: enumOpts(['subtle', 'Subtle (light grey)'], ['strong', 'Strong (bold near-black/white)']),
+    description: 'The neutral interactive fill boldness — subtle light grey (a surface) or a strong near-black/near-white fill.' },
+  { key: 'inverse', group: 'advanced', label: 'Inverse surface-context', control: 'toggle', default: true,
+    description: 'Generate interactive.<color>.on-inverse inks for controls on a dark hero / inverse section (a light CTA on dark).' },
+  { key: 'accentPalette', group: 'color', label: 'Accent interactive colour', control: 'palette-ref', advanced: true,
+    description: 'Opt-in — names a declared brand palette to get a full interactive.accent.* column. Must differ from the action palette; omit for no accent.' },
   { key: 'gradients', group: 'advanced', label: 'Gradients', control: 'toggle', default: false,
     description: 'Opt-in (off by default). On ships one default brand gradient; an explicit array ships specific ones.' },
 ];

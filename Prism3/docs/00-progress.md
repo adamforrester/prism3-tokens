@@ -7,7 +7,19 @@
 
 ---
 
-## Latest (2026-07-06) — interactive colour family (docs/20), increments 1–3 of the engine PR
+## Latest (2026-07-06) — interactive colour family (docs/20), increments 1–4 of the engine PR
+
+**Increment 4 — inverse surface-context + `neutralEmphasis` + opt-in `accentPalette` (additive).**
+- `interactive.<color>.on-inverse` (docs/20 §9): the ink for an outline/text control on a dark hero /
+  inverse section — a light CTA on dark, generated + contrast-verified against the inverse surface (not a
+  hand-mirrored twin). Gated by the `inverse` lever (default on). NB: primary/destructive 5.05:1, neutral 18:1.
+- `neutralEmphasis` lever (`subtle` default / `strong`): strong gives a bold near-black/near-white neutral
+  fill (neutral.800 light) that clears the non-text floor; on-fill still gated.
+- Opt-in `accentPalette` lever (docs/20 §3): names a declared palette (≠ action) → a full `interactive.accent.*`
+  column (fill/on-fill/text/border/on-inverse/overlays), all gated. Rejected if it equals the action palette
+  (never falls back to primary). Absent by default. All wired through input/Theme/schema/lever-manifest/.ai.json.
+- Contract count 372→**384** per brand (inverse inks). test 648→**654**. Fixtures untouched (all under the
+  `color/interactive/` allowlist).
 
 **Increment 3 — cross-cutting `disabled.*` (additive).** One disabled treatment regardless of intent
 (docs/20 §7): `disabled.{surface, on-disabled, text, icon, border}`, governed by `disabledStrategy`.

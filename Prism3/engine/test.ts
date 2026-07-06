@@ -267,6 +267,51 @@ for (const b of brands) {
   ok(onFails.length === 0, 'disabled: on-disabled is gated against disabled.surface (accessible strategy)' + (onFails.length ? ` — ${onFails.join(',')}` : ''));
 }
 
+// INVERSE + neutralEmphasis + accentPalette (docs/20 §9/§10/§3, increment 4).
+{
+  // (a) inverse surface-context: interactive.<color>.on-inverse present + gated against the
+  //     inverse surface in every mode; the `inverse` lever opts out.
+  const modes = resolveAllModes(nbTheme());
+  const invFails: string[] = [];
+  for (const m of modes)
+    for (const c of ['primary', 'neutral', 'destructive']) {
+      const r = m.roles[`interactive.${c}.on-inverse`];
+      if (!r) { invFails.push(`${m.mode}:${c}:absent`); continue; }
+      if (r.against !== 'background.inverse.primary') invFails.push(`${m.mode}:${c}:against=${r.against}`);
+      if (r.min > 0 && r.ratio < r.min) invFails.push(`${m.mode}:${c}:${r.ratio.toFixed(2)}<${r.min}`);
+    }
+  ok(invFails.length === 0, 'inverse: interactive.<color>.on-inverse gated on the inverse surface in every mode' + (invFails.length ? ` — ${invFails.slice(0, 3).join(',')}` : ''));
+  const noInv = resolveAllModes({ ...nbTheme(), inverseContext: false })
+    .flatMap((m) => Object.keys(m.roles)).filter((k) => k.startsWith('interactive.') && k.endsWith('.on-inverse'));
+  ok(noInv.length === 0, 'inverse: inverse=false emits no on-inverse inks' + (noInv.length ? ` — ${noInv.slice(0, 2).join(',')}` : ''));
+
+  // (b) neutralEmphasis 'strong' → a bold neutral fill that clears the non-text floor, on-fill still gated.
+  const strong = resolveAllModes({ ...nbTheme(), neutralEmphasis: 'strong' });
+  const strongFails = strong.flatMap((m) => {
+    const fill = m.roles['interactive.neutral.fill.rest'], on = m.roles['interactive.neutral.on-fill'];
+    const bad: string[] = [];
+    if (!(fill.min >= 3) || fill.ratio < fill.min) bad.push(`${m.mode}:fill ${fill.ratio.toFixed(2)}<${fill.min}`);
+    if (on.ratio < on.min) bad.push(`${m.mode}:on ${on.ratio.toFixed(2)}<${on.min}`);
+    return bad;
+  });
+  ok(strongFails.length === 0, 'neutralEmphasis: strong gives a floor-clearing neutral fill with a gated on-ink' + (strongFails.length ? ` — ${strongFails.slice(0, 2).join(',')}` : ''));
+
+  // (c) accentPalette: opt-in → a full interactive.accent.* column, all contracts hold; absent by default.
+  const noAccent = resolveAllModes(nbTheme()).flatMap((m) => Object.keys(m.roles)).filter((k) => k.startsWith('interactive.accent'));
+  ok(noAccent.length === 0, 'accent: no accent column without accentPalette (never falls back to primary)' + (noAccent.length ? ` — ${noAccent.slice(0, 2).join(',')}` : ''));
+  const acc = resolveAllModes({ ...nbTheme(), accentPalette: 'green', accentAnchorStep: 500 });
+  const accLight = acc.find((m) => m.mode === 'light')!.roles;
+  const accMissing = ['fill.rest', 'on-fill', 'text', 'border', 'on-inverse', 'overlay.hover'].filter((s) => !(`interactive.accent.${s}` in accLight));
+  const accFails = acc.flatMap((m) => Object.entries(m.roles).filter(([k, r]) => k.startsWith('interactive.accent') && r.min > 0 && r.ratio < r.min).map(([k]) => `${m.mode}.${k}`));
+  ok(accMissing.length === 0 && accFails.length === 0, 'accent: opt-in emits a full gated interactive.accent.* column' + (accMissing.length ? ` — MISSING ${accMissing.join(',')}` : '') + (accFails.length ? ` — FAILS ${accFails.slice(0, 2).join(',')}` : ''));
+
+  // (d) accentPalette must differ from the action palette (no two identical columns).
+  let threw = false;
+  try { brandTheme({ id: 'x', primary: { l: 0.5, c: 0.2, h: 20 }, neutral: { hue: 20, chroma: 0.01 }, actionPalette: 'primary', accentPalette: 'primary' } as unknown as BrandInput); }
+  catch { threw = true; }
+  ok(threw, 'accent: accentPalette === actionPalette is rejected');
+}
+
 // L-02: dualContrastWindow is only defined up to √21 ≈ 4.583 (the max ratio any single
 // luminance clears on BOTH extremes). At 4.5 it returns a valid non-empty window; past
 // √21 it must THROW rather than hand back an inverted [min>max] pair.

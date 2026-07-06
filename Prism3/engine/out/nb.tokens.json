@@ -4109,6 +4109,50 @@
               }
             }
           },
+          "on-inverse": {
+            "$type": "color",
+            "$value": "{nbds.palette.red.450}",
+            "$description": "primary interactive ink on an inverse / dark surface (outline / text on a dark hero)",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.palette.red.450",
+                "contrast": 5.05,
+                "against": "background.inverse.primary",
+                "min": 4.5,
+                "modes": {
+                  "dark": {
+                    "$value": "{nbds.palette.red.550}",
+                    "contrast": 5.24,
+                    "against": "background.inverse.primary",
+                    "min": 4.5
+                  },
+                  "hc-light": {
+                    "$value": "{nbds.palette.red.350}",
+                    "contrast": 7.52,
+                    "against": "background.inverse.primary",
+                    "min": 7
+                  },
+                  "hc-dark": {
+                    "$value": "{nbds.palette.red.650}",
+                    "contrast": 8.29,
+                    "against": "background.inverse.primary",
+                    "min": 7
+                  }
+                },
+                "figma": {
+                  "collection": "color",
+                  "modes": [
+                    "light",
+                    "dark",
+                    "hc-light",
+                    "hc-dark"
+                  ],
+                  "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                }
+              }
+            }
+          },
           "overlay": {
             "hover": {
               "$type": "color",
@@ -4639,6 +4683,50 @@
               }
             }
           },
+          "on-inverse": {
+            "$type": "color",
+            "$value": "{nbds.palette.red.450}",
+            "$description": "destructive interactive ink on an inverse / dark surface (outline / text on a dark hero)",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.palette.red.450",
+                "contrast": 5.05,
+                "against": "background.inverse.primary",
+                "min": 4.5,
+                "modes": {
+                  "dark": {
+                    "$value": "{nbds.palette.red.550}",
+                    "contrast": 5.24,
+                    "against": "background.inverse.primary",
+                    "min": 4.5
+                  },
+                  "hc-light": {
+                    "$value": "{nbds.palette.red.350}",
+                    "contrast": 7.52,
+                    "against": "background.inverse.primary",
+                    "min": 7
+                  },
+                  "hc-dark": {
+                    "$value": "{nbds.palette.red.650}",
+                    "contrast": 8.29,
+                    "against": "background.inverse.primary",
+                    "min": 7
+                  }
+                },
+                "figma": {
+                  "collection": "color",
+                  "modes": [
+                    "light",
+                    "dark",
+                    "hc-light",
+                    "hc-dark"
+                  ],
+                  "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                }
+              }
+            }
+          },
           "overlay": {
             "hover": {
               "$type": "color",
@@ -5134,6 +5222,50 @@
                     "contrast": 4.57,
                     "against": "background.primary",
                     "min": 4.5
+                  }
+                },
+                "figma": {
+                  "collection": "color",
+                  "modes": [
+                    "light",
+                    "dark",
+                    "hc-light",
+                    "hc-dark"
+                  ],
+                  "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                }
+              }
+            }
+          },
+          "on-inverse": {
+            "$type": "color",
+            "$value": "{nbds.palette.neutral.025}",
+            "$description": "neutral interactive ink on an inverse / dark surface (outline / text on a dark hero)",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "nbds.palette.neutral.025",
+                "contrast": 18.11,
+                "against": "background.inverse.primary",
+                "min": 4.5,
+                "modes": {
+                  "dark": {
+                    "$value": "{nbds.palette.neutral.950}",
+                    "contrast": 18.11,
+                    "against": "background.inverse.primary",
+                    "min": 4.5
+                  },
+                  "hc-light": {
+                    "$value": "{nbds.palette.white}",
+                    "contrast": 21,
+                    "against": "background.inverse.primary",
+                    "min": 7
+                  },
+                  "hc-dark": {
+                    "$value": "{nbds.palette.black}",
+                    "contrast": 21,
+                    "against": "background.inverse.primary",
+                    "min": 7
                   }
                 },
                 "figma": {

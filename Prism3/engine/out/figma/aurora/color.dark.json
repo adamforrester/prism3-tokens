@@ -846,6 +846,25 @@
       }
     },
     {
+      "name": "color/interactive/primary/on-inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "primary interactive ink on an inverse / dark surface (outline / text on a dark hero)",
+      "value": {
+        "r": 0,
+        "g": 0.4313725531101227,
+        "b": 0.6000000238418579,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/accent/550"
+      }
+    },
+    {
       "name": "color/interactive/primary/overlay/hover",
       "resolvedType": "COLOR",
       "scopes": [
@@ -1073,6 +1092,25 @@
       }
     },
     {
+      "name": "color/interactive/destructive/on-inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "destructive interactive ink on an inverse / dark surface (outline / text on a dark hero)",
+      "value": {
+        "r": 0.7098039388656616,
+        "g": 0.2549019753932953,
+        "b": 0.22745098173618317,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/danger/550"
+      }
+    },
+    {
       "name": "color/interactive/destructive/overlay/hover",
       "resolvedType": "COLOR",
       "scopes": [
@@ -1297,6 +1335,25 @@
       "alias": {
         "type": "VARIABLE_ALIAS",
         "name": "palette/neutral/550"
+      }
+    },
+    {
+      "name": "color/interactive/neutral/on-inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "neutral interactive ink on an inverse / dark surface (outline / text on a dark hero)",
+      "value": {
+        "r": 0.05098039284348488,
+        "g": 0.05098039284348488,
+        "b": 0.054901961237192154,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/neutral/950"
       }
     },
     {

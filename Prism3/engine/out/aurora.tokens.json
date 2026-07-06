@@ -4913,6 +4913,50 @@
               }
             }
           },
+          "on-inverse": {
+            "$type": "color",
+            "$value": "{prism.palette.accent.450}",
+            "$description": "primary interactive ink on an inverse / dark surface (outline / text on a dark hero)",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "prism.palette.accent.450",
+                "contrast": 4.87,
+                "against": "background.inverse.primary",
+                "min": 4.5,
+                "modes": {
+                  "dark": {
+                    "$value": "{prism.palette.accent.550}",
+                    "contrast": 5.31,
+                    "against": "background.inverse.primary",
+                    "min": 4.5
+                  },
+                  "hc-light": {
+                    "$value": "{prism.palette.accent.350}",
+                    "contrast": 7.36,
+                    "against": "background.inverse.primary",
+                    "min": 7
+                  },
+                  "hc-dark": {
+                    "$value": "{prism.palette.accent.650}",
+                    "contrast": 8.3,
+                    "against": "background.inverse.primary",
+                    "min": 7
+                  }
+                },
+                "figma": {
+                  "collection": "color",
+                  "modes": [
+                    "light",
+                    "dark",
+                    "hc-light",
+                    "hc-dark"
+                  ],
+                  "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                }
+              }
+            }
+          },
           "overlay": {
             "hover": {
               "$type": "color",
@@ -5443,6 +5487,50 @@
               }
             }
           },
+          "on-inverse": {
+            "$type": "color",
+            "$value": "{prism.palette.danger.450}",
+            "$description": "destructive interactive ink on an inverse / dark surface (outline / text on a dark hero)",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "prism.palette.danger.450",
+                "contrast": 4.95,
+                "against": "background.inverse.primary",
+                "min": 4.5,
+                "modes": {
+                  "dark": {
+                    "$value": "{prism.palette.danger.550}",
+                    "contrast": 5.18,
+                    "against": "background.inverse.primary",
+                    "min": 4.5
+                  },
+                  "hc-light": {
+                    "$value": "{prism.palette.danger.350}",
+                    "contrast": 7.44,
+                    "against": "background.inverse.primary",
+                    "min": 7
+                  },
+                  "hc-dark": {
+                    "$value": "{prism.palette.danger.650}",
+                    "contrast": 8.22,
+                    "against": "background.inverse.primary",
+                    "min": 7
+                  }
+                },
+                "figma": {
+                  "collection": "color",
+                  "modes": [
+                    "light",
+                    "dark",
+                    "hc-light",
+                    "hc-dark"
+                  ],
+                  "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                }
+              }
+            }
+          },
           "overlay": {
             "hover": {
               "$type": "color",
@@ -5938,6 +6026,50 @@
                     "contrast": 4.63,
                     "against": "background.primary",
                     "min": 4.5
+                  }
+                },
+                "figma": {
+                  "collection": "color",
+                  "modes": [
+                    "light",
+                    "dark",
+                    "hc-light",
+                    "hc-dark"
+                  ],
+                  "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                }
+              }
+            }
+          },
+          "on-inverse": {
+            "$type": "color",
+            "$value": "{prism.palette.neutral.025}",
+            "$description": "neutral interactive ink on an inverse / dark surface (outline / text on a dark hero)",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "prism.palette.neutral.025",
+                "contrast": 18.13,
+                "against": "background.inverse.primary",
+                "min": 4.5,
+                "modes": {
+                  "dark": {
+                    "$value": "{prism.palette.neutral.950}",
+                    "contrast": 18.13,
+                    "against": "background.inverse.primary",
+                    "min": 4.5
+                  },
+                  "hc-light": {
+                    "$value": "{prism.palette.white}",
+                    "contrast": 21,
+                    "against": "background.inverse.primary",
+                    "min": 7
+                  },
+                  "hc-dark": {
+                    "$value": "{prism.palette.black}",
+                    "contrast": 21,
+                    "against": "background.inverse.primary",
+                    "min": 7
                   }
                 },
                 "figma": {
@@ -13875,7 +14007,8 @@
         "disabled: 'accessible' — disabled text/icon/border clears 3:1 on the floor (legible, contrast-preserving; the field-rare default). Set disabledStrategy:'conventional' for the sub-AA exempt look.",
         "interactive overlays: 'overlay-neutral' (default) — outline/text controls + rows/menus hover with a translucent neutral wash (interactive.<color>.overlay.*), contrast-verified on the composited surface. Set 'solid-tint' (opaque foreground.<color>-subtle) or 'none' to opt out.",
         "light primary surface is NON-default (neutral.50) — CONFIRM this is the page colour; the contrast floor moves with it",
-        "action anchored at accent 'accent' step 500 (its pinned lightness) — the brand's own shade, nudged only if it fails AA on the floor"
+        "action anchored at accent 'accent' step 500 (its pinned lightness) — the brand's own shade, nudged only if it fails AA on the floor",
+        "neutral interactive emphasis: 'subtle' (light-grey, default); inverse surface-context: on (interactive.<color>.on-inverse generated)"
       ]
     }
   }

@@ -357,12 +357,43 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
   put('interactive.destructive.text', paletteRole('danger', baseRgb, cfg.secondaryMin), 'Destructive interactive ink (outline / text appearance)', 'background.primary', cfg.secondaryMin);
   put('interactive.destructive.border', rated(chromatic(r2p.danger, 500, baseRgb, cfg.nonTextMin), baseRgb), 'Destructive interactive border (outline)', 'background.primary', cfg.nonTextMin);
 
-  // neutral — the achromatic column that was the historical miss (docs/20 §12).
-  // The fill is a subtle grey (min 0 — a subtle surface); the LOAD-BEARING contract
-  // is its on-fill ink, derived + gated to onMin, so a failing neutral pair can't ship.
-  iFill('neutral', neutralStepR(cfg.family === 'light' ? 150 : 850), r2p.neutral, 0);
+  // neutral — the achromatic column that was the historical miss (docs/20 §12). The
+  // `neutralEmphasis` lever picks the fill: 'subtle' (default) a light grey (min 0 — a
+  // subtle surface); 'strong' a bold near-black (light) / near-white (dark) fill that
+  // clears the non-text floor. Either way the LOAD-BEARING contract is the on-fill ink,
+  // derived + gated to onMin, so a failing neutral pair can't ship.
+  const neutralStrong = theme.neutralEmphasis === 'strong';
+  const neutralAnchor = neutralStrong ? (cfg.family === 'light' ? 800 : 150) : (cfg.family === 'light' ? 150 : 850);
+  iFill('neutral', neutralStepR(neutralAnchor), r2p.neutral, neutralStrong ? cfg.nonTextMin : 0);
   put('interactive.neutral.text', pickMostExtreme(textCands, baseRgb), 'Neutral interactive ink (outline / text appearance) — strongest neutral', 'background.primary', cfg.secondaryMin);
   put('interactive.neutral.border', pickMinPass(ramp, baseRgb, cfg.nonTextMin), 'Neutral interactive border (outline)', 'background.primary', cfg.nonTextMin);
+
+  // accent — opt-in SECOND interactive colour (docs/20 §3), generated only when the brand
+  // declares an accent palette. Never falls back to primary (the resolver rejects an accent
+  // that equals the action palette), so a brand without one simply has no accent column.
+  if (theme.accentPalette) {
+    const accentAnchor = theme.accentAnchorStep ?? 500;
+    const accentRest = chromatic(theme.accentPalette, accentAnchor, floorRgb, cfg.actionMin);
+    iFill('accent', accentRest, theme.accentPalette, cfg.actionMin);
+    put('interactive.accent.text', rated(chromatic(theme.accentPalette, accentAnchor, baseRgb, cfg.secondaryMin), baseRgb), 'Accent interactive ink (outline / text appearance)', 'background.primary', cfg.secondaryMin);
+    put('interactive.accent.border', rated(chromatic(theme.accentPalette, 500, baseRgb, cfg.nonTextMin), baseRgb), 'Accent interactive border (outline)', 'background.primary', cfg.nonTextMin);
+  }
+
+  // inverse surface-context (docs/20 §9): the ink for an OUTLINE / TEXT interactive control
+  // placed on a dark hero / inverse section — a light CTA on dark, generated + contrast-verified
+  // against the inverse surface (not a hand-mirrored -inverse twin). Independent of light/dark
+  // theme; a light-only brand still needs it. The `inverse` lever gates it.
+  if (theme.inverseContext) {
+    const invInk = (name: string, palette: string | null, anchor: number) =>
+      put(`interactive.${name}.on-inverse`,
+        palette ? rated(chromatic(palette, anchor, invRgb, cfg.secondaryMin), invRgb) : pickMostExtreme(textCands, invRgb),
+        `${name} interactive ink on an inverse / dark surface (outline / text on a dark hero)`,
+        'background.inverse.primary', cfg.secondaryMin);
+    invInk('primary', r2p.action, theme.roleAnchorStep.action);
+    invInk('destructive', r2p.danger, theme.roleAnchorStep.danger);
+    invInk('neutral', null, 0);
+    if (theme.accentPalette) invInk('accent', theme.accentPalette, theme.accentAnchorStep ?? 500);
+  }
 
   // interactive overlays (docs/20 §6) — translucent hover/pressed/selected washes that
   // composite over ANY surface (page, dark hero, image), the outline/text-appearance and
@@ -376,7 +407,8 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
     const overlayBase = cfg.family === 'light' ? BLACK : WHITE;
     const OVERLAY_ALPHA: [string, number][] = [['hover', 10], ['pressed', 20], ['selected', 20]];
     const contentRgb = pickMostExtreme(textCands, baseRgb).rgb;   // text.primary — the strongest content ink
-    for (const color of ['primary', 'neutral', 'destructive']) {
+    const overlayColors = theme.accentPalette ? ['primary', 'neutral', 'destructive', 'accent'] : ['primary', 'neutral', 'destructive'];
+    for (const color of overlayColors) {
       for (const [st, step] of OVERLAY_ALPHA) {
         const ratio = contrast(contentRgb, composite(baseRgb, overlayBase, step / 100));
         put(`interactive.${color}.overlay.${st}`,

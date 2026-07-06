@@ -4511,6 +4511,50 @@
               }
             }
           },
+          "on-inverse": {
+            "$type": "color",
+            "$value": "{prism.palette.primary.450}",
+            "$description": "primary interactive ink on an inverse / dark surface (outline / text on a dark hero)",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "prism.palette.primary.450",
+                "contrast": 5,
+                "against": "background.inverse.primary",
+                "min": 4.5,
+                "modes": {
+                  "dark": {
+                    "$value": "{prism.palette.primary.600}",
+                    "contrast": 6.33,
+                    "against": "background.inverse.primary",
+                    "min": 4.5
+                  },
+                  "hc-light": {
+                    "$value": "{prism.palette.primary.350}",
+                    "contrast": 7.47,
+                    "against": "background.inverse.primary",
+                    "min": 7
+                  },
+                  "hc-dark": {
+                    "$value": "{prism.palette.primary.650}",
+                    "contrast": 8.28,
+                    "against": "background.inverse.primary",
+                    "min": 7
+                  }
+                },
+                "figma": {
+                  "collection": "color",
+                  "modes": [
+                    "light",
+                    "dark",
+                    "hc-light",
+                    "hc-dark"
+                  ],
+                  "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                }
+              }
+            }
+          },
           "overlay": {
             "hover": {
               "$type": "color",
@@ -5041,6 +5085,50 @@
               }
             }
           },
+          "on-inverse": {
+            "$type": "color",
+            "$value": "{prism.palette.danger.450}",
+            "$description": "destructive interactive ink on an inverse / dark surface (outline / text on a dark hero)",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "prism.palette.danger.450",
+                "contrast": 4.94,
+                "against": "background.inverse.primary",
+                "min": 4.5,
+                "modes": {
+                  "dark": {
+                    "$value": "{prism.palette.danger.550}",
+                    "contrast": 5.21,
+                    "against": "background.inverse.primary",
+                    "min": 4.5
+                  },
+                  "hc-light": {
+                    "$value": "{prism.palette.danger.350}",
+                    "contrast": 7.46,
+                    "against": "background.inverse.primary",
+                    "min": 7
+                  },
+                  "hc-dark": {
+                    "$value": "{prism.palette.danger.650}",
+                    "contrast": 8.25,
+                    "against": "background.inverse.primary",
+                    "min": 7
+                  }
+                },
+                "figma": {
+                  "collection": "color",
+                  "modes": [
+                    "light",
+                    "dark",
+                    "hc-light",
+                    "hc-dark"
+                  ],
+                  "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                }
+              }
+            }
+          },
           "overlay": {
             "hover": {
               "$type": "color",
@@ -5536,6 +5624,50 @@
                     "contrast": 4.57,
                     "against": "background.primary",
                     "min": 4.5
+                  }
+                },
+                "figma": {
+                  "collection": "color",
+                  "modes": [
+                    "light",
+                    "dark",
+                    "hc-light",
+                    "hc-dark"
+                  ],
+                  "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                }
+              }
+            }
+          },
+          "on-inverse": {
+            "$type": "color",
+            "$value": "{prism.palette.neutral.025}",
+            "$description": "neutral interactive ink on an inverse / dark surface (outline / text on a dark hero)",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "prism.palette.neutral.025",
+                "contrast": 18.11,
+                "against": "background.inverse.primary",
+                "min": 4.5,
+                "modes": {
+                  "dark": {
+                    "$value": "{prism.palette.neutral.950}",
+                    "contrast": 18.11,
+                    "against": "background.inverse.primary",
+                    "min": 4.5
+                  },
+                  "hc-light": {
+                    "$value": "{prism.palette.white}",
+                    "contrast": 21,
+                    "against": "background.inverse.primary",
+                    "min": 7
+                  },
+                  "hc-dark": {
+                    "$value": "{prism.palette.black}",
+                    "contrast": 21,
+                    "against": "background.inverse.primary",
+                    "min": 7
                   }
                 },
                 "figma": {
@@ -13270,7 +13402,8 @@
         "typography: curated rem size ladder (22 steps, 10–160px — NOT ratio-derived; covers all bases, clean values); weight roles subtle/default/emphasis/strong → 300/400/600/700; families display=Inter, text=Inter, mono=JetBrains Mono; typeScale 'compact'. 35 semantic composites (title/display sizes shifted by typeScale; display capped at 160px; title floor 18px) — NOTE: requested ceiling 160px; effective top display is 144px (typeScale shifts sizes off the exact ladder rung). responsive: 9 fluid composites (size-dependent mobile shrink — research-validated, Carbon fluid-display curve: body static, titles ~1 rung, display converges to ~40–48px; one min/max pair → web clamp() 375–1280px + Figma desktop/mobile modes). Line-height unitless multiplier in $value; px-from-ratio materialization for Figma in $extensions.",
         "disabled: 'accessible' — disabled text/icon/border clears 3:1 on the floor (legible, contrast-preserving; the field-rare default). Set disabledStrategy:'conventional' for the sub-AA exempt look.",
         "interactive overlays: 'overlay-neutral' (default) — outline/text controls + rows/menus hover with a translucent neutral wash (interactive.<color>.overlay.*), contrast-verified on the composited surface. Set 'solid-tint' (opaque foreground.<color>-subtle) or 'none' to opt out.",
-        "light primary surface is NON-default (neutral.50) — CONFIRM this is the page colour; the contrast floor moves with it"
+        "light primary surface is NON-default (neutral.50) — CONFIRM this is the page colour; the contrast floor moves with it",
+        "neutral interactive emphasis: 'subtle' (light-grey, default); inverse surface-context: on (interactive.<color>.on-inverse generated)"
       ]
     }
   }

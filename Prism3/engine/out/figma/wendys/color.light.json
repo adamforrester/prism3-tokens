@@ -846,6 +846,25 @@
       }
     },
     {
+      "name": "color/interactive/primary/on-inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "primary interactive ink on an inverse / dark surface (outline / text on a dark hero)",
+      "value": {
+        "r": 0.8313725590705872,
+        "g": 0.3450980484485626,
+        "b": 0.3490196168422699,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/primary/400"
+      }
+    },
+    {
       "name": "color/interactive/primary/overlay/hover",
       "resolvedType": "COLOR",
       "scopes": [
@@ -1073,6 +1092,25 @@
       }
     },
     {
+      "name": "color/interactive/destructive/on-inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "destructive interactive ink on an inverse / dark surface (outline / text on a dark hero)",
+      "value": {
+        "r": 0.8588235378265381,
+        "g": 0.32156863808631897,
+        "b": 0.33725491166114807,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/danger/450"
+      }
+    },
+    {
       "name": "color/interactive/destructive/overlay/hover",
       "resolvedType": "COLOR",
       "scopes": [
@@ -1297,6 +1335,25 @@
       "alias": {
         "type": "VARIABLE_ALIAS",
         "name": "palette/neutral/400"
+      }
+    },
+    {
+      "name": "color/interactive/neutral/on-inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "neutral interactive ink on an inverse / dark surface (outline / text on a dark hero)",
+      "value": {
+        "r": 0.9686274528503418,
+        "g": 0.9686274528503418,
+        "b": 0.9686274528503418,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/neutral/025"
       }
     },
     {

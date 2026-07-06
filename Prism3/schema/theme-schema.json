@@ -96,6 +96,21 @@
       "default": "overlay-neutral",
       "description": "OPTIONAL. How an outline/text interactive control expresses hover/pressed/selected (docs/20 §10). 'overlay-neutral' (default): generate translucent `interactive.<color>.overlay.*` washes that composite over any surface (each is contrast-verified on the composited result). 'solid-tint': use opaque `foreground.<color>-subtle` surfaces instead — no overlays. 'none': no hover expression, no overlays. ('overlay-tint' — the colour's own hue at low alpha — is scheduled; it needs per-colour alpha ramps.)"
     },
+    "neutralEmphasis": {
+      "type": "string",
+      "enum": ["subtle", "strong"],
+      "default": "subtle",
+      "description": "OPTIONAL. The neutral interactive fill's boldness (docs/20 §10). 'subtle' (default): a light-grey neutral fill (a surface). 'strong': a bold near-black (light) / near-white (dark) neutral fill that clears the non-text floor."
+    },
+    "inverse": {
+      "type": "boolean",
+      "default": true,
+      "description": "OPTIONAL. Generate the inverse surface-context (docs/20 §9) — `interactive.<color>.on-inverse` inks for outline/text controls on a dark hero / inverse section (a light CTA on dark), contrast-verified against the inverse surface. Default true; even a light-only brand needs it. Set false to omit."
+    },
+    "accentPalette": {
+      "type": "string",
+      "description": "OPTIONAL. Opt-in accent interactive colour (docs/20 §3). Names a declared palette (typically a `brandColors` entry) to get a full `interactive.accent.*` column. Must differ from the action palette — never falls back to primary. Omit → no accent column."
+    },
     "motionPersonality": {
       "type": "object",
       "additionalProperties": false,
