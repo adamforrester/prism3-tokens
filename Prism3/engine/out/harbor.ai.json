@@ -670,7 +670,7 @@
         "icon.on-action"
       ]
     },
-    "interactive.primary.fill.default": {
+    "interactive.primary.fill.rest": {
       "$description": "Primary interactive fill.",
       "meaning": "Interactivity / actions",
       "when_to_use": "The fill of a FILLED primary interactive element — buttons, controls, selectable rows.",
@@ -807,11 +807,11 @@
         "hc-dark": "{prism.palette.black}"
       },
       "paired_with": [
-        "interactive.primary.fill.default"
+        "interactive.primary.fill.rest"
       ],
       "contrast_with": [
         {
-          "token": "interactive.primary.fill.default",
+          "token": "interactive.primary.fill.rest",
           "min": "4.5:1",
           "ratio": 6.79
         }
@@ -861,7 +861,7 @@
         }
       ]
     },
-    "interactive.destructive.fill.default": {
+    "interactive.destructive.fill.rest": {
       "$description": "Destructive interactive fill.",
       "meaning": "Interactivity / actions",
       "when_to_use": "The fill of a FILLED destructive interactive element — buttons, controls, selectable rows.",
@@ -998,11 +998,11 @@
         "hc-dark": "{prism.palette.black}"
       },
       "paired_with": [
-        "interactive.destructive.fill.default"
+        "interactive.destructive.fill.rest"
       ],
       "contrast_with": [
         {
-          "token": "interactive.destructive.fill.default",
+          "token": "interactive.destructive.fill.rest",
           "min": "4.5:1",
           "ratio": 6.8
         }
@@ -1052,7 +1052,7 @@
         }
       ]
     },
-    "interactive.neutral.fill.default": {
+    "interactive.neutral.fill.rest": {
       "$description": "Neutral interactive fill.",
       "meaning": "Interactivity / actions",
       "when_to_use": "The fill of a FILLED neutral interactive element — buttons, controls, selectable rows.",
@@ -1154,11 +1154,11 @@
         "hc-dark": "{prism.palette.white}"
       },
       "paired_with": [
-        "interactive.neutral.fill.default"
+        "interactive.neutral.fill.rest"
       ],
       "contrast_with": [
         {
-          "token": "interactive.neutral.fill.default",
+          "token": "interactive.neutral.fill.rest",
           "min": "4.5:1",
           "ratio": 12.36
         }
@@ -3095,7 +3095,7 @@
         "color.icon.brand",
         "color.icon.link.default",
         "color.icon.link.focused",
-        "color.interactive.primary.fill.default",
+        "color.interactive.primary.fill.rest",
         "color.text.brand",
         "color.text.link.default",
         "color.text.link.focused"
@@ -3148,7 +3148,7 @@
         "color.icon.brand-subtle",
         "color.icon.link.default",
         "color.icon.link.focused",
-        "color.interactive.primary.fill.default",
+        "color.interactive.primary.fill.rest",
         "color.interactive.primary.text",
         "color.text.brand",
         "color.text.brand-subtle",
@@ -3187,7 +3187,7 @@
         "color.icon.brand",
         "color.icon.link.default",
         "color.icon.link.focused",
-        "color.interactive.primary.fill.default",
+        "color.interactive.primary.fill.rest",
         "color.interactive.primary.text",
         "color.text.brand",
         "color.text.link.default",
@@ -3226,8 +3226,8 @@
         "color.icon.link.default",
         "color.icon.link.focused",
         "color.icon.link.visited",
-        "color.interactive.primary.fill.default",
         "color.interactive.primary.fill.pressed",
+        "color.interactive.primary.fill.rest",
         "color.interactive.primary.fill.selected",
         "color.text.brand",
         "color.text.link.default",
@@ -3326,7 +3326,7 @@
         "color.background.tertiary",
         "color.foreground.inverse.tertiary",
         "color.foreground.secondary",
-        "color.interactive.neutral.fill.default"
+        "color.interactive.neutral.fill.rest"
       ]
     },
     "palette.neutral.200": {
@@ -3519,7 +3519,7 @@
         "color.background.tertiary",
         "color.foreground.inverse.secondary",
         "color.foreground.secondary",
-        "color.interactive.neutral.fill.default"
+        "color.interactive.neutral.fill.rest"
       ]
     },
     "palette.neutral.900": {
@@ -4171,7 +4171,7 @@
       "aliased_by": [
         "color.foreground.danger.default",
         "color.icon.danger",
-        "color.interactive.destructive.fill.default",
+        "color.interactive.destructive.fill.rest",
         "color.text.danger"
       ]
     },
@@ -4214,7 +4214,7 @@
         "color.foreground.danger.default",
         "color.icon.danger",
         "color.icon.danger-subtle",
-        "color.interactive.destructive.fill.default",
+        "color.interactive.destructive.fill.rest",
         "color.interactive.destructive.text",
         "color.text.danger",
         "color.text.danger-subtle"
@@ -4250,7 +4250,7 @@
       "aliased_by": [
         "color.foreground.danger.default",
         "color.icon.danger",
-        "color.interactive.destructive.fill.default",
+        "color.interactive.destructive.fill.rest",
         "color.text.danger"
       ]
     },
@@ -4279,8 +4279,8 @@
         "color.foreground.danger.pressed",
         "color.foreground.danger.selected",
         "color.icon.danger",
-        "color.interactive.destructive.fill.default",
         "color.interactive.destructive.fill.pressed",
+        "color.interactive.destructive.fill.rest",
         "color.interactive.destructive.fill.selected",
         "color.text.danger"
       ]

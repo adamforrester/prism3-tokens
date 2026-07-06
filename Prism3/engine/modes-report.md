@@ -48,7 +48,7 @@ Palettes: red, green, amber, neutral, info. Danger draws from `red`.
 | action.focused | red.600 | 5.64 | 4.5 | ✅ |
 | action.selected | red.650 | 6.82 | 4.5 | ✅ |
 | action.disabled | neutral.200 | — | — | · |
-| interactive.primary.fill.default | red.550 | 4.62 | 4.5 | ✅ |
+| interactive.primary.fill.rest | red.550 | 4.62 | 4.5 | ✅ |
 | interactive.primary.fill.hover | red.600 | 5.64 | 4.5 | ✅ |
 | interactive.primary.fill.pressed | red.650 | 6.82 | 4.5 | ✅ |
 | interactive.primary.fill.focused | red.600 | 5.64 | 4.5 | ✅ |
@@ -57,7 +57,7 @@ Palettes: red, green, amber, neutral, info. Danger draws from `red`.
 | interactive.primary.on-fill | white | 5.62 | 4.5 | ✅ |
 | interactive.primary.text | red.550 | 5.62 | 4.5 | ✅ |
 | interactive.primary.border | red.500 | 4.58 | 3 | ✅ |
-| interactive.destructive.fill.default | red.550 | 4.62 | 4.5 | ✅ |
+| interactive.destructive.fill.rest | red.550 | 4.62 | 4.5 | ✅ |
 | interactive.destructive.fill.hover | red.600 | 5.64 | 4.5 | ✅ |
 | interactive.destructive.fill.pressed | red.650 | 6.82 | 4.5 | ✅ |
 | interactive.destructive.fill.focused | red.600 | 5.64 | 4.5 | ✅ |
@@ -66,7 +66,7 @@ Palettes: red, green, amber, neutral, info. Danger draws from `red`.
 | interactive.destructive.on-fill | white | 5.62 | 4.5 | ✅ |
 | interactive.destructive.text | red.550 | 5.62 | 4.5 | ✅ |
 | interactive.destructive.border | red.500 | 4.58 | 3 | ✅ |
-| interactive.neutral.fill.default | neutral.150 | — | — | · |
+| interactive.neutral.fill.rest | neutral.150 | — | — | · |
 | interactive.neutral.fill.hover | neutral.200 | — | — | · |
 | interactive.neutral.fill.pressed | neutral.250 | — | — | · |
 | interactive.neutral.fill.focused | neutral.200 | — | — | · |
@@ -175,7 +175,7 @@ Palettes: red, green, amber, neutral, info. Danger draws from `red`.
 | action.focused | red.400 | 5.52 | 4.5 | ✅ |
 | action.selected | red.350 | 6.44 | 4.5 | ✅ |
 | action.disabled | neutral.750 | — | — | · |
-| interactive.primary.fill.default | red.450 | 4.66 | 4.5 | ✅ |
+| interactive.primary.fill.rest | red.450 | 4.66 | 4.5 | ✅ |
 | interactive.primary.fill.hover | red.400 | 5.52 | 4.5 | ✅ |
 | interactive.primary.fill.pressed | red.350 | 6.44 | 4.5 | ✅ |
 | interactive.primary.fill.focused | red.400 | 5.52 | 4.5 | ✅ |
@@ -184,7 +184,7 @@ Palettes: red, green, amber, neutral, info. Danger draws from `red`.
 | interactive.primary.on-fill | neutral.950 | 5.05 | 4.5 | ✅ |
 | interactive.primary.text | red.450 | 5.05 | 4.5 | ✅ |
 | interactive.primary.border | red.500 | 4.24 | 3 | ✅ |
-| interactive.destructive.fill.default | red.450 | 4.66 | 4.5 | ✅ |
+| interactive.destructive.fill.rest | red.450 | 4.66 | 4.5 | ✅ |
 | interactive.destructive.fill.hover | red.400 | 5.52 | 4.5 | ✅ |
 | interactive.destructive.fill.pressed | red.350 | 6.44 | 4.5 | ✅ |
 | interactive.destructive.fill.focused | red.400 | 5.52 | 4.5 | ✅ |
@@ -193,7 +193,7 @@ Palettes: red, green, amber, neutral, info. Danger draws from `red`.
 | interactive.destructive.on-fill | neutral.950 | 5.05 | 4.5 | ✅ |
 | interactive.destructive.text | red.450 | 5.05 | 4.5 | ✅ |
 | interactive.destructive.border | red.500 | 4.24 | 3 | ✅ |
-| interactive.neutral.fill.default | neutral.850 | — | — | · |
+| interactive.neutral.fill.rest | neutral.850 | — | — | · |
 | interactive.neutral.fill.hover | neutral.800 | — | — | · |
 | interactive.neutral.fill.pressed | neutral.750 | — | — | · |
 | interactive.neutral.fill.focused | neutral.800 | — | — | · |
@@ -302,7 +302,7 @@ Palettes: red, green, amber, neutral, info. Danger draws from `red`.
 | action.focused | red.750 | 9.94 | 7 | ✅ |
 | action.selected | red.800 | 11.66 | 7 | ✅ |
 | action.disabled | neutral.200 | — | — | · |
-| interactive.primary.fill.default | red.700 | 8.25 | 7 | ✅ |
+| interactive.primary.fill.rest | red.700 | 8.25 | 7 | ✅ |
 | interactive.primary.fill.hover | red.750 | 9.94 | 7 | ✅ |
 | interactive.primary.fill.pressed | red.800 | 11.66 | 7 | ✅ |
 | interactive.primary.fill.focused | red.750 | 9.94 | 7 | ✅ |
@@ -311,7 +311,7 @@ Palettes: red, green, amber, neutral, info. Danger draws from `red`.
 | interactive.primary.on-fill | white | 10.03 | 4.5 | ✅ |
 | interactive.primary.text | red.650 | 8.29 | 7 | ✅ |
 | interactive.primary.border | red.500 | 4.58 | 4.5 | ✅ |
-| interactive.destructive.fill.default | red.700 | 8.25 | 7 | ✅ |
+| interactive.destructive.fill.rest | red.700 | 8.25 | 7 | ✅ |
 | interactive.destructive.fill.hover | red.750 | 9.94 | 7 | ✅ |
 | interactive.destructive.fill.pressed | red.800 | 11.66 | 7 | ✅ |
 | interactive.destructive.fill.focused | red.750 | 9.94 | 7 | ✅ |
@@ -320,7 +320,7 @@ Palettes: red, green, amber, neutral, info. Danger draws from `red`.
 | interactive.destructive.on-fill | white | 10.03 | 4.5 | ✅ |
 | interactive.destructive.text | red.650 | 8.29 | 7 | ✅ |
 | interactive.destructive.border | red.500 | 4.58 | 4.5 | ✅ |
-| interactive.neutral.fill.default | neutral.150 | — | — | · |
+| interactive.neutral.fill.rest | neutral.150 | — | — | · |
 | interactive.neutral.fill.hover | neutral.200 | — | — | · |
 | interactive.neutral.fill.pressed | neutral.250 | — | — | · |
 | interactive.neutral.fill.focused | neutral.200 | — | — | · |
@@ -429,7 +429,7 @@ Palettes: red, green, amber, neutral, info. Danger draws from `red`.
 | action.focused | red.250 | 8.70 | 7 | ✅ |
 | action.selected | red.200 | 10.01 | 7 | ✅ |
 | action.disabled | neutral.750 | — | — | · |
-| interactive.primary.fill.default | red.300 | 7.50 | 7 | ✅ |
+| interactive.primary.fill.rest | red.300 | 7.50 | 7 | ✅ |
 | interactive.primary.fill.hover | red.250 | 8.70 | 7 | ✅ |
 | interactive.primary.fill.pressed | red.200 | 10.01 | 7 | ✅ |
 | interactive.primary.fill.focused | red.250 | 8.70 | 7 | ✅ |
@@ -438,7 +438,7 @@ Palettes: red, green, amber, neutral, info. Danger draws from `red`.
 | interactive.primary.on-fill | black | 8.77 | 4.5 | ✅ |
 | interactive.primary.text | red.350 | 7.52 | 7 | ✅ |
 | interactive.primary.border | red.500 | 4.58 | 4.5 | ✅ |
-| interactive.destructive.fill.default | red.300 | 7.50 | 7 | ✅ |
+| interactive.destructive.fill.rest | red.300 | 7.50 | 7 | ✅ |
 | interactive.destructive.fill.hover | red.250 | 8.70 | 7 | ✅ |
 | interactive.destructive.fill.pressed | red.200 | 10.01 | 7 | ✅ |
 | interactive.destructive.fill.focused | red.250 | 8.70 | 7 | ✅ |
@@ -447,7 +447,7 @@ Palettes: red, green, amber, neutral, info. Danger draws from `red`.
 | interactive.destructive.on-fill | black | 8.77 | 4.5 | ✅ |
 | interactive.destructive.text | red.350 | 7.52 | 7 | ✅ |
 | interactive.destructive.border | red.500 | 4.58 | 4.5 | ✅ |
-| interactive.neutral.fill.default | neutral.850 | — | — | · |
+| interactive.neutral.fill.rest | neutral.850 | — | — | · |
 | interactive.neutral.fill.hover | neutral.800 | — | — | · |
 | interactive.neutral.fill.pressed | neutral.750 | — | — | · |
 | interactive.neutral.fill.focused | neutral.800 | — | — | · |
@@ -625,7 +625,7 @@ Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws
 | action.focused | accent.650 | 6.00 | 4.5 | ✅ |
 | action.selected | accent.700 | 7.26 | 4.5 | ✅ |
 | action.disabled | neutral.200 | — | — | · |
-| interactive.primary.fill.default | accent.600 | 4.95 | 4.5 | ✅ |
+| interactive.primary.fill.rest | accent.600 | 4.95 | 4.5 | ✅ |
 | interactive.primary.fill.hover | accent.650 | 6.00 | 4.5 | ✅ |
 | interactive.primary.fill.pressed | accent.700 | 7.26 | 4.5 | ✅ |
 | interactive.primary.fill.focused | accent.650 | 6.00 | 4.5 | ✅ |
@@ -634,7 +634,7 @@ Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws
 | interactive.primary.on-fill | white | 6.85 | 4.5 | ✅ |
 | interactive.primary.text | accent.550 | 4.69 | 4.5 | ✅ |
 | interactive.primary.border | accent.500 | 3.76 | 3 | ✅ |
-| interactive.destructive.fill.default | danger.600 | 4.89 | 4.5 | ✅ |
+| interactive.destructive.fill.rest | danger.600 | 4.89 | 4.5 | ✅ |
 | interactive.destructive.fill.hover | danger.650 | 5.95 | 4.5 | ✅ |
 | interactive.destructive.fill.pressed | danger.700 | 7.22 | 4.5 | ✅ |
 | interactive.destructive.fill.focused | danger.650 | 5.95 | 4.5 | ✅ |
@@ -643,7 +643,7 @@ Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws
 | interactive.destructive.on-fill | white | 6.76 | 4.5 | ✅ |
 | interactive.destructive.text | danger.550 | 4.58 | 4.5 | ✅ |
 | interactive.destructive.border | danger.500 | 3.76 | 3 | ✅ |
-| interactive.neutral.fill.default | neutral.150 | — | — | · |
+| interactive.neutral.fill.rest | neutral.150 | — | — | · |
 | interactive.neutral.fill.hover | neutral.200 | — | — | · |
 | interactive.neutral.fill.pressed | neutral.250 | — | — | · |
 | interactive.neutral.fill.focused | neutral.200 | — | — | · |
@@ -752,7 +752,7 @@ Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws
 | action.focused | accent.350 | 6.27 | 4.5 | ✅ |
 | action.selected | accent.300 | 7.32 | 4.5 | ✅ |
 | action.disabled | neutral.750 | — | — | · |
-| interactive.primary.fill.default | accent.400 | 5.34 | 4.5 | ✅ |
+| interactive.primary.fill.rest | accent.400 | 5.34 | 4.5 | ✅ |
 | interactive.primary.fill.hover | accent.350 | 6.27 | 4.5 | ✅ |
 | interactive.primary.fill.pressed | accent.300 | 7.32 | 4.5 | ✅ |
 | interactive.primary.fill.focused | accent.350 | 6.27 | 4.5 | ✅ |
@@ -761,7 +761,7 @@ Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws
 | interactive.primary.on-fill | neutral.950 | 5.80 | 4.5 | ✅ |
 | interactive.primary.text | accent.450 | 4.87 | 4.5 | ✅ |
 | interactive.primary.border | accent.500 | 4.26 | 3 | ✅ |
-| interactive.destructive.fill.default | danger.450 | 4.56 | 4.5 | ✅ |
+| interactive.destructive.fill.rest | danger.450 | 4.56 | 4.5 | ✅ |
 | interactive.destructive.fill.hover | danger.400 | 5.41 | 4.5 | ✅ |
 | interactive.destructive.fill.pressed | danger.350 | 6.34 | 4.5 | ✅ |
 | interactive.destructive.fill.focused | danger.400 | 5.41 | 4.5 | ✅ |
@@ -770,7 +770,7 @@ Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws
 | interactive.destructive.on-fill | neutral.950 | 4.95 | 4.5 | ✅ |
 | interactive.destructive.text | danger.450 | 4.95 | 4.5 | ✅ |
 | interactive.destructive.border | danger.500 | 4.26 | 3 | ✅ |
-| interactive.neutral.fill.default | neutral.850 | — | — | · |
+| interactive.neutral.fill.rest | neutral.850 | — | — | · |
 | interactive.neutral.fill.hover | neutral.800 | — | — | · |
 | interactive.neutral.fill.pressed | neutral.750 | — | — | · |
 | interactive.neutral.fill.focused | neutral.800 | — | — | · |
@@ -879,7 +879,7 @@ Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws
 | action.focused | accent.750 | 8.65 | 7 | ✅ |
 | action.selected | accent.800 | 10.07 | 7 | ✅ |
 | action.disabled | neutral.200 | — | — | · |
-| interactive.primary.fill.default | accent.700 | 7.26 | 7 | ✅ |
+| interactive.primary.fill.rest | accent.700 | 7.26 | 7 | ✅ |
 | interactive.primary.fill.hover | accent.750 | 8.65 | 7 | ✅ |
 | interactive.primary.fill.pressed | accent.800 | 10.07 | 7 | ✅ |
 | interactive.primary.fill.focused | accent.750 | 8.65 | 7 | ✅ |
@@ -888,7 +888,7 @@ Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws
 | interactive.primary.on-fill | white | 10.03 | 4.5 | ✅ |
 | interactive.primary.text | accent.650 | 8.30 | 7 | ✅ |
 | interactive.primary.border | accent.500 | 4.56 | 4.5 | ✅ |
-| interactive.destructive.fill.default | danger.700 | 7.22 | 7 | ✅ |
+| interactive.destructive.fill.rest | danger.700 | 7.22 | 7 | ✅ |
 | interactive.destructive.fill.hover | danger.750 | 8.67 | 7 | ✅ |
 | interactive.destructive.fill.pressed | danger.800 | 10.27 | 7 | ✅ |
 | interactive.destructive.fill.focused | danger.750 | 8.67 | 7 | ✅ |
@@ -897,7 +897,7 @@ Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws
 | interactive.destructive.on-fill | white | 9.99 | 4.5 | ✅ |
 | interactive.destructive.text | danger.650 | 8.22 | 7 | ✅ |
 | interactive.destructive.border | danger.500 | 4.56 | 4.5 | ✅ |
-| interactive.neutral.fill.default | neutral.150 | — | — | · |
+| interactive.neutral.fill.rest | neutral.150 | — | — | · |
 | interactive.neutral.fill.hover | neutral.200 | — | — | · |
 | interactive.neutral.fill.pressed | neutral.250 | — | — | · |
 | interactive.neutral.fill.focused | neutral.200 | — | — | · |
@@ -1006,7 +1006,7 @@ Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws
 | action.focused | accent.250 | 8.50 | 7 | ✅ |
 | action.selected | accent.200 | 9.82 | 7 | ✅ |
 | action.disabled | neutral.750 | — | — | · |
-| interactive.primary.fill.default | accent.300 | 7.32 | 7 | ✅ |
+| interactive.primary.fill.rest | accent.300 | 7.32 | 7 | ✅ |
 | interactive.primary.fill.hover | accent.250 | 8.50 | 7 | ✅ |
 | interactive.primary.fill.pressed | accent.200 | 9.82 | 7 | ✅ |
 | interactive.primary.fill.focused | accent.250 | 8.50 | 7 | ✅ |
@@ -1015,7 +1015,7 @@ Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws
 | interactive.primary.on-fill | black | 8.59 | 4.5 | ✅ |
 | interactive.primary.text | accent.350 | 7.36 | 7 | ✅ |
 | interactive.primary.border | accent.500 | 4.60 | 4.5 | ✅ |
-| interactive.destructive.fill.default | danger.300 | 7.42 | 7 | ✅ |
+| interactive.destructive.fill.rest | danger.300 | 7.42 | 7 | ✅ |
 | interactive.destructive.fill.hover | danger.250 | 8.60 | 7 | ✅ |
 | interactive.destructive.fill.pressed | danger.200 | 9.97 | 7 | ✅ |
 | interactive.destructive.fill.focused | danger.250 | 8.60 | 7 | ✅ |
@@ -1024,7 +1024,7 @@ Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws
 | interactive.destructive.on-fill | black | 8.70 | 4.5 | ✅ |
 | interactive.destructive.text | danger.350 | 7.44 | 7 | ✅ |
 | interactive.destructive.border | danger.500 | 4.60 | 4.5 | ✅ |
-| interactive.neutral.fill.default | neutral.850 | — | — | · |
+| interactive.neutral.fill.rest | neutral.850 | — | — | · |
 | interactive.neutral.fill.hover | neutral.800 | — | — | · |
 | interactive.neutral.fill.pressed | neutral.750 | — | — | · |
 | interactive.neutral.fill.focused | neutral.800 | — | — | · |
@@ -1200,7 +1200,7 @@ Palettes: primary, neutral, success, warning, info, danger. Danger draws from `d
 | action.focused | primary.650 | 5.99 | 4.5 | ✅ |
 | action.selected | primary.700 | 7.21 | 4.5 | ✅ |
 | action.disabled | neutral.200 | — | — | · |
-| interactive.primary.fill.default | primary.600 | 4.91 | 4.5 | ✅ |
+| interactive.primary.fill.rest | primary.600 | 4.91 | 4.5 | ✅ |
 | interactive.primary.fill.hover | primary.650 | 5.99 | 4.5 | ✅ |
 | interactive.primary.fill.pressed | primary.700 | 7.21 | 4.5 | ✅ |
 | interactive.primary.fill.focused | primary.650 | 5.99 | 4.5 | ✅ |
@@ -1209,7 +1209,7 @@ Palettes: primary, neutral, success, warning, info, danger. Danger draws from `d
 | interactive.primary.on-fill | white | 6.79 | 4.5 | ✅ |
 | interactive.primary.text | primary.600 | 5.59 | 4.5 | ✅ |
 | interactive.primary.border | primary.500 | 3.77 | 3 | ✅ |
-| interactive.destructive.fill.default | danger.600 | 4.92 | 4.5 | ✅ |
+| interactive.destructive.fill.rest | danger.600 | 4.92 | 4.5 | ✅ |
 | interactive.destructive.fill.hover | danger.650 | 5.97 | 4.5 | ✅ |
 | interactive.destructive.fill.pressed | danger.700 | 7.24 | 4.5 | ✅ |
 | interactive.destructive.fill.focused | danger.650 | 5.97 | 4.5 | ✅ |
@@ -1218,7 +1218,7 @@ Palettes: primary, neutral, success, warning, info, danger. Danger draws from `d
 | interactive.destructive.on-fill | white | 6.80 | 4.5 | ✅ |
 | interactive.destructive.text | danger.550 | 4.60 | 4.5 | ✅ |
 | interactive.destructive.border | danger.500 | 3.76 | 3 | ✅ |
-| interactive.neutral.fill.default | neutral.150 | — | — | · |
+| interactive.neutral.fill.rest | neutral.150 | — | — | · |
 | interactive.neutral.fill.hover | neutral.200 | — | — | · |
 | interactive.neutral.fill.pressed | neutral.250 | — | — | · |
 | interactive.neutral.fill.focused | neutral.200 | — | — | · |
@@ -1327,7 +1327,7 @@ Palettes: primary, neutral, success, warning, info, danger. Danger draws from `d
 | action.focused | primary.400 | 5.46 | 4.5 | ✅ |
 | action.selected | primary.350 | 6.37 | 4.5 | ✅ |
 | action.disabled | neutral.750 | — | — | · |
-| interactive.primary.fill.default | primary.450 | 4.61 | 4.5 | ✅ |
+| interactive.primary.fill.rest | primary.450 | 4.61 | 4.5 | ✅ |
 | interactive.primary.fill.hover | primary.400 | 5.46 | 4.5 | ✅ |
 | interactive.primary.fill.pressed | primary.350 | 6.37 | 4.5 | ✅ |
 | interactive.primary.fill.focused | primary.400 | 5.46 | 4.5 | ✅ |
@@ -1336,7 +1336,7 @@ Palettes: primary, neutral, success, warning, info, danger. Danger draws from `d
 | interactive.primary.on-fill | neutral.950 | 5.00 | 4.5 | ✅ |
 | interactive.primary.text | primary.450 | 5.00 | 4.5 | ✅ |
 | interactive.primary.border | primary.500 | 4.24 | 3 | ✅ |
-| interactive.destructive.fill.default | danger.450 | 4.56 | 4.5 | ✅ |
+| interactive.destructive.fill.rest | danger.450 | 4.56 | 4.5 | ✅ |
 | interactive.destructive.fill.hover | danger.400 | 5.38 | 4.5 | ✅ |
 | interactive.destructive.fill.pressed | danger.350 | 6.36 | 4.5 | ✅ |
 | interactive.destructive.fill.focused | danger.400 | 5.38 | 4.5 | ✅ |
@@ -1345,7 +1345,7 @@ Palettes: primary, neutral, success, warning, info, danger. Danger draws from `d
 | interactive.destructive.on-fill | neutral.950 | 4.94 | 4.5 | ✅ |
 | interactive.destructive.text | danger.450 | 4.94 | 4.5 | ✅ |
 | interactive.destructive.border | danger.500 | 4.25 | 3 | ✅ |
-| interactive.neutral.fill.default | neutral.850 | — | — | · |
+| interactive.neutral.fill.rest | neutral.850 | — | — | · |
 | interactive.neutral.fill.hover | neutral.800 | — | — | · |
 | interactive.neutral.fill.pressed | neutral.750 | — | — | · |
 | interactive.neutral.fill.focused | neutral.800 | — | — | · |
@@ -1454,7 +1454,7 @@ Palettes: primary, neutral, success, warning, info, danger. Danger draws from `d
 | action.focused | primary.750 | 8.53 | 7 | ✅ |
 | action.selected | primary.800 | 10.11 | 7 | ✅ |
 | action.disabled | neutral.200 | — | — | · |
-| interactive.primary.fill.default | primary.700 | 7.21 | 7 | ✅ |
+| interactive.primary.fill.rest | primary.700 | 7.21 | 7 | ✅ |
 | interactive.primary.fill.hover | primary.750 | 8.53 | 7 | ✅ |
 | interactive.primary.fill.pressed | primary.800 | 10.11 | 7 | ✅ |
 | interactive.primary.fill.focused | primary.750 | 8.53 | 7 | ✅ |
@@ -1463,7 +1463,7 @@ Palettes: primary, neutral, success, warning, info, danger. Danger draws from `d
 | interactive.primary.on-fill | white | 9.96 | 4.5 | ✅ |
 | interactive.primary.text | primary.650 | 8.28 | 7 | ✅ |
 | interactive.primary.border | primary.500 | 4.58 | 4.5 | ✅ |
-| interactive.destructive.fill.default | danger.700 | 7.24 | 7 | ✅ |
+| interactive.destructive.fill.rest | danger.700 | 7.24 | 7 | ✅ |
 | interactive.destructive.fill.hover | danger.750 | 8.73 | 7 | ✅ |
 | interactive.destructive.fill.pressed | danger.800 | 10.32 | 7 | ✅ |
 | interactive.destructive.fill.focused | danger.750 | 8.73 | 7 | ✅ |
@@ -1472,7 +1472,7 @@ Palettes: primary, neutral, success, warning, info, danger. Danger draws from `d
 | interactive.destructive.on-fill | white | 10.01 | 4.5 | ✅ |
 | interactive.destructive.text | danger.650 | 8.25 | 7 | ✅ |
 | interactive.destructive.border | danger.500 | 4.57 | 4.5 | ✅ |
-| interactive.neutral.fill.default | neutral.150 | — | — | · |
+| interactive.neutral.fill.rest | neutral.150 | — | — | · |
 | interactive.neutral.fill.hover | neutral.200 | — | — | · |
 | interactive.neutral.fill.pressed | neutral.250 | — | — | · |
 | interactive.neutral.fill.focused | neutral.200 | — | — | · |
@@ -1581,7 +1581,7 @@ Palettes: primary, neutral, success, warning, info, danger. Danger draws from `d
 | action.focused | primary.250 | 8.62 | 7 | ✅ |
 | action.selected | primary.200 | 9.93 | 7 | ✅ |
 | action.disabled | neutral.750 | — | — | · |
-| interactive.primary.fill.default | primary.300 | 7.44 | 7 | ✅ |
+| interactive.primary.fill.rest | primary.300 | 7.44 | 7 | ✅ |
 | interactive.primary.fill.hover | primary.250 | 8.62 | 7 | ✅ |
 | interactive.primary.fill.pressed | primary.200 | 9.93 | 7 | ✅ |
 | interactive.primary.fill.focused | primary.250 | 8.62 | 7 | ✅ |
@@ -1590,7 +1590,7 @@ Palettes: primary, neutral, success, warning, info, danger. Danger draws from `d
 | interactive.primary.on-fill | black | 8.72 | 4.5 | ✅ |
 | interactive.primary.text | primary.350 | 7.47 | 7 | ✅ |
 | interactive.primary.border | primary.500 | 4.58 | 4.5 | ✅ |
-| interactive.destructive.fill.default | danger.300 | 7.39 | 7 | ✅ |
+| interactive.destructive.fill.rest | danger.300 | 7.39 | 7 | ✅ |
 | interactive.destructive.fill.hover | danger.250 | 8.63 | 7 | ✅ |
 | interactive.destructive.fill.pressed | danger.200 | 9.95 | 7 | ✅ |
 | interactive.destructive.fill.focused | danger.250 | 8.63 | 7 | ✅ |
@@ -1599,7 +1599,7 @@ Palettes: primary, neutral, success, warning, info, danger. Danger draws from `d
 | interactive.destructive.on-fill | black | 8.67 | 4.5 | ✅ |
 | interactive.destructive.text | danger.350 | 7.46 | 7 | ✅ |
 | interactive.destructive.border | danger.500 | 4.60 | 4.5 | ✅ |
-| interactive.neutral.fill.default | neutral.850 | — | — | · |
+| interactive.neutral.fill.rest | neutral.850 | — | — | · |
 | interactive.neutral.fill.hover | neutral.800 | — | — | · |
 | interactive.neutral.fill.pressed | neutral.750 | — | — | · |
 | interactive.neutral.fill.focused | neutral.800 | — | — | · |

@@ -330,10 +330,13 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
   const iFill = (name: string, rest: RatedNum, palette: string, fillMin: number) => {
     for (const st of FILL_STATES) {
       const c = fillStateCand(rest, palette, st);
-      put(`interactive.${name}.fill.${st}`, rated(c, st === 'disabled' ? baseRgb : floorRgb),
-        `${name} interactive fill — ${st}`, st === 'disabled' ? 'background.primary' : cfg.floorName, st === 'disabled' ? 0 : fillMin);
+      // The interactive family leads with `rest` (docs/20 §2 — rest/hover/pressed);
+      // the base-state key `default` is kept only on the non-interactive roles.
+      const stKey = st === 'default' ? 'rest' : st;
+      put(`interactive.${name}.fill.${stKey}`, rated(c, st === 'disabled' ? baseRgb : floorRgb),
+        `${name} interactive fill — ${stKey}`, st === 'disabled' ? 'background.primary' : cfg.floorName, st === 'disabled' ? 0 : fillMin);
     }
-    put(`interactive.${name}.on-fill`, onColor(rest.rgb), `Ink on the ${name} interactive fill`, `interactive.${name}.fill.default`, onMin);
+    put(`interactive.${name}.on-fill`, onColor(rest.rgb), `Ink on the ${name} interactive fill`, `interactive.${name}.fill.rest`, onMin);
   };
   // Neutral fill anchor — a subtle grey by default (neutralEmphasis lever, later).
   // Returns a RatedNum so its states can walk the neutral ramp like any palette.

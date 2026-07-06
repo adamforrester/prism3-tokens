@@ -17,7 +17,10 @@ checkpoint): the generated `interactive.<color>.<slot>` family**, ADDITIVE along
 - **`modes.ts`** now generates `interactive.{primary,neutral,destructive}` with slots `fill`
   (+ the six fill-states), `on-fill`, `text`, `border`. `primary` walks the action palette,
   `destructive` the danger palette, `neutral` a subtle grey (emphasis lever comes in inc-4).
-  The load-bearing neutral pair (`neutral.on-fill` on `neutral.fill.default`) is now a
+  Fill-states lead with **`rest`** (the interactive family's own convention, docs/20 §2:
+  rest/hover/pressed) — `default` stays only on the non-interactive roles (`action.default`,
+  `text.link.default`), no systemwide rename.
+  The load-bearing neutral pair (`neutral.on-fill` on `neutral.fill.rest`) is now a
   **generated + gated contract** — the historical miss (docs/20 §12) can't ship silently.
   Contract count rises automatically (tree.ts counts every `min>0` role); nb/wendys/aurora/harbor
   all hold (e.g. harbor 324/324).

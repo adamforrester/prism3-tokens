@@ -118,10 +118,10 @@ const describeInteractive = (color: string, slot: string, state: string | undefi
   const c = INTERACTIVE_COLOR[color] ?? color;
   const other = c === 'destructive' ? 'a non-destructive intent (use interactive.primary/neutral)' : `another intent (interactive.${c === 'primary' ? 'neutral / destructive' : 'primary / destructive'})`;
   if (slot === 'fill') {
-    const st = state && state !== 'default' ? ` (${state} state)` : '';
+    const st = state && state !== 'rest' ? ` (${state} state)` : '';
     return { desc: `${cap(c)} interactive fill${st}`, when_to_use: `The fill of a FILLED ${c} interactive element — buttons, controls, selectable rows${sc(state)}.`, avoid_when: `Do not use for ${other}, or for outline/text appearances (use interactive.${c}.text / .border).`, paired_with: [`interactive.${c}.on-fill`] };
   }
-  if (slot === 'on-fill') return { desc: `Ink on the ${c} interactive fill`, when_to_use: `The label / icon placed on a filled ${c} interactive element.`, avoid_when: `Do not use on the page or on outline controls — use interactive.${c}.text.`, paired_with: [`interactive.${c}.fill.default`] };
+  if (slot === 'on-fill') return { desc: `Ink on the ${c} interactive fill`, when_to_use: `The label / icon placed on a filled ${c} interactive element.`, avoid_when: `Do not use on the page or on outline controls — use interactive.${c}.text.`, paired_with: [`interactive.${c}.fill.rest`] };
   if (slot === 'text') return { desc: `${cap(c)} interactive ink (outline / text appearance)`, when_to_use: `The ink for OUTLINE and TEXT ${c} interactive elements (no fill behind it).`, avoid_when: `Do not use on a filled ${c} control (use interactive.${c}.on-fill).`, paired_with: ['background.primary'] };
   if (slot === 'border') return { desc: `${cap(c)} interactive border (outline)`, when_to_use: `The border of an OUTLINE ${c} interactive element.`, avoid_when: `Do not use as ink (use interactive.${c}.text) or as a page divider (use border.primary).`, paired_with: ['background.primary'] };
   return { desc: `${cap(c)} interactive ${slot}`, when_to_use: `The ${slot} of a ${c} interactive element.`, avoid_when: `Do not use outside the ${c} interactive family.` };

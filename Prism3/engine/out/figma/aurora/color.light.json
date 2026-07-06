@@ -676,13 +676,13 @@
       }
     },
     {
-      "name": "color/interactive/primary/fill/default",
+      "name": "color/interactive/primary/fill/rest",
       "resolvedType": "COLOR",
       "scopes": [
         "FRAME_FILL",
         "SHAPE_FILL"
       ],
-      "description": "primary interactive fill — default",
+      "description": "primary interactive fill — rest",
       "value": {
         "r": 0,
         "g": 0.3803921639919281,
@@ -846,13 +846,13 @@
       }
     },
     {
-      "name": "color/interactive/destructive/fill/default",
+      "name": "color/interactive/destructive/fill/rest",
       "resolvedType": "COLOR",
       "scopes": [
         "FRAME_FILL",
         "SHAPE_FILL"
       ],
-      "description": "destructive interactive fill — default",
+      "description": "destructive interactive fill — rest",
       "value": {
         "r": 0.6313725709915161,
         "g": 0.21568627655506134,
@@ -1016,13 +1016,13 @@
       }
     },
     {
-      "name": "color/interactive/neutral/fill/default",
+      "name": "color/interactive/neutral/fill/rest",
       "resolvedType": "COLOR",
       "scopes": [
         "FRAME_FILL",
         "SHAPE_FILL"
       ],
-      "description": "neutral interactive fill — default",
+      "description": "neutral interactive fill — rest",
       "value": {
         "r": 0.8078431487083435,
         "g": 0.8078431487083435,

@@ -4520,10 +4520,10 @@
       "interactive": {
         "primary": {
           "fill": {
-            "default": {
+            "rest": {
               "$type": "color",
               "$value": "{prism.palette.accent.600}",
-              "$description": "primary interactive fill — default",
+              "$description": "primary interactive fill — rest",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -4790,25 +4790,25 @@
                 "role": "semantic",
                 "aliasOf": "prism.palette.white",
                 "contrast": 6.85,
-                "against": "interactive.primary.fill.default",
+                "against": "interactive.primary.fill.rest",
                 "min": 4.5,
                 "modes": {
                   "dark": {
                     "$value": "{prism.palette.neutral.950}",
                     "contrast": 5.8,
-                    "against": "interactive.primary.fill.default",
+                    "against": "interactive.primary.fill.rest",
                     "min": 4.5
                   },
                   "hc-light": {
                     "$value": "{prism.palette.white}",
                     "contrast": 10.03,
-                    "against": "interactive.primary.fill.default",
+                    "against": "interactive.primary.fill.rest",
                     "min": 4.5
                   },
                   "hc-dark": {
                     "$value": "{prism.palette.black}",
                     "contrast": 8.59,
-                    "against": "interactive.primary.fill.default",
+                    "against": "interactive.primary.fill.rest",
                     "min": 4.5
                   }
                 },
@@ -4916,10 +4916,10 @@
         },
         "destructive": {
           "fill": {
-            "default": {
+            "rest": {
               "$type": "color",
               "$value": "{prism.palette.danger.600}",
-              "$description": "destructive interactive fill — default",
+              "$description": "destructive interactive fill — rest",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -5186,25 +5186,25 @@
                 "role": "semantic",
                 "aliasOf": "prism.palette.white",
                 "contrast": 6.76,
-                "against": "interactive.destructive.fill.default",
+                "against": "interactive.destructive.fill.rest",
                 "min": 4.5,
                 "modes": {
                   "dark": {
                     "$value": "{prism.palette.neutral.950}",
                     "contrast": 4.95,
-                    "against": "interactive.destructive.fill.default",
+                    "against": "interactive.destructive.fill.rest",
                     "min": 4.5
                   },
                   "hc-light": {
                     "$value": "{prism.palette.white}",
                     "contrast": 9.99,
-                    "against": "interactive.destructive.fill.default",
+                    "against": "interactive.destructive.fill.rest",
                     "min": 4.5
                   },
                   "hc-dark": {
                     "$value": "{prism.palette.black}",
                     "contrast": 8.7,
-                    "against": "interactive.destructive.fill.default",
+                    "against": "interactive.destructive.fill.rest",
                     "min": 4.5
                   }
                 },
@@ -5312,10 +5312,10 @@
         },
         "neutral": {
           "fill": {
-            "default": {
+            "rest": {
               "$type": "color",
               "$value": "{prism.palette.neutral.150}",
-              "$description": "neutral interactive fill — default",
+              "$description": "neutral interactive fill — rest",
               "$extensions": {
                 "prism3": {
                   "role": "semantic",
@@ -5562,25 +5562,25 @@
                 "role": "semantic",
                 "aliasOf": "prism.palette.neutral.950",
                 "contrast": 12.36,
-                "against": "interactive.neutral.fill.default",
+                "against": "interactive.neutral.fill.rest",
                 "min": 4.5,
                 "modes": {
                   "dark": {
                     "$value": "{prism.palette.neutral.025}",
                     "contrast": 14.99,
-                    "against": "interactive.neutral.fill.default",
+                    "against": "interactive.neutral.fill.rest",
                     "min": 4.5
                   },
                   "hc-light": {
                     "$value": "{prism.palette.black}",
                     "contrast": 13.36,
-                    "against": "interactive.neutral.fill.default",
+                    "against": "interactive.neutral.fill.rest",
                     "min": 4.5
                   },
                   "hc-dark": {
                     "$value": "{prism.palette.white}",
                     "contrast": 16.06,
-                    "against": "interactive.neutral.fill.default",
+                    "against": "interactive.neutral.fill.rest",
                     "min": 4.5
                   }
                 },
