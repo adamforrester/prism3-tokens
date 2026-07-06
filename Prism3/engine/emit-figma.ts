@@ -143,6 +143,22 @@ const COLOR_SCOPES: Record<string, string[]> = {
   action: ['FRAME_FILL', 'SHAPE_FILL', 'STROKE_COLOR'],
   border: ['STROKE_COLOR'],
 };
+// `interactive.<color>.<slot>` (docs/20) is scoped by its SLOT, not the family —
+// fill/on-fill paint, text inks, border strokes, icon glyphs each want a
+// different picker context. Falls back to fill scopes for an unknown slot.
+const INTERACTIVE_SLOT_SCOPES: Record<string, string[]> = {
+  fill: ['FRAME_FILL', 'SHAPE_FILL'],
+  'on-fill': ['FRAME_FILL', 'SHAPE_FILL', 'TEXT_FILL'],
+  text: ['TEXT_FILL'],
+  border: ['STROKE_COLOR'],
+  icon: ['FRAME_FILL', 'SHAPE_FILL', 'STROKE_COLOR'],
+};
+// color.<family>.… → scopes. `interactive` defers to its slot (segment[3]).
+const colorScopes = (dotted: string): string[] => {
+  const seg = stripNs(dotted).split('.'); // ['color', family, …]
+  if (seg[1] === 'interactive') return INTERACTIVE_SLOT_SCOPES[seg[3]] ?? INTERACTIVE_SLOT_SCOPES.fill;
+  return COLOR_SCOPES[seg[1]] ?? ['FRAME_FILL', 'SHAPE_FILL'];
+};
 const PALETTE_SCOPES = ['FRAME_FILL', 'SHAPE_FILL', 'TEXT_FILL', 'STROKE_COLOR'];
 
 const stripNs = (dotted: string): string => dotted.replace(/^[^.]+\./, '');
@@ -219,7 +235,6 @@ export const buildFigmaColor = (theme: Theme): { palette: FigmaCollectionFile; c
     $collection: 'color',
     $mode: mode,
     variables: colLeaves.map(([dotted, leaf]) => {
-      const family = stripNs(dotted).split('.')[1]; // color.<family>.…
       const ext = leaf.$extensions?.prism3 ?? {};
       const modeVal = mode === 'light' ? leaf.$value : ext.modes?.[mode]?.$value ?? leaf.$value;
       const targetDotted = String(modeVal).replace(/^\{|\}$/g, '');
@@ -227,7 +242,7 @@ export const buildFigmaColor = (theme: Theme): { palette: FigmaCollectionFile; c
       return {
         name: figName(dotted),
         resolvedType: 'COLOR' as const,
-        scopes: COLOR_SCOPES[family] ?? ['FRAME_FILL', 'SHAPE_FILL'],
+        scopes: colorScopes(dotted),
         description: desc(leaf),
         value: parseColor(targetLeaf?.$value),
         alias: { type: 'VARIABLE_ALIAS' as const, name: figName(targetDotted) },

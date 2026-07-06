@@ -4115,6 +4115,1176 @@
           }
         }
       },
+      "interactive": {
+        "primary": {
+          "fill": {
+            "default": {
+              "$type": "color",
+              "$value": "{prism.palette.primary.600}",
+              "$description": "primary interactive fill — default",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.palette.primary.600",
+                  "contrast": 4.91,
+                  "against": "neutral.100",
+                  "min": 4.5,
+                  "modes": {
+                    "dark": {
+                      "$value": "{prism.palette.primary.450}",
+                      "contrast": 4.61,
+                      "against": "neutral.900",
+                      "min": 4.5
+                    },
+                    "hc-light": {
+                      "$value": "{prism.palette.primary.700}",
+                      "contrast": 7.21,
+                      "against": "neutral.100",
+                      "min": 7
+                    },
+                    "hc-dark": {
+                      "$value": "{prism.palette.primary.300}",
+                      "contrast": 7.44,
+                      "against": "neutral.900",
+                      "min": 7
+                    }
+                  },
+                  "figma": {
+                    "collection": "color",
+                    "modes": [
+                      "light",
+                      "dark",
+                      "hc-light",
+                      "hc-dark"
+                    ],
+                    "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                  }
+                }
+              }
+            },
+            "hover": {
+              "$type": "color",
+              "$value": "{prism.palette.primary.650}",
+              "$description": "primary interactive fill — hover",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.palette.primary.650",
+                  "contrast": 5.99,
+                  "against": "neutral.100",
+                  "min": 4.5,
+                  "modes": {
+                    "dark": {
+                      "$value": "{prism.palette.primary.400}",
+                      "contrast": 5.46,
+                      "against": "neutral.900",
+                      "min": 4.5
+                    },
+                    "hc-light": {
+                      "$value": "{prism.palette.primary.750}",
+                      "contrast": 8.53,
+                      "against": "neutral.100",
+                      "min": 7
+                    },
+                    "hc-dark": {
+                      "$value": "{prism.palette.primary.250}",
+                      "contrast": 8.62,
+                      "against": "neutral.900",
+                      "min": 7
+                    }
+                  },
+                  "figma": {
+                    "collection": "color",
+                    "modes": [
+                      "light",
+                      "dark",
+                      "hc-light",
+                      "hc-dark"
+                    ],
+                    "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                  }
+                }
+              }
+            },
+            "pressed": {
+              "$type": "color",
+              "$value": "{prism.palette.primary.700}",
+              "$description": "primary interactive fill — pressed",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.palette.primary.700",
+                  "contrast": 7.21,
+                  "against": "neutral.100",
+                  "min": 4.5,
+                  "modes": {
+                    "dark": {
+                      "$value": "{prism.palette.primary.350}",
+                      "contrast": 6.37,
+                      "against": "neutral.900",
+                      "min": 4.5
+                    },
+                    "hc-light": {
+                      "$value": "{prism.palette.primary.800}",
+                      "contrast": 10.11,
+                      "against": "neutral.100",
+                      "min": 7
+                    },
+                    "hc-dark": {
+                      "$value": "{prism.palette.primary.200}",
+                      "contrast": 9.93,
+                      "against": "neutral.900",
+                      "min": 7
+                    }
+                  },
+                  "figma": {
+                    "collection": "color",
+                    "modes": [
+                      "light",
+                      "dark",
+                      "hc-light",
+                      "hc-dark"
+                    ],
+                    "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                  }
+                }
+              }
+            },
+            "focused": {
+              "$type": "color",
+              "$value": "{prism.palette.primary.650}",
+              "$description": "primary interactive fill — focused",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.palette.primary.650",
+                  "contrast": 5.99,
+                  "against": "neutral.100",
+                  "min": 4.5,
+                  "modes": {
+                    "dark": {
+                      "$value": "{prism.palette.primary.400}",
+                      "contrast": 5.46,
+                      "against": "neutral.900",
+                      "min": 4.5
+                    },
+                    "hc-light": {
+                      "$value": "{prism.palette.primary.750}",
+                      "contrast": 8.53,
+                      "against": "neutral.100",
+                      "min": 7
+                    },
+                    "hc-dark": {
+                      "$value": "{prism.palette.primary.250}",
+                      "contrast": 8.62,
+                      "against": "neutral.900",
+                      "min": 7
+                    }
+                  },
+                  "figma": {
+                    "collection": "color",
+                    "modes": [
+                      "light",
+                      "dark",
+                      "hc-light",
+                      "hc-dark"
+                    ],
+                    "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                  }
+                }
+              }
+            },
+            "selected": {
+              "$type": "color",
+              "$value": "{prism.palette.primary.700}",
+              "$description": "primary interactive fill — selected",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.palette.primary.700",
+                  "contrast": 7.21,
+                  "against": "neutral.100",
+                  "min": 4.5,
+                  "modes": {
+                    "dark": {
+                      "$value": "{prism.palette.primary.350}",
+                      "contrast": 6.37,
+                      "against": "neutral.900",
+                      "min": 4.5
+                    },
+                    "hc-light": {
+                      "$value": "{prism.palette.primary.800}",
+                      "contrast": 10.11,
+                      "against": "neutral.100",
+                      "min": 7
+                    },
+                    "hc-dark": {
+                      "$value": "{prism.palette.primary.200}",
+                      "contrast": 9.93,
+                      "against": "neutral.900",
+                      "min": 7
+                    }
+                  },
+                  "figma": {
+                    "collection": "color",
+                    "modes": [
+                      "light",
+                      "dark",
+                      "hc-light",
+                      "hc-dark"
+                    ],
+                    "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                  }
+                }
+              }
+            },
+            "disabled": {
+              "$type": "color",
+              "$value": "{prism.palette.neutral.200}",
+              "$description": "primary interactive fill — disabled",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.palette.neutral.200",
+                  "contrast": 1.48,
+                  "against": "background.primary",
+                  "modes": {
+                    "dark": {
+                      "$value": "{prism.palette.neutral.750}",
+                      "contrast": 1.64,
+                      "against": "background.primary"
+                    },
+                    "hc-light": {
+                      "$value": "{prism.palette.neutral.200}",
+                      "contrast": 1.8,
+                      "against": "background.primary"
+                    },
+                    "hc-dark": {
+                      "$value": "{prism.palette.neutral.750}",
+                      "contrast": 1.77,
+                      "against": "background.primary"
+                    }
+                  },
+                  "figma": {
+                    "collection": "color",
+                    "modes": [
+                      "light",
+                      "dark",
+                      "hc-light",
+                      "hc-dark"
+                    ],
+                    "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                  }
+                }
+              }
+            }
+          },
+          "on-fill": {
+            "$type": "color",
+            "$value": "{prism.palette.white}",
+            "$description": "Ink on the primary interactive fill",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "prism.palette.white",
+                "contrast": 6.79,
+                "against": "interactive.primary.fill.default",
+                "min": 4.5,
+                "modes": {
+                  "dark": {
+                    "$value": "{prism.palette.neutral.950}",
+                    "contrast": 5,
+                    "against": "interactive.primary.fill.default",
+                    "min": 4.5
+                  },
+                  "hc-light": {
+                    "$value": "{prism.palette.white}",
+                    "contrast": 9.96,
+                    "against": "interactive.primary.fill.default",
+                    "min": 4.5
+                  },
+                  "hc-dark": {
+                    "$value": "{prism.palette.black}",
+                    "contrast": 8.72,
+                    "against": "interactive.primary.fill.default",
+                    "min": 4.5
+                  }
+                },
+                "figma": {
+                  "collection": "color",
+                  "modes": [
+                    "light",
+                    "dark",
+                    "hc-light",
+                    "hc-dark"
+                  ],
+                  "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                }
+              }
+            }
+          },
+          "text": {
+            "$type": "color",
+            "$value": "{prism.palette.primary.600}",
+            "$description": "Primary interactive ink (outline / text appearance)",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "prism.palette.primary.600",
+                "contrast": 5.59,
+                "against": "background.primary",
+                "min": 4.5,
+                "modes": {
+                  "dark": {
+                    "$value": "{prism.palette.primary.450}",
+                    "contrast": 5,
+                    "against": "background.primary",
+                    "min": 4.5
+                  },
+                  "hc-light": {
+                    "$value": "{prism.palette.primary.650}",
+                    "contrast": 8.28,
+                    "against": "background.primary",
+                    "min": 7
+                  },
+                  "hc-dark": {
+                    "$value": "{prism.palette.primary.350}",
+                    "contrast": 7.47,
+                    "against": "background.primary",
+                    "min": 7
+                  }
+                },
+                "figma": {
+                  "collection": "color",
+                  "modes": [
+                    "light",
+                    "dark",
+                    "hc-light",
+                    "hc-dark"
+                  ],
+                  "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                }
+              }
+            }
+          },
+          "border": {
+            "$type": "color",
+            "$value": "{prism.palette.primary.500}",
+            "$description": "Primary interactive border (outline)",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "prism.palette.primary.500",
+                "contrast": 3.77,
+                "against": "background.primary",
+                "min": 3,
+                "modes": {
+                  "dark": {
+                    "$value": "{prism.palette.primary.500}",
+                    "contrast": 4.24,
+                    "against": "background.primary",
+                    "min": 3
+                  },
+                  "hc-light": {
+                    "$value": "{prism.palette.primary.500}",
+                    "contrast": 4.58,
+                    "against": "background.primary",
+                    "min": 4.5
+                  },
+                  "hc-dark": {
+                    "$value": "{prism.palette.primary.500}",
+                    "contrast": 4.58,
+                    "against": "background.primary",
+                    "min": 4.5
+                  }
+                },
+                "figma": {
+                  "collection": "color",
+                  "modes": [
+                    "light",
+                    "dark",
+                    "hc-light",
+                    "hc-dark"
+                  ],
+                  "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                }
+              }
+            }
+          }
+        },
+        "destructive": {
+          "fill": {
+            "default": {
+              "$type": "color",
+              "$value": "{prism.palette.danger.600}",
+              "$description": "destructive interactive fill — default",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.palette.danger.600",
+                  "contrast": 4.92,
+                  "against": "neutral.100",
+                  "min": 4.5,
+                  "modes": {
+                    "dark": {
+                      "$value": "{prism.palette.danger.450}",
+                      "contrast": 4.56,
+                      "against": "neutral.900",
+                      "min": 4.5
+                    },
+                    "hc-light": {
+                      "$value": "{prism.palette.danger.700}",
+                      "contrast": 7.24,
+                      "against": "neutral.100",
+                      "min": 7
+                    },
+                    "hc-dark": {
+                      "$value": "{prism.palette.danger.300}",
+                      "contrast": 7.39,
+                      "against": "neutral.900",
+                      "min": 7
+                    }
+                  },
+                  "figma": {
+                    "collection": "color",
+                    "modes": [
+                      "light",
+                      "dark",
+                      "hc-light",
+                      "hc-dark"
+                    ],
+                    "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                  }
+                }
+              }
+            },
+            "hover": {
+              "$type": "color",
+              "$value": "{prism.palette.danger.650}",
+              "$description": "destructive interactive fill — hover",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.palette.danger.650",
+                  "contrast": 5.97,
+                  "against": "neutral.100",
+                  "min": 4.5,
+                  "modes": {
+                    "dark": {
+                      "$value": "{prism.palette.danger.400}",
+                      "contrast": 5.38,
+                      "against": "neutral.900",
+                      "min": 4.5
+                    },
+                    "hc-light": {
+                      "$value": "{prism.palette.danger.750}",
+                      "contrast": 8.73,
+                      "against": "neutral.100",
+                      "min": 7
+                    },
+                    "hc-dark": {
+                      "$value": "{prism.palette.danger.250}",
+                      "contrast": 8.63,
+                      "against": "neutral.900",
+                      "min": 7
+                    }
+                  },
+                  "figma": {
+                    "collection": "color",
+                    "modes": [
+                      "light",
+                      "dark",
+                      "hc-light",
+                      "hc-dark"
+                    ],
+                    "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                  }
+                }
+              }
+            },
+            "pressed": {
+              "$type": "color",
+              "$value": "{prism.palette.danger.700}",
+              "$description": "destructive interactive fill — pressed",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.palette.danger.700",
+                  "contrast": 7.24,
+                  "against": "neutral.100",
+                  "min": 4.5,
+                  "modes": {
+                    "dark": {
+                      "$value": "{prism.palette.danger.350}",
+                      "contrast": 6.36,
+                      "against": "neutral.900",
+                      "min": 4.5
+                    },
+                    "hc-light": {
+                      "$value": "{prism.palette.danger.800}",
+                      "contrast": 10.32,
+                      "against": "neutral.100",
+                      "min": 7
+                    },
+                    "hc-dark": {
+                      "$value": "{prism.palette.danger.200}",
+                      "contrast": 9.95,
+                      "against": "neutral.900",
+                      "min": 7
+                    }
+                  },
+                  "figma": {
+                    "collection": "color",
+                    "modes": [
+                      "light",
+                      "dark",
+                      "hc-light",
+                      "hc-dark"
+                    ],
+                    "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                  }
+                }
+              }
+            },
+            "focused": {
+              "$type": "color",
+              "$value": "{prism.palette.danger.650}",
+              "$description": "destructive interactive fill — focused",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.palette.danger.650",
+                  "contrast": 5.97,
+                  "against": "neutral.100",
+                  "min": 4.5,
+                  "modes": {
+                    "dark": {
+                      "$value": "{prism.palette.danger.400}",
+                      "contrast": 5.38,
+                      "against": "neutral.900",
+                      "min": 4.5
+                    },
+                    "hc-light": {
+                      "$value": "{prism.palette.danger.750}",
+                      "contrast": 8.73,
+                      "against": "neutral.100",
+                      "min": 7
+                    },
+                    "hc-dark": {
+                      "$value": "{prism.palette.danger.250}",
+                      "contrast": 8.63,
+                      "against": "neutral.900",
+                      "min": 7
+                    }
+                  },
+                  "figma": {
+                    "collection": "color",
+                    "modes": [
+                      "light",
+                      "dark",
+                      "hc-light",
+                      "hc-dark"
+                    ],
+                    "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                  }
+                }
+              }
+            },
+            "selected": {
+              "$type": "color",
+              "$value": "{prism.palette.danger.700}",
+              "$description": "destructive interactive fill — selected",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.palette.danger.700",
+                  "contrast": 7.24,
+                  "against": "neutral.100",
+                  "min": 4.5,
+                  "modes": {
+                    "dark": {
+                      "$value": "{prism.palette.danger.350}",
+                      "contrast": 6.36,
+                      "against": "neutral.900",
+                      "min": 4.5
+                    },
+                    "hc-light": {
+                      "$value": "{prism.palette.danger.800}",
+                      "contrast": 10.32,
+                      "against": "neutral.100",
+                      "min": 7
+                    },
+                    "hc-dark": {
+                      "$value": "{prism.palette.danger.200}",
+                      "contrast": 9.95,
+                      "against": "neutral.900",
+                      "min": 7
+                    }
+                  },
+                  "figma": {
+                    "collection": "color",
+                    "modes": [
+                      "light",
+                      "dark",
+                      "hc-light",
+                      "hc-dark"
+                    ],
+                    "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                  }
+                }
+              }
+            },
+            "disabled": {
+              "$type": "color",
+              "$value": "{prism.palette.neutral.200}",
+              "$description": "destructive interactive fill — disabled",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.palette.neutral.200",
+                  "contrast": 1.48,
+                  "against": "background.primary",
+                  "modes": {
+                    "dark": {
+                      "$value": "{prism.palette.neutral.750}",
+                      "contrast": 1.64,
+                      "against": "background.primary"
+                    },
+                    "hc-light": {
+                      "$value": "{prism.palette.neutral.200}",
+                      "contrast": 1.8,
+                      "against": "background.primary"
+                    },
+                    "hc-dark": {
+                      "$value": "{prism.palette.neutral.750}",
+                      "contrast": 1.77,
+                      "against": "background.primary"
+                    }
+                  },
+                  "figma": {
+                    "collection": "color",
+                    "modes": [
+                      "light",
+                      "dark",
+                      "hc-light",
+                      "hc-dark"
+                    ],
+                    "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                  }
+                }
+              }
+            }
+          },
+          "on-fill": {
+            "$type": "color",
+            "$value": "{prism.palette.white}",
+            "$description": "Ink on the destructive interactive fill",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "prism.palette.white",
+                "contrast": 6.8,
+                "against": "interactive.destructive.fill.default",
+                "min": 4.5,
+                "modes": {
+                  "dark": {
+                    "$value": "{prism.palette.neutral.950}",
+                    "contrast": 4.94,
+                    "against": "interactive.destructive.fill.default",
+                    "min": 4.5
+                  },
+                  "hc-light": {
+                    "$value": "{prism.palette.white}",
+                    "contrast": 10.01,
+                    "against": "interactive.destructive.fill.default",
+                    "min": 4.5
+                  },
+                  "hc-dark": {
+                    "$value": "{prism.palette.black}",
+                    "contrast": 8.67,
+                    "against": "interactive.destructive.fill.default",
+                    "min": 4.5
+                  }
+                },
+                "figma": {
+                  "collection": "color",
+                  "modes": [
+                    "light",
+                    "dark",
+                    "hc-light",
+                    "hc-dark"
+                  ],
+                  "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                }
+              }
+            }
+          },
+          "text": {
+            "$type": "color",
+            "$value": "{prism.palette.danger.550}",
+            "$description": "Destructive interactive ink (outline / text appearance)",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "prism.palette.danger.550",
+                "contrast": 4.6,
+                "against": "background.primary",
+                "min": 4.5,
+                "modes": {
+                  "dark": {
+                    "$value": "{prism.palette.danger.450}",
+                    "contrast": 4.94,
+                    "against": "background.primary",
+                    "min": 4.5
+                  },
+                  "hc-light": {
+                    "$value": "{prism.palette.danger.650}",
+                    "contrast": 8.25,
+                    "against": "background.primary",
+                    "min": 7
+                  },
+                  "hc-dark": {
+                    "$value": "{prism.palette.danger.350}",
+                    "contrast": 7.46,
+                    "against": "background.primary",
+                    "min": 7
+                  }
+                },
+                "figma": {
+                  "collection": "color",
+                  "modes": [
+                    "light",
+                    "dark",
+                    "hc-light",
+                    "hc-dark"
+                  ],
+                  "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                }
+              }
+            }
+          },
+          "border": {
+            "$type": "color",
+            "$value": "{prism.palette.danger.500}",
+            "$description": "Destructive interactive border (outline)",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "prism.palette.danger.500",
+                "contrast": 3.76,
+                "against": "background.primary",
+                "min": 3,
+                "modes": {
+                  "dark": {
+                    "$value": "{prism.palette.danger.500}",
+                    "contrast": 4.25,
+                    "against": "background.primary",
+                    "min": 3
+                  },
+                  "hc-light": {
+                    "$value": "{prism.palette.danger.500}",
+                    "contrast": 4.57,
+                    "against": "background.primary",
+                    "min": 4.5
+                  },
+                  "hc-dark": {
+                    "$value": "{prism.palette.danger.500}",
+                    "contrast": 4.6,
+                    "against": "background.primary",
+                    "min": 4.5
+                  }
+                },
+                "figma": {
+                  "collection": "color",
+                  "modes": [
+                    "light",
+                    "dark",
+                    "hc-light",
+                    "hc-dark"
+                  ],
+                  "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                }
+              }
+            }
+          }
+        },
+        "neutral": {
+          "fill": {
+            "default": {
+              "$type": "color",
+              "$value": "{prism.palette.neutral.150}",
+              "$description": "neutral interactive fill — default",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.palette.neutral.150",
+                  "contrast": 1.14,
+                  "against": "neutral.100",
+                  "modes": {
+                    "dark": {
+                      "$value": "{prism.palette.neutral.850}",
+                      "contrast": 1.12,
+                      "against": "neutral.900"
+                    },
+                    "hc-light": {
+                      "$value": "{prism.palette.neutral.150}",
+                      "contrast": 1.14,
+                      "against": "neutral.100"
+                    },
+                    "hc-dark": {
+                      "$value": "{prism.palette.neutral.850}",
+                      "contrast": 1.12,
+                      "against": "neutral.900"
+                    }
+                  },
+                  "figma": {
+                    "collection": "color",
+                    "modes": [
+                      "light",
+                      "dark",
+                      "hc-light",
+                      "hc-dark"
+                    ],
+                    "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                  }
+                }
+              }
+            },
+            "hover": {
+              "$type": "color",
+              "$value": "{prism.palette.neutral.200}",
+              "$description": "neutral interactive fill — hover",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.palette.neutral.200",
+                  "contrast": 1.3,
+                  "against": "neutral.100",
+                  "modes": {
+                    "dark": {
+                      "$value": "{prism.palette.neutral.800}",
+                      "contrast": 1.29,
+                      "against": "neutral.900"
+                    },
+                    "hc-light": {
+                      "$value": "{prism.palette.neutral.200}",
+                      "contrast": 1.3,
+                      "against": "neutral.100"
+                    },
+                    "hc-dark": {
+                      "$value": "{prism.palette.neutral.800}",
+                      "contrast": 1.29,
+                      "against": "neutral.900"
+                    }
+                  },
+                  "figma": {
+                    "collection": "color",
+                    "modes": [
+                      "light",
+                      "dark",
+                      "hc-light",
+                      "hc-dark"
+                    ],
+                    "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                  }
+                }
+              }
+            },
+            "pressed": {
+              "$type": "color",
+              "$value": "{prism.palette.neutral.250}",
+              "$description": "neutral interactive fill — pressed",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.palette.neutral.250",
+                  "contrast": 1.51,
+                  "against": "neutral.100",
+                  "modes": {
+                    "dark": {
+                      "$value": "{prism.palette.neutral.750}",
+                      "contrast": 1.51,
+                      "against": "neutral.900"
+                    },
+                    "hc-light": {
+                      "$value": "{prism.palette.neutral.250}",
+                      "contrast": 1.51,
+                      "against": "neutral.100"
+                    },
+                    "hc-dark": {
+                      "$value": "{prism.palette.neutral.750}",
+                      "contrast": 1.51,
+                      "against": "neutral.900"
+                    }
+                  },
+                  "figma": {
+                    "collection": "color",
+                    "modes": [
+                      "light",
+                      "dark",
+                      "hc-light",
+                      "hc-dark"
+                    ],
+                    "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                  }
+                }
+              }
+            },
+            "focused": {
+              "$type": "color",
+              "$value": "{prism.palette.neutral.200}",
+              "$description": "neutral interactive fill — focused",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.palette.neutral.200",
+                  "contrast": 1.3,
+                  "against": "neutral.100",
+                  "modes": {
+                    "dark": {
+                      "$value": "{prism.palette.neutral.800}",
+                      "contrast": 1.29,
+                      "against": "neutral.900"
+                    },
+                    "hc-light": {
+                      "$value": "{prism.palette.neutral.200}",
+                      "contrast": 1.3,
+                      "against": "neutral.100"
+                    },
+                    "hc-dark": {
+                      "$value": "{prism.palette.neutral.800}",
+                      "contrast": 1.29,
+                      "against": "neutral.900"
+                    }
+                  },
+                  "figma": {
+                    "collection": "color",
+                    "modes": [
+                      "light",
+                      "dark",
+                      "hc-light",
+                      "hc-dark"
+                    ],
+                    "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                  }
+                }
+              }
+            },
+            "selected": {
+              "$type": "color",
+              "$value": "{prism.palette.neutral.250}",
+              "$description": "neutral interactive fill — selected",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.palette.neutral.250",
+                  "contrast": 1.51,
+                  "against": "neutral.100",
+                  "modes": {
+                    "dark": {
+                      "$value": "{prism.palette.neutral.750}",
+                      "contrast": 1.51,
+                      "against": "neutral.900"
+                    },
+                    "hc-light": {
+                      "$value": "{prism.palette.neutral.250}",
+                      "contrast": 1.51,
+                      "against": "neutral.100"
+                    },
+                    "hc-dark": {
+                      "$value": "{prism.palette.neutral.750}",
+                      "contrast": 1.51,
+                      "against": "neutral.900"
+                    }
+                  },
+                  "figma": {
+                    "collection": "color",
+                    "modes": [
+                      "light",
+                      "dark",
+                      "hc-light",
+                      "hc-dark"
+                    ],
+                    "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                  }
+                }
+              }
+            },
+            "disabled": {
+              "$type": "color",
+              "$value": "{prism.palette.neutral.200}",
+              "$description": "neutral interactive fill — disabled",
+              "$extensions": {
+                "prism3": {
+                  "role": "semantic",
+                  "aliasOf": "prism.palette.neutral.200",
+                  "contrast": 1.48,
+                  "against": "background.primary",
+                  "modes": {
+                    "dark": {
+                      "$value": "{prism.palette.neutral.750}",
+                      "contrast": 1.64,
+                      "against": "background.primary"
+                    },
+                    "hc-light": {
+                      "$value": "{prism.palette.neutral.200}",
+                      "contrast": 1.8,
+                      "against": "background.primary"
+                    },
+                    "hc-dark": {
+                      "$value": "{prism.palette.neutral.750}",
+                      "contrast": 1.77,
+                      "against": "background.primary"
+                    }
+                  },
+                  "figma": {
+                    "collection": "color",
+                    "modes": [
+                      "light",
+                      "dark",
+                      "hc-light",
+                      "hc-dark"
+                    ],
+                    "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                  }
+                }
+              }
+            }
+          },
+          "on-fill": {
+            "$type": "color",
+            "$value": "{prism.palette.neutral.950}",
+            "$description": "Ink on the neutral interactive fill",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "prism.palette.neutral.950",
+                "contrast": 12.36,
+                "against": "interactive.neutral.fill.default",
+                "min": 4.5,
+                "modes": {
+                  "dark": {
+                    "$value": "{prism.palette.neutral.025}",
+                    "contrast": 14.96,
+                    "against": "interactive.neutral.fill.default",
+                    "min": 4.5
+                  },
+                  "hc-light": {
+                    "$value": "{prism.palette.black}",
+                    "contrast": 13.36,
+                    "against": "interactive.neutral.fill.default",
+                    "min": 4.5
+                  },
+                  "hc-dark": {
+                    "$value": "{prism.palette.white}",
+                    "contrast": 16.03,
+                    "against": "interactive.neutral.fill.default",
+                    "min": 4.5
+                  }
+                },
+                "figma": {
+                  "collection": "color",
+                  "modes": [
+                    "light",
+                    "dark",
+                    "hc-light",
+                    "hc-dark"
+                  ],
+                  "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                }
+              }
+            }
+          },
+          "text": {
+            "$type": "color",
+            "$value": "{prism.palette.neutral.950}",
+            "$description": "Neutral interactive ink (outline / text appearance) — strongest neutral",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "prism.palette.neutral.950",
+                "contrast": 15.98,
+                "against": "background.primary",
+                "min": 4.5,
+                "modes": {
+                  "dark": {
+                    "$value": "{prism.palette.neutral.025}",
+                    "contrast": 18.11,
+                    "against": "background.primary",
+                    "min": 4.5
+                  },
+                  "hc-light": {
+                    "$value": "{prism.palette.black}",
+                    "contrast": 21,
+                    "against": "background.primary",
+                    "min": 7
+                  },
+                  "hc-dark": {
+                    "$value": "{prism.palette.white}",
+                    "contrast": 21,
+                    "against": "background.primary",
+                    "min": 7
+                  }
+                },
+                "figma": {
+                  "collection": "color",
+                  "modes": [
+                    "light",
+                    "dark",
+                    "hc-light",
+                    "hc-dark"
+                  ],
+                  "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                }
+              }
+            }
+          },
+          "border": {
+            "$type": "color",
+            "$value": "{prism.palette.neutral.450}",
+            "$description": "Neutral interactive border (outline)",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "prism.palette.neutral.450",
+                "contrast": 3.2,
+                "against": "background.primary",
+                "min": 3,
+                "modes": {
+                  "dark": {
+                    "$value": "{prism.palette.neutral.550}",
+                    "contrast": 3.51,
+                    "against": "background.primary",
+                    "min": 3
+                  },
+                  "hc-light": {
+                    "$value": "{prism.palette.neutral.500}",
+                    "contrast": 4.59,
+                    "against": "background.primary",
+                    "min": 4.5
+                  },
+                  "hc-dark": {
+                    "$value": "{prism.palette.neutral.500}",
+                    "contrast": 4.57,
+                    "against": "background.primary",
+                    "min": 4.5
+                  }
+                },
+                "figma": {
+                  "collection": "color",
+                  "modes": [
+                    "light",
+                    "dark",
+                    "hc-light",
+                    "hc-dark"
+                  ],
+                  "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                }
+              }
+            }
+          }
+        }
+      },
       "text": {
         "primary": {
           "$type": "color",

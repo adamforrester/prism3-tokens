@@ -110,6 +110,23 @@ const describe = (group: string, variant: string, state: string | undefined): { 
   return { desc: `${group} ${variant}${st}`, when_to_use: `Use as the ${group} ${variant} role.`, avoid_when: `Do not use outside the ${group} role.` };
 };
 
+// interactive.<color>.<slot>.<state?> (docs/20) — a DEEPER key than the other
+// families (color + slot + optional fill-state), so it is described on its own
+// rather than through the [group, variant, state] split above.
+const INTERACTIVE_COLOR: Record<string, string> = { primary: 'primary', neutral: 'neutral', destructive: 'destructive' };
+const describeInteractive = (color: string, slot: string, state: string | undefined): { desc: string; when_to_use: string; avoid_when: string; paired_with?: string[] } => {
+  const c = INTERACTIVE_COLOR[color] ?? color;
+  const other = c === 'destructive' ? 'a non-destructive intent (use interactive.primary/neutral)' : `another intent (interactive.${c === 'primary' ? 'neutral / destructive' : 'primary / destructive'})`;
+  if (slot === 'fill') {
+    const st = state && state !== 'default' ? ` (${state} state)` : '';
+    return { desc: `${cap(c)} interactive fill${st}`, when_to_use: `The fill of a FILLED ${c} interactive element — buttons, controls, selectable rows${sc(state)}.`, avoid_when: `Do not use for ${other}, or for outline/text appearances (use interactive.${c}.text / .border).`, paired_with: [`interactive.${c}.on-fill`] };
+  }
+  if (slot === 'on-fill') return { desc: `Ink on the ${c} interactive fill`, when_to_use: `The label / icon placed on a filled ${c} interactive element.`, avoid_when: `Do not use on the page or on outline controls — use interactive.${c}.text.`, paired_with: [`interactive.${c}.fill.default`] };
+  if (slot === 'text') return { desc: `${cap(c)} interactive ink (outline / text appearance)`, when_to_use: `The ink for OUTLINE and TEXT ${c} interactive elements (no fill behind it).`, avoid_when: `Do not use on a filled ${c} control (use interactive.${c}.on-fill).`, paired_with: ['background.primary'] };
+  if (slot === 'border') return { desc: `${cap(c)} interactive border (outline)`, when_to_use: `The border of an OUTLINE ${c} interactive element.`, avoid_when: `Do not use as ink (use interactive.${c}.text) or as a page divider (use border.primary).`, paired_with: ['background.primary'] };
+  return { desc: `${cap(c)} interactive ${slot}`, when_to_use: `The ${slot} of a ${c} interactive element.`, avoid_when: `Do not use outside the ${c} interactive family.` };
+};
+
 // ---- primitive tier (simplified) -------------------------------------------
 type AiPrimitive = { $description: string; meaning: string; intent?: string; tier: 'primitive'; consume: string; aliased_by?: string[] };
 
@@ -187,12 +204,15 @@ export const buildAiMetadata = (theme: Theme, tree: any) => {
   for (const [roleKey, perMode] of Object.entries(byRole)) {
     const [group, variant, state] = roleKey.split('.');
     const light = perMode.light;
-    const d = describe(group, variant, state);
+    // interactive.<color>.<slot>.<state?> carries a 4th segment — describe it whole.
+    const d = group === 'interactive'
+      ? describeInteractive(variant, state, roleKey.split('.')[3])
+      : describe(group, variant, state);
     const mode_overrides: Record<string, string> = {};
     for (const [mode, r] of Object.entries(perMode)) mode_overrides[mode] = `{${r.path}}`;
     const ai: AiToken = {
       $description: `${cap(d.desc)}.`,                 // what it IS (plain)
-      meaning: genMeaning(group, variant),             // what it SIGNIFIES / is for
+      meaning: group === 'interactive' ? 'Interactivity / actions' : genMeaning(group, variant), // what it SIGNIFIES / is for
       when_to_use: d.when_to_use,
       avoid_when: d.avoid_when,
       mode_overrides,

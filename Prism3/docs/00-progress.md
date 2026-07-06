@@ -7,7 +7,33 @@
 
 ---
 
-## Latest (2026-07-03) — E2E integration arc
+## Latest (2026-07-06) — interactive colour family (docs/20), increment 1 of the engine PR
+
+Building the redesign specced in `docs/20-interactive-color-system.md` as gated increments on
+`claude/prism3-e2e-integration-8fwul4` (one PR when the family is complete). **Increment 1 (this
+checkpoint): the generated `interactive.<color>.<slot>` family**, ADDITIVE alongside the legacy
+`action.*` / `foreground.danger.*` roles so no contract goes red mid-migration.
+
+- **`modes.ts`** now generates `interactive.{primary,neutral,destructive}` with slots `fill`
+  (+ the six fill-states), `on-fill`, `text`, `border`. `primary` walks the action palette,
+  `destructive` the danger palette, `neutral` a subtle grey (emphasis lever comes in inc-4).
+  The load-bearing neutral pair (`neutral.on-fill` on `neutral.fill.default`) is now a
+  **generated + gated contract** — the historical miss (docs/20 §12) can't ship silently.
+  Contract count rises automatically (tree.ts counts every `min>0` role); nb/wendys/aurora/harbor
+  all hold (e.g. harbor 324/324).
+- **`emit-figma.ts`** — `interactive` is scoped by its SLOT (fill→FRAME/SHAPE_FILL, on-fill→+TEXT_FILL,
+  text→TEXT_FILL, border→STROKE_COLOR), not the family. NB figma colour fixtures updated append-only
+  (+27 vars/mode, existing entries byte-identical).
+- **`ai-metadata.ts`** — a depth-aware `describeInteractive` for the 4-segment keys (the generic
+  `[group, variant, state]` split dropped the state); every `interactive.*` token now carries proper
+  `when_to_use` / `avoid_when` / `paired_with` / `contrast_with`.
+
+Gates: test **639/639**, nb-regression ΔE00 1.95, emit-dtcg contracts hold per brand, `out/*` regenerated.
+Accent is deferred to inc-4 (opt-in `accentPalette` lever). Next: inc-2 overlays + composited-contrast
+check + `outlineInteraction`; inc-3 cross-cutting `disabled.*`; inc-4 inverse surface-context +
+`neutralEmphasis` + `accentPalette`; then rebind Button/IconButton (§16.3).
+
+## 2026-07-03 — E2E integration arc
 
 Since the token layer completed, work has been the **designer↔developer↔agent E2E pipeline**
 (`07`/`08`/`09`/`10`). Shipped to `main`, newest first (see the decisions log for the why):

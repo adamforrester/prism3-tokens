@@ -319,6 +319,48 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
       `Interactive (action) fill — ${st}`, st === 'disabled' ? 'background.primary' : cfg.floorName, st === 'disabled' ? 0 : cfg.actionMin);
   }
 
+  // ------------------------------------------------------- interactive family
+  // The coherent, generated, contrast-gated interactive colour family (docs/20).
+  // ONE home for every interactive element's colour: `interactive.<color>.<slot>`.
+  // Colours: primary (the action palette) · neutral · destructive; `accent` is
+  // added later behind the accentPalette lever. Slots: fill (+ its states),
+  // on-fill (ink), text (outline/text ink), border. This is ADDITIVE for now —
+  // it stands beside the legacy `action.*` / `foreground.danger.*` roles until
+  // components rebind (docs/20 §16.3), so no contract goes red mid-migration.
+  const iFill = (name: string, rest: RatedNum, palette: string, fillMin: number) => {
+    for (const st of FILL_STATES) {
+      const c = fillStateCand(rest, palette, st);
+      put(`interactive.${name}.fill.${st}`, rated(c, st === 'disabled' ? baseRgb : floorRgb),
+        `${name} interactive fill — ${st}`, st === 'disabled' ? 'background.primary' : cfg.floorName, st === 'disabled' ? 0 : fillMin);
+    }
+    put(`interactive.${name}.on-fill`, onColor(rest.rgb), `Ink on the ${name} interactive fill`, `interactive.${name}.fill.default`, onMin);
+  };
+  // Neutral fill anchor — a subtle grey by default (neutralEmphasis lever, later).
+  // Returns a RatedNum so its states can walk the neutral ramp like any palette.
+  const neutralStepR = (num: number): RatedNum => {
+    const steps = ramps.get(r2p.neutral)!;
+    const s = steps.reduce((a, b) => (Math.abs(b.num - num) < Math.abs(a.num - num) ? b : a));
+    return { path: `${ns}.${r2p.neutral}.${s.key}`, rgb: s.rgb, num: s.num, ratio: contrast(s.rgb, floorRgb) };
+  };
+
+  // primary — the action palette, contrast-verified.
+  iFill('primary', actionRest, r2p.action, cfg.actionMin);
+  put('interactive.primary.text', paletteRole('action', baseRgb, cfg.secondaryMin), 'Primary interactive ink (outline / text appearance)', 'background.primary', cfg.secondaryMin);
+  put('interactive.primary.border', rated(chromatic(r2p.action, 500, baseRgb, cfg.nonTextMin), baseRgb), 'Primary interactive border (outline)', 'background.primary', cfg.nonTextMin);
+
+  // destructive — the danger palette (its own interactive column, no scavenging).
+  const iDestructiveRest = paletteRole('danger', floorRgb, cfg.actionMin);
+  iFill('destructive', iDestructiveRest, r2p.danger, cfg.actionMin);
+  put('interactive.destructive.text', paletteRole('danger', baseRgb, cfg.secondaryMin), 'Destructive interactive ink (outline / text appearance)', 'background.primary', cfg.secondaryMin);
+  put('interactive.destructive.border', rated(chromatic(r2p.danger, 500, baseRgb, cfg.nonTextMin), baseRgb), 'Destructive interactive border (outline)', 'background.primary', cfg.nonTextMin);
+
+  // neutral — the achromatic column that was the historical miss (docs/20 §12).
+  // The fill is a subtle grey (min 0 — a subtle surface); the LOAD-BEARING contract
+  // is its on-fill ink, derived + gated to onMin, so a failing neutral pair can't ship.
+  iFill('neutral', neutralStepR(cfg.family === 'light' ? 150 : 850), r2p.neutral, 0);
+  put('interactive.neutral.text', pickMostExtreme(textCands, baseRgb), 'Neutral interactive ink (outline / text appearance) — strongest neutral', 'background.primary', cfg.secondaryMin);
+  put('interactive.neutral.border', pickMinPass(ramp, baseRgb, cfg.nonTextMin), 'Neutral interactive border (outline)', 'background.primary', cfg.nonTextMin);
+
   // -------------------------------------------------------------- text (+ icon)
   // Ink. Built from a floor PROFILE so `text` (4.5:1) and `icon` can diverge: with
   // iconContrast '3:1' icons resolve against the WCAG 1.4.11 non-text floor for
