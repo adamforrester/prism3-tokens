@@ -9,6 +9,21 @@
 
 ## Latest (2026-07-06) — interactive colour family (docs/20), increments 1–4 + component rebind
 
+**STATUS: shipped as [PR #83](https://github.com/adamforrester/prism3-tokens/pull/83)** (branch `claude/prism3-e2e-integration-8fwul4`,
+8 commits `f1d8804..73dbcbd`, base `main`). Independent reviewer **approved** increments 1–4 + rebind — both prior
+findings (fixture character, intent tests) implemented; verdict "correct, additive, fully gated, no blocking/should-fix."
+A second reviewer pass is in progress; not yet merged. Gates: **test 655/655, nb-regression ΔE00 1.95, emit-dtcg 384/384
+contracts per brand, web tsc clean, out/\* regenerated + committed.**
+
+**The one open thread (tracked, task #14) — the legacy-role removal.** The PR is deliberately additive: `action.*` /
+`foreground.danger.*` (stateful) / per-colour `interactive.*.fill.disabled` / `text.disabled` / `icon.disabled` +
+their `on-disabled` still coexist beside the new `interactive.*` / `disabled.*` families. Components have rebound, so
+the clean-up increment (drop the legacy roles + contracts + ai-metadata branches, full `action`→`interactive` doc
+sweep) is all that remains — but it **deletes `color/action/*` + `color/foreground/danger/*` vars present in the frozen
+real-NB figma fixture**, so it MUST land with the **#67** NB-fidelity reconciliation (update the fixture to the engine's
+evolved semantic layer). Also deferred: `overlay-tint` (needs per-colour alpha ramps). Do NOT remove the legacy roles
+without doing #67 in the same change — the fixture `missing===0` gate will fail otherwise.
+
 **Component rebind (Button / IconButton / eval preview).** Rebound to the reconciled two-axis model —
 appearance `{filled, outline, text}` × intent `{primary, neutral, destructive}` — bound to `interactive.<intent>.*`
 + cross-cutting `disabled.*`. **This closes the v1 HIGH finding**: neutral (was the stateless
