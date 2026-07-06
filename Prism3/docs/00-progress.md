@@ -7,7 +7,106 @@
 
 ---
 
-## Latest (2026-07-03) — E2E integration arc
+## Latest (2026-07-06) — interactive colour family (docs/20), increments 1–4 + component rebind
+
+**STATUS: shipped as [PR #83](https://github.com/adamforrester/prism3-tokens/pull/83)** (branch `claude/prism3-e2e-integration-8fwul4`,
+8 commits `f1d8804..73dbcbd`, base `main`). Independent reviewer **approved** increments 1–4 + rebind — both prior
+findings (fixture character, intent tests) implemented; verdict "correct, additive, fully gated, no blocking/should-fix."
+A second reviewer pass is in progress; not yet merged. Gates: **test 655/655, nb-regression ΔE00 1.95, emit-dtcg 384/384
+contracts per brand, web tsc clean, out/\* regenerated + committed.**
+
+**The one open thread (tracked, task #14) — the legacy-role removal.** The PR is deliberately additive: `action.*` /
+`foreground.danger.*` (stateful) / per-colour `interactive.*.fill.disabled` / `text.disabled` / `icon.disabled` +
+their `on-disabled` still coexist beside the new `interactive.*` / `disabled.*` families. Components have rebound, so
+the clean-up increment (drop the legacy roles + contracts + ai-metadata branches, full `action`→`interactive` doc
+sweep) is all that remains — but it **deletes `color/action/*` + `color/foreground/danger/*` vars present in the frozen
+real-NB figma fixture**, so it MUST land with the **#67** NB-fidelity reconciliation (update the fixture to the engine's
+evolved semantic layer). Also deferred: `overlay-tint` (needs per-colour alpha ramps). Do NOT remove the legacy roles
+without doing #67 in the same change — the fixture `missing===0` gate will fail otherwise.
+
+**Component rebind (Button / IconButton / eval preview).** Rebound to the reconciled two-axis model —
+appearance `{filled, outline, text}` × intent `{primary, neutral, destructive}` — bound to `interactive.<intent>.*`
++ cross-cutting `disabled.*`. **This closes the v1 HIGH finding**: neutral (was the stateless
+`foreground.secondary`) now carries hover/pressed/on-fill like every colour, so the default button is no
+longer hover-less; the matrix is uniform. `ghost`/`secondary`/`solid`/`plain` retired to the reconciled
+vocabulary; default intent = neutral, appearance = filled. `preview.ts` rebound too (removing the
+`brand.*`-on-buttons leak docs/20 §1 flagged); outline/text hover uses the overlay wash. Component defs
+still validate against both nb + aurora; web tsc clean. test 654→**655**.
+
+**Increment 4 — inverse surface-context + `neutralEmphasis` + opt-in `accentPalette` (additive).**
+- `interactive.<color>.on-inverse` (docs/20 §9): the ink for an outline/text control on a dark hero /
+  inverse section — a light CTA on dark, generated + contrast-verified against the inverse surface (not a
+  hand-mirrored twin). Gated by the `inverse` lever (default on). NB: primary/destructive 5.05:1, neutral 18:1.
+- `neutralEmphasis` lever (`subtle` default / `strong`): strong gives a bold near-black/near-white neutral
+  fill (neutral.800 light) that clears the non-text floor; on-fill still gated.
+- Opt-in `accentPalette` lever (docs/20 §3): names a declared palette (≠ action) → a full `interactive.accent.*`
+  column (fill/on-fill/text/border/on-inverse/overlays), all gated. Rejected if it equals the action palette
+  (never falls back to primary). Absent by default. All wired through input/Theme/schema/lever-manifest/.ai.json.
+- Contract count 372→**384** per brand (inverse inks). test 648→**654**. Fixtures untouched (all under the
+  `color/interactive/` allowlist).
+
+**Increment 3 — cross-cutting `disabled.*` (additive).** One disabled treatment regardless of intent
+(docs/20 §7): `disabled.{surface, on-disabled, text, icon, border}`, governed by `disabledStrategy`.
+`disabled.on-disabled` is gated against `disabled.surface` (accessible: 3:1). Contract count 360→**372**.
+Kept **additive** — the scattered `action.disabled` / `foreground.danger.disabled` / `interactive.*.fill.disabled`
+remain generated so NB byte-repro holds; components rebind to `disabled.*` in the migration step. `color/disabled/`
+is a new engine-added family, added to the figma fixture allowlist. **Important scoping note:** removing the
+legacy `action.*` roles (the docs/20 §11 rename) would delete `color/action/*` vars that ARE in the frozen
+real-NB fixture — that's the NB-fidelity reconciliation the review tied to **#67**, so this PR keeps the legacy
+roles and defers their removal there. test 646→**648**.
+
+**Increment 2 — overlays + composited-contrast gate + `outlineInteraction` lever (additive).**
+- `interactive.<color>.overlay.{hover,pressed,selected}` — translucent washes that composite over
+  ANY surface (page, dark hero, image): the outline/text-appearance hover + rows/menus/cards story.
+  `overlay-neutral` (default) uses the mode-adaptive neutral alpha ramp (black-alpha light / white-alpha
+  dark), hover 10% / pressed 20% / selected 20%.
+- **Composited-contrast gate (docs/20 §13):** each overlay is a real contract — `text.primary` must stay
+  ≥ AA on the page *once the overlay sits on it* (`color.ts` gains a `composite()` alpha-over helper).
+  This can fail (a too-heavy lightening wash in dark mode) so it genuinely constrains the alphas; all hold
+  (NB ratios 12–16). Contract count 324→**360** per brand.
+- **`outlineInteraction` lever** (`overlay-neutral` | `solid-tint` | `none`) wired through the input model,
+  schema, lever manifest, and `.ai.json`. `solid-tint`/`none` emit no overlays (opaque `foreground.<color>-
+  subtle` / no hover). `overlay-tint` (per-colour hue at alpha) is scheduled — it needs per-colour alpha ramps.
+- Figma: `overlay` slot scoped FRAME/SHAPE_FILL, aliases the alpha ramp. Fixtures unchanged (overlays are
+  `color/interactive/*`, already allow-listed). test 644→**646** (overlay presence/gate/mode-adaptive + lever opt-out).
+
+Gates: test 646/646, nb-regression ΔE00 1.95, emit-dtcg 360/360 per brand, web tsc clean, `out/*` regenerated.
+
+### Increment 1 — the `interactive.<color>` family (additive)
+
+Building the redesign specced in `docs/20-interactive-color-system.md` as gated increments on
+`claude/prism3-e2e-integration-8fwul4` (one PR when the family is complete). **Increment 1 (this
+checkpoint): the generated `interactive.<color>.<slot>` family**, ADDITIVE alongside the legacy
+`action.*` / `foreground.danger.*` roles so no contract goes red mid-migration.
+
+- **`modes.ts`** now generates `interactive.{primary,neutral,destructive}` with slots `fill`
+  (+ the six fill-states), `on-fill`, `text`, `border`. `primary` walks the action palette,
+  `destructive` the danger palette, `neutral` a subtle grey (emphasis lever comes in inc-4).
+  Fill-states lead with **`rest`** (the interactive family's own convention, docs/20 §2:
+  rest/hover/pressed) — `default` stays only on the non-interactive roles (`action.default`,
+  `text.link.default`), no systemwide rename.
+  The load-bearing neutral pair (`neutral.on-fill` on `neutral.fill.rest`) is now a
+  **generated + gated contract** — the historical miss (docs/20 §12) can't ship silently.
+  Contract count rises automatically (tree.ts counts every `min>0` role); nb/wendys/aurora/harbor
+  all hold (e.g. harbor 324/324).
+- **`emit-figma.ts`** — `interactive` is scoped by its SLOT (fill→FRAME/SHAPE_FILL, on-fill→+TEXT_FILL,
+  text→TEXT_FILL, border→STROKE_COLOR), not the family.
+- **Fixture-character decision (2026-07-06, post-review; pairs with #67):** the NB figma colour
+  fixtures stay the **frozen real Token Press export** (95 vars/mode) — engine-invented families
+  (`interactive.*`) NB never shipped are **allow-listed** out of the exact-match gate (`missing===0`
+  keeps the byte-repro; a spurious var inside a *real* family still fails). The interactive family's
+  shape/scopes/gating is pinned in a dedicated `test.ts` block instead (test 639→**644**), so the
+  fixture doesn't quietly become an engine snapshot.
+- **`ai-metadata.ts`** — a depth-aware `describeInteractive` for the 4-segment keys (the generic
+  `[group, variant, state]` split dropped the state); every `interactive.*` token now carries proper
+  `when_to_use` / `avoid_when` / `paired_with` / `contrast_with`.
+
+Gates: test **639/639**, nb-regression ΔE00 1.95, emit-dtcg contracts hold per brand, `out/*` regenerated.
+Accent is deferred to inc-4 (opt-in `accentPalette` lever). Next: inc-2 overlays + composited-contrast
+check + `outlineInteraction`; inc-3 cross-cutting `disabled.*`; inc-4 inverse surface-context +
+`neutralEmphasis` + `accentPalette`; then rebind Button/IconButton (§16.3).
+
+## 2026-07-03 — E2E integration arc
 
 Since the token layer completed, work has been the **designer↔developer↔agent E2E pipeline**
 (`07`/`08`/`09`/`10`). Shipped to `main`, newest first (see the decisions log for the why):

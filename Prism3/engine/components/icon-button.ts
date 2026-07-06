@@ -28,8 +28,8 @@ export const iconButton: ComponentDef = {
   props: [
     { name: 'icon', type: 'slot', required: true, description: 'The single icon. Rendered aria-hidden — the IconButton owns the name.' },
     { name: 'aria-label', type: 'string', required: true, description: 'REQUIRED accessible name (there is no visible text). A verb naming the action ("Close", "More actions"). Enforced at the TYPE LEVEL — a missing name is a compile error, not merely a runtime warning; that type-level requirement is the entire reason IconButton is a separate component.' },
-    { name: 'intent', type: "enum: 'primary' | 'secondary' | 'danger' | 'ghost'", values: ['primary', 'secondary', 'danger', 'ghost'], default: 'secondary', required: false, description: 'Inherited from Button. Icon-only actions are most often secondary/ghost.' },
-    { name: 'appearance', type: "enum: 'solid' | 'outline' | 'plain'", values: ['solid', 'outline', 'plain'], default: 'plain', required: false, description: 'Default plain — icon-only actions usually sit in toolbars, not as filled CTAs.' },
+    { name: 'intent', type: "enum: 'primary' | 'neutral' | 'destructive'", values: ['primary', 'neutral', 'destructive'], default: 'neutral', required: false, description: 'Inherited from Button (interactive.<intent>.*). Icon-only actions are most often neutral text-appearance.' },
+    { name: 'appearance', type: "enum: 'filled' | 'outline' | 'text'", values: ['filled', 'outline', 'text'], default: 'text', required: false, description: 'Default text — icon-only actions usually sit in toolbars, not as filled CTAs.' },
     { name: 'size', type: "enum: 'small' | 'medium' | 'large'", values: ['small', 'medium', 'large'], default: 'medium', required: false, description: 'Square control; height drives both dimensions.' },
     { name: 'isPending', type: 'boolean', default: false, required: false, description: 'Inherited — swap the icon for a spinner, keep focus, announce busy.' },
     { name: 'isInactive', type: 'boolean', default: false, required: false, description: 'Inherited — focusable disabled for relevant-but-blocked actions.' },
@@ -38,15 +38,17 @@ export const iconButton: ComponentDef = {
 
   states: ['rest', 'hover', 'focus-visible', 'pressed', 'pending', 'inactive', 'disabled'],
   variants: {
-    intent: ['primary', 'secondary', 'danger', 'ghost'],
-    appearance: ['solid', 'outline', 'plain'],
+    intent: ['primary', 'neutral', 'destructive'],
+    appearance: ['filled', 'outline', 'text'],
     size: ['small', 'medium', 'large'],
     modifiers: ['pending'],
   },
 
   // Icon-only is SQUARE: the height role drives both dimensions, so padding-x = padding-y.
-  // Colour skin is inherited from Button (same intent × appearance roles); this delta binds
-  // the square geometry + the base focus contract + the two most common icon-button skins.
+  // Colour skin follows Button's reconciled interactive.* model (same colour × appearance);
+  // this delta binds the square geometry + the base focus contract + the icon-glyph skins.
+  // The icon glyph binds the same interactive inks Button's label does (on-fill for filled,
+  // text for outline/text) — every colour now carries the full state shape (v1 gap closed).
   tokens: {
     'radius': 'radius.md',
     'focus-ring': 'color.border.focus',
@@ -56,26 +58,33 @@ export const iconButton: ComponentDef = {
     'size.small.side': 'size.sm.height',
     'size.medium.side': 'size.md.height',
     'size.large.side': 'size.lg.height',
-    // FULL intent × appearance icon skin, bound EXPLICITLY. The icon-glyph skin differs from
-    // Button's fill+label skin, so it is not merged from the parent — `inherits: button` here
-    // denotes API/behaviour/state inheritance, NOT a token merge. (Same interaction-state gap
-    // as Button applies: only the solid action/danger roles carry hover/pressed — see button notes.)
-    'primary.solid.fill': 'color.action.default',
-    'primary.solid.icon': 'color.icon.on-action',
-    'primary.outline.border': 'color.border.brand',
-    'primary.outline.icon': 'color.icon.brand',
-    'primary.plain.icon': 'color.icon.brand',
-    'secondary.solid.fill': 'color.foreground.secondary',
-    'secondary.solid.icon': 'color.icon.primary',
-    'secondary.outline.border': 'color.border.secondary',
-    'secondary.outline.icon': 'color.icon.primary',
-    'secondary.plain.icon': 'color.icon.primary',
-    'danger.solid.fill': 'color.foreground.danger.default',
-    'danger.solid.icon': 'color.icon.on-danger',
-    'danger.outline.border': 'color.border.danger',
-    'danger.outline.icon': 'color.icon.danger',
-    'danger.plain.icon': 'color.icon.danger',
-    'icon.disabled': 'color.icon.disabled',
+    // primary
+    'primary.filled.fill': 'color.interactive.primary.fill.rest',
+    'primary.filled.fill.hover': 'color.interactive.primary.fill.hover',
+    'primary.filled.fill.pressed': 'color.interactive.primary.fill.pressed',
+    'primary.filled.icon': 'color.interactive.primary.on-fill',
+    'primary.outline.border': 'color.interactive.primary.border',
+    'primary.outline.icon': 'color.interactive.primary.text',
+    'primary.text.icon': 'color.interactive.primary.text',
+    // neutral (default — now stateful)
+    'neutral.filled.fill': 'color.interactive.neutral.fill.rest',
+    'neutral.filled.fill.hover': 'color.interactive.neutral.fill.hover',
+    'neutral.filled.fill.pressed': 'color.interactive.neutral.fill.pressed',
+    'neutral.filled.icon': 'color.interactive.neutral.on-fill',
+    'neutral.outline.border': 'color.interactive.neutral.border',
+    'neutral.outline.icon': 'color.interactive.neutral.text',
+    'neutral.text.icon': 'color.interactive.neutral.text',
+    // destructive
+    'destructive.filled.fill': 'color.interactive.destructive.fill.rest',
+    'destructive.filled.fill.hover': 'color.interactive.destructive.fill.hover',
+    'destructive.filled.fill.pressed': 'color.interactive.destructive.fill.pressed',
+    'destructive.filled.icon': 'color.interactive.destructive.on-fill',
+    'destructive.outline.border': 'color.interactive.destructive.border',
+    'destructive.outline.icon': 'color.interactive.destructive.text',
+    'destructive.text.icon': 'color.interactive.destructive.text',
+    // cross-cutting disabled
+    'disabled.icon': 'color.disabled.icon',
+    'disabled.border': 'color.disabled.border',
   },
 
   accessibility: {

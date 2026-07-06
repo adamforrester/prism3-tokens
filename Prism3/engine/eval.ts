@@ -11,7 +11,7 @@
  *                           metric; ds-brain's "invented-component rate" adapted to tokens, docs/13).
  *   • primitive-leak rate — valid refs that reach PAST the semantic layer into a raw primitive
  *                           tier (`palette` / `dimension` / `font` — exactly the `core-*` tiers).
- *                           A consumer should reach for `color.action.default`, not `palette.primary.600`.
+ *                           A consumer should reach for `color.interactive.primary.fill.rest`, not `palette.primary.600`.
  *   • contract-compliance — for the fg/bg colour PAIRS an agent's output pairs, resolve both per
  *                           mode and check the contrast clears the pair's floor (text 4.5 / ui + large
  *                           text 3). Reuses `resolveAllModes` + `contrast` — the docs/04 differentiator
@@ -40,7 +40,7 @@ export type ConsumptionScore = {
 };
 
 /** Normalise a token ref to a root-relative dotted path. Accepts brace syntax (`{...}`),
- *  a root-qualified path (`prism.color.action.default`), or an already-relative path;
+ *  a root-qualified path (`prism.color.interactive.primary.fill.rest`), or an already-relative path;
  *  strips a `$value`-style trailing segment nobody writes. `root` is the brand namespace. */
 export const normalizeRef = (ref: string, root: string): string => {
   let r = ref.trim().replace(/^\{|\}$/g, '');            // drop brace wrapper

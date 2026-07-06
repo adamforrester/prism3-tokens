@@ -84,6 +84,24 @@ export type Theme = {
   // correct (graphical objects), letting secondary/semantic icons run lighter
   // than text. `icon.primary` stays strong either way.
   iconContrast: 'text' | '3:1';
+  // How an OUTLINE / TEXT interactive control expresses hover/pressed/selected
+  // (docs/20 §10). 'overlay-neutral' (default): a translucent neutral wash that
+  // composites over any surface — the `interactive.<color>.overlay.*` tokens are
+  // generated. 'solid-tint': an opaque subtle surface instead (`foreground.<color>-
+  // subtle`), no overlays. 'none': no hover expression, no overlays. (`overlay-tint`
+  // — the colour's own hue at low alpha — is scheduled; needs per-colour alpha ramps.)
+  outlineInteraction: 'overlay-neutral' | 'solid-tint' | 'none';
+  // Neutral interactive emphasis (docs/20 §10). 'subtle' (default): a light-grey neutral
+  // fill; 'strong': a bold near-black (light) / near-white (dark) neutral fill.
+  neutralEmphasis: 'subtle' | 'strong';
+  // Inverse surface-context (docs/20 §9): generate `interactive.<color>.on-inverse` inks
+  // for outline/text controls placed on a dark hero / inverse section. Default on.
+  inverseContext: boolean;
+  // Opt-in accent interactive colour (docs/20 §3). When set, names a declared palette (a
+  // brandColors entry) that gets a full `interactive.accent.*` column. `accentAnchorStep`
+  // is the palette step its rest fill anchors to (the accent's pinned lightness).
+  accentPalette?: string;
+  accentAnchorStep?: number;
   dims: Dims;
   motion: MotionAxis;
   typography: Typography;
@@ -190,6 +208,20 @@ export type BrandInput = {
   /** Icon contrast floor. Default 'text' (icons mirror text, 4.5:1). '3:1'
    *  resolves icons against the WCAG 1.4.11 non-text floor so they may diverge. */
   iconContrast?: 'text' | '3:1';
+  /** How an outline/text interactive control expresses hover (docs/20 §10). Default
+   *  'overlay-neutral' (generate translucent `interactive.<color>.overlay.*` washes);
+   *  'solid-tint' uses opaque `foreground.<color>-subtle` instead; 'none' omits both. */
+  outlineInteraction?: 'overlay-neutral' | 'solid-tint' | 'none';
+  /** Neutral interactive emphasis (docs/20 §10). 'subtle' (default) is a light-grey
+   *  neutral fill; 'strong' is a bold near-black/near-white neutral fill. */
+  neutralEmphasis?: 'subtle' | 'strong';
+  /** Generate the inverse surface-context (docs/20 §9) — `interactive.<color>.on-inverse`
+   *  inks for outline/text controls on a dark hero / inverse section. Default true. */
+  inverse?: boolean;
+  /** Opt-in accent interactive colour (docs/20 §3). Names a declared palette (typically a
+   *  `brandColors` entry) to get a full `interactive.accent.*` column. Omit → no accent
+   *  column (never falls back to primary). Must differ from the action palette. */
+  accentPalette?: string;
   /** Motion personality (schema-optional #6). `tempo` scales the duration ramp;
    *  `easingEmphasized` overrides the expressive curve. Reduce-motion variants are
    *  always derived. Omit for the 'standard' tempo. */
@@ -935,6 +967,10 @@ export const brandTheme = (input: BrandInput): Theme => {
   notes.push(dStrat === 'accessible'
     ? `disabled: 'accessible' — disabled text/icon/border clears ${input.disabledMin ?? 3}:1 on the floor (legible, contrast-preserving; the field-rare default). Set disabledStrategy:'conventional' for the sub-AA exempt look.`
     : `disabled: 'conventional' — disabled is intentionally sub-AA (WCAG 1.4.3/1.4.11 inactive-component exemption); CONFIRM this engagement accepts the reduced legibility`);
+  const oInt = input.outlineInteraction ?? 'overlay-neutral';
+  notes.push(oInt === 'overlay-neutral'
+    ? `interactive overlays: 'overlay-neutral' (default) — outline/text controls + rows/menus hover with a translucent neutral wash (interactive.<color>.overlay.*), contrast-verified on the composited surface. Set 'solid-tint' (opaque foreground.<color>-subtle) or 'none' to opt out.`
+    : `interactive overlays: '${oInt}' — no translucent overlay tokens; outline/text hover uses ${oInt === 'solid-tint' ? 'opaque foreground.<color>-subtle surfaces' : 'no hover expression'}`);
 
   // ---- surface confirmation ----
   for (const [mode, sf] of Object.entries(input.surfaces ?? {})) {
@@ -957,6 +993,25 @@ export const brandTheme = (input: BrandInput): Theme => {
     : 500;
   if (actionBrandColor) notes.push(`action anchored at accent '${actionPalette}' step ${actionAnchorStep} (its pinned lightness) — the brand's own shade, nudged only if it fails AA on the floor`);
 
+  // Accent interactive colour (docs/20 §3) — opt-in, a SECOND interactive column. Points at a
+  // declared palette (typically a brandColors accent). Validated to exist and to differ from the
+  // action palette (else two identical-looking "primary" columns — the fall-back-to-primary trap).
+  const accentPalette = input.accentPalette;
+  let accentAnchorStep: number | undefined;
+  if (accentPalette !== undefined) {
+    if (!palettes.some((p) => p.palette === accentPalette))
+      throw new Error(`accentPalette '${accentPalette}' is not a defined palette (have: ${palettes.map((p) => p.palette).join(', ')})`);
+    if (accentPalette === actionPalette)
+      throw new Error(`accentPalette '${accentPalette}' must differ from the action palette (docs/20 §3 — never ship two identical interactive columns)`);
+    const accentBrandColor = (input.brandColors ?? []).find((b) => b.name === accentPalette);
+    accentAnchorStep = accentPalette === 'primary' ? anchorStep : accentBrandColor ? autoPlaceStep(accentBrandColor.oklch.l) : 500;
+    notes.push(`accent interactive colour: palette '${accentPalette}' (step ${accentAnchorStep}) → a full interactive.accent.* column`);
+  }
+
+  const neutralEmphasis = input.neutralEmphasis ?? 'subtle';
+  const inverseContext = input.inverse ?? true;
+  notes.push(`neutral interactive emphasis: '${neutralEmphasis}'${neutralEmphasis === 'strong' ? ' — bold near-black/white neutral fill' : ' (light-grey, default)'}; inverse surface-context: ${inverseContext ? 'on (interactive.<color>.on-inverse generated)' : 'off'}`);
+
   return {
     id: input.id, root, namespace: `${root}.palette`, colorFormat: 'hex', modes, palettes, roleToPalette, notes,
     roleAnchorStep: { brand: anchorStep, neutral: 500, success: 500, warning: 500, danger: 500, info: 500, action: actionAnchorStep },
@@ -964,6 +1019,8 @@ export const brandTheme = (input: BrandInput): Theme => {
     disabledStrategy: input.disabledStrategy ?? 'accessible',
     disabledMin: input.disabledMin ?? 3,
     iconContrast: input.iconContrast ?? 'text',
+    outlineInteraction: input.outlineInteraction ?? 'overlay-neutral',
+    neutralEmphasis, inverseContext, accentPalette, accentAnchorStep,
     dims: buildDims(baseUnit, spaceBase, density, rScale, baseMd),
     motion: buildMotion(input.motionPersonality),
     typography,
@@ -1013,7 +1070,8 @@ export const nbThemeFrom = (s: NbMeasured): Theme => {
     id: 'nb', root: 'nbds', namespace: 'nbds.palette', colorFormat: 'rgb', modes: ALL_MODES, palettes,
     roleToPalette: { brand: 'red', neutral: 'neutral', success: 'green', warning: 'amber', danger: 'red', info: 'info', action: 'red' },
     roleAnchorStep: { brand: 550, neutral: 500, success: 500, warning: 500, danger: 550, info: 500, action: 550 },
-    disabledStrategy: 'accessible', disabledMin: 3, iconContrast: 'text',
+    disabledStrategy: 'accessible', disabledMin: 3, iconContrast: 'text', outlineInteraction: 'overlay-neutral',
+    neutralEmphasis: 'subtle', inverseContext: true,
     dims, motion: buildMotion(),
     typography: buildTypography(),
     shadow: buildShadow(s.neutralHue.hue, { tint: { amount: 0 } }),  // NB ships pure-black shadows

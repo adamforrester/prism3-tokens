@@ -676,6 +676,839 @@
       }
     },
     {
+      "name": "color/interactive/primary/fill/rest",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "primary interactive fill — rest",
+      "value": {
+        "r": 0.5529412031173706,
+        "g": 0,
+        "b": 0.10588235408067703,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/primary/650"
+      }
+    },
+    {
+      "name": "color/interactive/primary/fill/hover",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "primary interactive fill — hover",
+      "value": {
+        "r": 0.47843137383461,
+        "g": 0,
+        "b": 0.08627451211214066,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/primary/700"
+      }
+    },
+    {
+      "name": "color/interactive/primary/fill/pressed",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "primary interactive fill — pressed",
+      "value": {
+        "r": 0.40392157435417175,
+        "g": 0,
+        "b": 0.06666667014360428,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/primary/750"
+      }
+    },
+    {
+      "name": "color/interactive/primary/fill/focused",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "primary interactive fill — focused",
+      "value": {
+        "r": 0.47843137383461,
+        "g": 0,
+        "b": 0.08627451211214066,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/primary/700"
+      }
+    },
+    {
+      "name": "color/interactive/primary/fill/selected",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "primary interactive fill — selected",
+      "value": {
+        "r": 0.40392157435417175,
+        "g": 0,
+        "b": 0.06666667014360428,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/primary/750"
+      }
+    },
+    {
+      "name": "color/interactive/primary/fill/disabled",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "primary interactive fill — disabled",
+      "value": {
+        "r": 0.7529411911964417,
+        "g": 0.7568627595901489,
+        "b": 0.7607843279838562,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/neutral/200"
+      }
+    },
+    {
+      "name": "color/interactive/primary/on-fill",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL",
+        "TEXT_FILL"
+      ],
+      "description": "Ink on the primary interactive fill",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/white"
+      }
+    },
+    {
+      "name": "color/interactive/primary/text",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Primary interactive ink (outline / text appearance)",
+      "value": {
+        "r": 0.6313725709915161,
+        "g": 0,
+        "b": 0.125490203499794,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/primary/600"
+      }
+    },
+    {
+      "name": "color/interactive/primary/border",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "STROKE_COLOR"
+      ],
+      "description": "Primary interactive border (outline)",
+      "value": {
+        "r": 0.7843137383460999,
+        "g": 0.062745101749897,
+        "b": 0.18039216101169586,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/primary/500"
+      }
+    },
+    {
+      "name": "color/interactive/primary/on-inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "primary interactive ink on an inverse / dark surface (outline / text on a dark hero)",
+      "value": {
+        "r": 0.8705882430076599,
+        "g": 0.5176470875740051,
+        "b": 0.5058823823928833,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/primary/300"
+      }
+    },
+    {
+      "name": "color/interactive/primary/overlay/hover",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "primary interactive overlay — hover (10% neutral wash; composites over any surface)",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.10196078568696976
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/black-alpha/10"
+      }
+    },
+    {
+      "name": "color/interactive/primary/overlay/pressed",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "primary interactive overlay — pressed (20% neutral wash; composites over any surface)",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.20000000298023224
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/black-alpha/20"
+      }
+    },
+    {
+      "name": "color/interactive/primary/overlay/selected",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "primary interactive overlay — selected (20% neutral wash; composites over any surface)",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.20000000298023224
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/black-alpha/20"
+      }
+    },
+    {
+      "name": "color/interactive/destructive/fill/rest",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "destructive interactive fill — rest",
+      "value": {
+        "r": 0.48627451062202454,
+        "g": 0.12941177189350128,
+        "b": 0.14901961386203766,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/danger/700"
+      }
+    },
+    {
+      "name": "color/interactive/destructive/fill/hover",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "destructive interactive fill — hover",
+      "value": {
+        "r": 0.4156862795352936,
+        "g": 0.09019608050584793,
+        "b": 0.11372549086809158,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/danger/750"
+      }
+    },
+    {
+      "name": "color/interactive/destructive/fill/pressed",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "destructive interactive fill — pressed",
+      "value": {
+        "r": 0.3450980484485626,
+        "g": 0.05098039284348488,
+        "b": 0.0784313753247261,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/danger/800"
+      }
+    },
+    {
+      "name": "color/interactive/destructive/fill/focused",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "destructive interactive fill — focused",
+      "value": {
+        "r": 0.4156862795352936,
+        "g": 0.09019608050584793,
+        "b": 0.11372549086809158,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/danger/750"
+      }
+    },
+    {
+      "name": "color/interactive/destructive/fill/selected",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "destructive interactive fill — selected",
+      "value": {
+        "r": 0.3450980484485626,
+        "g": 0.05098039284348488,
+        "b": 0.0784313753247261,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/danger/800"
+      }
+    },
+    {
+      "name": "color/interactive/destructive/fill/disabled",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "destructive interactive fill — disabled",
+      "value": {
+        "r": 0.7529411911964417,
+        "g": 0.7568627595901489,
+        "b": 0.7607843279838562,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/neutral/200"
+      }
+    },
+    {
+      "name": "color/interactive/destructive/on-fill",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL",
+        "TEXT_FILL"
+      ],
+      "description": "Ink on the destructive interactive fill",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/white"
+      }
+    },
+    {
+      "name": "color/interactive/destructive/text",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Destructive interactive ink (outline / text appearance)",
+      "value": {
+        "r": 0.5607843399047852,
+        "g": 0.16862745583057404,
+        "b": 0.18431372940540314,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/danger/650"
+      }
+    },
+    {
+      "name": "color/interactive/destructive/border",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "STROKE_COLOR"
+      ],
+      "description": "Destructive interactive border (outline)",
+      "value": {
+        "r": 0.7921568751335144,
+        "g": 0.2862745225429535,
+        "b": 0.3019607961177826,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/danger/500"
+      }
+    },
+    {
+      "name": "color/interactive/destructive/on-inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "destructive interactive ink on an inverse / dark surface (outline / text on a dark hero)",
+      "value": {
+        "r": 0.8941176533699036,
+        "g": 0.48235294222831726,
+        "b": 0.47843137383461,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/danger/350"
+      }
+    },
+    {
+      "name": "color/interactive/destructive/overlay/hover",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "destructive interactive overlay — hover (10% neutral wash; composites over any surface)",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.10196078568696976
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/black-alpha/10"
+      }
+    },
+    {
+      "name": "color/interactive/destructive/overlay/pressed",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "destructive interactive overlay — pressed (20% neutral wash; composites over any surface)",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.20000000298023224
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/black-alpha/20"
+      }
+    },
+    {
+      "name": "color/interactive/destructive/overlay/selected",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "destructive interactive overlay — selected (20% neutral wash; composites over any surface)",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.20000000298023224
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/black-alpha/20"
+      }
+    },
+    {
+      "name": "color/interactive/neutral/fill/rest",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "neutral interactive fill — rest",
+      "value": {
+        "r": 0.8078431487083435,
+        "g": 0.8078431487083435,
+        "b": 0.8117647171020508,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/neutral/150"
+      }
+    },
+    {
+      "name": "color/interactive/neutral/fill/hover",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "neutral interactive fill — hover",
+      "value": {
+        "r": 0.7529411911964417,
+        "g": 0.7568627595901489,
+        "b": 0.7607843279838562,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/neutral/200"
+      }
+    },
+    {
+      "name": "color/interactive/neutral/fill/pressed",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "neutral interactive fill — pressed",
+      "value": {
+        "r": 0.7019608020782471,
+        "g": 0.7058823704719543,
+        "b": 0.7098039388656616,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/neutral/250"
+      }
+    },
+    {
+      "name": "color/interactive/neutral/fill/focused",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "neutral interactive fill — focused",
+      "value": {
+        "r": 0.7529411911964417,
+        "g": 0.7568627595901489,
+        "b": 0.7607843279838562,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/neutral/200"
+      }
+    },
+    {
+      "name": "color/interactive/neutral/fill/selected",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "neutral interactive fill — selected",
+      "value": {
+        "r": 0.7019608020782471,
+        "g": 0.7058823704719543,
+        "b": 0.7098039388656616,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/neutral/250"
+      }
+    },
+    {
+      "name": "color/interactive/neutral/fill/disabled",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "neutral interactive fill — disabled",
+      "value": {
+        "r": 0.7529411911964417,
+        "g": 0.7568627595901489,
+        "b": 0.7607843279838562,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/neutral/200"
+      }
+    },
+    {
+      "name": "color/interactive/neutral/on-fill",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL",
+        "TEXT_FILL"
+      ],
+      "description": "Ink on the neutral interactive fill",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/black"
+      }
+    },
+    {
+      "name": "color/interactive/neutral/text",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Neutral interactive ink (outline / text appearance) — strongest neutral",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/black"
+      }
+    },
+    {
+      "name": "color/interactive/neutral/border",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "STROKE_COLOR"
+      ],
+      "description": "Neutral interactive border (outline)",
+      "value": {
+        "r": 0.45490196347236633,
+        "g": 0.4588235318660736,
+        "b": 0.46666666865348816,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/neutral/500"
+      }
+    },
+    {
+      "name": "color/interactive/neutral/on-inverse",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "neutral interactive ink on an inverse / dark surface (outline / text on a dark hero)",
+      "value": {
+        "r": 1,
+        "g": 1,
+        "b": 1,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/white"
+      }
+    },
+    {
+      "name": "color/interactive/neutral/overlay/hover",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "neutral interactive overlay — hover (10% neutral wash; composites over any surface)",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.10196078568696976
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/black-alpha/10"
+      }
+    },
+    {
+      "name": "color/interactive/neutral/overlay/pressed",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "neutral interactive overlay — pressed (20% neutral wash; composites over any surface)",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.20000000298023224
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/black-alpha/20"
+      }
+    },
+    {
+      "name": "color/interactive/neutral/overlay/selected",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "neutral interactive overlay — selected (20% neutral wash; composites over any surface)",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.20000000298023224
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/black-alpha/20"
+      }
+    },
+    {
+      "name": "color/disabled/surface",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Disabled control fill — one muted neutral, any intent",
+      "value": {
+        "r": 0.7529411911964417,
+        "g": 0.7568627595901489,
+        "b": 0.7607843279838562,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/neutral/200"
+      }
+    },
+    {
+      "name": "color/disabled/on-disabled",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Label / icon on a disabled fill — muted but clears 3:1",
+      "value": {
+        "r": 0.25882354378700256,
+        "g": 0.26274511218070984,
+        "b": 0.2705882489681244,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/neutral/700"
+      }
+    },
+    {
+      "name": "color/disabled/text",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Disabled text — clears 3:1 (accessible)",
+      "value": {
+        "r": 0.40392157435417175,
+        "g": 0.4117647111415863,
+        "b": 0.4156862795352936,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/neutral/550"
+      }
+    },
+    {
+      "name": "color/disabled/icon",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Disabled icon — clears 3:1 (accessible)",
+      "value": {
+        "r": 0.40392157435417175,
+        "g": 0.4117647111415863,
+        "b": 0.4156862795352936,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/neutral/550"
+      }
+    },
+    {
+      "name": "color/disabled/border",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Disabled control border — muted neutral",
+      "value": {
+        "r": 0.7529411911964417,
+        "g": 0.7568627595901489,
+        "b": 0.7607843279838562,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/neutral/200"
+      }
+    },
+    {
       "name": "color/text/primary",
       "resolvedType": "COLOR",
       "scopes": [

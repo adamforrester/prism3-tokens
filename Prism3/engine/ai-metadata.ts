@@ -42,6 +42,7 @@ const SIGNAL: Record<string, string> = {
 };
 const genMeaning = (group: string, variant: string): string => {
   if (group === 'action') return 'Interactivity / actions';
+  if (group === 'disabled') return 'Unavailable / inactive state';
   if (variant === 'link') return 'Interactivity / navigation';
   if (variant === 'focus') return 'Keyboard focus indication';
   if (SIGNAL[variant]) return SIGNAL[variant];                                  // intent fill/text/icon/border (incl. danger)
@@ -104,10 +105,38 @@ const describe = (group: string, variant: string, state: string | undefined): { 
     if (intent) return { desc: `${cap(intent)} validation border`, when_to_use: `Validation/state borders for ${variant} (e.g. invalid fields).`, avoid_when: `Do not use as ${variant} ink or fill — use text.${variant} / foreground.${variant}.` };
   }
 
+  // disabled — cross-cutting (docs/20 §7): one treatment, any intent.
+  if (group === 'disabled') {
+    if (variant === 'surface') return { desc: 'Disabled control fill', when_to_use: 'The fill of ANY disabled control (button, chip, field), regardless of intent — a disabled control looks disabled.', avoid_when: 'Do not use for enabled controls (use interactive.*.fill / foreground.*).', paired_with: ['disabled.on-disabled'] };
+    if (variant === 'on-disabled') return { desc: 'Label / icon on a disabled fill', when_to_use: "The label or icon on a disabled control's fill — muted but legible on it.", avoid_when: 'Do not use on an enabled fill (use interactive.*.on-fill) or on the page (use disabled.text).', paired_with: ['disabled.surface'] };
+    if (variant === 'text') return { desc: 'Disabled text', when_to_use: 'Text of a disabled or inactive element (a disabled outline/text control, disabled body copy).', avoid_when: 'Do not use for active content (use text.primary/secondary).' };
+    if (variant === 'icon') return { desc: 'Disabled icon', when_to_use: 'Icon of a disabled or inactive element.', avoid_when: 'Do not use for active icons (use icon.primary/secondary).' };
+    if (variant === 'border') return { desc: 'Disabled control border', when_to_use: 'The border of a disabled outline control.', avoid_when: 'Do not use as a page divider (use border.primary) or on an enabled control (use interactive.*.border).', paired_with: ['disabled.surface'] };
+  }
+
   if (group === 'scrim') return { desc: 'Semi-transparent backdrop behind modals / drawers', when_to_use: 'The dimming layer behind a modal, dialog, or drawer.', avoid_when: 'Do not use as a solid surface or for any opaque element.', paired_with: ['foreground.inverse.primary'] };
 
   // fallback
   return { desc: `${group} ${variant}${st}`, when_to_use: `Use as the ${group} ${variant} role.`, avoid_when: `Do not use outside the ${group} role.` };
+};
+
+// interactive.<color>.<slot>.<state?> (docs/20) — a DEEPER key than the other
+// families (color + slot + optional fill-state), so it is described on its own
+// rather than through the [group, variant, state] split above.
+const INTERACTIVE_COLOR: Record<string, string> = { primary: 'primary', neutral: 'neutral', destructive: 'destructive', accent: 'accent' };
+const describeInteractive = (color: string, slot: string, state: string | undefined): { desc: string; when_to_use: string; avoid_when: string; paired_with?: string[] } => {
+  const c = INTERACTIVE_COLOR[color] ?? color;
+  const other = c === 'destructive' ? 'a non-destructive intent (use interactive.primary/neutral)' : `another intent (interactive.${c === 'primary' ? 'neutral / destructive' : 'primary / destructive'})`;
+  if (slot === 'fill') {
+    const st = state && state !== 'rest' ? ` (${state} state)` : '';
+    return { desc: `${cap(c)} interactive fill${st}`, when_to_use: `The fill of a FILLED ${c} interactive element — buttons, controls, selectable rows${sc(state)}.`, avoid_when: `Do not use for ${other}, or for outline/text appearances (use interactive.${c}.text / .border).`, paired_with: [`interactive.${c}.on-fill`] };
+  }
+  if (slot === 'on-fill') return { desc: `Ink on the ${c} interactive fill`, when_to_use: `The label / icon placed on a filled ${c} interactive element.`, avoid_when: `Do not use on the page or on outline controls — use interactive.${c}.text.`, paired_with: [`interactive.${c}.fill.rest`] };
+  if (slot === 'text') return { desc: `${cap(c)} interactive ink (outline / text appearance)`, when_to_use: `The ink for OUTLINE and TEXT ${c} interactive elements (no fill behind it).`, avoid_when: `Do not use on a filled ${c} control (use interactive.${c}.on-fill).`, paired_with: ['background.primary'] };
+  if (slot === 'border') return { desc: `${cap(c)} interactive border (outline)`, when_to_use: `The border of an OUTLINE ${c} interactive element.`, avoid_when: `Do not use as ink (use interactive.${c}.text) or as a page divider (use border.primary).`, paired_with: ['background.primary'] };
+  if (slot === 'on-inverse') return { desc: `${cap(c)} interactive ink on an inverse surface`, when_to_use: `The ink for an outline/text ${c} control placed on a dark hero / inverse section — a light CTA on dark.`, avoid_when: `Do not use on the standard page (use interactive.${c}.text) or on a ${c} fill (use interactive.${c}.on-fill).`, paired_with: ['background.inverse.primary'] };
+  if (slot === 'overlay') return { desc: `${cap(c)} interactive overlay${state ? ` — ${state}` : ''}`, when_to_use: `A translucent ${c} ${state ?? 'interaction'} wash for outline/text controls and hover/pressed/selected rows, menus, cards — composites over ANY surface (page, dark hero, image).`, avoid_when: `Do not use as an opaque fill (use interactive.${c}.fill.* or foreground.${c}-subtle) or as a modal backdrop (use scrim.*).`, paired_with: ['text.primary'] };
+  return { desc: `${cap(c)} interactive ${slot}`, when_to_use: `The ${slot} of a ${c} interactive element.`, avoid_when: `Do not use outside the ${c} interactive family.` };
 };
 
 // ---- primitive tier (simplified) -------------------------------------------
@@ -187,12 +216,15 @@ export const buildAiMetadata = (theme: Theme, tree: any) => {
   for (const [roleKey, perMode] of Object.entries(byRole)) {
     const [group, variant, state] = roleKey.split('.');
     const light = perMode.light;
-    const d = describe(group, variant, state);
+    // interactive.<color>.<slot>.<state?> carries a 4th segment — describe it whole.
+    const d = group === 'interactive'
+      ? describeInteractive(variant, state, roleKey.split('.')[3])
+      : describe(group, variant, state);
     const mode_overrides: Record<string, string> = {};
     for (const [mode, r] of Object.entries(perMode)) mode_overrides[mode] = `{${r.path}}`;
     const ai: AiToken = {
       $description: `${cap(d.desc)}.`,                 // what it IS (plain)
-      meaning: genMeaning(group, variant),             // what it SIGNIFIES / is for
+      meaning: group === 'interactive' ? 'Interactivity / actions' : genMeaning(group, variant), // what it SIGNIFIES / is for
       when_to_use: d.when_to_use,
       avoid_when: d.avoid_when,
       mode_overrides,

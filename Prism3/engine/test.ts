@@ -177,6 +177,141 @@ for (const b of brands) {
   ok(broken.length === 0, 'nbTheme all contracts pass' + (broken.length ? ` — FAILED: ${broken.join(', ')}` : ''));
 }
 
+// INTERACTIVE COLOUR FAMILY (docs/20, increment 1) — pin the increment's intent
+// where the frozen real-NB fixture no longer can: action.* stays PRESERVED (the
+// migration is additive), the interactive.<color> family has the full slot/state
+// shape, the historical neutral miss (§12) is a GATED contract that passes in
+// every mode, and the Figma slots carry slot-aware scopes.
+{
+  const modes = resolveAllModes(nbTheme());
+  const light = modes.find((m) => m.mode === 'light')!.roles;
+
+  // (a) legacy action.* fully preserved alongside the new family (nothing rebinds yet).
+  const actionMissing = ['default', 'hover', 'pressed', 'focused', 'selected', 'disabled']
+    .map((s) => `action.${s}`).filter((k) => !(k in light));
+  ok(actionMissing.length === 0, 'interactive: legacy action.* preserved (additive)' + (actionMissing.length ? ` — MISSING ${actionMissing.join(',')}` : ''));
+
+  // (b) interactive.<color> shape — three colours, each fill(+6 states)/on-fill/text/border.
+  const shapeMissing: string[] = [];
+  for (const c of ['primary', 'neutral', 'destructive']) {
+    for (const st of ['rest', 'hover', 'pressed', 'focused', 'selected', 'disabled'])
+      if (!(`interactive.${c}.fill.${st}` in light)) shapeMissing.push(`interactive.${c}.fill.${st}`);
+    for (const slot of ['on-fill', 'text', 'border'])
+      if (!(`interactive.${c}.${slot}` in light)) shapeMissing.push(`interactive.${c}.${slot}`);
+  }
+  ok(shapeMissing.length === 0, 'interactive: primary/neutral/destructive each carry fill(+6 states)/on-fill/text/border' + (shapeMissing.length ? ` — MISSING ${shapeMissing.slice(0, 4).join(',')}` : ''));
+
+  // (c) neutral fill.rest is a subtle SURFACE (min 0) — the gated pair is its ink, not the fill.
+  ok(light['interactive.neutral.fill.rest'].min === 0, 'interactive: neutral.fill.rest is a min-0 subtle surface');
+
+  // (d) the historical neutral MISS (§12) is now a passing gated contract in EVERY mode:
+  //     on-fill contrast-verified against fill.rest at onMin (4.5).
+  const neutralFails: string[] = [];
+  for (const m of modes) {
+    const r = m.roles['interactive.neutral.on-fill'];
+    if (!r) { neutralFails.push(`${m.mode}:absent`); continue; }
+    if (r.min < 4.5) neutralFails.push(`${m.mode}:min=${r.min}`);
+    if (r.against !== 'interactive.neutral.fill.rest') neutralFails.push(`${m.mode}:against=${r.against}`);
+    if (r.ratio < r.min) neutralFails.push(`${m.mode}:${r.ratio.toFixed(2)}<${r.min}`);
+  }
+  ok(neutralFails.length === 0, 'interactive: neutral on-fill is a passing gated contract in every mode' + (neutralFails.length ? ` — ${neutralFails.join(',')}` : ''));
+
+  // (e) Figma slots are scoped by SLOT (fill→paint, text→TEXT_FILL, border→STROKE_COLOR).
+  const { color } = buildFigmaColor(nbTheme());
+  const byName = new Map<string, any>(color.find((c) => c.$mode === 'light')!.variables.map((v: any) => [v.name, v]));
+  const scopeOf = (n: string) => JSON.stringify(byName.get(n)?.scopes ?? null);
+  const scopeBad: string[] = [];
+  if (scopeOf('color/interactive/primary/text') !== JSON.stringify(['TEXT_FILL'])) scopeBad.push('primary/text');
+  if (scopeOf('color/interactive/primary/border') !== JSON.stringify(['STROKE_COLOR'])) scopeBad.push('primary/border');
+  if (scopeOf('color/interactive/primary/fill/rest') !== JSON.stringify(['FRAME_FILL', 'SHAPE_FILL'])) scopeBad.push('primary/fill/rest');
+  ok(scopeBad.length === 0, 'interactive: Figma slots carry slot-aware scopes' + (scopeBad.length ? ` — ${scopeBad.join(',')}` : ''));
+
+  // (f) overlays (docs/20 §6): each colour has hover/pressed/selected washes, mode-adaptive
+  //     (black-alpha light / white-alpha dark), and the COMPOSITED result is a gated contract
+  //     — text.primary stays ≥ AA on the tinted surface in every mode (the wash-out guard).
+  const overlayFails: string[] = [];
+  for (const m of modes) {
+    const pal = m.mode.includes('dark') ? 'white-alpha' : 'black-alpha';
+    for (const c of ['primary', 'neutral', 'destructive'])
+      for (const st of ['hover', 'pressed', 'selected']) {
+        const r = m.roles[`interactive.${c}.overlay.${st}`];
+        if (!r) { overlayFails.push(`${m.mode}:${c}.${st}:absent`); continue; }
+        if (r.min < 4.5 || r.ratio < r.min) overlayFails.push(`${m.mode}:${c}.${st}:${r.ratio.toFixed(2)}<${r.min}`);
+        if (!r.path.includes(pal)) overlayFails.push(`${m.mode}:${c}.${st}:pal=${r.path}`);
+      }
+  }
+  ok(overlayFails.length === 0, 'interactive: overlays present, mode-adaptive, composited-contrast gated in every mode' + (overlayFails.length ? ` — ${overlayFails.slice(0, 3).join(',')}` : ''));
+
+  // (g) the outlineInteraction lever opts out: 'none' emits NO overlay tokens.
+  const noOverlay = resolveAllModes({ ...nbTheme(), outlineInteraction: 'none' })
+    .flatMap((m) => Object.keys(m.roles)).filter((k) => k.includes('.overlay.'));
+  ok(noOverlay.length === 0, 'interactive: outlineInteraction=none emits no overlays' + (noOverlay.length ? ` — ${noOverlay.slice(0, 2).join(',')}` : ''));
+}
+
+// DISABLED — cross-cutting family (docs/20 §7): one treatment regardless of intent,
+// present in every mode, with its on-ink gated against the disabled surface.
+{
+  const modes = resolveAllModes(nbTheme());
+  const shapeMissing: string[] = [];
+  for (const m of modes)
+    for (const k of ['surface', 'on-disabled', 'text', 'icon', 'border'])
+      if (!(`disabled.${k}` in m.roles)) shapeMissing.push(`${m.mode}:disabled.${k}`);
+  ok(shapeMissing.length === 0, 'disabled: surface/on-disabled/text/icon/border in every mode' + (shapeMissing.length ? ` — ${shapeMissing.slice(0, 3).join(',')}` : ''));
+
+  const onFails: string[] = [];
+  for (const m of modes) {
+    const r = m.roles['disabled.on-disabled'];
+    if (r.against !== 'disabled.surface') onFails.push(`${m.mode}:against=${r.against}`);
+    if (r.min > 0 && r.ratio < r.min) onFails.push(`${m.mode}:${r.ratio.toFixed(2)}<${r.min}`);
+  }
+  ok(onFails.length === 0, 'disabled: on-disabled is gated against disabled.surface (accessible strategy)' + (onFails.length ? ` — ${onFails.join(',')}` : ''));
+}
+
+// INVERSE + neutralEmphasis + accentPalette (docs/20 §9/§10/§3, increment 4).
+{
+  // (a) inverse surface-context: interactive.<color>.on-inverse present + gated against the
+  //     inverse surface in every mode; the `inverse` lever opts out.
+  const modes = resolveAllModes(nbTheme());
+  const invFails: string[] = [];
+  for (const m of modes)
+    for (const c of ['primary', 'neutral', 'destructive']) {
+      const r = m.roles[`interactive.${c}.on-inverse`];
+      if (!r) { invFails.push(`${m.mode}:${c}:absent`); continue; }
+      if (r.against !== 'background.inverse.primary') invFails.push(`${m.mode}:${c}:against=${r.against}`);
+      if (r.min > 0 && r.ratio < r.min) invFails.push(`${m.mode}:${c}:${r.ratio.toFixed(2)}<${r.min}`);
+    }
+  ok(invFails.length === 0, 'inverse: interactive.<color>.on-inverse gated on the inverse surface in every mode' + (invFails.length ? ` — ${invFails.slice(0, 3).join(',')}` : ''));
+  const noInv = resolveAllModes({ ...nbTheme(), inverseContext: false })
+    .flatMap((m) => Object.keys(m.roles)).filter((k) => k.startsWith('interactive.') && k.endsWith('.on-inverse'));
+  ok(noInv.length === 0, 'inverse: inverse=false emits no on-inverse inks' + (noInv.length ? ` — ${noInv.slice(0, 2).join(',')}` : ''));
+
+  // (b) neutralEmphasis 'strong' → a bold neutral fill that clears the non-text floor, on-fill still gated.
+  const strong = resolveAllModes({ ...nbTheme(), neutralEmphasis: 'strong' });
+  const strongFails = strong.flatMap((m) => {
+    const fill = m.roles['interactive.neutral.fill.rest'], on = m.roles['interactive.neutral.on-fill'];
+    const bad: string[] = [];
+    if (!(fill.min >= 3) || fill.ratio < fill.min) bad.push(`${m.mode}:fill ${fill.ratio.toFixed(2)}<${fill.min}`);
+    if (on.ratio < on.min) bad.push(`${m.mode}:on ${on.ratio.toFixed(2)}<${on.min}`);
+    return bad;
+  });
+  ok(strongFails.length === 0, 'neutralEmphasis: strong gives a floor-clearing neutral fill with a gated on-ink' + (strongFails.length ? ` — ${strongFails.slice(0, 2).join(',')}` : ''));
+
+  // (c) accentPalette: opt-in → a full interactive.accent.* column, all contracts hold; absent by default.
+  const noAccent = resolveAllModes(nbTheme()).flatMap((m) => Object.keys(m.roles)).filter((k) => k.startsWith('interactive.accent'));
+  ok(noAccent.length === 0, 'accent: no accent column without accentPalette (never falls back to primary)' + (noAccent.length ? ` — ${noAccent.slice(0, 2).join(',')}` : ''));
+  const acc = resolveAllModes({ ...nbTheme(), accentPalette: 'green', accentAnchorStep: 500 });
+  const accLight = acc.find((m) => m.mode === 'light')!.roles;
+  const accMissing = ['fill.rest', 'on-fill', 'text', 'border', 'on-inverse', 'overlay.hover'].filter((s) => !(`interactive.accent.${s}` in accLight));
+  const accFails = acc.flatMap((m) => Object.entries(m.roles).filter(([k, r]) => k.startsWith('interactive.accent') && r.min > 0 && r.ratio < r.min).map(([k]) => `${m.mode}.${k}`));
+  ok(accMissing.length === 0 && accFails.length === 0, 'accent: opt-in emits a full gated interactive.accent.* column' + (accMissing.length ? ` — MISSING ${accMissing.join(',')}` : '') + (accFails.length ? ` — FAILS ${accFails.slice(0, 2).join(',')}` : ''));
+
+  // (d) accentPalette must differ from the action palette (no two identical columns).
+  let threw = false;
+  try { brandTheme({ id: 'x', primary: { l: 0.5, c: 0.2, h: 20 }, neutral: { hue: 20, chroma: 0.01 }, actionPalette: 'primary', accentPalette: 'primary' } as unknown as BrandInput); }
+  catch { threw = true; }
+  ok(threw, 'accent: accentPalette === actionPalette is rejected');
+}
+
 // L-02: dualContrastWindow is only defined up to √21 ≈ 4.583 (the max ratio any single
 // luminance clears on BOTH extremes). At 4.5 it returns a valid non-empty window; past
 // √21 it must THROW rather than hand back an inverted [min>max] pair.
@@ -861,8 +996,16 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
     const out = emitted[key];
     const fixByName = new Map<string, any>(fix.variables.map((v: any) => [v.name, v]));
     const outByName = new Map<string, any>(out.variables.map((v: any) => [v.name, v]));
+    // The fixture is the FROZEN real NB Token Press export. `missing === 0` keeps the
+    // byte-repro guarantee (every real-NB var is still emitted, and the scope/alias/value
+    // checks below verify them). Engine-invented FAMILIES that NB's export predates
+    // (interactive.* — docs/20) are allow-listed out of the `extra` check: they are
+    // pinned for shape/scope in the dedicated interactive block below, not here — so this
+    // gate still fails on a spurious var inside a REAL family. (Fixture-character decision,
+    // 2026-07-06; pairs with #67.)
+    const ENGINE_ADDED_FAMILIES = ['color/interactive/', 'color/disabled/'];
     const missing = [...fixByName.keys()].filter((n) => !outByName.has(n));
-    const extra = [...outByName.keys()].filter((n) => !fixByName.has(n));
+    const extra = [...outByName.keys()].filter((n) => !fixByName.has(n) && !ENGINE_ADDED_FAMILIES.some((p) => n.startsWith(p)));
     ok(missing.length === 0 && extra.length === 0, `figma ${key}: variable names match fixture (${fix.variables.length})` + (missing.length ? ` — MISSING ${missing.slice(0, 3).join(',')}` : '') + (extra.length ? ` — EXTRA ${extra.slice(0, 3).join(',')}` : ''));
 
     const scopeBad: string[] = [], aliasBad: string[] = [], valBad: string[] = [];
@@ -2240,9 +2383,11 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
     ok(vnb.warnings.length === 0 && vau.warnings.length === 0, `component: ${name} binds only semantic roles, no primitive-tier leak${[...vnb.warnings, ...vau.warnings].length ? ' — ' + [...vnb.warnings, ...vau.warnings].join('; ') : ''}`);
   }
 
-  // Button v1 carries the practice's resolved model: two-axis intent × appearance, secondary default.
-  ok(button.props.find((p) => p.name === 'intent')?.default === 'secondary', 'component: Button intent defaults to secondary (one primary per view)');
-  ok(!!button.props.find((p) => p.name === 'appearance'), 'component: Button carries the appearance axis (two-axis model, not a single variant enum)');
+  // Button carries the reconciled two-axis model bound to interactive.* (docs/20): intent
+  // {primary,neutral,destructive} × appearance {filled,outline,text}, neutral default.
+  ok(button.props.find((p) => p.name === 'intent')?.default === 'neutral', 'component: Button intent defaults to neutral (one primary per view)');
+  ok(JSON.stringify(button.variants.appearance) === JSON.stringify(['filled', 'outline', 'text']), 'component: Button appearance axis is filled/outline/text (reconciled)');
+  ok(!Object.values(button.tokens).some((v) => /color\.action\.|color\.foreground\.danger\.|foreground\.secondary/.test(String(v))), 'component: Button binds interactive.*/disabled.*, not the legacy action./danger./secondary roles');
   ok(iconButton.inherits === 'button' && !!iconButton.props.find((p) => p.name === 'aria-label')?.required, 'component: IconButton inherits button + REQUIRES an accessible name');
 
   // The drift gate bites: a broken def is caught (missing avoid_when + an unresolvable binding).

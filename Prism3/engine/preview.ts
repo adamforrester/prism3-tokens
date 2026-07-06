@@ -38,23 +38,23 @@ const surface = { bg: 'color.foreground.primary', text: 'color.text.primary', bo
 export const previewSpec: PreviewSpec = {
   components: [
     {
-      id: 'button', label: 'Button (primary)', description: 'The primary action — filled, on the action palette, across its states.',
-      variants: ['default', 'hover', 'pressed', 'disabled'].map((s) => ({
+      id: 'button', label: 'Button (primary, filled)', description: 'The primary action — interactive.primary filled, across its states; disabled is the cross-cutting disabled.* family.',
+      variants: (['rest', 'hover', 'pressed', 'disabled'] as const).map((s) => ({
         name: s,
         bindings: {
-          bg: s === 'disabled' ? 'color.action.disabled' : `color.action.${s}`,
-          text: s === 'disabled' ? 'color.text.on-disabled' : 'color.text.on-action',
+          bg: s === 'disabled' ? 'color.disabled.surface' : `color.interactive.primary.fill.${s}`,
+          text: s === 'disabled' ? 'color.disabled.on-disabled' : 'color.interactive.primary.on-fill',
           radius: 'radius.md', padX: 'space.300', padY: 'space.150', type: 'type.label.md.emphasis',
         },
-        contracts: [{ fg: s === 'disabled' ? 'color.text.on-disabled' : 'color.text.on-action', bg: s === 'disabled' ? 'color.action.disabled' : `color.action.${s}`, min: s === 'disabled' ? UI : TEXT, label: 'label on fill' }],
+        contracts: [{ fg: s === 'disabled' ? 'color.disabled.on-disabled' : 'color.interactive.primary.on-fill', bg: s === 'disabled' ? 'color.disabled.surface' : `color.interactive.primary.fill.${s}`, min: s === 'disabled' ? UI : TEXT, label: 'label on fill' }],
       })),
     },
     {
-      id: 'button-secondary', label: 'Button (secondary)', description: 'White-fill + brand border and label — the demoted action.',
+      id: 'button-secondary', label: 'Button (primary, outline)', description: 'The demoted action — interactive.primary outline: border + text ink, no fill (no brand.* leak).',
       variants: [{
         name: 'default',
-        bindings: { bg: 'color.background.primary', border: 'color.border.brand', text: 'color.foreground.brand', radius: 'radius.md', padX: 'space.300', padY: 'space.150', type: 'type.label.md.emphasis' },
-        contracts: [{ fg: 'color.foreground.brand', bg: 'color.background.primary', min: TEXT, label: 'label on page' }, { fg: 'color.border.brand', bg: 'color.background.primary', min: UI, label: 'border on page' }],
+        bindings: { bg: 'color.background.primary', border: 'color.interactive.primary.border', text: 'color.interactive.primary.text', radius: 'radius.md', padX: 'space.300', padY: 'space.150', type: 'type.label.md.emphasis' },
+        contracts: [{ fg: 'color.interactive.primary.text', bg: 'color.background.primary', min: TEXT, label: 'label on page' }, { fg: 'color.interactive.primary.border', bg: 'color.background.primary', min: UI, label: 'border on page' }],
       }],
     },
     {
@@ -93,8 +93,8 @@ export const previewSpec: PreviewSpec = {
       variants: [
         { name: 'default', bindings: { text: 'color.text.secondary', type: 'type.label.md.emphasis', padX: 'space.200', padY: 'space.150' },
           contracts: [{ fg: 'color.text.secondary', bg: 'color.background.primary', min: TEXT, label: 'label on page' }] },
-        { name: 'selected', bindings: { text: 'color.text.brand', indicator: 'color.action.default', type: 'type.label.md.emphasis', padX: 'space.200', padY: 'space.150' },
-          contracts: [{ fg: 'color.text.brand', bg: 'color.background.primary', min: TEXT, label: 'selected label' }, { fg: 'color.action.default', bg: 'color.background.primary', min: UI, label: 'indicator' }] },
+        { name: 'selected', bindings: { text: 'color.text.brand', indicator: 'color.interactive.primary.border', type: 'type.label.md.emphasis', padX: 'space.200', padY: 'space.150' },
+          contracts: [{ fg: 'color.text.brand', bg: 'color.background.primary', min: TEXT, label: 'selected label' }, { fg: 'color.interactive.primary.border', bg: 'color.background.primary', min: UI, label: 'indicator' }] },
       ],
     },
     {

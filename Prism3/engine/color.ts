@@ -125,6 +125,16 @@ export const contrast = (a: RGB, b: RGB): number => {
 /** WCAG relative luminance of a color as actually rendered (0..1). */
 export const luminance = (rgb: RGB): number => relLuminance(rgb);
 
+/** Composite a translucent `over` colour at alpha `a` (0..1) onto an opaque `base`
+ *  — straight "source-over" in sRGB, the model Figma/CSS use for a solid fill under
+ *  a translucent one. Used to verify that content stays legible on the *result* of
+ *  an interactive overlay sitting on a surface (docs/20 §13). */
+export const composite = (base: RGB, over: RGB, a: number): RGB => ({
+  r: over.r * a + base.r * (1 - a),
+  g: over.g * a + base.g * (1 - a),
+  b: over.b * a + base.b * (1 - a),
+});
+
 /**
  * Luminance window in which a color clears `ratio`:1 against BOTH white and
  * black. For 4.5 it is the famously narrow [~0.175, ~0.183] — this is what

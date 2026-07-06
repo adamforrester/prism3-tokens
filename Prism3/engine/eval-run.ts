@@ -49,7 +49,7 @@ export const buildPrompt = (tasks: EvalTask[], catalog?: string[], wantPairs = f
   // reaches the same compliance the per-brand sidecar did (docs/17 §4).
   const surface = skill ? `${withGuidance}\nConsumption skill — apply these portable rules when choosing and pairing tokens:\n${skill}\n` : withGuidance;
   const taskList = tasks.map((t) => `- **${t.name}**: ${t.brief}`).join('\n');
-  const preamble = `You are a frontend engineer building UI components for the "Prism3" design system, referencing design tokens by dotted path (e.g. color.action.default, space.400, radius.md).\n${surface}\n`;
+  const preamble = `You are a frontend engineer building UI components for the "Prism3" design system, referencing design tokens by dotted path (e.g. color.interactive.primary.fill.rest, space.400, radius.md).\n${surface}\n`;
   if (!wantPairs) {
     return `${preamble}For each task, list the token dotted-paths you would reference:\n${taskList}\n\nReturn ONLY a JSON object mapping each task name to an array of token paths:\n{${tasks.map((t) => `"${t.name}": ["..."]`).join(', ')}}`;
   }

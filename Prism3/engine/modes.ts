@@ -25,7 +25,7 @@
  * HIGH CONTRAST the neutral surface ladders flatten to the base — HC separates
  * regions by BORDER (the ≥4.5:1 border target), not by near-invisible tints.
  */
-import { RGB, contrast, hex } from './color';
+import { RGB, contrast, hex, composite } from './color';
 import { Step } from './ramp';
 import { Theme, SurfaceSpec, SurfacesConfig, Role } from './theme';
 
@@ -318,6 +318,117 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
     put(`action.${st}`, rated(c, st === 'disabled' ? baseRgb : floorRgb),
       `Interactive (action) fill — ${st}`, st === 'disabled' ? 'background.primary' : cfg.floorName, st === 'disabled' ? 0 : cfg.actionMin);
   }
+
+  // ------------------------------------------------------- interactive family
+  // The coherent, generated, contrast-gated interactive colour family (docs/20).
+  // ONE home for every interactive element's colour: `interactive.<color>.<slot>`.
+  // Colours: primary (the action palette) · neutral · destructive; `accent` is
+  // added later behind the accentPalette lever. Slots: fill (+ its states),
+  // on-fill (ink), text (outline/text ink), border. This is ADDITIVE for now —
+  // it stands beside the legacy `action.*` / `foreground.danger.*` roles until
+  // components rebind (docs/20 §16.3), so no contract goes red mid-migration.
+  const iFill = (name: string, rest: RatedNum, palette: string, fillMin: number) => {
+    for (const st of FILL_STATES) {
+      const c = fillStateCand(rest, palette, st);
+      // The interactive family leads with `rest` (docs/20 §2 — rest/hover/pressed);
+      // the base-state key `default` is kept only on the non-interactive roles.
+      const stKey = st === 'default' ? 'rest' : st;
+      put(`interactive.${name}.fill.${stKey}`, rated(c, st === 'disabled' ? baseRgb : floorRgb),
+        `${name} interactive fill — ${stKey}`, st === 'disabled' ? 'background.primary' : cfg.floorName, st === 'disabled' ? 0 : fillMin);
+    }
+    put(`interactive.${name}.on-fill`, onColor(rest.rgb), `Ink on the ${name} interactive fill`, `interactive.${name}.fill.rest`, onMin);
+  };
+  // Neutral fill anchor — a subtle grey by default (neutralEmphasis lever, later).
+  // Returns a RatedNum so its states can walk the neutral ramp like any palette.
+  const neutralStepR = (num: number): RatedNum => {
+    const steps = ramps.get(r2p.neutral)!;
+    const s = steps.reduce((a, b) => (Math.abs(b.num - num) < Math.abs(a.num - num) ? b : a));
+    return { path: `${ns}.${r2p.neutral}.${s.key}`, rgb: s.rgb, num: s.num, ratio: contrast(s.rgb, floorRgb) };
+  };
+
+  // primary — the action palette, contrast-verified.
+  iFill('primary', actionRest, r2p.action, cfg.actionMin);
+  put('interactive.primary.text', paletteRole('action', baseRgb, cfg.secondaryMin), 'Primary interactive ink (outline / text appearance)', 'background.primary', cfg.secondaryMin);
+  put('interactive.primary.border', rated(chromatic(r2p.action, 500, baseRgb, cfg.nonTextMin), baseRgb), 'Primary interactive border (outline)', 'background.primary', cfg.nonTextMin);
+
+  // destructive — the danger palette (its own interactive column, no scavenging).
+  const iDestructiveRest = paletteRole('danger', floorRgb, cfg.actionMin);
+  iFill('destructive', iDestructiveRest, r2p.danger, cfg.actionMin);
+  put('interactive.destructive.text', paletteRole('danger', baseRgb, cfg.secondaryMin), 'Destructive interactive ink (outline / text appearance)', 'background.primary', cfg.secondaryMin);
+  put('interactive.destructive.border', rated(chromatic(r2p.danger, 500, baseRgb, cfg.nonTextMin), baseRgb), 'Destructive interactive border (outline)', 'background.primary', cfg.nonTextMin);
+
+  // neutral — the achromatic column that was the historical miss (docs/20 §12). The
+  // `neutralEmphasis` lever picks the fill: 'subtle' (default) a light grey (min 0 — a
+  // subtle surface); 'strong' a bold near-black (light) / near-white (dark) fill that
+  // clears the non-text floor. Either way the LOAD-BEARING contract is the on-fill ink,
+  // derived + gated to onMin, so a failing neutral pair can't ship.
+  const neutralStrong = theme.neutralEmphasis === 'strong';
+  const neutralAnchor = neutralStrong ? (cfg.family === 'light' ? 800 : 150) : (cfg.family === 'light' ? 150 : 850);
+  iFill('neutral', neutralStepR(neutralAnchor), r2p.neutral, neutralStrong ? cfg.nonTextMin : 0);
+  put('interactive.neutral.text', pickMostExtreme(textCands, baseRgb), 'Neutral interactive ink (outline / text appearance) — strongest neutral', 'background.primary', cfg.secondaryMin);
+  put('interactive.neutral.border', pickMinPass(ramp, baseRgb, cfg.nonTextMin), 'Neutral interactive border (outline)', 'background.primary', cfg.nonTextMin);
+
+  // accent — opt-in SECOND interactive colour (docs/20 §3), generated only when the brand
+  // declares an accent palette. Never falls back to primary (the resolver rejects an accent
+  // that equals the action palette), so a brand without one simply has no accent column.
+  if (theme.accentPalette) {
+    const accentAnchor = theme.accentAnchorStep ?? 500;
+    const accentRest = chromatic(theme.accentPalette, accentAnchor, floorRgb, cfg.actionMin);
+    iFill('accent', accentRest, theme.accentPalette, cfg.actionMin);
+    put('interactive.accent.text', rated(chromatic(theme.accentPalette, accentAnchor, baseRgb, cfg.secondaryMin), baseRgb), 'Accent interactive ink (outline / text appearance)', 'background.primary', cfg.secondaryMin);
+    put('interactive.accent.border', rated(chromatic(theme.accentPalette, 500, baseRgb, cfg.nonTextMin), baseRgb), 'Accent interactive border (outline)', 'background.primary', cfg.nonTextMin);
+  }
+
+  // inverse surface-context (docs/20 §9): the ink for an OUTLINE / TEXT interactive control
+  // placed on a dark hero / inverse section — a light CTA on dark, generated + contrast-verified
+  // against the inverse surface (not a hand-mirrored -inverse twin). Independent of light/dark
+  // theme; a light-only brand still needs it. The `inverse` lever gates it.
+  if (theme.inverseContext) {
+    const invInk = (name: string, palette: string | null, anchor: number) =>
+      put(`interactive.${name}.on-inverse`,
+        palette ? rated(chromatic(palette, anchor, invRgb, cfg.secondaryMin), invRgb) : pickMostExtreme(textCands, invRgb),
+        `${name} interactive ink on an inverse / dark surface (outline / text on a dark hero)`,
+        'background.inverse.primary', cfg.secondaryMin);
+    invInk('primary', r2p.action, theme.roleAnchorStep.action);
+    invInk('destructive', r2p.danger, theme.roleAnchorStep.danger);
+    invInk('neutral', null, 0);
+    if (theme.accentPalette) invInk('accent', theme.accentPalette, theme.accentAnchorStep ?? 500);
+  }
+
+  // interactive overlays (docs/20 §6) — translucent hover/pressed/selected washes that
+  // composite over ANY surface (page, dark hero, image), the outline/text-appearance and
+  // row/menu/card hover story. `overlay-neutral` (default) uses the mode-adaptive neutral
+  // alpha ramp (darken in light, lighten in dark). The composited RESULT is contrast-gated
+  // (§13): text.primary must stay ≥ AA on the page once the overlay sits on it — a real
+  // contract that fails on too-heavy a wash (notably a lightening overlay in dark mode).
+  // `solid-tint` (opaque foreground.<color>-subtle) and `none` opt out — no overlay tokens.
+  if (theme.outlineInteraction === 'overlay-neutral') {
+    const overlayPal = cfg.family === 'light' ? 'black-alpha' : 'white-alpha';
+    const overlayBase = cfg.family === 'light' ? BLACK : WHITE;
+    const OVERLAY_ALPHA: [string, number][] = [['hover', 10], ['pressed', 20], ['selected', 20]];
+    const contentRgb = pickMostExtreme(textCands, baseRgb).rgb;   // text.primary — the strongest content ink
+    const overlayColors = theme.accentPalette ? ['primary', 'neutral', 'destructive', 'accent'] : ['primary', 'neutral', 'destructive'];
+    for (const color of overlayColors) {
+      for (const [st, step] of OVERLAY_ALPHA) {
+        const ratio = contrast(contentRgb, composite(baseRgb, overlayBase, step / 100));
+        put(`interactive.${color}.overlay.${st}`,
+          { path: `${ns}.${overlayPal}.${step}`, rgb: overlayBase, ratio },
+          `${color} interactive overlay — ${st} (${step}% neutral wash; composites over any surface)`,
+          'text.primary', cfg.secondaryMin);
+      }
+    }
+  }
+
+  // ---- disabled — cross-cutting (docs/20 §7): ONE treatment, not per-colour. A disabled
+  // control looks disabled regardless of intent (surface / on-disabled / text / icon /
+  // border), governed by the `disabledStrategy` lever. Additive for now — the per-colour
+  // action.disabled / foreground.danger.disabled / interactive.*.fill.disabled remain until
+  // components rebind to `disabled.*` and the scattered states are removed in the migration.
+  putSurf('disabled.surface', neutralLow(), 'Disabled control fill — one muted neutral, any intent');
+  { const d = onDisabled(); put('disabled.on-disabled', d.r, `Label / icon on a disabled fill — muted but ${accessibleDisabled ? `clears ${d.min}:1` : 'sub-AA (WCAG-exempt)'}`, 'disabled.surface', d.min); }
+  { const d = disabledText(); put('disabled.text', d.r, accessibleDisabled ? `Disabled text — clears ${disabledTarget}:1 (accessible)` : 'Disabled text — sub-AA (WCAG-exempt)', d.against, d.min); }
+  { const d = disabledText(); put('disabled.icon', d.r, accessibleDisabled ? `Disabled icon — clears ${disabledTarget}:1 (accessible)` : 'Disabled icon — sub-AA (WCAG-exempt)', d.against, d.min); }
+  put('disabled.border', rated(neutralLow(), baseRgb), 'Disabled control border — muted neutral', 'background.primary', 0);
 
   // -------------------------------------------------------------- text (+ icon)
   // Ink. Built from a floor PROFILE so `text` (4.5:1) and `icon` can diverge: with

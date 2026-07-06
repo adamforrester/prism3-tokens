@@ -86,7 +86,7 @@ Prism3 keeps inverse but reframes it as a **surface *context*** ("this control s
 
 ## 10. Levers (brand inputs)
 
-- **`outlineInteraction`** — `overlay-neutral` · `overlay-tint` (the colour's hue at low alpha) · `solid-tint` · `none`. How an outline/text control expresses hover (the "what do we fill it with" question, answered per brand).
+- **`outlineInteraction`** — `overlay-neutral` · `overlay-tint` (the colour's hue at low alpha) · `solid-tint` · `none`. How an outline/text control expresses hover (the "what do we fill it with" question, answered per brand). *(inc-2: `overlay-neutral` (default) generates the neutral washes + composited-contrast gate; `solid-tint`/`none` opt out. `overlay-tint` is scheduled — needs per-colour alpha ramps.)*
 - **`neutralEmphasis`** — `subtle` (light-grey, the default) · `strong` (bold near-black neutral). The neutral button's boldness.
 - **`accent`** — implicit: present iff the brand declares an accent colour (§3).
 - **`inverse`** — whether the brand ships the inverse surface-context (§9).
@@ -132,9 +132,17 @@ Every `interactive.*` token is **generated** (walk the intent's palette for fill
 
 ## 16. Next steps
 
-1. Reconcile the KB `button.md` §15 to this vocabulary (`filled/outline/text` + the four colours) so brief and engine agree.
-2. Engine PR: generate the `interactive.*` family (rename from `action`), the `overlay.*` family, cross-cutting `disabled.*`, the inverse surface-context, and the new levers — regenerate `out/*`, hold the 248 contracts + regression, and add the composited-overlay contrast check.
-3. Rebind Button/IconButton (and the eval preview) to `interactive.*`.
+1. ✅ Reconcile the KB `button.md` §15 to this vocabulary (`filled/outline/text` + the four colours) so brief and engine agree.
+2. Engine PR (branch `claude/prism3-e2e-integration-8fwul4`, additive-first):
+   - ✅ inc-1 `interactive.{primary,neutral,destructive}` family (fill/on-fill/text/border; `rest`/hover/pressed states).
+   - ✅ inc-2 `overlay.*` washes + the composited-overlay contrast check + `outlineInteraction` lever.
+   - ✅ inc-3 cross-cutting `disabled.*`.
+   - ✅ inc-4 inverse surface-context (`interactive.<color>.on-inverse`) + `neutralEmphasis` + opt-in `accentPalette`.
+   - ⏳ **Legacy-role removal deferred to #67** — the `action.*` → `interactive.*` *rename* (dropping `action.*`, per-colour `foreground.danger.disabled`, `interactive.*.fill.disabled`, `text.disabled`) deletes vars present in the frozen real-NB figma fixture, so it lands with the NB-fidelity reconciliation. Until then the legacy roles stay generated alongside the new families.
+   - ⏳ `overlay-tint` lever value (per-colour hue at alpha) — needs per-colour alpha ramps.
+3. ✅ Rebind Button/IconButton (and the eval preview) to `interactive.*` / `disabled.*` — reconciled to
+   `filled/outline/text × primary/neutral/destructive`; the v1 HIGH finding (hover-less default button)
+   is closed because neutral now carries states. `brand.*`-on-buttons leak removed from the preview.
 4. `field.*` with the Text Field calibration component.
 
 ---
