@@ -177,6 +177,56 @@ for (const b of brands) {
   ok(broken.length === 0, 'nbTheme all contracts pass' + (broken.length ? ` — FAILED: ${broken.join(', ')}` : ''));
 }
 
+// INTERACTIVE COLOUR FAMILY (docs/20, increment 1) — pin the increment's intent
+// where the frozen real-NB fixture no longer can: action.* stays PRESERVED (the
+// migration is additive), the interactive.<color> family has the full slot/state
+// shape, the historical neutral miss (§12) is a GATED contract that passes in
+// every mode, and the Figma slots carry slot-aware scopes.
+{
+  const modes = resolveAllModes(nbTheme());
+  const light = modes.find((m) => m.mode === 'light')!.roles;
+
+  // (a) legacy action.* fully preserved alongside the new family (nothing rebinds yet).
+  const actionMissing = ['default', 'hover', 'pressed', 'focused', 'selected', 'disabled']
+    .map((s) => `action.${s}`).filter((k) => !(k in light));
+  ok(actionMissing.length === 0, 'interactive: legacy action.* preserved (additive)' + (actionMissing.length ? ` — MISSING ${actionMissing.join(',')}` : ''));
+
+  // (b) interactive.<color> shape — three colours, each fill(+6 states)/on-fill/text/border.
+  const shapeMissing: string[] = [];
+  for (const c of ['primary', 'neutral', 'destructive']) {
+    for (const st of ['rest', 'hover', 'pressed', 'focused', 'selected', 'disabled'])
+      if (!(`interactive.${c}.fill.${st}` in light)) shapeMissing.push(`interactive.${c}.fill.${st}`);
+    for (const slot of ['on-fill', 'text', 'border'])
+      if (!(`interactive.${c}.${slot}` in light)) shapeMissing.push(`interactive.${c}.${slot}`);
+  }
+  ok(shapeMissing.length === 0, 'interactive: primary/neutral/destructive each carry fill(+6 states)/on-fill/text/border' + (shapeMissing.length ? ` — MISSING ${shapeMissing.slice(0, 4).join(',')}` : ''));
+
+  // (c) neutral fill.rest is a subtle SURFACE (min 0) — the gated pair is its ink, not the fill.
+  ok(light['interactive.neutral.fill.rest'].min === 0, 'interactive: neutral.fill.rest is a min-0 subtle surface');
+
+  // (d) the historical neutral MISS (§12) is now a passing gated contract in EVERY mode:
+  //     on-fill contrast-verified against fill.rest at onMin (4.5).
+  const neutralFails: string[] = [];
+  for (const m of modes) {
+    const r = m.roles['interactive.neutral.on-fill'];
+    if (!r) { neutralFails.push(`${m.mode}:absent`); continue; }
+    if (r.min < 4.5) neutralFails.push(`${m.mode}:min=${r.min}`);
+    if (r.against !== 'interactive.neutral.fill.rest') neutralFails.push(`${m.mode}:against=${r.against}`);
+    if (r.ratio < r.min) neutralFails.push(`${m.mode}:${r.ratio.toFixed(2)}<${r.min}`);
+  }
+  ok(neutralFails.length === 0, 'interactive: neutral on-fill is a passing gated contract in every mode' + (neutralFails.length ? ` — ${neutralFails.join(',')}` : ''));
+
+  // (e) Figma slots are scoped by SLOT (fill→paint, text→TEXT_FILL, border→STROKE_COLOR).
+  const { color } = buildFigmaColor(nbTheme());
+  const byName = new Map<string, any>(color.find((c) => c.$mode === 'light')!.variables.map((v: any) => [v.name, v]));
+  const scopeOf = (n: string) => JSON.stringify(byName.get(n)?.scopes ?? null);
+  const scopeBad: string[] = [];
+  if (scopeOf('color/interactive/primary/text') !== JSON.stringify(['TEXT_FILL'])) scopeBad.push('primary/text');
+  if (scopeOf('color/interactive/primary/border') !== JSON.stringify(['STROKE_COLOR'])) scopeBad.push('primary/border');
+  if (scopeOf('color/interactive/primary/fill/rest') !== JSON.stringify(['FRAME_FILL', 'SHAPE_FILL'])) scopeBad.push('primary/fill/rest');
+  ok(scopeBad.length === 0, 'interactive: Figma slots carry slot-aware scopes' + (scopeBad.length ? ` — ${scopeBad.join(',')}` : ''));
+}
+
 // L-02: dualContrastWindow is only defined up to √21 ≈ 4.583 (the max ratio any single
 // luminance clears on BOTH extremes). At 4.5 it returns a valid non-empty window; past
 // √21 it must THROW rather than hand back an inverted [min>max] pair.
@@ -861,8 +911,16 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
     const out = emitted[key];
     const fixByName = new Map<string, any>(fix.variables.map((v: any) => [v.name, v]));
     const outByName = new Map<string, any>(out.variables.map((v: any) => [v.name, v]));
+    // The fixture is the FROZEN real NB Token Press export. `missing === 0` keeps the
+    // byte-repro guarantee (every real-NB var is still emitted, and the scope/alias/value
+    // checks below verify them). Engine-invented FAMILIES that NB's export predates
+    // (interactive.* — docs/20) are allow-listed out of the `extra` check: they are
+    // pinned for shape/scope in the dedicated interactive block below, not here — so this
+    // gate still fails on a spurious var inside a REAL family. (Fixture-character decision,
+    // 2026-07-06; pairs with #67.)
+    const ENGINE_ADDED_FAMILIES = ['color/interactive/'];
     const missing = [...fixByName.keys()].filter((n) => !outByName.has(n));
-    const extra = [...outByName.keys()].filter((n) => !fixByName.has(n));
+    const extra = [...outByName.keys()].filter((n) => !fixByName.has(n) && !ENGINE_ADDED_FAMILIES.some((p) => n.startsWith(p)));
     ok(missing.length === 0 && extra.length === 0, `figma ${key}: variable names match fixture (${fix.variables.length})` + (missing.length ? ` — MISSING ${missing.slice(0, 3).join(',')}` : '') + (extra.length ? ` — EXTRA ${extra.slice(0, 3).join(',')}` : ''));
 
     const scopeBad: string[] = [], aliasBad: string[] = [], valBad: string[] = [];

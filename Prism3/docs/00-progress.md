@@ -25,8 +25,13 @@ checkpoint): the generated `interactive.<color>.<slot>` family**, ADDITIVE along
   Contract count rises automatically (tree.ts counts every `min>0` role); nb/wendys/aurora/harbor
   all hold (e.g. harbor 324/324).
 - **`emit-figma.ts`** — `interactive` is scoped by its SLOT (fill→FRAME/SHAPE_FILL, on-fill→+TEXT_FILL,
-  text→TEXT_FILL, border→STROKE_COLOR), not the family. NB figma colour fixtures updated append-only
-  (+27 vars/mode, existing entries byte-identical).
+  text→TEXT_FILL, border→STROKE_COLOR), not the family.
+- **Fixture-character decision (2026-07-06, post-review; pairs with #67):** the NB figma colour
+  fixtures stay the **frozen real Token Press export** (95 vars/mode) — engine-invented families
+  (`interactive.*`) NB never shipped are **allow-listed** out of the exact-match gate (`missing===0`
+  keeps the byte-repro; a spurious var inside a *real* family still fails). The interactive family's
+  shape/scopes/gating is pinned in a dedicated `test.ts` block instead (test 639→**644**), so the
+  fixture doesn't quietly become an engine snapshot.
 - **`ai-metadata.ts`** — a depth-aware `describeInteractive` for the 4-segment keys (the generic
   `[group, variant, state]` split dropped the state); every `interactive.*` token now carries proper
   `when_to_use` / `avoid_when` / `paired_with` / `contrast_with`.
