@@ -41,14 +41,12 @@ const SIGNAL: Record<string, string> = {
   danger: 'Destructive / error signalling', info: 'Informational signalling',
 };
 const genMeaning = (group: string, variant: string): string => {
-  if (group === 'action') return 'Interactivity / actions';
   if (group === 'disabled') return 'Unavailable / inactive state';
   if (variant === 'link') return 'Interactivity / navigation';
   if (variant === 'focus') return 'Keyboard focus indication';
   if (SIGNAL[variant]) return SIGNAL[variant];                                  // intent fill/text/icon/border (incl. danger)
   if (variant.endsWith('-subtle')) { const i = variant.replace('-subtle', ''); return `${SIGNAL[i] ?? cap(i)} (low-emphasis)`; }
-  if (variant.startsWith('on-')) { const x = variant.slice(3); return `Legible content on ${x === 'inverse' ? 'an inverse surface' : x === 'action' ? 'the action fill' : x === 'disabled' ? 'a disabled fill' : (INTENT[x] ?? x) + ' fills'}`; }
-  if (variant === 'disabled') return 'Unavailable / inactive state';
+  if (variant.startsWith('on-')) { const x = variant.slice(3); return `Legible content on ${x === 'inverse' ? 'an inverse surface' : (INTENT[x] ?? x) + ' fills'}`; }
   if (variant === 'inverse') return group === 'border' ? 'Inverted-surface separation' : group === 'background' ? 'Inverted page surface' : 'Inverted / bold surface';
   if (group === 'background') return 'Page / canvas surface';
   if (group === 'foreground') return 'Surface / fill on the canvas';
@@ -58,11 +56,11 @@ const genMeaning = (group: string, variant: string): string => {
   return `${cap(group)} role`;
 };
 // the on-color target an on-* label sits on
-const onTarget = (x: string): string => x === 'action' ? 'action.default' : x === 'inverse' ? 'background.inverse.primary' : x === 'disabled' ? 'action.disabled' : `foreground.${x}`;
+const onTarget = (x: string): string => x === 'inverse' ? 'background.inverse.primary' : `foreground.${x}`;
 
 /** Generate the prose + relationship fields for one semantic role. The key splits
  *  as [group, variant, state]; nested ladders (background.inverse.primary,
- *  foreground.danger.hover) put the tier/state in `state`. */
+ *  text.link.hover) put the tier/state in `state`. */
 const describe = (group: string, variant: string, state: string | undefined): { desc: string; when_to_use: string; avoid_when: string; paired_with?: string[] } => {
   const st = state ? ` (${state} state)` : '';
   const intent = INTENT[variant];
@@ -77,22 +75,18 @@ const describe = (group: string, variant: string, state: string | undefined): { 
   if (group === 'foreground') {
     if (variant === 'inverse') { const tier = state ?? 'primary'; return { desc: `Inverse / bold surface (tier ${TIER_N[tier] ?? 1})`, when_to_use: 'Strong / inverse fills — a dark callout, a solid neutral button, an emphasis surface in light mode.', avoid_when: 'Do not use for the page (use background.*) or for ink (use text/icon).', paired_with: ['text.on-inverse'] }; }
     if (TIER_N[variant]) return { desc: `Surface placed on the canvas (tier ${TIER_N[variant]})`, when_to_use: variant === 'primary' ? 'Cards — the default surface placed on the page.' : variant === 'secondary' ? 'Panels / nested containers.' : 'A third surface step.', avoid_when: 'Do not use for the page itself (use background.*) or for ink (use text/icon).', paired_with: ['text.primary', 'border.primary'] };
-    if (variant === 'danger') return { desc: `Destructive / error fill${st}`, when_to_use: `Destructive actions — delete/remove buttons, error fills${sc(state)}.`, avoid_when: 'Do not use for non-destructive actions (use action.*) or warnings (use foreground.warning).', paired_with: ['text.on-danger', 'icon.on-danger'] };
     if (variant.endsWith('-subtle')) { const i = variant.replace('-subtle', ''); return { desc: `Subtle ${INTENT[i] ?? i} tint surface`, when_to_use: `Low-emphasis ${i} surfaces — banners, badges, selected rows.`, avoid_when: `Do not use as a solid ${i} fill (use foreground.${i}) or for ${i} ink (use text.${i}).`, paired_with: [`text.${i}`, `icon.${i}`] }; }
     if (intent) return { desc: `Bold solid ${intent} fill`, when_to_use: `Filled ${variant} elements — badges, banners, status chips.`, avoid_when: `Do not use for ${variant} ink (use text.${variant}) or as a subtle tint (use foreground.${variant}-subtle).`, paired_with: [`text.on-${variant}`, `icon.on-${variant}`] };
   }
-
-  // action — the interactive fill (variant carries the state)
-  if (group === 'action') return { desc: `Interactive (action) fill${variant === 'default' ? '' : ` (${variant} state)`}`, when_to_use: `Primary interactive surfaces — buttons, toggles, controls${sc(variant)}.`, avoid_when: 'Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background/foreground).', paired_with: ['text.on-action', 'icon.on-action'] };
 
   // text / icon — INK
   if (group === 'text' || group === 'icon') {
     const k = group;
     if (TIER_N[variant]) return { desc: `${EMPHASIS[variant]} ${k}`, when_to_use: `${cap(variant)} ${k} on any surface (holds across the tonal ladder).`, avoid_when: `Do not use on solid/vivid fills — use ${k}.on-*.`, paired_with: ['background.primary', 'foreground.primary'] };
-    if (variant === 'disabled') return { desc: `Disabled / inactive ${k}`, when_to_use: `${cap(k)} for disabled or inactive elements.`, avoid_when: 'Do not use for active content.' };
+    // (disabled ink is the cross-cutting disabled.text / disabled.icon, group === 'disabled' below.)
     if (variant === 'link') return { desc: `Link (interactive ${k})${st}`, when_to_use: `Hyperlinks and interactive ${k}${sc(state)}.`, avoid_when: `Do not use for non-interactive ${k} (use ${k}.primary).` };
     if (variant.endsWith('-subtle')) { const i = variant.replace('-subtle', ''); return { desc: `Muted ${INTENT[i] ?? i} ${k}`, when_to_use: `Low-emphasis ${i} ${k} — secondary status text / quiet accents.`, avoid_when: `For safety-critical ${i} messaging use the bold ${k}.${i}; verify contrast for body text.`, paired_with: ['background.primary'] }; }
-    if (variant.startsWith('on-')) { const x = variant.slice(3); return { desc: `${cap(k)} on ${x === 'inverse' ? 'an inverse surface' : x === 'disabled' ? 'a disabled fill (muted)' : `a solid ${INTENT[x] ?? x} fill`}`, when_to_use: x === 'disabled' ? `The label/${k} on a disabled control's fill — muted but legible (paired with action.disabled / foreground.danger.disabled).` : `${cap(k)} placed on the ${x === 'inverse' ? 'inverse surface' : x + ' fill'} it is paired with.`, avoid_when: x === 'disabled' ? `Do not use on an enabled fill (use ${k}.on-action / on-{semantic}) or on the page (use ${k}.disabled).` : `Do not use on standard surfaces — use ${k}.primary/secondary.`, paired_with: [onTarget(x)] }; }
+    if (variant.startsWith('on-')) { const x = variant.slice(3); return { desc: `${cap(k)} on ${x === 'inverse' ? 'an inverse surface' : `a solid ${INTENT[x] ?? x} fill`}`, when_to_use: `${cap(k)} placed on the ${x === 'inverse' ? 'inverse surface' : x + ' fill'} it is paired with.`, avoid_when: `Do not use on standard surfaces — use ${k}.primary/secondary.`, paired_with: [onTarget(x)] }; }
     if (intent) return { desc: `${cap(intent)} ${k}`, when_to_use: `${cap(variant)} ${k} on standard surfaces (e.g. inline error/success text).`, avoid_when: `Do not use on a solid ${variant} fill — use ${k}.on-${variant}.`, paired_with: ['background.primary'] };
   }
 

@@ -169,7 +169,7 @@
           "bindings": {
             "bg": "color.background.secondary",
             "border": "color.border.secondary",
-            "text": "color.text.disabled",
+            "text": "color.disabled.text",
             "radius": "radius.sm",
             "padX": "space.200",
             "padY": "space.150",
@@ -177,7 +177,7 @@
           },
           "contracts": [
             {
-              "fg": "color.text.disabled",
+              "fg": "color.disabled.text",
               "bg": "color.background.secondary",
               "min": 3,
               "label": "disabled value"

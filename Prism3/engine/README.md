@@ -95,20 +95,21 @@ review. `background` is the canvas; `foreground` is what sits on it:
   in dark). Backed by an `opacity.*` scale + `black-alpha`/`white-alpha` ramps.
 - `foreground.*` — the **surfaces/fills** on the canvas (Prism2's `surface`,
   renamed): a tonal `primary`/`secondary`/`tertiary` ladder + `inverse.*` (dark
-  fills in light) + bold semantic fills (`brand`/`success`/`warning`/`info`) +
-  `{semantic}-subtle` tints + the stateful `danger.*` fill. `foreground.primary`
-  sits on `background.primary`.
+  fills in light) + bold semantic fills (`brand`/`success`/`warning`/`danger`/`info`) +
+  `{semantic}-subtle` tints. `foreground.primary` sits on `background.primary`.
+  (`danger` is a static bold fill like the others — its stateful / interactive
+  expression is `interactive.destructive.*` below, not a per-state `danger.*`.)
 - `interactive.<colour>.*` — **the interactive colour family** (docs/20): `primary` · `neutral`
-  · `destructive` (+ opt-in `accent`), each with `fill` (+ `rest`/hover/pressed/… states),
-  `on-fill`, `text`, `border`, `overlay.*` washes, and an `on-inverse` ink. Cross-cutting
-  `disabled.*` (surface/on-disabled/text/icon/border) is one treatment for any intent. This is
-  what components bind. (`action.*` — the original top-level interactive fill — remains generated
-  for NB byte-repro; its removal, the `action`→`interactive` rename, lands with the #67 reconciliation.)
-- `text.*` / `icon.*` — **ink**: `primary/secondary/tertiary/disabled`, semantic +
-  `{semantic}-subtle` (muted), `on-action`/`on-{semantic}`/`on-inverse` pairs, an
-  `on-disabled` pair (the label on a disabled fill — Carbon's `text-on-color-
-  disabled`, resolved against that fill), and `link.*` (no disabled). `icon`
-  mirrors `text` unless `iconContrast: '3:1'`.
+  · `destructive` (+ opt-in `accent`), each with `fill` (+ `rest`/hover/pressed/focused/selected
+  states), `on-fill`, `text`, `border`, `overlay.*` washes, and an `on-inverse` ink. Cross-cutting
+  `disabled.*` (surface/on-disabled/text/icon/border) is one treatment for any intent, and is the
+  SOLE disabled family. This is what components bind — the legacy top-level `action.*` fill and the
+  scattered per-family disabled states are retired (task #14).
+- `text.*` / `icon.*` — **ink**: `primary/secondary/tertiary`, semantic +
+  `{semantic}-subtle` (muted), `on-{semantic}`/`on-inverse` pairs, and `link.*`
+  (no disabled). Disabled ink is the cross-cutting `disabled.text` / `disabled.icon`;
+  the ink on a disabled fill is `disabled.on-disabled` (Carbon's `text-on-color-disabled`,
+  resolved against that fill). `icon` mirrors `text` unless `iconContrast: '3:1'`.
 - `border.*` — `primary`/`secondary` (neutral), `inverse`, semantic, and `focus`.
 
 Elevation is **not** a colour group: a component composes a `foreground` tier + a

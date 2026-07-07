@@ -2,7 +2,7 @@
  * Prism3 engine — the PREVIEW SPEC (docs/08 §7, B1a).
  *
  * A portable, data-only description of sample components — each element binding to
- * semantic token paths (root-relative, e.g. `color.action.default`, `radius.md`,
+ * semantic token paths (root-relative, e.g. `color.interactive.primary.fill.rest`, `radius.md`,
  * `type.label.md.emphasis`) plus the contrast pairs to overlay. It is the shared
  * artifact that makes the Figma plugin and the web playground render the SAME live
  * preview: both host renderers read this one spec and resolve the paths against the
@@ -68,8 +68,8 @@ export const previewSpec: PreviewSpec = {
           contracts: [{ fg: 'color.text.primary', bg: 'color.background.primary', min: TEXT, label: 'value on field' }] },
         { name: 'focus', bindings: { bg: 'color.background.primary', border: 'color.border.focus', text: 'color.text.primary', radius: 'radius.sm', padX: 'space.200', padY: 'space.150', type: 'type.body.md.default' },
           contracts: [{ fg: 'color.border.focus', bg: 'color.background.primary', min: UI, label: 'focus ring' }] },
-        { name: 'disabled', bindings: { bg: 'color.background.secondary', border: 'color.border.secondary', text: 'color.text.disabled', radius: 'radius.sm', padX: 'space.200', padY: 'space.150', type: 'type.body.md.default' },
-          contracts: [{ fg: 'color.text.disabled', bg: 'color.background.secondary', min: UI, label: 'disabled value' }] },
+        { name: 'disabled', bindings: { bg: 'color.background.secondary', border: 'color.border.secondary', text: 'color.disabled.text', radius: 'radius.sm', padX: 'space.200', padY: 'space.150', type: 'type.body.md.default' },
+          contracts: [{ fg: 'color.disabled.text', bg: 'color.background.secondary', min: UI, label: 'disabled value' }] },
       ],
     },
     {

@@ -17,7 +17,9 @@
  *   - text/icon  — INK on a surface: neutral emphasis + semantic + `-subtle` +
  *                  `on-*` pairs (ink on a solid fill) + `link` (no disabled).
  *                  Split only by contrast floor (text 4.5 / icon optional 3:1).
- *   - action     — the interactive fill + states (top-level).
+ *   - interactive — the coherent interactive colour family (docs/20): every
+ *                  interactive element's colour, `interactive.<color>.<slot>`.
+ *   - disabled   — the one cross-cutting disabled treatment, any intent.
  *   - border     — neutral (`primary`/`secondary`), `inverse`, semantic, `focus`.
  *
  * Light & dark step surfaces tonally and SYMMETRICALLY (light is no longer all
@@ -149,8 +151,10 @@ const modeConfigs = (ns: string, neutralPalette: string, neutral: Step[], surfac
 
 // Per-property interactive state members (the applicable subset of the vocabulary).
 // Links (text.link) carry NO disabled state: a disabled link is an a11y anti-pattern
-// (you remove the href / element, not grey it). Disabled text uses text.disabled.
-const FILL_STATES = ['default', 'hover', 'pressed', 'focused', 'selected', 'disabled'] as const;
+// (you remove the href / element, not grey it). Disabled uses the cross-cutting disabled.*.
+// Interactive fill states (docs/20 §2): rest/hover/pressed + focused/selected. Disabled is
+// NOT a per-fill state — it's the one cross-cutting disabled.* family (one treatment, any intent).
+const FILL_STATES = ['default', 'hover', 'pressed', 'focused', 'selected'] as const;
 const LINK_STATES = ['default', 'hover', 'visited', 'focused'] as const;
 const SEMANTICS = ['brand', 'success', 'warning', 'danger', 'info'] as const;
 
@@ -250,15 +254,15 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
     accessibleDisabled
       ? { r: pickMinPass(textCands, floorRgb, disabledTarget), against: cfg.floorName, min: disabledTarget }
       : { r: pickClosest(textCands, baseRgb, 2), against: 'background.primary', min: 0 };
-  // The label/ink on a DISABLED fill (action.disabled / foreground.danger.disabled,
-  // both a muted neutral). A dedicated pair — Carbon's `text-on-color-disabled` —
-  // resolved against the disabled FILL (not the page), so it stays muted-but-
-  // legible on it rather than landing at the wrong contrast like `text.disabled`.
+  // The label/ink on a DISABLED fill (disabled.surface, a muted neutral). A dedicated
+  // pair — Carbon's `text-on-color-disabled` — resolved against the disabled FILL (not
+  // the page), so it stays muted-but-legible on it rather than landing at the wrong
+  // contrast like `disabled.text`. Feeds the cross-cutting `disabled.on-disabled`.
   const onDisabled = (): { r: Rated; against: string; min: number } => {
     const fill = neutralLow().rgb;                       // the shared disabled-fill colour
     return accessibleDisabled
-      ? { r: pickMinPass(textCands, fill, disabledTarget), against: 'action.disabled', min: disabledTarget }
-      : { r: pickClosest(textCands, fill, 2), against: 'action.disabled', min: 0 };
+      ? { r: pickMinPass(textCands, fill, disabledTarget), against: 'disabled.surface', min: disabledTarget }
+      : { r: pickClosest(textCands, fill, 2), against: 'disabled.surface', min: 0 };
   };
 
   // -------------------------------------------------------------- backgrounds
@@ -295,46 +299,39 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
   // subtle semantic tint SURFACES (light banner/badge fills) — pair with text.{r}.
   for (const r of SEMANTICS)
     putSurf(`foreground.${r}-subtle`, pStep(palOf(r2p[r]), tintStep), `Subtle ${r} tint surface — banners, badges, selected rows`);
-  // danger — the one stateful semantic fill (destructive buttons).
+  // danger — a bold semantic fill like the others (kept out of the loop above only to
+  // preserve its position + set fills.danger for the on-danger ink pairing). Its stateful /
+  // interactive expression now lives in `interactive.destructive.*` (docs/20), so the fill
+  // itself is static — there is no per-state danger fill.
   const dangerRest = paletteRole('danger', floorRgb, cfg.actionMin);
   fills.danger = dangerRest;
+  put('foreground.danger', dangerRest, `Bold danger fill — clears ${cfg.actionMin}:1 on the floor (${cfg.floorName})`, cfg.floorName, cfg.actionMin);
+  // Interactive fill states walk the palette (rest → hover/focused +1 → pressed/selected +2).
   const fillStateCand = (rest: RatedNum, palette: string, st: typeof FILL_STATES[number]): Cand =>
     st === 'default' ? rest
     : st === 'hover' || st === 'focused' ? walk(palette, rest.num, 1)
-    : st === 'pressed' || st === 'selected' ? walk(palette, rest.num, 2)
-    : neutralLow(); // disabled
-  for (const st of FILL_STATES) {
-    const d = fillStateCand(dangerRest, r2p.danger, st);
-    put(`foreground.danger.${st}`, rated(d, st === 'disabled' ? baseRgb : floorRgb),
-      `Danger / destructive fill — ${st}`, st === 'disabled' ? 'background.primary' : cfg.floorName, st === 'disabled' ? 0 : cfg.actionMin);
-  }
+    : walk(palette, rest.num, 2); // pressed | selected
 
-  // ------------------------------------------------------------------- action
-  // The interactive fill + states (top-level — Prism2 + KB). Its text/border
-  // expressions are text.link.* and border.focus.
+  // The action palette's rest colour — the source for interactive.primary, the focus ring,
+  // and link states. (The legacy top-level `action.*` fill is retired: components bind
+  // `interactive.primary.*`, docs/20 §16.)
   const actionRest = paletteRole('action', floorRgb, cfg.actionMin);
-  for (const st of FILL_STATES) {
-    const c = fillStateCand(actionRest, r2p.action, st);
-    put(`action.${st}`, rated(c, st === 'disabled' ? baseRgb : floorRgb),
-      `Interactive (action) fill — ${st}`, st === 'disabled' ? 'background.primary' : cfg.floorName, st === 'disabled' ? 0 : cfg.actionMin);
-  }
 
   // ------------------------------------------------------- interactive family
-  // The coherent, generated, contrast-gated interactive colour family (docs/20).
-  // ONE home for every interactive element's colour: `interactive.<color>.<slot>`.
-  // Colours: primary (the action palette) · neutral · destructive; `accent` is
-  // added later behind the accentPalette lever. Slots: fill (+ its states),
-  // on-fill (ink), text (outline/text ink), border. This is ADDITIVE for now —
-  // it stands beside the legacy `action.*` / `foreground.danger.*` roles until
-  // components rebind (docs/20 §16.3), so no contract goes red mid-migration.
+  // The coherent, generated, contrast-gated interactive colour family (docs/20) — the ONE
+  // home for every interactive element's colour: `interactive.<color>.<slot>`. Colours:
+  // primary (the action palette) · neutral · destructive; `accent` is opt-in behind the
+  // accentPalette lever. Slots: fill (+ its rest/hover/pressed/focused/selected states),
+  // on-fill (ink), text (outline/text ink), border. Disabled is NOT per-colour here — it is
+  // the cross-cutting disabled.* family below. This is what components bind (docs/20 §16.3).
   const iFill = (name: string, rest: RatedNum, palette: string, fillMin: number) => {
     for (const st of FILL_STATES) {
       const c = fillStateCand(rest, palette, st);
       // The interactive family leads with `rest` (docs/20 §2 — rest/hover/pressed);
       // the base-state key `default` is kept only on the non-interactive roles.
       const stKey = st === 'default' ? 'rest' : st;
-      put(`interactive.${name}.fill.${stKey}`, rated(c, st === 'disabled' ? baseRgb : floorRgb),
-        `${name} interactive fill — ${stKey}`, st === 'disabled' ? 'background.primary' : cfg.floorName, st === 'disabled' ? 0 : fillMin);
+      put(`interactive.${name}.fill.${stKey}`, rated(c, floorRgb),
+        `${name} interactive fill — ${stKey}`, cfg.floorName, fillMin);
     }
     put(`interactive.${name}.on-fill`, onColor(rest.rgb), `Ink on the ${name} interactive fill`, `interactive.${name}.fill.rest`, onMin);
   };
@@ -421,9 +418,9 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
 
   // ---- disabled — cross-cutting (docs/20 §7): ONE treatment, not per-colour. A disabled
   // control looks disabled regardless of intent (surface / on-disabled / text / icon /
-  // border), governed by the `disabledStrategy` lever. Additive for now — the per-colour
-  // action.disabled / foreground.danger.disabled / interactive.*.fill.disabled remain until
-  // components rebind to `disabled.*` and the scattered states are removed in the migration.
+  // border), governed by the `disabledStrategy` lever. This is the SOLE disabled family:
+  // the per-colour action.disabled / foreground.danger.disabled / interactive.*.fill.disabled
+  // are retired — components bind these five roles for any disabled control (docs/20 §16).
   putSurf('disabled.surface', neutralLow(), 'Disabled control fill — one muted neutral, any intent');
   { const d = onDisabled(); put('disabled.on-disabled', d.r, `Label / icon on a disabled fill — muted but ${accessibleDisabled ? `clears ${d.min}:1` : 'sub-AA (WCAG-exempt)'}`, 'disabled.surface', d.min); }
   { const d = disabledText(); put('disabled.text', d.r, accessibleDisabled ? `Disabled text — clears ${disabledTarget}:1 (accessible)` : 'Disabled text — sub-AA (WCAG-exempt)', d.against, d.min); }
@@ -442,19 +439,19 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
     T('primary', pickMostExtreme(textCands, baseRgb), `Primary ${p.label} — strongest neutral`, 'background.primary', cfg.primaryMin);
     T('secondary', pickMinPass(textCands, floorRgb, p.secondaryMin), `Secondary ${p.label} — ${p.secondaryMin}:1 on the floor`, cfg.floorName, p.secondaryMin);
     T('tertiary', pickMinPass(textCands, floorRgb, p.tertiaryMin), `Tertiary ${p.label} — ${p.tertiaryMin}:1 on the floor`, cfg.floorName, p.tertiaryMin);
-    { const d = disabledText(); T('disabled', d.r, accessibleDisabled ? `Disabled ${p.label} — clears ${disabledTarget}:1 (accessible)` : `Disabled ${p.label} — sub-AA (WCAG-exempt)`, d.against, d.min); }
+    // (disabled ink is the cross-cutting disabled.text / disabled.icon, not a per-family role.)
     // bold semantic ink
     for (const r of SEMANTICS)
       T(r, paletteRole(r, floorRgb, p.semanticMin), `${r} ${p.label} — ${p.semanticMin}:1 on the floor`, cfg.floorName, p.semanticMin);
     // muted semantic ink (the "quiet" variant) — designer's judgment for emphasis.
     for (const r of SEMANTICS)
       T(`${r}-subtle`, rated(pStep(palOf(r2p[r]), mutedStep), baseRgb), `Muted ${r} ${p.label} — low-emphasis accent`, 'background.primary', 0);
-    // on-* pairs (ink on a solid fill) — AA on a vivid fill.
-    T('on-action', onColor(actionRest.rgb), `${p.label} on the action fill`, 'action.default', onMin);
+    // on-* pairs (ink on a solid fill) — AA on a vivid fill. `on-action` / `on-disabled`
+    // are retired: the ink on an interactive fill is interactive.<color>.on-fill, and the
+    // ink on a disabled fill is disabled.on-disabled (docs/20 §16).
     for (const r of SEMANTICS)
       T(`on-${r}`, onColor(fills[r]!.rgb), `${p.label} on a solid ${r} fill`, `foreground.${r}`, onMin);
     T('on-inverse', pickMostExtreme(textCands, invRgb), `${p.label} on an inverse surface`, 'background.inverse.primary', cfg.secondaryMin);
-    { const d = onDisabled(); T('on-disabled', d.r, `${p.label} on a disabled fill — muted, clears ${d.min}:1`, d.against, d.min); }
     // link (interactive text) + states — no disabled.
     const linkStateCand = (st: typeof LINK_STATES[number]): Cand =>
       st === 'default' || st === 'focused' ? actionRest
