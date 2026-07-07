@@ -135,15 +135,22 @@ return {collection:'color',modes:MODES,total:C.length,created};
 })()`;
 };
 
-// ---- pass: color-aliases (rebind PER MODE — the collapse-proof pass) --------------------
-const colorAliasesPass = (brand: string): string => {
+// The per-mode alias targets for the colour collection: one row per variable,
+// `[name, [target-name per mode, in `modes` order]]`. Exported + pure so the suite can
+// assert the rows are DISTINCT per mode — locking the collapse-proofing (each mode binds
+// its OWN target, not light's for all four) into the gate without needing a live Figma.
+export type AliasRow = [string, (string | null)[]];
+export const aliasRows = (brand: string): { modes: string[]; rows: AliasRow[] } => {
   const modes = colourModes(brand);
   const files = modes.map((m) => load(brand, `color.${m}.json`));
   const base = files[0].variables;
-  // row: [name, [alias-target-name per mode, in `modes` order]]  — every colour var aliases.
-  const A = base.map((v, i) => [
-    v.name, files.map((f) => f.variables[i].alias?.name ?? null),
-  ]);
+  const rows: AliasRow[] = base.map((v, i) => [v.name, files.map((f) => f.variables[i].alias?.name ?? null)]);
+  return { modes, rows };
+};
+
+// ---- pass: color-aliases (rebind PER MODE — the collapse-proof pass) --------------------
+const colorAliasesPass = (brand: string): string => {
+  const { modes, rows: A } = aliasRows(brand);
   return `(async()=>{
 ${PRELUDE}
 const MODES=${JSON.stringify(modes)};
@@ -211,25 +218,31 @@ const PASSES: Record<string, (b: string) => string> = {
 };
 const ORDER = ['palette', 'color-create', 'color-aliases', 'verify'];
 
-const argv = process.argv.slice(2);
-const brand = argv.find((a) => !a.startsWith('--')) ?? 'nb';
-const passIdx = argv.indexOf('--pass');
-const pass = passIdx >= 0 ? argv[passIdx + 1] : undefined;
+// CLI — wrapped so importing `aliasRows` into the test suite is side-effect-free.
+const runCli = (): void => {
+  const argv = process.argv.slice(2);
+  const brand = argv.find((a) => !a.startsWith('--')) ?? 'nb';
+  const passIdx = argv.indexOf('--pass');
+  const pass = passIdx >= 0 ? argv[passIdx + 1] : undefined;
 
-if (pass) {
-  const fn = PASSES[pass];
-  if (!fn) { console.error(`unknown --pass '${pass}' — one of: ${ORDER.join(', ')}`); process.exit(1); }
-  process.stdout.write(fn(brand));
-} else {
-  // manifest: byte size per pass + the paste order + a budget warning.
-  const BUDGET = 45_000;
-  console.log(`materialise-to-figma — brand '${brand}', colour modes: ${colourModes(brand).join(', ')}`);
-  console.log('Paste each pass into figma_execute IN ORDER (palette first — the color aliases target it):\n');
-  for (const name of ORDER) {
-    const size = Buffer.byteLength(PASSES[name](brand), 'utf8');
-    const flag = size > BUDGET ? '  ⚠ over budget — consider chunking' : '';
-    console.log(`  ${name.padEnd(14)} ${String(size).padStart(7)} bytes${flag}`);
+  if (pass) {
+    const fn = PASSES[pass];
+    if (!fn) { console.error(`unknown --pass '${pass}' — one of: ${ORDER.join(', ')}`); process.exit(1); }
+    process.stdout.write(fn(brand));
+  } else {
+    // manifest: byte size per pass + the paste order + a budget warning.
+    const BUDGET = 45_000;
+    console.log(`materialise-to-figma — brand '${brand}', colour modes: ${colourModes(brand).join(', ')}`);
+    console.log('Paste each pass into figma_execute IN ORDER (palette first — the color aliases target it):\n');
+    for (const name of ORDER) {
+      const size = Buffer.byteLength(PASSES[name](brand), 'utf8');
+      const flag = size > BUDGET ? '  ⚠ over budget — consider chunking' : '';
+      console.log(`  ${name.padEnd(14)} ${String(size).padStart(7)} bytes${flag}`);
+    }
+    console.log(`\nEmit one pass:  npx tsx Prism3/engine/materialise-to-figma.ts ${brand} --pass <name>`);
+    console.log('The `verify` pass reads back via getLocalVariablesAsync and asserts modes are distinct.');
   }
-  console.log(`\nEmit one pass:  npx tsx Prism3/engine/materialise-to-figma.ts ${brand} --pass <name>`);
-  console.log('The `verify` pass reads back via getLocalVariablesAsync and asserts modes are distinct.');
-}
+};
+
+// Run the CLI only when invoked directly — not when test.ts imports `aliasRows`.
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) runCli();
