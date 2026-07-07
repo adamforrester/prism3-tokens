@@ -31,6 +31,7 @@ import { buildAiMetadata } from './ai-metadata';
 import { handleRpc, callTool, toolDefs } from './mcp';
 import { scoreConsumption, scoreContractCompliance, tokenPaths, normalizeRef, isPrimitiveRef, PRIMITIVE_TIERS } from './eval';
 import { runEval, buildPrompt, extractRefs, extractPairs, SAMPLE_TASKS } from './eval-run';
+import { aliasRows } from './materialise-to-figma';
 import { validateComponentDef, ComponentDef } from './component-schema';
 import { button } from './components/button';
 import { iconButton } from './components/icon-button';
@@ -234,6 +235,19 @@ for (const b of brands) {
   if (scopeOf('color/interactive/primary/fill/rest') !== JSON.stringify(['FRAME_FILL', 'SHAPE_FILL'])) scopeBad.push('primary/fill/rest');
   ok(scopeBad.length === 0, 'interactive: Figma slots carry slot-aware scopes' + (scopeBad.length ? ` — ${scopeBad.join(',')}` : ''));
 
+  // (e2) disabled.<slot> is also slot-scoped — surface/on-disabled paint, text=TEXT_FILL,
+  //     icon=[FRAME,SHAPE,STROKE], border=STROKE. Before this gate, disabled had no entry
+  //     in COLOR_SCOPES so the family fell through to fill scopes and inks miscased —
+  //     the NB fixture doesn't carry disabled/*, so the round-trip test was the only
+  //     signal. This pins all five slots.
+  const disabledScopeBad: string[] = [];
+  if (scopeOf('color/disabled/surface') !== JSON.stringify(['FRAME_FILL', 'SHAPE_FILL'])) disabledScopeBad.push('disabled/surface');
+  if (scopeOf('color/disabled/on-disabled') !== JSON.stringify(['FRAME_FILL', 'SHAPE_FILL', 'TEXT_FILL'])) disabledScopeBad.push('disabled/on-disabled');
+  if (scopeOf('color/disabled/text') !== JSON.stringify(['TEXT_FILL'])) disabledScopeBad.push('disabled/text');
+  if (scopeOf('color/disabled/icon') !== JSON.stringify(['FRAME_FILL', 'SHAPE_FILL', 'STROKE_COLOR'])) disabledScopeBad.push('disabled/icon');
+  if (scopeOf('color/disabled/border') !== JSON.stringify(['STROKE_COLOR'])) disabledScopeBad.push('disabled/border');
+  ok(disabledScopeBad.length === 0, 'disabled: Figma slots carry slot-aware scopes' + (disabledScopeBad.length ? ` — ${disabledScopeBad.join(',')}` : ''));
+
   // (f) overlays (docs/20 §6): each colour has hover/pressed/selected washes, mode-adaptive
   //     (black-alpha light / white-alpha dark), and the COMPOSITED result is a gated contract
   //     — text.primary stays ≥ AA on the tinted surface in every mode (the wash-out guard).
@@ -273,6 +287,19 @@ for (const b of brands) {
     if (r.min > 0 && r.ratio < r.min) onFails.push(`${m.mode}:${r.ratio.toFixed(2)}<${r.min}`);
   }
   ok(onFails.length === 0, 'disabled: on-disabled is gated against disabled.surface (accessible strategy)' + (onFails.length ? ` — ${onFails.join(',')}` : ''));
+}
+
+// MATERIALISE-TO-FIGMA — the colour aliases MUST bind a distinct target per mode. This locks
+// the collapse-proofing into the suite (the #85 round-trip hit a hand-rolled script that bound
+// light's target to all four modes → every mode identical). Pure + Figma-free: assert on the
+// generated alias rows directly, so the guarantee doesn't rest solely on a manual round-trip.
+{
+  const { modes, rows } = aliasRows('nb');
+  ok(modes.length === 4, `materialise: nb emits 4 colour modes (${modes.join('/')})`);
+  ok(rows.length > 0 && rows.every(([, t]) => t.length === modes.length), 'materialise: every alias row carries one target per mode');
+  ok(rows.some(([, t]) => new Set(t).size > 1), 'materialise: alias rows carry distinct per-mode targets (collapse-proof — not one target repeated)');
+  const bg = rows.find(([n]) => n === 'color/background/primary');
+  ok(!!bg && new Set(bg![1]).size > 1, 'materialise: background/primary binds a different palette step per mode (the collapse-guard probe)');
 }
 
 // INVERSE + neutralEmphasis + accentPalette (docs/20 §9/§10/§3, increment 4).
