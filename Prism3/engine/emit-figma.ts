@@ -140,7 +140,6 @@ const COLOR_SCOPES: Record<string, string[]> = {
   foreground: ['FRAME_FILL', 'SHAPE_FILL', 'TEXT_FILL'],
   text: ['TEXT_FILL'],
   icon: ['FRAME_FILL', 'SHAPE_FILL', 'STROKE_COLOR'],
-  action: ['FRAME_FILL', 'SHAPE_FILL', 'STROKE_COLOR'],
   border: ['STROKE_COLOR'],
 };
 // `interactive.<color>.<slot>` (docs/20) is scoped by its SLOT, not the family —

@@ -408,11 +408,11 @@
         "icon.info"
       ]
     },
-    "foreground.danger.default": {
-      "$description": "Destructive / error fill (default state).",
+    "foreground.danger": {
+      "$description": "Bold solid destructive / error fill.",
       "meaning": "Destructive / error signalling",
-      "when_to_use": "Destructive actions — delete/remove buttons, error fills.",
-      "avoid_when": "Do not use for non-destructive actions (use action.*) or warnings (use foreground.warning).",
+      "when_to_use": "Filled danger elements — badges, banners, status chips.",
+      "avoid_when": "Do not use for danger ink (use text.danger) or as a subtle tint (use foreground.danger-subtle).",
       "mode_overrides": {
         "light": "{prism.palette.danger.600}",
         "dark": "{prism.palette.danger.450}",
@@ -429,245 +429,6 @@
           "min": "4.5:1",
           "ratio": 4.89
         }
-      ]
-    },
-    "foreground.danger.hover": {
-      "$description": "Destructive / error fill (hover state).",
-      "meaning": "Destructive / error signalling",
-      "when_to_use": "Destructive actions — delete/remove buttons, error fills on pointer hover.",
-      "avoid_when": "Do not use for non-destructive actions (use action.*) or warnings (use foreground.warning).",
-      "mode_overrides": {
-        "light": "{prism.palette.danger.650}",
-        "dark": "{prism.palette.danger.400}",
-        "hc-light": "{prism.palette.danger.750}",
-        "hc-dark": "{prism.palette.danger.250}"
-      },
-      "paired_with": [
-        "text.on-danger",
-        "icon.on-danger"
-      ],
-      "contrast_with": [
-        {
-          "token": "neutral.100",
-          "min": "4.5:1",
-          "ratio": 5.95
-        }
-      ]
-    },
-    "foreground.danger.pressed": {
-      "$description": "Destructive / error fill (pressed state).",
-      "meaning": "Destructive / error signalling",
-      "when_to_use": "Destructive actions — delete/remove buttons, error fills while pressed.",
-      "avoid_when": "Do not use for non-destructive actions (use action.*) or warnings (use foreground.warning).",
-      "mode_overrides": {
-        "light": "{prism.palette.danger.700}",
-        "dark": "{prism.palette.danger.350}",
-        "hc-light": "{prism.palette.danger.800}",
-        "hc-dark": "{prism.palette.danger.200}"
-      },
-      "paired_with": [
-        "text.on-danger",
-        "icon.on-danger"
-      ],
-      "contrast_with": [
-        {
-          "token": "neutral.100",
-          "min": "4.5:1",
-          "ratio": 7.22
-        }
-      ]
-    },
-    "foreground.danger.focused": {
-      "$description": "Destructive / error fill (focused state).",
-      "meaning": "Destructive / error signalling",
-      "when_to_use": "Destructive actions — delete/remove buttons, error fills when keyboard-focused.",
-      "avoid_when": "Do not use for non-destructive actions (use action.*) or warnings (use foreground.warning).",
-      "mode_overrides": {
-        "light": "{prism.palette.danger.650}",
-        "dark": "{prism.palette.danger.400}",
-        "hc-light": "{prism.palette.danger.750}",
-        "hc-dark": "{prism.palette.danger.250}"
-      },
-      "paired_with": [
-        "text.on-danger",
-        "icon.on-danger"
-      ],
-      "contrast_with": [
-        {
-          "token": "neutral.100",
-          "min": "4.5:1",
-          "ratio": 5.95
-        }
-      ]
-    },
-    "foreground.danger.selected": {
-      "$description": "Destructive / error fill (selected state).",
-      "meaning": "Destructive / error signalling",
-      "when_to_use": "Destructive actions — delete/remove buttons, error fills when selected / active.",
-      "avoid_when": "Do not use for non-destructive actions (use action.*) or warnings (use foreground.warning).",
-      "mode_overrides": {
-        "light": "{prism.palette.danger.700}",
-        "dark": "{prism.palette.danger.350}",
-        "hc-light": "{prism.palette.danger.800}",
-        "hc-dark": "{prism.palette.danger.200}"
-      },
-      "paired_with": [
-        "text.on-danger",
-        "icon.on-danger"
-      ],
-      "contrast_with": [
-        {
-          "token": "neutral.100",
-          "min": "4.5:1",
-          "ratio": 7.22
-        }
-      ]
-    },
-    "foreground.danger.disabled": {
-      "$description": "Destructive / error fill (disabled state).",
-      "meaning": "Destructive / error signalling",
-      "when_to_use": "Destructive actions — delete/remove buttons, error fills when disabled / unavailable.",
-      "avoid_when": "Do not use for non-destructive actions (use action.*) or warnings (use foreground.warning).",
-      "mode_overrides": {
-        "light": "{prism.palette.neutral.200}",
-        "dark": "{prism.palette.neutral.750}",
-        "hc-light": "{prism.palette.neutral.200}",
-        "hc-dark": "{prism.palette.neutral.750}"
-      },
-      "paired_with": [
-        "text.on-danger",
-        "icon.on-danger"
-      ]
-    },
-    "action.default": {
-      "$description": "Interactive (action) fill.",
-      "meaning": "Interactivity / actions",
-      "when_to_use": "Primary interactive surfaces — buttons, toggles, controls.",
-      "avoid_when": "Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background/foreground).",
-      "mode_overrides": {
-        "light": "{prism.palette.accent.600}",
-        "dark": "{prism.palette.accent.400}",
-        "hc-light": "{prism.palette.accent.700}",
-        "hc-dark": "{prism.palette.accent.300}"
-      },
-      "paired_with": [
-        "text.on-action",
-        "icon.on-action"
-      ],
-      "contrast_with": [
-        {
-          "token": "neutral.100",
-          "min": "4.5:1",
-          "ratio": 4.95
-        }
-      ]
-    },
-    "action.hover": {
-      "$description": "Interactive (action) fill (hover state).",
-      "meaning": "Interactivity / actions",
-      "when_to_use": "Primary interactive surfaces — buttons, toggles, controls on pointer hover.",
-      "avoid_when": "Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background/foreground).",
-      "mode_overrides": {
-        "light": "{prism.palette.accent.650}",
-        "dark": "{prism.palette.accent.350}",
-        "hc-light": "{prism.palette.accent.750}",
-        "hc-dark": "{prism.palette.accent.250}"
-      },
-      "paired_with": [
-        "text.on-action",
-        "icon.on-action"
-      ],
-      "contrast_with": [
-        {
-          "token": "neutral.100",
-          "min": "4.5:1",
-          "ratio": 6
-        }
-      ]
-    },
-    "action.pressed": {
-      "$description": "Interactive (action) fill (pressed state).",
-      "meaning": "Interactivity / actions",
-      "when_to_use": "Primary interactive surfaces — buttons, toggles, controls while pressed.",
-      "avoid_when": "Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background/foreground).",
-      "mode_overrides": {
-        "light": "{prism.palette.accent.700}",
-        "dark": "{prism.palette.accent.300}",
-        "hc-light": "{prism.palette.accent.800}",
-        "hc-dark": "{prism.palette.accent.200}"
-      },
-      "paired_with": [
-        "text.on-action",
-        "icon.on-action"
-      ],
-      "contrast_with": [
-        {
-          "token": "neutral.100",
-          "min": "4.5:1",
-          "ratio": 7.26
-        }
-      ]
-    },
-    "action.focused": {
-      "$description": "Interactive (action) fill (focused state).",
-      "meaning": "Interactivity / actions",
-      "when_to_use": "Primary interactive surfaces — buttons, toggles, controls when keyboard-focused.",
-      "avoid_when": "Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background/foreground).",
-      "mode_overrides": {
-        "light": "{prism.palette.accent.650}",
-        "dark": "{prism.palette.accent.350}",
-        "hc-light": "{prism.palette.accent.750}",
-        "hc-dark": "{prism.palette.accent.250}"
-      },
-      "paired_with": [
-        "text.on-action",
-        "icon.on-action"
-      ],
-      "contrast_with": [
-        {
-          "token": "neutral.100",
-          "min": "4.5:1",
-          "ratio": 6
-        }
-      ]
-    },
-    "action.selected": {
-      "$description": "Interactive (action) fill (selected state).",
-      "meaning": "Interactivity / actions",
-      "when_to_use": "Primary interactive surfaces — buttons, toggles, controls when selected / active.",
-      "avoid_when": "Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background/foreground).",
-      "mode_overrides": {
-        "light": "{prism.palette.accent.700}",
-        "dark": "{prism.palette.accent.300}",
-        "hc-light": "{prism.palette.accent.800}",
-        "hc-dark": "{prism.palette.accent.200}"
-      },
-      "paired_with": [
-        "text.on-action",
-        "icon.on-action"
-      ],
-      "contrast_with": [
-        {
-          "token": "neutral.100",
-          "min": "4.5:1",
-          "ratio": 7.26
-        }
-      ]
-    },
-    "action.disabled": {
-      "$description": "Interactive (action) fill (disabled state).",
-      "meaning": "Interactivity / actions",
-      "when_to_use": "Primary interactive surfaces — buttons, toggles, controls when disabled / unavailable.",
-      "avoid_when": "Do not use for destructive actions (use foreground.danger) or non-interactive surfaces (use background/foreground).",
-      "mode_overrides": {
-        "light": "{prism.palette.neutral.200}",
-        "dark": "{prism.palette.neutral.750}",
-        "hc-light": "{prism.palette.neutral.200}",
-        "hc-dark": "{prism.palette.neutral.750}"
-      },
-      "paired_with": [
-        "text.on-action",
-        "icon.on-action"
       ]
     },
     "interactive.primary.fill.rest": {
@@ -778,21 +539,6 @@
           "min": "4.5:1",
           "ratio": 7.26
         }
-      ]
-    },
-    "interactive.primary.fill.disabled": {
-      "$description": "Primary interactive fill (disabled state).",
-      "meaning": "Interactivity / actions",
-      "when_to_use": "The fill of a FILLED primary interactive element — buttons, controls, selectable rows when disabled / unavailable.",
-      "avoid_when": "Do not use for another intent (interactive.neutral / destructive), or for outline/text appearances (use interactive.primary.text / .border).",
-      "mode_overrides": {
-        "light": "{prism.palette.neutral.200}",
-        "dark": "{prism.palette.neutral.750}",
-        "hc-light": "{prism.palette.neutral.200}",
-        "hc-dark": "{prism.palette.neutral.750}"
-      },
-      "paired_with": [
-        "interactive.primary.on-fill"
       ]
     },
     "interactive.primary.on-fill": {
@@ -971,21 +717,6 @@
         }
       ]
     },
-    "interactive.destructive.fill.disabled": {
-      "$description": "Destructive interactive fill (disabled state).",
-      "meaning": "Interactivity / actions",
-      "when_to_use": "The fill of a FILLED destructive interactive element — buttons, controls, selectable rows when disabled / unavailable.",
-      "avoid_when": "Do not use for a non-destructive intent (use interactive.primary/neutral), or for outline/text appearances (use interactive.destructive.text / .border).",
-      "mode_overrides": {
-        "light": "{prism.palette.neutral.200}",
-        "dark": "{prism.palette.neutral.750}",
-        "hc-light": "{prism.palette.neutral.200}",
-        "hc-dark": "{prism.palette.neutral.750}"
-      },
-      "paired_with": [
-        "interactive.destructive.on-fill"
-      ]
-    },
     "interactive.destructive.on-fill": {
       "$description": "Ink on the destructive interactive fill.",
       "meaning": "Interactivity / actions",
@@ -1121,21 +852,6 @@
         "light": "{prism.palette.neutral.250}",
         "dark": "{prism.palette.neutral.750}",
         "hc-light": "{prism.palette.neutral.250}",
-        "hc-dark": "{prism.palette.neutral.750}"
-      },
-      "paired_with": [
-        "interactive.neutral.on-fill"
-      ]
-    },
-    "interactive.neutral.fill.disabled": {
-      "$description": "Neutral interactive fill (disabled state).",
-      "meaning": "Interactivity / actions",
-      "when_to_use": "The fill of a FILLED neutral interactive element — buttons, controls, selectable rows when disabled / unavailable.",
-      "avoid_when": "Do not use for another intent (interactive.primary / destructive), or for outline/text appearances (use interactive.neutral.text / .border).",
-      "mode_overrides": {
-        "light": "{prism.palette.neutral.200}",
-        "dark": "{prism.palette.neutral.750}",
-        "hc-light": "{prism.palette.neutral.200}",
         "hc-dark": "{prism.palette.neutral.750}"
       },
       "paired_with": [
@@ -1631,25 +1347,6 @@
         }
       ]
     },
-    "text.disabled": {
-      "$description": "Disabled / inactive text.",
-      "meaning": "Unavailable / inactive state",
-      "when_to_use": "Text for disabled or inactive elements.",
-      "avoid_when": "Do not use for active content.",
-      "mode_overrides": {
-        "light": "{prism.palette.neutral.500}",
-        "dark": "{prism.palette.neutral.550}",
-        "hc-light": "{prism.palette.neutral.600}",
-        "hc-dark": "{prism.palette.neutral.450}"
-      },
-      "contrast_with": [
-        {
-          "token": "neutral.100",
-          "min": "3:1",
-          "ratio": 3.28
-        }
-      ]
-    },
     "text.brand": {
       "$description": "Brand identity text.",
       "meaning": "Brand identity",
@@ -1835,28 +1532,6 @@
         "background.primary"
       ]
     },
-    "text.on-action": {
-      "$description": "Text on a solid action fill.",
-      "meaning": "Legible content on the action fill",
-      "when_to_use": "Text placed on the action fill it is paired with.",
-      "avoid_when": "Do not use on standard surfaces — use text.primary/secondary.",
-      "mode_overrides": {
-        "light": "{prism.palette.white}",
-        "dark": "{prism.palette.neutral.950}",
-        "hc-light": "{prism.palette.white}",
-        "hc-dark": "{prism.palette.black}"
-      },
-      "paired_with": [
-        "action.default"
-      ],
-      "contrast_with": [
-        {
-          "token": "action.default",
-          "min": "4.5:1",
-          "ratio": 6.85
-        }
-      ]
-    },
     "text.on-brand": {
       "$description": "Text on a solid brand identity fill.",
       "meaning": "Legible content on brand identity fills",
@@ -1986,28 +1661,6 @@
           "token": "background.inverse.primary",
           "min": "4.5:1",
           "ratio": 18.13
-        }
-      ]
-    },
-    "text.on-disabled": {
-      "$description": "Text on a disabled fill (muted).",
-      "meaning": "Legible content on a disabled fill",
-      "when_to_use": "The label/text on a disabled control's fill — muted but legible (paired with action.disabled / foreground.danger.disabled).",
-      "avoid_when": "Do not use on an enabled fill (use text.on-action / on-{semantic}) or on the page (use text.disabled).",
-      "mode_overrides": {
-        "light": "{prism.palette.neutral.550}",
-        "dark": "{prism.palette.neutral.450}",
-        "hc-light": "{prism.palette.neutral.650}",
-        "hc-dark": "{prism.palette.neutral.300}"
-      },
-      "paired_with": [
-        "action.disabled"
-      ],
-      "contrast_with": [
-        {
-          "token": "action.disabled",
-          "min": "3:1",
-          "ratio": 3.08
         }
       ]
     },
@@ -2148,25 +1801,6 @@
         "background.primary",
         "foreground.primary"
       ],
-      "contrast_with": [
-        {
-          "token": "neutral.100",
-          "min": "3:1",
-          "ratio": 3.28
-        }
-      ]
-    },
-    "icon.disabled": {
-      "$description": "Disabled / inactive icon.",
-      "meaning": "Unavailable / inactive state",
-      "when_to_use": "Icon for disabled or inactive elements.",
-      "avoid_when": "Do not use for active content.",
-      "mode_overrides": {
-        "light": "{prism.palette.neutral.500}",
-        "dark": "{prism.palette.neutral.550}",
-        "hc-light": "{prism.palette.neutral.600}",
-        "hc-dark": "{prism.palette.neutral.450}"
-      },
       "contrast_with": [
         {
           "token": "neutral.100",
@@ -2360,28 +1994,6 @@
         "background.primary"
       ]
     },
-    "icon.on-action": {
-      "$description": "Icon on a solid action fill.",
-      "meaning": "Legible content on the action fill",
-      "when_to_use": "Icon placed on the action fill it is paired with.",
-      "avoid_when": "Do not use on standard surfaces — use icon.primary/secondary.",
-      "mode_overrides": {
-        "light": "{prism.palette.white}",
-        "dark": "{prism.palette.neutral.950}",
-        "hc-light": "{prism.palette.white}",
-        "hc-dark": "{prism.palette.black}"
-      },
-      "paired_with": [
-        "action.default"
-      ],
-      "contrast_with": [
-        {
-          "token": "action.default",
-          "min": "4.5:1",
-          "ratio": 6.85
-        }
-      ]
-    },
     "icon.on-brand": {
       "$description": "Icon on a solid brand identity fill.",
       "meaning": "Legible content on brand identity fills",
@@ -2511,28 +2123,6 @@
           "token": "background.inverse.primary",
           "min": "4.5:1",
           "ratio": 18.13
-        }
-      ]
-    },
-    "icon.on-disabled": {
-      "$description": "Icon on a disabled fill (muted).",
-      "meaning": "Legible content on a disabled fill",
-      "when_to_use": "The label/icon on a disabled control's fill — muted but legible (paired with action.disabled / foreground.danger.disabled).",
-      "avoid_when": "Do not use on an enabled fill (use icon.on-action / on-{semantic}) or on the page (use icon.disabled).",
-      "mode_overrides": {
-        "light": "{prism.palette.neutral.550}",
-        "dark": "{prism.palette.neutral.450}",
-        "hc-light": "{prism.palette.neutral.650}",
-        "hc-dark": "{prism.palette.neutral.300}"
-      },
-      "paired_with": [
-        "action.disabled"
-      ],
-      "contrast_with": [
-        {
-          "token": "action.disabled",
-          "min": "3:1",
-          "ratio": 3.08
         }
       ]
     },
@@ -3364,7 +2954,6 @@
         "color.foreground.primary",
         "color.foreground.secondary",
         "color.foreground.tertiary",
-        "color.icon.on-action",
         "color.icon.on-brand",
         "color.icon.on-danger",
         "color.icon.on-info",
@@ -3377,7 +2966,6 @@
         "color.interactive.neutral.on-inverse",
         "color.interactive.neutral.text",
         "color.interactive.primary.on-fill",
-        "color.text.on-action",
         "color.text.on-brand",
         "color.text.on-danger",
         "color.text.on-info",
@@ -3406,7 +2994,6 @@
         "color.foreground.primary",
         "color.foreground.secondary",
         "color.foreground.tertiary",
-        "color.icon.on-action",
         "color.icon.on-brand",
         "color.icon.on-danger",
         "color.icon.on-info",
@@ -3419,7 +3006,6 @@
         "color.interactive.neutral.on-inverse",
         "color.interactive.neutral.text",
         "color.interactive.primary.on-fill",
-        "color.text.on-action",
         "color.text.on-brand",
         "color.text.on-danger",
         "color.text.on-info",
@@ -3639,18 +3225,13 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "color.action.disabled",
         "color.border.inverse",
         "color.border.primary",
         "color.disabled.border",
         "color.disabled.surface",
-        "color.foreground.danger.disabled",
         "color.foreground.tertiary",
-        "color.interactive.destructive.fill.disabled",
-        "color.interactive.neutral.fill.disabled",
         "color.interactive.neutral.fill.focused",
-        "color.interactive.neutral.fill.hover",
-        "color.interactive.primary.fill.disabled"
+        "color.interactive.neutral.fill.hover"
       ]
     },
     "palette.neutral.250": {
@@ -3673,8 +3254,6 @@
       "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
         "color.disabled.on-disabled",
-        "color.icon.on-disabled",
-        "color.text.on-disabled",
         "color.text.secondary"
       ]
     },
@@ -3703,13 +3282,9 @@
         "color.disabled.icon",
         "color.disabled.on-disabled",
         "color.disabled.text",
-        "color.icon.disabled",
-        "color.icon.on-disabled",
         "color.icon.secondary",
         "color.icon.tertiary",
         "color.interactive.neutral.border",
-        "color.text.disabled",
-        "color.text.on-disabled",
         "color.text.secondary",
         "color.text.tertiary"
       ]
@@ -3726,11 +3301,9 @@
         "color.border.secondary",
         "color.disabled.icon",
         "color.disabled.text",
-        "color.icon.disabled",
         "color.icon.secondary",
         "color.icon.tertiary",
         "color.interactive.neutral.border",
-        "color.text.disabled",
         "color.text.tertiary"
       ]
     },
@@ -3744,13 +3317,9 @@
         "color.disabled.icon",
         "color.disabled.on-disabled",
         "color.disabled.text",
-        "color.icon.disabled",
-        "color.icon.on-disabled",
         "color.icon.secondary",
         "color.icon.tertiary",
         "color.interactive.neutral.border",
-        "color.text.disabled",
-        "color.text.on-disabled",
         "color.text.tertiary"
       ]
     },
@@ -3763,10 +3332,8 @@
       "aliased_by": [
         "color.disabled.icon",
         "color.disabled.text",
-        "color.icon.disabled",
         "color.icon.secondary",
         "color.icon.tertiary",
-        "color.text.disabled",
         "color.text.secondary",
         "color.text.tertiary"
       ]
@@ -3778,9 +3345,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "color.disabled.on-disabled",
-        "color.icon.on-disabled",
-        "color.text.on-disabled"
+        "color.disabled.on-disabled"
       ]
     },
     "palette.neutral.700": {
@@ -3801,16 +3366,11 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "color.action.disabled",
         "color.border.primary",
         "color.disabled.border",
         "color.disabled.surface",
-        "color.foreground.danger.disabled",
-        "color.interactive.destructive.fill.disabled",
-        "color.interactive.neutral.fill.disabled",
         "color.interactive.neutral.fill.pressed",
-        "color.interactive.neutral.fill.selected",
-        "color.interactive.primary.fill.disabled"
+        "color.interactive.neutral.fill.selected"
       ]
     },
     "palette.neutral.800": {
@@ -3863,7 +3423,6 @@
       "aliased_by": [
         "color.background.inverse.primary",
         "color.background.primary",
-        "color.icon.on-action",
         "color.icon.on-brand",
         "color.icon.on-danger",
         "color.icon.on-info",
@@ -3876,7 +3435,6 @@
         "color.interactive.neutral.on-inverse",
         "color.interactive.neutral.text",
         "color.interactive.primary.on-fill",
-        "color.text.on-action",
         "color.text.on-brand",
         "color.text.on-danger",
         "color.text.on-info",
@@ -3936,8 +3494,6 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "color.action.pressed",
-        "color.action.selected",
         "color.icon.link.visited",
         "color.interactive.primary.fill.pressed",
         "color.interactive.primary.fill.selected",
@@ -3951,8 +3507,6 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "color.action.focused",
-        "color.action.hover",
         "color.icon.link.hover",
         "color.interactive.primary.fill.focused",
         "color.interactive.primary.fill.hover",
@@ -3966,9 +3520,6 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "color.action.default",
-        "color.action.pressed",
-        "color.action.selected",
         "color.border.focus",
         "color.icon.link.default",
         "color.icon.link.focused",
@@ -3988,8 +3539,6 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "color.action.focused",
-        "color.action.hover",
         "color.icon.link.hover",
         "color.interactive.primary.fill.focused",
         "color.interactive.primary.fill.hover",
@@ -4005,7 +3554,6 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "color.action.default",
         "color.border.focus",
         "color.icon.link.default",
         "color.icon.link.focused",
@@ -4055,7 +3603,6 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "color.action.default",
         "color.border.focus",
         "color.icon.link.default",
         "color.icon.link.focused",
@@ -4071,8 +3618,6 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "color.action.focused",
-        "color.action.hover",
         "color.icon.link.hover",
         "color.interactive.primary.fill.focused",
         "color.interactive.primary.fill.hover",
@@ -4088,9 +3633,6 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "color.action.default",
-        "color.action.pressed",
-        "color.action.selected",
         "color.border.focus",
         "color.icon.link.default",
         "color.icon.link.focused",
@@ -4111,8 +3653,6 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "color.action.focused",
-        "color.action.hover",
         "color.icon.link.hover",
         "color.interactive.primary.fill.focused",
         "color.interactive.primary.fill.hover",
@@ -4126,8 +3666,6 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "color.action.pressed",
-        "color.action.selected",
         "color.icon.link.visited",
         "color.interactive.primary.fill.pressed",
         "color.interactive.primary.fill.selected",
@@ -4715,8 +4253,6 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "color.foreground.danger.pressed",
-        "color.foreground.danger.selected",
         "color.interactive.destructive.fill.pressed",
         "color.interactive.destructive.fill.selected"
       ]
@@ -4728,8 +4264,6 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "color.foreground.danger.focused",
-        "color.foreground.danger.hover",
         "color.interactive.destructive.fill.focused",
         "color.interactive.destructive.fill.hover"
       ]
@@ -4741,7 +4275,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "color.foreground.danger.default",
+        "color.foreground.danger",
         "color.interactive.destructive.fill.rest",
         "color.text.danger"
       ]
@@ -4753,8 +4287,6 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "color.foreground.danger.pressed",
-        "color.foreground.danger.selected",
         "color.icon.danger-subtle",
         "color.interactive.destructive.fill.pressed",
         "color.interactive.destructive.fill.selected",
@@ -4770,8 +4302,6 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "color.foreground.danger.focused",
-        "color.foreground.danger.hover",
         "color.interactive.destructive.fill.focused",
         "color.interactive.destructive.fill.hover"
       ]
@@ -4783,7 +4313,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "color.foreground.danger.default",
+        "color.foreground.danger",
         "color.icon.danger",
         "color.icon.danger-subtle",
         "color.interactive.destructive.fill.rest",
@@ -4823,7 +4353,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "color.foreground.danger.default",
+        "color.foreground.danger",
         "color.icon.danger",
         "color.interactive.destructive.fill.rest",
         "color.text.danger"
@@ -4836,8 +4366,6 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "color.foreground.danger.focused",
-        "color.foreground.danger.hover",
         "color.interactive.destructive.fill.focused",
         "color.interactive.destructive.fill.hover",
         "color.interactive.destructive.on-inverse",
@@ -4851,9 +4379,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "color.foreground.danger.default",
-        "color.foreground.danger.pressed",
-        "color.foreground.danger.selected",
+        "color.foreground.danger",
         "color.interactive.destructive.fill.pressed",
         "color.interactive.destructive.fill.rest",
         "color.interactive.destructive.fill.selected",
@@ -4867,8 +4393,6 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "color.foreground.danger.focused",
-        "color.foreground.danger.hover",
         "color.interactive.destructive.fill.focused",
         "color.interactive.destructive.fill.hover"
       ]
@@ -4880,8 +4404,6 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "color.foreground.danger.pressed",
-        "color.foreground.danger.selected",
         "color.interactive.destructive.fill.pressed",
         "color.interactive.destructive.fill.selected"
       ]

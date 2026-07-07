@@ -158,12 +158,12 @@ for (const b of brands) {
     const broken = checked.filter(([, r]) => r.ratio < r.min);
     ok(broken.length === 0, `[${b.id}/${m.mode}] all ${checked.length} contracts pass` + (broken.length ? ` — FAILED: ${broken.map(([k, r]) => `${k} ${r.ratio}<${r.min}`).join(', ')}` : ''));
     // L-01: stateful groups must stay visually distinct — a `walk` that saturated
-    // at a ramp end would collapse hover/pressed onto the default. default (walk 0)
-    // ≠ hover (walk 1) ≠ pressed (walk 2), by path, for every fill/action/link group.
+    // at a ramp end would collapse hover/pressed onto rest. rest (walk 0)
+    // ≠ hover (walk 1) ≠ pressed (walk 2), by path, for every interactive fill + link group.
     const path = (k: string) => (m.roles as any)[k]?.path;
-    for (const g of ['action', 'foreground.danger']) {
-      const [d, h, p] = [path(`${g}.default`), path(`${g}.hover`), path(`${g}.pressed`)];
-      if (d && h && p) ok(d !== h && d !== p && h !== p, `[${b.id}/${m.mode}] ${g} states are distinct (default/hover/pressed = ${d?.split('.').pop()}/${h?.split('.').pop()}/${p?.split('.').pop()})`);
+    for (const g of ['interactive.primary', 'interactive.destructive']) {
+      const [d, h, p] = [path(`${g}.fill.rest`), path(`${g}.fill.hover`), path(`${g}.fill.pressed`)];
+      if (d && h && p) ok(d !== h && d !== p && h !== p, `[${b.id}/${m.mode}] ${g} fill states are distinct (rest/hover/pressed = ${d?.split('.').pop()}/${h?.split('.').pop()}/${p?.split('.').pop()})`);
     }
     const [ld, lh, lv] = [path('text.link.default'), path('text.link.hover'), path('text.link.visited')];
     if (ld && lh && lv) ok(ld !== lh && ld !== lv && lh !== lv, `[${b.id}/${m.mode}] text.link states are distinct`);
@@ -177,29 +177,37 @@ for (const b of brands) {
   ok(broken.length === 0, 'nbTheme all contracts pass' + (broken.length ? ` — FAILED: ${broken.join(', ')}` : ''));
 }
 
-// INTERACTIVE COLOUR FAMILY (docs/20, increment 1) — pin the increment's intent
-// where the frozen real-NB fixture no longer can: action.* stays PRESERVED (the
-// migration is additive), the interactive.<color> family has the full slot/state
-// shape, the historical neutral miss (§12) is a GATED contract that passes in
-// every mode, and the Figma slots carry slot-aware scopes.
+// INTERACTIVE COLOUR FAMILY (docs/20) — pin the family's intent where the frozen
+// real-NB fixture no longer can: the legacy action.* / foreground.danger.* fills are
+// REMOVED (task #14 — components bind interactive.*), the interactive.<color> family has
+// the full slot/state shape, the historical neutral miss (§12) is a GATED contract that
+// passes in every mode, and the Figma slots carry slot-aware scopes.
 {
   const modes = resolveAllModes(nbTheme());
   const light = modes.find((m) => m.mode === 'light')!.roles;
 
-  // (a) legacy action.* fully preserved alongside the new family (nothing rebinds yet).
-  const actionMissing = ['default', 'hover', 'pressed', 'focused', 'selected', 'disabled']
-    .map((s) => `action.${s}`).filter((k) => !(k in light));
-  ok(actionMissing.length === 0, 'interactive: legacy action.* preserved (additive)' + (actionMissing.length ? ` — MISSING ${actionMissing.join(',')}` : ''));
+  // (a) the legacy interactive fills are gone — action.* and the stateful foreground.danger.*
+  //     no longer generated; danger is now a bare foreground.danger fill (like the others).
+  const legacyPresent = [
+    ...['default', 'hover', 'pressed', 'focused', 'selected', 'disabled'].map((s) => `action.${s}`),
+    ...['default', 'hover', 'pressed', 'focused', 'selected', 'disabled'].map((s) => `foreground.danger.${s}`),
+  ].filter((k) => k in light);
+  ok(legacyPresent.length === 0, 'interactive: legacy action.* / foreground.danger.* fills removed' + (legacyPresent.length ? ` — STILL PRESENT ${legacyPresent.join(',')}` : ''));
+  ok('foreground.danger' in light, 'interactive: danger is a bare foreground.danger fill (stateful/interactive expression is interactive.destructive.*)');
 
-  // (b) interactive.<color> shape — three colours, each fill(+6 states)/on-fill/text/border.
+  // (b) interactive.<color> shape — three colours, each fill(+5 states, no per-colour
+  //     disabled)/on-fill/text/border. Disabled is the cross-cutting disabled.* family.
   const shapeMissing: string[] = [];
   for (const c of ['primary', 'neutral', 'destructive']) {
-    for (const st of ['rest', 'hover', 'pressed', 'focused', 'selected', 'disabled'])
+    for (const st of ['rest', 'hover', 'pressed', 'focused', 'selected'])
       if (!(`interactive.${c}.fill.${st}` in light)) shapeMissing.push(`interactive.${c}.fill.${st}`);
     for (const slot of ['on-fill', 'text', 'border'])
       if (!(`interactive.${c}.${slot}` in light)) shapeMissing.push(`interactive.${c}.${slot}`);
   }
-  ok(shapeMissing.length === 0, 'interactive: primary/neutral/destructive each carry fill(+6 states)/on-fill/text/border' + (shapeMissing.length ? ` — MISSING ${shapeMissing.slice(0, 4).join(',')}` : ''));
+  ok(shapeMissing.length === 0, 'interactive: primary/neutral/destructive each carry fill(+5 states)/on-fill/text/border' + (shapeMissing.length ? ` — MISSING ${shapeMissing.slice(0, 4).join(',')}` : ''));
+  // (b2) per-colour disabled fill is retired — no interactive.<color>.fill.disabled.
+  const perColourDisabled = ['primary', 'neutral', 'destructive'].map((c) => `interactive.${c}.fill.disabled`).filter((k) => k in light);
+  ok(perColourDisabled.length === 0, 'interactive: per-colour fill.disabled retired (cross-cutting disabled.* instead)' + (perColourDisabled.length ? ` — STILL PRESENT ${perColourDisabled.join(',')}` : ''));
 
   // (c) neutral fill.rest is a subtle SURFACE (min 0) — the gated pair is its ink, not the fill.
   ok(light['interactive.neutral.fill.rest'].min === 0, 'interactive: neutral.fill.rest is a min-0 subtle surface');
@@ -592,8 +600,8 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   ok(p(L, 'foreground.primary') !== p(L, 'background.primary'), 'foreground.primary differs from background.primary');
   // inverse ladders on both layers
   ok(p(L, 'background.inverse.primary') && p(L, 'foreground.inverse.primary'), 'inverse ladders present on both layers');
-  // action top-level; legacy foreground.interactive gone
-  ok(p(L, 'action.default') !== undefined, 'action.* is top-level');
+  // legacy interactive fills gone (action.* retired task #14; foreground.interactive earlier)
+  ok(p(L, 'action.default') === undefined, 'legacy action.* removed (components bind interactive.*)');
   ok(L['foreground.interactive.default'] === undefined, 'legacy foreground.interactive removed');
   // elevation colour group + dropped surfaces gone
   ok(!Object.keys(L).some((k) => k.startsWith('elevation')), 'no elevation.* colour group');
@@ -618,14 +626,12 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   ok(!isBlack(p(L, 'background.inverse.primary')), 'light inverse surface is near-black, not pure black');
   ok(!isWhite(p(D, 'background.inverse.primary')), 'dark inverse surface is near-white, not pure white');
   ok(isWhite(p(L, 'background.primary')), 'light base page stays pure white (the one allowed pure extreme)');
-  // on-* softening: dark on-action is near-black (950), light keeps pure white; HC keeps pure
-  ok(p(D, 'text.on-action') === p(D, 'icon.on-action') && !isBlack(p(D, 'text.on-action')), 'dark on-action is softened (near-black, not pure)');
-  ok(isWhite(p(L, 'text.on-action')), 'light on-action stays pure white (user preference)');
-  ok(isWhite(p(HCD, 'text.on-action')) || isBlack(p(HCD, 'text.on-action')), 'HC keeps pure extremes for on-* (max contrast)');
+  // on-fill softening: dark interactive on-fill is near-black (950), light keeps pure white; HC keeps pure
+  ok(!isBlack(p(D, 'interactive.primary.on-fill')), 'dark interactive on-fill is softened (near-black, not pure)');
+  ok(isWhite(p(L, 'interactive.primary.on-fill')), 'light interactive on-fill stays pure white (user preference)');
+  ok(isWhite(p(HCD, 'interactive.primary.on-fill')) || isBlack(p(HCD, 'interactive.primary.on-fill')), 'HC keeps pure extremes for on-fill (max contrast)');
   ok(isBlack(p(HCL, 'background.inverse.primary')), 'HC inverse stays a pure extreme (max contrast)');
-  // on-disabled exists for text + icon and is contracted against the disabled fill
-  ok(p(L, 'text.on-disabled') !== undefined && p(L, 'icon.on-disabled') !== undefined, 'text/icon.on-disabled exist');
-  ok(L['text.on-disabled'].against === 'action.disabled', 'on-disabled is resolved against the disabled fill');
+  // (the ink on a disabled fill is the cross-cutting disabled.on-disabled — tested in the DISABLED block above.)
 }
 
 // -------------------------------------------------- design.md + CLI adapter
@@ -1516,13 +1522,13 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   const loRp = resolvePreview(lo);
   ok(loRp.modes.length === 1 && loRp.modes[0] === 'light', 'mode config: modes:[light] → light only');
   const loTree = (buildTree(lo).tree as any).prism;
-  ok(Object.keys(loTree.color.action.default.$extensions.prism3.modes).length === 0, 'mode config: light-only tree emits no per-mode colour overrides');
+  ok(Object.keys(loTree.color.interactive.primary.fill.rest.$extensions.prism3.modes).length === 0, 'mode config: light-only tree emits no per-mode colour overrides');
   ok(Object.keys(loTree.shadow.xs.$extensions.prism3.modes).length === 0, 'mode config: light-only tree emits no per-mode SHADOW overrides (dark reduction gated)');
 
   const ld = brandTheme({ ...input, modes: ['light', 'dark'] });
   ok(resolvePreview(ld).modes.length === 2, 'mode config: modes:[light,dark] → two modes');
   const ldTree = (buildTree(ld).tree as any).prism;
-  ok('dark' in ldTree.color.action.default.$extensions.prism3.modes && !('hc-light' in ldTree.color.action.default.$extensions.prism3.modes), 'mode config: [light,dark] carries the dark override, not HC');
+  ok('dark' in ldTree.color.interactive.primary.fill.rest.$extensions.prism3.modes && !('hc-light' in ldTree.color.interactive.primary.fill.rest.$extensions.prism3.modes), 'mode config: [light,dark] carries the dark override, not HC');
   ok('dark' in ldTree.shadow.xs.$extensions.prism3.modes, 'mode config: [light,dark] keeps the dark shadow reduction');
 
   let t1 = false, t2 = false;
@@ -1543,7 +1549,7 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   const R = wf.root, neutralPal = wf.roleToPalette.neutral, actionPal = wf.roleToPalette.action;
   const wfBuilt = buildTree(wf);
   const wfTree = (wfBuilt.tree as any)[R];
-  const act = wfTree.color.action.default;
+  const act = wfTree.color.interactive.primary.fill.rest;
   ok(actionPal !== neutralPal && act.$value.includes(`.${actionPal}.`), 'wireframe: light $value stays the chromatic (accent) pick');
   ok(act.$extensions.prism3.modes.wireframe.$value.includes(`.${neutralPal}.`), 'wireframe: the wireframe override remaps a chromatic role → neutral (greyscale)');
   ok(wfTree.radius.md.$extensions.prism3.modes?.wireframe?.$value === `{${R}.dimension.0}`, 'wireframe: radius.md carries a wireframe → dimension.0 override');
@@ -1734,14 +1740,14 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
     `emit-figma mode opt-out: canonical order preserved regardless of user-typed order (got ${shColor.map((f) => f.$mode).join(',')})`);
 
   // (e) every emitted color file's per-role value comes from the RIGHT mode extension
-  // (not a silent light fallback). For [light, dark]: the dark file's action.default
+  // (not a silent light fallback). For [light, dark]: the dark file's interactive.primary.fill.rest
   // value must equal the dark extension's alias target, not the light $value.
   const ldTree = (buildTree(ld).tree as any)[Object.keys(buildTree(ld).tree)[0]];
   const darkFile = ldColor.find((f) => f.$mode === 'dark')!;
-  const darkAction = darkFile.variables.find((v) => v.name === 'color/action/default')!;
-  const darkExtAlias = ldTree.color.action.default.$extensions.prism3.modes.dark.$value.replace(/^\{|\}$/g, '');
+  const darkAction = darkFile.variables.find((v) => v.name === 'color/interactive/primary/fill/rest')!;
+  const darkExtAlias = ldTree.color.interactive.primary.fill.rest.$extensions.prism3.modes.dark.$value.replace(/^\{|\}$/g, '');
   ok(darkAction.alias?.name === figName(darkExtAlias),
-    `emit-figma mode opt-out: dark file's color/action/default alias is the DARK extension target, not a light fallback (got ${darkAction.alias?.name}, want ${figName(darkExtAlias)})`);
+    `emit-figma mode opt-out: dark file's color/interactive/primary/fill/rest alias is the DARK extension target, not a light fallback (got ${darkAction.alias?.name}, want ${figName(darkExtAlias)})`);
 }
 
 // (21) EMIT-FIGMA GENERALISE (docs/10 §7 item 6) — the queue's closing check:
@@ -1936,17 +1942,17 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   ok(nonNeutralAliases.length === 0, `emit-figma wireframe: every wireframe alias routes to palette/neutral/* (greyscale contract)` + (nonNeutralAliases.length ? ` — ${nonNeutralAliases.slice(0, 3).join('; ')}` : ''));
 
   // (a5) The wireframe file's non-alias fallback values (belt-and-suspenders {r,g,b,a})
-  // are neutral too — verify a representative saturated role (action.default in the
-  // light file uses the accent palette; wireframe collapses to neutral). Structural
+  // are neutral too — verify a representative saturated role (interactive.primary.fill.rest
+  // in the light file uses the accent palette; wireframe collapses to neutral). Structural
   // proof the value shipped alongside the alias is the neutral colour, not the light
   // chromatic one.
-  const wfAction = wfMode.variables.find((v) => v.name === 'color/action/default')!;
-  const lightAction = wfColor.find((c) => c.$mode === 'light')!.variables.find((v) => v.name === 'color/action/default')!;
+  const wfAction = wfMode.variables.find((v) => v.name === 'color/interactive/primary/fill/rest')!;
+  const lightAction = wfColor.find((c) => c.$mode === 'light')!.variables.find((v) => v.name === 'color/interactive/primary/fill/rest')!;
   const rgbDist = Math.abs((wfAction.value as any).r - (wfAction.value as any).g)
                 + Math.abs((wfAction.value as any).g - (wfAction.value as any).b);
   const lightRgbDist = Math.abs((lightAction.value as any).r - (lightAction.value as any).g)
                      + Math.abs((lightAction.value as any).g - (lightAction.value as any).b);
-  ok(rgbDist < 0.02, `emit-figma wireframe: color/action/default resolves to a neutral (r≈g≈b, spread ${rgbDist.toFixed(3)})`);
+  ok(rgbDist < 0.02, `emit-figma wireframe: color/interactive/primary/fill/rest resolves to a neutral (r≈g≈b, spread ${rgbDist.toFixed(3)})`);
   ok(lightRgbDist > 0.05, `emit-figma wireframe: baseline sanity — light action is CHROMATIC (spread ${lightRgbDist.toFixed(3)}, > 0.05)`);
 
   // ---- GEOMETRY AXIS — the NEW mode-varying shape (radius) ------------------
@@ -2036,7 +2042,7 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
     ok(threw, `M-08: parseColor(${label}) THROWS instead of returning silent black`);
   };
   throws(undefined, 'undefined');           // the unresolvable-alias path (targetLeaf?.$value)
-  throws('{prism.color.action.default}', 'an unresolved brace alias'); // a raw alias reaching the emitter
+  throws('{prism.color.no.such.role}', 'an unresolved brace alias'); // a raw alias reaching the emitter
   throws('not-a-colour', 'garbage');
   throws('#ff', '2-digit hex');             // not a valid hex length
 }
@@ -2179,7 +2185,7 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   // extractRefs: JSON object, fenced JSON, and prose fallback
   ok(extractRefs('{"a":["x.y","z.w"]}').flat.join(',') === 'x.y,z.w', 'eval-run: extractRefs reads a JSON {task:[refs]} object');
   ok(extractRefs('```json\n{"a":["p.q"]}\n```').byTask.a?.[0] === 'p.q', 'eval-run: extractRefs tolerates ```json fences + surrounding prose');
-  ok(extractRefs('use color.action.default and space.400 here').flat.sort().join(',') === 'color.action.default,space.400', 'eval-run: extractRefs falls back to scraping dotted paths from prose');
+  ok(extractRefs('use color.interactive.primary.fill.rest and space.400 here').flat.sort().join(',') === 'color.interactive.primary.fill.rest,space.400', 'eval-run: extractRefs falls back to scraping dotted paths from prose');
 
   // full run with a mock runner: 1 valid semantic + 1 invented + 1 valid primitive
   const mock = async () => JSON.stringify({ 'primary-button': [S, 'color.totally.invented', P] });

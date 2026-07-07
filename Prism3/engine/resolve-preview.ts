@@ -31,7 +31,7 @@ export type PreviewContractResult = {
 export type ResolvedType = { fontFamily: string; fontWeight: number; fontSizePx: number };
 export type ResolvedPreview = {
   modes: ModeName[];
-  /** colour role (spec path, e.g. `color.action.default`) → per-mode hex. Sparse:
+  /** colour role (spec path, e.g. `color.interactive.primary.fill.rest`) → per-mode hex. Sparse:
    *  a narrowed-modes theme only carries the modes it generates (L-16 — typed
    *  `Partial` so a consumer can't assume `.dark` exists on a light-only brand). */
   colors: Record<string, Partial<Record<ModeName, string>>>;

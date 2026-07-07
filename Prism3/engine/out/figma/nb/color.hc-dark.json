@@ -436,14 +436,14 @@
       }
     },
     {
-      "name": "color/foreground/danger/default",
+      "name": "color/foreground/danger",
       "resolvedType": "COLOR",
       "scopes": [
         "FRAME_FILL",
         "SHAPE_FILL",
         "TEXT_FILL"
       ],
-      "description": "Danger / destructive fill — default",
+      "description": "Bold danger fill — clears 4.5:1 on the floor (neutral.050)",
       "value": {
         "r": 0.8980392217636108,
         "g": 0.5686274766921997,
@@ -453,226 +453,6 @@
       "alias": {
         "type": "VARIABLE_ALIAS",
         "name": "palette/red/300"
-      }
-    },
-    {
-      "name": "color/foreground/danger/hover",
-      "resolvedType": "COLOR",
-      "scopes": [
-        "FRAME_FILL",
-        "SHAPE_FILL",
-        "TEXT_FILL"
-      ],
-      "description": "Danger / destructive fill — hover",
-      "value": {
-        "r": 0.9098039269447327,
-        "g": 0.6392157077789307,
-        "b": 0.6235294342041016,
-        "a": 1
-      },
-      "alias": {
-        "type": "VARIABLE_ALIAS",
-        "name": "palette/red/250"
-      }
-    },
-    {
-      "name": "color/foreground/danger/pressed",
-      "resolvedType": "COLOR",
-      "scopes": [
-        "FRAME_FILL",
-        "SHAPE_FILL",
-        "TEXT_FILL"
-      ],
-      "description": "Danger / destructive fill — pressed",
-      "value": {
-        "r": 0.9215686321258545,
-        "g": 0.7058823704719543,
-        "b": 0.6941176652908325,
-        "a": 1
-      },
-      "alias": {
-        "type": "VARIABLE_ALIAS",
-        "name": "palette/red/200"
-      }
-    },
-    {
-      "name": "color/foreground/danger/focused",
-      "resolvedType": "COLOR",
-      "scopes": [
-        "FRAME_FILL",
-        "SHAPE_FILL",
-        "TEXT_FILL"
-      ],
-      "description": "Danger / destructive fill — focused",
-      "value": {
-        "r": 0.9098039269447327,
-        "g": 0.6392157077789307,
-        "b": 0.6235294342041016,
-        "a": 1
-      },
-      "alias": {
-        "type": "VARIABLE_ALIAS",
-        "name": "palette/red/250"
-      }
-    },
-    {
-      "name": "color/foreground/danger/selected",
-      "resolvedType": "COLOR",
-      "scopes": [
-        "FRAME_FILL",
-        "SHAPE_FILL",
-        "TEXT_FILL"
-      ],
-      "description": "Danger / destructive fill — selected",
-      "value": {
-        "r": 0.9215686321258545,
-        "g": 0.7058823704719543,
-        "b": 0.6941176652908325,
-        "a": 1
-      },
-      "alias": {
-        "type": "VARIABLE_ALIAS",
-        "name": "palette/red/200"
-      }
-    },
-    {
-      "name": "color/foreground/danger/disabled",
-      "resolvedType": "COLOR",
-      "scopes": [
-        "FRAME_FILL",
-        "SHAPE_FILL",
-        "TEXT_FILL"
-      ],
-      "description": "Danger / destructive fill — disabled",
-      "value": {
-        "r": 0.20392157137393951,
-        "g": 0.21960784494876862,
-        "b": 0.23529411852359772,
-        "a": 1
-      },
-      "alias": {
-        "type": "VARIABLE_ALIAS",
-        "name": "palette/neutral/750"
-      }
-    },
-    {
-      "name": "color/action/default",
-      "resolvedType": "COLOR",
-      "scopes": [
-        "FRAME_FILL",
-        "SHAPE_FILL",
-        "STROKE_COLOR"
-      ],
-      "description": "Interactive (action) fill — default",
-      "value": {
-        "r": 0.8980392217636108,
-        "g": 0.5686274766921997,
-        "b": 0.5529412031173706,
-        "a": 1
-      },
-      "alias": {
-        "type": "VARIABLE_ALIAS",
-        "name": "palette/red/300"
-      }
-    },
-    {
-      "name": "color/action/hover",
-      "resolvedType": "COLOR",
-      "scopes": [
-        "FRAME_FILL",
-        "SHAPE_FILL",
-        "STROKE_COLOR"
-      ],
-      "description": "Interactive (action) fill — hover",
-      "value": {
-        "r": 0.9098039269447327,
-        "g": 0.6392157077789307,
-        "b": 0.6235294342041016,
-        "a": 1
-      },
-      "alias": {
-        "type": "VARIABLE_ALIAS",
-        "name": "palette/red/250"
-      }
-    },
-    {
-      "name": "color/action/pressed",
-      "resolvedType": "COLOR",
-      "scopes": [
-        "FRAME_FILL",
-        "SHAPE_FILL",
-        "STROKE_COLOR"
-      ],
-      "description": "Interactive (action) fill — pressed",
-      "value": {
-        "r": 0.9215686321258545,
-        "g": 0.7058823704719543,
-        "b": 0.6941176652908325,
-        "a": 1
-      },
-      "alias": {
-        "type": "VARIABLE_ALIAS",
-        "name": "palette/red/200"
-      }
-    },
-    {
-      "name": "color/action/focused",
-      "resolvedType": "COLOR",
-      "scopes": [
-        "FRAME_FILL",
-        "SHAPE_FILL",
-        "STROKE_COLOR"
-      ],
-      "description": "Interactive (action) fill — focused",
-      "value": {
-        "r": 0.9098039269447327,
-        "g": 0.6392157077789307,
-        "b": 0.6235294342041016,
-        "a": 1
-      },
-      "alias": {
-        "type": "VARIABLE_ALIAS",
-        "name": "palette/red/250"
-      }
-    },
-    {
-      "name": "color/action/selected",
-      "resolvedType": "COLOR",
-      "scopes": [
-        "FRAME_FILL",
-        "SHAPE_FILL",
-        "STROKE_COLOR"
-      ],
-      "description": "Interactive (action) fill — selected",
-      "value": {
-        "r": 0.9215686321258545,
-        "g": 0.7058823704719543,
-        "b": 0.6941176652908325,
-        "a": 1
-      },
-      "alias": {
-        "type": "VARIABLE_ALIAS",
-        "name": "palette/red/200"
-      }
-    },
-    {
-      "name": "color/action/disabled",
-      "resolvedType": "COLOR",
-      "scopes": [
-        "FRAME_FILL",
-        "SHAPE_FILL",
-        "STROKE_COLOR"
-      ],
-      "description": "Interactive (action) fill — disabled",
-      "value": {
-        "r": 0.20392157137393951,
-        "g": 0.21960784494876862,
-        "b": 0.23529411852359772,
-        "a": 1
-      },
-      "alias": {
-        "type": "VARIABLE_ALIAS",
-        "name": "palette/neutral/750"
       }
     },
     {
@@ -768,25 +548,6 @@
       "alias": {
         "type": "VARIABLE_ALIAS",
         "name": "palette/red/200"
-      }
-    },
-    {
-      "name": "color/interactive/primary/fill/disabled",
-      "resolvedType": "COLOR",
-      "scopes": [
-        "FRAME_FILL",
-        "SHAPE_FILL"
-      ],
-      "description": "primary interactive fill — disabled",
-      "value": {
-        "r": 0.20392157137393951,
-        "g": 0.21960784494876862,
-        "b": 0.23529411852359772,
-        "a": 1
-      },
-      "alias": {
-        "type": "VARIABLE_ALIAS",
-        "name": "palette/neutral/750"
       }
     },
     {
@@ -1017,25 +778,6 @@
       }
     },
     {
-      "name": "color/interactive/destructive/fill/disabled",
-      "resolvedType": "COLOR",
-      "scopes": [
-        "FRAME_FILL",
-        "SHAPE_FILL"
-      ],
-      "description": "destructive interactive fill — disabled",
-      "value": {
-        "r": 0.20392157137393951,
-        "g": 0.21960784494876862,
-        "b": 0.23529411852359772,
-        "a": 1
-      },
-      "alias": {
-        "type": "VARIABLE_ALIAS",
-        "name": "palette/neutral/750"
-      }
-    },
-    {
       "name": "color/interactive/destructive/on-fill",
       "resolvedType": "COLOR",
       "scopes": [
@@ -1251,25 +993,6 @@
         "SHAPE_FILL"
       ],
       "description": "neutral interactive fill — selected",
-      "value": {
-        "r": 0.20392157137393951,
-        "g": 0.21960784494876862,
-        "b": 0.23529411852359772,
-        "a": 1
-      },
-      "alias": {
-        "type": "VARIABLE_ALIAS",
-        "name": "palette/neutral/750"
-      }
-    },
-    {
-      "name": "color/interactive/neutral/fill/disabled",
-      "resolvedType": "COLOR",
-      "scopes": [
-        "FRAME_FILL",
-        "SHAPE_FILL"
-      ],
-      "description": "neutral interactive fill — disabled",
       "value": {
         "r": 0.20392157137393951,
         "g": 0.21960784494876862,
@@ -1563,24 +1286,6 @@
       }
     },
     {
-      "name": "color/text/disabled",
-      "resolvedType": "COLOR",
-      "scopes": [
-        "TEXT_FILL"
-      ],
-      "description": "Disabled text — clears 3:1 (accessible)",
-      "value": {
-        "r": 0.4901960790157318,
-        "g": 0.5137255191802979,
-        "b": 0.529411792755127,
-        "a": 1
-      },
-      "alias": {
-        "type": "VARIABLE_ALIAS",
-        "name": "palette/neutral/450"
-      }
-    },
-    {
       "name": "color/text/brand",
       "resolvedType": "COLOR",
       "scopes": [
@@ -1761,24 +1466,6 @@
       }
     },
     {
-      "name": "color/text/on-action",
-      "resolvedType": "COLOR",
-      "scopes": [
-        "TEXT_FILL"
-      ],
-      "description": "text on the action fill",
-      "value": {
-        "r": 0,
-        "g": 0,
-        "b": 0,
-        "a": 1
-      },
-      "alias": {
-        "type": "VARIABLE_ALIAS",
-        "name": "palette/black"
-      }
-    },
-    {
       "name": "color/text/on-brand",
       "resolvedType": "COLOR",
       "scopes": [
@@ -1884,24 +1571,6 @@
       "alias": {
         "type": "VARIABLE_ALIAS",
         "name": "palette/black"
-      }
-    },
-    {
-      "name": "color/text/on-disabled",
-      "resolvedType": "COLOR",
-      "scopes": [
-        "TEXT_FILL"
-      ],
-      "description": "text on a disabled fill — muted, clears 3:1",
-      "value": {
-        "r": 0.6392157077789307,
-        "g": 0.658823549747467,
-        "b": 0.6705882549285889,
-        "a": 1
-      },
-      "alias": {
-        "type": "VARIABLE_ALIAS",
-        "name": "palette/neutral/300"
       }
     },
     {
@@ -2025,26 +1694,6 @@
         "STROKE_COLOR"
       ],
       "description": "Tertiary icon — 3:1 on the floor",
-      "value": {
-        "r": 0.4901960790157318,
-        "g": 0.5137255191802979,
-        "b": 0.529411792755127,
-        "a": 1
-      },
-      "alias": {
-        "type": "VARIABLE_ALIAS",
-        "name": "palette/neutral/450"
-      }
-    },
-    {
-      "name": "color/icon/disabled",
-      "resolvedType": "COLOR",
-      "scopes": [
-        "FRAME_FILL",
-        "SHAPE_FILL",
-        "STROKE_COLOR"
-      ],
-      "description": "Disabled icon — clears 3:1 (accessible)",
       "value": {
         "r": 0.4901960790157318,
         "g": 0.5137255191802979,
@@ -2257,26 +1906,6 @@
       }
     },
     {
-      "name": "color/icon/on-action",
-      "resolvedType": "COLOR",
-      "scopes": [
-        "FRAME_FILL",
-        "SHAPE_FILL",
-        "STROKE_COLOR"
-      ],
-      "description": "icon on the action fill",
-      "value": {
-        "r": 0,
-        "g": 0,
-        "b": 0,
-        "a": 1
-      },
-      "alias": {
-        "type": "VARIABLE_ALIAS",
-        "name": "palette/black"
-      }
-    },
-    {
       "name": "color/icon/on-brand",
       "resolvedType": "COLOR",
       "scopes": [
@@ -2394,26 +2023,6 @@
       "alias": {
         "type": "VARIABLE_ALIAS",
         "name": "palette/black"
-      }
-    },
-    {
-      "name": "color/icon/on-disabled",
-      "resolvedType": "COLOR",
-      "scopes": [
-        "FRAME_FILL",
-        "SHAPE_FILL",
-        "STROKE_COLOR"
-      ],
-      "description": "icon on a disabled fill — muted, clears 3:1",
-      "value": {
-        "r": 0.6392157077789307,
-        "g": 0.658823549747467,
-        "b": 0.6705882549285889,
-        "a": 1
-      },
-      "alias": {
-        "type": "VARIABLE_ALIAS",
-        "name": "palette/neutral/300"
       }
     },
     {

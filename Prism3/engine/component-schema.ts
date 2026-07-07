@@ -28,7 +28,7 @@
  */
 import { normalizeRef, tokenPaths, isPrimitiveRef } from './eval';
 
-/** A reference to a token by its root-relative dotted path (`color.action.default`,
+/** A reference to a token by its root-relative dotted path (`color.interactive.primary.fill.rest`,
  *  `radius.md`). Validated to resolve against the generated tree. */
 export type TokenRef = string;
 

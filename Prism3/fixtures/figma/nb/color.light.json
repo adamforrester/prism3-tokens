@@ -503,7 +503,7 @@
     },
     {
       "id": "VariableID:4:25",
-      "name": "color/foreground/danger/default",
+      "name": "color/foreground/danger",
       "resolvedType": "COLOR",
       "scopes": [
         "FRAME_FILL",
@@ -521,259 +521,6 @@
         "type": "VARIABLE_ALIAS",
         "id": "VariableID:3:14",
         "name": "palette/red/550"
-      },
-      "codeSyntax": {}
-    },
-    {
-      "id": "VariableID:4:26",
-      "name": "color/foreground/danger/hover",
-      "resolvedType": "COLOR",
-      "scopes": [
-        "FRAME_FILL",
-        "SHAPE_FILL",
-        "TEXT_FILL"
-      ],
-      "description": "",
-      "value": {
-        "r": 0.7215690016746521,
-        "g": 0,
-        "b": 0.1411760002374649,
-        "a": 1
-      },
-      "alias": {
-        "type": "VARIABLE_ALIAS",
-        "id": "VariableID:3:15",
-        "name": "palette/red/600"
-      },
-      "codeSyntax": {}
-    },
-    {
-      "id": "VariableID:4:27",
-      "name": "color/foreground/danger/pressed",
-      "resolvedType": "COLOR",
-      "scopes": [
-        "FRAME_FILL",
-        "SHAPE_FILL",
-        "TEXT_FILL"
-      ],
-      "description": "",
-      "value": {
-        "r": 0.6313729882240295,
-        "g": 0,
-        "b": 0.11764699965715408,
-        "a": 1
-      },
-      "alias": {
-        "type": "VARIABLE_ALIAS",
-        "id": "VariableID:3:16",
-        "name": "palette/red/650"
-      },
-      "codeSyntax": {}
-    },
-    {
-      "id": "VariableID:4:28",
-      "name": "color/foreground/danger/focused",
-      "resolvedType": "COLOR",
-      "scopes": [
-        "FRAME_FILL",
-        "SHAPE_FILL",
-        "TEXT_FILL"
-      ],
-      "description": "",
-      "value": {
-        "r": 0.7215690016746521,
-        "g": 0,
-        "b": 0.1411760002374649,
-        "a": 1
-      },
-      "alias": {
-        "type": "VARIABLE_ALIAS",
-        "id": "VariableID:3:15",
-        "name": "palette/red/600"
-      },
-      "codeSyntax": {}
-    },
-    {
-      "id": "VariableID:4:29",
-      "name": "color/foreground/danger/selected",
-      "resolvedType": "COLOR",
-      "scopes": [
-        "FRAME_FILL",
-        "SHAPE_FILL",
-        "TEXT_FILL"
-      ],
-      "description": "",
-      "value": {
-        "r": 0.6313729882240295,
-        "g": 0,
-        "b": 0.11764699965715408,
-        "a": 1
-      },
-      "alias": {
-        "type": "VARIABLE_ALIAS",
-        "id": "VariableID:3:16",
-        "name": "palette/red/650"
-      },
-      "codeSyntax": {}
-    },
-    {
-      "id": "VariableID:4:30",
-      "name": "color/foreground/danger/disabled",
-      "resolvedType": "COLOR",
-      "scopes": [
-        "FRAME_FILL",
-        "SHAPE_FILL",
-        "TEXT_FILL"
-      ],
-      "description": "",
-      "value": {
-        "r": 0.7450979948043823,
-        "g": 0.756862998008728,
-        "b": 0.7686269879341125,
-        "a": 1
-      },
-      "alias": {
-        "type": "VARIABLE_ALIAS",
-        "id": "VariableID:3:67",
-        "name": "palette/neutral/200"
-      },
-      "codeSyntax": {}
-    },
-    {
-      "id": "VariableID:4:31",
-      "name": "color/action/default",
-      "resolvedType": "COLOR",
-      "scopes": [
-        "FRAME_FILL",
-        "SHAPE_FILL",
-        "STROKE_COLOR"
-      ],
-      "description": "",
-      "value": {
-        "r": 0.8117650151252747,
-        "g": 0.043136999011039734,
-        "b": 0.17254899442195892,
-        "a": 1
-      },
-      "alias": {
-        "type": "VARIABLE_ALIAS",
-        "id": "VariableID:3:14",
-        "name": "palette/red/550"
-      },
-      "codeSyntax": {}
-    },
-    {
-      "id": "VariableID:4:32",
-      "name": "color/action/hover",
-      "resolvedType": "COLOR",
-      "scopes": [
-        "FRAME_FILL",
-        "SHAPE_FILL",
-        "STROKE_COLOR"
-      ],
-      "description": "",
-      "value": {
-        "r": 0.7215690016746521,
-        "g": 0,
-        "b": 0.1411760002374649,
-        "a": 1
-      },
-      "alias": {
-        "type": "VARIABLE_ALIAS",
-        "id": "VariableID:3:15",
-        "name": "palette/red/600"
-      },
-      "codeSyntax": {}
-    },
-    {
-      "id": "VariableID:4:33",
-      "name": "color/action/pressed",
-      "resolvedType": "COLOR",
-      "scopes": [
-        "FRAME_FILL",
-        "SHAPE_FILL",
-        "STROKE_COLOR"
-      ],
-      "description": "",
-      "value": {
-        "r": 0.6313729882240295,
-        "g": 0,
-        "b": 0.11764699965715408,
-        "a": 1
-      },
-      "alias": {
-        "type": "VARIABLE_ALIAS",
-        "id": "VariableID:3:16",
-        "name": "palette/red/650"
-      },
-      "codeSyntax": {}
-    },
-    {
-      "id": "VariableID:4:34",
-      "name": "color/action/focused",
-      "resolvedType": "COLOR",
-      "scopes": [
-        "FRAME_FILL",
-        "SHAPE_FILL",
-        "STROKE_COLOR"
-      ],
-      "description": "",
-      "value": {
-        "r": 0.7215690016746521,
-        "g": 0,
-        "b": 0.1411760002374649,
-        "a": 1
-      },
-      "alias": {
-        "type": "VARIABLE_ALIAS",
-        "id": "VariableID:3:15",
-        "name": "palette/red/600"
-      },
-      "codeSyntax": {}
-    },
-    {
-      "id": "VariableID:4:35",
-      "name": "color/action/selected",
-      "resolvedType": "COLOR",
-      "scopes": [
-        "FRAME_FILL",
-        "SHAPE_FILL",
-        "STROKE_COLOR"
-      ],
-      "description": "",
-      "value": {
-        "r": 0.6313729882240295,
-        "g": 0,
-        "b": 0.11764699965715408,
-        "a": 1
-      },
-      "alias": {
-        "type": "VARIABLE_ALIAS",
-        "id": "VariableID:3:16",
-        "name": "palette/red/650"
-      },
-      "codeSyntax": {}
-    },
-    {
-      "id": "VariableID:4:36",
-      "name": "color/action/disabled",
-      "resolvedType": "COLOR",
-      "scopes": [
-        "FRAME_FILL",
-        "SHAPE_FILL",
-        "STROKE_COLOR"
-      ],
-      "description": "",
-      "value": {
-        "r": 0.7450979948043823,
-        "g": 0.756862998008728,
-        "b": 0.7686269879341125,
-        "a": 1
-      },
-      "alias": {
-        "type": "VARIABLE_ALIAS",
-        "id": "VariableID:3:67",
-        "name": "palette/neutral/200"
       },
       "codeSyntax": {}
     },
@@ -822,27 +569,6 @@
     {
       "id": "VariableID:4:39",
       "name": "color/text/tertiary",
-      "resolvedType": "COLOR",
-      "scopes": [
-        "TEXT_FILL"
-      ],
-      "description": "",
-      "value": {
-        "r": 0.49019598960876465,
-        "g": 0.5137249827384949,
-        "b": 0.5294119715690613,
-        "a": 1
-      },
-      "alias": {
-        "type": "VARIABLE_ALIAS",
-        "id": "VariableID:3:72",
-        "name": "palette/neutral/450"
-      },
-      "codeSyntax": {}
-    },
-    {
-      "id": "VariableID:4:40",
-      "name": "color/text/disabled",
       "resolvedType": "COLOR",
       "scopes": [
         "TEXT_FILL"
@@ -1072,27 +798,6 @@
       "codeSyntax": {}
     },
     {
-      "id": "VariableID:4:51",
-      "name": "color/text/on-action",
-      "resolvedType": "COLOR",
-      "scopes": [
-        "TEXT_FILL"
-      ],
-      "description": "",
-      "value": {
-        "r": 1,
-        "g": 1,
-        "b": 1,
-        "a": 1
-      },
-      "alias": {
-        "type": "VARIABLE_ALIAS",
-        "id": "VariableID:3:3",
-        "name": "palette/white"
-      },
-      "codeSyntax": {}
-    },
-    {
       "id": "VariableID:4:52",
       "name": "color/text/on-brand",
       "resolvedType": "COLOR",
@@ -1215,27 +920,6 @@
         "type": "VARIABLE_ALIAS",
         "id": "VariableID:3:83",
         "name": "palette/neutral/025"
-      },
-      "codeSyntax": {}
-    },
-    {
-      "id": "VariableID:4:58",
-      "name": "color/text/on-disabled",
-      "resolvedType": "COLOR",
-      "scopes": [
-        "TEXT_FILL"
-      ],
-      "description": "",
-      "value": {
-        "r": 0.3882350027561188,
-        "g": 0.4156860113143921,
-        "b": 0.4352940022945404,
-        "a": 1
-      },
-      "alias": {
-        "type": "VARIABLE_ALIAS",
-        "id": "VariableID:3:74",
-        "name": "palette/neutral/550"
       },
       "codeSyntax": {}
     },
@@ -1372,29 +1056,6 @@
     {
       "id": "VariableID:4:65",
       "name": "color/icon/tertiary",
-      "resolvedType": "COLOR",
-      "scopes": [
-        "FRAME_FILL",
-        "SHAPE_FILL",
-        "STROKE_COLOR"
-      ],
-      "description": "",
-      "value": {
-        "r": 0.49019598960876465,
-        "g": 0.5137249827384949,
-        "b": 0.5294119715690613,
-        "a": 1
-      },
-      "alias": {
-        "type": "VARIABLE_ALIAS",
-        "id": "VariableID:3:72",
-        "name": "palette/neutral/450"
-      },
-      "codeSyntax": {}
-    },
-    {
-      "id": "VariableID:4:66",
-      "name": "color/icon/disabled",
       "resolvedType": "COLOR",
       "scopes": [
         "FRAME_FILL",
@@ -1646,29 +1307,6 @@
       "codeSyntax": {}
     },
     {
-      "id": "VariableID:4:77",
-      "name": "color/icon/on-action",
-      "resolvedType": "COLOR",
-      "scopes": [
-        "FRAME_FILL",
-        "SHAPE_FILL",
-        "STROKE_COLOR"
-      ],
-      "description": "",
-      "value": {
-        "r": 1,
-        "g": 1,
-        "b": 1,
-        "a": 1
-      },
-      "alias": {
-        "type": "VARIABLE_ALIAS",
-        "id": "VariableID:3:3",
-        "name": "palette/white"
-      },
-      "codeSyntax": {}
-    },
-    {
       "id": "VariableID:4:78",
       "name": "color/icon/on-brand",
       "resolvedType": "COLOR",
@@ -1803,29 +1441,6 @@
         "type": "VARIABLE_ALIAS",
         "id": "VariableID:3:83",
         "name": "palette/neutral/025"
-      },
-      "codeSyntax": {}
-    },
-    {
-      "id": "VariableID:4:84",
-      "name": "color/icon/on-disabled",
-      "resolvedType": "COLOR",
-      "scopes": [
-        "FRAME_FILL",
-        "SHAPE_FILL",
-        "STROKE_COLOR"
-      ],
-      "description": "",
-      "value": {
-        "r": 0.3882350027561188,
-        "g": 0.4156860113143921,
-        "b": 0.4352940022945404,
-        "a": 1
-      },
-      "alias": {
-        "type": "VARIABLE_ALIAS",
-        "id": "VariableID:3:74",
-        "name": "palette/neutral/550"
       },
       "codeSyntax": {}
     },
