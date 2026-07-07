@@ -1160,7 +1160,8 @@
       "resolvedType": "COLOR",
       "scopes": [
         "FRAME_FILL",
-        "SHAPE_FILL"
+        "SHAPE_FILL",
+        "TEXT_FILL"
       ],
       "description": "Label / icon on a disabled fill — muted but clears 3:1",
       "value": {
@@ -1178,8 +1179,7 @@
       "name": "color/disabled/text",
       "resolvedType": "COLOR",
       "scopes": [
-        "FRAME_FILL",
-        "SHAPE_FILL"
+        "TEXT_FILL"
       ],
       "description": "Disabled text — clears 3:1 (accessible)",
       "value": {
@@ -1198,7 +1198,8 @@
       "resolvedType": "COLOR",
       "scopes": [
         "FRAME_FILL",
-        "SHAPE_FILL"
+        "SHAPE_FILL",
+        "STROKE_COLOR"
       ],
       "description": "Disabled icon — clears 3:1 (accessible)",
       "value": {
@@ -1216,8 +1217,7 @@
       "name": "color/disabled/border",
       "resolvedType": "COLOR",
       "scopes": [
-        "FRAME_FILL",
-        "SHAPE_FILL"
+        "STROKE_COLOR"
       ],
       "description": "Disabled control border — muted neutral",
       "value": {

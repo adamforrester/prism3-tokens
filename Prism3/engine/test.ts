@@ -234,6 +234,19 @@ for (const b of brands) {
   if (scopeOf('color/interactive/primary/fill/rest') !== JSON.stringify(['FRAME_FILL', 'SHAPE_FILL'])) scopeBad.push('primary/fill/rest');
   ok(scopeBad.length === 0, 'interactive: Figma slots carry slot-aware scopes' + (scopeBad.length ? ` — ${scopeBad.join(',')}` : ''));
 
+  // (e2) disabled.<slot> is also slot-scoped — surface/on-disabled paint, text=TEXT_FILL,
+  //     icon=[FRAME,SHAPE,STROKE], border=STROKE. Before this gate, disabled had no entry
+  //     in COLOR_SCOPES so the family fell through to fill scopes and inks miscased —
+  //     the NB fixture doesn't carry disabled/*, so the round-trip test was the only
+  //     signal. This pins all five slots.
+  const disabledScopeBad: string[] = [];
+  if (scopeOf('color/disabled/surface') !== JSON.stringify(['FRAME_FILL', 'SHAPE_FILL'])) disabledScopeBad.push('disabled/surface');
+  if (scopeOf('color/disabled/on-disabled') !== JSON.stringify(['FRAME_FILL', 'SHAPE_FILL', 'TEXT_FILL'])) disabledScopeBad.push('disabled/on-disabled');
+  if (scopeOf('color/disabled/text') !== JSON.stringify(['TEXT_FILL'])) disabledScopeBad.push('disabled/text');
+  if (scopeOf('color/disabled/icon') !== JSON.stringify(['FRAME_FILL', 'SHAPE_FILL', 'STROKE_COLOR'])) disabledScopeBad.push('disabled/icon');
+  if (scopeOf('color/disabled/border') !== JSON.stringify(['STROKE_COLOR'])) disabledScopeBad.push('disabled/border');
+  ok(disabledScopeBad.length === 0, 'disabled: Figma slots carry slot-aware scopes' + (disabledScopeBad.length ? ` — ${disabledScopeBad.join(',')}` : ''));
+
   // (f) overlays (docs/20 §6): each colour has hover/pressed/selected washes, mode-adaptive
   //     (black-alpha light / white-alpha dark), and the COMPOSITED result is a gated contract
   //     — text.primary stays ≥ AA on the tinted surface in every mode (the wash-out guard).

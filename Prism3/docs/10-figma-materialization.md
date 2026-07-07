@@ -99,15 +99,32 @@ slashes; the first segment is the collection (`palette` / `color`); **zero-pad s
 steps** (`red.50`→`red/050`, `neutral.25`→`neutral/025`; `red.450` stays `red/450`). Alias
 brace refs `{nbds.palette.red.550}` → `palette/red/550`.
 
-**Scopes by role-family** (observed — the engine must carry these per leaf):
+**Scopes by role-family** (observed — the engine must carry these per leaf).
+`interactive.<colour>.<slot>` (docs/20) and `disabled.<slot>` are **slot-scoped, not
+family-scoped** — the slot determines the picker context, not the family. Without their
+own slot maps they'd fall through to the fill default and inks would miscase (this is what
+the #84 round-trip caught for `disabled/*` — see task #85).
 
 | role family | scopes |
 |---|---|
 | `background`, `scrim` | `FRAME_FILL, SHAPE_FILL` |
 | `foreground` | `FRAME_FILL, SHAPE_FILL, TEXT_FILL` |
 | `text` | `TEXT_FILL` |
-| `icon`, `action` | `FRAME_FILL, SHAPE_FILL, STROKE_COLOR` |
+| `icon` | `FRAME_FILL, SHAPE_FILL, STROKE_COLOR` |
 | `border` | `STROKE_COLOR` |
+| `interactive.<c>.fill.*`, `.overlay.*` | `FRAME_FILL, SHAPE_FILL` |
+| `interactive.<c>.on-fill` | `FRAME_FILL, SHAPE_FILL, TEXT_FILL` |
+| `interactive.<c>.text` | `TEXT_FILL` |
+| `interactive.<c>.border` | `STROKE_COLOR` |
+| `interactive.<c>.on-inverse` | `FRAME_FILL, SHAPE_FILL` |
+| `disabled.surface`, `disabled.border` (fill) | `FRAME_FILL, SHAPE_FILL` / `STROKE_COLOR` |
+| `disabled.on-disabled` | `FRAME_FILL, SHAPE_FILL, TEXT_FILL` |
+| `disabled.text` | `TEXT_FILL` |
+| `disabled.icon` | `FRAME_FILL, SHAPE_FILL, STROKE_COLOR` |
+
+**Removed 2026-07-06:** `action` — the family was retired in task #14 (see docs/20).
+Components bind `interactive.*` / `disabled.*` instead. The bare `foreground.danger`
+replaced the stateful `foreground.danger.*` fills at the same time.
 
 **Values are per-mode.** Each mode file carries the same 95 names with that mode's resolved
 `{r,g,b,a}` **and** the same alias — the alias is what actually drives it; the literal value is
@@ -397,3 +414,63 @@ is the ideal artifact — that's also the `style-guide-generator` absorb target 
 variables, typography → atoms + Text Style, shadow → Effect Style, gradient → Paint Style, REST is
 Enterprise-only). The materialisation container-fill lesson from the spike: bind verification-frame
 containers to real `color/foreground/*` surface variables, don't hardcode.
+
+## 8. Materialising into Figma (the plugin-write procedure)
+
+`emit-figma.ts` produces the raw-figma export at `out/figma/<brand>/`; this section is how
+that JSON becomes real variables in a live file. The deterministic generator is
+**`Prism3/engine/materialise-to-figma.ts`** — a stateless shell that turns the export
+into plugin-JS payloads you paste into `figma_execute`. Its header carries the full rule
+set; the summary below is a fresh-agent quick-start.
+
+**Why a generator (not `figma_import_tokens` or `figma_batch_create_variables`):** both
+"smart" paths silently drop the semantics the §3 contract enforces. `import_tokens` is
+DTCG-only (our export is raw-figma-shaped). `batch_create_variables` accepts no scopes /
+description / `hiddenFromPublishing`. The only faithful path is executing the Variables
+Plugin API directly — which the helper generates.
+
+**The four passes (paste each into `figma_execute` in order):**
+
+```bash
+npx tsx Prism3/engine/emit-figma.ts                                       # regen out/figma/
+npx tsx Prism3/engine/materialise-to-figma.ts <brand>                     # manifest: byte sizes
+npx tsx Prism3/engine/materialise-to-figma.ts <brand> --pass palette      # 1
+npx tsx Prism3/engine/materialise-to-figma.ts <brand> --pass color-create # 2
+npx tsx Prism3/engine/materialise-to-figma.ts <brand> --pass color-aliases # 3
+npx tsx Prism3/engine/materialise-to-figma.ts <brand> --pass verify       # 4
+```
+
+1. **`palette`** — creates `core-palette` (primitives, one mode, all
+   `hiddenFromPublishing: true`). Must run first: pass 3 aliases target these var IDs.
+2. **`color-create`** — creates the `color` collection with all N modes (`light`, `dark`,
+   `hc-light`, `hc-dark`; `wireframe` if opted in) and writes the literal fallback
+   `{r,g,b,a}` per mode. Every var also carries its slot-scoped `scopes` and `description`.
+3. **`color-aliases`** — rebinds each var **per-mode** as a `VARIABLE_ALIAS` into the
+   palette. Each row is `[name, [target-per-mode]]`; the helper reads each mode file's
+   own alias target, so the mode-collapse bug the hand-rolled script hit in #84 is
+   structurally impossible here.
+4. **`verify`** — reads back via `getLocalVariablesAsync` (authoritative for scopes,
+   aliases, modes, hidden). Reports `colorVars`, `modes`, **`modesDistinct: true`**
+   (the collapse guard, probing `color/background/primary` across modes), the
+   `interactive/*` and `disabled/*` slot scopes, `retiredRolesAbsent`, and
+   `bareDangerPresent`.
+
+**Hard-won rules encoded in the helper (don't relearn these):**
+
+- **Collection ordering.** `core-palette` before `color` — aliases can only bind once
+  the target var IDs exist. Enforced by pass order.
+- **Two-pass colour write.** Create + literals first; rebind aliases second. Doing both
+  in one loop means half the aliases target vars that haven't been created yet.
+- **Per-mode alias binding.** Each mode gets its own `createVariableAlias(targetVar)`.
+  The hand-rolled first attempt bound light's target to all four modes → every mode
+  collapsed to light values. `modesDistinct` in the verify pass exists to catch this.
+- **Payload budget.** ~45 KB per `figma_execute` call is comfortable; each pass is a
+  separate call. The manifest prints byte sizes and flags anything over budget.
+- **API-probe verify, not screenshots.** Variables aren't rendered on the canvas.
+  Reading `getLocalVariablesAsync` is authoritative; a screenshot only tells you the
+  file opened.
+
+**Scope today:** the `core-palette` + `color` collections (what the round-trip test needs).
+Other axes — `dims`, `layout`, `font`, `type-sets`, `shadow`, `gradient` — can be added
+the same way as they're needed; the pattern is the shell in
+`materialise-to-figma.ts` around `emit-figma`'s corresponding builder output.
