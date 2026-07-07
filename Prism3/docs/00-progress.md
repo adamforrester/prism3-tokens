@@ -7,7 +7,41 @@
 
 ---
 
-## Latest (2026-07-06) — interactive colour family (docs/20), increments 1–4 + component rebind
+## Latest (2026-07-07) — legacy colour-role removal + NB figma-fixture reconciliation (task #14)
+
+**STATUS: in progress** on branch `claude/prism3-e2e-integration-8fwul4` (reset from fresh `main` after PR #83
+merged). The cleanup increment that #83 deliberately deferred: now that components bind `interactive.*` /
+`disabled.*`, the superseded legacy scaffolding is **removed**.
+
+**What was removed (engine):**
+- `action.*` (the top-level interactive fill + states) → `interactive.primary.*`.
+- The **stateful** `foreground.danger.*` fill → `interactive.destructive.*`. **`danger` is now a bare bold
+  `foreground.danger` fill** like `brand`/`success`/`warning`/`info` (its `on-danger` ink pairing resolves
+  cleanly against it). `foreground.danger-subtle` is unchanged.
+- Per-colour `interactive.*.fill.disabled` → the cross-cutting `disabled.*` is the SOLE disabled family.
+- `text/icon.{disabled, on-action, on-disabled}` → `disabled.text` / `disabled.icon`,
+  `interactive.<c>.on-fill`, `disabled.on-disabled`. Preview `input.disabled` rebound to `disabled.text`.
+- ai-metadata branches, the emit-figma `action` scope entry, and the test suite retargeted off the removed roles.
+
+**NB-fidelity reconciliation (the fixture re-baseline).** Removing those roles deletes vars from the frozen
+real-NB figma fixture (`fixtures/figma/nb/color.*`), so the fixture was **modernised to the engine's evolved
+layer** (owner-approved: "modernise the reference"): dropped the **17 retired vars/mode** and renamed
+`foreground/danger/default` → bare `foreground/danger` (**95 → 78 real vars/mode**). The DTCG colour-fidelity
+gate (`nb-regression`, ΔE) is **unaffected** — only the Figma variable *naming* changed. The figma name-match
+gate keeps `missing === 0` on the real families + the `interactive/` / `disabled/` allowlist for engine-added
+families.
+
+**⚠️ The "#67" mislabel — corrected.** Earlier progress/docs called this "the #67 NB-fidelity reconciliation."
+**GitHub #67 is actually the unrelated Token Press *collection-rename* question** (`palette`→`core-palette`,
+tied to #66). There was never a dedicated issue for this legacy-var fixture re-baseline; it's simply task #14.
+(docs/10's `#67` note about the `$collection` label rename is a genuinely different concern — left as-is.)
+
+**Gates: test 655/655, nb-regression exit 0, emit-dtcg 324/324 contracts per brand (was 384 — the removed
+roles carried contracts), web tsc clean, `out/*` regenerated.** Also parked (unchanged): `overlay-tint` lever.
+
+---
+
+## (2026-07-06) — interactive colour family (docs/20), increments 1–4 + component rebind
 
 **STATUS: shipped as [PR #83](https://github.com/adamforrester/prism3-tokens/pull/83)** (branch `claude/prism3-e2e-integration-8fwul4`,
 8 commits `f1d8804..73dbcbd`, base `main`). Independent reviewer **approved** increments 1–4 + rebind — both prior
