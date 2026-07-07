@@ -143,7 +143,34 @@ Every `interactive.*` token is **generated** (walk the intent's palette for fill
 3. ✅ Rebind Button/IconButton (and the eval preview) to `interactive.*` / `disabled.*` — reconciled to
    `filled/outline/text × primary/neutral/destructive`; the v1 HIGH finding (hover-less default button)
    is closed because neutral now carries states. `brand.*`-on-buttons leak removed from the preview.
-4. `field.*` with the Text Field calibration component.
+4. ⏳ `field.*` with the Text Field calibration component — **design in §17 below**; increment in progress.
+
+## 17. The `field.*` category (form-element chrome)
+
+Field research (`Tokens/Prism2` `surface.input.*` / `border.input.*`) shows what a field genuinely
+needs that generic roles don't supply — but most of Prism2's input tokens are **already covered
+better** by Prism3's generated families and must **not** be duplicated. So `field.*` is deliberately
+**minimal**: only the chrome that is genuinely field-specific. Everything stateful is composed from
+the existing gated families (per §15: *the field's interaction states come from `interactive.*`*).
+
+**Generated `field.*` roles (three):**
+
+| role | what | contract |
+|---|---|---|
+| `field.surface` | the field fill — a subtly *inset* neutral so the field reads as an input even before focus | surface (min 0); the value ink `text.primary` clears on it (it tracks the page tier) |
+| `field.border` | the resting boundary | **gated `nonTextMin` (3:1 / 4.5 HC) against `background.primary`** — SC 1.4.11. **This is the improvement over Prism2**, whose resting input border sat sub-3:1 and leaned entirely on focus |
+| `field.placeholder` | placeholder / hint ink on the field fill | **gated `secondaryMin` (4.5) against `field.surface`** — a *readable* hint, not the sub-AA placeholder Prism2 (and most systems) ship |
+
+**Composed from existing families — NOT re-authored in `field.*`:**
+- **focus** → `border.focus` (already gated 3:1). Prism2 had *no* input-focus token.
+- **validation** (error / warning / success field) → `border.{semantic}` + `foreground.{semantic}-subtle` (both already gated). Prism2 reused the shared `border.danger` anyway.
+- **disabled field** → the cross-cutting `disabled.{surface,border,text}`. Prism2 had no disabled input token.
+- **hover / pressed** → `interactive.*` overlays.
+- **filled value ink** → `text.primary`. **inverse** → the generated inverse surface-context (a component concern; no hand-mirrored `field.*-inverse` twins — the thing Prism2 spent the most tokens on).
+
+**Text Field calibration component** binds: `field.surface` (fill) · `field.border` (rest) → `border.focus` (focus) → `border.danger` + `foreground.danger-subtle` (error) → `disabled.*` (disabled) · `text.primary` (value) · `field.placeholder` (placeholder). The layout-shift-prevention trick (an invisible resting border sized to the focus border) is a **component** detail, not a token.
+
+*Increment scope:* the three `field.*` roles + rebinding the eval-preview `input` component onto them + gates. A formal Text Field `ComponentDef` (like Button) is a follow-on.
 
 ---
 

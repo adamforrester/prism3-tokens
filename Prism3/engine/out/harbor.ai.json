@@ -1278,6 +1278,67 @@
         "disabled.surface"
       ]
     },
+    "field.surface": {
+      "$description": "Form field fill.",
+      "meaning": "Form input / field chrome",
+      "when_to_use": "The background of a text input / form field — a subtly inset surface.",
+      "avoid_when": "Do not use for the page (use background.*) or a card (use foreground.*).",
+      "mode_overrides": {
+        "light": "{prism.palette.neutral.100}",
+        "dark": "{prism.palette.neutral.900}",
+        "hc-light": "{prism.palette.white}",
+        "hc-dark": "{prism.palette.black}"
+      },
+      "paired_with": [
+        "field.border",
+        "field.placeholder",
+        "text.primary"
+      ]
+    },
+    "field.border": {
+      "$description": "Form field resting border.",
+      "meaning": "Form input / field chrome",
+      "when_to_use": "The RESTING boundary of a form field — perceivable (3:1) before focus.",
+      "avoid_when": "Do not use for the focus ring (use border.focus) or a validation state (use border.<semantic>).",
+      "mode_overrides": {
+        "light": "{prism.palette.neutral.450}",
+        "dark": "{prism.palette.neutral.550}",
+        "hc-light": "{prism.palette.neutral.500}",
+        "hc-dark": "{prism.palette.neutral.500}"
+      },
+      "paired_with": [
+        "field.surface"
+      ],
+      "contrast_with": [
+        {
+          "token": "background.primary",
+          "min": "3:1",
+          "ratio": 3.2
+        }
+      ]
+    },
+    "field.placeholder": {
+      "$description": "Form field placeholder ink.",
+      "meaning": "Form input / field chrome",
+      "when_to_use": "Placeholder / hint text inside a field — readable (4.5) on the field fill.",
+      "avoid_when": "Do not use as a label (a11y anti-pattern) or for the entered value (use text.primary).",
+      "mode_overrides": {
+        "light": "{prism.palette.neutral.600}",
+        "dark": "{prism.palette.neutral.450}",
+        "hc-light": "{prism.palette.neutral.650}",
+        "hc-dark": "{prism.palette.neutral.350}"
+      },
+      "paired_with": [
+        "field.surface"
+      ],
+      "contrast_with": [
+        {
+          "token": "field.surface",
+          "min": "4.5:1",
+          "ratio": 4.88
+        }
+      ]
+    },
     "text.primary": {
       "$description": "Primary (highest-emphasis) text.",
       "meaning": "Content hierarchy / reading emphasis",
@@ -2910,6 +2971,7 @@
         "color.background.primary",
         "color.background.secondary",
         "color.background.tertiary",
+        "color.field.surface",
         "color.foreground.inverse.primary",
         "color.foreground.inverse.secondary",
         "color.foreground.inverse.tertiary",
@@ -2950,6 +3012,7 @@
         "color.background.primary",
         "color.background.secondary",
         "color.background.tertiary",
+        "color.field.surface",
         "color.foreground.inverse.primary",
         "color.foreground.inverse.secondary",
         "color.foreground.inverse.tertiary",
@@ -3238,6 +3301,7 @@
       "aliased_by": [
         "color.background.inverse.tertiary",
         "color.background.secondary",
+        "color.field.surface",
         "color.foreground.inverse.secondary",
         "color.foreground.primary"
       ]
@@ -3300,7 +3364,10 @@
       "meaning": "neutral ramp — raw step 350",
       "intent": "Subtle borders, dividers, and disabled / secondary fills",
       "tier": "primitive",
-      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step."
+      "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
+      "aliased_by": [
+        "color.field.placeholder"
+      ]
     },
     "palette.neutral.400": {
       "$description": "Neutral 400 — Mid-Tone band",
@@ -3320,6 +3387,8 @@
         "color.disabled.icon",
         "color.disabled.on-disabled",
         "color.disabled.text",
+        "color.field.border",
+        "color.field.placeholder",
         "color.icon.secondary",
         "color.icon.tertiary",
         "color.interactive.neutral.border",
@@ -3339,6 +3408,7 @@
         "color.border.secondary",
         "color.disabled.icon",
         "color.disabled.text",
+        "color.field.border",
         "color.icon.tertiary",
         "color.interactive.neutral.border",
         "color.text.tertiary"
@@ -3354,6 +3424,7 @@
         "color.disabled.icon",
         "color.disabled.on-disabled",
         "color.disabled.text",
+        "color.field.border",
         "color.icon.tertiary",
         "color.interactive.neutral.border",
         "color.text.tertiary"
@@ -3368,6 +3439,7 @@
       "aliased_by": [
         "color.disabled.icon",
         "color.disabled.text",
+        "color.field.placeholder",
         "color.icon.secondary",
         "color.icon.tertiary",
         "color.text.secondary",
@@ -3381,7 +3453,8 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "color.disabled.on-disabled"
+        "color.disabled.on-disabled",
+        "color.field.placeholder"
       ]
     },
     "palette.neutral.700": {
@@ -3447,6 +3520,7 @@
       "aliased_by": [
         "color.background.inverse.secondary",
         "color.background.secondary",
+        "color.field.surface",
         "color.foreground.inverse.primary",
         "color.foreground.primary"
       ]

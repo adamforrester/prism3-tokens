@@ -58,18 +58,17 @@ export const previewSpec: PreviewSpec = {
       }],
     },
     {
-      id: 'input', label: 'Text input', description: 'A form field — default, focused (brand ring), and disabled.',
+      id: 'input', label: 'Text input', description: 'A form field on the field.* chrome — resting, focused (border.focus), and disabled (disabled.*).',
       variants: [
-        // `border.primary` is bound for rendering but NOT contracted: the engine
-        // ships it decorative (min 0, ~1.5:1) — the input's 3:1 obligation is carried
-        // by the focus ring (border.focus, contracted on the focus variant), not the
-        // resting border. (Same as `card`'s decorative border.secondary — bound, not contracted.)
-        { name: 'default', bindings: { bg: 'color.background.primary', border: 'color.border.primary', text: 'color.text.primary', placeholder: 'color.text.tertiary', radius: 'radius.sm', padX: 'space.200', padY: 'space.150', type: 'type.body.md.default' },
-          contracts: [{ fg: 'color.text.primary', bg: 'color.background.primary', min: TEXT, label: 'value on field' }] },
-        { name: 'focus', bindings: { bg: 'color.background.primary', border: 'color.border.focus', text: 'color.text.primary', radius: 'radius.sm', padX: 'space.200', padY: 'space.150', type: 'type.body.md.default' },
+        // The field.* category (docs/20 §17): field.surface fill, a PERCEIVABLE resting
+        // field.border (gated 3:1 — better than a decorative border), and a READABLE
+        // field.placeholder (gated 4.5). Focus swaps to border.focus; disabled to disabled.*.
+        { name: 'default', bindings: { bg: 'color.field.surface', border: 'color.field.border', text: 'color.text.primary', placeholder: 'color.field.placeholder', radius: 'radius.sm', padX: 'space.200', padY: 'space.150', type: 'type.body.md.default' },
+          contracts: [{ fg: 'color.text.primary', bg: 'color.field.surface', min: TEXT, label: 'value on field' }, { fg: 'color.field.border', bg: 'color.background.primary', min: UI, label: 'resting border' }, { fg: 'color.field.placeholder', bg: 'color.field.surface', min: TEXT, label: 'placeholder on field' }] },
+        { name: 'focus', bindings: { bg: 'color.field.surface', border: 'color.border.focus', text: 'color.text.primary', radius: 'radius.sm', padX: 'space.200', padY: 'space.150', type: 'type.body.md.default' },
           contracts: [{ fg: 'color.border.focus', bg: 'color.background.primary', min: UI, label: 'focus ring' }] },
-        { name: 'disabled', bindings: { bg: 'color.background.secondary', border: 'color.border.secondary', text: 'color.disabled.text', radius: 'radius.sm', padX: 'space.200', padY: 'space.150', type: 'type.body.md.default' },
-          contracts: [{ fg: 'color.disabled.text', bg: 'color.background.secondary', min: UI, label: 'disabled value' }] },
+        { name: 'disabled', bindings: { bg: 'color.disabled.surface', border: 'color.disabled.border', text: 'color.disabled.on-disabled', radius: 'radius.sm', padX: 'space.200', padY: 'space.150', type: 'type.body.md.default' },
+          contracts: [{ fg: 'color.disabled.on-disabled', bg: 'color.disabled.surface', min: UI, label: 'disabled value on fill' }] },
       ],
     },
     {

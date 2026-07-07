@@ -427,6 +427,16 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
   { const d = disabledText(); put('disabled.icon', d.r, accessibleDisabled ? `Disabled icon — clears ${disabledTarget}:1 (accessible)` : 'Disabled icon — sub-AA (WCAG-exempt)', d.against, d.min); }
   put('disabled.border', rated(neutralLow(), baseRgb), 'Disabled control border — muted neutral', 'background.primary', 0);
 
+  // ---- field — form-element chrome (docs/20 §17). Deliberately MINIMAL + gated: a field
+  // surface, a PERCEIVABLE resting border, and a READABLE placeholder. Everything stateful
+  // composes from existing families (focus → border.focus, validation → border.<semantic> +
+  // foreground.<semantic>-subtle, disabled → disabled.*), so `field.*` is not re-authored per
+  // state or hand-mirrored for inverse — the field research (Prism2 surface/border.input.*)
+  // showed those are the tokens generic roles already cover better.
+  putSurf('field.surface', cfg.bg.secondary, 'Form field fill — a subtly inset surface for inputs (the value ink is text.primary; it tracks the page tier so text clears)');
+  put('field.border', pickMinPass(ramp, baseRgb, cfg.nonTextMin), `Form field resting border — a perceivable boundary, ${cfg.nonTextMin}:1 (SC 1.4.11) — better than a sub-3:1 resting border`, 'background.primary', cfg.nonTextMin);
+  put('field.placeholder', pickMinPass(textCands, cfg.bg.secondary.rgb, cfg.secondaryMin), `Form field placeholder ink — a READABLE hint, ${cfg.secondaryMin}:1 on the field fill (not a sub-AA placeholder)`, 'field.surface', cfg.secondaryMin);
+
   // -------------------------------------------------------------- text (+ icon)
   // Ink. Built from a floor PROFILE so `text` (4.5:1) and `icon` can diverge: with
   // iconContrast '3:1' icons resolve against the WCAG 1.4.11 non-text floor for

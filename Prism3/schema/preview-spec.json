@@ -121,15 +121,15 @@
     {
       "id": "input",
       "label": "Text input",
-      "description": "A form field — default, focused (brand ring), and disabled.",
+      "description": "A form field on the field.* chrome — resting, focused (border.focus), and disabled (disabled.*).",
       "variants": [
         {
           "name": "default",
           "bindings": {
-            "bg": "color.background.primary",
-            "border": "color.border.primary",
+            "bg": "color.field.surface",
+            "border": "color.field.border",
             "text": "color.text.primary",
-            "placeholder": "color.text.tertiary",
+            "placeholder": "color.field.placeholder",
             "radius": "radius.sm",
             "padX": "space.200",
             "padY": "space.150",
@@ -138,16 +138,28 @@
           "contracts": [
             {
               "fg": "color.text.primary",
-              "bg": "color.background.primary",
+              "bg": "color.field.surface",
               "min": 4.5,
               "label": "value on field"
+            },
+            {
+              "fg": "color.field.border",
+              "bg": "color.background.primary",
+              "min": 3,
+              "label": "resting border"
+            },
+            {
+              "fg": "color.field.placeholder",
+              "bg": "color.field.surface",
+              "min": 4.5,
+              "label": "placeholder on field"
             }
           ]
         },
         {
           "name": "focus",
           "bindings": {
-            "bg": "color.background.primary",
+            "bg": "color.field.surface",
             "border": "color.border.focus",
             "text": "color.text.primary",
             "radius": "radius.sm",
@@ -167,9 +179,9 @@
         {
           "name": "disabled",
           "bindings": {
-            "bg": "color.background.secondary",
-            "border": "color.border.secondary",
-            "text": "color.disabled.text",
+            "bg": "color.disabled.surface",
+            "border": "color.disabled.border",
+            "text": "color.disabled.on-disabled",
             "radius": "radius.sm",
             "padX": "space.200",
             "padY": "space.150",
@@ -177,10 +189,10 @@
           },
           "contracts": [
             {
-              "fg": "color.disabled.text",
-              "bg": "color.background.secondary",
+              "fg": "color.disabled.on-disabled",
+              "bg": "color.disabled.surface",
               "min": 3,
-              "label": "disabled value"
+              "label": "disabled value on fill"
             }
           ]
         }

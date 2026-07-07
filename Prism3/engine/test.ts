@@ -248,6 +248,14 @@ for (const b of brands) {
   if (scopeOf('color/disabled/border') !== JSON.stringify(['STROKE_COLOR'])) disabledScopeBad.push('disabled/border');
   ok(disabledScopeBad.length === 0, 'disabled: Figma slots carry slot-aware scopes' + (disabledScopeBad.length ? ` — ${disabledScopeBad.join(',')}` : ''));
 
+  // (e3) field.<slot> (docs/20 §17) is slot-scoped too — surface paints, border strokes,
+  //      placeholder = TEXT_FILL. Same fall-through risk as disabled if it lacked a branch.
+  const fieldScopeBad: string[] = [];
+  if (scopeOf('color/field/surface') !== JSON.stringify(['FRAME_FILL', 'SHAPE_FILL'])) fieldScopeBad.push('field/surface');
+  if (scopeOf('color/field/border') !== JSON.stringify(['STROKE_COLOR'])) fieldScopeBad.push('field/border');
+  if (scopeOf('color/field/placeholder') !== JSON.stringify(['TEXT_FILL'])) fieldScopeBad.push('field/placeholder');
+  ok(fieldScopeBad.length === 0, 'field: Figma slots carry slot-aware scopes' + (fieldScopeBad.length ? ` — ${fieldScopeBad.join(',')}` : ''));
+
   // (f) overlays (docs/20 §6): each colour has hover/pressed/selected washes, mode-adaptive
   //     (black-alpha light / white-alpha dark), and the COMPOSITED result is a gated contract
   //     — text.primary stays ≥ AA on the tinted surface in every mode (the wash-out guard).
@@ -287,6 +295,28 @@ for (const b of brands) {
     if (r.min > 0 && r.ratio < r.min) onFails.push(`${m.mode}:${r.ratio.toFixed(2)}<${r.min}`);
   }
   ok(onFails.length === 0, 'disabled: on-disabled is gated against disabled.surface (accessible strategy)' + (onFails.length ? ` — ${onFails.join(',')}` : ''));
+}
+
+// FIELD — form-element chrome (docs/20 §17). Minimal + gated: a surface + a PERCEIVABLE resting
+// border (≥3:1 vs the page — the Prism2 improvement) + a READABLE placeholder (≥4.5 on the fill).
+// Everything stateful composes from other families (focus→border.focus, disabled→disabled.*).
+{
+  const modes = resolveAllModes(nbTheme());
+  const shapeMissing: string[] = [];
+  for (const m of modes)
+    for (const k of ['surface', 'border', 'placeholder'])
+      if (!(`field.${k}` in m.roles)) shapeMissing.push(`${m.mode}:field.${k}`);
+  ok(shapeMissing.length === 0, 'field: surface/border/placeholder present in every mode' + (shapeMissing.length ? ` — ${shapeMissing.slice(0, 3).join(',')}` : ''));
+
+  const fails: string[] = [];
+  for (const m of modes) {
+    const b = m.roles['field.border'], p = m.roles['field.placeholder'];
+    // resting border is a perceivable boundary (SC 1.4.11) vs the page — NOT the sub-3:1 Prism2 shipped.
+    if (b.against !== 'background.primary' || b.min < 3 || b.ratio < b.min) fails.push(`${m.mode}:border ${b.ratio.toFixed(2)}<${b.min}@${b.against}`);
+    // placeholder is readable on the field fill — NOT a sub-AA hint.
+    if (p.against !== 'field.surface' || p.min < 4.5 || p.ratio < p.min) fails.push(`${m.mode}:placeholder ${p.ratio.toFixed(2)}<${p.min}@${p.against}`);
+  }
+  ok(fails.length === 0, 'field: border gated ≥3:1 on the page + placeholder gated ≥4.5 on the fill, every mode' + (fails.length ? ` — ${fails.join(',')}` : ''));
 }
 
 // MATERIALISE-TO-FIGMA — the colour aliases MUST bind a distinct target per mode. This locks
@@ -1036,7 +1066,7 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
     // pinned for shape/scope in the dedicated interactive block below, not here — so this
     // gate still fails on a spurious var inside a REAL family. (Fixture-character decision,
     // 2026-07-06; pairs with #67.)
-    const ENGINE_ADDED_FAMILIES = ['color/interactive/', 'color/disabled/'];
+    const ENGINE_ADDED_FAMILIES = ['color/interactive/', 'color/disabled/', 'color/field/'];
     const missing = [...fixByName.keys()].filter((n) => !outByName.has(n));
     const extra = [...outByName.keys()].filter((n) => !fixByName.has(n) && !ENGINE_ADDED_FAMILIES.some((p) => n.startsWith(p)));
     ok(missing.length === 0 && extra.length === 0, `figma ${key}: variable names match fixture (${fix.variables.length})` + (missing.length ? ` — MISSING ${missing.slice(0, 3).join(',')}` : '') + (extra.length ? ` — EXTRA ${extra.slice(0, 3).join(',')}` : ''));

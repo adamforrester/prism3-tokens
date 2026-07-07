@@ -164,12 +164,20 @@ const DISABLED_SLOT_SCOPES: Record<string, string[]> = {
   icon: ['FRAME_FILL', 'SHAPE_FILL', 'STROKE_COLOR'],
   border: ['STROKE_COLOR'],
 };
+// `field.<slot>` (docs/20 §17) — form-element chrome, scoped by slot: the field fill paints,
+// the resting border strokes, the placeholder is text.
+const FIELD_SLOT_SCOPES: Record<string, string[]> = {
+  surface: ['FRAME_FILL', 'SHAPE_FILL'],
+  border: ['STROKE_COLOR'],
+  placeholder: ['TEXT_FILL'],
+};
 // color.<family>.… → scopes. `interactive` defers to its slot (segment[3]),
-// `disabled` to its slot (segment[2]).
+// `disabled` / `field` to their slot (segment[2]).
 const colorScopes = (dotted: string): string[] => {
   const seg = stripNs(dotted).split('.'); // ['color', family, …]
   if (seg[1] === 'interactive') return INTERACTIVE_SLOT_SCOPES[seg[3]] ?? INTERACTIVE_SLOT_SCOPES.fill;
   if (seg[1] === 'disabled') return DISABLED_SLOT_SCOPES[seg[2]] ?? ['FRAME_FILL', 'SHAPE_FILL'];
+  if (seg[1] === 'field') return FIELD_SLOT_SCOPES[seg[2]] ?? ['FRAME_FILL', 'SHAPE_FILL'];
   return COLOR_SCOPES[seg[1]] ?? ['FRAME_FILL', 'SHAPE_FILL'];
 };
 const PALETTE_SCOPES = ['FRAME_FILL', 'SHAPE_FILL', 'TEXT_FILL', 'STROKE_COLOR'];
