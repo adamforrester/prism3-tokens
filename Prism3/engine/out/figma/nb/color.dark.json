@@ -1137,7 +1137,7 @@
       }
     },
     {
-      "name": "color/disabled/surface",
+      "name": "color/disabled/fill",
       "resolvedType": "COLOR",
       "scopes": [
         "FRAME_FILL",
@@ -1156,7 +1156,7 @@
       }
     },
     {
-      "name": "color/disabled/on-disabled",
+      "name": "color/disabled/on-fill",
       "resolvedType": "COLOR",
       "scopes": [
         "FRAME_FILL",
@@ -1232,7 +1232,7 @@
       }
     },
     {
-      "name": "color/field/surface",
+      "name": "color/field/fill",
       "resolvedType": "COLOR",
       "scopes": [
         "FRAME_FILL",

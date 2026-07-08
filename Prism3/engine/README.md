@@ -102,13 +102,13 @@ review. `background` is the canvas; `foreground` is what sits on it:
 - `interactive.<colour>.*` — **the interactive colour family** (docs/20): `primary` · `neutral`
   · `destructive` (+ opt-in `accent`), each with `fill` (+ `rest`/hover/pressed/focused/selected
   states), `on-fill`, `text`, `border`, `overlay.*` washes, and an `on-inverse` ink. Cross-cutting
-  `disabled.*` (surface/on-disabled/text/icon/border) is one treatment for any intent, and is the
+  `disabled.*` (fill/on-fill/text/icon/border) is one treatment for any intent, and is the
   SOLE disabled family. This is what components bind — the legacy top-level `action.*` fill and the
   scattered per-family disabled states are retired (task #14).
 - `text.*` / `icon.*` — **ink**: `primary/secondary/tertiary`, semantic +
   `{semantic}-subtle` (muted), `on-{semantic}`/`on-inverse` pairs, and `link.*`
   (no disabled). Disabled ink is the cross-cutting `disabled.text` / `disabled.icon`;
-  the ink on a disabled fill is `disabled.on-disabled` (Carbon's `text-on-color-disabled`,
+  the ink on a disabled fill is `disabled.on-fill` (Carbon's `text-on-color-disabled`,
   resolved against that fill). `icon` mirrors `text` unless `iconContrast: '3:1'`.
 - `border.*` — `primary`/`secondary` (neutral), `inverse`, semantic, and `focus`.
 

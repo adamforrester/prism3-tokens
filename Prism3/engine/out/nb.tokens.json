@@ -4818,7 +4818,7 @@
         }
       },
       "disabled": {
-        "surface": {
+        "fill": {
           "$type": "color",
           "$value": "{nbds.palette.neutral.200}",
           "$description": "Disabled control fill — one muted neutral, any intent",
@@ -4858,7 +4858,7 @@
             }
           }
         },
-        "on-disabled": {
+        "on-fill": {
           "$type": "color",
           "$value": "{nbds.palette.neutral.550}",
           "$description": "Label / icon on a disabled fill — muted but clears 3:1",
@@ -4867,25 +4867,25 @@
               "role": "semantic",
               "aliasOf": "nbds.palette.neutral.550",
               "contrast": 3.04,
-              "against": "disabled.surface",
+              "against": "disabled.fill",
               "min": 3,
               "modes": {
                 "dark": {
                   "$value": "{nbds.palette.neutral.450}",
                   "contrast": 3.08,
-                  "against": "disabled.surface",
+                  "against": "disabled.fill",
                   "min": 3
                 },
                 "hc-light": {
                   "$value": "{nbds.palette.neutral.650}",
                   "contrast": 4.51,
-                  "against": "disabled.surface",
+                  "against": "disabled.fill",
                   "min": 4.5
                 },
                 "hc-dark": {
                   "$value": "{nbds.palette.neutral.300}",
                   "contrast": 4.92,
-                  "against": "disabled.surface",
+                  "against": "disabled.fill",
                   "min": 4.5
                 }
               },
@@ -5032,7 +5032,7 @@
         }
       },
       "field": {
-        "surface": {
+        "fill": {
           "$type": "color",
           "$value": "{nbds.palette.neutral.050}",
           "$description": "Form field fill — a subtly inset surface for inputs (the value ink is text.primary; it tracks the page tier so text clears)",
@@ -5125,25 +5125,25 @@
               "role": "semantic",
               "aliasOf": "nbds.palette.neutral.550",
               "contrast": 4.52,
-              "against": "field.surface",
+              "against": "field.fill",
               "min": 4.5,
               "modes": {
                 "dark": {
                   "$value": "{nbds.palette.neutral.450}",
                   "contrast": 4.68,
-                  "against": "field.surface",
+                  "against": "field.fill",
                   "min": 4.5
                 },
                 "hc-light": {
                   "$value": "{nbds.palette.neutral.650}",
                   "contrast": 8.15,
-                  "against": "field.surface",
+                  "against": "field.fill",
                   "min": 7
                 },
                 "hc-dark": {
                   "$value": "{nbds.palette.neutral.350}",
                   "contrast": 7.49,
-                  "against": "field.surface",
+                  "against": "field.fill",
                   "min": 7
                 }
               },

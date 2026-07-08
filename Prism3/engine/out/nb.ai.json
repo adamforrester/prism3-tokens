@@ -1188,7 +1188,7 @@
         }
       ]
     },
-    "disabled.surface": {
+    "disabled.fill": {
       "$description": "Disabled control fill.",
       "meaning": "Unavailable / inactive state",
       "when_to_use": "The fill of ANY disabled control (button, chip, field), regardless of intent — a disabled control looks disabled.",
@@ -1200,10 +1200,10 @@
         "hc-dark": "{nbds.palette.neutral.750}"
       },
       "paired_with": [
-        "disabled.on-disabled"
+        "disabled.on-fill"
       ]
     },
-    "disabled.on-disabled": {
+    "disabled.on-fill": {
       "$description": "Label / icon on a disabled fill.",
       "meaning": "Unavailable / inactive state",
       "when_to_use": "The label or icon on a disabled control's fill — muted but legible on it.",
@@ -1215,11 +1215,11 @@
         "hc-dark": "{nbds.palette.neutral.300}"
       },
       "paired_with": [
-        "disabled.surface"
+        "disabled.fill"
       ],
       "contrast_with": [
         {
-          "token": "disabled.surface",
+          "token": "disabled.fill",
           "min": "3:1",
           "ratio": 3.04
         }
@@ -1275,10 +1275,10 @@
         "hc-dark": "{nbds.palette.neutral.750}"
       },
       "paired_with": [
-        "disabled.surface"
+        "disabled.fill"
       ]
     },
-    "field.surface": {
+    "field.fill": {
       "$description": "Form field fill.",
       "meaning": "Form input / field chrome",
       "when_to_use": "The background of a text input / form field — a subtly inset surface.",
@@ -1307,7 +1307,7 @@
         "hc-dark": "{nbds.palette.neutral.500}"
       },
       "paired_with": [
-        "field.surface"
+        "field.fill"
       ],
       "contrast_with": [
         {
@@ -1329,11 +1329,11 @@
         "hc-dark": "{nbds.palette.neutral.350}"
       },
       "paired_with": [
-        "field.surface"
+        "field.fill"
       ],
       "contrast_with": [
         {
-          "token": "field.surface",
+          "token": "field.fill",
           "min": "4.5:1",
           "ratio": 4.52
         }
@@ -2985,7 +2985,7 @@
         "color.background.primary",
         "color.background.secondary",
         "color.background.tertiary",
-        "color.field.surface",
+        "color.field.fill",
         "color.foreground.inverse.primary",
         "color.foreground.inverse.secondary",
         "color.foreground.inverse.tertiary",
@@ -3026,7 +3026,7 @@
         "color.background.primary",
         "color.background.secondary",
         "color.background.tertiary",
-        "color.field.surface",
+        "color.field.fill",
         "color.foreground.inverse.primary",
         "color.foreground.inverse.secondary",
         "color.foreground.inverse.tertiary",
@@ -3744,7 +3744,7 @@
       "aliased_by": [
         "color.border.inverse",
         "color.disabled.border",
-        "color.disabled.surface",
+        "color.disabled.fill",
         "color.interactive.neutral.fill.focused",
         "color.interactive.neutral.fill.hover"
       ]
@@ -3768,7 +3768,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "color.disabled.on-disabled",
+        "color.disabled.on-fill",
         "color.icon.secondary",
         "color.text.secondary"
       ]
@@ -3803,7 +3803,7 @@
       "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
         "color.disabled.icon",
-        "color.disabled.on-disabled",
+        "color.disabled.on-fill",
         "color.disabled.text",
         "color.field.placeholder",
         "color.icon.secondary",
@@ -3834,7 +3834,7 @@
       "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
         "color.disabled.icon",
-        "color.disabled.on-disabled",
+        "color.disabled.on-fill",
         "color.disabled.text",
         "color.field.border",
         "color.field.placeholder",
@@ -3859,7 +3859,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
-        "color.disabled.on-disabled",
+        "color.disabled.on-fill",
         "color.field.placeholder"
       ]
     },
@@ -3884,7 +3884,7 @@
       "aliased_by": [
         "color.border.primary",
         "color.disabled.border",
-        "color.disabled.surface",
+        "color.disabled.fill",
         "color.interactive.neutral.fill.pressed",
         "color.interactive.neutral.fill.selected"
       ]
@@ -3926,7 +3926,7 @@
       "aliased_by": [
         "color.background.inverse.secondary",
         "color.background.secondary",
-        "color.field.surface",
+        "color.field.fill",
         "color.foreground.inverse.primary",
         "color.foreground.primary"
       ]
@@ -3987,7 +3987,7 @@
       "aliased_by": [
         "color.background.inverse.secondary",
         "color.background.secondary",
-        "color.field.surface",
+        "color.field.fill",
         "color.foreground.inverse.primary",
         "color.foreground.primary"
       ]

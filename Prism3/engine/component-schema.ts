@@ -69,7 +69,7 @@ export type ComponentDef = {
 
   // ---- the token BINDING (docs/14 §2) — the brand/mode-invariant skin ----
   /** slot → token ref. Slots are the component's paintable/measurable surfaces; a
-   *  state- or variant-qualified slot uses a dotted suffix (`fill.hover`, `label.on-disabled`).
+   *  state- or variant-qualified slot uses a dotted suffix (`fill.hover`, `label.on-fill`).
    *  VALUES are token refs, validated to resolve. Reach for SEMANTIC roles, not primitives. */
   tokens: Record<string, TokenRef>;
 

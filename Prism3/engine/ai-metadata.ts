@@ -102,18 +102,18 @@ const describe = (group: string, variant: string, state: string | undefined): { 
 
   // disabled — cross-cutting (docs/20 §7): one treatment, any intent.
   if (group === 'disabled') {
-    if (variant === 'surface') return { desc: 'Disabled control fill', when_to_use: 'The fill of ANY disabled control (button, chip, field), regardless of intent — a disabled control looks disabled.', avoid_when: 'Do not use for enabled controls (use interactive.*.fill / foreground.*).', paired_with: ['disabled.on-disabled'] };
-    if (variant === 'on-disabled') return { desc: 'Label / icon on a disabled fill', when_to_use: "The label or icon on a disabled control's fill — muted but legible on it.", avoid_when: 'Do not use on an enabled fill (use interactive.*.on-fill) or on the page (use disabled.text).', paired_with: ['disabled.surface'] };
+    if (variant === 'fill') return { desc: 'Disabled control fill', when_to_use: 'The fill of ANY disabled control (button, chip, field), regardless of intent — a disabled control looks disabled.', avoid_when: 'Do not use for enabled controls (use interactive.*.fill / foreground.*).', paired_with: ['disabled.on-fill'] };
+    if (variant === 'on-fill') return { desc: 'Label / icon on a disabled fill', when_to_use: "The label or icon on a disabled control's fill — muted but legible on it.", avoid_when: 'Do not use on an enabled fill (use interactive.*.on-fill) or on the page (use disabled.text).', paired_with: ['disabled.fill'] };
     if (variant === 'text') return { desc: 'Disabled text', when_to_use: 'Text of a disabled or inactive element (a disabled outline/text control, disabled body copy).', avoid_when: 'Do not use for active content (use text.primary/secondary).' };
     if (variant === 'icon') return { desc: 'Disabled icon', when_to_use: 'Icon of a disabled or inactive element.', avoid_when: 'Do not use for active icons (use icon.primary/secondary).' };
-    if (variant === 'border') return { desc: 'Disabled control border', when_to_use: 'The border of a disabled outline control.', avoid_when: 'Do not use as a page divider (use border.primary) or on an enabled control (use interactive.*.border).', paired_with: ['disabled.surface'] };
+    if (variant === 'border') return { desc: 'Disabled control border', when_to_use: 'The border of a disabled outline control.', avoid_when: 'Do not use as a page divider (use border.primary) or on an enabled control (use interactive.*.border).', paired_with: ['disabled.fill'] };
   }
 
   // field — form-element chrome (docs/20 §17). Minimal; states compose from other families.
   if (group === 'field') {
-    if (variant === 'surface') return { desc: 'Form field fill', when_to_use: 'The background of a text input / form field — a subtly inset surface.', avoid_when: 'Do not use for the page (use background.*) or a card (use foreground.*).', paired_with: ['field.border', 'field.placeholder', 'text.primary'] };
-    if (variant === 'border') return { desc: 'Form field resting border', when_to_use: 'The RESTING boundary of a form field — perceivable (3:1) before focus.', avoid_when: 'Do not use for the focus ring (use border.focus) or a validation state (use border.<semantic>).', paired_with: ['field.surface'] };
-    if (variant === 'placeholder') return { desc: 'Form field placeholder ink', when_to_use: 'Placeholder / hint text inside a field — readable (4.5) on the field fill.', avoid_when: 'Do not use as a label (a11y anti-pattern) or for the entered value (use text.primary).', paired_with: ['field.surface'] };
+    if (variant === 'fill') return { desc: 'Form field fill', when_to_use: 'The background of a text input / form field — a subtly inset surface.', avoid_when: 'Do not use for the page (use background.*) or a card (use foreground.*).', paired_with: ['field.border', 'field.placeholder', 'text.primary'] };
+    if (variant === 'border') return { desc: 'Form field resting border', when_to_use: 'The RESTING boundary of a form field — perceivable (3:1) before focus.', avoid_when: 'Do not use for the focus ring (use border.focus) or a validation state (use border.<semantic>).', paired_with: ['field.fill'] };
+    if (variant === 'placeholder') return { desc: 'Form field placeholder ink', when_to_use: 'Placeholder / hint text inside a field — readable (4.5) on the field fill.', avoid_when: 'Do not use as a label (a11y anti-pattern) or for the entered value (use text.primary).', paired_with: ['field.fill'] };
   }
 
   if (group === 'scrim') return { desc: 'Semi-transparent backdrop behind modals / drawers', when_to_use: 'The dimming layer behind a modal, dialog, or drawer.', avoid_when: 'Do not use as a solid surface or for any opaque element.', paired_with: ['foreground.inverse.primary'] };

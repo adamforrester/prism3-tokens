@@ -155,11 +155,11 @@ const INTERACTIVE_SLOT_SCOPES: Record<string, string[]> = {
 };
 // `disabled.<slot>` (docs/20) is also slot-scoped — the same picker-context reasoning
 // as interactive. Without this map the family fell through to fill scopes, so
-// text/icon/border miscased. `on-disabled` = label/icon on a disabled fill,
+// text/icon/border miscased. `on-fill` = label/icon on a disabled fill,
 // mirrors interactive `on-fill`.
 const DISABLED_SLOT_SCOPES: Record<string, string[]> = {
-  surface: ['FRAME_FILL', 'SHAPE_FILL'],
-  'on-disabled': ['FRAME_FILL', 'SHAPE_FILL', 'TEXT_FILL'],
+  fill: ['FRAME_FILL', 'SHAPE_FILL'],
+  'on-fill': ['FRAME_FILL', 'SHAPE_FILL', 'TEXT_FILL'],
   text: ['TEXT_FILL'],
   icon: ['FRAME_FILL', 'SHAPE_FILL', 'STROKE_COLOR'],
   border: ['STROKE_COLOR'],
@@ -167,7 +167,7 @@ const DISABLED_SLOT_SCOPES: Record<string, string[]> = {
 // `field.<slot>` (docs/20 §17) — form-element chrome, scoped by slot: the field fill paints,
 // the resting border strokes, the placeholder is text.
 const FIELD_SLOT_SCOPES: Record<string, string[]> = {
-  surface: ['FRAME_FILL', 'SHAPE_FILL'],
+  fill: ['FRAME_FILL', 'SHAPE_FILL'],
   border: ['STROKE_COLOR'],
   placeholder: ['TEXT_FILL'],
 };

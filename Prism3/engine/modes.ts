@@ -254,15 +254,15 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
     accessibleDisabled
       ? { r: pickMinPass(textCands, floorRgb, disabledTarget), against: cfg.floorName, min: disabledTarget }
       : { r: pickClosest(textCands, baseRgb, 2), against: 'background.primary', min: 0 };
-  // The label/ink on a DISABLED fill (disabled.surface, a muted neutral). A dedicated
+  // The label/ink on a DISABLED fill (disabled.fill, a muted neutral). A dedicated
   // pair — Carbon's `text-on-color-disabled` — resolved against the disabled FILL (not
   // the page), so it stays muted-but-legible on it rather than landing at the wrong
-  // contrast like `disabled.text`. Feeds the cross-cutting `disabled.on-disabled`.
+  // contrast like `disabled.text`. Feeds the cross-cutting `disabled.on-fill`.
   const onDisabled = (): { r: Rated; against: string; min: number } => {
     const fill = neutralLow().rgb;                       // the shared disabled-fill colour
     return accessibleDisabled
-      ? { r: pickMinPass(textCands, fill, disabledTarget), against: 'disabled.surface', min: disabledTarget }
-      : { r: pickClosest(textCands, fill, 2), against: 'disabled.surface', min: 0 };
+      ? { r: pickMinPass(textCands, fill, disabledTarget), against: 'disabled.fill', min: disabledTarget }
+      : { r: pickClosest(textCands, fill, 2), against: 'disabled.fill', min: 0 };
   };
 
   // -------------------------------------------------------------- backgrounds
@@ -417,12 +417,12 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
   }
 
   // ---- disabled — cross-cutting (docs/20 §7): ONE treatment, not per-colour. A disabled
-  // control looks disabled regardless of intent (surface / on-disabled / text / icon /
+  // control looks disabled regardless of intent (fill / on-fill / text / icon /
   // border), governed by the `disabledStrategy` lever. This is the SOLE disabled family:
   // the per-colour action.disabled / foreground.danger.disabled / interactive.*.fill.disabled
   // are retired — components bind these five roles for any disabled control (docs/20 §16).
-  putSurf('disabled.surface', neutralLow(), 'Disabled control fill — one muted neutral, any intent');
-  { const d = onDisabled(); put('disabled.on-disabled', d.r, `Label / icon on a disabled fill — muted but ${accessibleDisabled ? `clears ${d.min}:1` : 'sub-AA (WCAG-exempt)'}`, 'disabled.surface', d.min); }
+  putSurf('disabled.fill', neutralLow(), 'Disabled control fill — one muted neutral, any intent');
+  { const d = onDisabled(); put('disabled.on-fill', d.r, `Label / icon on a disabled fill — muted but ${accessibleDisabled ? `clears ${d.min}:1` : 'sub-AA (WCAG-exempt)'}`, 'disabled.fill', d.min); }
   { const d = disabledText(); put('disabled.text', d.r, accessibleDisabled ? `Disabled text — clears ${disabledTarget}:1 (accessible)` : 'Disabled text — sub-AA (WCAG-exempt)', d.against, d.min); }
   { const d = disabledText(); put('disabled.icon', d.r, accessibleDisabled ? `Disabled icon — clears ${disabledTarget}:1 (accessible)` : 'Disabled icon — sub-AA (WCAG-exempt)', d.against, d.min); }
   put('disabled.border', rated(neutralLow(), baseRgb), 'Disabled control border — muted neutral', 'background.primary', 0);
@@ -433,9 +433,9 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
   // foreground.<semantic>-subtle, disabled → disabled.*), so `field.*` is not re-authored per
   // state or hand-mirrored for inverse — the field research (Prism2 surface/border.input.*)
   // showed those are the tokens generic roles already cover better.
-  putSurf('field.surface', cfg.bg.secondary, 'Form field fill — a subtly inset surface for inputs (the value ink is text.primary; it tracks the page tier so text clears)');
+  putSurf('field.fill', cfg.bg.secondary, 'Form field fill — a subtly inset surface for inputs (the value ink is text.primary; it tracks the page tier so text clears)');
   put('field.border', pickMinPass(ramp, baseRgb, cfg.nonTextMin), `Form field resting border — a perceivable boundary, ${cfg.nonTextMin}:1 (SC 1.4.11) — better than a sub-3:1 resting border`, 'background.primary', cfg.nonTextMin);
-  put('field.placeholder', pickMinPass(textCands, cfg.bg.secondary.rgb, cfg.secondaryMin), `Form field placeholder ink — a READABLE hint, ${cfg.secondaryMin}:1 on the field fill (not a sub-AA placeholder)`, 'field.surface', cfg.secondaryMin);
+  put('field.placeholder', pickMinPass(textCands, cfg.bg.secondary.rgb, cfg.secondaryMin), `Form field placeholder ink — a READABLE hint, ${cfg.secondaryMin}:1 on the field fill (not a sub-AA placeholder)`, 'field.fill', cfg.secondaryMin);
 
   // -------------------------------------------------------------- text (+ icon)
   // Ink. Built from a floor PROFILE so `text` (4.5:1) and `icon` can diverge: with
@@ -458,7 +458,7 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
       T(`${r}-subtle`, rated(pStep(palOf(r2p[r]), mutedStep), baseRgb), `Muted ${r} ${p.label} — low-emphasis accent`, 'background.primary', 0);
     // on-* pairs (ink on a solid fill) — AA on a vivid fill. `on-action` / `on-disabled`
     // are retired: the ink on an interactive fill is interactive.<color>.on-fill, and the
-    // ink on a disabled fill is disabled.on-disabled (docs/20 §16).
+    // ink on a disabled fill is disabled.on-fill (docs/20 §16).
     for (const r of SEMANTICS)
       T(`on-${r}`, onColor(fills[r]!.rgb), `${p.label} on a solid ${r} fill`, `foreground.${r}`, onMin);
     T('on-inverse', pickMostExtreme(textCands, invRgb), `${p.label} on an inverse surface`, 'background.inverse.primary', cfg.secondaryMin);

@@ -67,8 +67,8 @@
         {
           "name": "disabled",
           "bindings": {
-            "bg": "color.disabled.surface",
-            "text": "color.disabled.on-disabled",
+            "bg": "color.disabled.fill",
+            "text": "color.disabled.on-fill",
             "radius": "radius.md",
             "padX": "space.300",
             "padY": "space.150",
@@ -76,8 +76,8 @@
           },
           "contracts": [
             {
-              "fg": "color.disabled.on-disabled",
-              "bg": "color.disabled.surface",
+              "fg": "color.disabled.on-fill",
+              "bg": "color.disabled.fill",
               "min": 3,
               "label": "label on fill"
             }
@@ -126,7 +126,7 @@
         {
           "name": "default",
           "bindings": {
-            "bg": "color.field.surface",
+            "bg": "color.field.fill",
             "border": "color.field.border",
             "text": "color.text.primary",
             "placeholder": "color.field.placeholder",
@@ -138,7 +138,7 @@
           "contracts": [
             {
               "fg": "color.text.primary",
-              "bg": "color.field.surface",
+              "bg": "color.field.fill",
               "min": 4.5,
               "label": "value on field"
             },
@@ -150,7 +150,7 @@
             },
             {
               "fg": "color.field.placeholder",
-              "bg": "color.field.surface",
+              "bg": "color.field.fill",
               "min": 4.5,
               "label": "placeholder on field"
             }
@@ -159,7 +159,7 @@
         {
           "name": "focus",
           "bindings": {
-            "bg": "color.field.surface",
+            "bg": "color.field.fill",
             "border": "color.border.focus",
             "text": "color.text.primary",
             "radius": "radius.sm",
@@ -179,9 +179,9 @@
         {
           "name": "disabled",
           "bindings": {
-            "bg": "color.disabled.surface",
+            "bg": "color.disabled.fill",
             "border": "color.disabled.border",
-            "text": "color.disabled.on-disabled",
+            "text": "color.disabled.on-fill",
             "radius": "radius.sm",
             "padX": "space.200",
             "padY": "space.150",
@@ -189,8 +189,8 @@
           },
           "contracts": [
             {
-              "fg": "color.disabled.on-disabled",
-              "bg": "color.disabled.surface",
+              "fg": "color.disabled.on-fill",
+              "bg": "color.disabled.fill",
               "min": 3,
               "label": "disabled value on fill"
             }

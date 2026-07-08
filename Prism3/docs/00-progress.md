@@ -15,16 +15,24 @@ the Prism2 input tokens (`surface.input.*` / `border.input.*`) confirmed most of
 composed from existing gated families (per docs/20 §15: the field's states come from `interactive.*`).
 
 **Generated `field.*` (three roles):**
-- `field.surface` — the field fill (a subtly inset neutral, tracks the page tier so `text.primary` clears). Surface, min 0.
+- `field.fill` — the field fill (a subtly inset neutral, tracks the page tier so `text.primary` clears). Surface, min 0.
 - `field.border` — the **resting** boundary, **gated `nonTextMin` (3:1) against `background.primary`** (SC 1.4.11). This is the improvement over Prism2, whose resting input border sat sub-3:1 and leaned entirely on focus. NB: neutral.400, 3.27:1.
-- `field.placeholder` — placeholder ink, **gated `secondaryMin` (4.5) against `field.surface`** — a *readable* hint, not the sub-AA placeholder Prism2/most systems ship. NB: neutral.550, 4.52:1.
+- `field.placeholder` — placeholder ink, **gated `secondaryMin` (4.5) against `field.fill`** — a *readable* hint, not the sub-AA placeholder Prism2/most systems ship. NB: neutral.550, 4.52:1.
 
 **Composed, NOT re-authored:** focus → `border.focus`; validation → `border.<semantic>` + `foreground.<semantic>-subtle`;
-disabled → `disabled.{surface,border,on-disabled}`; hover → `interactive.*` overlays; value ink → `text.primary`;
+disabled → `disabled.{fill,border,on-fill}`; hover → `interactive.*` overlays; value ink → `text.primary`;
 inverse → the generated inverse surface-context (no hand-mirrored `field.*-inverse` twins — Prism2's biggest spend).
 
+**Taxonomy decision (owner) — a control's fill is `.fill`, the ink on it is `.on-fill`, everywhere.** Introducing
+`field.surface` surfaced an inconsistency: the retired top-level word `surface` (Prism2's `surface.*` → `foreground.*`)
+had quietly survived as a slot in `disabled.surface` (#83), while the interactive family used `.fill` / `.on-fill`.
+Resolved to the interactive convention: **`field.surface` → `field.fill`**, and the merged disabled family aligned
+(**`disabled.surface` → `disabled.fill`**, **`disabled.on-disabled` → `disabled.on-fill`**). No `.surface` token
+segment remains anywhere. (We considered flattening `interactive.<c>.fill.*` to bare states, but per-colour overlay-tint
+means `fill` + `overlay` are both stateful slots, so the `.fill` segment is load-bearing — kept as-is.)
+
 **Wiring:** `modes.ts` generates the three roles; `ai-metadata.ts` describes the `field` group; `emit-figma.ts`
-gets `FIELD_SLOT_SCOPES` (surface→paint, border→stroke, placeholder→text); the eval-preview `input` component is
+gets `FIELD_SLOT_SCOPES` (fill→paint, border→stroke, placeholder→text); the eval-preview `input` component is
 rebound onto `field.*` (+ `border.focus` / `disabled.*` for its states). `test.ts` allow-lists `color/field/` out
 of the figma `extra` check, gates the field slot scopes, and pins the family contracts (border ≥3:1 on the page,
 placeholder ≥4.5 on the fill). A formal Text Field `ComponentDef` (like Button) is a **follow-on**, not in this increment.
@@ -47,7 +55,7 @@ merged). The cleanup increment that #83 deliberately deferred: now that componen
   cleanly against it). `foreground.danger-subtle` is unchanged.
 - Per-colour `interactive.*.fill.disabled` → the cross-cutting `disabled.*` is the SOLE disabled family.
 - `text/icon.{disabled, on-action, on-disabled}` → `disabled.text` / `disabled.icon`,
-  `interactive.<c>.on-fill`, `disabled.on-disabled`. Preview `input.disabled` rebound to `disabled.text`.
+  `interactive.<c>.on-fill`, `disabled.on-fill`. Preview `input.disabled` rebound to `disabled.text`.
 - ai-metadata branches, the emit-figma `action` scope entry, and the test suite retargeted off the removed roles.
 
 **NB-fidelity reconciliation (the fixture re-baseline).** Removing those roles deletes vars from the frozen
@@ -108,7 +116,7 @@ still validate against both nb + aurora; web tsc clean. test 654→**655**.
 
 **Increment 3 — cross-cutting `disabled.*` (additive).** One disabled treatment regardless of intent
 (docs/20 §7): `disabled.{surface, on-disabled, text, icon, border}`, governed by `disabledStrategy`.
-`disabled.on-disabled` is gated against `disabled.surface` (accessible: 3:1). Contract count 360→**372**.
+`disabled.on-fill` is gated against `disabled.fill` (accessible: 3:1). Contract count 360→**372**.
 Kept **additive** — the scattered `action.disabled` / `foreground.danger.disabled` / `interactive.*.fill.disabled`
 remain generated so NB byte-repro holds; components rebind to `disabled.*` in the migration step. `color/disabled/`
 is a new engine-added family, added to the figma fixture allowlist. **Important scoping note:** removing the

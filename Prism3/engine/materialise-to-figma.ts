@@ -200,8 +200,8 @@ return {
   slotScopes:{
     'interactive/primary/text':scope('color/interactive/primary/text'),
     'interactive/primary/border':scope('color/interactive/primary/border'),
-    'disabled/surface':scope('color/disabled/surface'),
-    'disabled/on-disabled':scope('color/disabled/on-disabled'),
+    'disabled/fill':scope('color/disabled/fill'),
+    'disabled/on-fill':scope('color/disabled/on-fill'),
     'disabled/text':scope('color/disabled/text'),
     'disabled/icon':scope('color/disabled/icon'),
     'disabled/border':scope('color/disabled/border'),

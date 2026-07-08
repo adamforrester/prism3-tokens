@@ -67,7 +67,7 @@ What matters is not one *mechanism* but one *home*: both the solid fill-states (
 
 ## 7. Disabled — cross-cutting, its own family
 
-`disabled.*` (surface / text / icon / border / on-disabled) is **one treatment, not per-colour** — a disabled button looks disabled regardless of intent. This adopts Prism2's pattern (which Prism3 currently does *not* follow — it has `action.disabled` + `foreground.danger.disabled` scattered per-colour) and pulls disabled fully out of the interactive family. The `disabledStrategy` lever (`accessible` / `conventional`) still governs whether disabled clears a legibility floor.
+`disabled.*` (fill / text / icon / border / on-fill) is **one treatment, not per-colour** — a disabled button looks disabled regardless of intent. This adopts Prism2's pattern (which Prism3 currently does *not* follow — it has `action.disabled` + `foreground.danger.disabled` scattered per-colour) and pulls disabled fully out of the interactive family. The `disabledStrategy` lever (`accessible` / `conventional`) still governs whether disabled clears a legibility floor.
 
 ## 8. Scrim + non-interactive veils — outside, by rule
 
@@ -157,9 +157,9 @@ the existing gated families (per §15: *the field's interaction states come from
 
 | role | what | contract |
 |---|---|---|
-| `field.surface` | the field fill — a subtly *inset* neutral so the field reads as an input even before focus | surface (min 0); the value ink `text.primary` clears on it (it tracks the page tier) |
+| `field.fill` | the field fill — a subtly *inset* neutral so the field reads as an input even before focus | surface (min 0); the value ink `text.primary` clears on it (it tracks the page tier) |
 | `field.border` | the resting boundary | **gated `nonTextMin` (3:1 / 4.5 HC) against `background.primary`** — SC 1.4.11. **This is the improvement over Prism2**, whose resting input border sat sub-3:1 and leaned entirely on focus |
-| `field.placeholder` | placeholder / hint ink on the field fill | **gated `secondaryMin` (4.5) against `field.surface`** — a *readable* hint, not the sub-AA placeholder Prism2 (and most systems) ship |
+| `field.placeholder` | placeholder / hint ink on the field fill | **gated `secondaryMin` (4.5) against `field.fill`** — a *readable* hint, not the sub-AA placeholder Prism2 (and most systems) ship |
 
 **Composed from existing families — NOT re-authored in `field.*`:**
 - **focus** → `border.focus` (already gated 3:1). Prism2 had *no* input-focus token.
@@ -168,7 +168,7 @@ the existing gated families (per §15: *the field's interaction states come from
 - **hover / pressed** → `interactive.*` overlays.
 - **filled value ink** → `text.primary`. **inverse** → the generated inverse surface-context (a component concern; no hand-mirrored `field.*-inverse` twins — the thing Prism2 spent the most tokens on).
 
-**Text Field calibration component** binds: `field.surface` (fill) · `field.border` (rest) → `border.focus` (focus) → `border.danger` + `foreground.danger-subtle` (error) → `disabled.*` (disabled) · `text.primary` (value) · `field.placeholder` (placeholder). The layout-shift-prevention trick (an invisible resting border sized to the focus border) is a **component** detail, not a token.
+**Text Field calibration component** binds: `field.fill` (fill) · `field.border` (rest) → `border.focus` (focus) → `border.danger` + `foreground.danger-subtle` (error) → `disabled.*` (disabled) · `text.primary` (value) · `field.placeholder` (placeholder). The layout-shift-prevention trick (an invisible resting border sized to the focus border) is a **component** detail, not a token.
 
 *Increment scope:* the three `field.*` roles + rebinding the eval-preview `input` component onto them + gates. A formal Text Field `ComponentDef` (like Button) is a follow-on.
 

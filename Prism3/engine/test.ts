@@ -241,8 +241,8 @@ for (const b of brands) {
   //     the NB fixture doesn't carry disabled/*, so the round-trip test was the only
   //     signal. This pins all five slots.
   const disabledScopeBad: string[] = [];
-  if (scopeOf('color/disabled/surface') !== JSON.stringify(['FRAME_FILL', 'SHAPE_FILL'])) disabledScopeBad.push('disabled/surface');
-  if (scopeOf('color/disabled/on-disabled') !== JSON.stringify(['FRAME_FILL', 'SHAPE_FILL', 'TEXT_FILL'])) disabledScopeBad.push('disabled/on-disabled');
+  if (scopeOf('color/disabled/fill') !== JSON.stringify(['FRAME_FILL', 'SHAPE_FILL'])) disabledScopeBad.push('disabled/fill');
+  if (scopeOf('color/disabled/on-fill') !== JSON.stringify(['FRAME_FILL', 'SHAPE_FILL', 'TEXT_FILL'])) disabledScopeBad.push('disabled/on-fill');
   if (scopeOf('color/disabled/text') !== JSON.stringify(['TEXT_FILL'])) disabledScopeBad.push('disabled/text');
   if (scopeOf('color/disabled/icon') !== JSON.stringify(['FRAME_FILL', 'SHAPE_FILL', 'STROKE_COLOR'])) disabledScopeBad.push('disabled/icon');
   if (scopeOf('color/disabled/border') !== JSON.stringify(['STROKE_COLOR'])) disabledScopeBad.push('disabled/border');
@@ -251,7 +251,7 @@ for (const b of brands) {
   // (e3) field.<slot> (docs/20 §17) is slot-scoped too — surface paints, border strokes,
   //      placeholder = TEXT_FILL. Same fall-through risk as disabled if it lacked a branch.
   const fieldScopeBad: string[] = [];
-  if (scopeOf('color/field/surface') !== JSON.stringify(['FRAME_FILL', 'SHAPE_FILL'])) fieldScopeBad.push('field/surface');
+  if (scopeOf('color/field/fill') !== JSON.stringify(['FRAME_FILL', 'SHAPE_FILL'])) fieldScopeBad.push('field/fill');
   if (scopeOf('color/field/border') !== JSON.stringify(['STROKE_COLOR'])) fieldScopeBad.push('field/border');
   if (scopeOf('color/field/placeholder') !== JSON.stringify(['TEXT_FILL'])) fieldScopeBad.push('field/placeholder');
   ok(fieldScopeBad.length === 0, 'field: Figma slots carry slot-aware scopes' + (fieldScopeBad.length ? ` — ${fieldScopeBad.join(',')}` : ''));
@@ -284,17 +284,17 @@ for (const b of brands) {
   const modes = resolveAllModes(nbTheme());
   const shapeMissing: string[] = [];
   for (const m of modes)
-    for (const k of ['surface', 'on-disabled', 'text', 'icon', 'border'])
+    for (const k of ['fill', 'on-fill', 'text', 'icon', 'border'])
       if (!(`disabled.${k}` in m.roles)) shapeMissing.push(`${m.mode}:disabled.${k}`);
   ok(shapeMissing.length === 0, 'disabled: surface/on-disabled/text/icon/border in every mode' + (shapeMissing.length ? ` — ${shapeMissing.slice(0, 3).join(',')}` : ''));
 
   const onFails: string[] = [];
   for (const m of modes) {
-    const r = m.roles['disabled.on-disabled'];
-    if (r.against !== 'disabled.surface') onFails.push(`${m.mode}:against=${r.against}`);
+    const r = m.roles['disabled.on-fill'];
+    if (r.against !== 'disabled.fill') onFails.push(`${m.mode}:against=${r.against}`);
     if (r.min > 0 && r.ratio < r.min) onFails.push(`${m.mode}:${r.ratio.toFixed(2)}<${r.min}`);
   }
-  ok(onFails.length === 0, 'disabled: on-disabled is gated against disabled.surface (accessible strategy)' + (onFails.length ? ` — ${onFails.join(',')}` : ''));
+  ok(onFails.length === 0, 'disabled: on-disabled is gated against disabled.fill (accessible strategy)' + (onFails.length ? ` — ${onFails.join(',')}` : ''));
 }
 
 // FIELD — form-element chrome (docs/20 §17). Minimal + gated: a surface + a PERCEIVABLE resting
@@ -304,7 +304,7 @@ for (const b of brands) {
   const modes = resolveAllModes(nbTheme());
   const shapeMissing: string[] = [];
   for (const m of modes)
-    for (const k of ['surface', 'border', 'placeholder'])
+    for (const k of ['fill', 'border', 'placeholder'])
       if (!(`field.${k}` in m.roles)) shapeMissing.push(`${m.mode}:field.${k}`);
   ok(shapeMissing.length === 0, 'field: surface/border/placeholder present in every mode' + (shapeMissing.length ? ` — ${shapeMissing.slice(0, 3).join(',')}` : ''));
 
@@ -314,7 +314,7 @@ for (const b of brands) {
     // resting border is a perceivable boundary (SC 1.4.11) vs the page — NOT the sub-3:1 Prism2 shipped.
     if (b.against !== 'background.primary' || b.min < 3 || b.ratio < b.min) fails.push(`${m.mode}:border ${b.ratio.toFixed(2)}<${b.min}@${b.against}`);
     // placeholder is readable on the field fill — NOT a sub-AA hint.
-    if (p.against !== 'field.surface' || p.min < 4.5 || p.ratio < p.min) fails.push(`${m.mode}:placeholder ${p.ratio.toFixed(2)}<${p.min}@${p.against}`);
+    if (p.against !== 'field.fill' || p.min < 4.5 || p.ratio < p.min) fails.push(`${m.mode}:placeholder ${p.ratio.toFixed(2)}<${p.min}@${p.against}`);
   }
   ok(fails.length === 0, 'field: border gated ≥3:1 on the page + placeholder gated ≥4.5 on the fill, every mode' + (fails.length ? ` — ${fails.join(',')}` : ''));
 }
@@ -688,7 +688,7 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   ok(isWhite(p(L, 'interactive.primary.on-fill')), 'light interactive on-fill stays pure white (user preference)');
   ok(isWhite(p(HCD, 'interactive.primary.on-fill')) || isBlack(p(HCD, 'interactive.primary.on-fill')), 'HC keeps pure extremes for on-fill (max contrast)');
   ok(isBlack(p(HCL, 'background.inverse.primary')), 'HC inverse stays a pure extreme (max contrast)');
-  // (the ink on a disabled fill is the cross-cutting disabled.on-disabled — tested in the DISABLED block above.)
+  // (the ink on a disabled fill is the cross-cutting disabled.on-fill — tested in the DISABLED block above.)
 }
 
 // -------------------------------------------------- design.md + CLI adapter
