@@ -138,8 +138,8 @@ export const button: ComponentDef = {
     'destructive.on-inverse.label': 'color.interactive.destructive.on-inverse',
 
     // cross-cutting disabled (docs/20 §7) — ONE treatment, any intent/appearance
-    'disabled.fill': 'color.disabled.surface',
-    'disabled.on-fill': 'color.disabled.on-disabled',
+    'disabled.fill': 'color.disabled.fill',
+    'disabled.on-fill': 'color.disabled.on-fill',
     'disabled.label': 'color.disabled.text',
     'disabled.icon': 'color.disabled.icon',
     'disabled.border': 'color.disabled.border',

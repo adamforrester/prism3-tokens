@@ -1137,7 +1137,7 @@
       }
     },
     {
-      "name": "color/disabled/surface",
+      "name": "color/disabled/fill",
       "resolvedType": "COLOR",
       "scopes": [
         "FRAME_FILL",
@@ -1156,7 +1156,7 @@
       }
     },
     {
-      "name": "color/disabled/on-disabled",
+      "name": "color/disabled/on-fill",
       "resolvedType": "COLOR",
       "scopes": [
         "FRAME_FILL",
@@ -1229,6 +1229,61 @@
       "alias": {
         "type": "VARIABLE_ALIAS",
         "name": "palette/neutral/750"
+      }
+    },
+    {
+      "name": "color/field/fill",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "description": "Form field fill — a subtly inset surface for inputs (the value ink is text.primary; it tracks the page tier so text clears)",
+      "value": {
+        "r": 0.08235294371843338,
+        "g": 0.09019608050584793,
+        "b": 0.09803921729326248,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/neutral/900"
+      }
+    },
+    {
+      "name": "color/field/border",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "STROKE_COLOR"
+      ],
+      "description": "Form field resting border — a perceivable boundary, 3:1 (SC 1.4.11) — better than a sub-3:1 resting border",
+      "value": {
+        "r": 0.38823530077934265,
+        "g": 0.4156862795352936,
+        "b": 0.43529412150382996,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/neutral/550"
+      }
+    },
+    {
+      "name": "color/field/placeholder",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "TEXT_FILL"
+      ],
+      "description": "Form field placeholder ink — a READABLE hint, 4.5:1 on the field fill (not a sub-AA placeholder)",
+      "value": {
+        "r": 0.4901960790157318,
+        "g": 0.5137255191802979,
+        "b": 0.529411792755127,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/neutral/450"
       }
     },
     {

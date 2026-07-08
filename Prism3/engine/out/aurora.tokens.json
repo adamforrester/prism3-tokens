@@ -5622,7 +5622,7 @@
         }
       },
       "disabled": {
-        "surface": {
+        "fill": {
           "$type": "color",
           "$value": "{prism.palette.neutral.200}",
           "$description": "Disabled control fill — one muted neutral, any intent",
@@ -5662,7 +5662,7 @@
             }
           }
         },
-        "on-disabled": {
+        "on-fill": {
           "$type": "color",
           "$value": "{prism.palette.neutral.550}",
           "$description": "Label / icon on a disabled fill — muted but clears 3:1",
@@ -5671,25 +5671,25 @@
               "role": "semantic",
               "aliasOf": "prism.palette.neutral.550",
               "contrast": 3.08,
-              "against": "disabled.surface",
+              "against": "disabled.fill",
               "min": 3,
               "modes": {
                 "dark": {
                   "$value": "{prism.palette.neutral.450}",
                   "contrast": 3.04,
-                  "against": "disabled.surface",
+                  "against": "disabled.fill",
                   "min": 3
                 },
                 "hc-light": {
                   "$value": "{prism.palette.neutral.650}",
                   "contrast": 4.53,
-                  "against": "disabled.surface",
+                  "against": "disabled.fill",
                   "min": 4.5
                 },
                 "hc-dark": {
                   "$value": "{prism.palette.neutral.300}",
                   "contrast": 4.87,
-                  "against": "disabled.surface",
+                  "against": "disabled.fill",
                   "min": 4.5
                 }
               },
@@ -5819,6 +5819,136 @@
                   "$value": "{prism.palette.neutral.750}",
                   "contrast": 1.8,
                   "against": "background.primary"
+                }
+              },
+              "figma": {
+                "collection": "color",
+                "modes": [
+                  "light",
+                  "dark",
+                  "hc-light",
+                  "hc-dark"
+                ],
+                "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+              }
+            }
+          }
+        }
+      },
+      "field": {
+        "fill": {
+          "$type": "color",
+          "$value": "{prism.palette.neutral.100}",
+          "$description": "Form field fill — a subtly inset surface for inputs (the value ink is text.primary; it tracks the page tier so text clears)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.palette.neutral.100",
+              "contrast": 1,
+              "against": "self",
+              "modes": {
+                "dark": {
+                  "$value": "{prism.palette.neutral.900}",
+                  "contrast": 1,
+                  "against": "self"
+                },
+                "hc-light": {
+                  "$value": "{prism.palette.white}",
+                  "contrast": 1,
+                  "against": "self"
+                },
+                "hc-dark": {
+                  "$value": "{prism.palette.black}",
+                  "contrast": 1,
+                  "against": "self"
+                }
+              },
+              "figma": {
+                "collection": "color",
+                "modes": [
+                  "light",
+                  "dark",
+                  "hc-light",
+                  "hc-dark"
+                ],
+                "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+              }
+            }
+          }
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{prism.palette.neutral.450}",
+          "$description": "Form field resting border — a perceivable boundary, 3:1 (SC 1.4.11) — better than a sub-3:1 resting border",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.palette.neutral.450",
+              "contrast": 3.16,
+              "against": "background.primary",
+              "min": 3,
+              "modes": {
+                "dark": {
+                  "$value": "{prism.palette.neutral.550}",
+                  "contrast": 3.51,
+                  "against": "background.primary",
+                  "min": 3
+                },
+                "hc-light": {
+                  "$value": "{prism.palette.neutral.500}",
+                  "contrast": 4.54,
+                  "against": "background.primary",
+                  "min": 4.5
+                },
+                "hc-dark": {
+                  "$value": "{prism.palette.neutral.500}",
+                  "contrast": 4.63,
+                  "against": "background.primary",
+                  "min": 4.5
+                }
+              },
+              "figma": {
+                "collection": "color",
+                "modes": [
+                  "light",
+                  "dark",
+                  "hc-light",
+                  "hc-dark"
+                ],
+                "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+              }
+            }
+          }
+        },
+        "placeholder": {
+          "$type": "color",
+          "$value": "{prism.palette.neutral.600}",
+          "$description": "Form field placeholder ink — a READABLE hint, 4.5:1 on the field fill (not a sub-AA placeholder)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "prism.palette.neutral.600",
+              "contrast": 4.81,
+              "against": "field.fill",
+              "min": 4.5,
+              "modes": {
+                "dark": {
+                  "$value": "{prism.palette.neutral.450}",
+                  "contrast": 4.66,
+                  "against": "field.fill",
+                  "min": 4.5
+                },
+                "hc-light": {
+                  "$value": "{prism.palette.neutral.650}",
+                  "contrast": 8.14,
+                  "against": "field.fill",
+                  "min": 7
+                },
+                "hc-dark": {
+                  "$value": "{prism.palette.neutral.350}",
+                  "contrast": 7.49,
+                  "against": "field.fill",
+                  "min": 7
                 }
               },
               "figma": {

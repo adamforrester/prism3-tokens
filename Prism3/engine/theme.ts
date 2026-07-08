@@ -526,7 +526,7 @@ const buildComposites = (ladder: number[], t: TypographyInput, fluid: boolean): 
     const emit = (weightRole: WeightRoleName, link: boolean) => {
       // Link is a hyphenated suffix on the weight (`strong-link`), a clean SIBLING
       // leaf of the bare weight — not a `.link` child (that would make `strong` a
-      // token-with-children, non-DTCG). Matches the `-subtle`/`on-disabled` convention.
+      // token-with-children, non-DTCG). Matches the `-subtle`/`on-fill` convention.
       const weightSeg = link ? `${weightRole}-link` : weightRole;
       const segs = [group, variant, weightSeg].filter(Boolean);
       out.push({
