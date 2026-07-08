@@ -205,8 +205,14 @@ return {
     'disabled/text':scope('color/disabled/text'),
     'disabled/icon':scope('color/disabled/icon'),
     'disabled/border':scope('color/disabled/border'),
+    'field/fill':scope('color/field/fill'),
+    'field/border':scope('color/field/border'),
+    'field/placeholder':scope('color/field/placeholder'),
   },
+  fieldFamilyPresent:['color/field/fill','color/field/border','color/field/placeholder'].every(n=>byName.has(n)),
   retiredRolesAbsent:['color/action/default','color/text/on-action','color/text/on-disabled','color/foreground/danger/default'].every(absent),
+  // renamed by #86 (.surface -> .fill / .on-disabled -> .on-fill) + field never used .surface — all must be gone.
+  renamedRolesAbsent:['color/disabled/surface','color/disabled/on-disabled','color/field/surface'].every(absent),
   bareDangerPresent:byName.has('color/foreground/danger'),
 };
 })()`;
