@@ -108,6 +108,15 @@ Small — it mostly *exposes* a map the resolver already computes:
 
 Gates as always: `test.ts`, `nb-regression` (unaffected — NB declares no overrides), `emit-dtcg` contracts hold per brand, web tsc.
 
+## 7. Dashboard surface — ✅ built
+
+The web dashboard exposes `roleColors` as a **bespoke "Semantic role palettes" control** on the
+semantic stage (`web/src/main.ts` `renderRoleColors`): a `success`/`warning`/`danger`/`info` dropdown
+each offering `auto (engine default)` + the declared palettes (`primary`/`neutral`/`brandColors`).
+It's *not* a lever (a structured map, not a scalar), so it doesn't come from the lever manifest.
+Verified live — re-basing `danger → primary` repaints the danger alert to the brand hue while its
+contracts stay green in every mode. Action stays on its existing `actionPalette` lever.
+
 ---
 
 *Cross-refs: `theme.ts` (`roleToPalette`, the danger carve, `actionPalette`/`accentPalette`), `20 §3` (the accent lever), `06` (the surface/content model — why `neutral`/`brand` roles are out of scope here). Supersedes the four special-cased paths with one general, gated lever.*
