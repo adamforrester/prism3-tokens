@@ -377,6 +377,34 @@ for (const b of brands) {
   ok(threw, 'accent: accentPalette === actionPalette is rejected');
 }
 
+// roleColors — general semantic-role rebasing (docs/21): re-base any role on a declared palette,
+// with the contrast guarantee preserved and a hue-mismatch note (not a block).
+{
+  const mk = (roleColors: any, extra: any = {}) => brandTheme({ id: 'rc', primary: { l: 0.5, c: 0.12, h: 250 }, neutral: { hue: 250, chroma: 0.01 }, roleColors, ...extra } as unknown as BrandInput);
+  // (a) the gap-closer: a blue brand reuses its blue for info (no override existed before #21).
+  ok(mk({ info: 'primary' }).roleToPalette.info === 'primary', 'roleColors: info re-bases on the brand (primary) palette');
+  // (b) explicit danger rebase wins over the carve AND mints no orphan danger ramp.
+  const red = brandTheme({ id: 'red', primary: { l: 0.5, c: 0.2, h: 25 }, neutral: { hue: 25, chroma: 0.01 }, roleColors: { danger: 'primary' } } as unknown as BrandInput);
+  ok(red.roleToPalette.danger === 'primary' && !red.palettes.some((p) => p.palette === 'danger'), 'roleColors: explicit danger→primary reuses the brand red with no orphan danger palette');
+  // (c) action via roleColors (the general form of actionPalette).
+  ok(mk({ action: 'cta' }, { brandColors: [{ name: 'cta', oklch: { l: 0.5, c: 0.15, h: 30 } }] }).roleToPalette.action === 'cta', 'roleColors: action re-bases like actionPalette');
+  // (d) THE GUARANTEE — every contract still passes when roles are rebased, all modes.
+  const rebased = resolveAllModes(mk({ info: 'primary', danger: 'primary' }));
+  const broken = rebased.flatMap((m) => Object.entries(m.roles).filter(([, r]) => r.min > 0 && r.ratio < r.min).map(([k]) => `${m.mode}.${k}`));
+  ok(broken.length === 0, 'roleColors: a rebased brand still clears every contract in every mode' + (broken.length ? ` — FAILED ${broken.slice(0, 3).join(',')}` : ''));
+  const infoPath = rebased.find((m) => m.mode === 'light')!.roles['text.info'].path;
+  ok(/\.primary\./.test(infoPath), `roleColors: text.info now resolves on the primary ramp (${infoPath.split('.').slice(-2).join('.')})`);
+  // (e) hue-mismatch is flagged, not blocked.
+  const mis = brandTheme({ id: 'mis', primary: { l: 0.5, c: 0.15, h: 150 }, neutral: { hue: 150, chroma: 0.01 }, brandColors: [{ name: 'lime', oklch: { l: 0.7, c: 0.15, h: 135 } }], roleColors: { danger: 'lime' } } as unknown as BrandInput);
+  ok(mis.roleToPalette.danger === 'lime' && mis.notes.some((n) => /CONFIRM the danger signal/.test(n)), 'roleColors: a hue mismatch (danger not red) is allowed but flagged in notes');
+  // (f) guards: brand/neutral cannot be rebased; unknown palette rejected.
+  let tn = false, tu = false;
+  try { mk({ neutral: 'primary' }); } catch { tn = true; }
+  try { mk({ info: 'nope' }); } catch { tu = true; }
+  ok(tn, 'roleColors: rebasing neutral (the surface model) is rejected');
+  ok(tu, 'roleColors: an unknown target palette is rejected');
+}
+
 // L-02: dualContrastWindow is only defined up to √21 ≈ 4.583 (the max ratio any single
 // luminance clears on BOTH extremes). At 4.5 it returns a valid non-empty window; past
 // √21 it must THROW rather than hand back an inverted [min>max] pair.

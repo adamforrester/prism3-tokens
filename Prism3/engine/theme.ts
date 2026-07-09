@@ -194,6 +194,14 @@ export type BrandInput = {
    *  here (e.g. an accent, or even neutral). The engine FLAGS this decision in
    *  notes so it's an explicit, confirmable choice — never a silent assumption. */
   actionPalette?: string;
+  /** Re-base any semantic role on a declared palette (docs/21). Value = a palette name:
+   *  a status (`success`…), `primary`/`neutral`, or a `brandColors` entry. Custom colours
+   *  are supplied via `brandColors` and named here. This is the general form of `actionPalette`
+   *  (which stays as an ergonomic alias for `roleColors.action`): a red brand reuses its brand
+   *  red for `danger`, a blue brand its blue for `info`. `brand`/`neutral` cannot be rebased
+   *  (they define the surface model). Every remapped role re-derives + re-gates on the target
+   *  ramp; a hue mismatch (a danger that isn't red) is ALLOWED but flagged in the design notes. */
+  roleColors?: Partial<Record<Role, string>>;
   /** Non-default primary surfaces per mode (e.g. a warm off-white page). The
    *  contrast floor moves with the declared base, and the engine flags it in
    *  notes so the surface choice is confirmed. Omit for white/black defaults. */
@@ -911,7 +919,10 @@ export const brandTheme = (input: BrandInput): Theme => {
   const roleToPalette: Record<Role, string> = {
     brand: 'primary', neutral: 'neutral', success: 'success', warning: 'warning', danger: 'danger', info: 'info', action: actionPalette,
   };
-  if (input.status?.danger) {
+  if (input.roleColors?.danger) {
+    // Explicit rebasing (docs/21) wins over the carve heuristic — the general roleColors
+    // pass below sets roleToPalette.danger; skip the carve/synth so no orphan danger ramp is minted.
+  } else if (input.status?.danger) {
     palettes.push({ palette: 'danger', role: 'danger', description: 'danger status (brand-supplied)', steps: statusRamp(input.status.danger.h, input.status.danger.chroma) });
     notes.push(`danger: brand-supplied hue ${input.status.danger.h}`);
   } else if (inRedTerritory(input.primary.h, input.primary.c)) {
@@ -934,6 +945,33 @@ export const brandTheme = (input: BrandInput): Theme => {
   // a small hue shift would flip danger between reuse-primary and carve-red.
   if (Math.abs(hueDist(input.primary.h, STATUS_DEFAULTS.danger.h) - 20) <= 3 && input.primary.c >= RED_CHROMA_FLOOR)
     notes.push(`danger: primary hue ${input.primary.h} is near the red-territory boundary (±20° of ${STATUS_DEFAULTS.danger.h}) — a small hue shift would flip the danger strategy`);
+
+  // ---- roleColors: general semantic-role rebasing (docs/21) ----
+  // Re-base any rebasable role on a declared palette (the general form of actionPalette).
+  // Applied AFTER the action default + danger carve, so an explicit override always wins.
+  // Contrast re-gates on the target ramp; a hue mismatch (a danger that isn't red, an info
+  // that isn't blue) is ALLOWED but flagged so the signal loss is visible, not silent.
+  const CANONICAL_HUE: Partial<Record<Role, number>> = {
+    danger: STATUS_DEFAULTS.danger.h, success: STATUS_DEFAULTS.success.h, warning: STATUS_DEFAULTS.warning.h, info: STATUS_DEFAULTS.info.h,
+  };
+  const paletteHue = (pal: string): number | null => {
+    if (pal === 'primary') return input.primary.h;
+    const bc = input.brandColors?.find((b) => b.name === pal);
+    if (bc) return bc.oklch.h;
+    if (pal === 'danger' || pal === 'success' || pal === 'warning' || pal === 'info') return STATUS_DEFAULTS[pal].h;
+    return null; // neutral / achromatic — no meaningful signal hue
+  };
+  for (const [r, pal] of Object.entries(input.roleColors ?? {}) as [Role, string][]) {
+    if (r === 'brand' || r === 'neutral')
+      throw new Error(`roleColors: '${r}' defines the surface model and cannot be rebased`);
+    if (!palettes.some((p) => p.palette === pal))
+      throw new Error(`roleColors.${r} → '${pal}' is not a defined palette (have: ${palettes.map((p) => p.palette).join(', ')})`);
+    roleToPalette[r] = pal;
+    notes.push(`roleColors: ${r} re-based on palette '${pal}' — the ${r} family regenerates on that ramp, re-gated (explicit brand decision)`);
+    const want = CANONICAL_HUE[r], got = paletteHue(pal);
+    if (want !== undefined && got !== null && hueDist(got, want) > 40)
+      notes.push(`roleColors: ${r} → '${pal}' hue ${Math.round(got)}° is far from the canonical ${r} hue ${want}° (Δ${Math.round(hueDist(got, want))}°) — CONFIRM the ${r} signal still reads; contrast holds but the colour may mislead`);
+  }
 
   const baseUnit = input.baseUnit ?? 4;
   const spaceBase = input.spaceBase ?? 8;

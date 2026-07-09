@@ -7,7 +7,40 @@
 
 ---
 
-## Latest (2026-07-07) — the `field.*` category (form-element chrome, docs/20 §17)
+## Latest (2026-07-08) — `roleColors`: general semantic-role rebasing (docs/21)
+
+**STATUS: in progress** on branch `claude/prism3-e2e-integration-8fwul4` (fresh from `main`). A general lever
+that lets a brand **re-base any semantic role on a declared palette** — the client-driven need: a red brand
+reuses its brand red for `danger`, a blue brand its blue for `info`, or any role points at a custom colour.
+
+**The lever:** `roleColors?: Partial<Record<Role, string>>` on `BrandInput` (value = a palette name: a status,
+`primary`/`neutral`, or a `brandColors` entry). It's the **general form of `actionPalette`** (which stays as an
+ergonomic alias for `roleColors.action`). Covers `success`/`warning`/`danger`/`info`/`action`; `brand`/`neutral`
+are rejected (they define the surface model). `accent` is unchanged — it's an *added* interactive column, not a
+rebasable role, so it keeps `accentPalette`.
+
+**Why it existed as four special cases before:** `action`/`accent` had their own levers; `danger` had an
+auto-carve *heuristic* (a saturated-red brand already reuses `primary` for danger — `test.ts` M-05); and
+`success`/`warning` could hue-tune via `status` but `info` had **no override at all**. `roleColors` unifies them
+— the explicit danger override wins over the heuristic (and mints no orphan danger ramp), and info rebasing is
+finally possible.
+
+**Guarantees:** contrast **always re-gates** on the target ramp (verified: a rebased brand clears every contract
+in all four modes; `text.info` resolves onto the primary ramp and still passes). Semantic-signal appropriateness
+is the user's call but **flagged** — a hue mismatch (danger not red, info not blue) pushes a design.md `CONFIRM…`
+note rather than blocking. Validation: unknown target palette throws; `brand`/`neutral` rebase throws.
+
+**Wiring:** `theme.ts` (input field + a general rebasing pass after the danger carve, with `paletteHue` +
+hue-mismatch note), `schema/theme-schema.json` (the `roleColors` object). **Additive + optional** — NB/aurora/
+harbor declare no overrides, so `out/*` is byte-identical. Not exposed as a dashboard lever (it's a structured
+map, not a scalar toggle — `lever-manifest` unchanged).
+
+**Gates: test 671/671 (+8 roleColors: gap-closer, explicit-danger-no-orphan, action-alias, the all-modes contract
+guarantee, hue-mismatch flag, both guards), nb-regression exit 0, emit-dtcg 332/332 per brand, web tsc clean.**
+
+---
+
+## (2026-07-07) — the `field.*` category (form-element chrome, docs/20 §17)
 
 **STATUS: in progress** on branch `claude/prism3-e2e-integration-8fwul4` (fresh from `main`). Field research on
 the Prism2 input tokens (`surface.input.*` / `border.input.*`) confirmed most of them are already covered
