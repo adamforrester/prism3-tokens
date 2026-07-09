@@ -52,7 +52,19 @@
     },
     "actionPalette": {
       "type": "string",
-      "description": "OPTIONAL. Which palette drives the interactive/action colour. Defaults to 'primary'. Brands whose hero colour is unsuitable for actions name another palette here (an accent, or even neutral). The engine FLAGS this in notes so it is an explicit, confirmable choice."
+      "description": "OPTIONAL. Which palette drives the interactive/action colour. Defaults to 'primary'. Brands whose hero colour is unsuitable for actions name another palette here (an accent, or even neutral). The engine FLAGS this in notes so it is an explicit, confirmable choice. This is the ergonomic alias for `roleColors.action`."
+    },
+    "roleColors": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "OPTIONAL. Re-base a semantic role on a declared palette (docs/21) — the general form of `actionPalette`. Value = a palette name: a status, 'primary'/'neutral', or a `brandColors` entry. A red brand can reuse its brand red for `danger`, a blue brand its blue for `info`. `brand`/`neutral` cannot be rebased (they define the surface model). Every remapped role re-derives + re-gates on the target ramp; a hue mismatch (a danger that isn't red) is allowed but flagged in the notes.",
+      "properties": {
+        "success": { "type": "string" },
+        "warning": { "type": "string" },
+        "danger": { "type": "string" },
+        "info": { "type": "string" },
+        "action": { "type": "string" }
+      }
     },
     "surfaces": {
       "type": "object",
