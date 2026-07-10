@@ -435,6 +435,38 @@ const HERO_COPY: Record<StageKey, [string, string]> = {
   form: ['Dial in the form factor.', 'Density, corner radius, and elevation — the geometry that makes the same colours feel like a different product.'],
 };
 
+// The roleColors picker (docs/21) — re-base a status role onto a brand palette. It is NOT a
+// lever (a structured map, not a scalar), so it renders as a bespoke control on the semantic
+// stage rather than from the lever manifest. Options are the declared palettes; 'auto' unsets
+// the override (engine default — synthesised hue, or the danger-red carve).
+const REBASE_ROLES = ['success', 'warning', 'danger', 'info'] as const;
+const renderRoleColors = (): HTMLElement => {
+  const panel = el('div', 'panel');
+  const head = el('div', 'knob');
+  head.append(el('label', 'knob-label', 'Semantic role palettes'));
+  head.append(el('p', 'knob-desc', 'Re-base a status role onto a brand palette — a red brand reuses its red for danger, a blue brand its blue for info. “Auto” lets the engine decide (a synthesised hue, or the danger-red carve). Contrast always re-gates on the target ramp; a hue mismatch is allowed but flagged in the theme notes.'));
+  panel.append(head);
+  const palettes = ['primary', 'neutral', ...(brandState.brandColors ?? []).map((b) => b.name)];
+  for (const role of REBASE_ROLES) {
+    const wrap = el('div', 'knob');
+    wrap.append(el('label', 'knob-label', role));
+    const sel = el('select') as HTMLSelectElement;
+    const cur = brandState.roleColors?.[role] ?? '';
+    const mkOpt = (v: string, label: string) => { const o = el('option') as HTMLOptionElement; o.value = v; o.textContent = label; if (v === cur) o.selected = true; sel.append(o); };
+    mkOpt('', 'auto (engine default)');
+    for (const p of palettes) mkOpt(p, p);
+    sel.onchange = () => {
+      const rc: Record<string, string> = { ...(brandState.roleColors ?? {}) };
+      if (sel.value) rc[role] = sel.value; else delete rc[role];
+      brandState.roleColors = (Object.keys(rc).length ? rc : undefined) as BrandInput['roleColors'];
+      apply();
+    };
+    wrap.append(sel);
+    panel.append(wrap);
+  }
+  return panel;
+};
+
 const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
   const [title, lede] = HERO_COPY[key];
   host.append(hero(title, lede));
@@ -444,6 +476,8 @@ const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
     for (const l of levers) panel.append(renderControl(l));
     host.append(panel);
   }
+  // roleColors picker — the general status→palette rebasing (docs/21), semantic stage only.
+  if (key === 'semantic') host.append(renderRoleColors());
   // Live preview on every lever stage — the same sample components reflect the axis
   // being tuned: colour (semantic), type (type), geometry (form). The type stage also
   // gets a type-scale specimen (the small component chips can't show the scale). The
