@@ -434,7 +434,12 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
   // state or hand-mirrored for inverse — the field research (Prism2 surface/border.input.*)
   // showed those are the tokens generic roles already cover better.
   putSurf('field.fill', cfg.bg.secondary, 'Form field fill — a subtly inset surface for inputs (the value ink is text.primary; it tracks the page tier so text clears)');
-  put('field.border', pickMinPass(ramp, baseRgb, cfg.nonTextMin), `Form field resting border — a perceivable boundary, ${cfg.nonTextMin}:1 (SC 1.4.11) — better than a sub-3:1 resting border`, 'background.primary', cfg.nonTextMin);
+  // Border is the one stateful field slot (rest + hover), same shape as interactive.*.fill.<state>.
+  // Rest is a perceivable boundary; hover is a subtly STRONGER boundary — never the sole state
+  // carrier (KB §4). Focus swaps to border.focus, validation to border.<semantic>, disabled to
+  // disabled.border — those compose from generic families, so only rest/hover live in field.*.
+  put('field.border.rest', pickMinPass(ramp, baseRgb, cfg.nonTextMin), `Form field resting border — a perceivable boundary, ${cfg.nonTextMin}:1 (SC 1.4.11) — better than a sub-3:1 resting border`, 'background.primary', cfg.nonTextMin);
+  put('field.border.hover', pickMinPass(ramp, baseRgb, cfg.secondaryMin), `Form field hover border — a subtly stronger boundary on pointer hover, ${cfg.secondaryMin}:1 (never the sole state carrier — KB §4)`, 'background.primary', cfg.secondaryMin);
   put('field.placeholder', pickMinPass(textCands, cfg.bg.secondary.rgb, cfg.secondaryMin), `Form field placeholder ink — a READABLE hint, ${cfg.secondaryMin}:1 on the field fill (not a sub-AA placeholder)`, 'field.fill', cfg.secondaryMin);
 
   // -------------------------------------------------------------- text (+ icon)

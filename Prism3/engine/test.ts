@@ -35,6 +35,9 @@ import { aliasRows } from './materialise-to-figma';
 import { validateComponentDef, ComponentDef } from './component-schema';
 import { button } from './components/button';
 import { iconButton } from './components/icon-button';
+import { fieldLabel } from './components/field-label';
+import { fieldMessage } from './components/field-message';
+import { textField } from './components/text-field';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { resolve, dirname } from 'node:path';
@@ -252,7 +255,8 @@ for (const b of brands) {
   //      placeholder = TEXT_FILL. Same fall-through risk as disabled if it lacked a branch.
   const fieldScopeBad: string[] = [];
   if (scopeOf('color/field/fill') !== JSON.stringify(['FRAME_FILL', 'SHAPE_FILL'])) fieldScopeBad.push('field/fill');
-  if (scopeOf('color/field/border') !== JSON.stringify(['STROKE_COLOR'])) fieldScopeBad.push('field/border');
+  if (scopeOf('color/field/border/rest') !== JSON.stringify(['STROKE_COLOR'])) fieldScopeBad.push('field/border/rest');
+  if (scopeOf('color/field/border/hover') !== JSON.stringify(['STROKE_COLOR'])) fieldScopeBad.push('field/border/hover');
   if (scopeOf('color/field/placeholder') !== JSON.stringify(['TEXT_FILL'])) fieldScopeBad.push('field/placeholder');
   ok(fieldScopeBad.length === 0, 'field: Figma slots carry slot-aware scopes' + (fieldScopeBad.length ? ` — ${fieldScopeBad.join(',')}` : ''));
 
@@ -304,19 +308,21 @@ for (const b of brands) {
   const modes = resolveAllModes(nbTheme());
   const shapeMissing: string[] = [];
   for (const m of modes)
-    for (const k of ['fill', 'border', 'placeholder'])
+    for (const k of ['fill', 'border.rest', 'border.hover', 'placeholder'])
       if (!(`field.${k}` in m.roles)) shapeMissing.push(`${m.mode}:field.${k}`);
-  ok(shapeMissing.length === 0, 'field: surface/border/placeholder present in every mode' + (shapeMissing.length ? ` — ${shapeMissing.slice(0, 3).join(',')}` : ''));
+  ok(shapeMissing.length === 0, 'field: fill/border.rest/border.hover/placeholder present in every mode' + (shapeMissing.length ? ` — ${shapeMissing.slice(0, 3).join(',')}` : ''));
 
   const fails: string[] = [];
   for (const m of modes) {
-    const b = m.roles['field.border'], p = m.roles['field.placeholder'];
+    const b = m.roles['field.border.rest'], bh = m.roles['field.border.hover'], p = m.roles['field.placeholder'];
     // resting border is a perceivable boundary (SC 1.4.11) vs the page — NOT the sub-3:1 Prism2 shipped.
     if (b.against !== 'background.primary' || b.min < 3 || b.ratio < b.min) fails.push(`${m.mode}:border ${b.ratio.toFixed(2)}<${b.min}@${b.against}`);
+    // hover border is a STRONGER boundary than rest (gated ≥4.5), same page ground — a perceptible, not sole, state cue.
+    if (bh.against !== 'background.primary' || bh.min < 4.5 || bh.ratio < bh.min || bh.ratio < b.ratio) fails.push(`${m.mode}:border.hover ${bh.ratio.toFixed(2)}<${bh.min}@${bh.against}`);
     // placeholder is readable on the field fill — NOT a sub-AA hint.
     if (p.against !== 'field.fill' || p.min < 4.5 || p.ratio < p.min) fails.push(`${m.mode}:placeholder ${p.ratio.toFixed(2)}<${p.min}@${p.against}`);
   }
-  ok(fails.length === 0, 'field: border gated ≥3:1 on the page + placeholder gated ≥4.5 on the fill, every mode' + (fails.length ? ` — ${fails.join(',')}` : ''));
+  ok(fails.length === 0, 'field: rest border ≥3:1 + hover border ≥4.5 (≥rest) on the page + placeholder ≥4.5 on the fill, every mode' + (fails.length ? ` — ${fails.join(',')}` : ''));
 }
 
 // MATERIALISE-TO-FIGMA — the colour aliases MUST bind a distinct target per mode. This locks
@@ -853,6 +859,18 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   ok(edgesAll.size > edgesValue.size, `M-10: mode-override + fluid refs add ${edgesAll.size - edgesValue.size} direct consumer edges the $value-only index missed`);
   const ai = buildAiMetadata(t, tree) as any;
   ok(Object.values(ai.primitives).some((pr: any) => (pr.aliased_by?.length ?? 0) > 0), 'M-10: the emitted sidecar carries a populated aliased_by reverse index (was ungated)');
+
+  // Sidecar-reference gate: every `paired_with` entry must resolve to a real role key in the SAME
+  // sidecar. This is the gate that was missing — the field.border → field.border.rest rename left
+  // a stale `field.fill` paired_with pointing at the gone `field.border`, and nothing caught it
+  // because the sidecar's cross-references were never validated. Now a rename that orphans a
+  // paired_with ref fails here instead of shipping a broken .ai.json.
+  const roleKeys = new Set(Object.keys(ai.color));
+  const dangling: string[] = [];
+  for (const [k, r] of Object.entries(ai.color as Record<string, any>))
+    for (const ref of (r.paired_with ?? []))
+      if (!roleKeys.has(ref)) dangling.push(`${k} → ${ref}`);
+  ok(dangling.length === 0, 'sidecar: every .ai.json paired_with resolves to a real role in the sidecar' + (dangling.length ? ` — ${dangling.slice(0, 5).join(', ')}` : ''));
 }
 // (5) STANDARD dialect — the brand-skills / google-labs design.md path (docs/07 §11):
 // the reader + colour-role classifier + x-prism3 levers, on the real Wendy's file.
@@ -2464,7 +2482,7 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
 
   // Both calibration defs: structurally valid, and every token binding resolves across TWO
   // brands (build-once / materialise-everywhere), binding only semantic roles (no primitive leak).
-  for (const [name, def] of [['Button', button], ['IconButton', iconButton]] as [string, ComponentDef][]) {
+  for (const [name, def] of [['Button', button], ['IconButton', iconButton], ['FieldLabel', fieldLabel], ['FieldMessage', fieldMessage], ['TextField', textField]] as [string, ComponentDef][]) {
     const s = validateComponentDef(def);
     ok(s.errors.length === 0, `component: ${name} def is structurally valid${s.errors.length ? ' — ' + s.errors.join('; ') : ''}`);
     const vnb = validateComponentDef(def, nbTree, nbT.root);
@@ -2480,6 +2498,19 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   ok(JSON.stringify(button.variants.appearance) === JSON.stringify(['filled', 'outline', 'text']), 'component: Button appearance axis is filled/outline/text (reconciled)');
   ok(!Object.values(button.tokens).some((v) => /color\.action\.|color\.foreground\.danger\.|foreground\.secondary/.test(String(v))), 'component: Button binds interactive.*/disabled.*, not the legacy action./danger./secondary roles');
   ok(iconButton.inherits === 'button' && !!iconButton.props.find((p) => p.name === 'aria-label')?.required, 'component: IconButton inherits button + REQUIRES an accessible name');
+
+  // The field FAMILY (docs/20 §17, KB text-field): TextField is a HOST that composes the two
+  // shared parts, and binds INPUT CHROME only — label/message colour+type live in their own defs.
+  ok(['field-label', 'field-message'].every((p) => textField.composition?.composesWith?.includes(p)), 'component: TextField composes field-label + field-message (the shared parts, not re-declared)');
+  ok(!Object.keys(textField.tokens).some((k) => /label|caption|message/.test(k)), 'component: TextField binds input chrome only — no label/message tokens (those live in the part defs)');
+  ok(textField.tokens['border.rest'] === 'color.field.border.rest' && textField.tokens['border.hover'] === 'color.field.border.hover', 'component: TextField binds the stateful field border (rest + hover)');
+  // read-only ≠ disabled — the live edge: read-only keeps full-contrast text.primary, not a dimmed disabled ink.
+  ok(textField.tokens['text'] === 'color.text.primary' && textField.tokens['border.readonly'] === 'color.border.secondary', 'component: TextField read-only stays full-contrast (text.primary + border.secondary), not disabled.*');
+  ok(textField.tokens['border.error'] === 'color.border.danger', 'component: TextField error is a border-only swap (border.danger)');
+  // FieldMessage: every validation tone re-points BOTH ink + icon at the matching semantic role.
+  ok(([['error', 'danger'], ['warning', 'warning'], ['success', 'success']] as const).every(([tone, role]) => fieldMessage.tokens[`${tone}.text`] === `color.text.${role}` && fieldMessage.tokens[`${tone}.icon`] === `color.icon.${role}`), 'component: FieldMessage tones bind text.<role> + icon.<role> (icon + text, never colour-only)');
+  ok(fieldMessage.states.length === 0 && JSON.stringify(fieldMessage.variants.tone) === JSON.stringify(['default', 'error', 'warning', 'success']), 'component: FieldMessage is presentational with a tone axis');
+  ok(!!fieldLabel.props.find((p) => p.name === 'children')?.required && fieldLabel.tokens['text'] === 'color.text.primary', 'component: FieldLabel requires text + binds the primary label ink');
 
   // The drift gate bites: a broken def is caught (missing avoid_when + an unresolvable binding).
   const broken = { ...button, ai: { ...button.ai, avoidWhen: '' }, tokens: { ...button.tokens, bogus: 'color.nope.nope' } } as ComponentDef;

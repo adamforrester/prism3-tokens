@@ -1251,7 +1251,7 @@
       }
     },
     {
-      "name": "color/field/border",
+      "name": "color/field/border/rest",
       "resolvedType": "COLOR",
       "scopes": [
         "STROKE_COLOR"
@@ -1266,6 +1266,24 @@
       "alias": {
         "type": "VARIABLE_ALIAS",
         "name": "palette/neutral/450"
+      }
+    },
+    {
+      "name": "color/field/border/hover",
+      "resolvedType": "COLOR",
+      "scopes": [
+        "STROKE_COLOR"
+      ],
+      "description": "Form field hover border — a subtly stronger boundary on pointer hover, 4.5:1 (never the sole state carrier — KB §4)",
+      "value": {
+        "r": 0.40784314274787903,
+        "g": 0.40784314274787903,
+        "b": 0.4274509847164154,
+        "a": 1
+      },
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "palette/neutral/550"
       }
     },
     {
