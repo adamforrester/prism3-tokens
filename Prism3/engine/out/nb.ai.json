@@ -1290,7 +1290,7 @@
         "hc-dark": "{nbds.palette.black}"
       },
       "paired_with": [
-        "field.border",
+        "field.border.rest",
         "field.placeholder",
         "text.primary"
       ]
@@ -1318,10 +1318,10 @@
       ]
     },
     "field.border.hover": {
-      "$description": "Form field resting border.",
+      "$description": "Form field hover border.",
       "meaning": "Form input / field chrome",
-      "when_to_use": "The RESTING boundary of a form field — perceivable (3:1) before focus.",
-      "avoid_when": "Do not use for the focus ring (use border.focus) or a validation state (use border.<semantic>).",
+      "when_to_use": "The HOVER boundary of a form field — a subtly stronger perceivable border (4.5) on pointer hover.",
+      "avoid_when": "Do not use as the resting border (use field.border.rest), the focus ring (use border.focus), or a validation state (use border.<semantic>).",
       "mode_overrides": {
         "light": "{nbds.palette.neutral.500}",
         "dark": "{nbds.palette.neutral.450}",
@@ -1329,7 +1329,8 @@
         "hc-dark": "{nbds.palette.neutral.350}"
       },
       "paired_with": [
-        "field.fill"
+        "field.fill",
+        "field.border.rest"
       ],
       "contrast_with": [
         {

@@ -859,6 +859,18 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   ok(edgesAll.size > edgesValue.size, `M-10: mode-override + fluid refs add ${edgesAll.size - edgesValue.size} direct consumer edges the $value-only index missed`);
   const ai = buildAiMetadata(t, tree) as any;
   ok(Object.values(ai.primitives).some((pr: any) => (pr.aliased_by?.length ?? 0) > 0), 'M-10: the emitted sidecar carries a populated aliased_by reverse index (was ungated)');
+
+  // Sidecar-reference gate: every `paired_with` entry must resolve to a real role key in the SAME
+  // sidecar. This is the gate that was missing — the field.border → field.border.rest rename left
+  // a stale `field.fill` paired_with pointing at the gone `field.border`, and nothing caught it
+  // because the sidecar's cross-references were never validated. Now a rename that orphans a
+  // paired_with ref fails here instead of shipping a broken .ai.json.
+  const roleKeys = new Set(Object.keys(ai.color));
+  const dangling: string[] = [];
+  for (const [k, r] of Object.entries(ai.color as Record<string, any>))
+    for (const ref of (r.paired_with ?? []))
+      if (!roleKeys.has(ref)) dangling.push(`${k} → ${ref}`);
+  ok(dangling.length === 0, 'sidecar: every .ai.json paired_with resolves to a real role in the sidecar' + (dangling.length ? ` — ${dangling.slice(0, 5).join(', ')}` : ''));
 }
 // (5) STANDARD dialect — the brand-skills / google-labs design.md path (docs/07 §11):
 // the reader + colour-role classifier + x-prism3 levers, on the real Wendy's file.
