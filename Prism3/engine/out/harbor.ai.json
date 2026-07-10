@@ -1295,7 +1295,7 @@
         "text.primary"
       ]
     },
-    "field.border": {
+    "field.border.rest": {
       "$description": "Form field resting border.",
       "meaning": "Form input / field chrome",
       "when_to_use": "The RESTING boundary of a form field — perceivable (3:1) before focus.",
@@ -1314,6 +1314,28 @@
           "token": "background.primary",
           "min": "3:1",
           "ratio": 3.2
+        }
+      ]
+    },
+    "field.border.hover": {
+      "$description": "Form field resting border.",
+      "meaning": "Form input / field chrome",
+      "when_to_use": "The RESTING boundary of a form field — perceivable (3:1) before focus.",
+      "avoid_when": "Do not use for the focus ring (use border.focus) or a validation state (use border.<semantic>).",
+      "mode_overrides": {
+        "light": "{prism.palette.neutral.550}",
+        "dark": "{prism.palette.neutral.450}",
+        "hc-light": "{prism.palette.neutral.650}",
+        "hc-dark": "{prism.palette.neutral.350}"
+      },
+      "paired_with": [
+        "field.fill"
+      ],
+      "contrast_with": [
+        {
+          "token": "background.primary",
+          "min": "4.5:1",
+          "ratio": 4.56
         }
       ]
     },
@@ -3366,6 +3388,7 @@
       "tier": "primitive",
       "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
+        "color.field.border.hover",
         "color.field.placeholder"
       ]
     },
@@ -3387,7 +3410,8 @@
         "color.disabled.icon",
         "color.disabled.on-fill",
         "color.disabled.text",
-        "color.field.border",
+        "color.field.border.hover",
+        "color.field.border.rest",
         "color.field.placeholder",
         "color.icon.secondary",
         "color.icon.tertiary",
@@ -3408,7 +3432,7 @@
         "color.border.secondary",
         "color.disabled.icon",
         "color.disabled.text",
-        "color.field.border",
+        "color.field.border.rest",
         "color.icon.tertiary",
         "color.interactive.neutral.border",
         "color.text.tertiary"
@@ -3424,7 +3448,8 @@
         "color.disabled.icon",
         "color.disabled.on-fill",
         "color.disabled.text",
-        "color.field.border",
+        "color.field.border.hover",
+        "color.field.border.rest",
         "color.icon.tertiary",
         "color.interactive.neutral.border",
         "color.text.tertiary"
@@ -3454,6 +3479,7 @@
       "consume": "Private primitive — reference a `color.*` semantic token that aliases this, not the raw step.",
       "aliased_by": [
         "color.disabled.on-fill",
+        "color.field.border.hover",
         "color.field.placeholder"
       ]
     },

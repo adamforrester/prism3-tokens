@@ -79,7 +79,8 @@ Palettes: red, green, amber, neutral, info. Danger draws from `red`.
 | disabled.icon | neutral.450 | 3.16 | 3 | ✅ |
 | disabled.border | neutral.200 | — | — | · |
 | field.fill | neutral.050 | — | — | · |
-| field.border | neutral.400 | 3.27 | 3 | ✅ |
+| field.border.rest | neutral.400 | 3.27 | 3 | ✅ |
+| field.border.hover | neutral.500 | 4.59 | 4.5 | ✅ |
 | field.placeholder | neutral.550 | 4.52 | 4.5 | ✅ |
 | text.primary | neutral.950 | 19.44 | 7 | ✅ |
 | text.secondary | neutral.550 | 4.52 | 4.5 | ✅ |
@@ -206,7 +207,8 @@ Palettes: red, green, amber, neutral, info. Danger draws from `red`.
 | disabled.icon | neutral.550 | 3.27 | 3 | ✅ |
 | disabled.border | neutral.750 | — | — | · |
 | field.fill | neutral.900 | — | — | · |
-| field.border | neutral.550 | 3.54 | 3 | ✅ |
+| field.border.rest | neutral.550 | 3.54 | 3 | ✅ |
+| field.border.hover | neutral.450 | 5.06 | 4.5 | ✅ |
 | field.placeholder | neutral.450 | 4.68 | 4.5 | ✅ |
 | text.primary | neutral.025 | 18.11 | 7 | ✅ |
 | text.secondary | neutral.450 | 4.68 | 4.5 | ✅ |
@@ -333,7 +335,8 @@ Palettes: red, green, amber, neutral, info. Danger draws from `red`.
 | disabled.icon | neutral.550 | 4.52 | 4.5 | ✅ |
 | disabled.border | neutral.200 | — | — | · |
 | field.fill | white | — | — | · |
-| field.border | neutral.500 | 4.59 | 4.5 | ✅ |
+| field.border.rest | neutral.500 | 4.59 | 4.5 | ✅ |
+| field.border.hover | neutral.650 | 8.15 | 7 | ✅ |
 | field.placeholder | neutral.650 | 8.15 | 7 | ✅ |
 | text.primary | black | 21.00 | 15 | ✅ |
 | text.secondary | neutral.700 | 8.09 | 7 | ✅ |
@@ -460,7 +463,8 @@ Palettes: red, green, amber, neutral, info. Danger draws from `red`.
 | disabled.icon | neutral.450 | 4.68 | 4.5 | ✅ |
 | disabled.border | neutral.750 | — | — | · |
 | field.fill | black | — | — | · |
-| field.border | neutral.500 | 4.57 | 4.5 | ✅ |
+| field.border.rest | neutral.500 | 4.57 | 4.5 | ✅ |
+| field.border.hover | neutral.350 | 7.49 | 7 | ✅ |
 | field.placeholder | neutral.350 | 7.49 | 7 | ✅ |
 | text.primary | white | 21.00 | 15 | ✅ |
 | text.secondary | neutral.300 | 7.49 | 7 | ✅ |
@@ -658,7 +662,8 @@ Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws
 | disabled.icon | neutral.500 | 3.28 | 3 | ✅ |
 | disabled.border | neutral.200 | — | — | · |
 | field.fill | neutral.100 | — | — | · |
-| field.border | neutral.450 | 3.16 | 3 | ✅ |
+| field.border.rest | neutral.450 | 3.16 | 3 | ✅ |
+| field.border.hover | neutral.550 | 4.57 | 4.5 | ✅ |
 | field.placeholder | neutral.600 | 4.81 | 4.5 | ✅ |
 | text.primary | neutral.950 | 16.01 | 7 | ✅ |
 | text.secondary | neutral.600 | 4.81 | 4.5 | ✅ |
@@ -785,7 +790,8 @@ Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws
 | disabled.icon | neutral.550 | 3.23 | 3 | ✅ |
 | disabled.border | neutral.750 | — | — | · |
 | field.fill | neutral.900 | — | — | · |
-| field.border | neutral.550 | 3.51 | 3 | ✅ |
+| field.border.rest | neutral.550 | 3.51 | 3 | ✅ |
+| field.border.hover | neutral.450 | 5.06 | 4.5 | ✅ |
 | field.placeholder | neutral.450 | 4.66 | 4.5 | ✅ |
 | text.primary | neutral.025 | 18.13 | 7 | ✅ |
 | text.secondary | neutral.450 | 4.66 | 4.5 | ✅ |
@@ -912,7 +918,8 @@ Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws
 | disabled.icon | neutral.600 | 4.81 | 4.5 | ✅ |
 | disabled.border | neutral.200 | — | — | · |
 | field.fill | white | — | — | · |
-| field.border | neutral.500 | 4.54 | 4.5 | ✅ |
+| field.border.rest | neutral.500 | 4.54 | 4.5 | ✅ |
+| field.border.hover | neutral.650 | 8.14 | 7 | ✅ |
 | field.placeholder | neutral.650 | 8.14 | 7 | ✅ |
 | text.primary | black | 21.00 | 15 | ✅ |
 | text.secondary | neutral.700 | 7.12 | 7 | ✅ |
@@ -1039,7 +1046,8 @@ Palettes: primary, neutral, accent, success, warning, info, danger. Danger draws
 | disabled.icon | neutral.450 | 4.66 | 4.5 | ✅ |
 | disabled.border | neutral.750 | — | — | · |
 | field.fill | black | — | — | · |
-| field.border | neutral.500 | 4.63 | 4.5 | ✅ |
+| field.border.rest | neutral.500 | 4.63 | 4.5 | ✅ |
+| field.border.hover | neutral.350 | 7.49 | 7 | ✅ |
 | field.placeholder | neutral.350 | 7.49 | 7 | ✅ |
 | text.primary | white | 21.00 | 15 | ✅ |
 | text.secondary | neutral.300 | 7.46 | 7 | ✅ |
@@ -1235,7 +1243,8 @@ Palettes: primary, neutral, success, warning, info, danger. Danger draws from `d
 | disabled.icon | neutral.500 | 3.32 | 3 | ✅ |
 | disabled.border | neutral.200 | — | — | · |
 | field.fill | neutral.100 | — | — | · |
-| field.border | neutral.450 | 3.20 | 3 | ✅ |
+| field.border.rest | neutral.450 | 3.20 | 3 | ✅ |
+| field.border.hover | neutral.550 | 4.56 | 4.5 | ✅ |
 | field.placeholder | neutral.600 | 4.88 | 4.5 | ✅ |
 | text.primary | neutral.950 | 15.98 | 7 | ✅ |
 | text.secondary | neutral.600 | 4.88 | 4.5 | ✅ |
@@ -1362,7 +1371,8 @@ Palettes: primary, neutral, success, warning, info, danger. Danger draws from `d
 | disabled.icon | neutral.550 | 3.23 | 3 | ✅ |
 | disabled.border | neutral.750 | — | — | · |
 | field.fill | neutral.900 | — | — | · |
-| field.border | neutral.550 | 3.51 | 3 | ✅ |
+| field.border.rest | neutral.550 | 3.51 | 3 | ✅ |
+| field.border.hover | neutral.450 | 5.00 | 4.5 | ✅ |
 | field.placeholder | neutral.450 | 4.61 | 4.5 | ✅ |
 | text.primary | neutral.025 | 18.11 | 7 | ✅ |
 | text.secondary | neutral.450 | 4.61 | 4.5 | ✅ |
@@ -1489,7 +1499,8 @@ Palettes: primary, neutral, success, warning, info, danger. Danger draws from `d
 | disabled.icon | neutral.600 | 4.88 | 4.5 | ✅ |
 | disabled.border | neutral.200 | — | — | · |
 | field.fill | white | — | — | · |
-| field.border | neutral.500 | 4.59 | 4.5 | ✅ |
+| field.border.rest | neutral.500 | 4.59 | 4.5 | ✅ |
+| field.border.hover | neutral.650 | 8.16 | 7 | ✅ |
 | field.placeholder | neutral.650 | 8.16 | 7 | ✅ |
 | text.primary | black | 21.00 | 15 | ✅ |
 | text.secondary | neutral.700 | 7.13 | 7 | ✅ |
@@ -1616,7 +1627,8 @@ Palettes: primary, neutral, success, warning, info, danger. Danger draws from `d
 | disabled.icon | neutral.450 | 4.61 | 4.5 | ✅ |
 | disabled.border | neutral.750 | — | — | · |
 | field.fill | black | — | — | · |
-| field.border | neutral.500 | 4.57 | 4.5 | ✅ |
+| field.border.rest | neutral.500 | 4.57 | 4.5 | ✅ |
+| field.border.hover | neutral.350 | 7.49 | 7 | ✅ |
 | field.placeholder | neutral.350 | 7.49 | 7 | ✅ |
 | text.primary | white | 21.00 | 15 | ✅ |
 | text.secondary | neutral.300 | 7.39 | 7 | ✅ |

@@ -7,7 +7,44 @@
 
 ---
 
-## Latest (2026-07-08) — `roleColors`: general semantic-role rebasing (docs/21)
+## Latest (2026-07-10) — the Text Field FAMILY: `field.border` hover split + three ComponentDefs
+
+**STATUS: in progress** on branch `claude/prism3-e2e-integration-8fwul4` (fresh from `main`). Scoped the
+**Text Field** grounded in `knowledge-base/components/text-field.md`, and the owner-confirmed shape is a small
+**field family**, not one monolith — the KB's "composed slots" hybrid expressed in the data model.
+
+**One engine change:** `field.border` became the one **stateful** field slot, nested `field.border.rest` +
+`field.border.hover` (same shape as `interactive.*.fill.<state>`). Rest is the perceivable boundary (gated 3:1
+vs the page); hover is a subtly *stronger* boundary (gated 4.5, asserted ≥ rest) — a perceptible, never-sole
+state cue (KB §4). All other field states still compose (focus→`border.focus`, error→`border.danger`,
+disabled→`disabled.*`). This is a flat-leaf → nested rename: `modes.ts`, `emit-figma` (scope keys on `seg[2]`,
+unchanged), `test.ts` (scope + shape + a hover≥rest gate), `preview.ts` (rebound + a new `hover` variant),
+`materialise-to-figma` verify (field-family names + the old flat leaf asserted gone).
+
+**Three ComponentDefs (the family):**
+- **`components/field-label.ts`** — the accessible name: `size` {small, medium} + required/optional indicator +
+  disabled dim. A shared part reused above every field control (static top-aligned; floating out of favour).
+- **`components/field-message.ts`** — the **Prism2 "Helper message" successor**: a `tone` axis
+  {default, error, warning, success}, each tone re-pointing **both** caption ink + status icon at the matching
+  role (`text.<role>` + `icon.<role>`) — icon + text, never colour-only. Presentational; the host owns the
+  `aria-describedby` + `aria-invalid` wiring.
+- **`components/text-field.ts`** — the HOST. Composes the two parts (`composesWith`) and binds **input chrome
+  only** — so label/message tokens live in the parts and Select/NumberField reuse them. Encodes the KB's live
+  edges: read-only ≠ disabled (read-only stays full-contrast `text.primary` + `border.secondary`, not dimmed);
+  error is a **border-only** swap; validation is **presentational** (form lib owns timing); base field only
+  (NumberField separate, Search/Password thin specialisations, email/url/tel = `type`+attrs).
+
+**Decisions (owner-confirmed):** base-only (credit-card field is a compose-of-fields *pattern*, out of scope);
+add the `field.border.hover` token (owner leaned yes); error = border-only; read-only = full-contrast. The
+nested-component question resolved to: shared **parts** are their own defs when state/tone-bearing + reused
+(FieldLabel, FieldMessage); truly-primitive parts (Icon) stay **slots**, not defs.
+
+**Gates: test 691/691 (+16: field hover-gate, +3 def validations × 2 brands, family assertions), nb-regression
+exit 0, emit-dtcg 336/336 per brand, emit-figma clean, web tsc clean.** `out/*` + `preview-spec.json` regenerated.
+
+---
+
+## (2026-07-08) — `roleColors`: general semantic-role rebasing (docs/21)
 
 **STATUS: in progress** on branch `claude/prism3-e2e-integration-8fwul4` (fresh from `main`). A general lever
 that lets a brand **re-base any semantic role on a declared palette** — the client-driven need: a red brand

@@ -5475,45 +5475,91 @@
           }
         },
         "border": {
-          "$type": "color",
-          "$value": "{prism.palette.neutral.450}",
-          "$description": "Form field resting border — a perceivable boundary, 3:1 (SC 1.4.11) — better than a sub-3:1 resting border",
-          "$extensions": {
-            "prism3": {
-              "role": "semantic",
-              "aliasOf": "prism.palette.neutral.450",
-              "contrast": 3.2,
-              "against": "background.primary",
-              "min": 3,
-              "modes": {
-                "dark": {
-                  "$value": "{prism.palette.neutral.550}",
-                  "contrast": 3.51,
-                  "against": "background.primary",
-                  "min": 3
+          "rest": {
+            "$type": "color",
+            "$value": "{prism.palette.neutral.450}",
+            "$description": "Form field resting border — a perceivable boundary, 3:1 (SC 1.4.11) — better than a sub-3:1 resting border",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "prism.palette.neutral.450",
+                "contrast": 3.2,
+                "against": "background.primary",
+                "min": 3,
+                "modes": {
+                  "dark": {
+                    "$value": "{prism.palette.neutral.550}",
+                    "contrast": 3.51,
+                    "against": "background.primary",
+                    "min": 3
+                  },
+                  "hc-light": {
+                    "$value": "{prism.palette.neutral.500}",
+                    "contrast": 4.59,
+                    "against": "background.primary",
+                    "min": 4.5
+                  },
+                  "hc-dark": {
+                    "$value": "{prism.palette.neutral.500}",
+                    "contrast": 4.57,
+                    "against": "background.primary",
+                    "min": 4.5
+                  }
                 },
-                "hc-light": {
-                  "$value": "{prism.palette.neutral.500}",
-                  "contrast": 4.59,
-                  "against": "background.primary",
-                  "min": 4.5
-                },
-                "hc-dark": {
-                  "$value": "{prism.palette.neutral.500}",
-                  "contrast": 4.57,
-                  "against": "background.primary",
-                  "min": 4.5
+                "figma": {
+                  "collection": "color",
+                  "modes": [
+                    "light",
+                    "dark",
+                    "hc-light",
+                    "hc-dark"
+                  ],
+                  "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
                 }
-              },
-              "figma": {
-                "collection": "color",
-                "modes": [
-                  "light",
-                  "dark",
-                  "hc-light",
-                  "hc-dark"
-                ],
-                "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+              }
+            }
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{prism.palette.neutral.550}",
+            "$description": "Form field hover border — a subtly stronger boundary on pointer hover, 4.5:1 (never the sole state carrier — KB §4)",
+            "$extensions": {
+              "prism3": {
+                "role": "semantic",
+                "aliasOf": "prism.palette.neutral.550",
+                "contrast": 4.56,
+                "against": "background.primary",
+                "min": 4.5,
+                "modes": {
+                  "dark": {
+                    "$value": "{prism.palette.neutral.450}",
+                    "contrast": 5,
+                    "against": "background.primary",
+                    "min": 4.5
+                  },
+                  "hc-light": {
+                    "$value": "{prism.palette.neutral.650}",
+                    "contrast": 8.16,
+                    "against": "background.primary",
+                    "min": 7
+                  },
+                  "hc-dark": {
+                    "$value": "{prism.palette.neutral.350}",
+                    "contrast": 7.49,
+                    "against": "background.primary",
+                    "min": 7
+                  }
+                },
+                "figma": {
+                  "collection": "color",
+                  "modes": [
+                    "light",
+                    "dark",
+                    "hc-light",
+                    "hc-dark"
+                  ],
+                  "note": "one Figma colour variable; light is $value, other modes in $extensions.prism3.modes.*"
+                }
               }
             }
           }

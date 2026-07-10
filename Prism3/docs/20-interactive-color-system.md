@@ -143,7 +143,9 @@ Every `interactive.*` token is **generated** (walk the intent's palette for fill
 3. ✅ Rebind Button/IconButton (and the eval preview) to `interactive.*` / `disabled.*` — reconciled to
    `filled/outline/text × primary/neutral/destructive`; the v1 HIGH finding (hover-less default button)
    is closed because neutral now carries states. `brand.*`-on-buttons leak removed from the preview.
-4. ⏳ `field.*` with the Text Field calibration component — **design in §17 below**; increment in progress.
+4. ✅ `field.*` with the Text Field calibration component — the four `field.*` roles (incl. the
+   `field.border.rest`/`hover` stateful split) + the three-def field family (`field-label`,
+   `field-message`, `text-field`) composing them. **Design + delivered state in §17 below.**
 
 ## 17. The `field.*` category (form-element chrome)
 
@@ -153,13 +155,16 @@ better** by Prism3's generated families and must **not** be duplicated. So `fiel
 **minimal**: only the chrome that is genuinely field-specific. Everything stateful is composed from
 the existing gated families (per §15: *the field's interaction states come from `interactive.*`*).
 
-**Generated `field.*` roles (three):**
+**Generated `field.*` roles (four):**
 
 | role | what | contract |
 |---|---|---|
 | `field.fill` | the field fill — a subtly *inset* neutral so the field reads as an input even before focus | surface (min 0); the value ink `text.primary` clears on it (it tracks the page tier) |
-| `field.border` | the resting boundary | **gated `nonTextMin` (3:1 / 4.5 HC) against `background.primary`** — SC 1.4.11. **This is the improvement over Prism2**, whose resting input border sat sub-3:1 and leaned entirely on focus |
+| `field.border.rest` | the resting boundary | **gated `nonTextMin` (3:1 / 4.5 HC) against `background.primary`** — SC 1.4.11. **This is the improvement over Prism2**, whose resting input border sat sub-3:1 and leaned entirely on focus |
+| `field.border.hover` | a subtly *stronger* boundary on pointer hover | **gated `secondaryMin` (4.5) against `background.primary`**, and asserted ≥ the rest ratio — a perceptible strengthening, *never the sole state carrier* (KB §4) |
 | `field.placeholder` | placeholder / hint ink on the field fill | **gated `secondaryMin` (4.5) against `field.fill`** — a *readable* hint, not the sub-AA placeholder Prism2 (and most systems) ship |
+
+`field.border` is the one **stateful** field slot, nested `rest`/`hover` in the same shape as `interactive.*.fill.<state>` — so the field family stays self-describing rather than borrowing a generic border for hover. All other states still compose (below).
 
 **Composed from existing families — NOT re-authored in `field.*`:**
 - **focus** → `border.focus` (already gated 3:1). Prism2 had *no* input-focus token.
@@ -168,9 +173,13 @@ the existing gated families (per §15: *the field's interaction states come from
 - **hover / pressed** → `interactive.*` overlays.
 - **filled value ink** → `text.primary`. **inverse** → the generated inverse surface-context (a component concern; no hand-mirrored `field.*-inverse` twins — the thing Prism2 spent the most tokens on).
 
-**Text Field calibration component** binds: `field.fill` (fill) · `field.border` (rest) → `border.focus` (focus) → `border.danger` + `foreground.danger-subtle` (error) → `disabled.*` (disabled) · `text.primary` (value) · `field.placeholder` (placeholder). The layout-shift-prevention trick (an invisible resting border sized to the focus border) is a **component** detail, not a token.
+**Text Field calibration — now a formal field FAMILY (`ComponentDef` ✅).** The Text Field is not one def but a HOST that composes two shared field *parts*, each its own `ComponentDef` reused across the whole form family (Select / NumberField / Checkbox-group later), plus the input-chrome host:
 
-*Increment scope:* the three `field.*` roles + rebinding the eval-preview `input` component onto them + gates. A formal Text Field `ComponentDef` (like Button) is a follow-on.
+- **`components/field-label.ts`** — the accessible name above the field: `size` {small, medium} + a required/optional indicator + a disabled dim. Binds `text.primary` (label ink), `text.secondary` (indicator), `disabled.text`, and the two `type.label.*` steps. Static top-aligned (the practice default; floating is out of favour).
+- **`components/field-message.ts`** — the Prism2 "Helper message" successor: a `tone` axis {default, error, warning, success}, each tone re-pointing **both** caption ink and status icon at the matching semantic role (`text.<role>` + `icon.<role>`) — icon + text, never colour-only (SC 1.4.1 / 3.3.3). Presentational; the host owns `aria-describedby` + `aria-invalid`.
+- **`components/text-field.ts`** — the host. Binds **input chrome only** (label/message colour+type live in the parts): `field.fill` · `field.border.rest` (rest) · `field.border.hover` (hover) → `border.focus` + the field focus ring (`focus.ring.offset-field`) → `border.danger` (error — a **border-only** swap; the message carries the text) → `border.secondary` with **full-contrast `text.primary`** (read-only — *not* dimmed; read-only ≠ disabled is the component's live edge) → `disabled.*` (disabled, contrast-exempt) · `text.primary` (value) · `field.placeholder`. Scope is the BASE field: NumberField is separate, Search/Password thin specialisations, email/url/tel stay as `type`+attrs. Validation is presentational (the form library owns timing). The layout-shift-prevention trick (an invisible resting border sized to the focus border) is a **component** detail, not a token.
+
+*Delivered:* the four `field.*` roles (incl. the `field.border.rest`/`hover` split) + the three-def field family (`field-label`, `field-message`, `text-field`) validated against two brands + the eval-preview `input` component rebound (default / hover / focus / disabled) + gates.
 
 ---
 
