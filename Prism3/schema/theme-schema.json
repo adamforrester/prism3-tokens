@@ -82,7 +82,8 @@
       "properties": {
         "success": { "$ref": "#/$defs/statusHue" },
         "warning": { "$ref": "#/$defs/statusHue" },
-        "danger": { "$ref": "#/$defs/statusHue" }
+        "danger": { "$ref": "#/$defs/statusHue" },
+        "info": { "$ref": "#/$defs/statusHue" }
       }
     },
     "disabledStrategy": {

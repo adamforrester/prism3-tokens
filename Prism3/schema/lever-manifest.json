@@ -112,6 +112,14 @@
       "description": "Optional measured override; omit to reuse the brand red (if red) or carve a dedicated one."
     },
     {
+      "key": "status.info",
+      "group": "color",
+      "label": "Info colour",
+      "control": "color",
+      "advanced": true,
+      "description": "Optional measured override; omit to synthesise from the canonical blue hue."
+    },
+    {
       "key": "surfaces",
       "group": "color",
       "label": "Page surfaces",

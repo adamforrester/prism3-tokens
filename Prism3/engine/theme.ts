@@ -207,7 +207,7 @@ export type BrandInput = {
    *  notes so the surface choice is confirmed. Omit for white/black defaults. */
   surfaces?: SurfacesConfig;
   /** Optional measured status overrides; omit to let the engine synthesise. */
-  status?: Partial<Record<'success' | 'warning' | 'danger', OKLCH & { chroma: number }>>;
+  status?: Partial<Record<'success' | 'warning' | 'danger' | 'info', OKLCH & { chroma: number }>>;
   /** Disabled-state policy. Default 'accessible' (disabled clears `disabledMin`,
    *  the KB's contrast-preserving `inactive`); 'conventional' for the field's
    *  sub-AA exempt look. `disabledMin` is the accessible floor (default 3). */
@@ -892,7 +892,7 @@ export const brandTheme = (input: BrandInput): Theme => {
   }
 
   const status = (k: 'success' | 'warning' | 'info') => {
-    const supplied = k !== 'info' && input.status?.[k];
+    const supplied = input.status?.[k];
     const s = supplied ? input.status![k]! : STATUS_DEFAULTS[k];
     // L-07: a brand-supplied status override seeds a fresh VIVID, UNANCHORED ramp from its
     // hue + chroma cast (placed at peak-chroma L) — it is NOT pinned verbatim at its own

@@ -411,6 +411,24 @@ for (const b of brands) {
   ok(tu, 'roleColors: an unknown target palette is rejected');
 }
 
+// status.info — the fourth validation colour is now directly hue-settable (was synthesise-only,
+// the docs/21 §2 gap). Symmetric with success/warning: a measured hue seeds a fresh vivid ramp,
+// contrast still re-gates. (danger keeps its own carve path; success/warning already worked.)
+{
+  const base = { id: 'si', primary: { l: 0.5, c: 0.12, h: 250 }, neutral: { hue: 250, chroma: 0.01 } };
+  const def = brandTheme(base as unknown as BrandInput);
+  // A deliberately non-blue info (teal-green) to prove the override actually moves the ramp hue.
+  const teal = brandTheme({ ...base, status: { info: { l: 0.55, c: 0.12, h: 175 } } } as unknown as BrandInput);
+  const infoStep = (t: typeof def) => t.palettes.find((p) => p.palette === 'info')!.steps.find((s) => s.num === 500)!;
+  ok(Math.abs(infoStep(teal).oklch.h - 175) < 12, `status.info: a measured info hue seeds the info ramp (got h${infoStep(teal).oklch.h.toFixed(0)})`);
+  ok(Math.abs(infoStep(def).oklch.h - infoStep(teal).oklch.h) > 30, 'status.info: the override actually moves the info ramp off the canonical blue default');
+  ok(teal.notes.some((n) => /^info: brand-supplied hue/.test(n)), 'status.info: a supplied info hue is recorded in the decisions log');
+  // contrast still holds: text.info clears its floor in every mode on the re-hued ramp.
+  const infoFail = resolveAllModes(teal).filter((m) => { const r = m.roles['text.info']; return r.ratio < r.min; }).map((m) => m.mode);
+  ok(infoFail.length === 0, 'status.info: text.info still clears its contract in every mode after the re-hue' + (infoFail.length ? ` — ${infoFail.join(',')}` : ''));
+  ok(leverManifest.some((l) => l.key === 'status.info' && l.control === 'color'), 'status.info: exposed as a colour lever in the manifest (parity with success/warning/danger)');
+}
+
 // L-02: dualContrastWindow is only defined up to √21 ≈ 4.583 (the max ratio any single
 // luminance clears on BOTH extremes). At 4.5 it returns a valid non-empty window; past
 // √21 it must THROW rather than hand back an inverted [min>max] pair.
