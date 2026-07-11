@@ -973,6 +973,21 @@ export const brandTheme = (input: BrandInput): Theme => {
       notes.push(`roleColors: ${r} → '${pal}' hue ${Math.round(got)}° is far from the canonical ${r} hue ${want}° (Δ${Math.round(hueDist(got, want))}°) — CONFIRM the ${r} signal still reads; contrast holds but the colour may mislead`);
   }
 
+  // Prune orphaned status ramps: success/warning/info are minted unconditionally above, but if
+  // roleColors rebased that role onto another ramp, the synthesized status ramp is now used by no
+  // role and would ship as a dead ramp. Drop it — symmetric with the danger carve, which already
+  // skips minting when danger is rebased. (danger is not minted-then-pruned; it never mints when
+  // rebased.) Keyed off the FINAL roleToPalette + accentPalette, so a status ramp survives whenever
+  // anything still points at it (e.g. actionPalette/accentPalette aimed at a status colour).
+  const usedPalettes = new Set<string>([...Object.values(roleToPalette), ...(input.accentPalette ? [input.accentPalette] : [])]);
+  for (let i = palettes.length - 1; i >= 0; i--) {
+    const p = palettes[i];
+    if ((p.palette === 'success' || p.palette === 'warning' || p.palette === 'info') && !usedPalettes.has(p.palette)) {
+      notes.push(`${p.palette}: rebased via roleColors → the synthesized ${p.palette} ramp is dropped (no role uses it)`);
+      palettes.splice(i, 1);
+    }
+  }
+
   const baseUnit = input.baseUnit ?? 4;
   const spaceBase = input.spaceBase ?? 8;
   const density = input.density ?? 'comfortable';

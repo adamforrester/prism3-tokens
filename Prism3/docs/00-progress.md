@@ -7,7 +7,30 @@
 
 ---
 
-## Latest (2026-07-10) — the Text Field FAMILY: `field.border` hover split + three ComponentDefs
+## Latest (2026-07-11) — `status.info` + orphan-ramp pruning (validation-colour completeness)
+
+**STATUS: in progress** on branch `claude/prism3-e2e-integration-8fwul4` (fresh from `main`). Completes the
+validation-colour override set so a designer can change all four (red/green/orange/blue) directly.
+
+- **`status.info`** — info was synthesise-only (canonical blue, the docs/21 §2 gap); now it takes a direct hue
+  override like `success`/`warning`/`danger`. Symmetric: a measured hue seeds a vivid ramp, contrast re-gates.
+  Exposed as a `status.info` colour lever. (`theme.ts` type + `status()`, `levers.ts`, `theme-schema.json`.)
+- **Orphan-ramp pruning** — `success`/`warning`/`info` are minted unconditionally, so a `roleColors` rebase left
+  the now-unused ramp shipping as a dead one. It's now pruned (keyed off the final `roleToPalette` + `accentPalette`
+  so a ramp survives if `action`/`accent` still point at it) — symmetric with the danger carve's no-orphan behaviour.
+
+**Why:** the two validation-colour mechanisms now cover all four colours cleanly — `status.*` sets the raw hue,
+`roleColors.*` borrows another ramp (a red brand's red for danger, a blue brand's blue for info), and a borrowed
+status ramp no longer duplicates. This is the engine half of the "change validation colours contextually per-ramp"
+UI vision; the contextual per-ramp dashboard control (own-hue + borrow-from-a-ramp-above, deferred "lock") is the
+UI-lane follow-up (the `status.*` levers are still `advanced:true`, so unsurfaced until that lands).
+
+**Gates: test 700/700, nb-regression exit 0, emit-dtcg 336/336 per brand, emit-figma + web tsc clean;
+lever-manifest.json + out/* regenerated.**
+
+---
+
+## (2026-07-10) — the Text Field FAMILY: `field.border` hover split + three ComponentDefs
 
 **STATUS: in progress** on branch `claude/prism3-e2e-integration-8fwul4` (fresh from `main`). Scoped the
 **Text Field** grounded in `knowledge-base/components/text-field.md`, and the owner-confirmed shape is a small

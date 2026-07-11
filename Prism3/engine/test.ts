@@ -392,6 +392,13 @@ for (const b of brands) {
   // (b) explicit danger rebase wins over the carve AND mints no orphan danger ramp.
   const red = brandTheme({ id: 'red', primary: { l: 0.5, c: 0.2, h: 25 }, neutral: { hue: 25, chroma: 0.01 }, roleColors: { danger: 'primary' } } as unknown as BrandInput);
   ok(red.roleToPalette.danger === 'primary' && !red.palettes.some((p) => p.palette === 'danger'), 'roleColors: explicit danger→primary reuses the brand red with no orphan danger palette');
+  // (b2) success/warning/info are minted unconditionally, so a rebase must PRUNE the now-dead ramp
+  //      (symmetric with danger's no-orphan behaviour) — else a borrowed status ramp ships as a dead one.
+  const reInfo = mk({ info: 'primary' });
+  ok(reInfo.roleToPalette.info === 'primary' && !reInfo.palettes.some((p) => p.palette === 'info'), 'roleColors: info→primary prunes the orphaned info ramp (no dead ramp)');
+  ok(mk({ success: 'primary' }).palettes.every((p) => p.palette !== 'success') && mk({}).palettes.some((p) => p.palette === 'success'), 'roleColors: success ramp is pruned when rebased, present when not');
+  // and a status ramp still SURVIVES if actionPalette points at it (used by another role).
+  ok(mk({ info: 'primary' }, { actionPalette: 'warning' }).palettes.some((p) => p.palette === 'warning'), 'roleColors: a status ramp survives pruning when actionPalette still points at it');
   // (c) action via roleColors (the general form of actionPalette).
   ok(mk({ action: 'cta' }, { brandColors: [{ name: 'cta', oklch: { l: 0.5, c: 0.15, h: 30 } }] }).roleToPalette.action === 'cta', 'roleColors: action re-bases like actionPalette');
   // (d) THE GUARANTEE — every contract still passes when roles are rebased, all modes.
