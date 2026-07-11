@@ -1093,17 +1093,28 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
     ok(broken.length === 0, `example brand '${id}': every preview contract holds (all 4 modes)` + (broken.length ? ` — FAIL: ${broken.join('; ')}` : ''));
   }
 }
-// (10b) L-10: the visualiser now prints a contract's ACTUAL pass/fail (a failing light contract
-// used to print `3.20≥4.5`, literally false). Making it honest SURFACED a pre-existing gap the
-// bug had masked: nb's HAND-AUTHORED semantic text on the subtle-tint surface lands ~4.0–4.2:1
-// in light — under AA 4.5 (the `-subtle` banner/badge pairing; a CR-02-sibling: the role is
-// contracted vs the floor but used on a specific tint). Engine-GENERATED brands (aurora/harbor,
-// gated all-green above) clear it. Captured here as a tested, visible fact — flagged for a
-// follow-up colour/preview-spec decision, NOT silently fixed (it would move nb token values).
+// (10b) #63 — nb's HAND-AUTHORED semantic text on the `-subtle` tint surface lands ~4.0–4.2:1 in
+// LIGHT, under AA 4.5 (the banner/badge pairing; a CR-02 sibling — the role is contracted vs the
+// mode floor but USED on a specific lighter tint). This exists ONLY in the hand-authored NB
+// reproduction: engine-GENERATED brands (aurora/harbor, gated all-green above) place these to clear
+// 4.5. Option 1 (large-text 3:1) does NOT apply — measured: the alert text is body 16px regular and
+// the badge is label 12px; neither qualifies. Option 2 (re-target the inks) would move NB tokens +
+// the regression baseline. OWNER DECISION (#63): Option 3 — ACCEPT as a documented NB-source
+// divergence (the engine is already correct; NB is the legacy regression fixture, not the generator).
+// Pinned as KNOWN outliers so the fact stays VISIBLE and can't DRIFT: a NEW light shortfall
+// (regression) or a VANISHED known one (something fixed it → re-review / close #63) both fail here.
 {
+  const KNOWN_NB_LIGHT_TINT_SHORTFALLS = new Set([
+    'success text on tint', 'danger text on tint', 'info text on tint', 'label on tint',
+  ]);
   const nbLightFails = resolvePreview(nbTheme()).contracts.filter((c) => c.byMode.light && !c.byMode.light.pass);
-  ok(nbLightFails.length > 0, 'L-10: nb has light-mode preview-contract shortfalls the visualiser now shows honestly (were masked by the ≥-always display bug)');
-  ok(nbLightFails.every((c) => /tint/.test(c.label ?? '')), `L-10: every nb light shortfall is a semantic-text-on-subtle-tint pairing (${nbLightFails.map((c) => c.label).join('; ')}) — CR-02-sibling, flagged for follow-up`);
+  const labels = new Set(nbLightFails.map((c) => c.label ?? ''));
+  const unexpected = [...labels].filter((l) => !KNOWN_NB_LIGHT_TINT_SHORTFALLS.has(l));
+  const vanished = [...KNOWN_NB_LIGHT_TINT_SHORTFALLS].filter((l) => !labels.has(l));
+  ok(unexpected.length === 0, '#63: no NEW nb light-mode shortfall beyond the 4 known tint outliers' + (unexpected.length ? ` — NEW: ${unexpected.join('; ')}` : ''));
+  ok(vanished.length === 0, '#63: the 4 known nb tint outliers still exist (a vanished one → re-review, maybe close #63)' + (vanished.length ? ` — VANISHED: ${vanished.join('; ')}` : ''));
+  ok(nbLightFails.every((c) => /tint/.test(c.label ?? '')), '#63: every nb light shortfall is a semantic-text-on-subtle-tint pairing (CR-02 sibling)');
+  ok(nbLightFails.every((c) => c.byMode.light!.ratio >= 4.0 && c.byMode.light!.ratio < 4.5), '#63: each accepted nb tint outlier sits in the documented band [4.0, 4.5) — a drop below 4.0 is a real regression, not an accepted outlier');
 }
 
 // (11) EMIT-FIGMA COLOUR (docs/10) — buildFigmaColor(nbTheme) must reproduce the frozen
