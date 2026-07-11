@@ -31,8 +31,13 @@ handled four different ways:
 | `action` | `actionPalette` lever → any declared palette (default `primary`) | ✅ first-class |
 | `accent` | `accentPalette` lever → a declared palette → `interactive.accent.*` | ✅ first-class |
 | `danger` | **auto-carve heuristic**: a *saturated-red* brand reuses `primary`; a greige "red" carves a dedicated red | ⚠️ automatic only (hue heuristic, not a choice) |
-| `success` / `warning` | synthesised from a canonical hue; `status:{…}` can override the **hue** (keeps a11y ramp) | ⚠️ hue-tune only, no palette reuse |
-| `info` | synthesised from the canonical blue hue | ❌ no override at all |
+| `success` / `warning` / `info` | synthesised from a canonical hue; `status:{…}` can override the **hue** (keeps a11y ramp) | ⚠️ hue-tune (all four incl. `info` as of `status.info`) |
+
+> **Update:** the `info` "no override at all" gap this doc named is **closed** — `status.info` now takes a
+> direct hue override like `success`/`warning`/`danger` (all four validation colours are hue-settable), and
+> `roleColors.info` rebases it onto a palette. Two mechanisms, both covering info: `status.*` sets the raw hue,
+> `roleColors.*` borrows another ramp. When a status role is rebased via `roleColors`, its now-unused synthesized
+> ramp is **pruned** (no dead ramp), symmetric with the danger carve.
 
 So the red-brand→danger case *already works* — but only because of a heuristic, and only for
 danger. The blue-brand→info case **doesn't work at all**. The pattern is identical; the coverage

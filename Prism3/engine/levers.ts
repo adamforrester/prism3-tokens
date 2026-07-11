@@ -74,6 +74,8 @@ export const leverManifest: Lever[] = [
     description: 'Optional measured override; omit to synthesise.' },
   { key: 'status.danger', group: 'color', label: 'Danger colour', control: 'color', advanced: true,
     description: 'Optional measured override; omit to reuse the brand red (if red) or carve a dedicated one.' },
+  { key: 'status.info', group: 'color', label: 'Info colour', control: 'color', advanced: true,
+    description: 'Optional measured override; omit to synthesise from the canonical blue hue.' },
   { key: 'surfaces', group: 'color', label: 'Page surfaces', control: 'object', advanced: true,
     description: 'Non-default page surface per mode (e.g. a warm off-white). The contrast floor moves with it.' },
 

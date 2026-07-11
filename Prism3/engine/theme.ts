@@ -207,7 +207,7 @@ export type BrandInput = {
    *  notes so the surface choice is confirmed. Omit for white/black defaults. */
   surfaces?: SurfacesConfig;
   /** Optional measured status overrides; omit to let the engine synthesise. */
-  status?: Partial<Record<'success' | 'warning' | 'danger', OKLCH & { chroma: number }>>;
+  status?: Partial<Record<'success' | 'warning' | 'danger' | 'info', OKLCH & { chroma: number }>>;
   /** Disabled-state policy. Default 'accessible' (disabled clears `disabledMin`,
    *  the KB's contrast-preserving `inactive`); 'conventional' for the field's
    *  sub-AA exempt look. `disabledMin` is the accessible floor (default 3). */
@@ -892,7 +892,7 @@ export const brandTheme = (input: BrandInput): Theme => {
   }
 
   const status = (k: 'success' | 'warning' | 'info') => {
-    const supplied = k !== 'info' && input.status?.[k];
+    const supplied = input.status?.[k];
     const s = supplied ? input.status![k]! : STATUS_DEFAULTS[k];
     // L-07: a brand-supplied status override seeds a fresh VIVID, UNANCHORED ramp from its
     // hue + chroma cast (placed at peak-chroma L) — it is NOT pinned verbatim at its own
@@ -971,6 +971,21 @@ export const brandTheme = (input: BrandInput): Theme => {
     const want = CANONICAL_HUE[r], got = paletteHue(pal);
     if (want !== undefined && got !== null && hueDist(got, want) > 40)
       notes.push(`roleColors: ${r} → '${pal}' hue ${Math.round(got)}° is far from the canonical ${r} hue ${want}° (Δ${Math.round(hueDist(got, want))}°) — CONFIRM the ${r} signal still reads; contrast holds but the colour may mislead`);
+  }
+
+  // Prune orphaned status ramps: success/warning/info are minted unconditionally above, but if
+  // roleColors rebased that role onto another ramp, the synthesized status ramp is now used by no
+  // role and would ship as a dead ramp. Drop it — symmetric with the danger carve, which already
+  // skips minting when danger is rebased. (danger is not minted-then-pruned; it never mints when
+  // rebased.) Keyed off the FINAL roleToPalette + accentPalette, so a status ramp survives whenever
+  // anything still points at it (e.g. actionPalette/accentPalette aimed at a status colour).
+  const usedPalettes = new Set<string>([...Object.values(roleToPalette), ...(input.accentPalette ? [input.accentPalette] : [])]);
+  for (let i = palettes.length - 1; i >= 0; i--) {
+    const p = palettes[i];
+    if ((p.palette === 'success' || p.palette === 'warning' || p.palette === 'info') && !usedPalettes.has(p.palette)) {
+      notes.push(`${p.palette}: rebased via roleColors → the synthesized ${p.palette} ramp is dropped (no role uses it)`);
+      palettes.splice(i, 1);
+    }
   }
 
   const baseUnit = input.baseUnit ?? 4;
