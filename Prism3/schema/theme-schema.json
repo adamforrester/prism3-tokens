@@ -231,6 +231,11 @@
           "type": "array",
           "items": { "type": "string", "enum": ["display", "title", "body", "label", "caption", "eyebrow", "code"] },
           "description": "Which roles get an underlined `.<weight>-link` variant for every size×weight (inline links inherit the surrounding size+weight). Default ['body','caption']. Underline is baked (not Figma-bindable); the link colour stays text.link.*."
+        },
+        "italics": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["display", "title", "body", "label", "caption", "eyebrow", "code"] },
+          "description": "Which roles ship an `.<weight>-italic` variant for every size×weight (and, for link roles, an italic-link too — italic and link are orthogonal). Italic is a weight-PAIRED modifier emitting `fontStyle: 'italic'` on the composite $value. Default [] — italics are opt-in per role (e.g. ['body','caption'])."
         }
       }
     },

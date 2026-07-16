@@ -113,6 +113,8 @@ export const leverManifest: Lever[] = [
     description: 'Which family role each semantic group consumes (e.g. neutral buttons: label → text).' },
   { key: 'typography.links', group: 'type', label: 'Underlined link roles', control: 'list', advanced: true, itemLabel: 'type role',
     description: 'Which roles get an underlined .*-link variant. Default body + caption.' },
+  { key: 'typography.italics', group: 'type', label: 'Italic roles', control: 'list', advanced: true, itemLabel: 'type role',
+    description: 'Which roles ship an .*-italic variant per weight (fontStyle:italic). Default none — italics are opt-in.' },
 
   // ---- MOTION ----
   { key: 'motionPersonality.tempo', group: 'motion', label: 'Motion tempo', control: 'enum', default: 'standard',

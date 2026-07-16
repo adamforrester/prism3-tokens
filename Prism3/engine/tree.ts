@@ -226,7 +226,7 @@ const fluidClamp = (minPx: number, maxPx: number, minVW: number, maxVW: number):
   const preferred = `${interceptRem}rem + ${slopeVw}vw`;
   return { clamp: `clamp(${round(minPx / 16, 4)}rem, ${preferred}, ${round(maxPx / 16, 4)}rem)`, preferred };
 };
-const typographyLeaf = (root: string, c: { group: string; variant: string; sizePx: number; sizeMinPx: number; family: string; weightRole: string; lineHeight: string; tracking: string; textCase: string; link: boolean }, face: string, minVW: number, maxVW: number): Token => {
+const typographyLeaf = (root: string, c: { group: string; variant: string; sizePx: number; sizeMinPx: number; family: string; weightRole: string; lineHeight: string; tracking: string; textCase: string; link: boolean; italic: boolean }, face: string, minVW: number, maxVW: number): Token => {
   const a = (seg: string) => `{${root}.font.${seg}}`;
   const value: Record<string, unknown> = {
     fontFamily: a(`family.${c.family}`),
@@ -235,6 +235,8 @@ const typographyLeaf = (root: string, c: { group: string; variant: string; sizeP
     lineHeight: a(`line-height.${c.lineHeight}`),
     letterSpacing: a(`letter-spacing.${c.tracking}`),
   };
+  if (c.italic) value.fontStyle = 'italic';                        // weight-paired modifier — literal key on $value
+                                                                  // (off-core-DTCG; the shared Token-Press contract)
   if (c.textCase !== 'none') value.textCase = c.textCase;          // literal, baked (not a variable)
   if (c.link) value.textDecoration = 'underline';                 // link variant — baked (not Figma-bindable)
   // Responsive directive (Phase 3): one min/max pair → web clamp() + Figma modes.
@@ -251,8 +253,8 @@ const typographyLeaf = (root: string, c: { group: string; variant: string; sizeP
     : { fluid: false, px: c.sizePx };
   return {
     $type: 'typography', $value: value,
-    $description: `${c.group}${c.variant ? ' ' + c.variant : ''} ${c.weightRole}${c.link ? ' link' : ''} — ${isFluid ? `${c.sizeMinPx}→${c.sizePx}px fluid` : `${c.sizePx}px`} ${face} (${c.family} role), ${c.lineHeight} line-height, ${c.weightRole} weight, ${c.tracking} tracking${c.textCase !== 'none' ? `, ${c.textCase}` : ''}${c.link ? ', underlined (link — pair with text.link.* colour)' : ''} — consumer-facing type style`,
-    $extensions: { prism3: { role: 'composite', group: c.group, variant: c.variant, weightRole: c.weightRole, sizePx: c.sizePx, ...(c.link ? { link: true } : {}), ...(c.textCase !== 'none' ? { textCase: c.textCase } : {}), responsive, figma: { kind: 'text-style', styleType: 'TEXT', binds: ['fontFamily', 'fontSize', 'fontWeight'], baked: ['lineHeight', 'letterSpacing', ...(c.textCase !== 'none' ? ['textCase'] : []), ...(c.link ? ['textDecoration'] : [])], note: 'Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table.' } } },
+    $description: `${c.group}${c.variant ? ' ' + c.variant : ''} ${c.weightRole}${c.italic ? ' italic' : ''}${c.link ? ' link' : ''} — ${isFluid ? `${c.sizeMinPx}→${c.sizePx}px fluid` : `${c.sizePx}px`} ${face} (${c.family} role), ${c.lineHeight} line-height, ${c.weightRole} weight${c.italic ? ', italic' : ''}, ${c.tracking} tracking${c.textCase !== 'none' ? `, ${c.textCase}` : ''}${c.link ? ', underlined (link — pair with text.link.* colour)' : ''} — consumer-facing type style`,
+    $extensions: { prism3: { role: 'composite', group: c.group, variant: c.variant, weightRole: c.weightRole, sizePx: c.sizePx, ...(c.italic ? { italic: true } : {}), ...(c.link ? { link: true } : {}), ...(c.textCase !== 'none' ? { textCase: c.textCase } : {}), responsive, figma: { kind: 'text-style', styleType: 'TEXT', binds: ['fontFamily', 'fontSize', 'fontWeight'], baked: ['lineHeight', 'letterSpacing', ...(c.italic ? ['fontStyle'] : []), ...(c.textCase !== 'none' ? ['textCase'] : []), ...(c.link ? ['textDecoration'] : [])], note: 'Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle: when $value carries fontStyle:italic (weight-paired italic variant) the Figma style is the weight’s italic named-instance (e.g. Bold Italic); otherwise it is derived from the bound fontWeight at import via a weight→style-name table.' } } },
   };
 };
 
