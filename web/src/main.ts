@@ -30,6 +30,7 @@ import { resolvePreview } from '../../Prism3/engine/resolve-preview';
 import type { ResolvedPreview } from '../../Prism3/engine/resolve-preview';
 import { parseDesignMd, toDesignMd } from '../../Prism3/engine/design-md';
 import { buildTree } from '../../Prism3/engine/tree';
+import { makeWriteHost, cssVarName, typeVar } from './write-adapter';
 import exampleBrands from '../../Prism3/schema/example-brands.json';
 
 type Mode = ResolvedPreview['modes'][number];
@@ -124,9 +125,20 @@ const el = (tag: string, cls?: string, text?: string): HTMLElement => {
   return n;
 };
 const chunk = <T>(a: T[], n: number): T[][] => { const o: T[][] = []; for (let i = 0; i < a.length; i += n) o.push(a.slice(i, i + n)); return o; };
+// Resolved-value lookups are for PRESENCE checks only (does this role resolve in this
+// mode? — decides whether a chip paints a border, etc.). The VALUE a chip renders never
+// comes from here: it's a `var(--…)` reference the active write host (write-adapter.ts,
+// #106) fills in — so the UI stops writing resolved token values directly.
 const hexOf = (binding: string | undefined, mode: Mode): string | undefined =>
   binding && binding.startsWith('color.') ? rp.colors[binding]?.[mode] : undefined;
-const pageBg = (mode: Mode): string => rp.colors['color.background.primary']?.[mode] ?? '#ffffff';
+/** The `var(--…)` a chip assigns for a colour binding, with the resolved hex as fallback
+ *  (so it's correct even before/without a host apply). */
+const colorVar = (binding: string, mode: Mode): string => `var(${cssVarName(binding)}, ${hexOf(binding, mode) ?? 'transparent'})`;
+const pageBg = (mode: Mode): string => `var(--color-background-primary, ${rp.colors['color.background.primary']?.[mode] ?? '#ffffff'})`;
+
+// The active write host — projects the resolved model onto whatever backend this host
+// owns (CSS vars on web; figma.variables in the plugin). Re-scoped per preview paint.
+let writeHost = makeWriteHost(document.documentElement);
 
 // ===========================================================================
 // STAGE 1 — BRAND PRIMITIVES (bespoke)
@@ -375,20 +387,30 @@ const renderControl = (lever: Lever): HTMLElement => {
 };
 
 const renderChip = (label: string, bind: Record<string, string>, mode: Mode): HTMLElement => {
-  const bg = hexOf(bind.bg, mode);
-  const fg = hexOf(bind.text ?? bind.titleText ?? bind.bodyText, mode);
-  const border = hexOf(bind.border, mode);
+  // PRESENCE (resolved model) decides WHICH styles a chip paints; the VALUES are all
+  // `var(--…)` refs the active write host fills in (#106). The resolved hex/px still ride
+  // along as the `var()` fallback, so a chip is correct even if no host has applied yet.
+  const fgBind = bind.text ?? bind.titleText ?? bind.bodyText;
   const chip = el('div', 'chip', label);
-  if (bg) chip.style.background = bg;
-  if (fg) chip.style.color = fg;
-  chip.style.border = `2px solid ${border ?? 'transparent'}`;
-  // Geometry is per-mode now (wireframe zeroes radius): override-or-baseline for the active mode.
+  if (hexOf(bind.bg, mode)) chip.style.background = colorVar(bind.bg, mode);
+  if (fgBind && hexOf(fgBind, mode)) chip.style.color = colorVar(fgBind, mode);
+  const border = bind.border && hexOf(bind.border, mode);
+  chip.style.border = `2px solid ${border ? colorVar(bind.border, mode) : 'transparent'}`;
+  // Geometry is per-mode now (wireframe zeroes radius): the host projects the effective
+  // per-mode value onto the same var name, so the chip just references it.
   const dimPx = (ref: string): number => rp.dimOverrides[ref]?.[mode] ?? rp.dims[ref];
-  if (bind.radius && rp.dims[bind.radius] != null) chip.style.borderRadius = `${dimPx(bind.radius)}px`;
-  const pad = bind.pad ? `${dimPx(bind.pad)}px` : bind.padX && bind.padY ? `${dimPx(bind.padY)}px ${dimPx(bind.padX)}px` : '';
+  if (bind.radius && rp.dims[bind.radius] != null) chip.style.borderRadius = `var(${cssVarName(bind.radius)}, ${dimPx(bind.radius)}px)`;
+  const padVar = (ref: string): string => `var(${cssVarName(ref)}, ${dimPx(ref)}px)`;
+  const pad = bind.pad ? padVar(bind.pad) : bind.padX && bind.padY ? `${padVar(bind.padY)} ${padVar(bind.padX)}` : '';
   if (pad) chip.style.padding = pad;
   const t = bind.type ? rp.type[bind.type] : undefined;
-  if (t) { chip.style.fontFamily = t.fontFamily; chip.style.fontWeight = String(t.fontWeight); chip.style.fontSize = `${Math.min(t.fontSizePx, 20)}px`; }
+  if (t) {
+    chip.style.fontFamily = typeVar(bind.type, 'family');
+    chip.style.fontWeight = typeVar(bind.type, 'weight');
+    // Visual cap stays inline (min(20px, …)) — the host var carries the true px, which the
+    // label already reports; capping the var itself would misreport the resolved size.
+    chip.style.fontSize = `min(20px, ${typeVar(bind.type, 'size')})`;
+  }
   return chip;
 };
 
@@ -406,6 +428,11 @@ const paintPreview = (host: HTMLElement): void => {
   host.append(modes);
 
   const surface = el('div', 'preview');
+  // Project the resolved model for the active mode onto THIS surface (a fresh element each
+  // paint — so a mode switch can't leak stale vars). Chips below inherit the properties and
+  // reference them via `var(--…)`; swap `writeHost` and the same chips drive another backend.
+  writeHost = makeWriteHost(surface);
+  writeHost.apply(rp, currentMode);
   surface.style.background = pageBg(currentMode);
   for (const c of previewSpec.components) {
     const block = el('section', 'pvcomp');
