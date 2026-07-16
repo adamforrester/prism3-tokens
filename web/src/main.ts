@@ -143,17 +143,21 @@ const anchorStepFor = (palette: string): number | null => {
 };
 
 /** A labelled scale — 10 swatches per row, touching within a row, labels beneath. */
-const rampEl = (name: string, steps: { num: number; key: string; hex: string }[], anchorStep: number | null): HTMLElement => {
+const rampEl = (name: string, steps: { num: number; key: string; hex: string }[], anchorStep: number | null, control?: HTMLElement): HTMLElement => {
   const wrap = el('section', 'ramp');
   const head = el('div', 'ramp-head');
   head.append(el('span', 'ramp-name', name));
+  const right = el('div', 'ramp-head-right');
   const meta = el('span', 'ramp-anchor');
   const aKey = anchorStep != null ? steps.find((s) => s.num === anchorStep)?.key : undefined;
   // Built via el()/textContent, never innerHTML — `name` is a brand-controlled palette name
   // (pasted design.md / accent rename) and would otherwise be an XSS sink (CR-07).
   if (aKey) meta.append(document.createTextNode('anchor '), el('b', 'mono', `${name}/${aKey}`));
   else meta.append(el('span', 'faint', 'derived scale'));
-  head.append(meta);
+  right.append(meta);
+  // Status ramps carry an inline validation-colour control (Auto / Custom hue / borrow a ramp).
+  if (control) right.append(control);
+  head.append(right);
   wrap.append(head);
   const sorted = [...steps].sort((a, b) => a.num - b.num);
   for (const rowSteps of chunk(sorted, 10)) {
@@ -188,7 +192,16 @@ const orderedPalettes = (): Theme['palettes'] => {
 const paintRamps = (host: HTMLElement): void => {
   host.innerHTML = '';
   if (lastError) host.append(el('div', 'errbar', `This combination doesn't resolve: ${lastError} — showing the last valid palettes.`));
-  for (const p of orderedPalettes()) host.append(rampEl(p.palette, p.steps, anchorStepFor(p.palette)));
+  const shown = new Set<string>();
+  for (const p of orderedPalettes()) {
+    const isStatus = (STATUS_ROLES as readonly string[]).includes(p.palette);
+    if (isStatus) shown.add(p.palette);
+    host.append(rampEl(p.palette, p.steps, anchorStepFor(p.palette), isStatus ? statusRampControl(p.palette as StatusRole) : undefined));
+  }
+  // A borrowed status role is PRUNED from the palette set (no own ramp), so surface a compact
+  // reference row so its control stays reachable + shows what it's borrowing.
+  for (const role of STATUS_ROLES)
+    if (!shown.has(role) && brandState.roleColors?.[role]) host.append(borrowedStatusRow(role));
 };
 
 /** Brand colours — a scalable list. Primary is the pinned anchor (editable colour, not
@@ -435,36 +448,90 @@ const HERO_COPY: Record<StageKey, [string, string]> = {
   form: ['Dial in the form factor.', 'Density, corner radius, and elevation — the geometry that makes the same colours feel like a different product.'],
 };
 
-// The roleColors picker (docs/21) — re-base a status role onto a brand palette. It is NOT a
-// lever (a structured map, not a scalar), so it renders as a bespoke control on the semantic
-// stage rather than from the lever manifest. Options are the declared palettes; 'auto' unsets
-// the override (engine default — synthesised hue, or the danger-red carve).
-const REBASE_ROLES = ['success', 'warning', 'danger', 'info'] as const;
-const renderRoleColors = (): HTMLElement => {
-  const panel = el('div', 'panel');
-  const head = el('div', 'knob');
-  head.append(el('label', 'knob-label', 'Semantic role palettes'));
-  head.append(el('p', 'knob-desc', 'Re-base a status role onto a brand palette — a red brand reuses its red for danger, a blue brand its blue for info. “Auto” lets the engine decide (a synthesised hue, or the danger-red carve). Contrast always re-gates on the target ramp; a hue mismatch is allowed but flagged in the theme notes.'));
-  panel.append(head);
-  const palettes = ['primary', 'neutral', ...(brandState.brandColors ?? []).map((b) => b.name)];
-  for (const role of REBASE_ROLES) {
-    const wrap = el('div', 'knob');
-    wrap.append(el('label', 'knob-label', role));
-    const sel = el('select') as HTMLSelectElement;
-    const cur = brandState.roleColors?.[role] ?? '';
-    const mkOpt = (v: string, label: string) => { const o = el('option') as HTMLOptionElement; o.value = v; o.textContent = label; if (v === cur) o.selected = true; sel.append(o); };
-    mkOpt('', 'auto (engine default)');
-    for (const p of palettes) mkOpt(p, p);
-    sel.onchange = () => {
-      const rc: Record<string, string> = { ...(brandState.roleColors ?? {}) };
-      if (sel.value) rc[role] = sel.value; else delete rc[role];
-      brandState.roleColors = (Object.keys(rc).length ? rc : undefined) as BrandInput['roleColors'];
-      apply();
-    };
-    wrap.append(sel);
-    panel.append(wrap);
+// Validation-colour control (docs/21 + status.*). Lives INLINE on each status ramp (primitives
+// stage), not as a standalone section: a designer edits the red/green/amber/blue right where the
+// ramp is shown. Two mutually-exclusive engine mechanisms behind one dropdown —
+//   • Custom hue → `status.<role>` seeds the ramp from a picked hue (the raw validation colour)
+//   • Use <ramp> → `roleColors.<role>` borrows a declared palette (a red brand's red for danger)
+//   • Auto → clears both (engine default: a synthesised hue, or the danger-red carve)
+// Contrast always re-gates on whatever it lands on; a hue mismatch is flagged in the theme notes.
+// (A future "lock" gate to unlock editing is deferred.)
+const STATUS_ROLES = ['success', 'warning', 'danger', 'info'] as const;
+type StatusRole = typeof STATUS_ROLES[number];
+
+/** Seed hex for the custom-hue picker: the current status ramp's mid step if present, else grey. */
+const statusSeedHex = (role: string): string => {
+  const cur = brandState.status?.[role as StatusRole];
+  if (cur) return hex(oklchToRgb(cur));
+  const pal = theme.palettes.find((p) => p.palette === role);
+  return pal?.steps.find((s) => s.num === 500)?.hex ?? pal?.steps[Math.floor(pal.steps.length / 2)]?.hex ?? '#808080';
+};
+
+/** Write `status.<role>` from a hex (seeds hue + chroma), clearing any borrow (they're exclusive). */
+const setStatusHue = (role: StatusRole, hexVal: string): void => {
+  const rc = { ...(brandState.roleColors ?? {}) } as Record<string, string>; delete rc[role];
+  const o = rgbToOklch(hexToRgb(hexVal));
+  brandState.roleColors = (Object.keys(rc).length ? rc : undefined) as BrandInput['roleColors'];
+  brandState.status = { ...(brandState.status ?? {}), [role]: { l: o.l, c: o.c, h: o.h, chroma: o.c } };
+  apply();
+};
+
+/** The inline per-ramp control for one status role. */
+const statusRampControl = (role: StatusRole): HTMLElement => {
+  const wrap = el('div', 'ramp-ctl');
+  const borrowed = brandState.roleColors?.[role];
+  const custom = !borrowed && !!brandState.status?.[role];
+  const borrowSources = ['primary', ...(brandState.brandColors ?? []).map((b) => b.name)];
+
+  const sel = el('select', 'ramp-ctl-sel') as HTMLSelectElement;
+  const mkOpt = (v: string, label: string, on: boolean) => { const o = el('option') as HTMLOptionElement; o.value = v; o.textContent = label; if (on) o.selected = true; sel.append(o); };
+  mkOpt('auto', 'Auto', !borrowed && !custom);
+  mkOpt('custom', 'Custom hue…', custom);
+  for (const p of borrowSources) mkOpt('borrow:' + p, `Use ${p}`, borrowed === p);
+
+  const picker = el('input', 'ramp-ctl-pick') as HTMLInputElement;
+  picker.type = 'color';
+  picker.title = `Seed the ${role} ramp from a hue`;
+  picker.value = statusSeedHex(role);
+  picker.style.display = custom ? '' : 'none';
+
+  sel.onchange = () => {
+    if (sel.value === 'custom') { setStatusHue(role, picker.value); return; }
+    const rc = { ...(brandState.roleColors ?? {}) } as Record<string, string>; delete rc[role];
+    const st = { ...(brandState.status ?? {}) } as Record<string, unknown>; delete st[role];
+    if (sel.value.startsWith('borrow:')) rc[role] = sel.value.slice('borrow:'.length);
+    brandState.roleColors = (Object.keys(rc).length ? rc : undefined) as BrandInput['roleColors'];
+    brandState.status = (Object.keys(st).length ? st : undefined) as BrandInput['status'];
+    apply();
+  };
+  // `change`, not `oninput`: this control lives in the volatile ramps region, so repainting mid-
+  // drag would destroy the open OS colour dialog. Change fires when the dialog closes — safe to repaint.
+  picker.onchange = () => setStatusHue(role, picker.value);
+
+  wrap.append(sel, picker);
+  return wrap;
+};
+
+/** A borrowed status role has no own ramp (pruned) — a compact reference row keeps the control
+ *  reachable and shows the borrowed ramp inline. */
+const borrowedStatusRow = (role: StatusRole): HTMLElement => {
+  const src = brandState.roleColors![role]!;
+  const wrap = el('section', 'ramp ramp-borrowed');
+  const head = el('div', 'ramp-head');
+  head.append(el('span', 'ramp-name', role));
+  const right = el('div', 'ramp-head-right');
+  const meta = el('span', 'ramp-anchor');
+  meta.append(document.createTextNode('borrowing '), el('b', 'mono', src));
+  right.append(meta, statusRampControl(role));
+  head.append(right);
+  wrap.append(head);
+  const pal = theme.palettes.find((p) => p.palette === src);
+  if (pal) {
+    const strip = el('div', 'strip strip-mini');
+    for (const s of [...pal.steps].sort((a, b) => a.num - b.num)) { const sw = el('div', 'sw sw-mini'); sw.style.background = s.hex; strip.append(sw); }
+    wrap.append(strip);
   }
-  return panel;
+  return wrap;
 };
 
 const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
@@ -476,8 +543,8 @@ const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
     for (const l of levers) panel.append(renderControl(l));
     host.append(panel);
   }
-  // roleColors picker — the general status→palette rebasing (docs/21), semantic stage only.
-  if (key === 'semantic') host.append(renderRoleColors());
+  // Validation-colour editing (status hue + roleColors borrow) now lives INLINE on each status
+  // ramp (primitives stage) via statusRampControl — no standalone semantic-stage section.
   // Live preview on every lever stage — the same sample components reflect the axis
   // being tuned: colour (semantic), type (type), geometry (form). The type stage also
   // gets a type-scale specimen (the small component chips can't show the scale). The
@@ -882,6 +949,12 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .lab-step{font-size:12px;font-weight:600;color:var(--ink2)}
 .lab-step.on{color:var(--ink);font-weight:700}
 .lab-hex{font-size:11px;color:var(--faint)}
+.ramp-head-right{display:flex;align-items:center;gap:14px}
+.ramp-ctl{display:flex;align-items:center;gap:8px}
+.ramp-ctl-sel{font:inherit;font-size:12.5px;padding:5px 9px;border:1px solid var(--line2);border-radius:var(--r-sm);background:var(--panel);color:var(--ink);cursor:pointer}
+.ramp-ctl-pick{width:30px;height:27px;padding:0;border:1px solid var(--line2);border-radius:var(--r-sm);background:none;cursor:pointer}
+.ramp-borrowed .strip-mini{display:flex;border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--line2)}
+.ramp-borrowed .sw-mini{flex:1;height:30px}
 
 .knob{padding:14px 0;border-bottom:1px solid var(--line)}
 .knob:last-child{border-bottom:0}
