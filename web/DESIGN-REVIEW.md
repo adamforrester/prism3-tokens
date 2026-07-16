@@ -78,10 +78,28 @@ per-ramp validation-colour control). Update the lede to describe what's actually
 **Renders:** 2 controls — Type scale (enum, **live**) + Font families (`object`, read-only
 `"configured"`) — then a **Type-scale specimen** + the live preview + contracts.
 
-### 🟠 Font families is not editable
-The one thing a designer most wants on a Typography tab — swap the font — renders as read-only
-`"configured"` (the `object` gap from §0). Highest-value fix on this tab: a real family editor
-(display / text / mono + the variable-font flag).
+### 🟠 Font families + weights should be a real editor (owner-confirmed direction)
+The one thing a designer most wants on a Typography tab — swap the font, pick the weights — renders
+as read-only `"configured"` (the `object` gap from §0). **Owner wants real typography customization
+here.** Scope:
+- **Family editor** — display / text / mono, + the variable-font flag (`typography.families`). A single
+  name auto-pads a system fallback stack in the engine.
+- **Weight editor** — the subtle/default/emphasis/strong → numeric map (`typography.weightRoles`) and
+  which weights each role ships (`typography.weights`). Both currently `advanced` + read-only.
+
+**The load-bearing design question — font availability differs by surface:**
+- The **web playground** can only *render* fonts the browser has (system fonts, or web fonts loaded via
+  `@font-face` / a Google-Fonts-style link). Picking "Söhne" and previewing it means loading it first.
+- The **Figma plugin** picks from Figma's own font list (no loading problem, but a different list).
+
+So the family picker + live preview will likely differ between the web and plugin surfaces — worth
+designing the control to degrade gracefully (a text field that accepts any name + previews if available,
+vs. a curated picker of loadable fonts).
+
+**Owner is sharing references** to inform this: (1) their existing theming-plugin interface, and (2) a
+separate typography text-styles Figma plugin. Fold their font-selection + weight-selection patterns
+(and how they handle loading/preview) into this design before building — this is a "better than the
+examples" opportunity, not a from-scratch guess. *(This section to be refined once those land.)*
 
 ### ✅ The type-scale specimen is the model to copy
 The dedicated specimen (display.xl 112px → title.2xl → body.lg → label.md → caption → eyebrow →
@@ -104,10 +122,23 @@ contracts. Only **Corner softness** is live.
 ### Examples of the change
 | Lever | Demonstrable in the static preview? |
 |---|---|
-| Corner softness | ✅ chips round — and it's live, so it works |
+| Corner softness | ✅ live now — buttons/inputs/cards/badges bind a radius and re-round on change |
 | Density | ✅ component sizes (height + padding) — once live |
-| Shadow softness | ✅ the card carries a shadow — once live |
+| Shadow softness | ❌ **shadows are never rendered** — `renderChip` ignores the `shadow` binding (see below) |
 | Motion tempo | ❌ **motion cannot be shown in a static preview** — needs an animated specimen |
+
+### 🔴 Shadows are not rendered at all
+`renderChip` applies bg / fg / border / radius / padding / type — but **not `bind.shadow`**. The card's
+`shadow: 'shadow.sm'` is silently dropped, so the preview shows zero elevation. So Shadow softness (and
+the tint lever) would be invisible even once live. Two fixes:
+1. Teach the preview to apply `box-shadow` from the resolved shadow token.
+2. Add a **focused elevation specimen** — a row of surfaces at each shadow step (sm/md/lg) that updates
+   live with softness + tint. This is the type-scale-specimen pattern applied to elevation, and it's the
+   right home for showing shadows (the single card can't show the ramp).
+
+### 🟡 A focused corner-radius specimen too
+Corner softness already works live in the general preview, so it's lower priority — but a focused radius
+specimen (samples at none / sm / md / lg / round) would isolate the axis the same way, for consistency.
 
 ### 🟠 Motion tempo is misplaced *and* invisible
 Motion isn't form/geometry (the tab is "Density, radius, elevation"), and a static preview can never
@@ -143,8 +174,10 @@ See Parked.
 1. **Functional first (§0):** expand `LIVE` to all levers + add `toggle` and `object` editors to
    `renderControl`. Nothing else can be visually verified until controls move.
 2. **Grouping:** sub-group each tab; nest the disabled-floor dependency; update stale Semantic copy.
-3. **Example specimens:** add the missing per-axis specimens (outline-hover, inverse band, gradient,
-   icon row, neutral button, motion loop), generalizing the Typography specimen pattern.
+3. **Example specimens:** add the missing per-axis specimens — outline-hover states, inverse band,
+   gradient, icon row, neutral button (Semantic); **elevation/shadow ramp + box-shadow rendering**,
+   radius samples, motion loop (Form) — generalizing the Typography specimen pattern. The
+   elevation specimen also requires the preview to actually render `box-shadow` (§3).
 4. **Placement:** resolve the parked gradients / motion-tempo questions.
 
 *(Tabs reviewed: Semantic, Typography, Form factor. Primitives tab not formally reviewed here — it
