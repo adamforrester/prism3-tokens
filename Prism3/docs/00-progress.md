@@ -7,7 +7,31 @@
 
 ---
 
-## Latest (2026-07-11) — `status.info` + orphan-ramp pruning (validation-colour completeness)
+## Latest (2026-07-11) — housekeeping: #63 resolved (Option 3) + PR-review audit
+
+**STATUS: in progress** on branch `claude/prism3-e2e-integration-8fwul4` (fresh from `main`, post-#91).
+
+- **Audited all 29 merged PRs (57–90)** for missed should-fix / unresolved review items → **clean**: zero
+  outstanding, zero unresolved threads. The one #90 should-fix (stale `field.border` sidecar ref) was already
+  fixed (`4528982` + the sidecar-reference gate). Deferrals were all tracked as issues, not silently merged.
+- **#63 resolved — Option 3 (owner-decided).** nb's hand-authored semantic text on the `-subtle` tint lands
+  ~4.0–4.2:1 in LIGHT (under AA 4.5) for 4 banner/badge pairings. **Investigation ruled out Option 1**
+  (large-text 3:1): measured, the alert text is body **16px regular** and the badge is label **12px** — neither
+  qualifies. This exists ONLY in the hand-authored NB reproduction (the regression fixture); engine-GENERATED
+  brands (aurora/harbor) clear 4.5. Option 2 (re-target the inks) would move NB tokens + the regression baseline.
+  Owner chose **accept as a documented NB-source divergence** — the engine is already correct. Formalized: the
+  loose `L-10` characterization (`nbLightFails.length > 0`) is now a **can't-drift KNOWN-outliers gate** pinning
+  the exact 4 labels + a `[4.0, 4.5)` band, so a NEW shortfall (regression) or a VANISHED known one (fixed →
+  re-review/close) both fail the suite. `test.ts (10b)`. **Closes #63.**
+
+**Open issues remaining:** #79 (opacity hidden from Figma consumers — emit-figma lane, next), #67 (token-press:
+did the #66/#73 collection rename break ingestion — cross-lane, needs the Token-Press lane / owner).
+
+**Gates: test 702/702, nb-regression exit 0, emit-dtcg 336/336 per brand, web tsc clean.** No token/out change.
+
+---
+
+## (2026-07-11) — `status.info` + orphan-ramp pruning (validation-colour completeness)
 
 **STATUS: in progress** on branch `claude/prism3-e2e-integration-8fwul4` (fresh from `main`). Completes the
 validation-colour override set so a designer can change all four (red/green/orange/blue) directly.
