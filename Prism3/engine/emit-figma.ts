@@ -80,7 +80,8 @@ export type FigmaVar = {
   value: FigmaVarValue;
   alias: { type: 'VARIABLE_ALIAS'; name: string } | null;
   /** Present + `true` only on ref-tier PRIMITIVE variables (palette, dimension,
-   *  font/family, font/size, font/weight, opacity). Figma's official mechanism
+   *  font/family, font/size, font/weight). (opacity is directly consumable — #79 —
+   *  so it is NOT hidden.) Figma's official mechanism
    *  for "consumers of this file (as a library) shouldn't see this in the
    *  picker." Note the limitation: this only narrows the picker across a
    *  library-consumption boundary; in the file that DEFINES the primitives
@@ -100,8 +101,10 @@ const desc = (leaf: any): string => String(leaf?.$description ?? '');
 
 /** Ref-tier PRIMITIVE marker. `hiddenFromPublishing: true` is Figma's OFFICIAL
  *  mechanism for "consumers of this file (as a library) shouldn't pick this."
- *  Applied to palette + dimension + opacity + font/family + font/size +
- *  font/weight so cross-file library consumers only see the semantic layer.
+ *  Applied to palette + dimension + font/family + font/size + font/weight so
+ *  cross-file library consumers only see the semantic + directly-consumable layer.
+ *  (opacity is NOT hidden — #79 — it has no semantic layer to prefer, so it stays
+ *  a visible, directly-consumable collection.)
  *
  *  LIMITATION worth naming: hidden-from-publishing only narrows the picker
  *  ACROSS a library-consumption boundary. In the file that DEFINES the
@@ -750,9 +753,11 @@ export const buildFigmaDims = (theme: Theme): FigmaDimsCollections => {
   // fraction (`0.9`), so the adapter multiplies by 100 for the Figma target.
   // Verified live: passing 0.9 renders as 0.9% (nearly invisible), not 90%.
   // This is a Figma-target rendering decision, so it lives here — the DTCG
-  // stays 0–1 for CSS. hiddenFromPublishing hides these from library
-  // consumers; the OPACITY scope keeps the picker guidance correct if a
-  // bespoke component needs to bind directly.
+  // stays 0–1 for CSS. opacity is DIRECTLY CONSUMABLE (#79): unlike the ref-tier
+  // primitives (palette/dimension/font), there is no semantic layer to reach for
+  // instead, so it is NOT hidden from publishing — it stays visible in the library
+  // picker with its OPACITY scope, matching the sidecar (`consume: Consumable`),
+  // eval (excluded from PRIMITIVE_TIERS), and the prism3-consume skill.
   const opacityVars: FigmaVar[] = Object.keys(brand.opacity).map((key) => ({
     name: `opacity/${key}`,
     resolvedType: 'FLOAT' as const,
@@ -760,7 +765,6 @@ export const buildFigmaDims = (theme: Theme): FigmaDimsCollections => {
     description: desc(brand.opacity[key]),
     value: Math.round((brand.opacity[key].$value as number) * 100),
     alias: null,
-    hiddenFromPublishing: true,
   }));
 
   const c = (name: string, variables: FigmaVar[]): FigmaCollectionFile => ({ $collection: name, $mode: 'Default', variables });

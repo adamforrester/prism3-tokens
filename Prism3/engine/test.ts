@@ -2379,9 +2379,10 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
 //
 // (a) PRIMITIVE TIER is hidden from library consumers. Every var in a
 //     ref-tier collection (palette, dimension, font/family/*, font/size/*,
-//     font/weight/*, opacity) carries `hiddenFromPublishing: true` (Figma's
-//     official mechanism for "consumers of this file as a library shouldn't
-//     see this in the picker"). Scopes stay at their real role-family targets
+//     font/weight/*) carries `hiddenFromPublishing: true` (Figma's official
+//     mechanism for "consumers of this file as a library shouldn't see this in
+//     the picker"). NOTE: opacity is NOT in this set — it is directly consumable
+//     (#79), so it sits in the visible tier below. Scopes stay at their real role-family targets
 //     — Figma's Plugin API rejects "bogus" scopes ("Invalid scope for this
 //     variable type" if you try `TEXT_CONTENT` on a COLOR/FLOAT var), and
 //     `scopes: []` is documented as ALL_SCOPES (probe-verified 2026-07-04:
@@ -2391,11 +2392,11 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
 //     tokens as a library and consume in a separate authoring file —
 //     hidden-from-publishing narrows the picker end-to-end there.
 //
-// (b) SEMANTIC TIER stays visible. `color/*`, `space`, `radius`, `size`,
-//     `border-width`, `focus`, `font-fluid`, `font/weight-role/*`, `layout`
-//     all keep their role-family scopes and carry no `hiddenFromPublishing`
-//     field (JSON stays clean — semantic bytes are unchanged from the pre-
-//     hide world modulo the new descriptions).
+// (b) SEMANTIC + DIRECTLY-CONSUMABLE TIER stays visible. `color/*`, `space`,
+//     `radius`, `size`, `border-width`, `focus`, `opacity` (#79 — consumable, no
+//     semantic layer to prefer), `font-fluid`, `font/weight-role/*`, `layout` all
+//     keep their role-family scopes and carry no `hiddenFromPublishing` field
+//     (JSON stays clean — bytes are unchanged modulo the new descriptions).
 //
 // (c) DESCRIPTIONS ARE THREADED. Every Figma variable's `description` reads
 //     from the underlying DTCG leaf's `$description` — the source of truth for
@@ -2417,7 +2418,6 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   const primitiveGroups: Array<{ tag: string; vars: any[]; expectScopes: string[] }> = [
     { tag: 'palette', vars: palette.variables, expectScopes: ['FRAME_FILL', 'SHAPE_FILL', 'TEXT_FILL', 'STROKE_COLOR'] },
     { tag: 'dimension', vars: dims.dimension.variables, expectScopes: ['WIDTH_HEIGHT', 'GAP', 'CORNER_RADIUS', 'STROKE_FLOAT'] },
-    { tag: 'opacity', vars: dims.opacity.variables, expectScopes: ['OPACITY'] },
     { tag: 'font/family', vars: font.variables.filter((v) => v.name.startsWith('font/family/')), expectScopes: ['FONT_FAMILY'] },
     { tag: 'font/size', vars: font.variables.filter((v) => v.name.startsWith('font/size/')), expectScopes: ['FONT_SIZE'] },
     { tag: 'font/weight', vars: font.variables.filter((v) => v.name.startsWith('font/weight/')), expectScopes: ['FONT_WEIGHT'] },
@@ -2443,6 +2443,7 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
     { tag: 'size', vars: dims.size.variables },
     { tag: 'border-width', vars: dims.borderWidth.variables },
     { tag: 'focus', vars: dims.focus.variables },
+    { tag: 'opacity', vars: dims.opacity.variables },
     { tag: 'font-fluid', vars: fluid.flatMap((c) => c.variables) },
     { tag: 'font/weight-role', vars: font.variables.filter((v) => v.name.startsWith('font/weight-role/')) },
     { tag: 'layout', vars: layout.flatMap((c) => c.variables) },
