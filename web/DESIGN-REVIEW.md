@@ -232,11 +232,28 @@ Combining both tools + our engine, the target model:
    playground** must load web fonts (a Google-Fonts-style subset) and degrade gracefully when a named
    font can't be loaded/previewed. Design the family control for both.
 
-**⚠️ Engine-reconciliation decision (owner):** matching the per-category weight grids + italic axis is
-*more than our engine's current type model* (`weightRoles` = subtle/default/emphasis/strong, a `familyMap`,
-per-role `weights`). Adopting the plugin's granularity would pull **engine work**, not just UI. Decide how
-far to match before building the editor.
+**✅ Engine-reconciliation — DECIDED (owner): grow the engine.** We adopt the full granularity —
+per-category weight grids + the italic axis. This is confirmed **engine work** (expand the type model
+beyond today's `weightRoles` = subtle/default/emphasis/strong + `familyMap` + per-role `weights`), not
+just UI. Scope the type-model expansion as its own increment, before/with the editor.
 
-### Parked (added from this study)
-- Category-set reconciliation (Display/Title/Body/Button/Detail vs our type roles) — see above.
-- Web-surface font loading strategy (which fonts are loadable/previewable in the browser playground).
+### Parked / research (added from this study)
+- **Category-set reconciliation** (Display/Title/Body/Button/Detail vs our display/title/body/label/
+  caption/eyebrow/code) — owner decision still open.
+- **Font availability across surfaces (research, not now):**
+  - *Web:* the browser **Local Font Access API** (`queryLocalFonts()`) can enumerate system-installed
+    fonts — Chromium-only, behind a permission prompt — so partial parity with Figma's list; otherwise
+    web fonts must be loaded (a Google-Fonts subset). *Context: the web UI is a de-prioritised publish
+    channel, so lower urgency — BUT the web UI is also the plugin's UI substrate (docs/18 §5), so the
+    control still matters.*
+  - *Figma plugin (primary surface):* uses Figma's own font list — no loading problem.
+  - *MCP / agent:* font family is just a string the agent/user supplies. The real risk is
+    **name→resource canonicalisation** — the string must resolve to a loadable font downstream
+    (CSS family / Google name / Figma name / PostScript name). Accept the string, but flag that
+    resolution is the consumer's job, or validate against a known-fonts list.
+  - *Font upload (brainstorm):* allowing a woff2/ttf upload would make the exact font travel with the
+    tokens and solve availability definitively — at the cost of asset management. Research later.
+- **Holistic radius (owner direction).** Our engine already has a radius *ramp* (none/sm/md/lg/round)
+  with per-component bindings (button→md, input→sm, card→lg, badge→round) — already ahead of the plugin's
+  single Button Radius. Direction: surface radius **holistically across component sizes**, not one value —
+  show the ramp + which components consume which step.
