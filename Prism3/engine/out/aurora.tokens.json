@@ -8862,21 +8862,21 @@
       "family": {
         "display": {
           "$type": "fontFamily",
-          "$value": [
-            "Clash Display",
-            "system-ui",
-            "-apple-system",
-            "Segoe UI",
-            "Roboto",
-            "Helvetica",
-            "Arial",
-            "sans-serif"
-          ],
+          "$value": "Clash Display",
           "$description": "font family — display (Clash Display) [variable font]",
           "$extensions": {
             "prism3": {
               "generated": true,
               "variable": true,
+              "fallbackStack": [
+                "system-ui",
+                "-apple-system",
+                "Segoe UI",
+                "Roboto",
+                "Helvetica",
+                "Arial",
+                "sans-serif"
+              ],
               "figma": {
                 "kind": "style-part",
                 "field": "fontFamily",
@@ -8887,21 +8887,21 @@
         },
         "text": {
           "$type": "fontFamily",
-          "$value": [
-            "Inter",
-            "system-ui",
-            "-apple-system",
-            "Segoe UI",
-            "Roboto",
-            "Helvetica",
-            "Arial",
-            "sans-serif"
-          ],
+          "$value": "Inter",
           "$description": "font family — text (Inter) [variable font]",
           "$extensions": {
             "prism3": {
               "generated": true,
               "variable": true,
+              "fallbackStack": [
+                "system-ui",
+                "-apple-system",
+                "Segoe UI",
+                "Roboto",
+                "Helvetica",
+                "Arial",
+                "sans-serif"
+              ],
               "figma": {
                 "kind": "style-part",
                 "field": "fontFamily",
@@ -8912,20 +8912,20 @@
         },
         "mono": {
           "$type": "fontFamily",
-          "$value": [
-            "JetBrains Mono",
-            "ui-monospace",
-            "SFMono-Regular",
-            "Menlo",
-            "Consolas",
-            "Liberation Mono",
-            "monospace"
-          ],
+          "$value": "JetBrains Mono",
           "$description": "font family — mono (JetBrains Mono)",
           "$extensions": {
             "prism3": {
               "generated": true,
               "variable": false,
+              "fallbackStack": [
+                "ui-monospace",
+                "SFMono-Regular",
+                "Menlo",
+                "Consolas",
+                "Liberation Mono",
+                "monospace"
+              ],
               "figma": {
                 "kind": "style-part",
                 "field": "fontFamily",

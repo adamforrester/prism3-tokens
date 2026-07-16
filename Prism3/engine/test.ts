@@ -14,7 +14,7 @@
 import { rgbToOklch, oklchToRgb, hex, hexToRgb, contrast, luminance, maxChroma, inGamut, deltaE2000, dualContrastWindow, RGB } from './color';
 import { generateRamp, autoPlaceStep, STEP_NUMS } from './ramp';
 import { radiusScale } from './scale';
-import { at, deref, pxOf, buildTree } from './tree';
+import { at, deref, pxOf, buildTree, familyOf } from './tree';
 import { brandTheme, BrandInput, inRedTerritory } from './theme';
 import { nbTheme } from './nb-fixture';
 import { resolveAllModes } from './modes';
@@ -629,6 +629,30 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   ok((tree[root] as any).type.body.md['default-italic'].$value.fontStyle === 'italic', 'italic composite carries fontStyle:italic on $value');
   ok((tree[root] as any).type.body.md.default.$value.fontStyle === undefined, 'roman composite omits fontStyle');
   ok(fontStyleName('text', 700, true) === 'Bold Italic' && fontStyleName('text', 400, true) === 'Italic', 'Figma style name: 700→Bold Italic, 400→Italic (not Regular Italic)');
+}
+
+// ---- family primitive: single-family $value + fallbackStack extension (105.3) ----
+{
+  const t = tBrand('fam', { families: { display: 'Poppins', text: 'Inter', mono: 'Fira Code' } });
+  const { tree } = buildTree(t);
+  const root = Object.keys(tree)[0];
+  const fam = (tree[root] as any).font.family;
+  // $value is the SINGLE primary family (a string), NOT the baked array — the
+  // round-trippable form TP/Figma consume.
+  ok(fam.display.$value === 'Poppins' && typeof fam.display.$value === 'string', 'family $value is the single primary family (string), not an array');
+  ok(!Array.isArray(fam.text.$value) && !Array.isArray(fam.mono.$value), 'no family $value is an array');
+  // the curated fallback stack moved to the extension (the tail after the primary).
+  const fb = fam.text.$extensions.prism3.fallbackStack;
+  ok(Array.isArray(fb) && fb.length > 0 && !fb.includes('Inter'), 'fallbackStack holds the fallback tail (extension), primary excluded');
+  // engine-side reassembly (the SD-transform equivalent) rebuilds the full stack —
+  // so the resolved preview fontFamily is unchanged.
+  const full = familyOf(tree, fam.text);
+  ok(full.startsWith('Inter, ') && full === ['Inter', ...fb].join(', '), 'familyOf reassembles [primary, ...fallbackStack] — preview stack intact');
+  // Figma family variable: value = primary, description still leads with the FULL stack.
+  const figFam = buildFigmaFont(t).variables.filter((v) => v.name.startsWith('font/family/'));
+  const textVar = figFam.find((v) => v.name === 'font/family/text')!;
+  ok(textVar.value === 'Inter', 'Figma family variable binds the primary face as value');
+  ok(textVar.description.startsWith('stack: Inter, '), 'Figma family description still leads with the full reassembled stack (fix #4 preserved)');
 }
 
 // ------------------------------------------------- shadow / elevation invariants
