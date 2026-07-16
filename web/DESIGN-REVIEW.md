@@ -183,3 +183,60 @@ See Parked.
 *(Tabs reviewed: Semantic, Typography, Form factor. Primitives tab not formally reviewed here — it
 was just rebuilt with the per-ramp validation-colour control; a design pass on its Brand-colors /
 Neutral / ramp panels is a natural follow-up.)*
+
+---
+
+## Appendix — Reference: existing VML plugins (field study)
+
+Two existing plugins the owner shared as reference (VML Design System Practice, v2.0). **We borrow
+patterns, not the whole model** — Prism3's differentiator is that it *derives* the token layer with
+contrast gating, where these tools have the designer *assign* it by hand.
+
+**A. Prism Theme Builder v2** — a theme generator; 5 tabs: Palettes / Surfaces / Actions / Typography / Radius.
+**B. Text Style Variables Pro** — a Figma text-style bulk editor/binder; one two-panel screen.
+
+### Patterns to borrow
+- **A focused example beside every control.** Every colour role shows a live **Button example** /
+  **Text link example** (and Radius shows a **Button Preview**) — the control's *own* change, not one
+  shared preview. This is the single biggest thing our dashboard lacks (see §0/§1).
+- **Inline contrast badge at the point of edit** (`7.36:1 ✓`, `17.21:1 ✓`) — verification where the
+  choice is made. Directly answers our "show me the a11y consequence" gap.
+- **Availability-aware weight selection.** Font Weight *depends on* Font Family — it populates from the
+  chosen family's real weights ("Select a font family first…"), and flags missing weights/styles (⚠️).
+  Steal this outright for the typography editor.
+- **Variable-binding transparency** — when bound, show the alias chain (`font/family/body → …/inter`),
+  grouped Brand-Theme (semantic) vs Primitives (raw). Good for our token-aware audience.
+- **Token-path pills** on every role (`pds/color/action/primary/surface/rest`) — cheap dev transparency.
+- **Unit toggles (px/%) + conversion** for letter-spacing / line-height.
+- **Filter / search + multi-select** over long lists (text styles). Explicit **apply + Preview + Reset** per screen.
+- **Per-mode editing** via a Mode selector.
+
+### Divergences to hold (Prism3's value-add — do NOT copy)
+- **Assign vs derive.** Both tools have the designer manually map surfaces/actions to palette steps via
+  dropdowns. Prism3 *derives* these with contrast gating — that's the whole point. Borrow the *presentation*
+  (per-role example + badge + token pill), keep the *derivation*.
+- **Radius.** Theirs is a single Button Radius; ours is a full ramp — don't regress.
+- **Weight naming.** Their `thinnest→thickest` scale is genuinely confusing; keep our
+  `subtle/default/emphasis/strong`. (Borrow the structure, improve the naming — the "better than the
+  examples" bar.)
+
+### Typography editor — synthesized design (the active open item)
+Combining both tools + our engine, the target model:
+1. **Two levels** — a font *pool* (add families) → per-category *assignment* (family + weights). The
+   Theme Builder splits this as Typography Primitives (pool) → Typography Semantics (assignment).
+2. **Categories** — Theme Builder uses Display / Title / Body / Button / Detail. Our engine's roles are
+   display / title / body / label / caption / eyebrow / code. **Reconcile the two category sets.**
+3. **Weight selection populated from the family's real weights** (availability-aware), with an **italic**
+   parallel axis. Per-category, per-weight — *more granular than our engine models today*.
+4. **Font availability differs by surface:** the **plugin** picks from Figma's full font list; the **web
+   playground** must load web fonts (a Google-Fonts-style subset) and degrade gracefully when a named
+   font can't be loaded/previewed. Design the family control for both.
+
+**⚠️ Engine-reconciliation decision (owner):** matching the per-category weight grids + italic axis is
+*more than our engine's current type model* (`weightRoles` = subtle/default/emphasis/strong, a `familyMap`,
+per-role `weights`). Adopting the plugin's granularity would pull **engine work**, not just UI. Decide how
+far to match before building the editor.
+
+### Parked (added from this study)
+- Category-set reconciliation (Display/Title/Body/Button/Detail vs our type roles) — see above.
+- Web-surface font loading strategy (which fonts are loadable/previewable in the browser playground).
