@@ -473,6 +473,22 @@
         "name": "font/weight/700"
       },
       "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:6:41",
+      "name": "font/weight-role/max",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_WEIGHT"
+      ],
+      "description": "",
+      "value": 900,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "id": "VariableID:6:36",
+        "name": "font/weight/900"
+      },
+      "codeSyntax": {}
     }
   ]
 }

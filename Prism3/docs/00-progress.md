@@ -7,7 +7,29 @@
 
 ---
 
-## Latest (2026-07-11) — housekeeping: #63 resolved (Option 3) + PR-review audit
+## Latest (2026-07-16) — #105.1: extensible weight-role set + `max`
+
+**STATUS: in progress** on branch `claude/prism3-e2e-integration-8fwul4` (fresh from `main`, post-#95).
+First brick of the #105 typography type-model expansion; self-contained, no Token-Press round needed.
+
+- **Data-driven role set.** The four hardcoded weight-role names became one ordered canonical array
+  `WEIGHT_ROLE_ORDER` (lightest→heaviest); `WeightRoleName` now *derives* from it (`typeof […][number]`),
+  the defaults map keys off it, and the build emits one `font.weight-role.*` primitive per entry. Adding a
+  role later is a one-line array edit + a default value — no consumer hardcodes the old four names
+  (`tree`/`emit-figma`/`emit-dtcg`/`ai-metadata`/`test` all already iterate the array). (`theme.ts`.)
+- **`max` added (default 900).** The canonical heaviest slot — a black/display hero weight brands bind to.
+  It stays **defined-but-unused by default categories** (exactly like `subtle`), so default output is
+  byte-identical bar one additive `font/weight-role/max` primitive; a brand opts in via
+  `weights: { display: ['strong','max'] }`. Owner-requested (the "optional 5th — Max" decision on #105).
+- **Surfaces updated:** `theme-schema.json` (weightRoles + per-role `weights` enums gain `max`),
+  `levers.ts` description, the NB figma fixture (`font.json` → 39 vars / 5 weight-roles), docs/10 table.
+
+**Gates: test 707/707, nb-regression exit 0, emit-dtcg 753/753 aliases + 336/336 contracts per brand,
+emit-figma (font 39) + web tsc clean; lever-manifest.json + out/* regenerated.**
+
+---
+
+## (2026-07-11) — housekeeping: #63 resolved (Option 3) + PR-review audit
 
 **STATUS: in progress** on branch `claude/prism3-e2e-integration-8fwul4` (fresh from `main`, post-#91).
 

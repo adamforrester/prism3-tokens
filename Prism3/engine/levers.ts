@@ -99,7 +99,7 @@ export const leverManifest: Lever[] = [
   { key: 'typography.families', group: 'type', label: 'Font families', control: 'object',
     description: 'Display / text / mono faces (+ a variable-font flag). A single name auto-pads a system fallback stack.' },
   { key: 'typography.weightRoles', group: 'type', label: 'Weight roles → numeric', control: 'object', advanced: true,
-    description: 'Map subtle/default/emphasis/strong to the brand’s numeric weights (defaults 300/400/600/700).' },
+    description: 'Map subtle/default/emphasis/strong/max to the brand’s numeric weights (defaults 300/400/600/700/900).' },
   { key: 'typography.displayCeiling', group: 'type', label: 'Display size ceiling', control: 'slider', advanced: true, default: 160, min: 48, max: 160, step: 8, unit: 'px',
     description: 'Cap the display tier; brands with no mega heroes stop lower (e.g. 96).' },
   { key: 'typography.titleFloor', group: 'type', label: 'Title floor', control: 'enum', advanced: true, default: 18,

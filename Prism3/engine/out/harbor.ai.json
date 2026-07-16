@@ -2978,6 +2978,13 @@
         "type.title.xl.strong",
         "type.title.xs.strong"
       ]
+    },
+    "font.weight-role.max": {
+      "$description": "The max font-weight role.",
+      "meaning": "Function-named weight → 900 — white-label-stable (the role is the contract; each brand maps the numeric).",
+      "when_to_use": "Reference font.weight-role.max (not the numeric) so a brand weight re-map reflows every consumer at once.",
+      "avoid_when": "Do not hard-code the numeric (900); reference the role.",
+      "resolves_to": "{prism.font.weight.900}"
     }
   },
   "primitives": {
@@ -5123,7 +5130,10 @@
       "$description": "font weight 900 — numeric reference (the brand's literal axis value)",
       "meaning": "Font weight primitive — numeric 900 (reference tier)",
       "tier": "primitive",
-      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight."
+      "consume": "Private primitive — reach for it through a typography composite (Phase 2), not the raw size/weight.",
+      "aliased_by": [
+        "font.weight-role.max"
+      ]
     },
     "font.line-height.tight": {
       "$description": "line height tight — 1.05× (unitless multiplier)",

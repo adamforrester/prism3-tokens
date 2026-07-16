@@ -591,6 +591,22 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   ok(!lev.some((c) => c.group === 'caption' && c.link), 'links lever → caption link variants removed when not listed');
 }
 
+// ---- weight-role set: extensible + `max` (105.1) ----
+{
+  const roles = tBrand('wr-max', {}).typography.weightRoles;
+  // `max` is a canonical role, always emitted (defined-but-unused, like `subtle`),
+  // defaulting to 900 — a black/display hero weight slot brands bind to.
+  ok(roles.map((r) => r.role).join('/') === 'subtle/default/emphasis/strong/max', 'canonical weight-role order is subtle→default→emphasis→strong→max');
+  ok(roles.find((r) => r.role === 'max')?.value === 900, 'max defaults to 900');
+  // remappable like any role
+  ok(tBrand('wr-remap', { weightRoles: { max: 950 } }).typography.weightRoles.find((r) => r.role === 'max')?.value === 950, 'max is remappable via weightRoles');
+  // default output ships NO category at max (lean); the primitive still exists.
+  ok(!tBrand('wr-lean', {}).typography.composites.some((c) => c.weightRole === 'max'), 'no default category ships max (default output stays lean)');
+  // but a brand can put max on a role — a black display hero ramp
+  const heroed = tBrand('wr-hero', { weights: { display: ['strong', 'max'] } }).typography.composites;
+  ok(heroed.some((c) => c.group === 'display' && c.weightRole === 'max'), 'display can ship a max-weight composite when requested');
+}
+
 // ------------------------------------------------- shadow / elevation invariants
 {
   const shBrand = (id: string, shadow: any) => brandTheme({ id, primary: { l: 0.5, c: 0.15, h: 250 }, neutral: { hue: 250, chroma: 0.01 }, shadow });
@@ -1178,7 +1194,7 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   const FIXDIR = resolve(HERE, '../fixtures/figma/nb');
   const theme = nbTheme();
 
-  // (a) font.json — byte-reproduce (38 vars: 3 family + 22 size + 9 weight + 4 weight-role).
+  // (a) font.json — byte-reproduce (39 vars: 3 family + 22 size + 9 weight + 5 weight-role).
   const font = buildFigmaFont(theme);
   const fontFix = JSON.parse(readFileSync(resolve(FIXDIR, 'font.json'), 'utf8'));
   const fontByName = new Map<string, any>(fontFix.variables.map((v: any) => [v.name, v]));

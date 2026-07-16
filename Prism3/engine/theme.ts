@@ -346,13 +346,23 @@ const buildMotion = (p: MotionPersonality = {}): MotionAxis => {
 // any brand, like the spacing scale); the white-label lever is the families, the
 // weight role→numeric map, and the `typeScale` preset (consumed at the semantic
 // tier in Phase 2). Weight roles are FUNCTION-named (subtle/default/emphasis/
-// strong over a numeric reference tier) — the white-label-safe answer to "one
+// strong/max over a numeric reference tier) — the white-label-safe answer to "one
 // brand's bold is 700, another's 600": the role is the stable contract, the
-// numeric is the brand-variable part (23 §"Naming the weight ladder").
+// numeric is the brand-variable part (23 §"Naming the weight ladder"). The role
+// set is data-driven (WEIGHT_ROLE_ORDER) so it extends without renames.
 export type FontFamilyRole = { role: 'display' | 'text' | 'mono'; stack: string[]; variable: boolean };
-export type WeightRole = { role: 'subtle' | 'default' | 'emphasis' | 'strong'; value: number };
 export type FamilyRoleName = 'display' | 'text' | 'mono';
-export type WeightRoleName = 'subtle' | 'default' | 'emphasis' | 'strong';
+// The canonical weight-role ladder, lightest→heaviest. DATA-DRIVEN: this ordered
+// array is the single source — `WeightRoleName` derives from it, the defaults map
+// keys off it, and the build emits one `font.weight-role.*` primitive per entry.
+// Adding a role (e.g. a `light` between subtle and default) is a one-line edit
+// here + a default value below; no consumer hardcodes the four original names.
+// `max` is the heaviest slot (black/900 territory) — brands that ship a heavy
+// hero weight bind to it; it stays defined-but-unused by default categories
+// (same as `subtle`), so default output is unchanged bar the extra primitive.
+export const WEIGHT_ROLE_ORDER = ['subtle', 'default', 'emphasis', 'strong', 'max'] as const;
+export type WeightRoleName = typeof WEIGHT_ROLE_ORDER[number];
+export type WeightRole = { role: WeightRoleName; value: number };
 export type TypeGroup = 'display' | 'title' | 'body' | 'label' | 'caption' | 'eyebrow' | 'code';
 // A semantic composite: a (group, variant) bundling family + size + weight role +
 // line-height + tracking. Two composites may share a size primitive (e.g. title.xs
@@ -390,7 +400,7 @@ const LETTER_SPACINGS = [
   { key: 'tighter', em: -0.03 }, { key: 'tight', em: -0.02 }, { key: 'snug', em: -0.01 }, { key: 'normal', em: 0 },
   { key: 'wide', em: 0.02 }, { key: 'wider', em: 0.05 },
 ];
-const WEIGHT_ROLE_DEFAULT = { subtle: 300, default: 400, emphasis: 600, strong: 700 } as const;
+const WEIGHT_ROLE_DEFAULT: Record<WeightRoleName, number> = { subtle: 300, default: 400, emphasis: 600, strong: 700, max: 900 };
 
 // Curated rem ladder: text [10–18] in 1–2px steps; ¼rem (4px) 20→40; ½rem (8px)
 // 48→80; 1rem (16px) 96→160. 22 steps, all clean rem values (matches Prism2).
@@ -410,7 +420,7 @@ const asStack = (fam: string | string[] | undefined, fallbackFace: string, fallb
 
 export type TypographyInput = {
   families?: { display?: string | string[]; text?: string | string[]; mono?: string | string[]; variable?: boolean | Partial<Record<FamilyRoleName, boolean>> };
-  weightRoles?: Partial<Record<'subtle' | 'default' | 'emphasis' | 'strong', number>>;
+  weightRoles?: Partial<Record<WeightRoleName, number>>;
   typeScale?: 'compact' | 'default' | 'expressive';
   /** Which family role each semantic group consumes. Defaults: display/title/
    *  label/eyebrow → display (brand); body/caption → text; code → mono. Override
@@ -429,8 +439,9 @@ export type TypographyInput = {
    *  carries the weight in its name). Defaults: display/title `[strong]`, body
    *  `[default, strong]` (add `emphasis` for a 3rd), caption `[default, strong]`,
    *  label/eyebrow `[emphasis]`, code `[default]`. Override a role to ship a
-   *  multi-weight ramp (e.g. `display: ['default','strong']`). Roles use the 4
-   *  weight-role names (subtle/default/emphasis/strong). */
+   *  multi-weight ramp (e.g. `display: ['default','strong']`, or `['strong','max']`
+   *  for a black hero). Roles use the canonical weight-role names
+   *  (subtle/default/emphasis/strong/max, lightest→heaviest). */
   weights?: Partial<Record<TypeGroup, WeightRoleName[]>>;
   /** Which roles get an underlined `.link` variant for every size×weight. Default
    *  `['body','caption']`. Underline is baked; the link colour stays `text.link.*`. */
@@ -586,7 +597,7 @@ const buildTypography = (t: TypographyInput = {}): Typography => {
     families,
     sizesPx: fontSizeLadder(),
     weightsRef: [100, 200, 300, 400, 500, 600, 700, 800, 900],
-    weightRoles: (['subtle', 'default', 'emphasis', 'strong'] as const).map((role) => ({ role, value: wr[role] })),
+    weightRoles: WEIGHT_ROLE_ORDER.map((role) => ({ role, value: wr[role] })),
     lineHeights: LINE_HEIGHTS,
     letterSpacings: LETTER_SPACINGS,
     typeScale: t.typeScale ?? 'default',
@@ -1015,7 +1026,7 @@ export const brandTheme = (input: BrandInput): Theme => {
       ? ` — NOTE: requested ceiling ${reqCeiling}px; effective top display is ${effCap}px (typeScale shifts sizes off the exact ladder rung)`
       : '';
   const varFams = typography.families.filter((f) => f.variable).map((f) => f.role);
-  notes.push(`typography: curated rem size ladder (${typography.sizesPx.length} steps, ${typography.sizesPx[0]}–${typography.sizesPx[typography.sizesPx.length - 1]}px — NOT ratio-derived; covers all bases, clean values); weight roles subtle/default/emphasis/strong → ${typography.weightRoles.map((w) => w.value).join('/')}; families ${typography.families.map((f) => `${f.role}=${f.stack[0]}`).join(', ')}${varFams.length ? ` (variable: ${varFams.join('/')})` : ''}; typeScale '${typography.typeScale}'. ${typography.composites.length} semantic composites (title/display sizes shifted by typeScale; display capped at ${reqCeiling}px; title floor ${input.typography?.titleFloor ?? 18}px)${capNote}. ${typography.fluid ? `responsive: ${typography.composites.filter((c) => c.sizeMinPx !== c.sizePx).length} fluid composites (size-dependent mobile shrink — research-validated, Carbon fluid-display curve: body static, titles ~1 rung, display converges to ~40–48px; one min/max pair → web clamp() ${typography.minViewport}–${typography.maxViewport}px + Figma desktop/mobile modes)` : 'responsive: OFF (all sizes static)'}. Line-height unitless multiplier in \$value; px-from-ratio materialization for Figma in \$extensions.`);
+  notes.push(`typography: curated rem size ladder (${typography.sizesPx.length} steps, ${typography.sizesPx[0]}–${typography.sizesPx[typography.sizesPx.length - 1]}px — NOT ratio-derived; covers all bases, clean values); weight roles ${typography.weightRoles.map((w) => w.role).join('/')} → ${typography.weightRoles.map((w) => w.value).join('/')}; families ${typography.families.map((f) => `${f.role}=${f.stack[0]}`).join(', ')}${varFams.length ? ` (variable: ${varFams.join('/')})` : ''}; typeScale '${typography.typeScale}'. ${typography.composites.length} semantic composites (title/display sizes shifted by typeScale; display capped at ${reqCeiling}px; title floor ${input.typography?.titleFloor ?? 18}px)${capNote}. ${typography.fluid ? `responsive: ${typography.composites.filter((c) => c.sizeMinPx !== c.sizePx).length} fluid composites (size-dependent mobile shrink — research-validated, Carbon fluid-display curve: body static, titles ~1 rung, display converges to ~40–48px; one min/max pair → web clamp() ${typography.minViewport}–${typography.maxViewport}px + Figma desktop/mobile modes)` : 'responsive: OFF (all sizes static)'}. Line-height unitless multiplier in \$value; px-from-ratio materialization for Figma in \$extensions.`);
   const dStrat = input.disabledStrategy ?? 'accessible';
   notes.push(dStrat === 'accessible'
     ? `disabled: 'accessible' — disabled text/icon/border clears ${input.disabledMin ?? 3}:1 on the floor (legible, contrast-preserving; the field-rare default). Set disabledStrategy:'conventional' for the sub-AA exempt look.`
