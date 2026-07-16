@@ -167,9 +167,16 @@ const dimAlias = (path: string, description: string, extra: Record<string, unkno
 // Each leaf carries a `figma` materialization directive in $extensions.prism3:
 // the exporter reads it (never the .ai.json prose). DTCG-canonical value lives in
 // $value (rem / unitless multiplier / em); the bindable Figma form is derived.
+// Family primitive: `$value` is the SINGLE brand family (`stack[0]`), the DTCG- and
+// round-trippable form Token-Press / Figma consume directly. The curated fallback
+// stack lives in `$extensions.prism3.fallbackStack` (the tail after the primary); a
+// consumer reassembles the CSS `font-family` value as `[$value, ...fallbackStack]`
+// (a Style Dictionary consumption transform — TP ships the shorthand in its SD
+// starter; the engine applies the same reassembly in `familyOf` for its own preview,
+// and in the Figma emit for the variable description).
 const fontFamilyLeaf = (stack: string[], variable: boolean, description: string): Token => ({
-  $type: 'fontFamily', $value: stack, $description: description,
-  $extensions: { prism3: { generated: true, variable, figma: { kind: 'style-part', field: 'fontFamily', scope: 'FONT_FAMILY' } } },
+  $type: 'fontFamily', $value: stack[0], $description: description,
+  $extensions: { prism3: { generated: true, variable, fallbackStack: stack.slice(1), figma: { kind: 'style-part', field: 'fontFamily', scope: 'FONT_FAMILY' } } },
 });
 // Font size: $value in rem (accessibility — scales with the user base size, KB 23);
 // px carried for the Figma exporter (Figma binds FONT_SIZE as a px FLOAT variable).
@@ -572,4 +579,13 @@ export const pxOf = (tree: TreeNode, node: TreeNode): number => {
 export const subNode = (tree: TreeNode, aliasStr: any): TreeNode => at(tree, String(aliasStr).replace(/^\{|\}$/g, ''));
 export const numOf = (tree: TreeNode, node: TreeNode): number => { const t = deref(tree, node); return typeof t?.$value === 'number' ? t.$value : parseFloat(String(t?.$value)) || 0; };
 export const remPxOf = (tree: TreeNode, node: TreeNode): number => { const t = deref(tree, node); const px = t?.$extensions?.prism3?.px; if (px) return px; const v = String(t?.$value); return v.endsWith('rem') ? parseFloat(v) * 16 : parseFloat(v) || 0; };
-export const familyOf = (tree: TreeNode, node: TreeNode): string => { const t = deref(tree, node); return Array.isArray(t?.$value) ? t.$value.join(', ') : String(t?.$value ?? 'sans-serif'); };
+// Reassemble the full CSS font-family value from the single-family `$value` + the
+// `fallbackStack` extension (the engine-side equivalent of the SD consumption
+// transform). Falls back to the legacy array form if a leaf still carries one.
+export const familyOf = (tree: TreeNode, node: TreeNode): string => {
+  const t = deref(tree, node);
+  if (Array.isArray(t?.$value)) return t.$value.join(', ');
+  const primary = String(t?.$value ?? 'sans-serif');
+  const fallback = (t?.$extensions?.prism3?.fallbackStack as string[] | undefined) ?? [];
+  return [primary, ...fallback].join(', ');
+};

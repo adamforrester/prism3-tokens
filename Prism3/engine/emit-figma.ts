@@ -333,7 +333,14 @@ export const buildFigmaFont = (theme: Theme): FigmaCollectionFile => {
   // library consumers.
   for (const familyRole of Object.keys(font.family)) {
     const leaf = font.family[familyRole];
-    const stack: string[] = Array.isArray(leaf.$value) ? leaf.$value : [String(leaf.$value)];
+    // Reassemble the full stack: single-family $value + the fallbackStack extension
+    // (legacy array $value still handled). The bound Figma value stays the primary
+    // face; the full stack lives in the description (fix #4).
+    const primary = Array.isArray(leaf.$value) ? String(leaf.$value[0]) : String(leaf.$value);
+    const fallback: string[] = Array.isArray(leaf.$value)
+      ? leaf.$value.slice(1).map(String)
+      : ((leaf.$extensions?.prism3?.fallbackStack as string[] | undefined) ?? []);
+    const stack: string[] = [primary, ...fallback];
     variables.push({
       name: `font/family/${familyRole}`,
       resolvedType: 'STRING',

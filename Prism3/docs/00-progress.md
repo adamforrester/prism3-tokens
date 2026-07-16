@@ -7,7 +7,35 @@
 
 ---
 
-## Latest (2026-07-16) — #105.2: italic axis (weight-paired modifier)
+## Latest (2026-07-16) — #105.3: single-family `$value` + `fallbackStack` extension
+
+**STATUS: in review (#118)** — re-landed on fresh `main` after #117/#105.2 merged (`c22f22e`), so the
+merge-base is linear and the golden movement was re-verified on the clean base. Third and final brick of #105.
+
+- **Family primitive `$value` is now the SINGLE brand family** (`stack[0]`, a string) — the DTCG- and
+  round-trippable form Token Press / Figma consume directly, instead of the baked `string[]` fallback
+  stack. (`tree.ts` `fontFamilyLeaf`.)
+- **The curated fallback stack moved to `$extensions.prism3.fallbackStack`** (the tail after the primary).
+  A consumer reassembles the CSS `font-family` value as `[$value, ...fallbackStack]` — a Style Dictionary
+  consumption transform (TP ships the shorthand in its SD starter; **the engine's half is the extension +
+  the documented reassembly rule**). The engine applies the same reassembly itself in two places so nothing
+  downstream regressed: `familyOf` (the resolved-preview font-family — byte-identical) and the Figma family
+  emit (variable value = primary, description = the full reassembled stack — NB fixture byte-identical).
+- **⚠️ Token-shape change:** this drops the `string[]` stack from every family primitive's `$value`. The
+  `out/*.tokens.json` family leaves move (array → string + `fallbackStack`); **no Figma output moved** and
+  no fixture moved (reconstruction keeps them stable).
+
+**Gates: test 723/723, nb-regression exit 0, emit-dtcg all aliases resolve + 336/336 contracts per brand,
+emit-figma (byte-identical) + web tsc clean; out/* regenerated.**
+
+**Open cross-lane loop (before finalizing #105):** confirm the engine's canonical forward-emit weight
+spellings resolve in TP's `FONT_WEIGHT_MAP` (100 Thin · 200 ExtraLight · 300 Light · 400 Regular · 500
+Medium · 600 Semi Bold · 700 Bold · 800 ExtraBold · 900 Black; italic → `<Weight> Italic`, 400→`Italic`).
+To be posted on #105 for the TP agent.
+
+---
+
+## (2026-07-16) — #105.2: italic axis (weight-paired modifier)
 
 **STATUS: in progress** on branch `claude/prism3-e2e-integration-8fwul4` (fresh from `main`, post-#116).
 Second brick of #105; the DTCG encoding is the one Token Press locked on #115 (closed).
