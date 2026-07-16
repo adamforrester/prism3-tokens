@@ -234,7 +234,7 @@
       "label": "Weight roles → numeric",
       "control": "object",
       "advanced": true,
-      "description": "Map subtle/default/emphasis/strong to the brand’s numeric weights (defaults 300/400/600/700)."
+      "description": "Map subtle/default/emphasis/strong/max to the brand’s numeric weights (defaults 300/400/600/700/900)."
     },
     {
       "key": "typography.displayCeiling",

@@ -8736,6 +8736,18 @@
               "numeric": 700
             }
           }
+        },
+        "max": {
+          "$type": "fontWeight",
+          "$value": "{nbds.font.weight.900}",
+          "$description": "weight role 'max' → 900 — function-named, white-label-stable (the brand maps the numeric; a 2-weight brand collapses roles)",
+          "$extensions": {
+            "prism3": {
+              "role": "semantic",
+              "aliasOf": "nbds.font.weight.900",
+              "numeric": 900
+            }
+          }
         }
       },
       "line-height": {

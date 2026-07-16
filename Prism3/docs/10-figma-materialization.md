@@ -44,7 +44,7 @@ export styles). Two fixture classes:
 |---|---|---|---|---|---|
 | `palette.json` | `palette` | `Default` | 122 | 0 | COLOR primitives |
 | `color.{light,dark,hc-light,hc-dark}.json` | `color` | 4 modes | 95 ea | 95 | COLOR, aliased to palette |
-| `font.json` | `font` | `Default` | 38 | 4 | family STRING + size/weight FLOAT; weight-roles aliased to numeric |
+| `font.json` | `font` | `Default` | 39 | 5 | family STRING + size/weight FLOAT; weight-roles aliased to numeric |
 | `font-fluid.{desktop,mobile}.json` | `font-fluid` | 2 modes | 10 ea | 0 | FLOAT `FONT_SIZE`, per-mode values |
 
 **(b) Reference-with-known-deltas** — `text-styles.json` (36 styles) is the **as-imported

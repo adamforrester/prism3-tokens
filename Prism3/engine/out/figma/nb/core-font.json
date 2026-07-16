@@ -427,6 +427,19 @@
         "type": "VARIABLE_ALIAS",
         "name": "font/weight/700"
       }
+    },
+    {
+      "name": "font/weight-role/max",
+      "resolvedType": "FLOAT",
+      "scopes": [
+        "FONT_WEIGHT"
+      ],
+      "description": "weight role 'max' → 900 — function-named, white-label-stable (the brand maps the numeric; a 2-weight brand collapses roles)",
+      "value": 900,
+      "alias": {
+        "type": "VARIABLE_ALIAS",
+        "name": "font/weight/900"
+      }
     }
   ]
 }

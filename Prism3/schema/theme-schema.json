@@ -163,12 +163,13 @@
         "weightRoles": {
           "type": "object",
           "additionalProperties": false,
-          "description": "Function-named weight roles → the brand's numeric weights (the white-label-stable weight model). Omit any to use the defaults (subtle 300 / default 400 / emphasis 600 / strong 700).",
+          "description": "Function-named weight roles → the brand's numeric weights (the white-label-stable weight model). Omit any to use the defaults (subtle 300 / default 400 / emphasis 600 / strong 700 / max 900).",
           "properties": {
             "subtle": { "type": "number", "description": "Lighter-than-body weight (optional use)." },
             "default": { "type": "number", "description": "Resting body / UI weight." },
             "emphasis": { "type": "number", "description": "Mild lift — strong inline text, active states." },
-            "strong": { "type": "number", "description": "Headings, primary actions." }
+            "strong": { "type": "number", "description": "Headings, primary actions." },
+            "max": { "type": "number", "description": "Heaviest slot — black/display hero weight (optional use)." }
           }
         },
         "typeScale": {
@@ -215,15 +216,15 @@
         "weights": {
           "type": "object",
           "additionalProperties": false,
-          "description": "Per-role weight set — weight is an axis on every type role, and every composite carries the weight in its name (type.<group>.<size>.<weight>). Defaults: display/title ['strong'], body ['default','strong'] (add 'emphasis' for a 3rd), caption ['default','strong'], label/eyebrow ['emphasis'], code ['default']. Override a role to ship a multi-weight ramp (e.g. display: ['default','strong']). Adding a weight is additive — never renames.",
+          "description": "Per-role weight set — weight is an axis on every type role, and every composite carries the weight in its name (type.<group>.<size>.<weight>). Defaults: display/title ['strong'], body ['default','strong'] (add 'emphasis' for a 3rd), caption ['default','strong'], label/eyebrow ['emphasis'], code ['default']. Override a role to ship a multi-weight ramp (e.g. display: ['strong','max'] for a black hero). Adding a weight is additive — never renames.",
           "properties": {
-            "display": { "type": "array", "items": { "type": "string", "enum": ["subtle", "default", "emphasis", "strong"] } },
-            "title": { "type": "array", "items": { "type": "string", "enum": ["subtle", "default", "emphasis", "strong"] } },
-            "body": { "type": "array", "items": { "type": "string", "enum": ["subtle", "default", "emphasis", "strong"] } },
-            "label": { "type": "array", "items": { "type": "string", "enum": ["subtle", "default", "emphasis", "strong"] } },
-            "caption": { "type": "array", "items": { "type": "string", "enum": ["subtle", "default", "emphasis", "strong"] } },
-            "eyebrow": { "type": "array", "items": { "type": "string", "enum": ["subtle", "default", "emphasis", "strong"] } },
-            "code": { "type": "array", "items": { "type": "string", "enum": ["subtle", "default", "emphasis", "strong"] } }
+            "display": { "type": "array", "items": { "type": "string", "enum": ["subtle", "default", "emphasis", "strong", "max"] } },
+            "title": { "type": "array", "items": { "type": "string", "enum": ["subtle", "default", "emphasis", "strong", "max"] } },
+            "body": { "type": "array", "items": { "type": "string", "enum": ["subtle", "default", "emphasis", "strong", "max"] } },
+            "label": { "type": "array", "items": { "type": "string", "enum": ["subtle", "default", "emphasis", "strong", "max"] } },
+            "caption": { "type": "array", "items": { "type": "string", "enum": ["subtle", "default", "emphasis", "strong", "max"] } },
+            "eyebrow": { "type": "array", "items": { "type": "string", "enum": ["subtle", "default", "emphasis", "strong", "max"] } },
+            "code": { "type": "array", "items": { "type": "string", "enum": ["subtle", "default", "emphasis", "strong", "max"] } }
           }
         },
         "links": {
