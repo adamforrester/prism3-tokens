@@ -539,7 +539,7 @@ for (const [label, ty] of typeCases) {
     if (!lh.has(c.lineHeight)) bad ||= `${c.path} bad line-height ${c.lineHeight}`;
     if (!ls.has(c.tracking)) bad ||= `${c.path} bad tracking ${c.tracking}`;
     // the weight role is always the trailing name segment (minus an optional -link)
-    if (c.path.split('.').pop()!.replace('-link', '') !== c.weightRole) bad ||= `${c.path} weight not in name`;
+    if (c.path.split('.').pop()!.replace('-link', '').replace('-italic', '') !== c.weightRole) bad ||= `${c.path} weight not in name`;
   }
   // sizes are size-major within a group (weights repeat a size); DISTINCT sizes ascend.
   for (const [g, sizes] of Object.entries(byGroup)) {
@@ -605,6 +605,30 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   // but a brand can put max on a role — a black display hero ramp
   const heroed = tBrand('wr-hero', { weights: { display: ['strong', 'max'] } }).typography.composites;
   ok(heroed.some((c) => c.group === 'display' && c.weightRole === 'max'), 'display can ship a max-weight composite when requested');
+}
+
+// ---- italic axis: weight-paired modifier, opt-in per role (105.2) ----
+{
+  // default output ships NO italics — goldens byte-identical (like max).
+  ok(!tBrand('it-none', {}).typography.composites.some((c) => c.italic), 'no italic composites by default (italics opt-in)');
+  ok(!tBrand('it-none', {}).typography.composites.some((c) => c.path.includes('-italic')), 'no `-italic` in any path by default');
+
+  const it = tBrand('it', { italics: ['body'], links: ['body'] }).typography.composites;
+  const at = (path: string) => it.find((c) => c.path === path);
+  // italic is a per-weight sibling: body ships default+strong → each gains an italic sibling.
+  ok(at('body.md.default-italic')?.italic === true && at('body.md.strong-italic')?.italic === true, 'italics lever → an -italic sibling per weight');
+  // italic × link are orthogonal — a role that ships both gets the full cross.
+  ok(at('body.md.default-italic-link')?.italic === true && at('body.md.default-italic-link')?.link === true, 'italic × link cross → default-italic-link (both true)');
+  ok(!!at('body.md.default') && !!at('body.md.default-link') && !!at('body.md.strong-italic-link'), 'all four modifier combos present when a role ships both axes');
+  // the bare weight stays non-italic; italic never leaks into unlisted roles.
+  ok(at('body.md.default')?.italic === false, 'the bare weight is not italic');
+  ok(!it.some((c) => c.group === 'display' && c.italic), 'italics do not leak into unlisted roles (display stays roman)');
+  // the composite emits fontStyle:italic on $value; the Figma text style names the italic instance.
+  const { tree } = buildTree(tBrand('it2', { italics: ['body'] }));
+  const root = Object.keys(tree)[0];
+  ok((tree[root] as any).type.body.md['default-italic'].$value.fontStyle === 'italic', 'italic composite carries fontStyle:italic on $value');
+  ok((tree[root] as any).type.body.md.default.$value.fontStyle === undefined, 'roman composite omits fontStyle');
+  ok(fontStyleName('text', 700, true) === 'Bold Italic' && fontStyleName('text', 400, true) === 'Italic', 'Figma style name: 700→Bold Italic, 400→Italic (not Regular Italic)');
 }
 
 // ------------------------------------------------- shadow / elevation invariants

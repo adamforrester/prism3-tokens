@@ -302,6 +302,15 @@
       "description": "Which roles get an underlined .*-link variant. Default body + caption."
     },
     {
+      "key": "typography.italics",
+      "group": "type",
+      "label": "Italic roles",
+      "control": "list",
+      "advanced": true,
+      "itemLabel": "type role",
+      "description": "Which roles ship an .*-italic variant per weight (fontStyle:italic). Default none — italics are opt-in."
+    },
+    {
       "key": "motionPersonality.tempo",
       "group": "motion",
       "label": "Motion tempo",

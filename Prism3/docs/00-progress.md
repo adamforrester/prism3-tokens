@@ -7,7 +7,35 @@
 
 ---
 
-## Latest (2026-07-16) — #105.1: extensible weight-role set + `max`
+## Latest (2026-07-16) — #105.2: italic axis (weight-paired modifier)
+
+**STATUS: in progress** on branch `claude/prism3-e2e-integration-8fwul4` (fresh from `main`, post-#116).
+Second brick of #105; the DTCG encoding is the one Token Press locked on #115 (closed).
+
+- **Italic modelled as an orthogonal modifier PAIRED with each weight** (`strong` + `strong-italic`),
+  not a weight role. It's a hyphenated suffix on the weight, in a fixed order
+  `type.<group>.<size>.<weight>[-italic][-link]`, so italic and link cross cleanly (a role that ships
+  both gets bare / italic / link / italic-link). (`theme.ts` `buildComposites`.)
+- **Emits `fontStyle: 'italic'` on the composite `$value`** — off-core-DTCG but the shared Token-Press
+  contract (#115). Omitted when normal. (`tree.ts`.) The Figma text style names the italic named-instance:
+  `fontStyleName(role, numeric, italic)` → `Bold Italic`, and `400 → Italic` (not `Regular Italic`) per
+  Figma's convention. (`emit-figma.ts`.)
+- **Opt-in per role via `typography.italics`** (parallel to `links`), **default `[]`.** Italics are a
+  deliberate brand choice, so default output ships **zero** italic composites — goldens stay byte-identical
+  (same lean-default discipline as `max`). Surfaces: `levers.ts` (`typography.italics`), `theme-schema.json`,
+  `ai-metadata.ts` (fontStyle in `resolves_to`).
+
+**out/* impact:** the only default-output change is the reworded per-composite `fontStyle` note in
+`$extensions.prism3.figma.note` (36 lines in NB — metadata text, no value/structure change). Italic
+composites appear only when a brand opts in. End-to-end verified: a `italics:['body'],links:['body']` brand
+emits the full 8-way `body.md.*` cross with correct Figma style names.
+
+**Gates: test 717/717, nb-regression exit 0, emit-dtcg all aliases resolve + 336/336 contracts per brand,
+emit-figma + web tsc clean; lever-manifest.json + out/* regenerated.**
+
+---
+
+## (2026-07-16) — #105.1: extensible weight-role set + `max`
 
 **STATUS: in progress** on branch `claude/prism3-e2e-integration-8fwul4` (fresh from `main`, post-#95).
 First brick of the #105 typography type-model expansion; self-contained, no Token-Press round needed.

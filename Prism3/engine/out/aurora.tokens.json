@@ -9829,7 +9829,7 @@
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle: when $value carries fontStyle:italic (weight-paired italic variant) the Figma style is the weight’s italic named-instance (e.g. Bold Italic); otherwise it is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -9887,7 +9887,7 @@
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle: when $value carries fontStyle:italic (weight-paired italic variant) the Figma style is the weight’s italic named-instance (e.g. Bold Italic); otherwise it is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -9945,7 +9945,7 @@
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle: when $value carries fontStyle:italic (weight-paired italic variant) the Figma style is the weight’s italic named-instance (e.g. Bold Italic); otherwise it is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -10003,7 +10003,7 @@
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle: when $value carries fontStyle:italic (weight-paired italic variant) the Figma style is the weight’s italic named-instance (e.g. Bold Italic); otherwise it is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -10045,7 +10045,7 @@
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle: when $value carries fontStyle:italic (weight-paired italic variant) the Figma style is the weight’s italic named-instance (e.g. Bold Italic); otherwise it is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -10085,7 +10085,7 @@
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle: when $value carries fontStyle:italic (weight-paired italic variant) the Figma style is the weight’s italic named-instance (e.g. Bold Italic); otherwise it is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -10143,7 +10143,7 @@
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle: when $value carries fontStyle:italic (weight-paired italic variant) the Figma style is the weight’s italic named-instance (e.g. Bold Italic); otherwise it is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -10201,7 +10201,7 @@
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle: when $value carries fontStyle:italic (weight-paired italic variant) the Figma style is the weight’s italic named-instance (e.g. Bold Italic); otherwise it is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -10259,7 +10259,7 @@
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle: when $value carries fontStyle:italic (weight-paired italic variant) the Figma style is the weight’s italic named-instance (e.g. Bold Italic); otherwise it is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -10317,7 +10317,7 @@
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle: when $value carries fontStyle:italic (weight-paired italic variant) the Figma style is the weight’s italic named-instance (e.g. Bold Italic); otherwise it is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -10375,7 +10375,7 @@
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle: when $value carries fontStyle:italic (weight-paired italic variant) the Figma style is the weight’s italic named-instance (e.g. Bold Italic); otherwise it is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -10417,7 +10417,7 @@
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle: when $value carries fontStyle:italic (weight-paired italic variant) the Figma style is the weight’s italic named-instance (e.g. Bold Italic); otherwise it is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -10458,7 +10458,7 @@
                     "letterSpacing",
                     "textDecoration"
                   ],
-                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle: when $value carries fontStyle:italic (weight-paired italic variant) the Figma style is the weight’s italic named-instance (e.g. Bold Italic); otherwise it is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -10496,7 +10496,7 @@
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle: when $value carries fontStyle:italic (weight-paired italic variant) the Figma style is the weight’s italic named-instance (e.g. Bold Italic); otherwise it is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -10537,7 +10537,7 @@
                     "letterSpacing",
                     "textDecoration"
                   ],
-                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle: when $value carries fontStyle:italic (weight-paired italic variant) the Figma style is the weight’s italic named-instance (e.g. Bold Italic); otherwise it is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -10577,7 +10577,7 @@
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle: when $value carries fontStyle:italic (weight-paired italic variant) the Figma style is the weight’s italic named-instance (e.g. Bold Italic); otherwise it is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -10618,7 +10618,7 @@
                     "letterSpacing",
                     "textDecoration"
                   ],
-                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle: when $value carries fontStyle:italic (weight-paired italic variant) the Figma style is the weight’s italic named-instance (e.g. Bold Italic); otherwise it is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -10656,7 +10656,7 @@
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle: when $value carries fontStyle:italic (weight-paired italic variant) the Figma style is the weight’s italic named-instance (e.g. Bold Italic); otherwise it is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -10697,7 +10697,7 @@
                     "letterSpacing",
                     "textDecoration"
                   ],
-                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle: when $value carries fontStyle:italic (weight-paired italic variant) the Figma style is the weight’s italic named-instance (e.g. Bold Italic); otherwise it is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -10737,7 +10737,7 @@
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle: when $value carries fontStyle:italic (weight-paired italic variant) the Figma style is the weight’s italic named-instance (e.g. Bold Italic); otherwise it is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -10778,7 +10778,7 @@
                     "letterSpacing",
                     "textDecoration"
                   ],
-                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle: when $value carries fontStyle:italic (weight-paired italic variant) the Figma style is the weight’s italic named-instance (e.g. Bold Italic); otherwise it is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -10816,7 +10816,7 @@
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle: when $value carries fontStyle:italic (weight-paired italic variant) the Figma style is the weight’s italic named-instance (e.g. Bold Italic); otherwise it is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -10857,7 +10857,7 @@
                     "letterSpacing",
                     "textDecoration"
                   ],
-                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle: when $value carries fontStyle:italic (weight-paired italic variant) the Figma style is the weight’s italic named-instance (e.g. Bold Italic); otherwise it is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -10899,7 +10899,7 @@
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle: when $value carries fontStyle:italic (weight-paired italic variant) the Figma style is the weight’s italic named-instance (e.g. Bold Italic); otherwise it is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -10939,7 +10939,7 @@
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle: when $value carries fontStyle:italic (weight-paired italic variant) the Figma style is the weight’s italic named-instance (e.g. Bold Italic); otherwise it is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -10981,7 +10981,7 @@
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle: when $value carries fontStyle:italic (weight-paired italic variant) the Figma style is the weight’s italic named-instance (e.g. Bold Italic); otherwise it is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -11022,7 +11022,7 @@
                     "letterSpacing",
                     "textDecoration"
                   ],
-                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle: when $value carries fontStyle:italic (weight-paired italic variant) the Figma style is the weight’s italic named-instance (e.g. Bold Italic); otherwise it is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -11060,7 +11060,7 @@
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle: when $value carries fontStyle:italic (weight-paired italic variant) the Figma style is the weight’s italic named-instance (e.g. Bold Italic); otherwise it is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -11101,7 +11101,7 @@
                     "letterSpacing",
                     "textDecoration"
                   ],
-                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle: when $value carries fontStyle:italic (weight-paired italic variant) the Figma style is the weight’s italic named-instance (e.g. Bold Italic); otherwise it is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -11141,7 +11141,7 @@
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle: when $value carries fontStyle:italic (weight-paired italic variant) the Figma style is the weight’s italic named-instance (e.g. Bold Italic); otherwise it is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -11182,7 +11182,7 @@
                     "letterSpacing",
                     "textDecoration"
                   ],
-                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle: when $value carries fontStyle:italic (weight-paired italic variant) the Figma style is the weight’s italic named-instance (e.g. Bold Italic); otherwise it is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -11220,7 +11220,7 @@
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle: when $value carries fontStyle:italic (weight-paired italic variant) the Figma style is the weight’s italic named-instance (e.g. Bold Italic); otherwise it is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -11261,7 +11261,7 @@
                     "letterSpacing",
                     "textDecoration"
                   ],
-                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle: when $value carries fontStyle:italic (weight-paired italic variant) the Figma style is the weight’s italic named-instance (e.g. Bold Italic); otherwise it is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }
@@ -11305,7 +11305,7 @@
                   "letterSpacing",
                   "textCase"
                 ],
-                "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
+                "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle: when $value carries fontStyle:italic (weight-paired italic variant) the Figma style is the weight’s italic named-instance (e.g. Bold Italic); otherwise it is derived from the bound fontWeight at import via a weight→style-name table."
               }
             }
           }
@@ -11346,7 +11346,7 @@
                     "lineHeight",
                     "letterSpacing"
                   ],
-                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle is derived from the bound fontWeight at import via a weight→style-name table."
+                  "note": "Figma Text Style; fontFamily/fontSize/fontWeight bind their primitives (fontSize can bind a font-fluid var with desktop/mobile modes — see responsive.figma.modes); lineHeight + letterSpacing baked as PERCENT (mode/size-independent); textCase/underline baked (not bindable). fontStyle: when $value carries fontStyle:italic (weight-paired italic variant) the Figma style is the weight’s italic named-instance (e.g. Bold Italic); otherwise it is derived from the bound fontWeight at import via a weight→style-name table."
                 }
               }
             }

@@ -375,6 +375,10 @@ export type TypeComposite = {
   family: FamilyRoleName; lineHeight: string; weightRole: WeightRoleName; tracking: string;
   textCase: 'none' | 'uppercase' | 'lowercase';   // baked style (not Figma-bindable; code/style-side)
   link: boolean;                                   // underlined link variant (textDecoration baked)
+  italic: boolean;                                 // italic variant — orthogonal modifier PAIRED with the weight
+                                                   // (`strong` + `strong-italic`), NOT a weight role; emits
+                                                   // `fontStyle: 'italic'` on the composite $value (off-core-DTCG,
+                                                   // the shared Token-Press contract), omitted when normal.
 };
 export type Typography = {
   families: FontFamilyRole[];
@@ -446,6 +450,13 @@ export type TypographyInput = {
   /** Which roles get an underlined `.link` variant for every size×weight. Default
    *  `['body','caption']`. Underline is baked; the link colour stays `text.link.*`. */
   links?: TypeGroup[];
+  /** Which roles ship an `.*-italic` variant for every size×weight (and, for link
+   *  roles, an italic-link too — italic and link are orthogonal). Italic is a
+   *  weight-PAIRED modifier (`strong` + `strong-italic`), NOT a weight role; it
+   *  emits `fontStyle: 'italic'` on the composite `$value`. Default `[]` — italics
+   *  are a deliberate brand choice, so default output ships none (opt in per role,
+   *  e.g. `['body','caption']` for emphasis in running text). */
+  italics?: TypeGroup[];
   /** Responsive sizing (Phase 3). `fluid` (default true) gives heading groups a
    *  mobile endpoint (= desktop × a per-group factor, snapped to the ladder); the
    *  same min/max pair drives the web `clamp()` and the Figma desktop/mobile modes.
@@ -535,28 +546,38 @@ const buildComposites = (ladder: number[], t: TypographyInput, fluid: boolean): 
   };
   const weightsMap = { ...TYPE_WEIGHTS_DEFAULT, ...(t.weights ?? {}) };
   const linkGroups = new Set(t.links ?? TYPE_LINK_DEFAULT);
+  const italicGroups = new Set(t.italics ?? []);   // default none — italics are opt-in per role
   const out: TypeComposite[] = [];
-  // One (group, size) fans out to every weight the role ships, and — for link
-  // roles — an underlined variant of each. The weight (and `link`) are the trailing
-  // name segments: `type.<group>.<size>.<weight>[.link]` (size omitted for sizeless
-  // roles like eyebrow). Adding a weight later is purely additive — no renames.
+  // One (group, size) fans out to every weight the role ships, and — orthogonally —
+  // an italic modifier and/or an underlined link modifier of each. The modifiers are
+  // hyphenated suffixes on the weight, in a fixed order: `type.<group>.<size>.<weight>[-italic][-link]`
+  // (size omitted for sizeless roles like eyebrow). Adding a weight/modifier later is
+  // purely additive — no renames.
   const push = (group: TypeGroup, variant: string, sizePx: number) => {
     const sizeMinPx = fluid ? mobileEndpoint(ladder, group, sizePx) : sizePx;
-    const emit = (weightRole: WeightRoleName, link: boolean) => {
-      // Link is a hyphenated suffix on the weight (`strong-link`), a clean SIBLING
-      // leaf of the bare weight — not a `.link` child (that would make `strong` a
-      // token-with-children, non-DTCG). Matches the `-subtle`/`on-fill` convention.
-      const weightSeg = link ? `${weightRole}-link` : weightRole;
+    const emit = (weightRole: WeightRoleName, link: boolean, italic: boolean) => {
+      // Modifiers are hyphenated suffixes on the weight (`strong-italic-link`), clean
+      // SIBLING leaves of the bare weight — not `.italic`/`.link` children (that would
+      // make `strong` a token-with-children, non-DTCG). Italic precedes link so the
+      // ordering is stable regardless of which axes a role ships. Matches the
+      // `-subtle`/`on-fill` convention.
+      const weightSeg = `${weightRole}${italic ? '-italic' : ''}${link ? '-link' : ''}`;
       const segs = [group, variant, weightSeg].filter(Boolean);
       out.push({
-        group, variant, weightRole, link, path: segs.join('.'), sizePx, sizeMinPx,
+        group, variant, weightRole, link, italic, path: segs.join('.'), sizePx, sizeMinPx,
         family: familyMap[group], lineHeight: lineHeightFor(group, sizePx),
         tracking: trackingFor(group, sizePx), textCase: group === 'eyebrow' ? 'uppercase' : 'none',
       });
     };
+    // italic × link are orthogonal: a role that ships both gets the full cross
+    // (bare / italic / link / italic-link). A role shipping neither gets just the bare weight.
+    const italicStates = italicGroups.has(group) ? [false, true] : [false];
+    const linkOn = linkGroups.has(group);
     for (const weightRole of weightsMap[group]) {
-      emit(weightRole, false);
-      if (linkGroups.has(group)) emit(weightRole, true);
+      for (const italic of italicStates) {
+        emit(weightRole, false, italic);
+        if (linkOn) emit(weightRole, true, italic);
+      }
     }
   };
   for (const group of Object.keys(TYPE_VARIANTS) as TypeGroup[]) {

@@ -302,12 +302,16 @@ const WEIGHT_STYLE_NAME_MONO: Record<number, string> = {
   600: 'Medium', // JetBrains Mono / most mono families lack Semi Bold → collapse
 };
 
-/** Style name for a given family role + numeric weight. `family` is a DTCG
- *  family-role name (`display`/`text`/`mono`), NOT the font face; mono maps via
- *  the mono-specific table because the mono family lacks certain weights. */
-export const fontStyleName = (familyRole: string, numericWeight: number): string => {
+/** Style name for a given family role + numeric weight (+ italic). `family` is a
+ *  DTCG family-role name (`display`/`text`/`mono`), NOT the font face; mono maps via
+ *  the mono-specific table because the mono family lacks certain weights. Italic
+ *  follows Figma's naming: Regular→`Italic` (not `Regular Italic`), otherwise
+ *  `<Weight> Italic` (e.g. `Bold Italic`, `Semi Bold Italic`). */
+export const fontStyleName = (familyRole: string, numericWeight: number, italic = false): string => {
   const table = familyRole === 'mono' ? WEIGHT_STYLE_NAME_MONO : WEIGHT_STYLE_NAME;
-  return table[numericWeight] ?? 'Regular';
+  const base = table[numericWeight] ?? 'Regular';
+  if (!italic) return base;
+  return base === 'Regular' ? 'Italic' : `${base} Italic`;
 };
 
 /** Turn a DTCG font-family stack into the "stack: A, B, C" description Figma sees
@@ -517,7 +521,8 @@ export const buildFigmaTextStyles = (theme: Theme): FigmaTextStylesFile => {
     const familyRole = familyRoleFromAlias(v.fontFamily);
     const weightRole = weightRoleFromAlias(v.fontWeight);
     const numeric = numericWeightForRole(font, weightRole);
-    const styleName = fontStyleName(familyRole, numeric);
+    const italic = !!ext.italic || v.fontStyle === 'italic';
+    const styleName = fontStyleName(familyRole, numeric, italic);
     const fluid: boolean = !!ext.responsive?.fluid;
     const sb = sizeBinding(path, v.fontSize, fluid);
     // Line-height: PERCENT = unitless × 100 (fix 3a). Unbound — Figma has no
@@ -531,15 +536,16 @@ export const buildFigmaTextStyles = (theme: Theme): FigmaTextStylesFile => {
     const lsEm: number = lsLeaf?.$extensions?.prism3?.em ?? 0;
     const textCase = v.textCase === 'uppercase' ? 'UPPER' : v.textCase === 'lowercase' ? 'LOWER' : 'ORIGINAL';
     const textDecoration = v.textDecoration === 'underline' ? 'UNDERLINE' : 'NONE';
-    const description = `${ext.group}${ext.variant ? ' ' + ext.variant : ''} ${weightRole}${ext.link ? ' link' : ''}`;
+    const description = `${ext.group}${ext.variant ? ' ' + ext.variant : ''} ${weightRole}${italic ? ' italic' : ''}${ext.link ? ' link' : ''}`;
 
     return {
       name: compositeToStyleName(path),
       description,
       properties: {
         fontFamily: { bound: true, variable: `font/family/${familyRole}`, collection: 'core-font', resolvedType: 'STRING' },
-        // fontStyle baked — derived from weight-role via the named-instance table.
-        // Mono families collapse Semi Bold → Medium (see fontStyleName).
+        // fontStyle baked — derived from weight-role (+ italic modifier) via the
+        // named-instance table (e.g. Bold, Bold Italic). Mono families collapse
+        // Semi Bold → Medium (see fontStyleName).
         fontStyle: { bound: false, value: styleName },
         fontSize: { bound: true, variable: sb.variable, collection: sb.collection, resolvedType: 'FLOAT' },
         fontWeight: { bound: true, variable: `font/weight-role/${weightRole}`, collection: 'core-font', resolvedType: 'FLOAT' },
