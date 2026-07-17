@@ -672,15 +672,21 @@ const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
     const scale = levers.find((l) => l.key === 'typography.typeScale');
     if (scale) { const p = el('div', 'panel'); p.append(renderControl(scale)); host.append(p); }
     host.append(renderTypographyEditor());
+  } else if (key === 'form') {
+    // Geometry + motion in the top panel; shadow.softness is pulled out so every shadow control
+    // (softness + tint) lives together under the Shadow group below.
+    const panel = el('div', 'panel');
+    for (const l of levers) if (l.key !== 'shadow.softness') panel.append(renderControl(l));
+    host.append(panel);
   } else if (levers.length) {
     const panel = el('div', 'panel');
     for (const l of levers) panel.append(renderControl(l));
     host.append(panel);
   }
   // #97 — bespoke editors for the object levers renderControl can only show read-only:
-  // page surfaces on the colour stage, shadow tint on the form stage.
+  // page surfaces on the colour stage; the Shadow group (softness + tint) on the form stage.
   if (key === 'semantic') host.append(renderSurfacesEditor());
-  if (key === 'form') host.append(renderShadowTintEditor());
+  if (key === 'form') host.append(renderShadowEditor(levers.find((l) => l.key === 'shadow.softness')));
   // Validation-colour editing (status hue + roleColors borrow) now lives INLINE on each status
   // ramp (primitives stage) via statusRampControl — no standalone semantic-stage section.
   // Live preview on every lever stage — the same sample components reflect the axis
@@ -838,16 +844,19 @@ const renderSurfacesEditor = (): HTMLElement => {
   return wrap;
 };
 
-/** #97 — shadow-tint editor. `shadow.tint = {hue, amount}` hue-shifts the shadow base off pure
- *  black (amount 0 = pure black; higher = a richer brand-hued near-black). Reads the resolved
- *  default (`theme.shadow.tint`) when the brand hasn't set one; the elevation specimen recolours live. */
-const renderShadowTintEditor = (): HTMLElement => {
+/** #97 + #114 tidy — the Shadow group. Gathers every shadow control under one heading: the
+ *  `shadow.softness` blur dial (a generic slider lever, passed in so it leaves the geometry panel)
+ *  and the `shadow.tint = {hue, amount}` object editor (hue-shifts the base off pure black; amount 0 =
+ *  pure black, higher = a richer brand-hued near-black). Reads the resolved default (`theme.shadow.tint`)
+ *  when the brand hasn't set one; the elevation specimen recolours live. */
+const renderShadowEditor = (softness?: Lever): HTMLElement => {
   const wrap = el('div', 'obj-editor');
-  wrap.append(subHead('Shadow tint'));
-  wrap.append(el('p', 'obj-lede', 'Hue-shift the shadow base off pure black. Amount 0 = pure black; higher = a richer, brand-hued near-black.'));
+  wrap.append(subHead('Shadow'));
+  wrap.append(el('p', 'obj-lede', 'Blur softness (crisp/product → soft/marketing) and a hue-shift of the shadow base off pure black. Tint amount 0 = pure black; higher = a richer, brand-hued near-black.'));
   const def = theme.shadow.tint;
   const cur = brandState.shadow?.tint;
   const panel = el('div', 'panel');
+  if (softness) panel.append(renderControl(softness));               // the blur dial, pulled out of the geometry panel
   const mk = (key: 'hue' | 'amount', label: string, min: number, max: number, step: number, unit: string): void => {
     const knob = el('div', 'knob');
     knob.append(el('label', 'knob-label', label));
