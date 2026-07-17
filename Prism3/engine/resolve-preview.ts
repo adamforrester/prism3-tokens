@@ -62,6 +62,15 @@ const strip = (p: string) => p.replace(/^color\./, '');
 export const resolvePreview = (theme: Theme, spec: PreviewSpec = previewSpec): ResolvedPreview => {
   const modes = resolveAllModes(theme);
   const hexOf = (rolePath: string, i: number): string | undefined => modes[i].roles[strip(rolePath)]?.hex;
+  // Renderable colour: for a TRANSLUCENT role (overlay washes) fold the alpha into an 8-digit
+  // hex so the preview composites the real wash over its surface; opaque roles pass through.
+  // Contracts keep using the opaque `hexOf` (they gate on the composited result separately).
+  const alphaByte = (a: number): string => Math.round(Math.max(0, Math.min(1, a)) * 255).toString(16).padStart(2, '0');
+  const colorAt = (rolePath: string, i: number): string | undefined => {
+    const role = modes[i].roles[strip(rolePath)];
+    if (!role?.hex) return undefined;
+    return role.alpha != null && role.alpha < 1 ? role.hex + alphaByte(role.alpha) : role.hex;
+  };
 
   // Every colour role the spec references (bindings + contract endpoints) → per-mode hex.
   const refs = new Set<string>();
@@ -72,7 +81,7 @@ export const resolvePreview = (theme: Theme, spec: PreviewSpec = previewSpec): R
   const colors: ResolvedPreview['colors'] = {};
   for (const ref of [...refs].sort()) {
     const byMode = {} as Partial<Record<ModeName, string>>;
-    modes.forEach((m, i) => { const h = hexOf(ref, i); if (h) byMode[m.mode] = h; });
+    modes.forEach((m, i) => { const h = colorAt(ref, i); if (h) byMode[m.mode] = h; });
     colors[ref] = byMode;
   }
 

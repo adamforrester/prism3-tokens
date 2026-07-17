@@ -50,12 +50,21 @@ export const previewSpec: PreviewSpec = {
       })),
     },
     {
-      id: 'button-secondary', label: 'Button (primary, outline)', description: 'The demoted action — interactive.primary outline: border + text ink, no fill (no brand.* leak).',
-      variants: [{
-        name: 'default',
-        bindings: { bg: 'color.background.primary', border: 'color.interactive.primary.border', text: 'color.interactive.primary.text', radius: 'radius.md', padX: 'space.300', padY: 'space.150', type: 'type.label.md.emphasis' },
-        contracts: [{ fg: 'color.interactive.primary.text', bg: 'color.background.primary', min: TEXT, label: 'label on page' }, { fg: 'color.interactive.primary.border', bg: 'color.background.primary', min: UI, label: 'border on page' }],
-      }],
+      id: 'button-secondary', label: 'Button (primary, outline)', description: 'The demoted action — interactive.primary outline: border + text ink, no fill (no brand.* leak). Rest → hover/pressed add the interactive overlay wash (outlineInteraction: overlay-neutral).',
+      variants: [
+        {
+          name: 'rest',
+          bindings: { bg: 'color.background.primary', border: 'color.interactive.primary.border', text: 'color.interactive.primary.text', radius: 'radius.md', padX: 'space.300', padY: 'space.150', type: 'type.label.md.emphasis' },
+          contracts: [{ fg: 'color.interactive.primary.text', bg: 'color.background.primary', min: TEXT, label: 'label on page' }, { fg: 'color.interactive.primary.border', bg: 'color.background.primary', min: UI, label: 'border on page' }],
+        },
+        // hover/pressed add the translucent overlay wash over the page. The wash's contrast is
+        // gated at the CORE on the composited result (docs/20 §10) — which the preview can't
+        // recompute from role hexes — so these states are VISUAL (no contract pair); the ink +
+        // border (which carry the contract) don't change from rest. Matches the Button def's
+        // `primary.outline.overlay.{hover,pressed}` slots (components/button.ts).
+        { name: 'hover', bindings: { bg: 'color.interactive.primary.overlay.hover', border: 'color.interactive.primary.border', text: 'color.interactive.primary.text', radius: 'radius.md', padX: 'space.300', padY: 'space.150', type: 'type.label.md.emphasis' } },
+        { name: 'pressed', bindings: { bg: 'color.interactive.primary.overlay.pressed', border: 'color.interactive.primary.border', text: 'color.interactive.primary.text', radius: 'radius.md', padX: 'space.300', padY: 'space.150', type: 'type.label.md.emphasis' } },
+      ],
     },
     {
       id: 'input', label: 'Text input', description: 'A form field on the field.* chrome — resting, hover (stronger border), focused (border.focus), and disabled (disabled.*).',
