@@ -29,8 +29,12 @@ export type MainToUi =
   /** Result of an `apply-theme` write: ok + a human summary (counts / any misses) for the UI. */
   | { type: 'apply-result'; ok: boolean; summary: string }
   /** Boot read-back (#109): whether an existing Prism3 theme in the file passes the contract, plus a
-   *  human summary. Informational — knob-rehydration from it is a follow-up (needs persisted input). */
-  | { type: 'seed-info'; ok: boolean; summary: string };
+   *  human summary. Informational — the actual knob-rehydration is `restore-input` below. */
+  | { type: 'seed-info'; ok: boolean; summary: string }
+  /** Boot knob-rehydration (#131): the `BrandInput` persisted by the last apply, read back from the
+   *  file's shared-data. The UI loads it wholesale so it opens on the persisted brand, not defaults.
+   *  Sent only when a trusted blob exists (absence / drift → not sent → UI keeps defaults). */
+  | { type: 'restore-input'; input: BrandInput };
 
 /** Narrow a discriminated union by its `type` tag — the payload a handler actually receives. */
 export type OfType<U extends { type: string }, T extends U['type']> = Extract<U, { type: T }>;

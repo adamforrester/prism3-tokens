@@ -62,6 +62,7 @@ manifest fields via Context7 / the Figma MCP skill when the build starts.
 | 3 ✅ | #108 | **Done.** Main-thread write adapter — pure `WritePlan` (`buildWritePlan`) → live `figma.variables`, idempotent; colour axis (`core-palette` + `color`) |
 | 4 ✅ | #109 | **Done.** Read-back — `readFigmaVariables` → host-neutral `ReadbackSnapshot` + pure `verifyReadback` (contract check); seeds theming an existing file at #110 |
 | 5 ✅ | #110 | **Done.** One build, two outputs — the shared `web/src` UI bundles into the plugin iframe (host selected at build time via `PRISM3_HOST`); live knobs → #108 write, boot read-back → #109 seed panel. The no-fork thesis, proven. |
+| 6 ✅ | #131 | **Done.** Knob round-trip — persist the live `BrandInput` in `figma.root` shared-data on every apply; rehydrate the UI from it on boot (pure `persist-input.ts` version guard + `plugin/src/persist-figma.ts` port + `restore-input` bridge msg). Closes #110's informational-only seed. |
 
 Related lanes filed alongside: web functional-foundation + editor work (#96–#104), the engine
 type-model expansion (#105), and the components-as-data → Figma spike (#111).

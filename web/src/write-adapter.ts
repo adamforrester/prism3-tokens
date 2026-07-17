@@ -100,8 +100,16 @@ export interface HostCommit {
    *  reusing #108 verbatim. Typed loosely (`unknown`) here to avoid a web→engine type import in
    *  the DOM layer; the plugin bridge + main thread carry the real `BrandInput` type. */
   postTheme(input: unknown): void;
-  /** Register a callback for host→UI notifications (the #109 read-back seed summary). */
-  onHostMessage(cb: (msg: { kind: 'seed-info'; ok: boolean; summary: string }) => void): void;
+  /** Register a callback for host→UI notifications: the #109 read-back seed summary, and the #131
+   *  knob-rehydration (the persisted `BrandInput`, typed `unknown` here to keep this DOM layer free
+   *  of the engine type import — the UI casts it to `BrandInput`). */
+  onHostMessage(
+    cb: (
+      msg:
+        | { kind: 'seed-info'; ok: boolean; summary: string }
+        | { kind: 'restore-input'; input: unknown },
+    ) => void,
+  ): void;
 }
 
 /** The wire shape the iframe posts to the main thread. Kept in sync with the plugin's
@@ -117,9 +125,14 @@ const figmaCommit = (): HostCommit => ({
   },
   onHostMessage(cb) {
     window.addEventListener('message', (e: MessageEvent) => {
-      const m = (e.data && e.data.pluginMessage) as { type?: string; ok?: boolean; summary?: string } | undefined;
-      if (m && (m.type === 'seed-info' || m.type === 'apply-result')) {
+      const m = (e.data && e.data.pluginMessage) as
+        | { type?: string; ok?: boolean; summary?: string; input?: unknown }
+        | undefined;
+      if (!m) return;
+      if (m.type === 'seed-info' || m.type === 'apply-result') {
         cb({ kind: 'seed-info', ok: !!m.ok, summary: String(m.summary ?? '') });
+      } else if (m.type === 'restore-input' && m.input) {
+        cb({ kind: 'restore-input', input: m.input });
       }
     });
     // Listener attached — signal the main thread it can post (and run the boot read-back, #109).
