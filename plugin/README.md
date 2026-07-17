@@ -49,8 +49,21 @@ each handler's `switch` exhaustive, so a new message type can't be silently drop
   builtins** thanks to the node-free `engine/emit-figma-color.ts`. A UI button fires `apply-theme`.
 - ✅ **Tested** without a live Figma: `test-write.ts` drives the executor against an in-memory
   `figma.variables` shim (twice — idempotency), asserting the materialisation contract. `npm test`.
-- ⏭ **Next:** read-back to seed an existing file (#109); bundling the shared `web/src` UI into the
-  iframe in place of the placeholder (#110). The bridge (`messages.ts` / `bridge-*.ts`) survives that swap.
+
+## Scope (#109 — the read adapter)
+
+- ✅ **`src/read-figma.ts` — `readFigmaVariables(figma.variables)`**: the inverse of `applyWritePlan`.
+  Reads `core-palette` + `color` back into the engine's host-neutral `ReadbackSnapshot`
+  (`../Prism3/engine/read-back.ts`), resolving each alias to its target variable NAME. Uses the same
+  async getters, and shares the `VariablesApi` port with the write executor.
+- ✅ **`verifyReadback(snapshot)`** (pure, engine) — ports the `materialise-to-figma` verify contract:
+  modes distinct (collapse-guard), aliases resolve, slot scopes, field family present, retired/renamed
+  roles absent, bare `foreground/danger` present, primitives hidden. A live health-check for a themed file.
+- ✅ **Bridge + trigger** — `read-theme` / `read-result`; a "Read current file" button. The snapshot
+  stays main-side until #110 hands it up to **seed the shared UI** from an existing themed file.
+- ✅ **Tested**: `test-readback.ts` drives write→read→verify on the shim (`npm test` runs both harnesses).
+- ⏭ **Next:** bundling the shared `web/src` UI into the iframe in place of the placeholder (#110) —
+  where the read-back snapshot seeds the UI. The bridge (`messages.ts` / `bridge-*.ts`) survives that swap.
 
 ## Run
 

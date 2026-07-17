@@ -3,12 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "Prism3 Figma plugin (docs/18, docs/22). Two contexts: a main-thread controller that writes figma.variables, and the shared web UI in the iframe. #107 is the scaffold (manifest + two-context split + typed postMessage bridge); #108 is the main-thread write adapter (WritePlan → live figma.variables); the shared-UI bundle (#110) lands later.",
+  "description": "Prism3 Figma plugin (docs/18, docs/22). Two contexts: a main-thread controller that writes/reads figma.variables, and the shared web UI in the iframe. #107 scaffold (manifest + two-context split + typed bridge); #108 write adapter (WritePlan → live figma.variables); #109 read adapter (readFigmaVariables → ReadbackSnapshot + verifyReadback); the shared-UI bundle (#110) lands later.",
   "scripts": {
     "build": "node build.mjs",
     "watch": "node build.mjs --watch",
     "typecheck": "tsc --noEmit -p tsconfig.main.json && tsc --noEmit -p tsconfig.ui.json",
-    "test": "npx tsx test-write.ts"
+    "test": "npx tsx test-write.ts && npx tsx test-readback.ts"
   },
   "devDependencies": {
     "@figma/plugin-typings": "^1.131.0",

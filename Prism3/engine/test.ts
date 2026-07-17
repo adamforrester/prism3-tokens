@@ -33,6 +33,7 @@ import { scoreConsumption, scoreContractCompliance, tokenPaths, normalizeRef, is
 import { runEval, buildPrompt, extractRefs, extractPairs, SAMPLE_TASKS } from './eval-run';
 import { aliasRows } from './materialise-to-figma';
 import { buildWritePlan } from './write-plan';
+import { verifyReadback, ReadbackSnapshot } from './read-back';
 import { validateComponentDef, ComponentDef } from './component-schema';
 import { button } from './components/button';
 import { iconButton } from './components/icon-button';
@@ -355,6 +356,45 @@ for (const b of brands) {
   ok(aliases.some((r) => new Set(r.targetsByMode).size > 1), 'write-plan: alias rows carry distinct per-mode targets (collapse-proof at the plan level)');
   const bgp = aliases.find((r) => r.name === 'color/background/primary');
   ok(!!bgp && new Set(bgp!.targetsByMode).size > 1, 'write-plan: background/primary binds a different palette step per mode (plan-level collapse-guard probe)');
+}
+
+// READ-BACK verify (#109) — the read leg's contract, pure. Build a ReadbackSnapshot that mirrors a
+// faithful read of a freshly-written NB file (straight off the WritePlan) and assert verifyReadback
+// passes every check; then a NEGATIVE test — collapse background/primary to one target per mode —
+// must fail modesDistinct (the collapse guard the live verify pass has always caught).
+{
+  const plan = buildWritePlan(buildFigmaColor(nbTheme()));
+  // Snapshot = what a read yields right after applyWritePlan: palette primitives + colour roles whose
+  // per-mode value is the alias target NAME from the plan.
+  const snapFrom = (aliasRowsIn: typeof plan.color.aliases): ReadbackSnapshot => ({
+    collections: [
+      { name: 'core-palette', modes: ['Default'] },
+      { name: 'color', modes: plan.color.modes },
+    ],
+    palette: plan.palette.map((p) => ({ name: p.name, scopes: p.scopes, hidden: p.hidden })),
+    color: plan.color.create.map((c, i) => ({
+      name: c.name,
+      scopes: c.scopes,
+      valuesByMode: Object.fromEntries(
+        plan.color.modes.map((m, mi) => [m, { alias: aliasRowsIn[i].targetsByMode[mi] }]),
+      ),
+    })),
+  });
+
+  const good = verifyReadback(snapFrom(plan.color.aliases));
+  ok(good.ok, 'read-back: a faithful NB read passes every contract check' + (good.ok ? '' : ` — ${Object.entries(good.checks).filter(([, v]) => !v).map(([k]) => k).join(',')}`));
+  ok(good.checks.modesDistinct, 'read-back: background/primary distinct per mode (collapse-guard holds)');
+  ok(good.checks.aliasesResolve && good.details.danglingAliases.length === 0, 'read-back: every alias target resolves (0 dangling)');
+  ok(good.checks.slotScopes && good.checks.fieldFamilyPresent, 'read-back: slot scopes + field family match the contract');
+  ok(good.checks.retiredRolesAbsent && good.checks.renamedRolesAbsent && good.checks.bareDangerPresent, 'read-back: retired/renamed roles absent, bare foreground/danger present');
+  ok(good.checks.primitivesHidden, 'read-back: core-palette primitives hidden from publishing');
+
+  // NEGATIVE: collapse every mode of background/primary to a single target → modesDistinct must fail.
+  const collapsed = plan.color.aliases.map((r) =>
+    r.name === 'color/background/primary' ? { ...r, targetsByMode: r.targetsByMode.map(() => r.targetsByMode[0]) } : r,
+  );
+  const bad = verifyReadback(snapFrom(collapsed));
+  ok(!bad.checks.modesDistinct && !bad.ok, 'read-back: collapsed background/primary FAILS modesDistinct (negative — the collapse guard bites)');
 }
 
 // INVERSE + neutralEmphasis + accentPalette (docs/20 §9/§10/§3, increment 4).

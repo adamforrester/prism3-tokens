@@ -22,7 +22,10 @@ export type UiToMain =
   /** Materialise the theme into `figma.variables` (#108). Bare trigger — the main thread owns
    *  the theme (bundled `nbTheme()` today); #110 makes the theme live from the shared UI's knobs
    *  without reshaping this message. */
-  | { type: 'apply-theme' };
+  | { type: 'apply-theme' }
+  /** Read the current file's variables back + verify the materialisation contract (#109). Bare
+   *  trigger; the full snapshot stays main-side until #110 needs to hand it up to seed the UI. */
+  | { type: 'read-theme' };
 
 /** Messages the main thread sends TO the UI iframe. */
 export type MainToUi =
@@ -31,7 +34,9 @@ export type MainToUi =
   /** Reply to `ping`, echoing the nonce so the UI can match request↔response. */
   | { type: 'main-pong'; nonce: number }
   /** Result of an `apply-theme` write: ok + a human summary (counts / any misses) for the UI. */
-  | { type: 'apply-result'; ok: boolean; summary: string };
+  | { type: 'apply-result'; ok: boolean; summary: string }
+  /** Result of a `read-theme` read-back + verify: ok (contract holds) + a human summary. */
+  | { type: 'read-result'; ok: boolean; summary: string };
 
 /** Narrow a discriminated union by its `type` tag — the payload a handler actually receives. */
 export type OfType<U extends { type: string }, T extends U['type']> = Extract<U, { type: T }>;

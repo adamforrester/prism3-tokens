@@ -12,5 +12,5 @@
     "types": ["plugin-typings"],
     "lib": ["ES2020"]
   },
-  "include": ["src/main.ts", "src/bridge-main.ts", "src/messages.ts", "src/write-figma.ts", "src/figma-env.d.ts"]
+  "include": ["src/main.ts", "src/bridge-main.ts", "src/messages.ts", "src/write-figma.ts", "src/read-figma.ts", "src/figma-env.d.ts"]
 }
