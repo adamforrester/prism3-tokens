@@ -7,9 +7,49 @@
 
 ---
 
-## Latest (2026-07-17) — shadow/gradient: plugin write scope reaches Figma Styles
+## Latest (2026-07-17) — web UI reaches feature-complete: refinement pass, first-run, typography B, icons
 
-**STATUS: in review (branch `feat/shadow-gradient-styles`).** The #146 follow-up, and the last write
+**STATUS: MERGED** (#142, #145, #147, #149, #150, #152, #153). The web dashboard is now demo-ready and
+feature-complete bar deploy — every lever is editable AND has a live preview, a real first-run experience,
+and the typography editor is done. All in shared `web/src`, so the plugin iframe inherits it post-#110.
+
+- **UI refinement pass (polish + light restructure).** #142 collapsed the full all-modes contrast table
+  (which repeated on every stage) into a closed disclosure — the per-component badges stay as the
+  point-of-edit check, and each lower stage dropped ~25%. #145 added an **animated motion specimen** on the
+  Form stage (the semantic transitions fill at their resolved duration + easing; plays on tempo change,
+  Replay button, `prefers-reduced-motion` honoured) — resolving the motion half of #114 (a static preview
+  couldn't show the tempo lever's effect). #147 grouped shadow softness + tint under one **Shadow** heading.
+- **First-run / default-state (#149 + #150).** The silent-demo boot was the bug hiding inside "what's the
+  default state?". #149 added **localStorage persistence** — a thin `web/src/persist-local.ts` port over the
+  pure `persist-input.ts` core (#131), so web remembers the working brand across reloads (plugin still uses
+  Figma shared-data; the path is web-gated via `PRISM3_HOST`). #150 added the **start screen**: on a true
+  first run (nothing persisted) the app shows a start moment — start from your colour (one primary bootstraps
+  a full theme via `seedFromColor`), a neutral default, or explore an example — instead of the demo. Examples
+  reframed as examples; "+ New brand" re-invokes it (web only). Plugin fresh-file start moment deferred.
+- **#99 closed — icon specimen (#152).** The final #99 axis: a Kind-B icon specimen (on surface + reversed on
+  fill, dependency-free inline SVG) so the `iconContrast` floor lever has a live payoff. All 7 per-axis
+  specimens now shipped.
+- **#103 closed — typography editor complete.** Phase A (#137/#139: font pool + weight-role map + per-category
+  table) + **Phase B (#153): advisory weight availability** — a curated `KNOWN_WEIGHTS` map mutes/flags (⚠)
+  weight roles a category's family likely doesn't ship, refreshed live on font/weight/family edits. Advisory
+  per the #113 model (never a hard gate; unknown fonts never false-flagged).
+
+**Gates across the arc: web tsc + build clean each PR; plugin both-context build clean where shared `web/src`
+changed (0 `node:` builtins, web-only paths runtime-inert in the plugin); no engine/token/`out` change on any
+(all reuse the read-model / pure persist core). Each verified live headless (Playwright).**
+
+**Open (web):** a direct **interactive-colour** affordance — action colour is a `palette-ref` (`actionPalette`
+→ primary or a named brand colour), so a bespoke action hue today needs the two-step add-brand-colour →
+repoint; a picker that creates/updates a brand colour under the hood would close the gap without breaking the
+named-palette model (owner deciding). Also: the "set your brand colour" provenance nudge for untitled brands;
+#104 static-site deploy (owner not ready). **Cross-lane:** plugin fresh-file start moment; the
+`brand-skills` extraction → `BrandInput` as a fourth start path; #111 components-as-data.
+
+---
+
+## (2026-07-17) — shadow/gradient: plugin write scope reaches Figma Styles
+
+**STATUS: MERGED (#151).** The #146 follow-up, and the last write
 axis before typography. Shadow + gradient are Figma **Styles** (Effect + Paint), not variables — a
 different API (`createEffectStyle`/`createPaintStyle`) — which is why they were carved out of #146.
 This lane adds them, so an apply now writes colour + FLOAT vars + shadow/gradient styles. Only
