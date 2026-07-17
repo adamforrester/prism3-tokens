@@ -25,8 +25,11 @@ import { brandTheme } from '../../Prism3/engine/theme';
 import type { BrandInput } from '../../Prism3/engine/theme';
 
 // Show the UI iframe. `__html__` is the bundled shared-UI HTML Figma injects from `manifest.ui`
-// (the inlined `web/src` app; declared for the sandbox global in `figma-env.d.ts`).
-figma.showUI(__html__, { width: 480, height: 720, themeColors: true });
+// (the inlined `web/src` app; declared for the sandbox global in `figma-env.d.ts`). The shared
+// `web/src` UI is laid out desktop-first (wide hero, 40px gutters), so a narrow plugin window
+// clips it horizontally; 640×800 gives that content room. A proper narrow-viewport responsive
+// pass on the shared UI (+ a resizable window) is tracked separately — this is the quick win.
+figma.showUI(__html__, { width: 640, height: 800, themeColors: true });
 
 /**
  * Materialise a brand into `figma.variables` (#108) — the theme now comes LIVE from the shared UI's
