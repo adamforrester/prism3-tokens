@@ -1154,6 +1154,15 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   ok(rampSteps.length >= 5, `resolved preview: full shadow ramp resolved for the specimen (${rampSteps.join('/')})`);
   const blurOf = (s: string) => Math.max(...(rp.shadows[`shadow.${s}`].light!.match(/(\d+)px/g) ?? ['0px']).map((x) => parseInt(x)));
   ok(blurOf('2xl') > blurOf('xs'), `resolved preview: elevation grows across the ramp (xs blur ${blurOf('xs')} < 2xl blur ${blurOf('2xl')})`);
+
+  // Translucent roles (#99 2a): overlay washes carry their alpha, and the preview folds it into
+  // an 8-digit hex so the outline hover/pressed wash renders as a real composite (not opaque).
+  const overlayRole = resolveAllModes(brandTheme(pinput))[0].roles['interactive.primary.overlay.hover'];
+  ok(overlayRole?.alpha === 0.1, `resolved role: overlay.hover carries alpha 0.1 (got ${overlayRole?.alpha})`);
+  const hoverCss = rp.colors['color.interactive.primary.overlay.hover']?.light;
+  ok(!!hoverCss && /^#[0-9a-f]{8}$/i.test(hoverCss), `resolved preview: overlay wash is an 8-digit (alpha) hex (got ${hoverCss})`);
+  const pressedCss = rp.colors['color.interactive.primary.overlay.pressed']?.light;
+  ok(!!pressedCss && pressedCss !== hoverCss, 'resolved preview: pressed wash differs from hover (20% vs 10%)');
 }
 // (10) EXAMPLE-BRANDS ARTIFACT (docs/09) — the browser hosts boot from
 // schema/example-brands.json (the design.md parser is node-only). Gate that the

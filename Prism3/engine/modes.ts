@@ -85,7 +85,7 @@ export type ModeCfg = {
 
 // `ratio` is the RAW WCAG contrast (un-rounded) — compare it directly against `min`; round
 // only when serialising (CR-01). `min` of 0 means "not a contrast-gated role" (surfaces).
-export type ResolvedRole = { path: string; description: string; ratio: number; against: string; min: number; hex: string };
+export type ResolvedRole = { path: string; description: string; ratio: number; against: string; min: number; hex: string; alpha?: number };
 export type ModeResult = { mode: ModeName; surface: RGB; roles: Record<string, ResolvedRole> };
 
 const cand = (path: string, rgb: RGB): Cand => ({ path, rgb });
@@ -412,6 +412,10 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
           { path: `${ns}.${overlayPal}.${step}`, rgb: overlayBase, ratio },
           `${color} interactive overlay — ${st} (${step}% neutral wash; composites over any surface)`,
           'text.primary', cfg.secondaryMin);
+        // The wash is TRANSLUCENT (`step`% over the base) — record the alpha so consumers can
+        // render the real composite. `hex` stays the opaque base (contrast gates on the composited
+        // result separately); a renderer uses hex+alpha.
+        roles[`interactive.${color}.overlay.${st}`].alpha = step / 100;
       }
     }
   }
