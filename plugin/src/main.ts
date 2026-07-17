@@ -15,10 +15,10 @@
 import { onUiMessage, postToUi } from './bridge-main';
 import { assertNever } from './messages';
 import type { UiToMain } from './messages';
-import { applyWritePlan } from './write-figma';
+import { applyWritePlan, applyFloatPlan } from './write-figma';
 import { readFigmaVariables } from './read-figma';
 import { buildFigmaColor } from '../../Prism3/engine/emit-figma-color';
-import { buildWritePlan } from '../../Prism3/engine/write-plan';
+import { buildWritePlan, buildFloatWritePlan } from '../../Prism3/engine/write-plan';
 import { verifyReadback } from '../../Prism3/engine/read-back';
 import { persistInput, restoreInput } from './persist-figma';
 import { brandTheme } from '../../Prism3/engine/theme';
@@ -38,15 +38,21 @@ figma.showUI(__html__, { width: 1280, height: 900, themeColors: true });
  */
 const applyTheme = async (input: BrandInput): Promise<void> => {
   try {
-    const plan = buildWritePlan(buildFigmaColor(brandTheme(input)));
-    const r = await applyWritePlan(plan, figma.variables);
+    const theme = brandTheme(input);
+    // Colour axis (#108): core-palette + color, per-mode alias-bound.
+    const r = await applyWritePlan(buildWritePlan(buildFigmaColor(theme)), figma.variables);
+    // FLOAT axes (#146): core-dimension/space/radius/size/border-width/focus/opacity + layout.
+    const f = await applyFloatPlan(buildFloatWritePlan(theme), figma.variables);
     // Persist the exact knobs alongside the variables (#131) — so re-opening this file rehydrates
     // the UI to THIS brand, not the default. Only after a real materialisation (inside the try).
     persistInput(figma.root, input);
+    const floatCreated = f.collections.reduce((n, c) => n + c.created, 0);
+    const misses = r.misses.length + f.misses.length;
     const summary =
       `palette ${r.paletteTotal} (+${r.paletteCreated}), color ${r.colorTotal} (+${r.colorCreated}), ` +
-      `${r.bound} aliases bound` + (r.misses.length ? `, ${r.misses.length} misses` : '');
-    postToUi({ type: 'apply-result', ok: r.misses.length === 0, summary });
+      `dims/layout ${f.collections.length} collections (+${floatCreated}), ` +
+      `${r.bound + f.bound} aliases bound` + (misses ? `, ${misses} misses` : '');
+    postToUi({ type: 'apply-result', ok: misses === 0, summary });
   } catch (e) {
     postToUi({ type: 'apply-result', ok: false, summary: `write failed: ${(e as Error).message}` });
   }

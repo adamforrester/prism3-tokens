@@ -31,7 +31,11 @@ const isRgb = (v: ReadVarValue): v is { r: number; g: number; b: number; a?: num
  */
 export const readFigmaVariables = async (vars: VariablesApi): Promise<ReadbackSnapshot> => {
   const collections = await vars.getLocalVariableCollectionsAsync();
-  const allVars = await vars.getLocalVariablesAsync('COLOR');
+  // ALL local variables (no type filter): `getLocalVariablesAsync('COLOR')` returns ONLY COLOR vars,
+  // which would make the FLOAT axes (#146) read back EMPTY. We index by collection below, so the
+  // unfiltered fetch serves both the colour collections and the FLOAT ones. `nameById` (alias-target
+  // resolution) also needs FLOAT names now that FLOAT vars alias each other (space→dimension, etc.).
+  const allVars = await vars.getLocalVariablesAsync();
   const nameById = new Map(allVars.map((v) => [v.id, v.name] as const));
 
   const palCol = collections.find((c) => c.name === 'core-palette');
@@ -61,9 +65,34 @@ export const readFigmaVariables = async (vars: VariablesApi): Promise<ReadbackSn
         })
     : [];
 
+  // FLOAT axes (#146) — the geometric/dimensional collections. Read each present collection into the
+  // same per-mode shape as colour (alias → target NAME, literal → the numeric value as an Rgba-less
+  // ReadValue). Keyed by collection name so `verifyFloatReadback` can check presence + resolution.
+  const FLOAT_COLLECTIONS = ['core-dimension', 'space', 'radius', 'size', 'border-width', 'focus', 'opacity', 'layout'];
+  const float: NonNullable<ReadbackSnapshot['float']> = {};
+  for (const name of FLOAT_COLLECTIONS) {
+    const coll = collections.find((c) => c.name === name);
+    if (!coll) continue;
+    const modeNameF = new Map(coll.modes.map((m) => [m.modeId, m.name] as const));
+    float[name] = allVars
+      .filter((v) => v.variableCollectionId === coll.id)
+      .map((v) => {
+        const valuesByMode: Record<string, ReadValue> = {};
+        for (const [modeId, mName] of modeNameF) {
+          const raw = v.valuesByMode[modeId];
+          if (raw === undefined) continue;
+          if (isAlias(raw)) valuesByMode[mName] = { alias: nameById.get(raw.id) ?? null };
+          else if (typeof raw === 'number') valuesByMode[mName] = raw;
+          // a FLOAT var can't hold RGB/string/boolean — skip defensively
+        }
+        return { name: v.name, scopes: v.scopes, hidden: v.hiddenFromPublishing, valuesByMode };
+      });
+  }
+
   return {
     collections: collections.map((c) => ({ name: c.name, modes: c.modes.map((m) => m.name) })),
     palette,
     color,
+    ...(Object.keys(float).length ? { float } : {}),
   };
 };

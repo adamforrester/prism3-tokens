@@ -38,7 +38,7 @@ class ShimVar {
   description = '';
   hiddenFromPublishing = false;
   valuesByMode: Record<string, Val> = {};
-  constructor(public id: string, public name: string, public variableCollectionId: string) {}
+  constructor(public id: string, public name: string, public variableCollectionId: string, public resolvedType: 'COLOR' | 'FLOAT' = 'COLOR') {}
   setValueForMode(modeId: string, value: Val): void { this.valuesByMode[modeId] = value; }
 }
 class ShimCollection {
@@ -59,12 +59,14 @@ class VariablesShim {
   private cseq = 0;
   private vseq = 0;
   async getLocalVariableCollectionsAsync(): Promise<ShimCollection[]> { return this.collections; }
-  async getLocalVariablesAsync(_type?: string): Promise<ShimVar[]> { return this.vars; }
+  // Honor the type filter like the real API (`getLocalVariablesAsync('COLOR')` returns ONLY COLOR
+  // vars) — so a wrong-filter regression can't hide behind an all-returning shim (#146 review).
+  async getLocalVariablesAsync(type?: string): Promise<ShimVar[]> { return type ? this.vars.filter((v) => v.resolvedType === type) : this.vars; }
   createVariableCollection(name: string): ShimCollection {
     const c = new ShimCollection(`c${++this.cseq}`, name); this.collections.push(c); return c;
   }
-  createVariable(name: string, collection: ShimCollection, _t: 'COLOR'): ShimVar {
-    const v = new ShimVar(`v${++this.vseq}`, name, collection.id); this.vars.push(v); return v;
+  createVariable(name: string, collection: ShimCollection, t: 'COLOR' | 'FLOAT' = 'COLOR'): ShimVar {
+    const v = new ShimVar(`v${++this.vseq}`, name, collection.id, t); this.vars.push(v); return v;
   }
   createVariableAlias(target: ShimVar): { type: 'VARIABLE_ALIAS'; id: string } {
     return { type: 'VARIABLE_ALIAS', id: target.id };

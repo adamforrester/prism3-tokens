@@ -23,7 +23,9 @@
  * the plugin main thread (which has no filesystem); the disk-read lives in the CLI shell that
  * calls this.
  */
-import type { FigmaCollectionFile, FigmaColor } from './emit-figma-color';
+import type { FigmaCollectionFile, FigmaColor, FigmaVar } from './emit-figma-color';
+import type { Theme } from './theme';
+import { buildFigmaDims, buildFigmaLayout } from './emit-figma-dims';
 
 /** A colour value as Figma's variable API wants it (RGBA floats 0–1). */
 export type Rgba = { r: number; g: number; b: number; a: number };
@@ -106,4 +108,88 @@ export const buildWritePlan = (
   }));
 
   return { palette: paletteRows, color: { modes, create, aliases } };
+};
+
+// ---------------------------------------------------------------------------
+// FLOAT-VARIABLE AXES (#146) — the geometric/dimensional layer beyond colour.
+// The engine already builds these as FLOAT `FigmaCollectionFile`s (`buildFigmaDims` +
+// `buildFigmaLayout`, both node-free in `emit-figma-dims`); this reshapes them into the SAME
+// host-neutral pass shape as the colour plan — create-all-then-alias, one target per mode — so
+// the plugin executor (`applyFloatPlan`) can reuse the two-pass structure of `applyWritePlan`.
+//
+// Each axis is ONE `FloatCollectionPlan`: `core-dimension`/`space`/`size`/`border-width`/`focus`/
+// `opacity` are single-mode (`Default`); `radius` is 1 or 2 modes (`Default` [+ `wireframe`]); and
+// `layout` carries one mode per breakpoint the brand ships. Cross-collection aliases (space→
+// dimension, size→dimension/space, radius→dimension, layout grid→space) bind by NAME across ALL
+// float collections — the executor resolves them against one global name map, exactly like the
+// colour aliases resolve palette targets.
+// ---------------------------------------------------------------------------
+
+/** One FLOAT variable's literal per-mode values (numbers), in `modes` order — pass A. `hidden`
+ *  carries `hiddenFromPublishing` (only the `core-dimension` primitives set it). */
+export type FloatCreateRow = {
+  name: string;
+  scopes: string[];
+  description: string;
+  hidden: boolean;
+  valuesByMode: number[];
+};
+
+/** One FLOAT variable's alias targets — one target var-name per mode, in `modes` order (pass B;
+ *  `null` = literal-only for that mode). Same collapse-safe per-mode shape as the colour plan. */
+export type FloatAliasRow = {
+  name: string;
+  targetsByMode: (string | null)[];
+};
+
+/** One FLOAT collection's materialisation plan (a `core-dimension`/`space`/…/`layout` collection). */
+export type FloatCollectionPlan = {
+  name: string;
+  modes: string[];
+  create: FloatCreateRow[];
+  aliases: FloatAliasRow[];
+};
+
+// FLOAT values are integers/px (or 0–100 opacity); round like the colour plan for byte-stability
+// (identity here, but keeps the two plans symmetrical).
+const roundFloat = (n: number): number => Math.round(n * 1e5) / 1e5;
+
+/** Reshape one axis's per-mode `FigmaCollectionFile[]` (all sharing one variable order) into a
+ *  `FloatCollectionPlan`. Mirrors the colour reshape: walk the first mode's vars, read each mode's
+ *  value/alias at the same index. A single-mode axis is just a one-element array. */
+const floatPlanFor = (name: string, files: FigmaCollectionFile[]): FloatCollectionPlan => {
+  const modes = files.map((f) => f.$mode);
+  const base = files[0]?.variables ?? [];
+  const create: FloatCreateRow[] = base.map((v, i) => ({
+    name: v.name,
+    scopes: v.scopes,
+    description: v.description,
+    hidden: !!v.hiddenFromPublishing,
+    valuesByMode: files.map((f) => roundFloat(f.variables[i].value as number)),
+  }));
+  const aliases: FloatAliasRow[] = base.map((v, i) => ({
+    name: v.name,
+    targetsByMode: files.map((f) => (f.variables[i] as FigmaVar).alias?.name ?? null),
+  }));
+  return { name, modes, create, aliases };
+};
+
+/**
+ * The full FLOAT materialisation plan — one `FloatCollectionPlan` per axis, host-neutral and ready
+ * for the plugin executor. PURE: calls the node-free `buildFigmaDims`/`buildFigmaLayout` and reshapes
+ * — no I/O, so it bundles into the plugin main thread alongside `buildWritePlan`.
+ */
+export const buildFloatWritePlan = (theme: Theme): FloatCollectionPlan[] => {
+  const dims = buildFigmaDims(theme);
+  const layout = buildFigmaLayout(theme); // one FigmaCollectionFile per breakpoint mode
+  return [
+    floatPlanFor('core-dimension', [dims.dimension]),
+    floatPlanFor('space', [dims.space]),
+    floatPlanFor('radius', dims.radius), // 1 or 2 modes (Default [+ wireframe])
+    floatPlanFor('size', [dims.size]),
+    floatPlanFor('border-width', [dims.borderWidth]),
+    floatPlanFor('focus', [dims.focus]),
+    floatPlanFor('opacity', [dims.opacity]),
+    floatPlanFor('layout', layout),
+  ];
 };

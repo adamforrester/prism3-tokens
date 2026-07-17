@@ -12,9 +12,10 @@
  */
 import { buildFigmaColor } from '../Prism3/engine/emit-figma-color';
 import { buildWritePlan } from '../Prism3/engine/write-plan';
-import { verifyReadback } from '../Prism3/engine/read-back';
+import { verifyReadback, verifyFloatReadback } from '../Prism3/engine/read-back';
+import { buildFloatWritePlan } from '../Prism3/engine/write-plan';
 import { nbThemeFrom } from '../Prism3/engine/theme';
-import { applyWritePlan } from './src/write-figma';
+import { applyWritePlan, applyFloatPlan } from './src/write-figma';
 import { readFigmaVariables } from './src/read-figma';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -29,14 +30,14 @@ const ok = (cond: boolean, label: string): void => {
   else { failed++; console.error(`  ✗ ${label}`); }
 };
 
-// ---- the in-memory figma.variables shim (same shape as test-write.ts) ----------------------
-type Val = { r: number; g: number; b: number; a: number } | { type: 'VARIABLE_ALIAS'; id: string };
+// ---- the in-memory figma.variables shim (same shape as test-write.ts; FLOAT-capable for #146) ----
+type Val = { r: number; g: number; b: number; a: number } | { type: 'VARIABLE_ALIAS'; id: string } | number;
 class ShimVar {
   scopes: string[] = [];
   description = '';
   hiddenFromPublishing = false;
   valuesByMode: Record<string, Val> = {};
-  constructor(public id: string, public name: string, public variableCollectionId: string) {}
+  constructor(public id: string, public name: string, public variableCollectionId: string, public resolvedType: 'COLOR' | 'FLOAT' = 'COLOR') {}
   setValueForMode(modeId: string, value: Val): void { this.valuesByMode[modeId] = value; }
 }
 class ShimCollection {
@@ -52,9 +53,11 @@ class VariablesShim {
   private cseq = 0;
   private vseq = 0;
   async getLocalVariableCollectionsAsync(): Promise<ShimCollection[]> { return this.collections; }
-  async getLocalVariablesAsync(_type?: string): Promise<ShimVar[]> { return this.vars; }
+  // Honor the type filter like the real API — so the FLOAT round-trip can't be masked by an
+  // all-returning shim (#146 review): a COLOR-filtered fetch must NOT surface FLOAT vars.
+  async getLocalVariablesAsync(type?: string): Promise<ShimVar[]> { return type ? this.vars.filter((v) => v.resolvedType === type) : this.vars; }
   createVariableCollection(name: string): ShimCollection { const c = new ShimCollection(`c${++this.cseq}`, name); this.collections.push(c); return c; }
-  createVariable(name: string, collection: ShimCollection, _t: 'COLOR'): ShimVar { const v = new ShimVar(`v${++this.vseq}`, name, collection.id); this.vars.push(v); return v; }
+  createVariable(name: string, collection: ShimCollection, t: 'COLOR' | 'FLOAT' = 'COLOR'): ShimVar { const v = new ShimVar(`v${++this.vseq}`, name, collection.id, t); this.vars.push(v); return v; }
   createVariableAlias(target: ShimVar): { type: 'VARIABLE_ALIAS'; id: string } { return { type: 'VARIABLE_ALIAS', id: target.id }; }
 }
 
@@ -99,6 +102,19 @@ ok(verdict.checks.modesDistinct, `collapse-guard: background/primary distinct pe
 ok(verdict.checks.aliasesResolve && verdict.details.danglingAliases.length === 0, 'every alias resolves — 0 dangling');
 ok(verdict.checks.slotScopes && verdict.checks.fieldFamilyPresent, 'slot scopes + field family match the contract');
 ok(verdict.checks.primitivesHidden, 'core-palette primitives hidden from publishing');
+
+// FLOAT axes (#146) — write the geometric collections into the SAME shim, read them back, verify.
+const nbTheme = nbThemeFrom(nbMeasured);
+await applyFloatPlan(buildFloatWritePlan(nbTheme), api);
+const snap2 = await readFigmaVariables(api);
+const fverdict = verifyFloatReadback(snap2, nbTheme.modes.includes('wireframe'));
+
+ok(!!snap2.float && ['core-dimension', 'space', 'radius', 'size', 'border-width', 'focus', 'opacity'].every((n) => !!snap2.float![n]),
+  'snapshot carries the FLOAT collections after the float write');
+ok(fverdict.ok, 'verifyFloatReadback: contract holds' + (fverdict.ok ? '' : ` — ${Object.entries(fverdict.checks).filter(([, v]) => !v).map(([k]) => k).join(',')}`));
+ok(fverdict.checks.aliasesResolve && fverdict.details.danglingAliases.length === 0, 'every FLOAT alias resolves — 0 dangling');
+ok(fverdict.checks.dimensionsHidden, 'core-dimension primitives hidden from publishing');
+ok(fverdict.checks.collectionsPresent, 'all expected FLOAT collections present in the read-back');
 
 console.log(`\nplugin read-back: ${failed === 0 ? 'ALL PASS' : failed + ' FAILED'}`);
 if (failed) process.exit(1);
