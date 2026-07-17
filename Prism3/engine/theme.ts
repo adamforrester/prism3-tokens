@@ -252,9 +252,11 @@ export type BrandInput = {
   layout?: { breakpoints?: number[]; columns?: number; containerMax?: number; containerNarrow?: number };
   /** Gradient axis lever — OPT-IN (off by default; most systems abstain and
    *  gradients are contextual). `true` ships one default brand gradient
-   *  (primary.600→primary.350, linear); an explicit array ships exactly those.
-   *  Stop colours alias the colour ramp; OKLCH interpolation by default. */
-  gradients?: true | GradientInput[];
+   *  (primary.600→primary.350, linear); an explicit array ships exactly those;
+   *  `false`/omitted is off. Stop colours alias the colour ramp; OKLCH interp by
+   *  default. (`false` is accepted so a UI toggle can write a plain boolean — the
+   *  `buildGradient` `!spec` guard reads it as off, same as omitted.) */
+  gradients?: boolean | GradientInput[];
   /** Dimension axis levers (schema-required #4/#5). Defaults reproduce a
    *  conventional 4px-grid / 8px-rhythm, sharp-corner system. */
   baseUnit?: number;                 // fine dimension grid base (px), default 4
