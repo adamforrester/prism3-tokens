@@ -46,14 +46,18 @@ const BRANDS = exampleBrands as Record<string, BrandInput>;
 // via the host `restore-input` message below). `PRISM3_HOST` is a build-time define (`'figma'` in the
 // plugin), so this guard is `'figma' !== 'figma'` → the localStorage path is INERT in the plugin —
 // never executed — exactly as the web export-bar commit path is inert in the plugin bundle. On web
-// boot, reopen on the persisted brand if one is stored AND still resolves; otherwise fall back to the
-// demo. (The first-run start screen is a follow-up.)
+// boot, reopen on the persisted brand if one is stored AND still resolves; otherwise it's a first run —
+// `firstRun` gates the start screen (below), and brandState still holds the demo so the app is in a
+// valid state behind it. (Web only: the plugin never sets firstRun — it seeds via the host restore-input
+// message; a plugin fresh-file start moment is a later cross-lane follow-up.)
+let firstRun = false;
 const bootBrand = (): BrandInput => {
   if (PRISM3_HOST !== 'figma') {
     const restored = restoreInput(localStorage);
     // Validate the SHAPE (brandTheme must accept it) before booting on it — a stale blob from an older
     // build could deserialise past the version guard yet fail to resolve; on reject, fall back to the demo.
     if (restored) { try { brandTheme(restored); return restored; } catch { /* stale/incompatible — fall through */ } }
+    firstRun = true;   // web, nothing valid stored → show the start screen instead of the silent demo
   }
   return structuredClone(BRANDS.aurora);
 };
@@ -1242,7 +1246,7 @@ const renderBrandMenu = (): HTMLElement => {
   menu.append(modeRow);
 
   menu.append(el('div', 'bm-div'));
-  menu.append(el('div', 'bm-cap', 'Switch brand'));
+  menu.append(el('div', 'bm-cap', 'Examples'));
   for (const name of Object.keys(BRANDS)) {
     const b = el('button', 'bm-item' + (name === brandState.id ? ' cur' : '')) as HTMLButtonElement;
     const d = el('span', 'bm-dot'); d.style.background = hex(oklchToRgb(BRANDS[name].primary));
@@ -1253,7 +1257,13 @@ const renderBrandMenu = (): HTMLElement => {
 
   menu.append(el('div', 'bm-div'));
   const nb = el('button', 'bm-item', '+ New brand') as HTMLButtonElement;
-  nb.onclick = () => loadBrand(NEW_BRAND());
+  // Web: return to the start moment (the same three paths) rather than silently loading the default.
+  // Plugin: keep the direct neutral-default load — this handler is SHARED UI (not host-DCE'd), and the
+  // plugin start moment is a deferred cross-lane follow-up, so it must not surface the web start screen.
+  nb.onclick = () => {
+    brandMenuOpen = false;
+    if (PRISM3_HOST !== 'figma') { firstRun = true; build(); } else loadBrand(NEW_BRAND());
+  };
   menu.append(nb);
   const imp = el('button', 'bm-item', '↑ Import design.md…') as HTMLButtonElement;
   imp.onclick = () => { importOpen = !importOpen; importErr = null; renderBar(); };
@@ -1319,8 +1329,75 @@ function renderBar(): void {
   }
 }
 
+/** Seed a fresh brand from a single hex colour: the engine grows a full system from one primary, so
+ *  the colour's OKLCH becomes the primary anchor and the neutral leans to its hue (a subtle brand tint). */
+const seedFromColor = (hexVal: string): BrandInput => {
+  const o = rgbToOklch(hexToRgb(hexVal));
+  return { ...NEW_BRAND(), primary: o, neutral: { hue: o.h, chroma: 0.006 } };
+};
+
+/** The first-run START SCREEN (#149 follow-up). Web boots here when nothing is persisted, instead of
+ *  silently loading the demo. One brand colour bootstraps a full theme, so the paths are: start from
+ *  your colour, start from a neutral default, or open an example. Each lands in the editor (loadBrand →
+ *  rebuild persists it), so a reload restores the working brand and the start screen doesn't reappear. */
+const renderStartScreen = (): HTMLElement => {
+  const view = el('div', 'startview');
+  const col = el('div', 'start-col');
+  const mark = el('div', 'start-mark');
+  mark.append(el('span', 'logo'), el('span', 'wordmark', 'Prism3'), el('span', 'studio', 'Theme studio'));
+  col.append(mark);
+  col.append(el('h1', 'start-h', 'Start a new brand.'));
+  col.append(el('p', 'start-lede', 'One brand colour is enough — the engine grows a full, contrast-checked system you can steer. Pick a starting point.'));
+
+  const enter = (input: BrandInput): void => { firstRun = false; loadBrand(input); };
+
+  // Path 1 — from your colour (the hero path: a single primary bootstraps everything).
+  const c1 = el('div', 'start-card start-hero');
+  c1.append(el('h2', 'start-ct', 'Start from your colour'));
+  c1.append(el('p', 'start-cd', 'Your primary brand colour; everything else takes smart defaults you can tune.'));
+  const row = el('div', 'start-color-row');
+  const swatch = el('input', 'start-swatch') as HTMLInputElement; swatch.type = 'color'; swatch.value = '#5e4bc3';
+  const hexIn = el('input', 'start-hex') as HTMLInputElement; hexIn.type = 'text'; hexIn.value = '#5e4bc3'; hexIn.setAttribute('aria-label', 'Brand colour hex');
+  const HEX = /^#[0-9a-f]{6}$/i;
+  swatch.oninput = () => { hexIn.value = swatch.value; };
+  hexIn.oninput = () => { if (HEX.test(hexIn.value)) swatch.value = hexIn.value; };
+  const go = el('button', 'start-go', 'Create theme →') as HTMLButtonElement;
+  go.onclick = () => enter(seedFromColor(HEX.test(hexIn.value) ? hexIn.value : swatch.value));
+  row.append(swatch, hexIn, go);
+  c1.append(row);
+  col.append(c1);
+
+  // Path 2 — a neutral, unopinionated default (set colour later).
+  const c2 = el('div', 'start-card start-row2');
+  const t2 = el('div', 'start-c2t');
+  t2.append(el('h2', 'start-ct', 'Start with a neutral default'), el('p', 'start-cd', 'An unopinionated starting theme — jump in and set your colour later.'));
+  const b2 = el('button', 'start-alt', 'Start blank') as HTMLButtonElement;
+  b2.onclick = () => enter(NEW_BRAND());
+  c2.append(t2, b2);
+  col.append(c2);
+
+  // Path 3 — open a fully-built example (aurora / harbor), explicitly framed as examples.
+  const c3 = el('div', 'start-card');
+  c3.append(el('h2', 'start-ct', 'Explore an example'));
+  c3.append(el('p', 'start-cd', 'Open a fully-built example to see what the engine produces from a brand.'));
+  const chips = el('div', 'start-chips');
+  for (const name of Object.keys(BRANDS)) {
+    const chip = el('button', 'start-chip') as HTMLButtonElement;
+    const d = el('span', 'dot'); d.style.background = hex(oklchToRgb(BRANDS[name].primary));
+    chip.append(d, el('span', undefined, name));
+    chip.onclick = () => enter(BRANDS[name]);
+    chips.append(chip);
+  }
+  c3.append(chips);
+  col.append(c3);
+
+  view.append(col);
+  return view;
+};
+
 const build = (): void => {
   app.innerHTML = '';
+  if (firstRun) { app.append(renderStartScreen()); return; }   // first run: the start moment stands in for the app
   barHost = el('header', 'bar');
   app.append(barHost);
   renderBar();
@@ -1360,6 +1437,30 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .mono{font-family:var(--mono);font-variant-numeric:tabular-nums;letter-spacing:-0.01em}
 .faint{color:var(--faint)}
 #app{max-width:1200px;margin:0 auto;padding:0 40px 120px}
+
+/* First-run start screen */
+.startview{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:48px 24px;background:var(--paper)}
+.start-col{width:100%;max-width:560px;display:flex;flex-direction:column;gap:14px}
+.start-mark{display:flex;align-items:center;gap:9px;margin-bottom:6px}
+.start-h{margin:0;font-size:34px;font-weight:680;letter-spacing:-0.025em;color:var(--ink)}
+.start-lede{margin:0 0 6px;font-size:15px;line-height:1.55;color:var(--muted);max-width:48ch}
+.start-card{border:1px solid var(--line);border-radius:var(--r);background:var(--panel);padding:20px}
+.start-hero{border-color:var(--line2);box-shadow:0 1px 2px rgba(24,24,27,.05)}
+.start-ct{margin:0 0 4px;font-size:15px;font-weight:620;color:var(--ink)}
+.start-cd{margin:0;font-size:13px;line-height:1.5;color:var(--faint)}
+.start-color-row{display:flex;align-items:center;gap:10px;margin-top:15px}
+.start-swatch{width:44px;height:38px;padding:0;border:1px solid var(--line2);border-radius:var(--r-xs);background:none;cursor:pointer}
+.start-hex{width:108px;padding:8px 10px;border:1px solid var(--line2);border-radius:var(--r-xs);font:inherit;font-variant-numeric:tabular-nums;background:var(--paper);color:var(--ink)}
+.start-go{margin-left:auto;padding:9px 16px;border:none;border-radius:var(--r-sm);background:var(--ink);color:#fff;font:inherit;font-size:13px;font-weight:560;cursor:pointer}
+.start-go:hover{background:#000}
+.start-row2{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.start-c2t{min-width:0}
+.start-alt{flex:none;padding:9px 15px;border:1px solid var(--line2);border-radius:var(--r-sm);background:var(--panel);color:var(--ink);font:inherit;font-size:13px;font-weight:540;cursor:pointer}
+.start-alt:hover{border-color:var(--ink)}
+.start-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:15px}
+.start-chip{display:flex;align-items:center;gap:8px;padding:7px 13px 7px 9px;border:1px solid var(--line2);border-radius:999px;background:var(--panel);font:inherit;font-size:13px;color:var(--ink);cursor:pointer}
+.start-chip:hover{border-color:var(--ink)}
+.start-chip .dot{width:12px;height:12px;border-radius:50%;flex:none}
 
 .bar{display:flex;align-items:center;justify-content:space-between;padding:26px 2px 24px;position:sticky;top:0;background:linear-gradient(var(--paper),var(--paper) 68%,transparent);z-index:20}
 .brandmark{display:flex;align-items:center;gap:11px}
