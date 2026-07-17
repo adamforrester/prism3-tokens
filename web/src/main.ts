@@ -605,7 +605,7 @@ const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
     vol.innerHTML = '';
     if (key === 'type') vol.append(renderTypeSpecimen());
     if (key === 'form') vol.append(renderShadowSpecimen());
-    if (key === 'semantic') vol.append(renderInverseSpecimen());
+    if (key === 'semantic') { vol.append(renderNeutralSpecimen()); vol.append(renderInverseSpecimen()); }
     vol.append(sectionHead('Live preview', 'The sample components + contrast overlay, resolved through every mode — they reflect this stage’s axis live.'));
     const pv = el('div', 'pvhost');
     vol.append(pv);
@@ -698,6 +698,33 @@ const renderInverseSpecimen = (): HTMLElement => {
   cta.style.border = `2px solid ${ink}`;
   band.append(cta);
   wrap.append(band);
+  return wrap;
+};
+
+/** The neutral-emphasis comparison specimen: the neutral (default) button rendered BOTH ways —
+ *  `neutralEmphasis: 'subtle'` (a light-grey surface) vs `'strong'` (a bold near-black/white fill).
+ *  A single lever picks one; the specimen resolves the theme both ways (dashboard-side, from the
+ *  last-good input) so the choice is legible side by side. */
+const NEUTRAL_EMPHASES: Array<['subtle' | 'strong', string]> = [['subtle', 'subtle · light grey'], ['strong', 'strong · bold fill']];
+const renderNeutralSpecimen = (): HTMLElement => {
+  const wrap = el('div', 'neutral-spec');
+  wrap.append(sectionHead('Neutral emphasis', 'The neutral (default) button both ways — the neutralEmphasis lever as a light-grey surface vs a bold near-black fill. The active choice is outlined.'));
+  const m: Mode = rp.modes.includes('light' as Mode) ? ('light' as Mode) : rp.modes[0];
+  const active = lastGoodInput.neutralEmphasis ?? 'subtle';
+  const row = el('div', 'ne-list');
+  for (const [ne, label] of NEUTRAL_EMPHASES) {
+    let found: Record<string, { hex: string } | undefined> | undefined;
+    try { found = resolveAllModes(brandTheme({ ...lastGoodInput, neutralEmphasis: ne })).find((x) => x.mode === m)?.roles as any; }
+    catch { continue; }
+    const fill = found?.['interactive.neutral.fill.rest']?.hex, ink = found?.['interactive.neutral.on-fill']?.hex;
+    if (!fill || !ink) continue;
+    const cell = el('div', 'ne-cell' + (ne === active ? ' on' : ''));
+    const btn = el('div', 'ne-btn', 'Cancel');
+    btn.style.background = fill; btn.style.color = ink;
+    cell.append(btn, el('div', 'ne-lab mono', label));
+    row.append(cell);
+  }
+  wrap.append(row);
   return wrap;
 };
 
@@ -1089,6 +1116,12 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .inv-band{border-radius:var(--r);padding:36px 32px;display:flex;flex-direction:column;align-items:flex-start;gap:20px}
 .inv-h{font-size:24px;font-weight:700;letter-spacing:-0.02em;max-width:26ch}
 .inv-cta{padding:10px 22px;border-radius:var(--r-xs);font-weight:600;font-size:14px}
+.neutral-spec{margin-bottom:8px}
+.ne-list{display:flex;flex-wrap:wrap;gap:22px;border:1px solid var(--line);border-radius:var(--r);padding:24px;background:var(--panel)}
+.ne-cell{display:flex;flex-direction:column;align-items:center;gap:10px;padding:12px;border-radius:var(--r-xs);border:2px solid transparent}
+.ne-cell.on{border-color:var(--ink);background:var(--paper)}
+.ne-btn{padding:10px 22px;border-radius:var(--r-xs);font-weight:600;font-size:14px}
+.ne-lab{font-size:11.5px;color:var(--muted)}
 .modebar{display:flex;align-items:center;gap:8px}
 .mb-cap{font-size:12px;color:var(--muted);margin-right:4px}
 .modebtn{border:1px solid var(--line2);background:var(--panel);border-radius:var(--r-sm);padding:6px 12px;cursor:pointer;font:inherit;font-size:13px;color:var(--muted)}
