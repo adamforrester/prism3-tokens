@@ -314,14 +314,17 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
 
   // The action palette's rest colour — the source for interactive.primary, the focus ring,
   // and link states. (The legacy top-level `action.*` fill is retired: components bind
-  // `interactive.primary.*`, docs/20 §16.)
-  const actionRest = paletteRole('action', floorRgb, cfg.actionMin);
+  // `interactive.primary.*`, docs/20 §16.) `actionAnchorStep` overrides the resolved anchor
+  // (docs/20 §3) — anchor the action rest at an explicit palette step; unset keeps today's pick.
+  const actionRest = theme.actionAnchorStep !== undefined
+    ? chromatic(r2p.action, theme.actionAnchorStep, floorRgb, cfg.actionMin)
+    : paletteRole('action', floorRgb, cfg.actionMin);
 
   // ------------------------------------------------------- interactive family
   // The coherent, generated, contrast-gated interactive colour family (docs/20) — the ONE
   // home for every interactive element's colour: `interactive.<color>.<slot>`. Colours:
-  // primary (the action palette) · neutral · destructive; `accent` is opt-in behind the
-  // accentPalette lever. Slots: fill (+ its rest/hover/pressed/focused/selected states),
+  // primary (the action palette) · neutral · destructive; any number of extra columns are opt-in
+  // via `interactivePalettes` (docs/20 §3). Slots: fill (+ its rest/hover/pressed/focused/selected states),
   // on-fill (ink), text (outline/text ink), border. Disabled is NOT per-colour here — it is
   // the cross-cutting disabled.* family below. This is what components bind (docs/20 §16.3).
   const iFill = (name: string, rest: RatedNum, palette: string, fillMin: number) => {
@@ -349,7 +352,10 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
   put('interactive.primary.border', rated(chromatic(r2p.action, 500, baseRgb, cfg.nonTextMin), baseRgb), 'Primary interactive border (outline)', 'background.primary', cfg.nonTextMin);
 
   // destructive — the danger palette (its own interactive column, no scavenging).
-  const iDestructiveRest = paletteRole('danger', floorRgb, cfg.actionMin);
+  // `destructiveAnchorStep` overrides the resolved anchor (docs/20 §3); unset keeps today's pick.
+  const iDestructiveRest = theme.destructiveAnchorStep !== undefined
+    ? chromatic(r2p.danger, theme.destructiveAnchorStep, floorRgb, cfg.actionMin)
+    : paletteRole('danger', floorRgb, cfg.actionMin);
   iFill('destructive', iDestructiveRest, r2p.danger, cfg.actionMin);
   put('interactive.destructive.text', paletteRole('danger', baseRgb, cfg.secondaryMin), 'Destructive interactive ink (outline / text appearance)', 'background.primary', cfg.secondaryMin);
   put('interactive.destructive.border', rated(chromatic(r2p.danger, 500, baseRgb, cfg.nonTextMin), baseRgb), 'Destructive interactive border (outline)', 'background.primary', cfg.nonTextMin);
@@ -365,15 +371,17 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
   put('interactive.neutral.text', pickMostExtreme(textCands, baseRgb), 'Neutral interactive ink (outline / text appearance) — strongest neutral', 'background.primary', cfg.secondaryMin);
   put('interactive.neutral.border', pickMinPass(ramp, baseRgb, cfg.nonTextMin), 'Neutral interactive border (outline)', 'background.primary', cfg.nonTextMin);
 
-  // accent — opt-in SECOND interactive colour (docs/20 §3), generated only when the brand
-  // declares an accent palette. Never falls back to primary (the resolver rejects an accent
-  // that equals the action palette), so a brand without one simply has no accent column.
-  if (theme.accentPalette) {
-    const accentAnchor = theme.accentAnchorStep ?? 500;
-    const accentRest = chromatic(theme.accentPalette, accentAnchor, floorRgb, cfg.actionMin);
-    iFill('accent', accentRest, theme.accentPalette, cfg.actionMin);
-    put('interactive.accent.text', rated(chromatic(theme.accentPalette, accentAnchor, baseRgb, cfg.secondaryMin), baseRgb), 'Accent interactive ink (outline / text appearance)', 'background.primary', cfg.secondaryMin);
-    put('interactive.accent.border', rated(chromatic(theme.accentPalette, 500, baseRgb, cfg.nonTextMin), baseRgb), 'Accent interactive border (outline)', 'background.primary', cfg.nonTextMin);
+  // extensible interactive columns (docs/20 §3) — N opt-in `interactive.<name>.*` families, each
+  // promoting a declared palette (the generalised accent lever). Same fill+states / text / border
+  // generation as the built-ins, anchored at the entry's fill step (default 500). A brand with no
+  // extra columns (the common case) runs an empty loop → only primary/neutral/destructive ship.
+  // Never falls back to primary — the resolver only lists palettes the brand actually declared.
+  for (const entry of theme.interactivePalettes) {
+    const anchor = entry.anchorStep ?? 500;
+    const rest = chromatic(entry.palette, anchor, floorRgb, cfg.actionMin);
+    iFill(entry.name, rest, entry.palette, cfg.actionMin);
+    put(`interactive.${entry.name}.text`, rated(chromatic(entry.palette, anchor, baseRgb, cfg.secondaryMin), baseRgb), `${entry.name} interactive ink (outline / text appearance)`, 'background.primary', cfg.secondaryMin);
+    put(`interactive.${entry.name}.border`, rated(chromatic(entry.palette, 500, baseRgb, cfg.nonTextMin), baseRgb), `${entry.name} interactive border (outline)`, 'background.primary', cfg.nonTextMin);
   }
 
   // inverse surface-context (docs/20 §9): the ink for an OUTLINE / TEXT interactive control
@@ -386,10 +394,10 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
         palette ? rated(chromatic(palette, anchor, invRgb, cfg.secondaryMin), invRgb) : pickMostExtreme(textCands, invRgb),
         `${name} interactive ink on an inverse / dark surface (outline / text on a dark hero)`,
         'background.inverse.primary', cfg.secondaryMin);
-    invInk('primary', r2p.action, theme.roleAnchorStep.action);
-    invInk('destructive', r2p.danger, theme.roleAnchorStep.danger);
+    invInk('primary', r2p.action, theme.actionAnchorStep ?? theme.roleAnchorStep.action);
+    invInk('destructive', r2p.danger, theme.destructiveAnchorStep ?? theme.roleAnchorStep.danger);
     invInk('neutral', null, 0);
-    if (theme.accentPalette) invInk('accent', theme.accentPalette, theme.accentAnchorStep ?? 500);
+    for (const entry of theme.interactivePalettes) invInk(entry.name, entry.palette, entry.anchorStep ?? 500);
   }
 
   // interactive overlays (docs/20 §6) — translucent hover/pressed/selected washes that
@@ -404,7 +412,7 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
     const overlayBase = cfg.family === 'light' ? BLACK : WHITE;
     const OVERLAY_ALPHA: [string, number][] = [['hover', 10], ['pressed', 20], ['selected', 20]];
     const contentRgb = pickMostExtreme(textCands, baseRgb).rgb;   // text.primary — the strongest content ink
-    const overlayColors = theme.accentPalette ? ['primary', 'neutral', 'destructive', 'accent'] : ['primary', 'neutral', 'destructive'];
+    const overlayColors = ['primary', 'neutral', 'destructive', ...theme.interactivePalettes.map((p) => p.name)];
     for (const color of overlayColors) {
       for (const [st, step] of OVERLAY_ALPHA) {
         const ratio = contrast(contentRgb, composite(baseRgb, overlayBase, step / 100));

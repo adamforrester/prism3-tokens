@@ -563,20 +563,68 @@ for (const b of brands) {
   });
   ok(strongFails.length === 0, 'neutralEmphasis: strong gives a floor-clearing neutral fill with a gated on-ink' + (strongFails.length ? ` — ${strongFails.slice(0, 2).join(',')}` : ''));
 
-  // (c) accentPalette: opt-in → a full interactive.accent.* column, all contracts hold; absent by default.
+  // (c) interactivePalettes: opt-in → a full interactive.<name>.* column, all contracts hold; absent by default.
   const noAccent = resolveAllModes(nbTheme()).flatMap((m) => Object.keys(m.roles)).filter((k) => k.startsWith('interactive.accent'));
-  ok(noAccent.length === 0, 'accent: no accent column without accentPalette (never falls back to primary)' + (noAccent.length ? ` — ${noAccent.slice(0, 2).join(',')}` : ''));
-  const acc = resolveAllModes({ ...nbTheme(), accentPalette: 'green', accentAnchorStep: 500 });
+  ok(noAccent.length === 0, 'accent: no extra column with an empty interactivePalettes (never falls back to primary)' + (noAccent.length ? ` — ${noAccent.slice(0, 2).join(',')}` : ''));
+  const acc = resolveAllModes({ ...nbTheme(), interactivePalettes: [{ name: 'accent', palette: 'green', anchorStep: 500 }] });
   const accLight = acc.find((m) => m.mode === 'light')!.roles;
   const accMissing = ['fill.rest', 'on-fill', 'text', 'border', 'on-inverse', 'overlay.hover'].filter((s) => !(`interactive.accent.${s}` in accLight));
   const accFails = acc.flatMap((m) => Object.entries(m.roles).filter(([k, r]) => k.startsWith('interactive.accent') && r.min > 0 && r.ratio < r.min).map(([k]) => `${m.mode}.${k}`));
   ok(accMissing.length === 0 && accFails.length === 0, 'accent: opt-in emits a full gated interactive.accent.* column' + (accMissing.length ? ` — MISSING ${accMissing.join(',')}` : '') + (accFails.length ? ` — FAILS ${accFails.slice(0, 2).join(',')}` : ''));
 
-  // (d) accentPalette must differ from the action palette (no two identical columns).
+  // (d) BACK-COMPAT accentPalette must differ from the action palette (no two identical columns).
   let threw = false;
   try { brandTheme({ id: 'x', primary: { l: 0.5, c: 0.2, h: 20 }, neutral: { hue: 20, chroma: 0.01 }, actionPalette: 'primary', accentPalette: 'primary' } as unknown as BrandInput); }
   catch { threw = true; }
   ok(threw, 'accent: accentPalette === actionPalette is rejected');
+}
+
+// EXTENSIBLE interactive palettes (docs/20 §3) — N opt-in interactive.<name>.* columns, anchor-step
+// overrides for the built-ins, and back-compat with the single accentPalette lever.
+{
+  const base = { id: 'ext', primary: { l: 0.55, c: 0.18, h: 260 }, neutral: { hue: 260, chroma: 0.01 },
+    brandColors: [{ name: 'accent', oklch: { l: 0.6, c: 0.15, h: 200 } }, { name: 'grape', oklch: { l: 0.5, c: 0.18, h: 320 } }] };
+  const rolesOf = (t: any, mode = 'light') => resolveAllModes(t).find((m) => m.mode === mode)!.roles;
+
+  // (a) one entry promotes a defined palette to a full interactive.accent.* column.
+  const oneT = brandTheme({ ...base, interactivePalettes: [{ palette: 'accent' }] } as unknown as BrandInput);
+  const one = rolesOf(oneT);
+  const oneMissing = ['fill.rest', 'on-fill', 'text', 'border'].filter((s) => !(`interactive.accent.${s}` in one));
+  ok(oneMissing.length === 0, 'interactivePalettes: [{palette:accent}] emits a full interactive.accent.* column' + (oneMissing.length ? ` — MISSING ${oneMissing.join(',')}` : ''));
+
+  // (b) a second entry with a distinct name emits a second column alongside the first.
+  const twoT = brandTheme({ ...base, interactivePalettes: [{ palette: 'accent' }, { name: 'grape', palette: 'grape' }] } as unknown as BrandInput);
+  const two = rolesOf(twoT);
+  const twoMissing = ['interactive.accent.fill.rest', 'interactive.grape.fill.rest', 'interactive.grape.on-fill', 'interactive.grape.overlay.hover'].filter((k) => !(k in two));
+  ok(twoMissing.length === 0, 'interactivePalettes: two entries emit both interactive.accent.* and interactive.grape.*' + (twoMissing.length ? ` — MISSING ${twoMissing.join(',')}` : ''));
+  const twoFails = resolveAllModes(twoT).flatMap((m) => Object.entries(m.roles).filter(([k, r]) => (k.startsWith('interactive.accent') || k.startsWith('interactive.grape')) && r.min > 0 && r.ratio < r.min).map(([k]) => `${m.mode}.${k}`));
+  ok(twoFails.length === 0, 'interactivePalettes: both extra columns clear every contract in every mode' + (twoFails.length ? ` — FAILS ${twoFails.slice(0, 2).join(',')}` : ''));
+
+  // (c) an anchorStep override changes the accent fill vs the default placement.
+  const defFill = rolesOf(brandTheme({ ...base, interactivePalettes: [{ palette: 'accent' }] } as unknown as BrandInput))['interactive.accent.fill.rest'].path;
+  const ovrFill = rolesOf(brandTheme({ ...base, interactivePalettes: [{ palette: 'accent', anchorStep: 700 }] } as unknown as BrandInput))['interactive.accent.fill.rest'].path;
+  ok(defFill !== ovrFill, `interactivePalettes: anchorStep override moves the accent fill (${defFill.split('.').slice(-2).join('.')} → ${ovrFill.split('.').slice(-2).join('.')})`);
+
+  // (d) BACK-COMPAT: accentPalette:'accent' is byte-identical to interactivePalettes:[{name:'accent',palette:'accent'}].
+  const legacy = rolesOf(brandTheme({ ...base, accentPalette: 'accent' } as unknown as BrandInput));
+  const modern = rolesOf(brandTheme({ ...base, interactivePalettes: [{ name: 'accent', palette: 'accent' }] } as unknown as BrandInput));
+  const accKeys = Object.keys(legacy).filter((k) => k.startsWith('interactive.accent'));
+  const drift = accKeys.filter((k) => !modern[k] || JSON.stringify(legacy[k]) !== JSON.stringify(modern[k]));
+  ok(accKeys.length > 0 && drift.length === 0, 'interactivePalettes: back-compat accentPalette reproduces interactive.accent.* byte-for-byte' + (drift.length ? ` — DRIFT ${drift.slice(0, 2).join(',')}` : ''));
+
+  // (e) a bad palette name (not a defined palette) throws.
+  let badThrew = false;
+  try { brandTheme({ ...base, interactivePalettes: [{ palette: 'nope' }] } as unknown as BrandInput); } catch { badThrew = true; }
+  ok(badThrew, 'interactivePalettes: an undefined palette throws');
+  // and a name colliding with a built-in interactive column throws.
+  let collideThrew = false;
+  try { brandTheme({ ...base, interactivePalettes: [{ name: 'primary', palette: 'accent' }] } as unknown as BrandInput); } catch { collideThrew = true; }
+  ok(collideThrew, 'interactivePalettes: a name colliding with a built-in column (primary) throws');
+
+  // (f) actionAnchorStep override moves interactive.primary.fill.rest.
+  const primDef = rolesOf(brandTheme({ ...base } as unknown as BrandInput))['interactive.primary.fill.rest'].path;
+  const primOvr = rolesOf(brandTheme({ ...base, actionAnchorStep: 800 } as unknown as BrandInput))['interactive.primary.fill.rest'].path;
+  ok(primDef !== primOvr, `interactivePalettes: actionAnchorStep override moves interactive.primary.fill.rest (${primDef.split('.').slice(-2).join('.')} → ${primOvr.split('.').slice(-2).join('.')})`);
 }
 
 // roleColors — general semantic-role rebasing (docs/21): re-base any role on a declared palette,
