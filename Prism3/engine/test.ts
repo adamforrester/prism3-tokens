@@ -1148,6 +1148,12 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   ok(badSh.length === 0, 'resolved preview: each shadow → a real CSS box-shadow string (colour + px offsets, any colorFormat)' + (badSh.length ? ` — BAD: ${badSh.join(', ')}` : ''));
   const notReduced = shRefs.filter((k) => { const b = rp.shadows[k]; return b.dark && b.light && b.dark === b.light; });
   ok(notReduced.length === 0, 'resolved preview: dark shadow differs from light (reduced, lift-primary)' + (notReduced.length ? ` — SAME: ${notReduced.join(', ')}` : ''));
+  // #99 elevation specimen: the WHOLE ramp resolves (not just the bound `shadow.sm`), so the
+  // specimen can show xs→2xl. Monotonic-ish: 2xl's blur exceeds xs's (elevation grows).
+  const rampSteps = ['xs', 'sm', 'md', 'lg', 'xl', '2xl'].filter((s) => rp.shadows[`shadow.${s}`]?.light);
+  ok(rampSteps.length >= 5, `resolved preview: full shadow ramp resolved for the specimen (${rampSteps.join('/')})`);
+  const blurOf = (s: string) => Math.max(...(rp.shadows[`shadow.${s}`].light!.match(/(\d+)px/g) ?? ['0px']).map((x) => parseInt(x)));
+  ok(blurOf('2xl') > blurOf('xs'), `resolved preview: elevation grows across the ramp (xs blur ${blurOf('xs')} < 2xl blur ${blurOf('2xl')})`);
 }
 // (10) EXAMPLE-BRANDS ARTIFACT (docs/09) — the browser hosts boot from
 // schema/example-brands.json (the design.md parser is node-only). Gate that the
