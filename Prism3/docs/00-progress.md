@@ -39,7 +39,7 @@ Figma docs (Context7 `/websites/developers_figma`) before building — no drift 
 - **Bridge + trigger:** two message variants (`apply-theme` / `apply-result`); a placeholder-UI button
   fires the write (whole UI is still #110's to replace).
 
-**Gates: engine 730/730 (723 + 7 new `buildWritePlan` tests incl. the plan-level collapse probe); all
+**Gates: engine 735/735 (728 + 7 new `buildWritePlan` tests incl. the plan-level collapse probe); all
 four materialise CLI passes byte-identical + `emit-figma` output unchanged (NB regression intact); both
 plugin contexts `tsc` clean; build emits main.js + inlined ui.html with 0 `node:` builtins; the executor
 harness (`plugin/test-write.ts`, in-memory `figma.variables` shim) drives `applyWritePlan` twice — 245
