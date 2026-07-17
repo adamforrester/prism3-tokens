@@ -428,6 +428,11 @@ const renderChip = (label: string, bind: Record<string, string>, mode: Mode): HT
     // label already reports; capping the var itself would misreport the resolved size.
     chip.style.fontSize = `min(20px, ${typeVar(bind.type, 'size')})`;
   }
+  // Elevation: the resolved per-mode box-shadow, via the host var (dark = reduced). The
+  // resolved string rides along as the var() fallback, so the shadow is correct even before
+  // a host has applied — and the shadow-softness lever now shows up here live.
+  const sh = bind.shadow ? rp.shadows[bind.shadow]?.[mode] : undefined;
+  if (sh) chip.style.boxShadow = `var(${cssVarName(bind.shadow)}, ${sh})`;
   return chip;
 };
 

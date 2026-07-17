@@ -65,6 +65,12 @@ export const cssVarAdapter = (scope: HTMLElement): WriteAdapter => ({
       s.setProperty(typeAtomName(ref, 'weight'), String(t.fontWeight));
       s.setProperty(typeAtomName(ref, 'size'), `${t.fontSizePx}px`);
     }
+    // Shadows — the per-mode CSS box-shadow (dark = reduced). Sparse like colours: a
+    // mode without a resolved shadow is left unset (the UI's `var(--…, fallback)` covers it).
+    for (const [ref, byMode] of Object.entries(model.shadows)) {
+      const css = byMode[mode];
+      if (css) s.setProperty(cssVarName(ref), css);
+    }
   },
 });
 

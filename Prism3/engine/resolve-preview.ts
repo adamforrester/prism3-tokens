@@ -45,7 +45,16 @@ export type ResolvedPreview = {
   dimOverrides: Record<string, Partial<Record<ModeName, number>>>;
   /** typography binding (e.g. `type.label.md.emphasis`) → resolved composite. Mode-invariant. */
   type: Record<string, ResolvedType>;
+  /** shadow binding (e.g. `shadow.sm`) → per-mode CSS `box-shadow` string. Mode-aware:
+   *  dark is the reduced lift-primary shadow (`$extensions.prism3.modes.dark`); a mode
+   *  without an override falls back to the canonical (light) `$value`. Sparse per mode,
+   *  like `colors`. */
+  shadows: Record<string, Partial<Record<ModeName, string>>>;
 };
+
+/** DTCG shadow layer array → a CSS `box-shadow` string ("[inset] x y blur spread color", comma-joined). */
+const cssBoxShadow = (layers: Array<Record<string, any>>): string =>
+  layers.map((l) => `${l.inset ? 'inset ' : ''}${l.offsetX} ${l.offsetY} ${l.blur} ${l.spread}${l.color ? ' ' + l.color : ''}`).join(', ');
 
 const strip = (p: string) => p.replace(/^color\./, '');
 
@@ -87,10 +96,11 @@ export const resolvePreview = (theme: Theme, spec: PreviewSpec = previewSpec): R
   // resolved here; shadow/motion aren't rendered by the current preview.
   const { tree } = buildTree(theme);
   const data = tree[Object.keys(tree)[0]]; // the brand-namespace root (nbds / prism)
-  const dimRefs = new Set<string>(), typeRefs = new Set<string>();
+  const dimRefs = new Set<string>(), typeRefs = new Set<string>(), shadowRefs = new Set<string>();
   for (const c of spec.components) for (const v of c.variants) for (const t of Object.values(v.bindings)) {
     if (t.startsWith('type.')) typeRefs.add(t);
     else if (t.startsWith('radius.') || t.startsWith('space.')) dimRefs.add(t);
+    else if (t.startsWith('shadow.')) shadowRefs.add(t);
   }
   const dims: ResolvedPreview['dims'] = {};
   const dimOverrides: ResolvedPreview['dimOverrides'] = {};
@@ -121,5 +131,21 @@ export const resolvePreview = (theme: Theme, spec: PreviewSpec = previewSpec): R
     };
   }
 
-  return { modes: modes.map((m) => m.mode), colors, contracts, dims, dimOverrides, type };
+  // Shadows — each shadow binding → a CSS box-shadow per mode. The token's `$value` is
+  // the canonical (light) layer array; `$extensions.prism3.modes.<mode>` carries per-mode
+  // overrides (dark = the reduced lift-primary shadow). Mirrors the dimOverrides pattern.
+  const shadows: ResolvedPreview['shadows'] = {};
+  for (const ref of [...shadowRefs].sort()) {
+    const node = at(data, ref);
+    const base = Array.isArray(node?.$value) ? (node!.$value as Array<Record<string, any>>) : [];
+    const mo = node?.$extensions?.prism3?.modes as Record<string, Array<Record<string, any>>> | undefined;
+    const byMode: Partial<Record<ModeName, string>> = {};
+    for (const m of modes) {
+      const layers = mo && Array.isArray(mo[m.mode]) ? mo[m.mode] : base;
+      if (layers.length) byMode[m.mode] = cssBoxShadow(layers);
+    }
+    shadows[ref] = byMode;
+  }
+
+  return { modes: modes.map((m) => m.mode), colors, contracts, dims, dimOverrides, type, shadows };
 };

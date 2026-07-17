@@ -1139,6 +1139,15 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
     `resolved preview: wireframe zeroes ${radiusRef} via an override (baseline ${wfRp.dims[radiusRef]}px stays)`);
   const spaceRef = Object.keys(wfRp.dims).find((k) => k.startsWith('space.'));
   ok(!spaceRef || !wfRp.dimOverrides[spaceRef], 'resolved preview: wireframe leaves space untouched (only radius zeroes)');
+
+  // Shadows (#98): every shadow binding → a CSS box-shadow per mode, and dark is the
+  // REDUCED lift-primary shadow (lower alpha), never identical to light.
+  const shRefs = Object.keys(rp.shadows);
+  ok(shRefs.length > 0, 'resolved preview: shadow bindings resolved' + (shRefs.length ? ` (${shRefs.join(', ')})` : ' — NONE'));
+  const badSh = shRefs.filter((k) => { const s = rp.shadows[k].light; return !s || !/\dpx/.test(s) || !/(#|rgb|oklch|hsl|color\()/i.test(s); });
+  ok(badSh.length === 0, 'resolved preview: each shadow → a real CSS box-shadow string (colour + px offsets, any colorFormat)' + (badSh.length ? ` — BAD: ${badSh.join(', ')}` : ''));
+  const notReduced = shRefs.filter((k) => { const b = rp.shadows[k]; return b.dark && b.light && b.dark === b.light; });
+  ok(notReduced.length === 0, 'resolved preview: dark shadow differs from light (reduced, lift-primary)' + (notReduced.length ? ` — SAME: ${notReduced.join(', ')}` : ''));
 }
 // (10) EXAMPLE-BRANDS ARTIFACT (docs/09) — the browser hosts boot from
 // schema/example-brands.json (the design.md parser is node-only). Gate that the
