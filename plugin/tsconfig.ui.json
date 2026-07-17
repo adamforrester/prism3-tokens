@@ -1,5 +1,5 @@
 {
-  "// docs/22 §3": "UI-IFRAME context — a browser. DOM lib, and NO plugin-typings so any figma.* reference is a compile error (the mirror of the main config's no-DOM rule).",
+  "// docs/22 §3+#110": "UI-IFRAME context — a browser. DOM lib, and NO plugin-typings so any figma.* reference is a compile error (the mirror of the main config's no-DOM rule). Since #110 the iframe UI IS the shared web/src app (one UI, no fork), so this verifies THAT entry is DOM-clean under the plugin's stricter no-plugin-typings lens — the guarantee that the shared UI can't smuggle a figma.* reference into the iframe context. PRISM3_HOST is the build-time define (declared in web/src/prism3-host.d.ts, picked up via the include).",
   "compilerOptions": {
     "target": "ES2020",
     "module": "ESNext",
@@ -7,8 +7,9 @@
     "strict": true,
     "skipLibCheck": true,
     "noEmit": true,
+    "resolveJsonModule": true,
     "types": [],
     "lib": ["ES2020", "DOM", "DOM.Iterable"]
   },
-  "include": ["src/ui/ui.ts", "src/bridge-ui.ts", "src/messages.ts"]
+  "include": ["../web/src/main.ts", "../web/src/write-adapter.ts", "../web/src/prism3-host.d.ts", "src/messages.ts"]
 }

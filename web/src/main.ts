@@ -30,7 +30,7 @@ import { resolvePreview } from '../../Prism3/engine/resolve-preview';
 import type { ResolvedPreview } from '../../Prism3/engine/resolve-preview';
 import { parseDesignMd, toDesignMd } from '../../Prism3/engine/design-md';
 import { buildTree } from '../../Prism3/engine/tree';
-import { makeWriteHost, cssVarName, typeVar } from './write-adapter';
+import { makeWriteHost, hostCommit, cssVarName, typeVar } from './write-adapter';
 import exampleBrands from '../../Prism3/schema/example-brands.json';
 
 type Mode = ResolvedPreview['modes'][number];
@@ -143,6 +143,13 @@ const pageBg = (mode: Mode): string => `var(${cssVarName('color.background.prima
 // The active write host — projects the resolved model onto whatever backend this host
 // owns (CSS vars on web; figma.variables in the plugin). Re-scoped per preview paint.
 let writeHost = makeWriteHost(document.documentElement);
+
+// The COMMIT host (docs/22 #110) — distinct from the preview: "materialise this theme".
+// On web it's inert (the export bar downloads); in the Figma plugin it posts the BrandInput to
+// the main thread (→ #108 applyWritePlan) and receives the #109 read-back seed summary on boot.
+const commit = hostCommit();
+let seedInfo: { ok: boolean; summary: string } | null = null;   // set by the host's boot read-back (#109)
+commit.onHostMessage((m) => { seedInfo = { ok: m.ok, summary: m.summary }; if (barHost) renderBar(); });
 
 // ===========================================================================
 // STAGE 1 — BRAND PRIMITIVES (bespoke)
@@ -854,6 +861,17 @@ const renderBrandMenu = (): HTMLElement => {
   expTok.onclick = exportTokens;
   menu.append(expMd, expTok);
   menu.append(el('p', 'bm-hint', 'design.md re-imports here; tokens.json is the resolved tree.'));
+
+  // Figma plugin only (docs/22 #110): the COMMIT action — materialise the last-good brand into
+  // figma.variables (posts the BrandInput to the main thread → #108). Plus the #109 read-back
+  // seed panel reporting any existing Prism3 theme in the file (informational; knob-rehydration
+  // is a follow-up). On web this whole block is absent (`commit.isFigma` is false + DCE'd).
+  if (commit.isFigma) {
+    const applyBtn = el('button', 'bm-item', '↳ Apply to Figma variables') as HTMLButtonElement;
+    applyBtn.onclick = () => commit.postTheme(lastGoodInput);
+    menu.append(applyBtn);
+    if (seedInfo) menu.append(el('p', 'bm-hint' + (seedInfo.ok ? '' : ' bad'), seedInfo.summary));
+  }
   return menu;
 };
 

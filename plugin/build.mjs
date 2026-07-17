@@ -28,13 +28,19 @@ const mainOpts = {
 };
 
 // Bundle the UI to an in-memory JS string, then inline it into the HTML template.
+// #110 — the UI IS the shared `web/src/main.ts` (no fork): the same source the standalone web app
+// bundles, built here with PRISM3_HOST='figma' so its commit path posts to the main thread instead
+// of downloading. One UI, two outputs. The `../web/src` engine imports are pure (node-free), so the
+// iframe bundle stays self-contained + no-network like the placeholder did.
+const WEB_UI = resolve(root, '../web/src/main.ts');
 const htmlTemplate = await readFile(resolve(root, 'src/ui/index.html'), 'utf8');
 const buildUiHtml = async () => {
   const res = await build({
-    entryPoints: [resolve(root, 'src/ui/ui.ts')],
+    entryPoints: [WEB_UI],
     bundle: true,
     format: 'iife',
     target: 'es2020',
+    define: { PRISM3_HOST: '"figma"' },
     write: false,
     logLevel: 'silent',
   });
@@ -46,17 +52,20 @@ const buildUiHtml = async () => {
   );
   await mkdir(out, { recursive: true });
   await writeFile(resolve(out, 'ui.html'), html);
-  console.log('  dist/ui.html   (UI bundle inlined)');
+  console.log('  dist/ui.html   (shared web/src UI inlined, host=figma)');
 };
 
 if (watch) {
   const ctx = await context(mainOpts);
   await ctx.watch();
   await buildUiHtml();
-  // esbuild's context watch covers main.js; rebuild the inlined UI on any src change.
+  // esbuild's context watch covers main.js; rebuild the inlined UI on any src change — both the
+  // plugin's own src (the shell/main-thread) AND the shared web/src UI (the iframe entry).
   const { watch: fsWatch } = await import('node:fs');
-  fsWatch(resolve(root, 'src'), { recursive: true }, () => buildUiHtml().catch(console.error));
-  console.log('watching plugin/src …');
+  const rebuild = () => buildUiHtml().catch(console.error);
+  fsWatch(resolve(root, 'src'), { recursive: true }, rebuild);
+  fsWatch(resolve(root, '../web/src'), { recursive: true }, rebuild);
+  console.log('watching plugin/src + web/src …');
 } else {
   await build(mainOpts);
   await buildUiHtml();

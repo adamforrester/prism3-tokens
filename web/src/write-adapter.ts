@@ -75,17 +75,67 @@ export const cssVarAdapter = (scope: HTMLElement): WriteAdapter => ({
 });
 
 /**
- * Figma host — STUB (docs/22, #106). Same seam; in the plugin phase this writes the
- * resolved model into `figma.variables` (a collection per mode). Not wired yet — it
- * no-ops with a warning so the interface is provably swappable today. `scope` is
- * accepted for signature parity with `cssVarAdapter` and ignored.
+ * The live PREVIEW seam is host-invariant: BOTH hosts paint the preview via CSS custom
+ * properties, because the plugin iframe is a full DOM context too — the same chips render
+ * identically in the browser and the iframe. So `makeWriteHost` returns `cssVarAdapter` for
+ * every host; the plugin does NOT paint the preview into `figma.variables`.
+ *
+ * What differs per host is the COMMIT action (docs/22 #110) — "materialise this theme":
+ *   • web    → download design.md / tokens.json (the UI's existing export bar)
+ *   • figma  → post the live `BrandInput` to the plugin main thread, which runs #108's
+ *              `applyWritePlan` against `figma.variables`.
+ * That's the `HostCommit` seam below, selected at BUILD time by `PRISM3_HOST` (esbuild
+ * `--define`), so the shared UI bundle never carries the other host's code.
  */
-export const figmaVarAdapter = (_scope?: HTMLElement): WriteAdapter => ({
-  apply() {
-    console.warn('[prism3] figmaVarAdapter.apply — not wired yet (plugin phase, docs/22 §write-adapter).');
+export const makeWriteHost = (scope: HTMLElement): WriteAdapter => cssVarAdapter(scope);
+
+/** The commit seam: the per-host "apply this theme" action, distinct from the preview.
+ *  `web` implementations are the UI's own exporters; `figma` posts to the main thread. */
+export interface HostCommit {
+  /** True only in the Figma plugin — the UI shows an "Apply to Figma variables" action + the
+   *  read-back seed panel. `false` on web (the export bar is the commit path there). */
+  readonly isFigma: boolean;
+  /** Post the current brand to the host for materialisation (Figma only; no-op on web). The
+   *  payload is the `BrandInput` — the main thread rebuilds the write plan + runs the executor,
+   *  reusing #108 verbatim. Typed loosely (`unknown`) here to avoid a web→engine type import in
+   *  the DOM layer; the plugin bridge + main thread carry the real `BrandInput` type. */
+  postTheme(input: unknown): void;
+  /** Register a callback for host→UI notifications (the #109 read-back seed summary). */
+  onHostMessage(cb: (msg: { kind: 'seed-info'; ok: boolean; summary: string }) => void): void;
+}
+
+/** The wire shape the iframe posts to the main thread. Kept in sync with the plugin's
+ *  `messages.ts` `UiToMain` (`apply-theme`) — the bridge unwraps `{ pluginMessage }`. */
+type UiApplyMsg = { type: 'apply-theme'; input: unknown };
+
+/** Figma commit — the DOM-only bridge half (no `figma.*`; lives in the iframe). Posts to the
+ *  main thread via `parent.postMessage` and listens for the main thread's replies. */
+const figmaCommit = (): HostCommit => ({
+  isFigma: true,
+  postTheme(input) {
+    parent.postMessage({ pluginMessage: { type: 'apply-theme', input } as UiApplyMsg }, '*');
+  },
+  onHostMessage(cb) {
+    window.addEventListener('message', (e: MessageEvent) => {
+      const m = (e.data && e.data.pluginMessage) as { type?: string; ok?: boolean; summary?: string } | undefined;
+      if (m && (m.type === 'seed-info' || m.type === 'apply-result')) {
+        cb({ kind: 'seed-info', ok: !!m.ok, summary: String(m.summary ?? '') });
+      }
+    });
+    // Listener attached — signal the main thread it can post (and run the boot read-back, #109).
+    parent.postMessage({ pluginMessage: { type: 'ui-ready' } }, '*');
   },
 });
 
-/** The single swap point that selects the active backend. Web today; point this at
- *  `figmaVarAdapter` inside the plugin iframe. Scope is injected per render. */
-export const makeWriteHost = (scope: HTMLElement): WriteAdapter => cssVarAdapter(scope);
+/** Web commit — the export bar IS the commit path, so this is inert (the UI wires its own
+ *  download handlers). Present for signature parity so the UI can branch on `isFigma`. */
+const webCommit = (): HostCommit => ({
+  isFigma: false,
+  postTheme() {/* web commits via the export bar (download design.md / tokens.json) */},
+  onHostMessage() {/* no host messages on web */},
+});
+
+/** The single BUILD-TIME swap point. `PRISM3_HOST` is substituted by esbuild `--define`
+ *  (`'web'` for the static site, `'figma'` for the plugin bundle); the unused branch is
+ *  dead-code-eliminated, so neither bundle ships the other host's code. */
+export const hostCommit = (): HostCommit => (PRISM3_HOST === 'figma' ? figmaCommit() : webCommit());
