@@ -28,6 +28,7 @@ import type { Lever } from '../../Prism3/engine/levers';
 import { previewSpec } from '../../Prism3/engine/preview';
 import { resolvePreview } from '../../Prism3/engine/resolve-preview';
 import type { ResolvedPreview } from '../../Prism3/engine/resolve-preview';
+import { resolveAllModes } from '../../Prism3/engine/modes';
 import { parseDesignMd, toDesignMd } from '../../Prism3/engine/design-md';
 import { buildTree } from '../../Prism3/engine/tree';
 import { makeWriteHost, cssVarName, typeVar } from './write-adapter';
@@ -604,6 +605,7 @@ const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
     vol.innerHTML = '';
     if (key === 'type') vol.append(renderTypeSpecimen());
     if (key === 'form') vol.append(renderShadowSpecimen());
+    if (key === 'semantic') vol.append(renderInverseSpecimen());
     vol.append(sectionHead('Live preview', 'The sample components + contrast overlay, resolved through every mode — they reflect this stage’s axis live.'));
     const pv = el('div', 'pvhost');
     vol.append(pv);
@@ -666,6 +668,36 @@ const renderShadowSpecimen = (): HTMLElement => {
     list.append(cell);
   }
   wrap.append(list);
+  return wrap;
+};
+
+/** The inverse-surface specimen: a dark hero band with on-inverse inks + an outline CTA, so the
+ *  `inverse` toggle has a visible payoff (nothing else in the preview shows the on-inverse family).
+ *  Resolves roles dashboard-side (it's a dashboard-only specimen, not part of the shared spec). */
+const renderInverseSpecimen = (): HTMLElement => {
+  const wrap = el('div', 'inverse-spec');
+  const m: Mode = rp.modes.includes('light' as Mode) ? ('light' as Mode) : rp.modes[0];
+  const roles = resolveAllModes(theme).find((x) => x.mode === m)?.roles ?? {};
+  const hx = (k: string): string | undefined => (roles as Record<string, { hex: string } | undefined>)[k]?.hex;
+  // Guard on the role the `inverse` toggle actually gates: background.inverse.*/text.on-inverse
+  // are generated UNCONDITIONALLY (modes.ts), only interactive.<color>.on-inverse is behind
+  // `inverseContext` (modes.ts §inverse) — so this is what's absent when the toggle is off.
+  if (!hx('interactive.primary.on-inverse')) {
+    wrap.append(sectionHead('Inverse surface', 'Inverse context is off — enable the “Inverse surface-context” toggle to generate the on-inverse interactive inks.'));
+    return wrap;
+  }
+  wrap.append(sectionHead('Inverse surface', 'Controls on a dark hero / inverse section — the on-inverse inks (nothing else in the preview shows them).'));
+  const band = el('div', 'inv-band');
+  band.style.background = hx('background.inverse.primary')!;
+  const h = el('div', 'inv-h', 'Ship your design system with confidence.');
+  h.style.color = hx('text.on-inverse')!;
+  band.append(h);
+  const ink = hx('interactive.primary.on-inverse')!;   // guaranteed by the guard above
+  const cta = el('div', 'inv-cta', 'Get started');
+  cta.style.color = ink;
+  cta.style.border = `2px solid ${ink}`;
+  band.append(cta);
+  wrap.append(band);
   return wrap;
 };
 
@@ -1053,6 +1085,10 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .sh-cell{display:flex;flex-direction:column;align-items:center;gap:10px}
 .sh-card{width:64px;height:64px;border-radius:10px;background:#fff}
 .sh-lab{font-size:11.5px;color:#5b6472}
+.inverse-spec{margin-bottom:8px}
+.inv-band{border-radius:var(--r);padding:36px 32px;display:flex;flex-direction:column;align-items:flex-start;gap:20px}
+.inv-h{font-size:24px;font-weight:700;letter-spacing:-0.02em;max-width:26ch}
+.inv-cta{padding:10px 22px;border-radius:var(--r-xs);font-weight:600;font-size:14px}
 .modebar{display:flex;align-items:center;gap:8px}
 .mb-cap{font-size:12px;color:var(--muted);margin-right:4px}
 .modebtn{border:1px solid var(--line2);background:var(--panel);border-radius:var(--r-sm);padding:6px 12px;cursor:pointer;font:inherit;font-size:13px;color:var(--muted)}
