@@ -720,7 +720,7 @@ const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
     vol.innerHTML = '';
     if (key === 'type') vol.append(renderTypeSpecimen());
     if (key === 'form') { vol.append(renderRadiusSpecimen()); vol.append(renderShadowSpecimen()); vol.append(renderMotionSpecimen()); }
-    if (key === 'semantic') { vol.append(renderNeutralSpecimen()); vol.append(renderInverseSpecimen()); vol.append(renderGradientSpecimen()); }
+    if (key === 'semantic') { vol.append(renderNeutralSpecimen()); vol.append(renderInverseSpecimen()); vol.append(renderIconSpecimen()); vol.append(renderGradientSpecimen()); }
     vol.append(sectionHead('Live preview', 'The sample components + contrast overlay, resolved through every mode — they reflect this stage’s axis live.'));
     const pv = el('div', 'pvhost');
     vol.append(pv);
@@ -1098,6 +1098,67 @@ const renderGradientSpecimen = (): HTMLElement => {
     row.append(cell);
   }
   wrap.append(row);
+  return wrap;
+};
+
+/** Inline-SVG icon glyphs (stroke, `currentColor` via the `stroke` attr) — dependency-free line icons,
+ *  authored here so the specimen stays buildless. 24×24 viewBox, rounded caps/joins. */
+const SVGNS = 'http://www.w3.org/2000/svg';
+const ICON_PATH: Record<string, string> = {
+  bell: '<path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/>',
+  search: '<circle cx="11" cy="11" r="7"/><line x1="20.5" y1="20.5" x2="16" y2="16"/>',
+  dot: '<circle cx="12" cy="12" r="8"/>',
+  star: '<path d="M12 3l2.6 5.6 6 .7-4.4 4.1 1.2 6L12 16.9 6.6 19.4l1.2-6L3.4 9.3l6-.7z"/>',
+  check: '<circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5 5-5.5"/>',
+  triangle: '<path d="M12 4l9 16H3z"/><line x1="12" y1="10" x2="12" y2="14"/><line x1="12" y1="17" x2="12" y2="17.01"/>',
+  x: '<circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/>',
+  info: '<circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><line x1="12" y1="8" x2="12" y2="8.01"/>',
+};
+const iconEl = (name: string, stroke: string): SVGElement => {
+  const svg = document.createElementNS(SVGNS, 'svg');
+  svg.setAttribute('viewBox', '0 0 24 24'); svg.setAttribute('width', '22'); svg.setAttribute('height', '22');
+  svg.setAttribute('fill', 'none'); svg.setAttribute('stroke', stroke); svg.setAttribute('stroke-width', '2');
+  svg.setAttribute('stroke-linecap', 'round'); svg.setAttribute('stroke-linejoin', 'round');
+  svg.innerHTML = ICON_PATH[name] ?? ICON_PATH.dot;
+  return svg;
+};
+
+/** The icon specimen (#99 last item): icons on a surface AND reversed out on fills, so the icon-contrast
+ *  floor (`iconContrast` lever) has a visible payoff — nothing else in the preview shows the icon roles.
+ *  Kind-B (reads `resolveAllModes(theme)`, like the inverse/neutral specimens). On-fill pairings use only
+ *  roles backed by a real solid fill (brand/destructive action fills + the inverse surface). */
+const ICON_ON_SURFACE: Array<[string, string]> = [
+  ['icon.primary', 'bell'], ['icon.secondary', 'search'], ['icon.tertiary', 'dot'],
+  ['icon.brand', 'star'], ['icon.success', 'check'], ['icon.warning', 'triangle'], ['icon.danger', 'x'], ['icon.info', 'info'],
+];
+const ICON_ON_FILL: Array<[string, string, string]> = [
+  ['icon.on-brand', 'interactive.primary.fill.rest', 'star'],
+  ['icon.on-danger', 'interactive.destructive.fill.rest', 'x'],
+  ['icon.on-inverse', 'background.inverse.primary', 'bell'],
+];
+const renderIconSpecimen = (): HTMLElement => {
+  const wrap = el('div', 'icon-spec');
+  const m: Mode = rp.modes.includes('light' as Mode) ? ('light' as Mode) : rp.modes[0];
+  const roles = resolveAllModes(theme).find((x) => x.mode === m)?.roles ?? {};
+  const hx = (k: string): string | undefined => (roles as Record<string, { hex: string } | undefined>)[k]?.hex;
+  const floorLabel = theme.iconContrast === 'text' ? '4.5:1 · matches text' : '3:1 · WCAG non-text';
+  wrap.append(sectionHead('Icons', `Icons on a surface and reversed out on fills — each validated to the icon-contrast floor (${floorLabel}). The “Icon contrast floor” lever raises or relaxes it.`));
+  const tile = (icon: string, color: string, bg: string, label: string, bordered: boolean): HTMLElement => {
+    const t = el('div', 'ic-tile');
+    const chip = el('div', 'ic-chip'); chip.style.background = bg; if (bordered) chip.style.border = '1px solid var(--line)';
+    chip.append(iconEl(icon, color));
+    t.append(chip, el('div', 'ic-lab mono', label));
+    return t;
+  };
+  const surfBg = hx('background.primary') ?? '#ffffff';
+  const surf = el('div', 'ic-block'); surf.append(el('div', 'ic-cap mono', 'on surface'));
+  const sTiles = el('div', 'ic-tiles');
+  for (const [role, icon] of ICON_ON_SURFACE) { const c = hx(role); if (c) sTiles.append(tile(icon, c, surfBg, role.replace('icon.', ''), true)); }
+  surf.append(sTiles); wrap.append(surf);
+  const fill = el('div', 'ic-block'); fill.append(el('div', 'ic-cap mono', 'reversed on fill'));
+  const fTiles = el('div', 'ic-tiles');
+  for (const [role, bgRole, icon] of ICON_ON_FILL) { const c = hx(role), bg = hx(bgRole); if (c && bg) fTiles.append(tile(icon, c, bg, role.replace('icon.', ''), false)); }
+  fill.append(fTiles); wrap.append(fill);
   return wrap;
 };
 
@@ -1646,6 +1707,13 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .gr-cell{display:flex;flex-direction:column;gap:10px}
 .gr-sw{width:200px;height:96px;border-radius:var(--r-xs);border:1px solid var(--line)}
 .gr-lab{font-size:11.5px;color:var(--muted)}
+.icon-spec{margin-bottom:8px}
+.ic-block{border:1px solid var(--line);border-radius:var(--r);background:var(--panel);padding:18px 22px;margin-top:10px}
+.ic-cap{font-size:11px;color:var(--faint);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:14px}
+.ic-tiles{display:flex;flex-wrap:wrap;gap:20px}
+.ic-tile{display:flex;flex-direction:column;align-items:center;gap:9px}
+.ic-chip{width:48px;height:48px;display:grid;place-items:center;border-radius:11px}
+.ic-lab{font-size:11px;color:var(--faint)}
 .modebar{display:flex;align-items:center;gap:8px}
 .mb-cap{font-size:12px;color:var(--muted);margin-right:4px}
 .modebtn{border:1px solid var(--line2);background:var(--panel);border-radius:var(--r-sm);padding:6px 12px;cursor:pointer;font:inherit;font-size:13px;color:var(--muted)}
