@@ -511,9 +511,14 @@ const paintPreview = (host: HTMLElement): void => {
   }
   host.append(surface);
 
-  const contracts = el('section', 'contracts');
-  contracts.append(el('h3', undefined, 'Contrast contracts'));
-  contracts.append(el('p', 'np-note', 'Every declared a11y pair, computed on the resolved colours across all modes.'));
+  // The full all-modes table is verification-of-record, not point-of-edit feedback (the per-component
+  // badges above already show the ACTIVE mode inline). It repeats on every stage, so it lives in a
+  // closed disclosure — one click from the audit view, but no longer dominating each stage.
+  const contracts = el('details', 'contracts') as HTMLDetailsElement;
+  const sum = el('summary', 'contracts-sum');
+  sum.append(el('span', 'contracts-t', 'Contrast contracts'), el('span', 'contracts-hint', `full a11y table · all modes · ${rp.contracts.length} pairs`));
+  contracts.append(sum);
+  contracts.append(el('p', 'np-note', 'Every declared a11y pair, computed on the resolved colours across all modes — the per-component badges above verify the active mode at the point of edit.'));
   const table = el('table', 'ctable');
   const thead = el('tr');
   thead.append(el('th', undefined, 'Pair'));
@@ -1491,7 +1496,13 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .tpill.more{color:var(--muted);font-style:italic}
 .chip{padding:8px 14px;border-radius:8px;font-weight:600;font-size:13px}
 .contracts{border:1px solid var(--line);border-radius:var(--r);background:var(--panel);padding:18px 20px}
-.contracts h3{margin:0 0 4px;font-size:15px;font-weight:620}
+.contracts-sum{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:10px}
+.contracts-sum::-webkit-details-marker{display:none}
+.contracts-sum::before{content:'▸';color:var(--faint);font-size:11px;align-self:center;transition:transform .12s ease}
+.contracts[open] .contracts-sum::before{transform:rotate(90deg)}
+.contracts-t{font-size:15px;font-weight:620;color:var(--ink)}
+.contracts-hint{font-size:11.5px;font-weight:500;color:var(--faint)}
+.contracts:not([open]) .np-note{display:none}
 .ctable{width:100%;border-collapse:collapse;margin-top:12px;font-size:12px}
 .ctable th,.ctable td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line)}
 .ctable .mcol{text-align:center}
