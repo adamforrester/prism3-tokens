@@ -39,6 +39,24 @@ export type ReadbackSnapshot = {
    *  (`core-dimension`/`space`/`radius`/`size`/`border-width`/`focus`/`opacity`/`layout`). Optional
    *  so a colour-only read (pre-#146, or a partial file) still validates on the colour contract. */
   float?: Record<string, { name: string; scopes: string[]; hidden: boolean; valuesByMode: Record<string, ReadValue> }[]>;
+  /** STYLE axes (shadow/gradient lane) — local Effect + Paint style NAMES. Styles hold resolved
+   *  values (no alias graph to police), so the readback is name-level. Optional like `float`. */
+  styles?: { effects: string[]; paints: string[] };
+};
+
+/** The styles read-back verdict (shadow/gradient lane). Name-level, matching the light FLOAT verdict:
+ *  styles carry resolved values, so there's nothing structural to verify beyond presence. */
+export type StylesReadbackVerdict = {
+  ok: boolean;
+  checks: {
+    /** the light shadow set (`shadow/*`) is present. */
+    shadowLightPresent: boolean;
+    /** the dark shadow set (`shadow-dark/*`) is present iff the brand ships dark. */
+    shadowDarkConsistent: boolean;
+    /** gradient Paint Styles present iff the brand opts into gradients. */
+    gradientsConsistent: boolean;
+  };
+  details: { effects: string[]; paints: string[] };
 };
 
 /** The FLOAT read-back verdict (#146) — lighter than the colour contract: the geometric axes carry
@@ -204,4 +222,30 @@ export const verifyFloatReadback = (snap: ReadbackSnapshot, expectWireframe: boo
     radiusWireframeMode: snap.float === undefined ? true : radiusWireframeMode,
   };
   return { ok: Object.values(checks).every(Boolean), checks, details: { collections: present, danglingAliases } };
+};
+
+/**
+ * Verify the STYLE axes of a read-back snapshot (shadow/gradient lane). Name-level and light — styles
+ * hold resolved values, so there's no alias graph or scope contract to police. Asserts: the light
+ * shadow set is present, the dark set is present iff the brand ships dark, and gradient Paint Styles
+ * are present iff the brand opts into gradients. Returns all-pass when `snap.styles` is absent (a
+ * styles-less file isn't a failure). `expectDark`/`expectGradients` are brand facts the caller passes.
+ */
+export const verifyStylesReadback = (
+  snap: ReadbackSnapshot,
+  expectDark: boolean,
+  expectGradients: boolean,
+): StylesReadbackVerdict => {
+  const effects = snap.styles?.effects ?? [];
+  const paints = snap.styles?.paints ?? [];
+  const hasLight = effects.some((n) => n.startsWith('shadow/'));
+  const hasDark = effects.some((n) => n.startsWith('shadow-dark/'));
+  const hasGradients = paints.some((n) => n.startsWith('gradient/'));
+
+  const checks = {
+    shadowLightPresent: snap.styles === undefined ? true : hasLight,
+    shadowDarkConsistent: snap.styles === undefined ? true : hasDark === expectDark,
+    gradientsConsistent: snap.styles === undefined ? true : hasGradients === expectGradients,
+  };
+  return { ok: Object.values(checks).every(Boolean), checks, details: { effects, paints } };
 };

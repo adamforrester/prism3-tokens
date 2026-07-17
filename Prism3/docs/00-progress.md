@@ -7,9 +7,52 @@
 
 ---
 
-## Latest (2026-07-17) — #146: plugin write scope expands to the FLOAT-variable axes
+## Latest (2026-07-17) — shadow/gradient: plugin write scope reaches Figma Styles
 
-**STATUS: in review (branch `feat/146-write-float-axes`).** The plugin's live write adapter (#108)
+**STATUS: in review (branch `feat/shadow-gradient-styles`).** The #146 follow-up, and the last write
+axis before typography. Shadow + gradient are Figma **Styles** (Effect + Paint), not variables — a
+different API (`createEffectStyle`/`createPaintStyle`) — which is why they were carved out of #146.
+This lane adds them, so an apply now writes colour + FLOAT vars + shadow/gradient styles. Only
+typography remains (its own Styles-based lane, blocked on #112/#113).
+
+- **Node-free extraction — `engine/emit-figma-styles.ts`** (new): `buildFigmaShadow` (→ Effect Styles)
+  + `buildFigmaGradient` (→ Paint Styles) + their types/helpers moved out of the I/O-shell
+  `emit-figma.ts`, which re-exports them (same pattern as color/dims). `out/*` byte-identical.
+- **Pure plan — `write-plan.ts` `buildStylesPlan(theme)`**: reshapes both builders into a
+  `StylesPlan` (`effects: EffectStyleRow[]` + `paints: PaintStyleRow[]`). Shadow → BOTH sets
+  (`shadow/*` light + `shadow-dark/*` dark, verbatim — Effect Styles can't hold modes). Gradient
+  stops → **BAKED resolved RGBA** (owner decision; variable-linked stops are a fast-follow), and the
+  emit's `angle`/`center` → Figma's 2×3 `gradientTransform` via a new `gradientTransformFor` helper
+  (the one bit of new math: 0°=identity horizontal, rotates about centre).
+- **Styles executor — `plugin/src/write-styles.ts`** (new, the FIRST non-variable write): a minimal
+  `StylesApi` port (`createEffectStyle`/`createPaintStyle` + the two getters); `applyStylesPlan` does
+  idempotent find-by-name → reuse+overwrite, else create. Runs after the FLOAT write in `main.ts`;
+  summary widens (`…styles N effects (+M) / K gradients (+L)`).
+- **Read-back (light) — `read-figma.ts` + `read-back.ts`**: reads local style NAMES into the snapshot
+  (`styles?` field, optional styles-API arg) + a name-level `verifyStylesReadback` (light shadow set
+  present, dark set iff brand ships dark, gradients iff brand opts in).
+
+- **Review fix (parity):** the gradient angle is the SAME CSS `linear-gradient(<deg>)` angle the web
+  renderer uses, so the two surfaces must agree. The first cut rotated by `angleDeg` directly (0°=
+  horizontal), which was 90°-off + endpoint-swapped vs. CSS (0°=to-top). Fixed: `gradientTransformFor`
+  now uses `φ = 90 − angleDeg`. Verified LIVE that CSS 90° renders red→blue L→R in Figma (the
+  asymmetric check a symmetric 135° render can't distinguish), and 135° puts the start stop top-left as
+  CSS does. The `gradientTransformFor` unit cases now encode the CSS convention.
+
+**Gates: engine 767→776 (styles-plan + transform cases); `out/*` byte-identical; plugin two-context
+typecheck clean; plugin `npm test` write+read+persist+float+**styles** all green; web tsc+build clean;
+`dist/main.js` 0 `node:` builtins. LIVE-DRIVEN via the Desktop Bridge: created Effect Styles
+(`shadow/*` + `shadow-dark/*`, multi-layer, DROP/INNER) + Paint Styles (linear + radial gradients);
+applied `gradient/brand` + `shadow/md` to a rect and screenshotted — gradient + shadow render correctly
+and the angle matches the web preview (CSS 90° → red-left/blue-right); re-apply idempotent (+0, no
+duplicate styles); scratch styles + probe rects cleaned up.** Out of scope: typography (#112/#113);
+variable-linked gradient stops (fast-follow).
+
+---
+
+## (2026-07-17) — #146: plugin write scope expands to the FLOAT-variable axes
+
+**STATUS: MERGED (#148).** The plugin's live write adapter (#108)
 materialised **colour only**. Verified live it still did: an apply wrote `core-palette` + `color` but
 nothing geometric. #146 extends the write path to the **FLOAT-variable axes** — `core-dimension`,
 `space`, `radius`, `size`, `border-width`, `focus`, `opacity`, and `layout` — so an apply now

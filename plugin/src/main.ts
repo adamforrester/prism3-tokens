@@ -16,9 +16,10 @@ import { onUiMessage, postToUi } from './bridge-main';
 import { assertNever } from './messages';
 import type { UiToMain } from './messages';
 import { applyWritePlan, applyFloatPlan } from './write-figma';
+import { applyStylesPlan } from './write-styles';
 import { readFigmaVariables } from './read-figma';
 import { buildFigmaColor } from '../../Prism3/engine/emit-figma-color';
-import { buildWritePlan, buildFloatWritePlan } from '../../Prism3/engine/write-plan';
+import { buildWritePlan, buildFloatWritePlan, buildStylesPlan } from '../../Prism3/engine/write-plan';
 import { verifyReadback } from '../../Prism3/engine/read-back';
 import { persistInput, restoreInput } from './persist-figma';
 import { brandTheme } from '../../Prism3/engine/theme';
@@ -43,6 +44,9 @@ const applyTheme = async (input: BrandInput): Promise<void> => {
     const r = await applyWritePlan(buildWritePlan(buildFigmaColor(theme)), figma.variables);
     // FLOAT axes (#146): core-dimension/space/radius/size/border-width/focus/opacity + layout.
     const f = await applyFloatPlan(buildFloatWritePlan(theme), figma.variables);
+    // STYLE axes (shadow/gradient lane): Effect Styles (shadow/* + shadow-dark/*) + Paint Styles
+    // (gradients, baked stops). The global `figma` structurally satisfies the StylesApi port.
+    const s = await applyStylesPlan(buildStylesPlan(theme), figma);
     // Persist the exact knobs alongside the variables (#131) — so re-opening this file rehydrates
     // the UI to THIS brand, not the default. Only after a real materialisation (inside the try).
     persistInput(figma.root, input);
@@ -51,6 +55,7 @@ const applyTheme = async (input: BrandInput): Promise<void> => {
     const summary =
       `palette ${r.paletteTotal} (+${r.paletteCreated}), color ${r.colorTotal} (+${r.colorCreated}), ` +
       `dims/layout ${f.collections.length} collections (+${floatCreated}), ` +
+      `styles ${s.effects.total} effects (+${s.effects.created}) / ${s.paints.total} gradients (+${s.paints.created}), ` +
       `${r.bound + f.bound} aliases bound` + (misses ? `, ${misses} misses` : '');
     postToUi({ type: 'apply-result', ok: misses === 0, summary });
   } catch (e) {

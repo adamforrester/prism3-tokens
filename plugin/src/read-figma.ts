@@ -18,6 +18,13 @@
 import type { ReadbackSnapshot, ReadValue } from '../../Prism3/engine/read-back';
 import type { VariablesApi, VariableAlias, ReadVarValue } from './write-figma';
 
+/** The minimal styles-read surface (shadow/gradient lane) — just the two name getters. `figma`
+ *  structurally satisfies it; passing it is optional so the colour/FLOAT read stays standalone. */
+export interface StylesReadApi {
+  getLocalEffectStylesAsync(): Promise<{ name: string }[]>;
+  getLocalPaintStylesAsync(): Promise<{ name: string }[]>;
+}
+
 const isAlias = (v: ReadVarValue): v is VariableAlias =>
   typeof v === 'object' && v !== null && (v as VariableAlias).type === 'VARIABLE_ALIAS';
 const isRgb = (v: ReadVarValue): v is { r: number; g: number; b: number; a?: number } =>
@@ -29,7 +36,7 @@ const isRgb = (v: ReadVarValue): v is { r: number; g: number; b: number; a?: num
  * are ignored. An alias whose target var can't be found is surfaced as `{ alias: null }` rather than
  * a fabricated name, so `verifyReadback`'s dangling-alias check stays honest.
  */
-export const readFigmaVariables = async (vars: VariablesApi): Promise<ReadbackSnapshot> => {
+export const readFigmaVariables = async (vars: VariablesApi, styles?: StylesReadApi): Promise<ReadbackSnapshot> => {
   const collections = await vars.getLocalVariableCollectionsAsync();
   // ALL local variables (no type filter): `getLocalVariablesAsync('COLOR')` returns ONLY COLOR vars,
   // which would make the FLOAT axes (#146) read back EMPTY. We index by collection below, so the
@@ -89,10 +96,20 @@ export const readFigmaVariables = async (vars: VariablesApi): Promise<ReadbackSn
       });
   }
 
+  // STYLE axes (shadow/gradient lane) — local Effect + Paint style NAMES (name-level readback; styles
+  // hold resolved values, no alias graph). Only read when a styles API is supplied.
+  let stylesSnap: ReadbackSnapshot['styles'] | undefined;
+  if (styles) {
+    const effects = (await styles.getLocalEffectStylesAsync()).map((s) => s.name);
+    const paints = (await styles.getLocalPaintStylesAsync()).map((s) => s.name);
+    stylesSnap = { effects, paints };
+  }
+
   return {
     collections: collections.map((c) => ({ name: c.name, modes: c.modes.map((m) => m.name) })),
     palette,
     color,
     ...(Object.keys(float).length ? { float } : {}),
+    ...(stylesSnap ? { styles: stylesSnap } : {}),
   };
 };

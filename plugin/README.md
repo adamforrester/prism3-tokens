@@ -112,6 +112,20 @@ each handler's `switch` exhaustive, so a new message type can't be silently drop
 - ⏭ **Typography + shadow/gradient are NOT here** — those are Figma *Styles* (text/effect/paint), a
   different API; typography also waits on the #112/#113 type-model decisions. Own follow-up issues.
 
+## Scope (shadow/gradient — write beyond variables: Figma Styles)
+
+- ✅ **The first non-variable write** — shadow → **Effect Styles**, gradient → **Paint Styles** (via
+  `createEffectStyle`/`createPaintStyle`, not `figma.variables`). New `plugin/src/write-styles.ts`
+  `StylesApi` port + `applyStylesPlan` (idempotent find-by-name), run after the FLOAT write.
+- ✅ **Shadow → BOTH style sets** — `shadow/*` (light) + `shadow-dark/*` (dark), exactly as the engine
+  emits them (Effect Styles can't carry Figma modes; a component swaps the pair by mode).
+- ✅ **Gradient → Paint Styles with BAKED resolved stops** + Figma `gradientTransform` (the emit's
+  `angle`/`center` → a 2×3 affine via `gradientTransformFor`). Node-free `engine/emit-figma-styles.ts`
+  + pure `buildStylesPlan`. Live-verified: a linear gradient + shadow render on a real rect.
+- ⏭ **Variable-linked gradient stops** (bind `ColorStop.boundVariables` to `palette/*` so gradients
+  re-theme live) — a fast-follow; this lane bakes resolved colours.
+- ⏭ **Typography** (text styles + font variables) — still its own lane, blocked on #112/#113.
+
 ## Run
 
 ```bash
@@ -119,7 +133,7 @@ npm install          # from the repo root (workspaces) — installs @figma/plugi
 npm run build -w @prism3/plugin      # → plugin/dist/main.js + plugin/dist/ui.html (shared UI inlined)
 npm run watch -w @prism3/plugin      # rebuild on change (watches plugin/src + web/src)
 npm run typecheck -w @prism3/plugin  # both contexts (main + ui)
-npm test -w @prism3/plugin           # write + read + persist + float executors against in-memory shims
+npm test -w @prism3/plugin           # write + read + persist + float + styles executors (in-memory shims)
 ```
 
 Then in Figma: **Plugins → Development → Import plugin from manifest…** → pick `plugin/manifest.json`.
