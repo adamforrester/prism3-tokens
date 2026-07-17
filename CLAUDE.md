@@ -20,6 +20,10 @@ For any engine or token-generation task, read these first (they hold the durable
 - `Prism3/docs/07-e2e-journey.md` — the designer↔developer↔agent pipeline + portable-core architecture.
 - `Prism3/engine/README.md` — how the engine works and how to run it.
 
+The engine core is buildless (run via `tsx`), but the repo also has two npm-workspace **surfaces** that bundle it (`web` + `plugin` are the root `package.json` workspaces):
+- `web/` (`@prism3/web`) — the web dashboard/theme studio (esbuild dev server); see `web/README.md`.
+- `plugin/` (`@prism3/plugin`) — the Figma plugin (two-context split + typed postMessage bridge); see `plugin/README.md`. For plugin work read `Prism3/docs/18-plugin-and-host-architecture.md` (capability grounding) and `Prism3/docs/22-plugin-plan.md` (the phased build plan, #106–#110).
+
 Workflow: one PR per feature branch off `main` → squash-merge → delete branch → sync `main`.
 
 ## Two parallel token formats

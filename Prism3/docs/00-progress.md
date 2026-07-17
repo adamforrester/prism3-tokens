@@ -9,7 +9,7 @@
 
 ## Latest (2026-07-16) — #107: Figma plugin scaffold (two-context split + typed bridge)
 
-**STATUS: in review (#120)** — Phase 2 of docs/22. Vanilla scaffold under a new **`plugin/`** workspace
+**STATUS: merged (#120, `0c5442b`)** — Phase 2 of docs/22. Vanilla scaffold under a new **`plugin/`** workspace
 (`@prism3/plugin`); no `figma.variables` writes yet (that's #108) and the placeholder iframe UI is what
 #110 swaps for the shared `web/src`. Manifest verified against the current Figma plugin docs (2026-07,
 via Context7) — no drift from the docs/18 §2 grounding.
