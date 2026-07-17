@@ -7,7 +7,48 @@
 
 ---
 
-## Latest (2026-07-16) — #107: Figma plugin scaffold (two-context split + typed bridge)
+## Latest (2026-07-16) — #108: plugin main-thread write adapter (live `figma.variables`)
+
+**STATUS: on branch `feat/108-figma-write-adapter`** — Phase 3 of docs/22. The plugin now WRITES: same
+pure colour-materialisation core the CLI paste-path uses, driven by a real executor against
+`figma.variables.*` on the main thread instead of emitting plugin-JS strings. Colour only
+(`core-palette` + `color`), matching `materialise-to-figma` today. API re-verified current against live
+Figma docs (Context7 `/websites/developers_figma`) before building — no drift from docs/18 §3.
+
+- **`WritePlan` — the host-neutral write contract** (`engine/write-plan.ts`, pure/node-free).
+  `buildWritePlan({palette, color})` reshapes the already-resolved `buildFigmaColor` collections into the
+  three passes as DATA: palette rows (scopes + literal RGBA + hidden), colour create-rows (one literal
+  value per mode), colour alias-rows (**one target per mode** — the collapse-guard). It is the SINGLE
+  source of truth both write paths consume, so they can't drift.
+- **`materialise-to-figma.ts` routed through it.** The disk-read shell + the four CLI string passes +
+  `aliasRows` all now project `buildWritePlan(collections)` instead of re-deriving rows inline. All four
+  CLI passes verified **byte-identical** to pre-refactor; the `aliasRows` collapse-guard tests stay green.
+- **The live executor** (`plugin/src/write-figma.ts`): `applyWritePlan(plan, figma.variables)`, async,
+  **idempotent** (find-by-name → update in place via `getLocalVariablesAsync` /
+  `getLocalVariableCollectionsAsync` — the async getters required under `documentAccess:"dynamic-page"`).
+  Three passes: palette (Default mode, hidden primitives) → colour create (rename mode[0] + addMode the
+  rest; literal per-mode fallbacks) → colour aliases (per-mode `createVariableAlias`, targets resolved
+  across BOTH collections). Depends only on a minimal `VariablesApi` port, so it's unit-testable with an
+  in-memory shim.
+- **Node-free extraction** (the flagged risk, resolved). `buildFigmaColor` + the shared pure helpers
+  (`figName`/`parseColor`/`desc`/`leaves`/`stripNs`) + the Figma var types moved to a new node-free
+  **`engine/emit-figma-color.ts`**; `emit-figma.ts` re-exports them (every existing importer + the
+  documented CLI unchanged, output byte-identical). Lets the plugin bundle `buildFigmaColor` with **zero
+  `node:` builtins** in `dist/main.js`. The theme is the bundled NB fixture: `nbThemeFrom(nbMeasured)`
+  (JSON inlined by esbuild) — #110 swaps that one call for the shared UI's live knobs.
+- **Bridge + trigger:** two message variants (`apply-theme` / `apply-result`); a placeholder-UI button
+  fires the write (whole UI is still #110's to replace).
+
+**Gates: engine 730/730 (723 + 7 new `buildWritePlan` tests incl. the plan-level collapse probe); all
+four materialise CLI passes byte-identical + `emit-figma` output unchanged (NB regression intact); both
+plugin contexts `tsc` clean; build emits main.js + inlined ui.html with 0 `node:` builtins; the executor
+harness (`plugin/test-write.ts`, in-memory `figma.variables` shim) drives `applyWritePlan` twice — 245
+vars stable (idempotent), 492/492 aliases bound, 0 misses, primitives hidden+scoped, background/primary
+distinct per mode. Live-in-Figma validation via the Desktop Bridge is the one manual step (see PR).**
+
+---
+
+## (2026-07-16) — #107: Figma plugin scaffold (two-context split + typed bridge)
 
 **STATUS: merged (#120, `0c5442b`)** — Phase 2 of docs/22. Vanilla scaffold under a new **`plugin/`** workspace
 (`@prism3/plugin`); no `figma.variables` writes yet (that's #108) and the placeholder iframe UI is what

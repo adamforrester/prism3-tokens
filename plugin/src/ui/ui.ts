@@ -27,6 +27,9 @@ onMainMessage((msg: MainToUi) => {
     case 'main-pong':
       log(`← main-pong (nonce ${msg.nonce})`);
       return;
+    case 'apply-result':
+      log(`${msg.ok ? '✓' : '✗'} apply → ${msg.summary}`);
+      return;
     default:
       assertNever(msg); // compile error if a MainToUi variant is added but not handled here
   }
@@ -38,6 +41,12 @@ document.getElementById('ping')?.addEventListener('click', () => {
   const n = ++nonce;
   postToMain({ type: 'ping', nonce: n });
   log(`→ ping (nonce ${n})`);
+});
+
+// Trigger the #108 write adapter — the main thread owns the theme (bundled NB today).
+document.getElementById('apply')?.addEventListener('click', () => {
+  postToMain({ type: 'apply-theme' });
+  log('→ apply-theme');
 });
 
 // Announce readiness only once the handler above is attached, so no main→UI message is missed.

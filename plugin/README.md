@@ -35,10 +35,22 @@ each handler's `switch` exhaustive, so a new message type can't be silently drop
 - ✅ Two-context split + split tsconfigs (violations proven to fail compilation).
 - ✅ Typed `postMessage` bridge with a placeholder UI that exercises the round-trip both ways
   (`ui-ready` → `main-ready`; button `ping` → `main-pong`).
-- ⏭ **Next:** the main-thread write adapter — resolved token model → live `figma.variables`
-  (#108); read-back to seed an existing file (#109); and bundling the shared `web/src` UI into the
-  iframe in place of the placeholder (#110). The bridge (`messages.ts` / `bridge-*.ts`) is what
-  survives that swap.
+
+## Scope (#108 — the write adapter)
+
+- ✅ **`src/write-figma.ts` — `applyWritePlan(plan, figma.variables)`**: the live executor for the
+  engine's host-neutral `WritePlan` (`../Prism3/engine/write-plan.ts`). Same pure colour-materialisation
+  core the CLI paste-path (`materialise-to-figma.ts`) uses; a real executor instead of a JS-string emitter.
+- ✅ **Idempotent** find-by-name → update in place (via the async `getLocalVariables*Async` getters
+  required under `dynamic-page`). Three passes: `core-palette` (hidden primitives) → `color` create
+  (N modes, literal fallbacks) → `color` aliases (**per-mode** binding — the collapse-guard).
+- ✅ **Colour only** (`core-palette` + `color`), matching the CLI today. The theme is the bundled NB
+  fixture (`nbThemeFrom(nbMeasured)`, JSON inlined) — `buildFigmaColor` bundles with **zero `node:`
+  builtins** thanks to the node-free `engine/emit-figma-color.ts`. A UI button fires `apply-theme`.
+- ✅ **Tested** without a live Figma: `test-write.ts` drives the executor against an in-memory
+  `figma.variables` shim (twice — idempotency), asserting the materialisation contract. `npm test`.
+- ⏭ **Next:** read-back to seed an existing file (#109); bundling the shared `web/src` UI into the
+  iframe in place of the placeholder (#110). The bridge (`messages.ts` / `bridge-*.ts`) survives that swap.
 
 ## Run
 
@@ -47,8 +59,10 @@ npm install          # from the repo root (workspaces) — installs @figma/plugi
 npm run build -w @prism3/plugin      # → plugin/dist/main.js + plugin/dist/ui.html
 npm run watch -w @prism3/plugin      # rebuild on change
 npm run typecheck -w @prism3/plugin  # both contexts (main + ui)
+npm test -w @prism3/plugin           # executor against an in-memory figma.variables shim
 ```
 
 Then in Figma: **Plugins → Development → Import plugin from manifest…** → pick `plugin/manifest.json`.
 The UI iframe is a single self-contained HTML file (the bundled JS is inlined) — required because the
-iframe has no server to fetch from and ships with no network access.
+iframe has no server to fetch from and ships with no network access. Click **Apply NB theme → variables**
+to materialise the `core-palette` + `color` collections into the current file.
