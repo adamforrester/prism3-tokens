@@ -605,7 +605,7 @@ const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
     vol.innerHTML = '';
     if (key === 'type') vol.append(renderTypeSpecimen());
     if (key === 'form') vol.append(renderShadowSpecimen());
-    if (key === 'semantic') { vol.append(renderNeutralSpecimen()); vol.append(renderInverseSpecimen()); }
+    if (key === 'semantic') { vol.append(renderNeutralSpecimen()); vol.append(renderInverseSpecimen()); vol.append(renderGradientSpecimen()); }
     vol.append(sectionHead('Live preview', 'The sample components + contrast overlay, resolved through every mode — they reflect this stage’s axis live.'));
     const pv = el('div', 'pvhost');
     vol.append(pv);
@@ -722,6 +722,36 @@ const renderNeutralSpecimen = (): HTMLElement => {
     const btn = el('div', 'ne-btn', 'Cancel');
     btn.style.background = fill; btn.style.color = ink;
     cell.append(btn, el('div', 'ne-lab mono', label));
+    row.append(cell);
+  }
+  wrap.append(row);
+  return wrap;
+};
+
+/** The gradient specimen: the brand gradient(s) as CSS swatches, so the Gradients toggle has a
+ *  visible payoff (nothing else in the preview shows them). Reads `theme.gradient.gradients` (the
+ *  last-good theme). Interpolates `in oklch` — the engine's intent — which Chromium (dashboard +
+ *  plugin iframe) renders natively. Empty when the toggle is off → a hint. */
+const gradientCss = (g: { kind: string; angle?: number; shape?: string; stops: Array<{ hex: string; position: number }> }): string => {
+  const stops = g.stops.map((s) => `${s.hex} ${Math.round(s.position * 100)}%`).join(', ');
+  return g.kind === 'radial'
+    ? `radial-gradient(${g.shape ?? 'ellipse'} in oklch, ${stops})`
+    : `linear-gradient(${g.angle ?? 135}deg in oklch, ${stops})`;
+};
+const renderGradientSpecimen = (): HTMLElement => {
+  const wrap = el('div', 'gradient-spec');
+  const grads = (theme.gradient?.gradients ?? []) as Array<{ name: string; kind: string; angle?: number; shape?: string; stops: Array<{ hex: string; position: number }> }>;
+  if (!grads.length) {
+    wrap.append(sectionHead('Gradients', 'Gradients are off — enable the Gradients toggle to ship one or more brand gradients (stop colours alias the ramp; OKLCH-interpolated).'));
+    return wrap;
+  }
+  wrap.append(sectionHead('Gradients', 'The brand gradient(s) — stop colours alias the ramp, interpolated in OKLCH (nothing else in the preview shows them).'));
+  const row = el('div', 'gr-list');
+  for (const g of grads) {
+    const cell = el('div', 'gr-cell');
+    const sw = el('div', 'gr-sw');
+    sw.style.background = gradientCss(g);
+    cell.append(sw, el('div', 'gr-lab mono', `${g.name} · ${g.kind} · ${g.stops.length} stops`));
     row.append(cell);
   }
   wrap.append(row);
@@ -1122,6 +1152,11 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .ne-cell.on{border-color:var(--ink);background:var(--paper)}
 .ne-btn{padding:10px 22px;border-radius:var(--r-xs);font-weight:600;font-size:14px}
 .ne-lab{font-size:11.5px;color:var(--muted)}
+.gradient-spec{margin-bottom:8px}
+.gr-list{display:flex;flex-wrap:wrap;gap:22px;border:1px solid var(--line);border-radius:var(--r);padding:24px;background:var(--panel)}
+.gr-cell{display:flex;flex-direction:column;gap:10px}
+.gr-sw{width:200px;height:96px;border-radius:var(--r-xs);border:1px solid var(--line)}
+.gr-lab{font-size:11.5px;color:var(--muted)}
 .modebar{display:flex;align-items:center;gap:8px}
 .mb-cap{font-size:12px;color:var(--muted);margin-right:4px}
 .modebtn{border:1px solid var(--line2);background:var(--panel);border-radius:var(--r-sm);padding:6px 12px;cursor:pointer;font:inherit;font-size:13px;color:var(--muted)}
