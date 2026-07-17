@@ -7,9 +7,41 @@
 
 ---
 
-## Latest (2026-07-16) — #108: plugin main-thread write adapter (live `figma.variables`)
+## Latest (2026-07-17) — #109: plugin read-back (`getLocalVariablesAsync` → snapshot + verify)
 
-**STATUS: on branch `feat/108-figma-write-adapter`** — Phase 3 of docs/22. The plugin now WRITES: same
+**STATUS: on branch `feat/109-figma-read-back`** — Phase 4 of docs/22, the read leg complementing
+#108's write leg. The plugin now READS the current file's colour variables back into host-neutral
+plain data and verifies the materialisation contract live — the same checks the `materialise-to-figma`
+`verifyPass` string-emitter has always encoded, now a live executor + a pure verify.
+
+- **`engine/read-back.ts`** (NEW, pure/node-free) — `ReadbackSnapshot` (plain-data mirror: collections
+  + palette rows + colour roles whose per-mode value is the alias TARGET NAME or a literal) +
+  `verifyReadback(snapshot)`. Ports the verify contract: `modesDistinct` (background/primary distinct
+  per mode — the collapse-guard), `aliasesResolve`, slot `scopes`, `fieldFamilyPresent`,
+  `retiredRolesAbsent`, `renamedRolesAbsent`, `bareDangerPresent`, `primitivesHidden`. The snapshot is
+  what #110's UI will consume to SEED itself from an existing themed file.
+- **`plugin/src/read-figma.ts`** (NEW) — `readFigmaVariables(figma.variables)`, the inverse of
+  `applyWritePlan`: reads `core-palette` + `color` via the async getters, resolves each alias to its
+  target var NAME (id→name map). Shares the `VariablesApi` port with the write executor (widened with a
+  `ReadVarValue` superset of Figma's `VariableValue` + a `valuesByMode` field, so `figma.variables`
+  still structurally satisfies it).
+- **Bridge + trigger** — `read-theme` / `read-result` variants; a "Read current file" placeholder-UI
+  button. The full snapshot stays main-side until #110 hands it up to seed the UI.
+
+**Gates: engine 742/742 (735 + 7 new `verifyReadback` tests incl. a NEGATIVE collapse test — a
+snapshot with background/primary collapsed to one target per mode fails `modesDistinct`); the read-back
+round-trip harness (`plugin/test-readback.ts`, `npm test`) drives write→read→verify on the shim — 122/122
+palette + 123/123 colour round-trip, 492 alias targets matched, contract `ok:true`; both plugin contexts
+`tsc` clean; build 0 `node:` builtins. Validated LIVE in Figma via the Desktop Bridge: read the doc #108
+wrote → verify `ok:true` (8/8 checks). En route it EARNED ITS KEEP — the first live read flagged a real
+stale `color/field/border` (a pre-#86 flat leaf the idempotent writer correctly left untouched), exactly
+the drift the verify contract exists to catch; removing it → clean pass.**
+
+---
+
+## (2026-07-16) — #108: plugin main-thread write adapter (live `figma.variables`)
+
+**STATUS: merged (#125, `59f7ef4`)** — Phase 3 of docs/22. The plugin now WRITES: same
 pure colour-materialisation core the CLI paste-path uses, driven by a real executor against
 `figma.variables.*` on the main thread instead of emitting plugin-JS strings. Colour only
 (`core-palette` + `color`), matching `materialise-to-figma` today. API re-verified current against live

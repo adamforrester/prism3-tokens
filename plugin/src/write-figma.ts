@@ -33,22 +33,30 @@ export interface VariablesApi {
   createVariable(name: string, collection: VarCollection, resolvedType: 'COLOR'): Variable;
   createVariableAlias(target: Variable): VariableAlias;
 }
-interface VarMode { modeId: string; name: string }
-interface VarCollection {
+export interface VarMode { modeId: string; name: string }
+export interface VarCollection {
   id: string;
   name: string;
   modes: VarMode[];
   renameMode(modeId: string, newName: string): void;
   addMode(name: string): string;
 }
-interface VariableAlias { type: 'VARIABLE_ALIAS'; id: string }
-interface Variable {
+export interface VariableAlias { type: 'VARIABLE_ALIAS'; id: string }
+/** The value a variable can hold in a mode, as the READ executor sees it (#109). A SUPERSET of the
+ *  real Figma `VariableValue` union (alias | RGB(A) | number | string | boolean), so `figma.variables`
+ *  structurally satisfies this port; `{ r; g; b; a? }` covers both RGB and RGBA. The write path only
+ *  ever sets `Rgba | VariableAlias` (a subset), which is assignable here. */
+export type ReadVarValue = VariableAlias | { r: number; g: number; b: number; a?: number } | number | string | boolean;
+export interface Variable {
   id: string;
   name: string;
   variableCollectionId: string;
   scopes: string[];
   description: string;
   hiddenFromPublishing: boolean;
+  // Per-mode values as Figma stores them — read by the READ executor (#109); the write path sets
+  // them via setValueForMode (which takes the narrow Rgba | VariableAlias the writer produces).
+  valuesByMode: Record<string, ReadVarValue>;
   setValueForMode(modeId: string, value: Rgba | VariableAlias): void;
 }
 

@@ -30,6 +30,9 @@ onMainMessage((msg: MainToUi) => {
     case 'apply-result':
       log(`${msg.ok ? '✓' : '✗'} apply → ${msg.summary}`);
       return;
+    case 'read-result':
+      log(`${msg.ok ? '✓' : '✗'} read → ${msg.summary}`);
+      return;
     default:
       assertNever(msg); // compile error if a MainToUi variant is added but not handled here
   }
@@ -47,6 +50,12 @@ document.getElementById('ping')?.addEventListener('click', () => {
 document.getElementById('apply')?.addEventListener('click', () => {
   postToMain({ type: 'apply-theme' });
   log('→ apply-theme');
+});
+
+// Trigger the #109 read-back — read the current file's variables + verify the contract.
+document.getElementById('read')?.addEventListener('click', () => {
+  postToMain({ type: 'read-theme' });
+  log('→ read-theme');
 });
 
 // Announce readiness only once the handler above is attached, so no main→UI message is missed.

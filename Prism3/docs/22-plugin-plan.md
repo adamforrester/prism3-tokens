@@ -60,7 +60,7 @@ manifest fields via Context7 / the Figma MCP skill when the build starts.
 | 1 ✅ | #106 | **Done (#119).** Extract the write-adapter seam (`apply(model)`) in the web UI — single-UI prerequisite |
 | 2 ✅ | #107 | **Done (#120).** Plugin scaffold — manifest + two-context split + typed postMessage bridge (vanilla) |
 | 3 ✅ | #108 | **Done.** Main-thread write adapter — pure `WritePlan` (`buildWritePlan`) → live `figma.variables`, idempotent; colour axis (`core-palette` + `color`) |
-| 4 | #109 | Read-back — `getLocalVariablesAsync` to seed theming an existing file |
+| 4 ✅ | #109 | **Done.** Read-back — `readFigmaVariables` → host-neutral `ReadbackSnapshot` + pure `verifyReadback` (contract check); seeds theming an existing file at #110 |
 | 5 | #110 | One build, two outputs — shared UI source → static site + plugin bundle |
 
 Related lanes filed alongside: web functional-foundation + editor work (#96–#104), the engine

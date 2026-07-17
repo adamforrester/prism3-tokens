@@ -13,8 +13,10 @@ import { onUiMessage, postToUi } from './bridge-main';
 import { assertNever } from './messages';
 import type { UiToMain } from './messages';
 import { applyWritePlan } from './write-figma';
+import { readFigmaVariables } from './read-figma';
 import { buildFigmaColor } from '../../Prism3/engine/emit-figma-color';
 import { buildWritePlan } from '../../Prism3/engine/write-plan';
+import { verifyReadback } from '../../Prism3/engine/read-back';
 import { nbThemeFrom } from '../../Prism3/engine/theme';
 import nbMeasured from '../../Prism3/schema/nb-measured.json';
 
@@ -44,6 +46,26 @@ const applyTheme = async (): Promise<void> => {
   }
 };
 
+/**
+ * Read the current file's variables back + verify the materialisation contract (#109). The inverse
+ * of `applyTheme`: reads `core-palette` + `color` into a host-neutral snapshot, then runs the pure
+ * `verifyReadback`. The snapshot stays main-side for now; #110 hands it up to seed the shared UI.
+ */
+const readTheme = async (): Promise<void> => {
+  try {
+    const snap = await readFigmaVariables(figma.variables);
+    const v = verifyReadback(snap);
+    const failed = Object.entries(v.checks).filter(([, ok]) => !ok).map(([k]) => k);
+    const summary =
+      `${v.details.colorVars} colour vars, modes ${v.details.modes.join('/') || '—'}` +
+      (v.ok ? ' — contract holds ✓' : ` — FAILED: ${failed.join(', ')}`) +
+      (v.details.danglingAliases.length ? ` (${v.details.danglingAliases.length} dangling)` : '');
+    postToUi({ type: 'read-result', ok: v.ok, summary });
+  } catch (e) {
+    postToUi({ type: 'read-result', ok: false, summary: `read failed: ${(e as Error).message}` });
+  }
+};
+
 onUiMessage((msg: UiToMain) => {
   switch (msg.type) {
     case 'ui-ready':
@@ -55,6 +77,9 @@ onUiMessage((msg: UiToMain) => {
       return;
     case 'apply-theme':
       void applyTheme();
+      return;
+    case 'read-theme':
+      void readTheme();
       return;
     default:
       assertNever(msg); // compile error if a UiToMain variant is added but not handled here
