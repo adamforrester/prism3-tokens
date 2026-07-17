@@ -45,10 +45,11 @@ export type ResolvedPreview = {
   dimOverrides: Record<string, Partial<Record<ModeName, number>>>;
   /** typography binding (e.g. `type.label.md.emphasis`) → resolved composite. Mode-invariant. */
   type: Record<string, ResolvedType>;
-  /** shadow binding (e.g. `shadow.sm`) → per-mode CSS `box-shadow` string. Mode-aware:
-   *  dark is the reduced lift-primary shadow (`$extensions.prism3.modes.dark`); a mode
-   *  without an override falls back to the canonical (light) `$value`. Sparse per mode,
-   *  like `colors`. */
+  /** every shadow in the ramp (`shadow.xs`…`shadow.2xl`, `shadow.inset`) → per-mode CSS
+   *  `box-shadow` string (the whole ramp, so the elevation specimen can show it; bound
+   *  refs like `shadow.sm` are a subset). Mode-aware: dark is the reduced lift-primary
+   *  shadow (`$extensions.prism3.modes.dark`); a mode without an override falls back to
+   *  the canonical (light) `$value`. Sparse per mode, like `colors`. */
   shadows: Record<string, Partial<Record<ModeName, string>>>;
 };
 
@@ -131,11 +132,15 @@ export const resolvePreview = (theme: Theme, spec: PreviewSpec = previewSpec): R
     };
   }
 
-  // Shadows — each shadow binding → a CSS box-shadow per mode. The token's `$value` is
-  // the canonical (light) layer array; `$extensions.prism3.modes.<mode>` carries per-mode
+  // Shadows — each shadow → a CSS box-shadow per mode. The token's `$value` is the
+  // canonical (light) layer array; `$extensions.prism3.modes.<mode>` carries per-mode
   // overrides (dark = the reduced lift-primary shadow). Mirrors the dimOverrides pattern.
+  // We resolve the WHOLE ramp (not just spec-bound refs like `shadow.sm`) so the elevation
+  // specimen can show the full xs→2xl ladder; bound refs are a subset, so chips still resolve.
+  const shadowNode = (data.shadow ?? {}) as Record<string, any>;
+  const allShadowRefs = new Set<string>([...shadowRefs, ...Object.keys(shadowNode).filter((k) => k[0] !== '$').map((k) => `shadow.${k}`)]);
   const shadows: ResolvedPreview['shadows'] = {};
-  for (const ref of [...shadowRefs].sort()) {
+  for (const ref of [...allShadowRefs].sort()) {
     const node = at(data, ref);
     const base = Array.isArray(node?.$value) ? (node!.$value as Array<Record<string, any>>) : [];
     const mo = node?.$extensions?.prism3?.modes as Record<string, Array<Record<string, any>>> | undefined;

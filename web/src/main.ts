@@ -603,6 +603,7 @@ const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
   paintVolatile = () => {
     vol.innerHTML = '';
     if (key === 'type') vol.append(renderTypeSpecimen());
+    if (key === 'form') vol.append(renderShadowSpecimen());
     vol.append(sectionHead('Live preview', 'The sample components + contrast overlay, resolved through every mode — they reflect this stage’s axis live.'));
     const pv = el('div', 'pvhost');
     vol.append(pv);
@@ -641,6 +642,28 @@ const renderTypeSpecimen = (): HTMLElement => {
     if (c.textCase === 'uppercase' || g === 'eyebrow') { sample.style.textTransform = 'uppercase'; sample.style.letterSpacing = '0.08em'; }
     row.append(sample);
     list.append(row);
+  }
+  wrap.append(list);
+  return wrap;
+};
+
+/** The elevation ramp specimen: one card per shadow step (xs→2xl) on a light surface, so
+ *  the shadow ramp — and the shadow-softness lever that reshapes every step — is visible
+ *  (the single card in the component preview only shows one step). Reads `rp.shadows`. */
+const SHADOW_STEPS = ['xs', 'sm', 'md', 'lg', 'xl', '2xl'];
+const renderShadowSpecimen = (): HTMLElement => {
+  const wrap = el('div', 'shadow-spec');
+  wrap.append(sectionHead('Elevation', 'The shadow ramp xs→2xl — the softness + tint levers reshape every step. On a light surface (see the preview below for the mode-reduced dark shadow).'));
+  const m: Mode = rp.modes.includes('light' as Mode) ? ('light' as Mode) : rp.modes[0];
+  const list = el('div', 'sh-list');
+  for (const step of SHADOW_STEPS) {
+    const css = rp.shadows[`shadow.${step}`]?.[m];
+    if (!css) continue;
+    const cell = el('div', 'sh-cell');
+    const card = el('div', 'sh-card');
+    card.style.boxShadow = css;                                   // resolved value inline (specimen reads the model directly)
+    cell.append(card, el('div', 'sh-lab mono', step));
+    list.append(cell);
   }
   wrap.append(list);
   return wrap;
@@ -1025,6 +1048,11 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .ts-row{display:flex;flex-direction:column;gap:8px;min-width:0}
 .ts-meta{font-size:11.5px;color:var(--faint)}
 .ts-sample{color:var(--ink);letter-spacing:-0.02em;line-height:1.1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.shadow-spec{margin-bottom:8px}
+.sh-list{display:flex;flex-wrap:wrap;gap:28px;border:1px solid var(--line);border-radius:var(--r);padding:28px 24px;background:#f4f5f7}
+.sh-cell{display:flex;flex-direction:column;align-items:center;gap:10px}
+.sh-card{width:64px;height:64px;border-radius:10px;background:#fff}
+.sh-lab{font-size:11.5px;color:#5b6472}
 .modebar{display:flex;align-items:center;gap:8px}
 .mb-cap{font-size:12px;color:var(--muted);margin-right:4px}
 .modebtn{border:1px solid var(--line2);background:var(--panel);border-radius:var(--r-sm);padding:6px 12px;cursor:pointer;font:inherit;font-size:13px;color:var(--muted)}
