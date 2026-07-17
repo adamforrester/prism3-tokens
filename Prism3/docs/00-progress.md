@@ -7,9 +7,52 @@
 
 ---
 
-## Latest (2026-07-17) — #110: one build, two outputs (shared `web/src` UI → plugin iframe)
+## Latest (2026-07-17) — editor lane sweep: the web dashboard becomes demonstrative (#96–#101)
 
-**STATUS: on branch `feat/110-one-build-two-outputs`** — Phase 5, the CAPSTONE of the plugin lane and
+**STATUS: MERGED** (#96, #98, #99×5 slices, #100, #101; the `#122` type nit). Batched here because these
+web-lane entries were deliberately deferred while the plugin lane held the shared log — now captured. The
+dashboard went from a mostly read-only preview to genuinely *showing what each control does*, and — since
+it's all in the shared `web/src` — **the plugin iframe inherits every one of these post-#110**.
+
+- **#96 — controls live + toggle renderer.** Liveness is now by control TYPE (`slider/enum/palette-ref/toggle`),
+  not a 3-key allowlist; added the missing `toggle` renderer. Every atomic lever now edits `brandState` and
+  re-runs the engine (a bad value surfaces the error bar, never crashes). Object/list editors stay for #97.
+- **#98 — box-shadow in the preview + `shadows` in the read-model.** `ResolvedPreview` gains `shadows`
+  (`resolve-preview.ts`): each shadow → a per-mode CSS `box-shadow` string, dark = the reduced lift-primary
+  override, folded through the write-adapter seam. Done via the seam so the plugin inherits shadow rendering.
+- **#99 — per-axis specimens (5 slices).** Elevation ramp (Form) + on Semantic: outline hover/pressed,
+  inverse hero band, neutral subtle-vs-strong comparison, gradient swatches. **A/B split (owner-approved):**
+  genuine *missing preview states* (outline hover/pressed) went into the shared `previewSpec` (contrast-gated,
+  plugin inherits); *axis-isolating comparisons* (inverse/neutral/gradient) are dashboard-only Kind-B specimens
+  reading `resolveAllModes`/`theme` directly. The icon row is deferred (needs icon rendering).
+- **FOUNDATIONAL (in #99 2a) — translucent roles now render.** Overlay washes resolved to their OPAQUE base
+  hex (the wash alpha was computed for the contrast gate but never stored), so *any* translucent role rendered
+  solid black. Fix: `modes.ts` records `alpha` on the overlay roles (additive, optional — `hex` unchanged, so
+  contracts still gate on the opaque base); `resolve-preview` folds `hex+alpha` into an 8-digit hex for
+  `colors`. Unblocks overlays, the inverse band, and any future translucent role. **`out/*` untouched — alpha
+  stays in the read-model/contrast path, never the emitted DTCG.**
+- **#100 — contrast-at-point-of-edit.** Per-component contrast badges (active mode) + token-path pills under
+  each preview component. The badge ratio is DERIVED/gated at the core (not hand-typed — the design-review
+  divergence: borrow the v2-plugin presentation, keep our derivation). Full all-modes table stays below.
+- **#101 — Semantic tab regrouped** into Interactive colour / Accessibility policy (disabled floor nested under
+  strategy) / Features; stale "override status hues" lede fixed (that moved to the Primitives per-ramp control).
+- **`#122` nit cleared** (landed with #130): `gradients?: true | GradientInput[]` → `boolean | GradientInput[]`,
+  so a UI toggle's `false` is type-honest (already schema-aligned + runtime-safe; no output change).
+
+**Gates across the sweep: engine tests grew 723→745 (specimen + alpha + ramp assertions), nb-regression exit 0,
+DTCG 336/336 per brand, `out/*` byte-identical on every web PR (all reuse the read-model — no emitted-token
+change), web tsc + build clean each time. Each slice verified live headless (Playwright).**
+
+**Open editor backlog:** #102 (holistic radius view), #103 (typography editor — unblocked by #105), #104
+(static-site deploy — platform TBD), #97 (object-value editors), #99 icon row. **Cross-lane follow-up owed:**
+persist a *versioned* `BrandInput` in Figma shared-data for true knob round-trip (generation is lossy — #109's
+snapshot can't rehydrate knobs; engine-lane owns the version contract).
+
+---
+
+## (2026-07-17) — #110: one build, two outputs (shared `web/src` UI → plugin iframe)
+
+**STATUS: MERGED (#132).** Phase 5, the CAPSTONE of the plugin lane and
 the proof of its thesis: **one UI, one engine, no fork.** The plugin iframe now runs the SAME
 `web/src/main.ts` the standalone web app does — not a second UI. Only the write adapter + manifest
 differ per host, selected at BUILD time.
@@ -169,7 +212,7 @@ re-projects through the adapter.**
 
 ## (2026-07-16) — #105.3: single-family `$value` + `fallbackStack` extension
 
-**STATUS: in review (#118)** — re-landed on fresh `main` after #117/#105.2 merged (`c22f22e`), so the
+**STATUS: MERGED (#118)** — re-landed on fresh `main` after #117/#105.2 merged (`c22f22e`), so the
 merge-base is linear and the golden movement was re-verified on the clean base. Third and final brick of #105.
 
 - **Family primitive `$value` is now the SINGLE brand family** (`stack[0]`, a string) — the DTCG- and
@@ -197,7 +240,7 @@ To be posted on #105 for the TP agent.
 
 ## (2026-07-16) — #105.2: italic axis (weight-paired modifier)
 
-**STATUS: in progress** on branch `claude/prism3-e2e-integration-8fwul4` (fresh from `main`, post-#116).
+**STATUS: MERGED (#117)** — built on branch `claude/prism3-e2e-integration-8fwul4` (fresh from `main`, post-#116).
 Second brick of #105; the DTCG encoding is the one Token Press locked on #115 (closed).
 
 - **Italic modelled as an orthogonal modifier PAIRED with each weight** (`strong` + `strong-italic`),
@@ -225,7 +268,7 @@ emit-figma + web tsc clean; lever-manifest.json + out/* regenerated.**
 
 ## (2026-07-16) — #105.1: extensible weight-role set + `max`
 
-**STATUS: in progress** on branch `claude/prism3-e2e-integration-8fwul4` (fresh from `main`, post-#95).
+**STATUS: MERGED (#116)** — built on branch `claude/prism3-e2e-integration-8fwul4` (fresh from `main`, post-#95).
 First brick of the #105 typography type-model expansion; self-contained, no Token-Press round needed.
 
 - **Data-driven role set.** The four hardcoded weight-role names became one ordered canonical array
