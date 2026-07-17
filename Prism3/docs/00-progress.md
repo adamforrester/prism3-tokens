@@ -7,9 +7,47 @@
 
 ---
 
-## Latest (2026-07-17) — #131: persist `BrandInput` in shared-data → true knob round-trip
+## Latest (2026-07-17) — editor lane completes: typography editor + holistic radius + object-value editors (#102, #103 A, #97)
 
-**STATUS: in review (branch `feat/131-persist-brandinput`).** The #110 follow-up, and the last open
+**STATUS: MERGED** (#102 → #136, #103 A1 → #137, #103 A2 → #139, #97 → #140). The web dashboard now has
+**no read-only levers left** — every knob in the manifest is editable, and (all in shared `web/src`) the
+plugin iframe inherits every one of these post-#110.
+
+- **#102 — holistic radius specimen (Form stage).** A dedicated `renderRadiusSpecimen` reading `rp.dims`
+  across the radius steps (none/sm/md/lg/round) on representative component sizes, so the "Corner softness"
+  slider has a visible payoff beyond the single component chip. (The slider is a 0–2 softness dial, not an
+  enum — the specimen shows the ramp it reshapes.)
+- **#103 — typography editor, Phase A (A1 + A2).** The type model is now fully editable on the settled
+  engine (post-#105). **A1:** the font *pool* (three family roles → editable primary faces, single name
+  auto-pads the fallback stack) + the global weight-role→numeric map (`subtle/default/emphasis/strong/max`).
+  **A2:** the per-category assignment table — for each of the 7 groups (display/title/body/label/caption/
+  eyebrow/code): family role · which weight-roles ship · italic · link. List writes read LIVE checkbox
+  state (never a captured snapshot), so successive toggles stay staleness-free. Writes only existing
+  `TypographyInput` fields → no `PERSIST_VERSION` bump. **Phase B (availability-aware weight pickers) is
+  parked on #113** (font availability/resolution research).
+- **#97 — object-value editors.** `renderControl` could only show `object` levers read-only as "configured".
+  Bespoke sub-forms now edit the two that were still stuck: **page surfaces** (`surfaces.<mode>.{base,
+  floorStep}` — white/black/neutral-step ground + optional contrast floor, on the Semantic stage) and
+  **shadow tint** (`shadow.tint.{hue,amount}` hue-shifting the shadow base off pure black, on the Form
+  stage). The third object lever (`typography.families`) is covered by the #103 editor. Each reads
+  brandState (falling back to the engine default), writes via `setPath`, re-resolves.
+
+**Gates across the three PRs: web tsc + build clean each time; 0 `node:` builtins; no engine/token/`out`
+change (all reuse the read-model). Each verified live headless (Playwright): the typography table renders
+7 category rows with family selects + weight/italic/link checkboxes matching resolved state; the surfaces
+editor moves the preview ground; the shadow-tint sliders recolour the elevation ramp.**
+
+**Open editor backlog:** #99 icon row (needs icon rendering in the preview — the one remaining #99 specimen;
+the other six shipped in the sweep), #103 Phase B (blocked on #113), #104 static-site deploy (platform TBD —
+owner not ready). **Decisions pending:** #113 (font availability — gates Phase B), #114 (gradients + motion
+tab placement). **Plugin/MCP lane:** #111 (build Prism3 components in Figma from ComponentDefs via MCP) is
+the next unstarted spike; the plugin itself is functionally complete through #110 + persist (#131/#138).
+
+---
+
+## (2026-07-17) — #131: persist `BrandInput` in shared-data → true knob round-trip
+
+**STATUS: MERGED (#138).** The #110 follow-up, and the last open
 plugin phase. #110's boot seed was *informational only* — a `ReadbackSnapshot` is resolved colour
 values, so the `BrandInput` knobs can't be reverse-engineered from it; re-opening a themed file always
 reset the UI to the default `aurora`. #131 closes the loop: the plugin now persists the exact
