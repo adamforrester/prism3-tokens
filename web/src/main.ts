@@ -470,6 +470,27 @@ const paintPreview = (host: HTMLElement): void => {
     const row = el('div', 'chips');
     for (const v of c.variants) row.append(renderChip(`${c.id} · ${v.name}`, v.bindings, currentMode));
     block.append(row);
+    // #100: verification AT THE POINT OF EDIT — this component's contrast contracts for the
+    // active mode as inline badges (we DERIVE + gate the ratio, so it's authoritative, not a
+    // hand-typed number), plus token-path pills for the colour roles it binds (dev transparency).
+    const cts = rp.contracts.filter((ct) => ct.component === c.id && ct.byMode[currentMode]);
+    if (cts.length) {
+      const badges = el('div', 'pv-contrasts');
+      for (const ct of cts) {
+        const r = ct.byMode[currentMode]!;
+        const b = el('span', `cbadge ${r.pass ? 'ok' : 'no'}`);
+        b.append(el('span', 'cb-lab', ct.label ?? `min ${ct.min}:1`), el('span', 'cb-ratio', `${r.ratio.toFixed(2)}:1`), el('span', 'cb-mark', r.pass ? '✓' : '✗'));
+        badges.append(b);
+      }
+      block.append(badges);
+    }
+    const roles = [...new Set(c.variants.flatMap((v) => Object.values(v.bindings).filter((t) => t.startsWith('color.')).map((t) => t.replace(/^color\./, ''))))];
+    if (roles.length) {
+      const pills = el('div', 'pv-paths');
+      for (const rref of roles.slice(0, 6)) pills.append(el('span', 'tpill mono', rref));
+      if (roles.length > 6) pills.append(el('span', 'tpill more', `+${roles.length - 6}`));
+      block.append(pills);
+    }
     surface.append(block);
   }
   host.append(surface);
@@ -1217,6 +1238,16 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .pvcomp:last-child{margin-bottom:0}
 .pvcomp h4{margin:0 0 8px;font-size:13px}
 .chips{display:flex;flex-wrap:wrap;gap:10px}
+.pv-contrasts{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.cbadge{display:inline-flex;align-items:center;gap:6px;padding:3px 8px;border-radius:999px;font-size:11px;border:1px solid var(--line2)}
+.cbadge.ok{background:rgba(26,156,82,.09);border-color:rgba(26,156,82,.35)}
+.cbadge.no{background:rgba(221,51,51,.09);border-color:rgba(221,51,51,.4)}
+.cb-lab{color:var(--muted)}
+.cb-ratio{font-variant-numeric:tabular-nums;font-weight:600}
+.cbadge.ok .cb-mark{color:#1a9c52}.cbadge.no .cb-mark{color:#d23}
+.pv-paths{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.tpill{font-size:10.5px;padding:2px 7px;border-radius:5px;background:var(--panel);border:1px solid var(--line);color:var(--faint)}
+.tpill.more{color:var(--muted);font-style:italic}
 .chip{padding:8px 14px;border-radius:8px;font-weight:600;font-size:13px}
 .contracts{border:1px solid var(--line);border-radius:var(--r);background:var(--panel);padding:18px 20px}
 .contracts h3{margin:0 0 4px;font-size:15px;font-weight:620}
