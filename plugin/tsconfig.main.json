@@ -1,0 +1,15 @@
+{
+  "// docs/22 §3": "MAIN-THREAD context — Figma sandbox. plugin-typings, and lib WITHOUT 'dom' so any document/window reference is a compile error (the two-context split, enforced by types).",
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "typeRoots": ["../node_modules/@types", "../node_modules/@figma"],
+    "types": ["plugin-typings"],
+    "lib": ["ES2020"]
+  },
+  "include": ["src/main.ts", "src/bridge-main.ts", "src/messages.ts", "src/figma-env.d.ts"]
+}

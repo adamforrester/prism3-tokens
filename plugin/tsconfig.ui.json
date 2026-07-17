@@ -1,0 +1,14 @@
+{
+  "// docs/22 §3": "UI-IFRAME context — a browser. DOM lib, and NO plugin-typings so any figma.* reference is a compile error (the mirror of the main config's no-DOM rule).",
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "types": [],
+    "lib": ["ES2020", "DOM", "DOM.Iterable"]
+  },
+  "include": ["src/ui/ui.ts", "src/bridge-ui.ts", "src/messages.ts"]
+}

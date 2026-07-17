@@ -3,3 +3,4 @@
 # monorepo adapters (Node/bundler artifacts). The engine core stays buildless.
 node_modules/
 web/dist/
+plugin/dist/
