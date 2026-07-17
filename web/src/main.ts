@@ -52,9 +52,13 @@ const NEW_BRAND = (): BrandInput => ({
 });
 const ROOT_RE = /^[a-z][a-z0-9-]*$/;
 
-// Levers that visibly change the preview: the colour axis plus radius/type (the chips
-// render real geometry/type from the tree). Density/motion/shadow stay read-only.
-const LIVE = new Set(['actionPalette', 'radiusScale', 'typography.typeScale']);
+// Every ATOMIC control is live — it edits brandState and re-runs the engine on change.
+// Liveness is by control TYPE, not a per-key allowlist: sliders, enums, palette-refs, and
+// toggles all have real handlers (a bad value just surfaces the error bar, never crashes —
+// rebuild() is try/caught). Object/list levers (families, surfaces, brand colours) stay
+// read-only until their bespoke editors land (#97). Not every live axis is mirrored in the
+// shared preview yet (density/motion/shadow need specimens, #99) — but the control works.
+const LIVE_CONTROLS = new Set(['slider', 'enum', 'palette-ref', 'toggle']);
 
 const MODE_LABEL: Record<string, string> = { light: 'Light', dark: 'Dark', 'hc-light': 'HC light', 'hc-dark': 'HC dark', wireframe: 'Wireframe' };
 
@@ -343,7 +347,7 @@ const renderPrimitives = (host: HTMLElement): void => {
 // ===========================================================================
 
 const renderControl = (lever: Lever): HTMLElement => {
-  const live = LIVE.has(lever.key);
+  const live = LIVE_CONTROLS.has(lever.control);
   const wrap = el('div', 'knob');
   wrap.append(el('label', 'knob-label', lever.label));
 
@@ -374,6 +378,19 @@ const renderControl = (lever: Lever): HTMLElement => {
     sel.disabled = !live;
     if (live) sel.onchange = () => { setPath(brandState, lever.key, sel.value); apply(); };
     wrap.append(sel);
+  } else if (lever.control === 'toggle') {
+    // Boolean axis. `checked` reads truthy — so `gradients` renders "on" whether it's `true`
+    // or an explicit gradient array (the array is only reset if the user toggles off). Toggling
+    // writes a plain boolean: on → the default (single gradient / inverse inks), off → false.
+    const row = el('div', 'knob-body');
+    const input = el('input') as HTMLInputElement;
+    input.type = 'checkbox';
+    input.className = 'toggle';
+    input.checked = !!(getPath(brandState, lever.key) ?? lever.default);
+    const val = el('span', 'knob-val', input.checked ? 'On' : 'Off');
+    input.onchange = () => { setPath(brandState, lever.key, input.checked); val.textContent = input.checked ? 'On' : 'Off'; apply(); };
+    row.append(input, val);
+    wrap.append(row);
   } else {
     const v = getPath(brandState, lever.key) ?? lever.default;
     let text: string;
@@ -988,6 +1005,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .knob-label{font-weight:600;font-size:13.5px}
 .knob-body{display:flex;align-items:center;gap:10px;margin-top:8px}
 .knob input[type=range]{flex:1;accent-color:var(--ink)}
+.knob input.toggle{width:20px;height:20px;accent-color:var(--ink);cursor:pointer}
 .knob input:disabled{opacity:.5}
 .knob select{margin-top:8px;padding:6px 8px;border:1px solid var(--line2);border-radius:var(--r-xs);font:inherit;background:var(--paper)}
 .knob select:disabled{opacity:.6}
