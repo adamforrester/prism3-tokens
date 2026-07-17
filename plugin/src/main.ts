@@ -25,8 +25,11 @@ import { brandTheme } from '../../Prism3/engine/theme';
 import type { BrandInput } from '../../Prism3/engine/theme';
 
 // Show the UI iframe. `__html__` is the bundled shared-UI HTML Figma injects from `manifest.ui`
-// (the inlined `web/src` app; declared for the sandbox global in `figma-env.d.ts`).
-figma.showUI(__html__, { width: 480, height: 720, themeColors: true });
+// (the inlined `web/src` app; declared for the sandbox global in `figma-env.d.ts`). The shared
+// `web/src` UI is laid out desktop-first: `#app` caps content at 1200px with 40px gutters, so the
+// full layout wants 1280px. Figma is desktop-only, so we size the window to the web canvas rather
+// than a "standard" narrow plugin — the same UI renders identically to the standalone web app.
+figma.showUI(__html__, { width: 1280, height: 900, themeColors: true });
 
 /**
  * Materialise a brand into `figma.variables` (#108) — the theme now comes LIVE from the shared UI's
