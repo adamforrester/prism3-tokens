@@ -12,11 +12,14 @@
  */
 import { buildFigmaColor } from '../Prism3/engine/emit-figma-color';
 import { buildWritePlan } from '../Prism3/engine/write-plan';
-import { verifyReadback, verifyFloatReadback } from '../Prism3/engine/read-back';
-import { buildFloatWritePlan } from '../Prism3/engine/write-plan';
-import { nbThemeFrom } from '../Prism3/engine/theme';
+import { verifyReadback, verifyFloatReadback, verifyStylesReadback } from '../Prism3/engine/read-back';
+import { buildFloatWritePlan, buildStylesPlan } from '../Prism3/engine/write-plan';
+import { brandTheme, nbThemeFrom } from '../Prism3/engine/theme';
 import { applyWritePlan, applyFloatPlan } from './src/write-figma';
+import { applyStylesPlan } from './src/write-styles';
 import { readFigmaVariables } from './src/read-figma';
+import exampleBrands from '../Prism3/schema/example-brands.json';
+import type { BrandInput } from '../Prism3/engine/theme';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
@@ -115,6 +118,32 @@ ok(fverdict.ok, 'verifyFloatReadback: contract holds' + (fverdict.ok ? '' : ` �
 ok(fverdict.checks.aliasesResolve && fverdict.details.danglingAliases.length === 0, 'every FLOAT alias resolves — 0 dangling');
 ok(fverdict.checks.dimensionsHidden, 'core-dimension primitives hidden from publishing');
 ok(fverdict.checks.collectionsPresent, 'all expected FLOAT collections present in the read-back');
+
+// STYLE axes (shadow/gradient lane) — write Effect + Paint Styles into a styles shim, read the names
+// back (via readFigmaVariables' optional styles arg), verify. Aurora ships dark + gradients.
+class StyleShim { description = ''; effects: readonly unknown[] = []; paints: readonly unknown[] = []; constructor(public name = '') {} }
+class StylesShim {
+  effectStyles: StyleShim[] = [];
+  paintStyles: StyleShim[] = [];
+  async getLocalEffectStylesAsync(): Promise<StyleShim[]> { return this.effectStyles; }
+  async getLocalPaintStylesAsync(): Promise<StyleShim[]> { return this.paintStyles; }
+  createEffectStyle(): StyleShim { const s = new StyleShim(); this.effectStyles.push(s); return s; }
+  createPaintStyle(): StyleShim { const s = new StyleShim(); this.paintStyles.push(s); return s; }
+}
+const auroraTheme = brandTheme(exampleBrands['aurora'] as unknown as BrandInput);
+const styleShim = new StylesShim();
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+await applyStylesPlan(buildStylesPlan(auroraTheme), styleShim as any);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const snap3 = await readFigmaVariables(api, styleShim as any);
+const expectDark = auroraTheme.modes.includes('dark');
+const expectGradients = !!buildStylesPlan(auroraTheme).paints.length;
+const sverdict = verifyStylesReadback(snap3, expectDark, expectGradients);
+
+ok(!!snap3.styles && snap3.styles.effects.some((n) => n.startsWith('shadow/')), 'snapshot carries the Effect Style names after the styles write');
+ok(sverdict.ok, 'verifyStylesReadback: contract holds' + (sverdict.ok ? '' : ` — ${Object.entries(sverdict.checks).filter(([, v]) => !v).map(([k]) => k).join(',')}`));
+ok(sverdict.checks.shadowDarkConsistent, 'shadow-dark/* present iff the brand ships dark');
+ok(sverdict.checks.gradientsConsistent, 'gradient Paint Styles present iff the brand opts into gradients');
 
 console.log(`\nplugin read-back: ${failed === 0 ? 'ALL PASS' : failed + ' FAILED'}`);
 if (failed) process.exit(1);

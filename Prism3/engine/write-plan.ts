@@ -26,6 +26,8 @@
 import type { FigmaCollectionFile, FigmaColor, FigmaVar } from './emit-figma-color';
 import type { Theme } from './theme';
 import { buildFigmaDims, buildFigmaLayout } from './emit-figma-dims';
+import { buildFigmaShadow, buildFigmaGradient } from './emit-figma-styles';
+import type { FigmaEffect } from './emit-figma-styles';
 
 /** A colour value as Figma's variable API wants it (RGBA floats 0–1). */
 export type Rgba = { r: number; g: number; b: number; a: number };
@@ -192,4 +194,102 @@ export const buildFloatWritePlan = (theme: Theme): FloatCollectionPlan[] => {
     floatPlanFor('opacity', [dims.opacity]),
     floatPlanFor('layout', layout),
   ];
+};
+
+// ---------------------------------------------------------------------------
+// STYLE AXES (shadow/gradient lane) — the non-variable write. Shadow → Effect Styles,
+// gradient → Paint Styles. Reshapes the node-free `buildFigmaShadow`/`buildFigmaGradient` into a
+// host-neutral plan the plugin styles executor (`applyStylesPlan`) consumes. Unlike the variable
+// plans there's no alias graph — styles hold resolved values. Two lane decisions live here:
+//   • shadow → BOTH style sets (`shadow/*` light + `shadow-dark/*` dark), verbatim from the emit
+//     (Effect Styles can't carry Figma modes; a component swaps the pair by mode).
+//   • gradient stops → BAKED resolved RGBA (not variable-bound); the `angle`/`center` the emit
+//     carries is converted HERE into Figma's 2×3 `gradientTransform` (Figma positions gradients by
+//     an affine transform, not an angle). Variable-linked stops are a deferred fast-follow.
+// ---------------------------------------------------------------------------
+
+/** Figma's gradient positioning matrix — a 2×3 affine `[[a,b,tx],[c,d,ty]]` mapping the layer's
+ *  unit space to gradient space. */
+export type GradientTransform = [[number, number, number], [number, number, number]];
+
+/** One Effect Style to materialise (a shadow step, light or dark). Effects carry resolved RGBA. */
+export type EffectStyleRow = { name: string; description: string; effects: FigmaEffect[] };
+
+/** One Paint Style to materialise (a gradient). Stops are BAKED resolved RGBA; `gradientTransform`
+ *  encodes the angle/center the emit carried. */
+export type PaintStyleRow = {
+  name: string;
+  description: string;
+  paintType: 'GRADIENT_LINEAR' | 'GRADIENT_RADIAL';
+  gradientTransform: GradientTransform;
+  stops: { position: number; color: Rgba }[];
+};
+
+/** The full styles plan — Effect Styles (shadows) + Paint Styles (gradients). */
+export type StylesPlan = { effects: EffectStyleRow[]; paints: PaintStyleRow[] };
+
+/**
+ * Figma gradient transform for a given kind + angle/center.
+ *
+ * LINEAR: `angleDeg` is the SAME CSS `linear-gradient(<deg>)` angle the web renderer consumes
+ * (`tree.ts` `gradientCss`), so the two surfaces must agree for a given authored angle — CSS `0deg` =
+ * "to top" (bottom→top, vertical), `90deg` = to right, `135deg` = to bottom-right corner. The
+ * progression direction for CSS angle θ is `(sinθ, −cosθ)` (screen y-down). A Figma gradientTransform
+ * whose first row's linear part is `(cosφ, −sinφ)` progresses along `(cosφ, −sinφ)`; setting
+ * `φ = 90° − θ` makes that equal `(sinθ, −cosθ)` — i.e. we rotate the identity (horizontal) gradient
+ * by `90 − angleDeg` about the layer centre (0.5, 0.5), translation `t = c − R·c` keeping the centre
+ * fixed. So θ=90→L→R, θ=0→to-top, θ=135→bottom-right corner — matching the CSS/web preview.
+ *
+ * RADIAL: a centre-anchored transform — the gradient radiates from `center` (default 0.5,0.5). We use
+ * an identity-scaled transform translated so gradient-space origin sits at the centre; Figma treats
+ * the radial gradient's handles from this. (Baked, non-variable — a faithful default; per-shape
+ * ellipse tuning is out of scope for this lane.)
+ */
+export const gradientTransformFor = (
+  paintType: 'GRADIENT_LINEAR' | 'GRADIENT_RADIAL',
+  angleDeg = 0,
+  center: [number, number] = [0.5, 0.5],
+): GradientTransform => {
+  const r = (v: number) => Math.round(v * 1e5) / 1e5;
+  if (paintType === 'GRADIENT_LINEAR') {
+    // Convert the CSS angle to the Figma rotation (φ = 90 − θ) so web + Figma render the same angle.
+    const rad = ((90 - angleDeg) * Math.PI) / 180;
+    const cos = Math.cos(rad);
+    const sin = Math.sin(rad);
+    // Rotate about (0.5, 0.5): t = c − R·c, with c = (0.5, 0.5).
+    const cx = 0.5;
+    const cy = 0.5;
+    const tx = cx - (cos * cx - sin * cy);
+    const ty = cy - (sin * cx + cos * cy);
+    return [[r(cos), r(-sin), r(tx)], [r(sin), r(cos), r(ty)]];
+  }
+  // Radial: identity orientation, origin at the declared centre.
+  const [cx, cy] = center;
+  return [[1, 0, r(cx - 0.5)], [0, 1, r(cy - 0.5)]];
+};
+
+/**
+ * Reshape the shadow + gradient emit into the host-neutral styles plan. PURE (node-free builders +
+ * types) — bundles into the plugin like the variable plans. Gradient stops are BAKED to resolved
+ * RGBA (owner decision); the `alias`/`sampledStops` the emit carries are intentionally dropped here.
+ */
+export const buildStylesPlan = (theme: Theme): StylesPlan => {
+  const shadow = buildFigmaShadow(theme);
+  const gradient = buildFigmaGradient(theme);
+
+  const effects: EffectStyleRow[] = shadow.styles.map((s) => ({
+    name: s.name,
+    description: s.description,
+    effects: s.effects,
+  }));
+
+  const paints: PaintStyleRow[] = gradient.styles.map((g) => ({
+    name: g.name,
+    description: g.description,
+    paintType: g.paintType,
+    gradientTransform: gradientTransformFor(g.paintType, g.angle, g.center),
+    stops: g.stops.map((s) => ({ position: s.position, color: rgba(s.color) })),
+  }));
+
+  return { effects, paints };
 };

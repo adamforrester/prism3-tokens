@@ -32,7 +32,7 @@ import { handleRpc, callTool, toolDefs } from './mcp';
 import { scoreConsumption, scoreContractCompliance, tokenPaths, normalizeRef, isPrimitiveRef, PRIMITIVE_TIERS } from './eval';
 import { runEval, buildPrompt, extractRefs, extractPairs, SAMPLE_TASKS } from './eval-run';
 import { aliasRows } from './materialise-to-figma';
-import { buildWritePlan, buildFloatWritePlan } from './write-plan';
+import { buildWritePlan, buildFloatWritePlan, buildStylesPlan, gradientTransformFor } from './write-plan';
 import { verifyReadback, verifyFloatReadback, ReadbackSnapshot } from './read-back';
 import { serializeBrandInput, deserializeBrandInput, PERSIST_VERSION } from './persist-input';
 import { validateComponentDef, ComponentDef } from './component-schema';
@@ -492,6 +492,46 @@ for (const b of brands) {
     },
   }, false);
   ok(!dangling.ok && !dangling.checks.aliasesResolve, 'verifyFloatReadback: a dangling FLOAT alias fails the verdict (negative)');
+}
+
+// STYLES WRITE PLAN (shadow/gradient lane): shadow → Effect Style rows (both light + dark), gradient →
+// Paint Style rows with baked resolved stops + a Figma gradientTransform. Plus the angle→matrix helper.
+{
+  // gradientTransformFor — the one bit of new math. The angle is the CSS linear-gradient() angle the
+  // web renderer uses, so the two surfaces must agree: CSS 90° = to right (L→R), 0° = to top (vertical).
+  // Internally φ = 90 − θ, so θ=90 → φ=0 → identity (the horizontal gradient), θ=0 → φ=90 → vertical.
+  const t90 = gradientTransformFor('GRADIENT_LINEAR', 90);
+  ok(JSON.stringify(t90) === JSON.stringify([[1, 0, 0], [0, 1, 0]]), 'styles: CSS 90° (to right) → identity transform (horizontal L→R), matching the web preview');
+  const t0 = gradientTransformFor('GRADIENT_LINEAR', 0);
+  // θ=0 → φ=90: cos90≈0, sin90≈1 → rotation block [[0,-1],[1,0]] (vertical), matching CSS "to top".
+  ok(Math.abs(t0[0][0]) < 1e-4 && Math.abs(t0[1][0] - 1) < 1e-4 && Math.abs(t0[0][1] + 1) < 1e-4, 'styles: CSS 0° (to top) → vertical transform (finite, unit rotation)');
+  const radial = gradientTransformFor('GRADIENT_RADIAL', undefined, [0.5, 0.5]);
+  ok(radial.every((row) => row.every((n) => Number.isFinite(n))), 'styles: radial gradient transform is finite');
+
+  // NB — 7 shadow steps → 14 effect rows (light + dark), 0 gradients.
+  const nbStyles = buildStylesPlan(nbTheme());
+  const nbLight = nbStyles.effects.filter((e) => e.name.startsWith('shadow/')).length;
+  const nbDark = nbStyles.effects.filter((e) => e.name.startsWith('shadow-dark/')).length;
+  ok(nbLight > 0 && nbLight === nbDark, `styles: NB emits N light + N dark effect rows (${nbLight}L / ${nbDark}D)`);
+  ok(nbStyles.paints.length === 0, 'styles: NB has no gradients → 0 paint rows');
+  ok(nbStyles.effects.every((e) => e.effects.length > 0 && e.effects.every((fx) => ['DROP_SHADOW', 'INNER_SHADOW'].includes(fx.type))), 'styles: every effect row carries ≥1 drop/inner shadow');
+
+  // Aurora — opts into gradients → paint rows with valid paintType, baked RGBA stops, finite transform.
+  const auroraStyles = buildStylesPlan(brandTheme(exampleBrands()['aurora'] as BrandInput));
+  ok(auroraStyles.paints.length > 0, `styles: aurora emits gradient paint rows (${auroraStyles.paints.length})`);
+  const paintBad: string[] = [];
+  for (const p of auroraStyles.paints) {
+    if (!['GRADIENT_LINEAR', 'GRADIENT_RADIAL'].includes(p.paintType)) paintBad.push(`${p.name}: paintType`);
+    if (p.stops.length < 2) paintBad.push(`${p.name}: <2 stops`);
+    if (!p.stops.every((s) => [s.color.r, s.color.g, s.color.b, s.color.a].every((c) => c >= 0 && c <= 1))) paintBad.push(`${p.name}: stop RGBA out of gamut`);
+    if (!p.gradientTransform.every((row) => row.every((n) => Number.isFinite(n)))) paintBad.push(`${p.name}: transform not finite`);
+  }
+  ok(paintBad.length === 0, 'styles: every aurora gradient row has paintType + ≥2 baked in-gamut stops + finite transform' + (paintBad.length ? ` — ${paintBad.slice(0, 3).join('; ')}` : ''));
+
+  // Light-only brand → NO shadow-dark rows (Effect Styles only get the light set).
+  const lightOnly = buildStylesPlan(brandTheme({ ...(exampleBrands()['aurora'] as BrandInput), modes: ['light'] }));
+  ok(lightOnly.effects.some((e) => e.name.startsWith('shadow/')) && !lightOnly.effects.some((e) => e.name.startsWith('shadow-dark/')),
+    'styles: a light-only brand emits shadow/* but NO shadow-dark/*');
 }
 
 // INVERSE + neutralEmphasis + accentPalette (docs/20 §9/§10/§3, increment 4).
