@@ -7,9 +7,38 @@
 
 ---
 
-## Latest (2026-07-16) — #106: write-adapter seam (`apply(model)`)
+## Latest (2026-07-16) — #107: Figma plugin scaffold (two-context split + typed bridge)
 
-**STATUS: in review (#119)** — landed on fresh `main` (`264f579`); Phase 1 of docs/22 is now complete.
+**STATUS: in review (#120)** — Phase 2 of docs/22. Vanilla scaffold under a new **`plugin/`** workspace
+(`@prism3/plugin`); no `figma.variables` writes yet (that's #108) and the placeholder iframe UI is what
+#110 swaps for the shared `web/src`. Manifest verified against the current Figma plugin docs (2026-07,
+via Context7) — no drift from the docs/18 §2 grounding.
+
+- **The two contexts are split by TYPE, not convention** (docs/18 §1): `tsconfig.main.json` gives the
+  main thread `@figma/plugin-typings` but **no `dom` lib**; `tsconfig.ui.json` gives the iframe DOM but
+  **no plugin-typings**. Proven load-bearing — a `document` ref in `main.ts` fails **TS2584** and a
+  `figma.*` ref in `ui.ts` fails **TS2304**. `src/figma-env.d.ts` declares the `__html__` sandbox global.
+- **Typed postMessage bridge.** `src/messages.ts` is the pure shared wire contract — two discriminated
+  unions (`UiToMain` / `MainToUi`) + an `assertNever` exhaustiveness guard, compiling under both tsconfigs.
+  `bridge-main.ts` / `bridge-ui.ts` are thin typed wrappers over the raw channel; the skill's React
+  `usePluginMessage` hook is adapted to a vanilla `addEventListener` wrapper (returns an unsubscribe), per
+  docs/22 §3.
+- **Manifest:** `documentAccess: "dynamic-page"`, `networkAccess.allowedDomains: ["none"]` (engine bundled,
+  zero runtime network — a real trust win), `editorType: ["figma"]`, `api: "1.0.0"`.
+- **Build (`build.mjs`, esbuild):** `main.ts → dist/main.js` (iife); `ui/ui.ts` bundled and **inlined into
+  a single `dist/ui.html`** (a plugin iframe has no server to fetch a separate JS from, and we ship
+  no-network). `dist/` is gitignored alongside `web/dist/`.
+
+**Gates: both plugin contexts `tsc` clean; split-enforcement proven (TS2584 / TS2304 on deliberate
+violations); build emits main.js + inlined ui.html; a Node harness stubbing the two contexts drove the
+real bundled bridge end-to-end — `ui-ready → main-ready` handshake + `ping → main-pong` nonce match both
+PASS. Web tsc clean + engine 723/723 (both untouched).**
+
+---
+
+## (2026-07-16) — #106: write-adapter seam (`apply(model)`)
+
+**STATUS: merged (#119, `37a485b`)** — landed on fresh `main` (`264f579`); Phase 1 of docs/22 complete.
 The single-UI prerequisite: the shared UI reused verbatim in the Figma plugin iframe hinges on a swappable
 **write surface**, so the UI computes a resolved token model and hands it to **one `apply(model)` interface**,
 implemented per host.

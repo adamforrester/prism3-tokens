@@ -58,7 +58,7 @@ manifest fields via Context7 / the Figma MCP skill when the build starts.
 | Phase | Issue | What |
 |---|---|---|
 | 1 ✅ | #106 | **Done (#119).** Extract the write-adapter seam (`apply(model)`) in the web UI — single-UI prerequisite |
-| 2 | #107 | Plugin scaffold — manifest + two-context split + typed postMessage bridge (vanilla) |
+| 2 ✅ | #107 | **Done (#120).** Plugin scaffold — manifest + two-context split + typed postMessage bridge (vanilla) |
 | 3 | #108 | Main-thread write adapter — `materialise-to-figma` `aliasRows` → live `figma.variables` |
 | 4 | #109 | Read-back — `getLocalVariablesAsync` to seed theming an existing file |
 | 5 | #110 | One build, two outputs — shared UI source → static site + plugin bundle |

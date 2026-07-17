@@ -4,6 +4,7 @@
   "type": "module",
   "description": "Prism3 monorepo — the token generation engine and the surfaces (web dashboard, Figma plugin) that render from its shared contracts. The engine core stays buildless (run via tsx); the adapters bundle it.",
   "workspaces": [
-    "web"
+    "web",
+    "plugin"
   ]
 }
