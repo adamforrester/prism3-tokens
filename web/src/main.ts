@@ -645,6 +645,12 @@ const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
   const levers = leverManifest.filter((l) => !l.advanced && !PRIMITIVE_KEYS.has(l.key) && stageOfLever(l) === key);
   if (key === 'semantic') {
     renderGroupedPanels(host, levers);          // sub-sectioned (Interactive colour / Accessibility / Features)
+  } else if (key === 'type') {
+    // typeScale stays a plain control; the font pool + weight-role map ARE the typography editor
+    // (#103 A1 — families finally editable). The per-category assignment table is A2.
+    const scale = levers.find((l) => l.key === 'typography.typeScale');
+    if (scale) { const p = el('div', 'panel'); p.append(renderControl(scale)); host.append(p); }
+    host.append(renderTypographyEditor());
   } else if (levers.length) {
     const panel = el('div', 'panel');
     for (const l of levers) panel.append(renderControl(l));
@@ -669,6 +675,48 @@ const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
     paintPreview(pv);
   };
   paintVolatile();
+};
+
+/** The typography editor — #103 Phase A1: the FONT POOL (the three family roles, finally editable)
+ *  + the global weight-role→numeric map. Reads current values from the resolved `theme.typography`,
+ *  writes overrides to `brandState.typography.*`, and re-resolves on change. (Per-category
+ *  assignment — familyMap / weights / italic / link — is A2.) */
+const FAMILY_ROLES: Array<['display' | 'text' | 'mono', string, string]> = [
+  ['display', 'Display', 'Headings & hero type (display/title/label/eyebrow default here).'],
+  ['text', 'Text', 'Reading & UI copy (body/caption default here).'],
+  ['mono', 'Mono', 'Code & column-aligned figures.'],
+];
+const renderTypographyEditor = (): HTMLElement => {
+  const wrap = el('div', 'type-editor');
+  const ty = theme.typography;
+  // --- Font pool: the primary face per family role (a single name auto-pads a fallback stack) ---
+  wrap.append(subHead('Font pool'));
+  const pool = el('div', 'panel');
+  for (const [role, label, desc] of FAMILY_ROLES) {
+    const primary = ty.families.find((f) => f.role === role)?.stack[0] ?? '';
+    const knob = el('div', 'knob');
+    knob.append(el('label', 'knob-label', label));
+    const input = el('input') as HTMLInputElement;
+    input.type = 'text'; input.className = 'te-font'; input.value = primary; input.placeholder = 'Font family name';
+    input.onchange = () => { setPath(brandState, `typography.families.${role}`, input.value.trim() || undefined); apply(); };
+    knob.append(input, el('p', 'knob-desc', desc));
+    pool.append(knob);
+  }
+  wrap.append(pool);
+  // --- Weight roles → numeric (GLOBAL: one numeric per role, shared across every category) ---
+  wrap.append(subHead('Weight roles → numeric'));
+  const wr = el('div', 'panel');
+  for (const w of ty.weightRoles) {
+    const knob = el('div', 'knob te-wrow');
+    knob.append(el('label', 'knob-label', w.role));
+    const input = el('input') as HTMLInputElement;
+    input.type = 'number'; input.min = '100'; input.max = '900'; input.step = '100'; input.value = String(w.value); input.className = 'te-weight';
+    input.onchange = () => { const n = Number(input.value); if (n >= 100 && n <= 900) { setPath(brandState, `typography.weightRoles.${w.role}`, n); apply(); } };
+    knob.append(input);
+    wr.append(knob);
+  }
+  wrap.append(wr);
+  return wrap;
 };
 
 /** A compact type-scale specimen: one representative composite per group at its resolved
@@ -1228,6 +1276,10 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .knob-val{font-variant-numeric:tabular-nums;color:var(--muted);font-size:12.5px}
 .knob-val.ro{margin-top:6px}
 .knob-desc{margin:7px 0 0;font-size:12px;color:var(--faint);line-height:1.5}
+.type-editor{margin-bottom:8px}
+.te-font{width:100%;margin-top:8px;padding:7px 9px;border:1px solid var(--line2);border-radius:var(--r-xs);font:inherit;background:var(--paper)}
+.te-wrow{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.te-weight{width:88px;padding:6px 8px;border:1px solid var(--line2);border-radius:var(--r-xs);font:inherit;background:var(--paper);font-variant-numeric:tabular-nums;text-align:right}
 
 .stage-vol{display:flex;flex-direction:column}
 .pvhost{display:flex;flex-direction:column;gap:16px}
