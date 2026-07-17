@@ -493,7 +493,7 @@ const paintPreview = (host: HTMLElement): void => {
 
 const HERO_COPY: Record<StageKey, [string, string]> = {
   primitives: ['', ''],
-  semantic: ['Map roles onto your primitives.', 'Every semantic role aliases a primitive step, resolved per mode. Point actions at the palette that reads best, override status hues, set the disabled and icon-contrast policy.'],
+  semantic: ['Map roles onto your primitives.', 'Every semantic role aliases a primitive step, resolved per mode. Point actions at the palette that reads best, tune the interactive treatment (hover, inverse, neutral emphasis), and set the accessibility policy — icon contrast + the disabled strategy. (Status hues are edited per-ramp on Primitives.)'],
   type: ['Set the type system.', 'Families, weights, and the type scale that shifts the semantic→primitive size mapping. The rem ladder is brand-invariant; the scale is the dial.'],
   form: ['Dial in the form factor.', 'Density, corner radius, and elevation — the geometry that makes the same colours feel like a different product.'],
 };
@@ -584,11 +584,40 @@ const borrowedStatusRow = (role: StatusRole): HTMLElement => {
   return wrap;
 };
 
+// The Semantic tab groups its 8 controls into intent sub-sections (design review §1) rather
+// than one flat panel. `disabledMin` nests under `disabledStrategy` — it only bites when the
+// strategy is 'accessible'. A trailing catch-all renders any ungrouped semantic lever so a
+// future addition can't be silently dropped.
+const SEMANTIC_GROUPS: Array<{ title: string; keys: string[] }> = [
+  { title: 'Interactive colour', keys: ['actionPalette', 'neutralEmphasis', 'outlineInteraction', 'inverse'] },
+  { title: 'Accessibility policy', keys: ['iconContrast', 'disabledStrategy', 'disabledMin'] },
+  { title: 'Features', keys: ['gradients'] },
+];
+const NESTED_KEYS = new Set(['disabledMin']);
+const subHead = (title: string): HTMLElement => { const s = el('div', 'sub-lab'); s.append(el('h3', 'sub-t', title)); return s; };
+const renderGroupedPanels = (host: HTMLElement, levers: Lever[]): void => {
+  const byKey = new Map(levers.map((l) => [l.key, l]));
+  const placed = new Set<string>();
+  const panelOf = (ls: Lever[]) => {
+    const panel = el('div', 'panel');
+    for (const l of ls) { const c = renderControl(l); if (NESTED_KEYS.has(l.key)) c.classList.add('nested'); panel.append(c); placed.add(l.key); }
+    return panel;
+  };
+  for (const g of SEMANTIC_GROUPS) {
+    const groupLevers = g.keys.map((k) => byKey.get(k)).filter((l): l is Lever => !!l);
+    if (!groupLevers.length) continue;
+    host.append(subHead(g.title), panelOf(groupLevers));
+  }
+  const rest = levers.filter((l) => !placed.has(l.key));
+  if (rest.length) host.append(subHead('More'), panelOf(rest));
+};
 const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
   const [title, lede] = HERO_COPY[key];
   host.append(hero(title, lede));
   const levers = leverManifest.filter((l) => !l.advanced && !PRIMITIVE_KEYS.has(l.key) && stageOfLever(l) === key);
-  if (levers.length) {
+  if (key === 'semantic') {
+    renderGroupedPanels(host, levers);          // sub-sectioned (Interactive colour / Accessibility / Features)
+  } else if (levers.length) {
     const panel = el('div', 'panel');
     for (const l of levers) panel.append(renderControl(l));
     host.append(panel);
@@ -1117,8 +1146,12 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .ramp-borrowed .strip-mini{display:flex;border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--line2)}
 .ramp-borrowed .sw-mini{flex:1;height:30px}
 
+.sub-lab{margin:22px 0 -4px}
+.sub-lab:first-child{margin-top:6px}
+.sub-t{font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);margin:0}
 .knob{padding:14px 0;border-bottom:1px solid var(--line)}
 .knob:last-child{border-bottom:0}
+.knob.nested{margin-left:16px;padding-left:16px;border-left:2px solid var(--line)}
 .knob-label{font-weight:600;font-size:13.5px}
 .knob-body{display:flex;align-items:center;gap:10px;margin-top:8px}
 .knob input[type=range]{flex:1;accent-color:var(--ink)}
