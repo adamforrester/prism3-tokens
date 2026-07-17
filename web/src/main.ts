@@ -134,7 +134,7 @@ const hexOf = (binding: string | undefined, mode: Mode): string | undefined =>
 /** The `var(--…)` a chip assigns for a colour binding, with the resolved hex as fallback
  *  (so it's correct even before/without a host apply). */
 const colorVar = (binding: string, mode: Mode): string => `var(${cssVarName(binding)}, ${hexOf(binding, mode) ?? 'transparent'})`;
-const pageBg = (mode: Mode): string => `var(--color-background-primary, ${rp.colors['color.background.primary']?.[mode] ?? '#ffffff'})`;
+const pageBg = (mode: Mode): string => `var(${cssVarName('color.background.primary')}, ${rp.colors['color.background.primary']?.[mode] ?? '#ffffff'})`;
 
 // The active write host — projects the resolved model onto whatever backend this host
 // owns (CSS vars on web; figma.variables in the plugin). Re-scoped per preview paint.

@@ -7,7 +7,32 @@
 
 ---
 
-## Latest (2026-07-16) — #105.3: single-family `$value` + `fallbackStack` extension
+## Latest (2026-07-16) — #106: write-adapter seam (`apply(model)`)
+
+**STATUS: in review (#119)** — landed on fresh `main` (`264f579`); Phase 1 of docs/22 is now complete.
+The single-UI prerequisite: the shared UI reused verbatim in the Figma plugin iframe hinges on a swappable
+**write surface**, so the UI computes a resolved token model and hands it to **one `apply(model)` interface**,
+implemented per host.
+
+- **`WriteAdapter` contract** (`web/src/write-adapter.ts`): `apply(model: ResolvedPreview, mode)`. The model is
+  reused as-is — no new engine type. Two implementations: **`cssVarAdapter`** (web → sets CSS custom properties
+  on a scope element from `model.colors[ref][mode]` / `model.dims` incl. per-mode overrides / `model.type`),
+  and **`figmaVarAdapter`** — a **stub** with the same signature that no-ops with a `console.warn` until the
+  plugin phase, proving the interface is host-swappable today.
+- **The load-bearing rule:** the UI **references tokens by `var(--…)` name and never writes resolved values**.
+  `renderChip` + the page background assign `var(--…, <resolved fallback>)`; the active host fills the vars in.
+  Shared `cssVarName`/`typeVar` name helpers keep the setter and the references from drifting. The host is
+  re-scoped to the **fresh** preview surface each paint, so a mode switch can't leak stale vars.
+- **Scope (deliberately tight):** token-valued writes only (chip `bg/fg/border/radius/pad/type` + surface bg).
+  Pure-layout inline styles (picker show/hide, brand-menu dots, ramp swatch fills) are not tokens — left as-is.
+
+**Gates: engine 723/723 (untouched); web tsc + build clean; 0 `node:` builtins in the bundle; drove the dev
+server — 65 adapter-set CSS vars on the surface, Light→Dark repaint with no leakage, live action-palette edit
+re-projects through the adapter.**
+
+---
+
+## (2026-07-16) — #105.3: single-family `$value` + `fallbackStack` extension
 
 **STATUS: in review (#118)** — re-landed on fresh `main` after #117/#105.2 merged (`c22f22e`), so the
 merge-base is linear and the golden movement was re-verified on the clean base. Third and final brick of #105.
