@@ -729,10 +729,33 @@ const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
   paintVolatile();
 };
 
+// #103 Phase B — advisory font-weight availability (#113 advisory model, not a hard gate). A curated,
+// best-effort map of common families → the numeric weights they actually ship. Used only to WARN when a
+// category ships a weight its family lacks (the font would fall back to the nearest); an unknown/custom
+// family is never warned (we can't assert its weights). Mirrors the engine's per-family emit fallbacks
+// (#112). Keys are matched case-insensitively against the family's primary name.
+const KNOWN_WEIGHTS: Record<string, number[]> = {
+  'Inter': [100, 200, 300, 400, 500, 600, 700, 800, 900],
+  'Roboto': [100, 300, 400, 500, 700, 900], 'Roboto Mono': [100, 200, 300, 400, 500, 600, 700],
+  'Clash Display': [200, 300, 400, 500, 600, 700], 'JetBrains Mono': [100, 200, 300, 400, 500, 600, 700, 800],
+  'Helvetica': [400, 700], 'Helvetica Neue': [400, 700], 'Arial': [400, 700],
+  'Georgia': [400, 700], 'Times New Roman': [400, 700],
+  'Space Grotesk': [300, 400, 500, 600, 700], 'DM Sans': [400, 500, 700], 'DM Mono': [300, 400, 500],
+  'IBM Plex Sans': [100, 200, 300, 400, 500, 600, 700], 'IBM Plex Mono': [100, 200, 300, 400, 500, 600, 700],
+  'Work Sans': [100, 200, 300, 400, 500, 600, 700, 800, 900], 'Manrope': [200, 300, 400, 500, 600, 700, 800],
+  'Poppins': [100, 200, 300, 400, 500, 600, 700, 800, 900], 'Montserrat': [100, 200, 300, 400, 500, 600, 700, 800, 900],
+  'Lato': [100, 300, 400, 700, 900], 'Open Sans': [300, 400, 500, 600, 700, 800], 'Nunito': [200, 300, 400, 500, 600, 700, 800, 900],
+  'Source Sans 3': [200, 300, 400, 500, 600, 700, 800, 900], 'Source Serif 4': [200, 300, 400, 500, 600, 700, 800, 900],
+};
+const KNOWN_WEIGHTS_LC: Record<string, number[]> = Object.fromEntries(Object.entries(KNOWN_WEIGHTS).map(([k, v]) => [k.toLowerCase(), v]));
+/** The known weight list for a family primary name, or null when the family is unknown (→ no warning). */
+const knownWeightsOf = (fontName: string | undefined): number[] | null => (fontName ? KNOWN_WEIGHTS_LC[fontName.trim().toLowerCase()] ?? null : null);
+
 /** The typography editor — #103 Phase A1: the FONT POOL (the three family roles, finally editable)
- *  + the global weight-role→numeric map. Reads current values from the resolved `theme.typography`,
- *  writes overrides to `brandState.typography.*`, and re-resolves on change. (Per-category
- *  assignment — familyMap / weights / italic / link — is A2.) */
+ *  + the global weight-role→numeric map. Phase A2: the per-category assignment table (family · weights ·
+ *  italic · link). Phase B: advisory weight-availability — a category shipping a weight its family lacks
+ *  is muted + flagged (soft, never blocked). Reads the resolved `theme.typography`, writes overrides to
+ *  `brandState.typography.*`, re-resolves on change. */
 const FAMILY_ROLES: Array<['display' | 'text' | 'mono', string, string]> = [
   ['display', 'Display', 'Headings & hero type (display/title/label/eyebrow default here).'],
   ['text', 'Text', 'Reading & UI copy (body/caption default here).'],
@@ -741,6 +764,10 @@ const FAMILY_ROLES: Array<['display' | 'text' | 'mono', string, string]> = [
 const renderTypographyEditor = (): HTMLElement => {
   const wrap = el('div', 'type-editor');
   const ty = theme.typography;
+  // Phase B: recomputes the per-category weight-availability markers from the LIVE resolved theme.
+  // Assigned once the table exists; A1 (font/weight edits) and A2 (family/weight-role edits) call it
+  // after apply(), so a font or weight-numeric change refreshes the warnings without a full re-render.
+  let refreshWarnings = (): void => {};
   // --- Font pool: the primary face per family role (a single name auto-pads a fallback stack) ---
   wrap.append(subHead('Font pool'));
   const pool = el('div', 'panel');
@@ -750,7 +777,7 @@ const renderTypographyEditor = (): HTMLElement => {
     knob.append(el('label', 'knob-label', label));
     const input = el('input') as HTMLInputElement;
     input.type = 'text'; input.className = 'te-font'; input.value = primary; input.placeholder = 'Font family name';
-    input.onchange = () => { setPath(brandState, `typography.families.${role}`, input.value.trim() || undefined); apply(); };
+    input.onchange = () => { setPath(brandState, `typography.families.${role}`, input.value.trim() || undefined); apply(); refreshWarnings(); };
     knob.append(input, el('p', 'knob-desc', desc));
     pool.append(knob);
   }
@@ -763,7 +790,7 @@ const renderTypographyEditor = (): HTMLElement => {
     knob.append(el('label', 'knob-label', w.role));
     const input = el('input') as HTMLInputElement;
     input.type = 'number'; input.min = '100'; input.max = '900'; input.step = '100'; input.value = String(w.value); input.className = 'te-weight';
-    input.onchange = () => { const n = Number(input.value); if (n >= 100 && n <= 900) { setPath(brandState, `typography.weightRoles.${w.role}`, n); apply(); } };
+    input.onchange = () => { const n = Number(input.value); if (n >= 100 && n <= 900) { setPath(brandState, `typography.weightRoles.${w.role}`, n); apply(); refreshWarnings(); } };
     knob.append(input);
     wr.append(knob);
   }
@@ -784,6 +811,7 @@ const renderTypographyEditor = (): HTMLElement => {
     catWeights[g] = new Set(comps.map((c) => c.weightRole));
   }
   const weightCb: Record<string, Record<string, HTMLInputElement>> = {};
+  const weightTd: Record<string, Record<string, HTMLElement>> = {};   // Phase B: the cell carrying the availability marker
   const italicCb: Record<string, HTMLInputElement> = {};
   const linkCb: Record<string, HTMLInputElement> = {};
   const cbEl = (checked: boolean): HTMLInputElement => { const c = el('input') as HTMLInputElement; c.type = 'checkbox'; c.checked = checked; return c; };
@@ -798,13 +826,14 @@ const renderTypographyEditor = (): HTMLElement => {
     tr.append(el('td', 'te-cat-name mono', g));
     const fsel = el('select', 'te-fam') as HTMLSelectElement;
     for (const fr of ['display', 'text', 'mono']) { const o = el('option') as HTMLOptionElement; o.value = fr; o.textContent = fr; if (fr === catFamily[g]) o.selected = true; fsel.append(o); }
-    fsel.onchange = () => { setPath(brandState, `typography.familyMap.${g}`, fsel.value); apply(); };
+    fsel.onchange = () => { setPath(brandState, `typography.familyMap.${g}`, fsel.value); apply(); refreshWarnings(); };
     const ftd = el('td'); ftd.append(fsel); tr.append(ftd);
-    weightCb[g] = {};
+    weightCb[g] = {}; weightTd[g] = {};
     for (const r of roleOrder) {
       const cb = cbEl(catWeights[g].has(r)); weightCb[g][r] = cb;
-      cb.onchange = () => { setPath(brandState, `typography.weights.${g}`, roleOrder.filter((x) => weightCb[g][x].checked)); apply(); };
-      const td = el('td', 'te-c'); td.append(cb); tr.append(td);
+      cb.onchange = () => { setPath(brandState, `typography.weights.${g}`, roleOrder.filter((x) => weightCb[g][x].checked)); apply(); refreshWarnings(); };
+      const cbw = el('span', 'te-cbwrap'); cbw.append(cb, el('span', 'te-warn', '⚠'));
+      const td = el('td', 'te-c'); td.append(cbw); tr.append(td); weightTd[g][r] = td;
     }
     const icb = cbEl(italicG.has(g)); italicCb[g] = icb;
     icb.onchange = () => { setPath(brandState, 'typography.italics', TYPE_GROUP_ORDER.filter((x) => italicCb[x].checked)); apply(); };
@@ -816,6 +845,28 @@ const renderTypographyEditor = (): HTMLElement => {
   }
   wrap.append(el('div', 'te-cat-wrap'));
   (wrap.lastChild as HTMLElement).append(table);
+  // Phase B — mute the weight roles a category's family likely doesn't ship, and flag (⚠) any that are
+  // shipped anyway (they fall back to the nearest). Reads the LIVE resolved theme, so a font-name,
+  // weight-numeric, or family change refreshes it without a full re-render. Advisory only — never blocks.
+  refreshWarnings = () => {
+    const t = theme.typography;
+    const numOf = (role: string): number | undefined => t.weightRoles.find((w) => w.role === role)?.value;
+    const famRoleOf = (g: string): string => t.composites.find((c) => c.group === g)?.family ?? 'text';
+    const fontOf = (famRole: string): string | undefined => t.families.find((f) => f.role === famRole)?.stack[0];
+    for (const g of TYPE_GROUP_ORDER) {
+      const known = knownWeightsOf(fontOf(famRoleOf(g)));
+      for (const r of roleOrder) {
+        const td = weightTd[g]?.[r]; const cb = weightCb[g]?.[r]; if (!td || !cb) continue;
+        const num = numOf(r);
+        const unavail = !!known && num !== undefined && !known.includes(num);
+        td.classList.toggle('unavail', unavail);
+        (td.querySelector('.te-warn') as HTMLElement).style.display = unavail && cb.checked ? 'inline-block' : 'none';
+        td.title = unavail ? `This family may not ship weight ${num} — it falls back to the nearest available weight.` : '';
+      }
+    }
+  };
+  refreshWarnings();
+  wrap.append(el('p', 'te-cat-note', '⚠ = a shipped weight the category’s family may not provide (it falls back to the nearest). Muted cells are weights the family likely lacks — advisory only, never blocked; unknown/custom fonts aren’t flagged.'));
   return wrap;
 };
 
@@ -1658,6 +1709,11 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .te-cat-name{color:var(--ink);font-size:12px}
 .te-c{width:1%}
 .te-cat input[type=checkbox]{width:15px;height:15px;accent-color:var(--ink);cursor:pointer}
+.te-cbwrap{position:relative;display:inline-flex;align-items:center;justify-content:center}
+.te-warn{position:absolute;top:-7px;right:-9px;font-size:10px;line-height:1;pointer-events:none}
+.te-cat td.unavail input[type=checkbox]{opacity:.32}
+.te-cat td.unavail{background:repeating-linear-gradient(-45deg,transparent,transparent 4px,rgba(120,120,130,.06) 4px,rgba(120,120,130,.06) 5px)}
+.te-cat-note{margin:10px 2px 0;font-size:11.5px;line-height:1.5;color:var(--faint)}
 .te-fam{padding:5px 7px;border:1px solid var(--line2);border-radius:var(--r-xs);font:inherit;font-size:12px;background:var(--paper);cursor:pointer}
 .obj-editor{margin-bottom:8px}
 .obj-lede{margin:0 0 8px;font-size:12px;color:var(--faint);line-height:1.5}
