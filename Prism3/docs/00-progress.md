@@ -7,7 +7,50 @@
 
 ---
 
-## Latest (2026-07-17) — editor lane completes: typography editor + holistic radius + object-value editors (#102, #103 A, #97)
+## Latest (2026-07-17) — #146: plugin write scope expands to the FLOAT-variable axes
+
+**STATUS: in review (branch `feat/146-write-float-axes`).** The plugin's live write adapter (#108)
+materialised **colour only**. Verified live it still did: an apply wrote `core-palette` + `color` but
+nothing geometric. #146 extends the write path to the **FLOAT-variable axes** — `core-dimension`,
+`space`, `radius`, `size`, `border-width`, `focus`, `opacity`, and `layout` — so an apply now
+materialises the dimensional layer too. Out of scope (own follow-ups): typography + shadow/gradient,
+which are Figma *Styles* (a different API), and typography is decision-blocked on #112/#113.
+
+- **Node-free extraction — `engine/emit-figma-dims.ts`** (new): `buildFigmaDims` + `buildFigmaLayout`
+  (+ `pxFromValue`/`aliasFigName`/scope maps/`LAYOUT_MODES`/`FigmaDimsCollections`) moved out of the
+  I/O-shell `emit-figma.ts`, which now re-exports them — the SAME pattern as `emit-figma-color.ts`.
+  Pure functions of `Theme`; **`out/*` byte-identical** after regen (behaviour-preserving).
+- **Pure plan — `engine/write-plan.ts` `buildFloatWritePlan(theme)`**: reshapes both builders into a
+  uniform `FloatCollectionPlan[]` (create-all-then-alias, one target per mode — the same collapse-safe
+  shape as the colour plan). Single-mode dims axes; `radius` 1–2 modes (Default [+ wireframe]); `layout`
+  one mode per breakpoint the brand ships.
+- **Executor — `plugin/src/write-figma.ts` `applyFloatPlan`**: widened `VariablesApi` (`createVariable`
+  `'COLOR' | 'FLOAT'`, `setValueForMode` accepts `number`); two passes generalised over N collections,
+  binding aliases against ONE global name map (cross-collection: space→dimension, size→dimension/space,
+  radius→dimension, layout grid→space). Idempotent find-by-name. Runs after the colour write in
+  `main.ts`; the `apply-result` summary widens (`…dims/layout N collections (+M), K aliases bound`).
+- **Read-back (light) — `read-figma.ts` + `read-back.ts`**: reads the FLOAT collections into the
+  snapshot (`float?` field, keeps colour-only reads valid) + a modest `verifyFloatReadback` (collections
+  present, aliases resolve, dimensions hidden, radius wireframe-mode iff opted in). `ReadValue` widened
+  with `number`; `isAlias` hardened for primitives.
+
+- **Review fix (critical):** `getLocalVariablesAsync('COLOR')` returns ONLY COLOR vars — using it for the
+  FLOAT idempotency map (`upsertCollection`) + the FLOAT read-back would have made re-apply DUPLICATE every
+  FLOAT var and the read-back come back EMPTY. The in-memory shims hid it (they ignored the `type` arg).
+  Fixed: both sites fetch UNFILTERED (`getLocalVariablesAsync()`, still scoped by `variableCollectionId`);
+  the three test shims now HONOR the type filter so the regression can't hide again.
+
+**Gates: engine 754→767 (float-plan + verify cases); `out/*` byte-identical; plugin two-context
+typecheck clean; plugin `npm test` write+read+persist+**float** all green; web tsc+build clean;
+`dist/main.js` 0 `node:` builtins. LIVE-DRIVEN via the Desktop Bridge with the REAL semantics: wrote the
+FLOAT collections, re-ran → second run created +0 (idempotent, no duplicate vars), unfiltered read saw the
+FLOAT vars while a `'COLOR'`-filtered read did NOT (confirming the bug + fix), cross-collection aliases
+resolve (space→dimension, grid→space); scratch file cleaned up after.** Out of scope: typography
+(#112/#113), shadow/gradient Styles — own issues.
+
+---
+
+## (2026-07-17) — editor lane completes: typography editor + holistic radius + object-value editors (#102, #103 A, #97)
 
 **STATUS: MERGED** (#102 → #136, #103 A1 → #137, #103 A2 → #139, #97 → #140). The web dashboard now has
 **no read-only levers left** — every knob in the manifest is editable, and (all in shared `web/src`) the

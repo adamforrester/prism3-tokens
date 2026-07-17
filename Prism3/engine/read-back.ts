@@ -23,11 +23,11 @@
  */
 import type { Rgba } from './write-plan';
 
-/** A colour variable's per-mode value, as read back: either a resolved literal or the NAME of the
- *  variable it aliases (names — not Figma ids — so the snapshot is pure + serialisable). `null`
- *  alias = the mode carries a literal with no alias (shouldn't happen for our colour vars, but the
- *  read is faithful about it). */
-export type ReadValue = { alias: string | null } | Rgba;
+/** A variable's per-mode value, as read back: either a resolved literal or the NAME of the variable
+ *  it aliases (names — not Figma ids — so the snapshot is pure + serialisable). `null` alias = the
+ *  mode carries a literal with no alias (shouldn't happen for our colour vars, but the read is
+ *  faithful about it). A `number` is a FLOAT-axis literal (#146 — dims/space/opacity/…). */
+export type ReadValue = { alias: string | null } | Rgba | number;
 
 export type ReadbackSnapshot = {
   collections: { name: string; modes: string[] }[];
@@ -35,7 +35,33 @@ export type ReadbackSnapshot = {
   palette: { name: string; scopes: string[]; hidden: boolean }[];
   /** semantic colour roles — per-mode alias target name (or literal). */
   color: { name: string; scopes: string[]; valuesByMode: Record<string, ReadValue> }[];
+  /** FLOAT axes (#146) — the geometric/dimensional vars, keyed by collection name
+   *  (`core-dimension`/`space`/`radius`/`size`/`border-width`/`focus`/`opacity`/`layout`). Optional
+   *  so a colour-only read (pre-#146, or a partial file) still validates on the colour contract. */
+  float?: Record<string, { name: string; scopes: string[]; hidden: boolean; valuesByMode: Record<string, ReadValue> }[]>;
 };
+
+/** The FLOAT read-back verdict (#146) — lighter than the colour contract: the geometric axes carry
+ *  no semantic role-set to police, so we assert presence, alias resolution, and the wireframe radius
+ *  mode. Kept separate from `verifyReadback` so the heavy colour contract stays focused. */
+export type FloatReadbackVerdict = {
+  ok: boolean;
+  checks: {
+    /** every expected FLOAT collection is present. */
+    collectionsPresent: boolean;
+    /** every FLOAT alias target (space→dimension, size→…, layout grid→space) resolves. */
+    aliasesResolve: boolean;
+    /** `core-dimension` primitives are hidden from publishing. */
+    dimensionsHidden: boolean;
+    /** iff the brand ships wireframe, the `radius` collection carries a `wireframe` mode. */
+    radiusWireframeMode: boolean;
+  };
+  details: { collections: string[]; danglingAliases: string[] };
+};
+
+// The FLOAT axes this lane materialises (#146). `layout` is present iff the brand ships a grid;
+// the others are always emitted, so their absence is a real miss.
+const EXPECTED_FLOAT_COLLECTIONS = ['core-dimension', 'space', 'radius', 'size', 'border-width', 'focus', 'opacity'];
 
 /** The verify verdict: an overall pass + the individual checks + supporting detail for the UI/log. */
 export type ReadbackVerdict = {
@@ -81,7 +107,7 @@ const RETIRED_ROLES = ['color/action/default', 'color/text/on-action', 'color/te
 const RENAMED_ROLES = ['color/disabled/surface', 'color/disabled/on-disabled', 'color/field/surface', 'color/field/border'];
 
 const sortScopes = (s: string[]): string => [...s].sort().join(',');
-const isAlias = (v: ReadValue): v is { alias: string | null } => 'alias' in v;
+const isAlias = (v: ReadValue): v is { alias: string | null } => typeof v === 'object' && v !== null && 'alias' in v;
 
 /**
  * Verify a read-back snapshot against the materialisation contract. Pure — the plugin reads the live
@@ -140,4 +166,42 @@ export const verifyReadback = (snap: ReadbackSnapshot): ReadbackVerdict => {
       scopeMismatches,
     },
   };
+};
+
+/**
+ * Verify the FLOAT axes of a read-back snapshot (#146). Light by design — the geometric layer has no
+ * semantic role-set to police like colour does, so this asserts the structural facts that matter:
+ * the expected collections are present, every cross-collection alias resolves (against ALL float vars
+ * — the executor binds space→dimension etc. across collections), the `core-dimension` primitives are
+ * hidden, and the `radius` collection carries a `wireframe` mode iff the brand ships wireframe.
+ * Returns an all-pass verdict when `snap.float` is absent (a colour-only file is not a FLOAT failure).
+ */
+export const verifyFloatReadback = (snap: ReadbackSnapshot, expectWireframe: boolean): FloatReadbackVerdict => {
+  const float = snap.float ?? {};
+  const present = Object.keys(float);
+  const collectionsPresent = present.length === 0 ? false : EXPECTED_FLOAT_COLLECTIONS.every((n) => present.includes(n));
+
+  // Every FLOAT var name across all collections — alias targets span collections, so resolve globally.
+  const allFloatNames = new Set<string>();
+  for (const vars of Object.values(float)) for (const v of vars) allFloatNames.add(v.name);
+  const danglingAliases: string[] = [];
+  for (const vars of Object.values(float))
+    for (const v of vars)
+      for (const [m, val] of Object.entries(v.valuesByMode))
+        if (isAlias(val) && val.alias && !allFloatNames.has(val.alias)) danglingAliases.push(`${v.name} @${m} -> ${val.alias}`);
+
+  const dims = float['core-dimension'] ?? [];
+  const dimensionsHidden = dims.length > 0 && dims.every((v) => v.hidden);
+
+  const radiusModes = snap.collections.find((c) => c.name === 'radius')?.modes ?? [];
+  const hasWireframe = radiusModes.includes('wireframe');
+  const radiusWireframeMode = expectWireframe ? hasWireframe : !hasWireframe;
+
+  const checks = {
+    collectionsPresent: snap.float === undefined ? true : collectionsPresent,
+    aliasesResolve: danglingAliases.length === 0,
+    dimensionsHidden: snap.float === undefined ? true : dimensionsHidden,
+    radiusWireframeMode: snap.float === undefined ? true : radiusWireframeMode,
+  };
+  return { ok: Object.values(checks).every(Boolean), checks, details: { collections: present, danglingAliases } };
 };

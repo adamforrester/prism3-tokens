@@ -32,8 +32,8 @@ import { handleRpc, callTool, toolDefs } from './mcp';
 import { scoreConsumption, scoreContractCompliance, tokenPaths, normalizeRef, isPrimitiveRef, PRIMITIVE_TIERS } from './eval';
 import { runEval, buildPrompt, extractRefs, extractPairs, SAMPLE_TASKS } from './eval-run';
 import { aliasRows } from './materialise-to-figma';
-import { buildWritePlan } from './write-plan';
-import { verifyReadback, ReadbackSnapshot } from './read-back';
+import { buildWritePlan, buildFloatWritePlan } from './write-plan';
+import { verifyReadback, verifyFloatReadback, ReadbackSnapshot } from './read-back';
 import { serializeBrandInput, deserializeBrandInput, PERSIST_VERSION } from './persist-input';
 import { validateComponentDef, ComponentDef } from './component-schema';
 import { button } from './components/button';
@@ -423,6 +423,75 @@ for (const b of brands) {
   let rejected = false;
   try { brandTheme(malformed as BrandInput); } catch { rejected = true; }
   ok(rejected, 'persist: brandTheme rejects a shape-invalid restored input (the restore handler guard bites)');
+}
+
+// FLOAT WRITE PLAN (#146): the geometric axes reshaped for the plugin write executor. The plan must
+// carry the eight collections with the right modes, every cross-collection alias must resolve within
+// the plan (0 dangling — the executor binds against one global name map), opacity must be 0–100 (the
+// Figma OPACITY-percent convention), and a wireframe brand must add a distinct `wireframe` radius mode.
+{
+  const auroraFloat = buildFloatWritePlan(brandTheme(exampleBrands()['aurora'] as BrandInput));
+  const names = auroraFloat.map((c) => c.name);
+  const EXPECTED = ['core-dimension', 'space', 'radius', 'size', 'border-width', 'focus', 'opacity', 'layout'];
+  ok(EXPECTED.every((n) => names.includes(n)) && names.length === EXPECTED.length,
+    `float-plan: eight collections present (${names.join(', ')})`);
+
+  // Single-mode dims axes vs per-breakpoint layout.
+  ok(auroraFloat.find((c) => c.name === 'core-dimension')!.modes.join(',') === 'Default',
+    'float-plan: core-dimension is single Default mode');
+  const layout = auroraFloat.find((c) => c.name === 'layout')!;
+  ok(layout.modes.length >= 4 && layout.create.length > 0,
+    `float-plan: layout carries one mode per breakpoint (${layout.modes.join('/')})`);
+
+  // Every alias target resolves within the plan (the executor's global name map covers all axes).
+  const allNames = new Set(auroraFloat.flatMap((c) => c.create.map((r) => r.name)));
+  const danglers: string[] = [];
+  for (const c of auroraFloat)
+    for (const a of c.aliases)
+      for (const t of a.targetsByMode)
+        if (t && !allNames.has(t)) danglers.push(`${a.name} -> ${t}`);
+  ok(danglers.length === 0, `float-plan: every cross-collection alias resolves (0 dangling)${danglers.length ? ' — ' + danglers.slice(0, 3).join(', ') : ''}`);
+
+  // space aliases dimension; core-dimension + opacity are primitives (no aliases).
+  const space = auroraFloat.find((c) => c.name === 'space')!;
+  ok(space.aliases.every((a) => a.targetsByMode.every((t) => t === null || t.startsWith('dimension/'))),
+    'float-plan: space vars alias core-dimension primitives');
+  ok(auroraFloat.find((c) => c.name === 'core-dimension')!.aliases.every((a) => a.targetsByMode.every((t) => t === null)),
+    'float-plan: core-dimension primitives carry no aliases');
+
+  // opacity values are 0–100 (Figma OPACITY percent), not the DTCG 0–1 fraction.
+  const opVals = auroraFloat.find((c) => c.name === 'opacity')!.create.flatMap((r) => r.valuesByMode);
+  ok(opVals.length > 0 && opVals.every((n) => n >= 0 && n <= 100) && opVals.some((n) => n > 1),
+    `float-plan: opacity is 0–100 percent (max ${Math.max(...opVals)})`);
+
+  // core-dimension primitives hidden from publishing; opacity NOT hidden (#79 — directly consumable).
+  ok(auroraFloat.find((c) => c.name === 'core-dimension')!.create.every((r) => r.hidden),
+    'float-plan: core-dimension primitives hidden from publishing');
+  ok(auroraFloat.find((c) => c.name === 'opacity')!.create.every((r) => !r.hidden),
+    'float-plan: opacity NOT hidden (directly consumable)');
+
+  // Wireframe brand: radius gains a distinct wireframe mode where every radius aliases dimension/0.
+  const wfFloat = buildFloatWritePlan(brandTheme({ ...(exampleBrands()['aurora'] as BrandInput), modes: ['light', 'dark', 'wireframe'] }));
+  const wfRadius = wfFloat.find((c) => c.name === 'radius')!;
+  const wfIdx = wfRadius.modes.indexOf('wireframe');
+  ok(wfIdx > 0 && wfRadius.modes.includes('Default'), `float-plan: wireframe brand adds a wireframe radius mode (${wfRadius.modes.join('/')})`);
+  ok(wfRadius.aliases.length > 0 && wfRadius.aliases.every((a) => a.targetsByMode[wfIdx] === 'dimension/0'),
+    'float-plan: every radius aliases dimension/0 in the wireframe mode (sharp corners)');
+
+  // verifyFloatReadback guard: a colour-only snapshot (no `float`) is NOT a float failure; a dangling
+  // FLOAT alias IS caught. (The full write→read→verify round-trip is covered in plugin/test-readback.)
+  const colourOnly = verifyFloatReadback({ collections: [], palette: [], color: [] }, false);
+  ok(colourOnly.ok, 'verifyFloatReadback: colour-only snapshot passes (float axes absent, not failed)');
+  const dangling = verifyFloatReadback({
+    collections: [{ name: 'space', modes: ['Default'] }],
+    palette: [], color: [],
+    float: {
+      'core-dimension': [{ name: 'dimension/0', scopes: ['GAP'], hidden: true, valuesByMode: { Default: 0 } }],
+      space: [{ name: 'space/100', scopes: ['GAP'], hidden: false, valuesByMode: { Default: { alias: 'dimension/NOPE' } } }],
+      radius: [], size: [], 'border-width': [], focus: [], opacity: [],
+    },
+  }, false);
+  ok(!dangling.ok && !dangling.checks.aliasesResolve, 'verifyFloatReadback: a dangling FLOAT alias fails the verdict (negative)');
 }
 
 // INVERSE + neutralEmphasis + accentPalette (docs/20 §9/§10/§3, increment 4).

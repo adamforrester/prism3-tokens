@@ -97,6 +97,21 @@ each handler's `switch` exhaustive, so a new message type can't be silently drop
 - ✅ **Knobs only** — restore does NOT re-write `figma.variables` (they're already in the file). The port
   (`plugin/src/persist-figma.ts`) is a minimal `SharedDataPort`, shim-tested in `test-persist.ts`.
 
+## Scope (#146 — write beyond colour: the FLOAT-variable axes)
+
+- ✅ **Eight FLOAT collections** materialise alongside colour: `core-dimension`, `space`, `radius`,
+  `size`, `border-width`, `focus`, `opacity`, and `layout`. An apply now writes the geometric layer,
+  not just colour.
+- ✅ **Node-free extraction** — `buildFigmaDims` + `buildFigmaLayout` moved to `engine/emit-figma-dims.ts`
+  (like the colour core), so they bundle into the plugin main thread (0 `node:` builtins preserved).
+- ✅ **Pure plan + executor** — `buildFloatWritePlan(theme)` reshapes both builders into a uniform
+  `FloatCollectionPlan[]`; `applyFloatPlan` runs the same two-pass shape as the colour write, binding
+  cross-collection aliases (space→dimension, size→dimension/space, radius→dimension, layout grid→space)
+  against one global name map. Idempotent find-by-name; `layout` carries one mode per breakpoint,
+  `radius` a `wireframe` mode when the brand opts in.
+- ⏭ **Typography + shadow/gradient are NOT here** — those are Figma *Styles* (text/effect/paint), a
+  different API; typography also waits on the #112/#113 type-model decisions. Own follow-up issues.
+
 ## Run
 
 ```bash
@@ -104,7 +119,7 @@ npm install          # from the repo root (workspaces) — installs @figma/plugi
 npm run build -w @prism3/plugin      # → plugin/dist/main.js + plugin/dist/ui.html (shared UI inlined)
 npm run watch -w @prism3/plugin      # rebuild on change (watches plugin/src + web/src)
 npm run typecheck -w @prism3/plugin  # both contexts (main + ui)
-npm test -w @prism3/plugin           # write + read + persist executors against in-memory shims
+npm test -w @prism3/plugin           # write + read + persist + float executors against in-memory shims
 ```
 
 Then in Figma: **Plugins → Development → Import plugin from manifest…** → pick `plugin/manifest.json`.
