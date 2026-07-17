@@ -40,6 +40,9 @@
 import { readFileSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
+import type { FigmaCollectionFile } from './emit-figma';
+import { buildWritePlan } from './write-plan';
+import type { WritePlan } from './write-plan';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 
@@ -55,17 +58,7 @@ const SCOPE_CODE: Record<string, string> = {
 const encodeScopes = (scopes: string[]): string =>
   scopes.map((s) => SCOPE_CODE[s] ?? '?').sort().join('');
 
-type FigmaVar = {
-  name: string; resolvedType: string; scopes: string[]; description: string;
-  value: { r: number; g: number; b: number; a: number };
-  alias: { type: string; name: string } | null; hiddenFromPublishing?: boolean;
-};
-type FigmaFile = { $collection: string; $mode: string; variables: FigmaVar[] };
-
-const round = (n: number) => Math.round(n * 1e5) / 1e5;
-const rgba = (v: FigmaVar['value']) => ({ r: round(v.r), g: round(v.g), b: round(v.b), a: round(v.a) });
-
-const load = (brand: string, file: string): FigmaFile => {
+const load = (brand: string, file: string): FigmaCollectionFile => {
   const p = resolve(HERE, `out/figma/${brand}/${file}`);
   if (!existsSync(p)) throw new Error(`missing emitted file: ${p} — run \`npx tsx Prism3/engine/emit-figma.ts\` first`);
   return JSON.parse(readFileSync(p, 'utf8'));
@@ -75,6 +68,16 @@ const load = (brand: string, file: string): FigmaFile => {
 const colourModes = (brand: string): string[] =>
   MODE_ORDER.filter((m) => existsSync(resolve(HERE, `out/figma/${brand}/color.${m}.json`)));
 
+// The disk-read SHELL: read the emitted raw-figma files → collections → the pure `buildWritePlan`.
+// Every pass below (and `aliasRows`) projects THIS plan, so the CLI paste-path and the live plugin
+// executor (`plugin/src/write-figma.ts`) share one source of truth for scopes / values / per-mode
+// aliases / hidden flags — they can't drift.
+const planFor = (brand: string): WritePlan =>
+  buildWritePlan({
+    palette: load(brand, 'core-palette.json'),
+    color: colourModes(brand).map((m) => load(brand, `color.${m}.json`)),
+  });
+
 // ---- the SC decode map + shared helpers, injected into every plugin payload -----------
 const PRELUDE = `const SC={f:'FRAME_FILL',s:'SHAPE_FILL',t:'TEXT_FILL',k:'STROKE_COLOR'};
 const decode=(c)=>[...c].map(x=>SC[x]);
@@ -83,9 +86,8 @@ const findCol=async(n)=>(await cols()).find(c=>c.name===n);`;
 
 // ---- pass: palette (core-palette, one Default mode, literal values, hidden primitives) --
 const palettePass = (brand: string): string => {
-  const pal = load(brand, 'core-palette.json');
   // row: [name, scopeCode, description, value, hidden]
-  const P = pal.variables.map((v) => [v.name, encodeScopes(v.scopes), v.description, rgba(v.value), v.hiddenFromPublishing ? 1 : 0]);
+  const P = planFor(brand).palette.map((r) => [r.name, encodeScopes(r.scopes), r.description, r.value, r.hidden ? 1 : 0]);
   return `(async()=>{
 ${PRELUDE}
 const P=${JSON.stringify(P)};
@@ -106,14 +108,9 @@ return {collection:'core-palette',total:P.length,created};
 
 // ---- pass: color-create (color collection, N modes, literal fallback values) -----------
 const colorCreatePass = (brand: string): string => {
-  const modes = colourModes(brand);
-  const files = modes.map((m) => load(brand, `color.${m}.json`));
-  const base = files[0].variables;
+  const { modes, create } = planFor(brand).color;
   // row: [name, scopeCode, description, [value per mode, in `modes` order]]
-  const C = base.map((v, i) => [
-    v.name, encodeScopes(v.scopes), v.description,
-    files.map((f) => rgba(f.variables[i].value)),
-  ]);
+  const C = create.map((r) => [r.name, encodeScopes(r.scopes), r.description, r.valuesByMode]);
   return `(async()=>{
 ${PRELUDE}
 const MODES=${JSON.stringify(modes)};
@@ -141,10 +138,8 @@ return {collection:'color',modes:MODES,total:C.length,created};
 // its OWN target, not light's for all four) into the gate without needing a live Figma.
 export type AliasRow = [string, (string | null)[]];
 export const aliasRows = (brand: string): { modes: string[]; rows: AliasRow[] } => {
-  const modes = colourModes(brand);
-  const files = modes.map((m) => load(brand, `color.${m}.json`));
-  const base = files[0].variables;
-  const rows: AliasRow[] = base.map((v, i) => [v.name, files.map((f) => f.variables[i].alias?.name ?? null)]);
+  const { modes, aliases } = planFor(brand).color;
+  const rows: AliasRow[] = aliases.map((r) => [r.name, r.targetsByMode]);
   return { modes, rows };
 };
 

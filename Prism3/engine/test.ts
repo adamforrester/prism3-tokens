@@ -32,6 +32,7 @@ import { handleRpc, callTool, toolDefs } from './mcp';
 import { scoreConsumption, scoreContractCompliance, tokenPaths, normalizeRef, isPrimitiveRef, PRIMITIVE_TIERS } from './eval';
 import { runEval, buildPrompt, extractRefs, extractPairs, SAMPLE_TASKS } from './eval-run';
 import { aliasRows } from './materialise-to-figma';
+import { buildWritePlan } from './write-plan';
 import { validateComponentDef, ComponentDef } from './component-schema';
 import { button } from './components/button';
 import { iconButton } from './components/icon-button';
@@ -336,6 +337,24 @@ for (const b of brands) {
   ok(rows.some(([, t]) => new Set(t).size > 1), 'materialise: alias rows carry distinct per-mode targets (collapse-proof — not one target repeated)');
   const bg = rows.find(([n]) => n === 'color/background/primary');
   ok(!!bg && new Set(bg![1]).size > 1, 'materialise: background/primary binds a different palette step per mode (the collapse-guard probe)');
+}
+
+// WRITE-PLAN — the host-neutral plan the live plugin executor consumes (#108). Built IN-MEMORY
+// from buildFigmaColor(theme) — the exact path the plugin main thread runs (no disk) — so the
+// plan the executor writes is pinned independently of the disk-backed CLI. The collapse-guard is
+// re-asserted at the plan level: each colour var carries one create-value AND one alias-target
+// per mode, and background/primary's targets differ per mode.
+{
+  const plan = buildWritePlan(buildFigmaColor(nbTheme()));
+  const { modes, create, aliases } = plan.color;
+  ok(modes.length === 4, `write-plan: nb plan carries 4 colour modes (${modes.join('/')})`);
+  ok(plan.palette.length > 0 && plan.palette.every((r) => r.hidden), 'write-plan: every core-palette primitive is hidden from publishing');
+  ok(plan.palette.every((r) => r.scopes.length > 0 && r.value && typeof r.value.r === 'number'), 'write-plan: palette rows carry scopes + a literal RGBA value');
+  ok(create.length > 0 && create.every((r) => r.valuesByMode.length === modes.length), 'write-plan: every colour create-row carries one literal value per mode');
+  ok(aliases.length === create.length && aliases.every((r) => r.targetsByMode.length === modes.length), 'write-plan: every colour alias-row carries one target per mode (parallel to create-rows)');
+  ok(aliases.some((r) => new Set(r.targetsByMode).size > 1), 'write-plan: alias rows carry distinct per-mode targets (collapse-proof at the plan level)');
+  const bgp = aliases.find((r) => r.name === 'color/background/primary');
+  ok(!!bgp && new Set(bgp!.targetsByMode).size > 1, 'write-plan: background/primary binds a different palette step per mode (plan-level collapse-guard probe)');
 }
 
 // INVERSE + neutralEmphasis + accentPalette (docs/20 §9/§10/§3, increment 4).

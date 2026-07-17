@@ -7,9 +7,10 @@
     "strict": true,
     "skipLibCheck": true,
     "noEmit": true,
+    "resolveJsonModule": true,
     "typeRoots": ["../node_modules/@types", "../node_modules/@figma"],
     "types": ["plugin-typings"],
     "lib": ["ES2020"]
   },
-  "include": ["src/main.ts", "src/bridge-main.ts", "src/messages.ts", "src/figma-env.d.ts"]
+  "include": ["src/main.ts", "src/bridge-main.ts", "src/messages.ts", "src/write-figma.ts", "src/figma-env.d.ts"]
 }

@@ -18,14 +18,20 @@ export type UiToMain =
   /** UI booted and its handler is attached — main can now safely postMessage. */
   | { type: 'ui-ready' }
   /** Round-trip probe (scaffold self-test): main echoes it back as `main-pong`. */
-  | { type: 'ping'; nonce: number };
+  | { type: 'ping'; nonce: number }
+  /** Materialise the theme into `figma.variables` (#108). Bare trigger — the main thread owns
+   *  the theme (bundled `nbTheme()` today); #110 makes the theme live from the shared UI's knobs
+   *  without reshaping this message. */
+  | { type: 'apply-theme' };
 
 /** Messages the main thread sends TO the UI iframe. */
 export type MainToUi =
   /** Handshake ack + the host context the UI is running in (figma editor type / api version). */
   | { type: 'main-ready'; editorType: string; apiVersion: string }
   /** Reply to `ping`, echoing the nonce so the UI can match request↔response. */
-  | { type: 'main-pong'; nonce: number };
+  | { type: 'main-pong'; nonce: number }
+  /** Result of an `apply-theme` write: ok + a human summary (counts / any misses) for the UI. */
+  | { type: 'apply-result'; ok: boolean; summary: string };
 
 /** Narrow a discriminated union by its `type` tag — the payload a handler actually receives. */
 export type OfType<U extends { type: string }, T extends U['type']> = Extract<U, { type: T }>;
