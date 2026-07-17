@@ -76,8 +76,26 @@ each handler's `switch` exhaustive, so a new message type can't be silently drop
 - ✅ **Write path = #108 verbatim**, only the theme source changed (bundled NB → live UI knobs):
   `apply-theme` carries a `BrandInput`; the main thread runs `buildWritePlan(buildFigmaColor(brandTheme(input)))`
   → `applyWritePlan`. On boot it runs #109 read-back → a `seed-info` panel.
-- ⏭ **Read-SEED is informational** — full knob-rehydration needs `BrandInput` persisted in Figma
-  shared-data (a `ReadbackSnapshot` is resolved values; the knobs can't be reverse-engineered). Follow-up.
+- ✅ **Read-SEED is informational** — the `seed-info` panel reports whether an existing theme's contract
+  holds; the actual knob-rehydration is #131 (below), not this snapshot (resolved values can't be
+  reverse-engineered into knobs).
+
+## Scope (#131 — persist `BrandInput` → true knob round-trip)
+
+- ✅ **Persist on apply** — after a successful `applyWritePlan`, the main thread writes the live
+  `BrandInput` into `figma.root` shared-data (namespace `prism3`, key `brandInput`), so the knobs travel
+  with the file, not just the resolved variables.
+- ✅ **Rehydrate on boot** — `ui-ready` runs `restoreToUi()` (independent of the #109 seed): reads the
+  blob back, and if trusted posts `restore-input`; the shared UI loads it via `loadBrand`, so re-opening a
+  themed file boots on that brand instead of the default `aurora`.
+- ✅ **Versioned + defensive** — pure `engine/persist-input.ts` (`PERSIST_VERSION`) tags the blob;
+  `deserializeBrandInput` returns `null` on parse error / version drift / absence. The blob is PUBLIC
+  shared-data (any plugin can write it), so this envelope guard is deliberately shallow — the SHAPE gate is
+  downstream: the restore handler runs `brandTheme` (as Import does) and keeps defaults on reject, so a
+  versioned-but-malformed payload can't crash the boot render. Bump the version (and add a migration there)
+  on an incompatible `BrandInput` change.
+- ✅ **Knobs only** — restore does NOT re-write `figma.variables` (they're already in the file). The port
+  (`plugin/src/persist-figma.ts`) is a minimal `SharedDataPort`, shim-tested in `test-persist.ts`.
 
 ## Run
 
@@ -86,7 +104,7 @@ npm install          # from the repo root (workspaces) — installs @figma/plugi
 npm run build -w @prism3/plugin      # → plugin/dist/main.js + plugin/dist/ui.html (shared UI inlined)
 npm run watch -w @prism3/plugin      # rebuild on change (watches plugin/src + web/src)
 npm run typecheck -w @prism3/plugin  # both contexts (main + ui)
-npm test -w @prism3/plugin           # write + read executors against an in-memory figma.variables shim
+npm test -w @prism3/plugin           # write + read + persist executors against in-memory shims
 ```
 
 Then in Figma: **Plugins → Development → Import plugin from manifest…** → pick `plugin/manifest.json`.

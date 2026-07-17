@@ -20,6 +20,7 @@ import { readFigmaVariables } from './read-figma';
 import { buildFigmaColor } from '../../Prism3/engine/emit-figma-color';
 import { buildWritePlan } from '../../Prism3/engine/write-plan';
 import { verifyReadback } from '../../Prism3/engine/read-back';
+import { persistInput, restoreInput } from './persist-figma';
 import { brandTheme } from '../../Prism3/engine/theme';
 import type { BrandInput } from '../../Prism3/engine/theme';
 
@@ -36,6 +37,9 @@ const applyTheme = async (input: BrandInput): Promise<void> => {
   try {
     const plan = buildWritePlan(buildFigmaColor(brandTheme(input)));
     const r = await applyWritePlan(plan, figma.variables);
+    // Persist the exact knobs alongside the variables (#131) — so re-opening this file rehydrates
+    // the UI to THIS brand, not the default. Only after a real materialisation (inside the try).
+    persistInput(figma.root, input);
     const summary =
       `palette ${r.paletteTotal} (+${r.paletteCreated}), color ${r.colorTotal} (+${r.colorCreated}), ` +
       `${r.bound} aliases bound` + (r.misses.length ? `, ${r.misses.length} misses` : '');
@@ -47,9 +51,8 @@ const applyTheme = async (input: BrandInput): Promise<void> => {
 
 /**
  * Boot read-back (#109): read the current file's colour variables + verify the materialisation
- * contract, and hand the UI a summary. Informational — an existing themed file is reported, but
- * rehydrating the UI's knobs from it is a follow-up (a `ReadbackSnapshot` is resolved values; the
- * `BrandInput` would have to be persisted in shared-data to truly round-trip).
+ * contract, and hand the UI a summary. Informational — reports that an existing themed file's
+ * contract holds; the actual knob-rehydration is `restoreToUi` (#131), which is independent.
  */
 const seedFromFile = async (): Promise<void> => {
   try {
@@ -69,11 +72,23 @@ const seedFromFile = async (): Promise<void> => {
   }
 };
 
+/**
+ * Boot knob-rehydration (#131): read the `BrandInput` the last apply persisted in shared-data and,
+ * if a trusted blob exists, hand it to the UI so it opens on the persisted brand. Absence / drift /
+ * corruption → `null` → nothing posted → the UI keeps its defaults (same as an unthemed file).
+ * Independent of `seedFromFile` — the read-back verdict and the knob restore don't gate each other.
+ */
+const restoreToUi = (): void => {
+  const input = restoreInput(figma.root);
+  if (input) postToUi({ type: 'restore-input', input });
+};
+
 onUiMessage((msg: UiToMain) => {
   switch (msg.type) {
     case 'ui-ready':
-      // UI's listener is attached — run the boot read-back and hand it the seed summary.
+      // UI's listener is attached — run the boot read-back (seed summary) + rehydrate the knobs.
       void seedFromFile();
+      restoreToUi();
       return;
     case 'apply-theme':
       void applyTheme(msg.input);

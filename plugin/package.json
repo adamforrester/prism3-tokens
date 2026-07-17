@@ -8,7 +8,7 @@
     "build": "node build.mjs",
     "watch": "node build.mjs --watch",
     "typecheck": "tsc --noEmit -p tsconfig.main.json && tsc --noEmit -p tsconfig.ui.json",
-    "test": "npx tsx test-write.ts && npx tsx test-readback.ts"
+    "test": "npx tsx test-write.ts && npx tsx test-readback.ts && npx tsx test-persist.ts"
   },
   "devDependencies": {
     "@figma/plugin-typings": "^1.131.0",

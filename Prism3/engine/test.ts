@@ -34,6 +34,7 @@ import { runEval, buildPrompt, extractRefs, extractPairs, SAMPLE_TASKS } from '.
 import { aliasRows } from './materialise-to-figma';
 import { buildWritePlan } from './write-plan';
 import { verifyReadback, ReadbackSnapshot } from './read-back';
+import { serializeBrandInput, deserializeBrandInput, PERSIST_VERSION } from './persist-input';
 import { validateComponentDef, ComponentDef } from './component-schema';
 import { button } from './components/button';
 import { iconButton } from './components/icon-button';
@@ -395,6 +396,33 @@ for (const b of brands) {
   );
   const bad = verifyReadback(snapFrom(collapsed));
   ok(!bad.checks.modesDistinct && !bad.ok, 'read-back: collapsed background/primary FAILS modesDistinct (negative — the collapse guard bites)');
+}
+
+// BrandInput PERSISTENCE (#131): the shared-data round-trip + version guard. A persisted brand
+// must deserialise back to the EXACT input (so re-opening a themed file rehydrates the knobs), and
+// any untrusted blob (garbage / drift / non-object) must collapse to null (= start from defaults).
+{
+  const brand = exampleBrands()['aurora'] as BrandInput;
+  const back = deserializeBrandInput(serializeBrandInput(brand));
+  ok(JSON.stringify(back) === JSON.stringify(brand), 'persist: serialize→deserialize round-trips a BrandInput exactly (knob rehydration)');
+
+  ok(deserializeBrandInput('not json {') === null, 'persist: corrupt/non-JSON blob → null (fall back to defaults)');
+  ok(deserializeBrandInput('') === null, 'persist: empty blob → null (unset shared-data key)');
+  ok(deserializeBrandInput(JSON.stringify({ v: PERSIST_VERSION + 1, input: brand })) === null, 'persist: version mismatch → null (schema drift ignored, not mis-read)');
+  ok(deserializeBrandInput(JSON.stringify({ v: PERSIST_VERSION })) === null, 'persist: missing input → null');
+  ok(deserializeBrandInput(JSON.stringify({ input: brand })) === null, 'persist: missing version → null');
+  ok(deserializeBrandInput('42') === null && deserializeBrandInput('null') === null, 'persist: non-object JSON → null');
+
+  // The envelope guard (version + input-is-object) is deliberately shallow — the persisted blob is
+  // PUBLIC shared-data, so a versioned-but-shape-invalid payload (`{v:1, input:{}}`) clears it and
+  // deserialises to a non-null object. The SHAPE gate is downstream: the restore handler runs
+  // `brandTheme` (exactly as Import does) before loading, and rejects it — so the boot render never
+  // sees a brand with no `primary`. Assert both halves of that contract here.
+  const malformed = deserializeBrandInput(JSON.stringify({ v: PERSIST_VERSION, input: {} }));
+  ok(malformed !== null, 'persist: versioned-but-empty input clears the envelope (shape gate is downstream, not here)');
+  let rejected = false;
+  try { brandTheme(malformed as BrandInput); } catch { rejected = true; }
+  ok(rejected, 'persist: brandTheme rejects a shape-invalid restored input (the restore handler guard bites)');
 }
 
 // INVERSE + neutralEmphasis + accentPalette (docs/20 §9/§10/§3, increment 4).

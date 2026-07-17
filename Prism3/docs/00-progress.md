@@ -7,7 +7,39 @@
 
 ---
 
-## Latest (2026-07-17) — editor lane sweep: the web dashboard becomes demonstrative (#96–#101)
+## Latest (2026-07-17) — #131: persist `BrandInput` in shared-data → true knob round-trip
+
+**STATUS: in review (branch `feat/131-persist-brandinput`).** The #110 follow-up, and the last open
+plugin phase. #110's boot seed was *informational only* — a `ReadbackSnapshot` is resolved colour
+values, so the `BrandInput` knobs can't be reverse-engineered from it; re-opening a themed file always
+reset the UI to the default `aurora`. #131 closes the loop: the plugin now persists the exact
+`BrandInput` alongside the variables it writes, and rehydrates the UI from it on boot.
+
+- **Pure core — `engine/persist-input.ts`** (node-free, engine-tested): `PERSIST_VERSION = 1`,
+  `serializeBrandInput` → `{ v, input }` JSON, `deserializeBrandInput` → the input or **`null`** on
+  parse error / version drift / missing input. `null` is the single "start from defaults" signal, so
+  absence and drift are indistinguishable to the caller (both → the unthemed path).
+- **Plugin port — `plugin/src/persist-figma.ts`** (main-thread, shim-testable): a minimal
+  `SharedDataPort` (`get/setSharedPluginData`) that `figma.root` structurally satisfies; `persistInput`
+  / `restoreInput` under namespace `prism3` / key `brandInput`. Same pure-core-behind-thin-port split as
+  `write-plan.ts`←`write-figma.ts`.
+- **Wiring:** `plugin/src/main.ts` calls `persistInput(figma.root, input)` after a successful
+  `applyWritePlan`, and `restoreToUi()` on `ui-ready` (independent of the #109 seed). New `restore-input`
+  message on the `MainToUi` union; `web/src/write-adapter.ts` widens `HostCommit.onHostMessage` to carry
+  it; the shared UI handles it via the existing `loadBrand` (wholesale replace + rebuild).
+- **Restore repopulates KNOBS ONLY** — it does not re-write `figma.variables` (they already live in the
+  file; auto-writing on boot would be redundant/surprising).
+
+**Gates: engine 745→752 (7 persist cases — round-trip + garbage/drift/absence → null); plugin
+typecheck clean (two-context split holds); plugin `npm test` write+read+persist green; web tsc+build
+clean; `plugin/dist/main.js` 0 `node:` builtins. LIVE-DRIVEN against real `figma.root` shared-data via
+the Desktop Bridge: unset key → `''`, persist→restore exact, v-drift + corrupt blob → null, scratch file
+left untouched (the one thing the in-memory shim can't prove).** Out of scope: schema-v2 migration
+(a future `PERSIST_VERSION` bump); pre-#131 files (none exist).
+
+---
+
+## (2026-07-17) — editor lane sweep: the web dashboard becomes demonstrative (#96–#101)
 
 **STATUS: MERGED** (#96, #98, #99×5 slices, #100, #101; the `#122` type nit). Batched here because these
 web-lane entries were deliberately deferred while the plugin lane held the shared log — now captured. The

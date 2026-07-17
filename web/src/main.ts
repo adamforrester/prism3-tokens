@@ -150,7 +150,23 @@ let writeHost = makeWriteHost(document.documentElement);
 // the main thread (→ #108 applyWritePlan) and receives the #109 read-back seed summary on boot.
 const commit = hostCommit();
 let seedInfo: { ok: boolean; summary: string } | null = null;   // set by the host's boot read-back (#109)
-commit.onHostMessage((m) => { seedInfo = { ok: m.ok, summary: m.summary }; if (barHost) renderBar(); });
+// Host → UI notifications: the #109 read-back seed summary, and the #131 knob-rehydration (the
+// persisted BrandInput). restore-input loads the brand wholesale (loadBrand rebuilds + re-renders),
+// so re-opening a themed Figma file boots on that brand instead of the default. loadBrand is a
+// const defined below — this callback only fires async (after ui-ready), so the ref is resolved.
+commit.onHostMessage((m) => {
+  if (m.kind === 'restore-input') {
+    // The blob is public shared-data (any plugin can write it) — validate the SHAPE the same way
+    // Import does (brandTheme must accept it) before loading. A versioned-but-malformed payload
+    // (e.g. `{}`) that clears the persist envelope but has no `primary` would otherwise crash the
+    // boot render (renderBar reads `brandState.primary`); on reject we silently keep defaults.
+    try { brandTheme(m.input as BrandInput); } catch { return; }
+    loadBrand(m.input as BrandInput);
+    return;
+  }
+  seedInfo = { ok: m.ok, summary: m.summary };
+  if (barHost) renderBar();
+});
 
 // ===========================================================================
 // STAGE 1 — BRAND PRIMITIVES (bespoke)
