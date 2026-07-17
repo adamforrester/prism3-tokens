@@ -672,6 +672,10 @@ const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
     for (const l of levers) panel.append(renderControl(l));
     host.append(panel);
   }
+  // #97 — bespoke editors for the object levers renderControl can only show read-only:
+  // page surfaces on the colour stage, shadow tint on the form stage.
+  if (key === 'semantic') host.append(renderSurfacesEditor());
+  if (key === 'form') host.append(renderShadowTintEditor());
   // Validation-colour editing (status hue + roleColors borrow) now lives INLINE on each status
   // ramp (primitives stage) via statusRampControl — no standalone semantic-stage section.
   // Live preview on every lever stage — the same sample components reflect the axis
@@ -780,6 +784,80 @@ const renderTypographyEditor = (): HTMLElement => {
   }
   wrap.append(el('div', 'te-cat-wrap'));
   (wrap.lastChild as HTMLElement).append(table);
+  return wrap;
+};
+
+// ---- object-value editors (#97) --------------------------------------------
+// Two BrandInput levers are objects (`surfaces`, `shadow.tint`) that renderControl can only
+// show read-only as "configured". These bespoke sub-forms make them editable — reading the
+// current value from brandState (falling back to the engine default), writing the object
+// fields via setPath, and re-resolving so the specimen repaints. (The third object lever,
+// typography.families, is covered by the typography editor above.)
+
+/** The neutral ramp steps a page surface / contrast floor can name (base can also be white/black). */
+const NEUTRAL_STEPS = [25, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950];
+/** Per mode: the engine's default `base` when a brand doesn't declare a surface (light→white, dark→black). */
+const SURFACE_MODES: Array<['light' | 'dark', string, 'white' | 'black']> = [
+  ['light', 'Light', 'white'],
+  ['dark', 'Dark', 'black'],
+];
+/** #97 — page-surfaces editor. `surfaces.<mode>.{base,floorStep}` sets the primary surface the
+ *  preview paints on (and the worst-case neutral the saturated foregrounds validate against).
+ *  base = white / black / a tinted neutral step; floorStep is auto (engine-derived) unless pinned. */
+const renderSurfacesEditor = (): HTMLElement => {
+  const wrap = el('div', 'obj-editor');
+  wrap.append(subHead('Page surfaces'));
+  wrap.append(el('p', 'obj-lede', 'The primary surface each mode paints on — white/black or a tinted neutral step. The contrast floor follows it.'));
+  const panel = el('div', 'panel');
+  const opt = (sel: HTMLSelectElement, v: string, t: string, on: boolean): void => { const o = el('option') as HTMLOptionElement; o.value = v; o.textContent = t; if (on) o.selected = true; sel.append(o); };
+  for (const [mode, label, dflt] of SURFACE_MODES) {
+    const cur = brandState.surfaces?.[mode];
+    const knob = el('div', 'knob');
+    knob.append(el('label', 'knob-label', label));
+    const row = el('div', 'obj-row');
+    const base = el('select', 'obj-sel') as HTMLSelectElement;
+    const baseVal = cur?.base ?? dflt;
+    opt(base, 'white', 'White', baseVal === 'white');
+    opt(base, 'black', 'Black', baseVal === 'black');
+    for (const s of NEUTRAL_STEPS) opt(base, String(s), `Neutral ${s}`, baseVal === s);
+    base.onchange = () => { setPath(brandState, `surfaces.${mode}.base`, base.value === 'white' || base.value === 'black' ? base.value : Number(base.value)); apply(); };
+    const floor = el('select', 'obj-sel') as HTMLSelectElement;
+    opt(floor, '', 'Floor: auto', cur?.floorStep == null);
+    for (const s of NEUTRAL_STEPS) opt(floor, String(s), `Floor ${s}`, cur?.floorStep === s);
+    floor.onchange = () => { setPath(brandState, `surfaces.${mode}.floorStep`, floor.value === '' ? undefined : Number(floor.value)); apply(); };
+    row.append(base, floor);
+    knob.append(row);
+    panel.append(knob);
+  }
+  wrap.append(panel);
+  return wrap;
+};
+
+/** #97 — shadow-tint editor. `shadow.tint = {hue, amount}` hue-shifts the shadow base off pure
+ *  black (amount 0 = pure black; higher = a richer brand-hued near-black). Reads the resolved
+ *  default (`theme.shadow.tint`) when the brand hasn't set one; the elevation specimen recolours live. */
+const renderShadowTintEditor = (): HTMLElement => {
+  const wrap = el('div', 'obj-editor');
+  wrap.append(subHead('Shadow tint'));
+  wrap.append(el('p', 'obj-lede', 'Hue-shift the shadow base off pure black. Amount 0 = pure black; higher = a richer, brand-hued near-black.'));
+  const def = theme.shadow.tint;
+  const cur = brandState.shadow?.tint;
+  const panel = el('div', 'panel');
+  const mk = (key: 'hue' | 'amount', label: string, min: number, max: number, step: number, unit: string): void => {
+    const knob = el('div', 'knob');
+    knob.append(el('label', 'knob-label', label));
+    const input = el('input') as HTMLInputElement;
+    input.type = 'range'; input.min = String(min); input.max = String(max); input.step = String(step);
+    input.value = String(cur?.[key] ?? def[key]);
+    const val = el('span', 'knob-val', `${input.value}${unit}`);
+    input.oninput = () => { setPath(brandState, `shadow.tint.${key}`, Number(input.value)); val.textContent = `${input.value}${unit}`; apply(); };
+    const body = el('div', 'knob-body'); body.append(input, val);
+    knob.append(body);
+    panel.append(knob);
+  };
+  mk('hue', 'Tint hue', 0, 360, 1, '°');
+  mk('amount', 'Tint amount', 0, 1, 0.05, '');
+  wrap.append(panel);
   return wrap;
 };
 
@@ -1354,6 +1432,10 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .te-c{width:1%}
 .te-cat input[type=checkbox]{width:15px;height:15px;accent-color:var(--ink);cursor:pointer}
 .te-fam{padding:5px 7px;border:1px solid var(--line2);border-radius:var(--r-xs);font:inherit;font-size:12px;background:var(--paper);cursor:pointer}
+.obj-editor{margin-bottom:8px}
+.obj-lede{margin:0 0 8px;font-size:12px;color:var(--faint);line-height:1.5}
+.obj-row{display:flex;gap:8px;margin-top:8px}
+.obj-sel{flex:1;min-width:0;padding:7px 9px;border:1px solid var(--line2);border-radius:var(--r-xs);font:inherit;font-size:12.5px;background:var(--paper);cursor:pointer}
 
 .stage-vol{display:flex;flex-direction:column}
 .pvhost{display:flex;flex-direction:column;gap:16px}
