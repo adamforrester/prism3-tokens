@@ -8,6 +8,15 @@
 > what deliberately lives outside. Decided through the design dialogue of 2026-07-05; this is the
 > source of truth **before** any engine code. Nothing here is built yet — it's the spec to build to.
 
+> **Update (2026-07-17) — extensible interactive palettes (built).** §3's single opt-in accent is
+> now generalised to **N** interactive columns (`interactivePalettes`). Three rules the engine
+> enforces: **danger/destructive is always on** — it is a built-in column, never opt-in, alongside
+> primary and neutral; each extra column **auto-places its rest fill** at the palette's pinned step
+> by default, with an **optional per-column `anchorStep` override**; and a column may only promote a
+> **declared palette (a colour primitive already in the ramp set)** — never an arbitrary hex, so
+> every interactive colour stays a themeable alias. The `accentPalette` lever is kept as the
+> one-column back-compat alias. See §3a for the input shape and the emitted roles.
+
 ---
 
 ## 1. Why this exists
@@ -39,6 +48,32 @@ Rest colours + their states all live here. Nothing about how an interactive elem
 `primary` · `neutral` · `destructive` are always generated. **`accent` is generated only when the brand defines an accent colour** (`BrandInput.brandColors` + `actionPalette` — the engine already models this; aurora uses it). No accent colour → no accent column; **never fall back to primary** (that ships two identical-looking "primary" buttons). Most brands run `{primary, neutral, destructive}`; a brand with an accent gets a fourth column for free.
 
 `ghost` and `secondary` are **retired as colours** — `ghost` was an appearance masquerading as a colour (the Prism2 confusion), and emphasis is the *appearance* axis's job (§4), not a colour rung.
+
+## 3a. Extensible interactive palettes — N columns, not one accent
+
+The single accent of §3 generalises: a brand can promote **any number** of declared palettes to full interactive columns. `primary` · `neutral` · `destructive` are the always-on built-ins; each extra column is opt-in and gets **the same generated, gated treatment** as the built-ins — no column is a second-class citizen.
+
+**Input shape** (`BrandInput`):
+
+```ts
+interactivePalettes?: {
+  name?: string;      // role suffix → interactive.<name>.*  (defaults to `palette`)
+  palette: string;    // MUST be a defined palette: 'primary' or a brandColors name
+  anchorStep?: number;// optional rest-fill step (default: the palette's pinned/auto step)
+}[];
+actionAnchorStep?: number;       // optional fill-step override for the built-in primary column
+destructiveAnchorStep?: number;  // optional fill-step override for the built-in destructive column
+```
+
+**Roles emitted** per column (`<name>` = `entry.name ?? entry.palette`): `interactive.<name>.fill.{rest,hover,pressed,focused,selected}`, `interactive.<name>.on-fill`, `interactive.<name>.text`, `interactive.<name>.border`, `interactive.<name>.on-inverse` (when `inverse` is on), and the `interactive.<name>.overlay.{hover,pressed,selected}` washes (when `outlineInteraction: 'overlay-neutral'`). Every one is contrast-gated per mode by the same 248-contract machinery (§13).
+
+**Naming.** `name` (or the palette name it defaults to) must be a single lowercase slug and must be **unique** and **must not collide** with a built-in column (`primary`/`neutral`/`destructive`) — the engine throws a clear error otherwise, mirroring the `actionPalette`/`brandColors` validation. The `palette` must be a **defined palette** (validated like `actionPalette`); an undefined palette throws.
+
+**Placement.** By default a column's rest fill anchors at the palette's pinned step (a `brandColors` accent → its own lightness step; `primary` → the primary anchor; an unanchored neutral/status palette → the 500 mid pivot), then the engine nudges to clear the fill's contrast floor. `anchorStep` overrides that placement per column. The built-in primary/destructive columns take the same override via `actionAnchorStep` / `destructiveAnchorStep`.
+
+**Only primitives.** A column promotes a colour that is **already a ramp** — never a raw hex. This keeps every interactive colour a themeable alias into the primitive tier (the deprecated Polaris/SLDS raw-hex trap, §gradient parallel); a bespoke interactive hue is added as a `brandColors` entry first, then named here.
+
+**Back-compat.** `accentPalette` (+ its implicit accent placement) is retained as the ergonomic **one-column alias**: a bare `accentPalette: 'x'` is exactly `interactivePalettes: [{ name: 'accent', palette: 'x' }]` and reproduces the old `interactive.accent.*` output byte-for-byte, including the accent≠action guard. If **both** are set, `interactivePalettes` wins and `accentPalette` is ignored (recorded in the design notes).
 
 ## 4. Appearances — the consumer's selection over the family
 
@@ -88,7 +123,7 @@ Prism3 keeps inverse but reframes it as a **surface *context*** ("this control s
 
 - **`outlineInteraction`** — `overlay-neutral` · `overlay-tint` (the colour's hue at low alpha) · `solid-tint` · `none`. How an outline/text control expresses hover (the "what do we fill it with" question, answered per brand). *(inc-2: `overlay-neutral` (default) generates the neutral washes + composited-contrast gate; `solid-tint`/`none` opt out. `overlay-tint` is scheduled — needs per-colour alpha ramps.)*
 - **`neutralEmphasis`** — `subtle` (light-grey, the default) · `strong` (bold near-black neutral). The neutral button's boldness.
-- **`accent`** — implicit: present iff the brand declares an accent colour (§3).
+- **`interactivePalettes`** — the extensible set of opt-in interactive columns (§3a); each promotes a declared palette to a full `interactive.<name>.*` family with an optional `anchorStep`. `accentPalette` is the retained one-column back-compat alias. `actionAnchorStep` / `destructiveAnchorStep` override the built-in primary/destructive fill anchors.
 - **`inverse`** — whether the brand ships the inverse surface-context (§9).
 
 ## 11. Naming — one reconciled Prism3 scheme, no mixing

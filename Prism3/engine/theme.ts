@@ -62,6 +62,11 @@ export type Dims = {
   spaceBase: number;
 };
 
+/** A declared palette promoted to a full `interactive.<name>.*` column (docs/20 §3). `name` is
+ *  the role suffix (`interactive.<name>.*`); `palette` is a defined palette; `anchorStep` is the
+ *  fill step its rest colour anchors to (default 500 at generation time). */
+export type InteractivePalette = { name: string; palette: string; anchorStep?: number };
+
 /** Everything the emitter and the modes engine need to be brand-agnostic. */
 export type Theme = {
   id: string;
@@ -97,11 +102,15 @@ export type Theme = {
   // Inverse surface-context (docs/20 §9): generate `interactive.<color>.on-inverse` inks
   // for outline/text controls placed on a dark hero / inverse section. Default on.
   inverseContext: boolean;
-  // Opt-in accent interactive colour (docs/20 §3). When set, names a declared palette (a
-  // brandColors entry) that gets a full `interactive.accent.*` column. `accentAnchorStep`
-  // is the palette step its rest fill anchors to (the accent's pinned lightness).
-  accentPalette?: string;
-  accentAnchorStep?: number;
+  // Extensible interactive palettes (docs/20 §3). Each declared palette is promoted to a full
+  // `interactive.<name>.*` column (fill+states / on-fill / text / border / on-inverse / overlay),
+  // anchored at `anchorStep` (default 500). The built-in primary/neutral/destructive columns are
+  // always generated; these are the OPT-IN extras (the generalised `accentPalette`). Empty = none.
+  interactivePalettes: InteractivePalette[];
+  // Optional fill-step overrides for the built-in primary / destructive interactive columns —
+  // when set, the rest fill anchors at this palette step instead of the role's resolved default.
+  actionAnchorStep?: number;
+  destructiveAnchorStep?: number;
   dims: Dims;
   motion: MotionAxis;
   typography: Typography;
@@ -226,10 +235,23 @@ export type BrandInput = {
   /** Generate the inverse surface-context (docs/20 §9) — `interactive.<color>.on-inverse`
    *  inks for outline/text controls on a dark hero / inverse section. Default true. */
   inverse?: boolean;
-  /** Opt-in accent interactive colour (docs/20 §3). Names a declared palette (typically a
-   *  `brandColors` entry) to get a full `interactive.accent.*` column. Omit → no accent
-   *  column (never falls back to primary). Must differ from the action palette. */
+  /** Opt-in accent interactive colour (docs/20 §3) — the BACK-COMPAT single-column lever. Names a
+   *  declared palette (typically a `brandColors` entry) to get a full `interactive.accent.*` column.
+   *  Omit → no accent column (never falls back to primary). Must differ from the action palette.
+   *  Superseded by `interactivePalettes` (which, when set, wins and ignores this). */
   accentPalette?: string;
+  /** Extensible interactive palettes (docs/20 §3) — promote N declared palettes to full
+   *  `interactive.<name>.*` columns. Each entry: `palette` (a defined palette — 'primary' or a
+   *  `brandColors` name), an optional `name` (the role suffix → `interactive.<name>.*`; defaults to
+   *  the palette name), and an optional `anchorStep` (the rest fill step; default 500). Names must
+   *  be unique and must not collide with the built-ins (primary/neutral/destructive). This is the
+   *  generalised form of `accentPalette`: when set, it WINS and `accentPalette` is ignored. */
+  interactivePalettes?: { name?: string; palette: string; anchorStep?: number }[];
+  /** Optional fill-step overrides for the built-in primary / destructive interactive columns —
+   *  anchor their rest fill at a specific palette step instead of the role default. Omit to keep
+   *  the resolved default (byte-identical to today). */
+  actionAnchorStep?: number;
+  destructiveAnchorStep?: number;
   /** Motion personality (schema-optional #6). `tempo` scales the duration ramp;
    *  `easingEmphasized` overrides the expressive curve. Reduce-motion variants are
    *  always derived. Omit for the 'standard' tempo. */
@@ -1007,13 +1029,61 @@ export const brandTheme = (input: BrandInput): Theme => {
       notes.push(`roleColors: ${r} → '${pal}' hue ${Math.round(got)}° is far from the canonical ${r} hue ${want}° (Δ${Math.round(hueDist(got, want))}°) — CONFIRM the ${r} signal still reads; contrast holds but the colour may mislead`);
   }
 
+  // ---- interactive palettes (docs/20 §3): N opt-in `interactive.<name>.*` columns ----
+  // Generalises the single `accentPalette` lever into an array of promoted palettes. Each entry
+  // becomes a full interactive column (fill+states / on-fill / text / border / on-inverse / overlay,
+  // generated in modes.ts). Resolved here so the prune below keeps any palette a column points at.
+  const RESERVED_INTERACTIVE = new Set(['primary', 'neutral', 'destructive']);
+  // Rest-fill anchor for a palette: 'primary' → the primary anchor; a brandColor → its pinned
+  // lightness; an unanchored palette (neutral / status) → the 500 mid pivot (matches the accent path).
+  const interactiveStepFor = (pal: string): number => {
+    if (pal === 'primary') return anchorStep;
+    const bc = (input.brandColors ?? []).find((b) => b.name === pal);
+    return bc ? autoPlaceStep(bc.oklch.l) : 500;
+  };
+  const interactivePalettes: InteractivePalette[] = (() => {
+    let entries: { name?: string; palette: string; anchorStep?: number }[];
+    if (input.interactivePalettes !== undefined) {
+      if (input.accentPalette !== undefined)
+        notes.push(`interactivePalettes is set → the legacy accentPalette '${input.accentPalette}' is IGNORED (interactivePalettes wins)`);
+      entries = input.interactivePalettes;
+    } else if (input.accentPalette !== undefined) {
+      // Back-compat: a bare accentPalette is exactly one 'accent' interactive column (docs/20 §3),
+      // preserving the accent≠action guard so it never ships two identical-looking columns. No
+      // anchorStep → `interactiveStepFor` computes it, reproducing the legacy accent placement.
+      if (input.accentPalette === actionPalette)
+        throw new Error(`accentPalette '${input.accentPalette}' must differ from the action palette (docs/20 §3 — never ship two identical interactive columns)`);
+      entries = [{ name: 'accent', palette: input.accentPalette }];
+    } else {
+      return [];
+    }
+    const seen = new Set<string>();
+    const resolved: InteractivePalette[] = [];
+    for (const e of entries) {
+      const name = e.name ?? e.palette;
+      if (!PALETTE_NAME_RE.test(name))
+        throw new Error(`interactivePalettes: name '${name}' must be a single lowercase slug (letters/digits/hyphen, start with a letter) — it becomes the interactive.<name>.* role suffix`);
+      if (RESERVED_INTERACTIVE.has(name))
+        throw new Error(`interactivePalettes: name '${name}' collides with a built-in interactive column (primary/neutral/destructive) — pick a distinct name`);
+      if (seen.has(name))
+        throw new Error(`interactivePalettes: duplicate column name '${name}' — interactive column names must be unique`);
+      if (!palettes.some((p) => p.palette === e.palette))
+        throw new Error(`interactivePalettes: palette '${e.palette}' (column '${name}') is not a defined palette (have: ${palettes.map((p) => p.palette).join(', ')})`);
+      seen.add(name);
+      const anchor = e.anchorStep ?? interactiveStepFor(e.palette);
+      resolved.push({ name, palette: e.palette, anchorStep: anchor });
+      notes.push(`interactive column '${name}' → palette '${e.palette}' (fill step ${anchor}) → a full interactive.${name}.* column`);
+    }
+    return resolved;
+  })();
+
   // Prune orphaned status ramps: success/warning/info are minted unconditionally above, but if
   // roleColors rebased that role onto another ramp, the synthesized status ramp is now used by no
   // role and would ship as a dead ramp. Drop it — symmetric with the danger carve, which already
   // skips minting when danger is rebased. (danger is not minted-then-pruned; it never mints when
-  // rebased.) Keyed off the FINAL roleToPalette + accentPalette, so a status ramp survives whenever
-  // anything still points at it (e.g. actionPalette/accentPalette aimed at a status colour).
-  const usedPalettes = new Set<string>([...Object.values(roleToPalette), ...(input.accentPalette ? [input.accentPalette] : [])]);
+  // rebased.) Keyed off the FINAL roleToPalette + interactive columns, so a status ramp survives
+  // whenever anything still points at it (e.g. actionPalette/an interactive column aimed at a status).
+  const usedPalettes = new Set<string>([...Object.values(roleToPalette), ...interactivePalettes.map((p) => p.palette)]);
   for (let i = palettes.length - 1; i >= 0; i--) {
     const p = palettes[i];
     if ((p.palette === 'success' || p.palette === 'warning' || p.palette === 'info') && !usedPalettes.has(p.palette)) {
@@ -1080,21 +1150,6 @@ export const brandTheme = (input: BrandInput): Theme => {
     : 500;
   if (actionBrandColor) notes.push(`action anchored at accent '${actionPalette}' step ${actionAnchorStep} (its pinned lightness) — the brand's own shade, nudged only if it fails AA on the floor`);
 
-  // Accent interactive colour (docs/20 §3) — opt-in, a SECOND interactive column. Points at a
-  // declared palette (typically a brandColors accent). Validated to exist and to differ from the
-  // action palette (else two identical-looking "primary" columns — the fall-back-to-primary trap).
-  const accentPalette = input.accentPalette;
-  let accentAnchorStep: number | undefined;
-  if (accentPalette !== undefined) {
-    if (!palettes.some((p) => p.palette === accentPalette))
-      throw new Error(`accentPalette '${accentPalette}' is not a defined palette (have: ${palettes.map((p) => p.palette).join(', ')})`);
-    if (accentPalette === actionPalette)
-      throw new Error(`accentPalette '${accentPalette}' must differ from the action palette (docs/20 §3 — never ship two identical interactive columns)`);
-    const accentBrandColor = (input.brandColors ?? []).find((b) => b.name === accentPalette);
-    accentAnchorStep = accentPalette === 'primary' ? anchorStep : accentBrandColor ? autoPlaceStep(accentBrandColor.oklch.l) : 500;
-    notes.push(`accent interactive colour: palette '${accentPalette}' (step ${accentAnchorStep}) → a full interactive.accent.* column`);
-  }
-
   const neutralEmphasis = input.neutralEmphasis ?? 'subtle';
   const inverseContext = input.inverse ?? true;
   notes.push(`neutral interactive emphasis: '${neutralEmphasis}'${neutralEmphasis === 'strong' ? ' — bold near-black/white neutral fill' : ' (light-grey, default)'}; inverse surface-context: ${inverseContext ? 'on (interactive.<color>.on-inverse generated)' : 'off'}`);
@@ -1107,7 +1162,8 @@ export const brandTheme = (input: BrandInput): Theme => {
     disabledMin: input.disabledMin ?? 3,
     iconContrast: input.iconContrast ?? 'text',
     outlineInteraction: input.outlineInteraction ?? 'overlay-neutral',
-    neutralEmphasis, inverseContext, accentPalette, accentAnchorStep,
+    neutralEmphasis, inverseContext, interactivePalettes,
+    actionAnchorStep: input.actionAnchorStep, destructiveAnchorStep: input.destructiveAnchorStep,
     dims: buildDims(baseUnit, spaceBase, density, rScale, baseMd),
     motion: buildMotion(input.motionPersonality),
     typography,
@@ -1158,7 +1214,7 @@ export const nbThemeFrom = (s: NbMeasured): Theme => {
     roleToPalette: { brand: 'red', neutral: 'neutral', success: 'green', warning: 'amber', danger: 'red', info: 'info', action: 'red' },
     roleAnchorStep: { brand: 550, neutral: 500, success: 500, warning: 500, danger: 550, info: 500, action: 550 },
     disabledStrategy: 'accessible', disabledMin: 3, iconContrast: 'text', outlineInteraction: 'overlay-neutral',
-    neutralEmphasis: 'subtle', inverseContext: true,
+    neutralEmphasis: 'subtle', inverseContext: true, interactivePalettes: [],
     dims, motion: buildMotion(),
     typography: buildTypography(),
     shadow: buildShadow(s.neutralHue.hue, { tint: { amount: 0 } }),  // NB ships pure-black shadows
