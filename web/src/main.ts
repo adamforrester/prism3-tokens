@@ -732,6 +732,54 @@ const renderTypographyEditor = (): HTMLElement => {
     wr.append(knob);
   }
   wrap.append(wr);
+  // --- Per-category assignment (A2): family role · which weight-roles ship · italic · link ---
+  // Current state is DERIVED from the resolved composites; each control writes the corresponding
+  // brandState.typography.* override. Toggles read LIVE checkbox states (never a stale snapshot),
+  // so writing the full weights/italics/links list from the DOM stays correct across many edits.
+  wrap.append(subHead('Per-category'));
+  const roleOrder = ty.weightRoles.map((w) => w.role);
+  const italicG = new Set<string>(ty.composites.filter((c) => c.italic).map((c) => c.group));
+  const linkG = new Set<string>(ty.composites.filter((c) => c.link).map((c) => c.group));
+  const catFamily: Record<string, string> = {};
+  const catWeights: Record<string, Set<string>> = {};
+  for (const g of TYPE_GROUP_ORDER) {
+    const comps = ty.composites.filter((c) => c.group === g);
+    catFamily[g] = comps[0]?.family ?? 'text';
+    catWeights[g] = new Set(comps.map((c) => c.weightRole));
+  }
+  const weightCb: Record<string, Record<string, HTMLInputElement>> = {};
+  const italicCb: Record<string, HTMLInputElement> = {};
+  const linkCb: Record<string, HTMLInputElement> = {};
+  const cbEl = (checked: boolean): HTMLInputElement => { const c = el('input') as HTMLInputElement; c.type = 'checkbox'; c.checked = checked; return c; };
+  const table = el('table', 'te-cat');
+  const head = el('tr');
+  head.append(el('th', undefined, 'Category'), el('th', undefined, 'Family'));
+  for (const r of roleOrder) head.append(el('th', 'te-c', r));
+  head.append(el('th', 'te-c', 'italic'), el('th', 'te-c', 'link'));
+  table.append(head);
+  for (const g of TYPE_GROUP_ORDER) {
+    const tr = el('tr');
+    tr.append(el('td', 'te-cat-name mono', g));
+    const fsel = el('select', 'te-fam') as HTMLSelectElement;
+    for (const fr of ['display', 'text', 'mono']) { const o = el('option') as HTMLOptionElement; o.value = fr; o.textContent = fr; if (fr === catFamily[g]) o.selected = true; fsel.append(o); }
+    fsel.onchange = () => { setPath(brandState, `typography.familyMap.${g}`, fsel.value); apply(); };
+    const ftd = el('td'); ftd.append(fsel); tr.append(ftd);
+    weightCb[g] = {};
+    for (const r of roleOrder) {
+      const cb = cbEl(catWeights[g].has(r)); weightCb[g][r] = cb;
+      cb.onchange = () => { setPath(brandState, `typography.weights.${g}`, roleOrder.filter((x) => weightCb[g][x].checked)); apply(); };
+      const td = el('td', 'te-c'); td.append(cb); tr.append(td);
+    }
+    const icb = cbEl(italicG.has(g)); italicCb[g] = icb;
+    icb.onchange = () => { setPath(brandState, 'typography.italics', TYPE_GROUP_ORDER.filter((x) => italicCb[x].checked)); apply(); };
+    const itd = el('td', 'te-c'); itd.append(icb); tr.append(itd);
+    const lcb = cbEl(linkG.has(g)); linkCb[g] = lcb;
+    lcb.onchange = () => { setPath(brandState, 'typography.links', TYPE_GROUP_ORDER.filter((x) => linkCb[x].checked)); apply(); };
+    const ltd = el('td', 'te-c'); ltd.append(lcb); tr.append(ltd);
+    table.append(tr);
+  }
+  wrap.append(el('div', 'te-cat-wrap'));
+  (wrap.lastChild as HTMLElement).append(table);
   return wrap;
 };
 
@@ -1296,6 +1344,16 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .te-font{width:100%;margin-top:8px;padding:7px 9px;border:1px solid var(--line2);border-radius:var(--r-xs);font:inherit;background:var(--paper)}
 .te-wrow{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .te-weight{width:88px;padding:6px 8px;border:1px solid var(--line2);border-radius:var(--r-xs);font:inherit;background:var(--paper);font-variant-numeric:tabular-nums;text-align:right}
+.te-cat-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--panel);margin-top:8px}
+.te-cat{border-collapse:collapse;width:100%;font-size:12.5px}
+.te-cat th,.te-cat td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:center;white-space:nowrap}
+.te-cat th{font-size:11px;font-weight:600;color:var(--muted);text-transform:lowercase;letter-spacing:0.02em}
+.te-cat tr:last-child td{border-bottom:none}
+.te-cat th:first-child,.te-cat td:first-child,.te-cat th:nth-child(2),.te-cat td:nth-child(2){text-align:left}
+.te-cat-name{color:var(--ink);font-size:12px}
+.te-c{width:1%}
+.te-cat input[type=checkbox]{width:15px;height:15px;accent-color:var(--ink);cursor:pointer}
+.te-fam{padding:5px 7px;border:1px solid var(--line2);border-radius:var(--r-xs);font:inherit;font-size:12px;background:var(--paper);cursor:pointer}
 
 .stage-vol{display:flex;flex-direction:column}
 .pvhost{display:flex;flex-direction:column;gap:16px}
