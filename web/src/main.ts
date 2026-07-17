@@ -692,7 +692,7 @@ const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
   paintVolatile = () => {
     vol.innerHTML = '';
     if (key === 'type') vol.append(renderTypeSpecimen());
-    if (key === 'form') { vol.append(renderRadiusSpecimen()); vol.append(renderShadowSpecimen()); }
+    if (key === 'form') { vol.append(renderRadiusSpecimen()); vol.append(renderShadowSpecimen()); vol.append(renderMotionSpecimen()); }
     if (key === 'semantic') { vol.append(renderNeutralSpecimen()); vol.append(renderInverseSpecimen()); vol.append(renderGradientSpecimen()); }
     vol.append(sectionHead('Live preview', 'The sample components + contrast overlay, resolved through every mode — they reflect this stage’s axis live.'));
     const pv = el('div', 'pvhost');
@@ -947,6 +947,40 @@ const renderShadowSpecimen = (): HTMLElement => {
     list.append(cell);
   }
   wrap.append(list);
+  return wrap;
+};
+
+/** The motion specimen (#114): the resolved semantic transitions (default/enter/exit/emphasized), each a
+ *  bar that fills at its resolved duration + easing curve. Motion can't show in the static component
+ *  preview, so the tempo lever had no payoff; here it does — the bars re-run on every re-render (i.e. the
+ *  moment you change the tempo), plus a Replay. `prefers-reduced-motion` is honoured (bars shown filled,
+ *  no animation), nodding to the engine's derived reduced ramp. Kind-B specimen: reads `theme.motion`. */
+const renderMotionSpecimen = (): HTMLElement => {
+  const wrap = el('div', 'motion-spec');
+  const mo = theme.motion;
+  wrap.append(sectionHead('Motion', `The semantic transitions at tempo '${mo.tempo}' — each bar fills at its resolved duration + easing curve. Adjust the tempo and they re-run; reduce-motion is honoured (the engine also derives a reduced ramp).`));
+  const bez = (b: number[]): string => `cubic-bezier(${b.join(', ')})`;
+  const list = el('div', 'mo-list');
+  const fills: HTMLElement[] = [];
+  for (const t of mo.transitions) {
+    const ms = mo.duration[t.duration] ?? 0;
+    const row = el('div', 'mo-row');
+    row.append(el('div', 'mo-meta mono', `${t.name} · ${ms}ms · ${t.easing}`));
+    const track = el('div', 'mo-track');
+    const fill = el('div', 'mo-fill');
+    fill.style.animationDuration = `${ms}ms`;
+    fill.style.animationTimingFunction = bez(mo.easing[t.easing] ?? mo.easing.standard);
+    track.append(fill);
+    fills.push(fill);
+    row.append(track);
+    list.append(row);
+  }
+  wrap.append(list);
+  const replay = el('button', 'mo-replay', 'Replay') as HTMLButtonElement;
+  // Re-trigger by clearing only the animation NAME (the inline duration/easing longhands survive), forcing
+  // a reflow between so the browser restarts the keyframes.
+  replay.onclick = () => { for (const f of fills) { f.style.animationName = 'none'; void f.offsetWidth; f.style.removeProperty('animation-name'); } };
+  wrap.append(replay);
   return wrap;
 };
 
@@ -1454,6 +1488,16 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .sh-cell{display:flex;flex-direction:column;align-items:center;gap:10px}
 .sh-card{width:64px;height:64px;border-radius:10px;background:#fff}
 .sh-lab{font-size:11.5px;color:#5b6472}
+.motion-spec{margin-bottom:8px}
+.mo-list{display:flex;flex-direction:column;gap:16px;border:1px solid var(--line);border-radius:var(--r);padding:22px 24px;background:var(--panel)}
+.mo-row{display:flex;flex-direction:column;gap:7px;min-width:0}
+.mo-meta{font-size:11.5px;color:var(--faint)}
+.mo-track{position:relative;height:8px;background:var(--line2);border-radius:999px;overflow:hidden}
+.mo-fill{height:100%;width:100%;background:var(--ink);border-radius:999px;transform-origin:left;animation-name:mo-fill;animation-iteration-count:1;animation-fill-mode:both}
+@keyframes mo-fill{from{transform:scaleX(0.02)}to{transform:scaleX(1)}}
+.mo-replay{margin-top:14px;border:1px solid var(--line2);background:var(--panel);border-radius:var(--r-sm);padding:7px 14px;font:inherit;font-size:12.5px;color:var(--ink2);cursor:pointer}
+.mo-replay:hover{border-color:var(--ink);color:var(--ink)}
+@media (prefers-reduced-motion:reduce){.mo-fill{animation:none;transform:scaleX(1)}}
 .radius-spec{margin-bottom:8px}
 .rad-list{display:flex;flex-wrap:wrap;gap:24px;border:1px solid var(--line);border-radius:var(--r);padding:24px;background:var(--panel)}
 .rad-cell{display:flex;flex-direction:column;align-items:center;gap:9px;min-width:72px}
