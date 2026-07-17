@@ -32,6 +32,7 @@ import { resolveAllModes } from '../../Prism3/engine/modes';
 import { parseDesignMd, toDesignMd } from '../../Prism3/engine/design-md';
 import { buildTree } from '../../Prism3/engine/tree';
 import { makeWriteHost, hostCommit, cssVarName, typeVar } from './write-adapter';
+import { persistInput, restoreInput } from './persist-local';
 import exampleBrands from '../../Prism3/schema/example-brands.json';
 
 type Mode = ResolvedPreview['modes'][number];
@@ -41,7 +42,22 @@ type Mode = ResolvedPreview['modes'][number];
 // contracts). aurora: indigo anchor, action DECOUPLED onto an azure accent, tinted
 // page. brandState is the mutable working copy the inputs edit.
 const BRANDS = exampleBrands as Record<string, BrandInput>;
-let brandState: BrandInput = structuredClone(BRANDS.aurora);
+// Web persists the working brand to localStorage; the plugin uses Figma shared-data instead (restored
+// via the host `restore-input` message below). `PRISM3_HOST` is a build-time define (`'figma'` in the
+// plugin), so this guard is `'figma' !== 'figma'` → the localStorage path is INERT in the plugin —
+// never executed — exactly as the web export-bar commit path is inert in the plugin bundle. On web
+// boot, reopen on the persisted brand if one is stored AND still resolves; otherwise fall back to the
+// demo. (The first-run start screen is a follow-up.)
+const bootBrand = (): BrandInput => {
+  if (PRISM3_HOST !== 'figma') {
+    const restored = restoreInput(localStorage);
+    // Validate the SHAPE (brandTheme must accept it) before booting on it — a stale blob from an older
+    // build could deserialise past the version guard yet fail to resolve; on reject, fall back to the demo.
+    if (restored) { try { brandTheme(restored); return restored; } catch { /* stale/incompatible — fall through */ } }
+  }
+  return structuredClone(BRANDS.aurora);
+};
+let brandState: BrandInput = bootBrand();
 
 // A minimal, known-good starting point for "New brand": one mid-indigo primary + a
 // derived neutral, action defaults to primary, namespace at the 'prism' placeholder.
@@ -110,6 +126,7 @@ const rebuild = (): void => {
     theme = t;
     lastGoodInput = structuredClone(brandState);   // M-16: anchor badges read this, not the (maybe failing) live state
     lastError = null;
+    if (PRISM3_HOST !== 'figma') persistInput(localStorage, brandState);   // persist the last-good brand (web only; inert in the plugin, best-effort)
   } catch (e) {
     lastError = (e as Error).message;
   }
