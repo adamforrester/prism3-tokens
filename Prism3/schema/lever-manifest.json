@@ -35,7 +35,7 @@
     {
       "key": "primary",
       "group": "color",
-      "label": "Primary brand colour",
+      "label": "Primary brand color",
       "control": "color",
       "required": true,
       "description": "The exact brand anchor. Pinned, never shifted; the engine places it on the ramp by its lightness."
@@ -74,9 +74,9 @@
     {
       "key": "brandColors",
       "group": "color",
-      "label": "Additional brand colours",
+      "label": "Additional brand colors",
       "control": "list",
-      "itemLabel": "brand colour (name + OKLCH)",
+      "itemLabel": "brand color (name + OKLCH)",
       "description": "Secondary / tertiary / accents — any number; each becomes its own ramp and can drive actions."
     },
     {
@@ -85,12 +85,12 @@
       "label": "Action palette",
       "control": "palette-ref",
       "default": "primary",
-      "description": "Which palette drives interactive/action colour. Defaults to primary; point at an accent when the hero colour is a poor CTA."
+      "description": "Which palette drives interactive/action color. Defaults to primary; point at an accent when the hero color is a poor CTA."
     },
     {
       "key": "status.success",
       "group": "color",
-      "label": "Success colour",
+      "label": "Success color",
       "control": "color",
       "advanced": true,
       "description": "Optional measured override; omit to let the engine synthesise from a canonical hue."
@@ -98,7 +98,7 @@
     {
       "key": "status.warning",
       "group": "color",
-      "label": "Warning colour",
+      "label": "Warning color",
       "control": "color",
       "advanced": true,
       "description": "Optional measured override; omit to synthesise."
@@ -106,7 +106,7 @@
     {
       "key": "status.danger",
       "group": "color",
-      "label": "Danger colour",
+      "label": "Danger color",
       "control": "color",
       "advanced": true,
       "description": "Optional measured override; omit to reuse the brand red (if red) or carve a dedicated one."
@@ -114,7 +114,7 @@
     {
       "key": "status.info",
       "group": "color",
-      "label": "Info colour",
+      "label": "Info color",
       "control": "color",
       "advanced": true,
       "description": "Optional measured override; omit to synthesise from the canonical blue hue."
@@ -505,7 +505,7 @@
     {
       "key": "accentPalette",
       "group": "color",
-      "label": "Accent interactive colour",
+      "label": "Accent interactive color",
       "control": "palette-ref",
       "advanced": true,
       "description": "Opt-in — names a declared brand palette to get a full interactive.accent.* column. Must differ from the action palette; omit for no accent."
