@@ -661,7 +661,7 @@ const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
   paintVolatile = () => {
     vol.innerHTML = '';
     if (key === 'type') vol.append(renderTypeSpecimen());
-    if (key === 'form') vol.append(renderShadowSpecimen());
+    if (key === 'form') { vol.append(renderRadiusSpecimen()); vol.append(renderShadowSpecimen()); }
     if (key === 'semantic') { vol.append(renderNeutralSpecimen()); vol.append(renderInverseSpecimen()); vol.append(renderGradientSpecimen()); }
     vol.append(sectionHead('Live preview', 'The sample components + contrast overlay, resolved through every mode — they reflect this stage’s axis live.'));
     const pv = el('div', 'pvhost');
@@ -701,6 +701,33 @@ const renderTypeSpecimen = (): HTMLElement => {
     if (c.textCase === 'uppercase' || g === 'eyebrow') { sample.style.textTransform = 'uppercase'; sample.style.letterSpacing = '0.08em'; }
     row.append(sample);
     list.append(row);
+  }
+  wrap.append(list);
+  return wrap;
+};
+
+/** The radius specimen: the whole corner-radius ramp, HOLISTICALLY — a swatch per step (the
+ *  actual corner) labelled with its px and the component(s) that consume it (button→md, input→sm,
+ *  card→lg, badge→round). The single component preview shows one radius each; this shows the ladder
+ *  + who uses what, and reacts to the radius lever. Reads `rp.dims` (live per lever); `none` = 0. */
+const RADIUS_STEPS = ['none', 'sm', 'md', 'lg', 'round'];
+const renderRadiusSpecimen = (): HTMLElement => {
+  const wrap = el('div', 'radius-spec');
+  wrap.append(sectionHead('Radius', 'The corner-radius ramp, holistic — each step, its px, and the components that consume it. The radius lever shifts the whole ramp.'));
+  const consumers: Record<string, Set<string>> = {};
+  for (const c of previewSpec.components) for (const v of c.variants) {
+    const rref = v.bindings.radius;
+    if (rref?.startsWith('radius.')) (consumers[rref.slice(7)] ??= new Set<string>()).add(c.id);
+  }
+  const list = el('div', 'rad-list');
+  for (const step of RADIUS_STEPS) {
+    const px = step === 'none' ? 0 : (rp.dims[`radius.${step}`] ?? 0);
+    const cell = el('div', 'rad-cell');
+    const sw = el('div', 'rad-sw');
+    sw.style.borderRadius = `${Math.min(px, 26)}px`;   // cap so `round` reads as a pill without overflowing the swatch
+    const cons = [...(consumers[step] ?? [])];
+    cell.append(sw, el('div', 'rad-lab mono', `${step} · ${px}px`), el('div', 'rad-cons', cons.length ? cons.join(', ') : '—'));
+    list.append(cell);
   }
   wrap.append(list);
   return wrap;
@@ -1214,6 +1241,12 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .sh-cell{display:flex;flex-direction:column;align-items:center;gap:10px}
 .sh-card{width:64px;height:64px;border-radius:10px;background:#fff}
 .sh-lab{font-size:11.5px;color:#5b6472}
+.radius-spec{margin-bottom:8px}
+.rad-list{display:flex;flex-wrap:wrap;gap:24px;border:1px solid var(--line);border-radius:var(--r);padding:24px;background:var(--panel)}
+.rad-cell{display:flex;flex-direction:column;align-items:center;gap:9px;min-width:72px}
+.rad-sw{width:72px;height:52px;background:var(--ink);opacity:.85}
+.rad-lab{font-size:11.5px;color:var(--muted)}
+.rad-cons{font-size:11px;color:var(--faint);text-align:center;max-width:88px;line-height:1.35}
 .inverse-spec{margin-bottom:8px}
 .inv-band{border-radius:var(--r);padding:36px 32px;display:flex;flex-direction:column;align-items:flex-start;gap:20px}
 .inv-h{font-size:24px;font-weight:700;letter-spacing:-0.02em;max-width:26ch}
