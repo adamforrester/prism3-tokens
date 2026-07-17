@@ -5,8 +5,8 @@
   "type": "module",
   "description": "Prism3 web dashboard — the DOM host that renders theming knobs (from the lever manifest) + a live component preview and per-mode contrast overlay (from previewSpec + resolvePreview). One of the two rendering hosts over the engine core (docs/08, docs/09).",
   "scripts": {
-    "dev": "esbuild src/main.ts --bundle --format=esm --outdir=dist --servedir=. --serve=127.0.0.1:5173",
-    "build": "esbuild src/main.ts --bundle --format=esm --outdir=dist --sourcemap",
+    "dev": "esbuild src/main.ts --bundle --format=esm --outdir=dist --define:PRISM3_HOST=\"'web'\" --servedir=. --serve=127.0.0.1:5173",
+    "build": "esbuild src/main.ts --bundle --format=esm --outdir=dist --define:PRISM3_HOST=\"'web'\" --sourcemap",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {

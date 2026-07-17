@@ -7,9 +7,42 @@
 
 ---
 
-## Latest (2026-07-17) — #109: plugin read-back (`getLocalVariablesAsync` → snapshot + verify)
+## Latest (2026-07-17) — #110: one build, two outputs (shared `web/src` UI → plugin iframe)
 
-**STATUS: on branch `feat/109-figma-read-back`** — Phase 4 of docs/22, the read leg complementing
+**STATUS: on branch `feat/110-one-build-two-outputs`** — Phase 5, the CAPSTONE of the plugin lane and
+the proof of its thesis: **one UI, one engine, no fork.** The plugin iframe now runs the SAME
+`web/src/main.ts` the standalone web app does — not a second UI. Only the write adapter + manifest
+differ per host, selected at BUILD time.
+
+- **Host selection is a build-time constant.** New `PRISM3_HOST` (`web/src/prism3-host.d.ts`, esbuild
+  `--define`); `makeWriteHost` returns `cssVarAdapter` for BOTH hosts (the iframe is a full DOM context,
+  so the preview paints CSS vars identically). What differs is the COMMIT seam (`hostCommit` in
+  `write-adapter.ts`): web → the export bar (download design.md / tokens.json); figma → `figmaCommit`
+  posts the live `BrandInput` to the main thread. esbuild dead-code-eliminates the unused branch (web
+  bundle: 0 `parent.postMessage`; plugin bundle: bridge present).
+- **`plugin/build.mjs`** now bundles `../web/src/main.ts` (host=figma) into `dist/ui.html`, retiring the
+  placeholder (deleted `plugin/src/ui/ui.ts` + `bridge-ui.ts`). `tsconfig.ui.json` repointed at the shared
+  UI — so the no-plugin-typings DOM-clean check runs on what's actually bundled.
+- **Write path reuses #108 verbatim** — only the theme SOURCE changed (bundled NB → the live UI knobs):
+  `apply-theme` now carries a `BrandInput`; `main.ts` runs `buildWritePlan(buildFigmaColor(brandTheme(input)))`
+  → `applyWritePlan`. On boot it runs #109 read-back → an informational `seed-info` panel.
+- **Read-SEED is informational only (deferred).** A `ReadbackSnapshot` is resolved values; the knobs
+  (`BrandInput`) can't be reverse-engineered from it, so full rehydration needs `BrandInput` persisted in
+  Figma shared-data — filed as a follow-up. #110 reports the existing theme's contract, doesn't repopulate.
+
+**Gates: engine 745/745 (untouched); web tsc+build clean, cssVarAdapter only (bundle has 0 bridge refs);
+plugin both-context tsc clean, build inlines the SHARED UI into `dist/ui.html` (0 `node:` builtins,
+figma bridge present); `npm test` write+read shims green. Validated LIVE: served `dist/ui.html` in a
+headless browser — the full Theme studio renders from the plugin bundle (4-stage nav, generated aurora
+ramps, knobs), and the brand menu shows the "↳ Apply to Figma variables" commit action that appears
+ONLY in the figma build (screenshot `110-shared-ui-in-plugin.png`). The write/read executors themselves
+were proven live against a real document in #108/#109; #110 changed only the theme source.**
+
+---
+
+## (2026-07-17) — #109: plugin read-back (`getLocalVariablesAsync` → snapshot + verify)
+
+**STATUS: merged (#127, `e179324`)** — Phase 4 of docs/22, the read leg complementing
 #108's write leg. The plugin now READS the current file's colour variables back into host-neutral
 plain data and verifies the materialisation contract live — the same checks the `materialise-to-figma`
 `verifyPass` string-emitter has always encoded, now a live executor + a pure verify.

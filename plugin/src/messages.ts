@@ -1,42 +1,36 @@
 /**
- * The typed postMessage bridge contract (docs/18 §1, docs/22 Phase 2 / #107).
+ * The typed postMessage bridge contract (docs/18 §1, docs/22).
  *
  * The plugin runs in TWO isolated JS contexts (main-thread sandbox + UI iframe) that can
  * only communicate by message passing. This module is the SHARED wire contract between
- * them: two discriminated unions, one per direction. It is deliberately PURE — no `figma.*`,
- * no `document`, no `node:` — so it compiles under BOTH tsconfigs (main = no DOM, ui = no
- * plugin API) and neither side can smuggle a context-specific type across the seam.
+ * them: two discriminated unions, one per direction. It is deliberately near-PURE — a
+ * type-only import of `BrandInput` (erased at compile) — so it compiles under BOTH tsconfigs
+ * (main = no DOM, ui = no plugin API) and neither side can smuggle a context-specific type
+ * across the seam.
  *
- * Adding a message = add a variant here; the `type` discriminant makes every handler
- * exhaustively checkable (see `assertNever`). The real theming payloads (resolved token
- * model → figma.variables) arrive in #108; #107 ships only the scaffold + a ready/ping
- * round-trip that proves the bridge works both ways.
+ * Since #110 the iframe UI IS the shared `web/src` app (one UI, no fork). Its commit path posts
+ * `apply-theme` (carrying the live `BrandInput`); the main thread rebuilds the write plan and runs
+ * #108's `applyWritePlan`, then reports `apply-result`. On boot the main thread runs #109's
+ * read-back and posts `seed-info` (informational — an existing themed file's contract summary).
  */
+import type { BrandInput } from '../../Prism3/engine/theme';
 
 /** Messages the UI iframe sends TO the main thread. Wrapped in `{ pluginMessage }` on the wire. */
 export type UiToMain =
-  /** UI booted and its handler is attached — main can now safely postMessage. */
+  /** UI booted and its message listener is attached — main can now safely postMessage (and it's
+   *  the cue for the boot read-back). Posted by the figma commit adapter, not the shared UI body. */
   | { type: 'ui-ready' }
-  /** Round-trip probe (scaffold self-test): main echoes it back as `main-pong`. */
-  | { type: 'ping'; nonce: number }
-  /** Materialise the theme into `figma.variables` (#108). Bare trigger — the main thread owns
-   *  the theme (bundled `nbTheme()` today); #110 makes the theme live from the shared UI's knobs
-   *  without reshaping this message. */
-  | { type: 'apply-theme' }
-  /** Read the current file's variables back + verify the materialisation contract (#109). Bare
-   *  trigger; the full snapshot stays main-side until #110 needs to hand it up to seed the UI. */
-  | { type: 'read-theme' };
+  /** Materialise this brand into `figma.variables` (#108). Carries the live `BrandInput` from the
+   *  shared UI's knobs; the main thread rebuilds the plan + runs the executor. */
+  | { type: 'apply-theme'; input: BrandInput };
 
 /** Messages the main thread sends TO the UI iframe. */
 export type MainToUi =
-  /** Handshake ack + the host context the UI is running in (figma editor type / api version). */
-  | { type: 'main-ready'; editorType: string; apiVersion: string }
-  /** Reply to `ping`, echoing the nonce so the UI can match request↔response. */
-  | { type: 'main-pong'; nonce: number }
   /** Result of an `apply-theme` write: ok + a human summary (counts / any misses) for the UI. */
   | { type: 'apply-result'; ok: boolean; summary: string }
-  /** Result of a `read-theme` read-back + verify: ok (contract holds) + a human summary. */
-  | { type: 'read-result'; ok: boolean; summary: string };
+  /** Boot read-back (#109): whether an existing Prism3 theme in the file passes the contract, plus a
+   *  human summary. Informational — knob-rehydration from it is a follow-up (needs persisted input). */
+  | { type: 'seed-info'; ok: boolean; summary: string };
 
 /** Narrow a discriminated union by its `type` tag — the payload a handler actually receives. */
 export type OfType<U extends { type: string }, T extends U['type']> = Extract<U, { type: T }>;

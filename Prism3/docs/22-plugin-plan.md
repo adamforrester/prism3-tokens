@@ -61,7 +61,7 @@ manifest fields via Context7 / the Figma MCP skill when the build starts.
 | 2 ✅ | #107 | **Done (#120).** Plugin scaffold — manifest + two-context split + typed postMessage bridge (vanilla) |
 | 3 ✅ | #108 | **Done.** Main-thread write adapter — pure `WritePlan` (`buildWritePlan`) → live `figma.variables`, idempotent; colour axis (`core-palette` + `color`) |
 | 4 ✅ | #109 | **Done.** Read-back — `readFigmaVariables` → host-neutral `ReadbackSnapshot` + pure `verifyReadback` (contract check); seeds theming an existing file at #110 |
-| 5 | #110 | One build, two outputs — shared UI source → static site + plugin bundle |
+| 5 ✅ | #110 | **Done.** One build, two outputs — the shared `web/src` UI bundles into the plugin iframe (host selected at build time via `PRISM3_HOST`); live knobs → #108 write, boot read-back → #109 seed panel. The no-fork thesis, proven. |
 
 Related lanes filed alongside: web functional-foundation + editor work (#96–#104), the engine
 type-model expansion (#105), and the components-as-data → Figma spike (#111).
