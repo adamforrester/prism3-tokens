@@ -1247,7 +1247,7 @@ const renderRadiusSpecimen = (): HTMLElement => {
 const SHADOW_STEPS = ['xs', 'sm', 'md', 'lg', 'xl', '2xl'];
 const renderShadowSpecimen = (): HTMLElement => {
   const wrap = el('div', 'shadow-spec');
-  wrap.append(sectionHead('Elevation', 'The shadow ramp xs→2xl — the softness + tint levers reshape every step. On a light surface (see the preview below for the mode-reduced dark shadow).'));
+  wrap.append(sectionHead('Elevation', 'The shadow ramp xs→2xl — the softness + tint levers reshape every step, resolved for the mode in view (see the preview below for the mode-reduced dark shadow).'));
   const m: Mode = currentMode;   // #171 — every specimen reflects the mode-context selection
   const list = el('div', 'sh-list');
   for (const step of SHADOW_STEPS) {
@@ -1471,6 +1471,7 @@ function renderWorkspace(): void {
 // ---- brand setup — selector menu: name + namespace, switch / new / import --------
 let barHost: HTMLElement;
 let brandMenuOpen = false;
+let exportMenuOpen = false;
 let importOpen = false;
 let importErr: string | null = null;
 let importText = '';            // M-17: survives re-renders so a failed paste isn't wiped
@@ -1610,46 +1611,74 @@ const renderBrandMenu = (): HTMLElement => {
     menu.append(box);
   }
 
-  menu.append(el('div', 'bm-div'));
-  menu.append(el('div', 'bm-cap', 'Export'));
-  const expMd = el('button', 'bm-item', '↓ design.md') as HTMLButtonElement;
-  expMd.onclick = exportDesignMd;
-  const expTok = el('button', 'bm-item', '↓ tokens.json — DTCG') as HTMLButtonElement;
-  expTok.onclick = exportTokens;
-  menu.append(expMd, expTok);
-  menu.append(el('p', 'bm-hint', 'design.md re-imports here; tokens.json is the resolved tree.'));
-
-  // Figma plugin only (docs/22 #110): the COMMIT action — materialise the last-good brand into
-  // figma.variables (posts the BrandInput to the main thread → #108). Plus the #109 read-back
-  // seed panel reporting any existing Prism3 theme in the file (informational; knob-rehydration
-  // is a follow-up). On web this whole block is absent (`commit.isFigma` is false + DCE'd).
-  if (commit.isFigma) {
-    const applyBtn = el('button', 'bm-item', '↳ Apply to Figma variables') as HTMLButtonElement;
-    applyBtn.onclick = () => commit.postTheme(lastGoodInput);
-    menu.append(applyBtn);
-    if (seedInfo) menu.append(el('p', 'bm-hint' + (seedInfo.ok ? '' : ' bad'), seedInfo.summary));
-  }
+  // Export + Apply-to-Figma moved OUT of this dropdown (#159) — they're their own bar affordances
+  // now (Export is an artifact output, not a brand source; Apply is the plugin's primary CTA).
   return menu;
 };
 
+/** Export dropdown (#159) — the two download artifacts. design.md round-trips back into Import;
+ *  tokens.json is the resolved DTCG tree. A pure output menu, split from the brand switcher. */
+const renderExportMenu = (): HTMLElement => {
+  const menu = el('div', 'brandmenu exportmenu');
+  menu.append(el('div', 'bm-cap', 'Export'));
+  const closeThen = (fn: () => void) => () => { exportMenuOpen = false; renderBar(); fn(); };
+  const expMd = el('button', 'bm-item', '↓ design.md') as HTMLButtonElement;
+  expMd.onclick = closeThen(exportDesignMd);
+  const expTok = el('button', 'bm-item', '↓ tokens.json — DTCG') as HTMLButtonElement;
+  expTok.onclick = closeThen(exportTokens);
+  menu.append(expMd, expTok);
+  menu.append(el('p', 'bm-hint', 'design.md re-imports here; tokens.json is the resolved tree.'));
+  return menu;
+};
+
+/** The brand bar (#159) — a horizontal row of brand-level utilities, replacing the single
+ *  overloaded dropdown. Left: brandmark. Right: brand switcher (identity + examples + new +
+ *  import — a brand *source*), Export (artifact *output*), and, in the plugin only, the primary
+ *  Apply-to-Figma CTA (the terminal action of the plugin flow). Modes live in the workspace
+ *  mode-context strip (#171), not here. The bar is sticky (see `.bar`). */
 function renderBar(): void {
   barHost.innerHTML = '';
   const mark = el('div', 'brandmark');
   mark.append(el('span', 'logo'), el('span', 'wordmark', 'Prism3'), el('span', 'studio', 'Theme studio'));
   barHost.append(mark);
 
-  const wrap = el('div', 'brandsel-wrap');
+  const actions = el('div', 'bar-actions');
+
+  // Brand switcher — identity, examples, new, import.
+  const bWrap = el('div', 'barmenu-wrap');
   const sel = el('button', 'brandsel' + (brandMenuOpen ? ' open' : '')) as HTMLButtonElement;
   const dot = el('span', 'dot'); dot.style.background = hex(oklchToRgb(brandState.primary));
   sel.append(dot, el('span', 'bs-name', brandState.id), el('span', 'caret', '▾'));
-  sel.onclick = (e) => { e.stopPropagation(); brandMenuOpen = !brandMenuOpen; if (!brandMenuOpen) importOpen = false; renderBar(); };
-  wrap.append(sel);
-  if (brandMenuOpen) wrap.append(renderBrandMenu());
-  barHost.append(wrap);
+  sel.onclick = (e) => { e.stopPropagation(); brandMenuOpen = !brandMenuOpen; exportMenuOpen = false; if (!brandMenuOpen) importOpen = false; renderBar(); };
+  bWrap.append(sel);
+  if (brandMenuOpen) bWrap.append(renderBrandMenu());
+  actions.append(bWrap);
+
+  // Export — the download artifacts.
+  const eWrap = el('div', 'barmenu-wrap');
+  const exp = el('button', 'barbtn' + (exportMenuOpen ? ' open' : '')) as HTMLButtonElement;
+  exp.append(el('span', undefined, '↓ Export'), el('span', 'caret', '▾'));
+  exp.onclick = (e) => { e.stopPropagation(); exportMenuOpen = !exportMenuOpen; brandMenuOpen = false; importOpen = false; renderBar(); };
+  eWrap.append(exp);
+  if (exportMenuOpen) eWrap.append(renderExportMenu());
+  actions.append(eWrap);
+
+  // Apply to Figma — plugin-only, the primary CTA (the plugin's terminal action). Absent + DCE'd
+  // on web (`commit.isFigma` false). The #109 read-back seed status rides alongside as a pill.
+  if (commit.isFigma) {
+    if (seedInfo) actions.append(el('span', 'bar-seed' + (seedInfo.ok ? '' : ' bad'), seedInfo.summary));
+    const applyBtn = el('button', 'barbtn primary', '↳ Apply to Figma') as HTMLButtonElement;
+    applyBtn.onclick = () => commit.postTheme(lastGoodInput);
+    actions.append(applyBtn);
+  }
+
+  barHost.append(actions);
 
   if (!outsideBound) {
     document.addEventListener('mousedown', (e) => {
-      if (brandMenuOpen && !(e.target as HTMLElement).closest('.brandsel-wrap')) { brandMenuOpen = false; importOpen = false; renderBar(); }
+      if ((brandMenuOpen || exportMenuOpen) && !(e.target as HTMLElement).closest('.barmenu-wrap')) {
+        brandMenuOpen = false; exportMenuOpen = false; importOpen = false; renderBar();
+      }
     });
     outsideBound = true;
   }
@@ -1793,12 +1822,18 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .logo{width:18px;height:18px;border-radius:var(--r-xs);background:conic-gradient(from 210deg,#5e4bc3,#0088be,#2f6833,#a13731,#5e4bc3)}
 .wordmark{font-weight:640;letter-spacing:-0.02em;font-size:16px}
 .studio{color:var(--muted);font-size:13px;border-left:1px solid var(--line2);padding-left:11px}
-.brandsel-wrap{position:relative}
-.brandsel{display:flex;align-items:center;gap:9px;font:inherit;font-weight:560;border:1px solid var(--line2);background:var(--panel);padding:8px 13px;border-radius:var(--r-sm);font-size:13.5px;cursor:pointer;color:var(--ink)}
-.brandsel.open{border-color:var(--ink2)}
+.bar-actions{display:flex;align-items:center;gap:10px}
+.barmenu-wrap{position:relative}
+.brandsel,.barbtn{display:flex;align-items:center;gap:9px;font:inherit;font-weight:560;border:1px solid var(--line2);background:var(--panel);padding:8px 13px;border-radius:var(--r-sm);font-size:13.5px;cursor:pointer;color:var(--ink);white-space:nowrap}
+.brandsel.open,.barbtn.open,.barbtn:hover,.brandsel:hover{border-color:var(--ink2)}
 .brandsel .dot{width:12px;height:12px;border-radius:4px}
-.brandsel .caret{color:var(--faint);margin-left:2px}
+.brandsel .caret,.barbtn .caret{color:var(--faint);margin-left:2px}
+.barbtn.primary{background:var(--ink);color:#fff;border-color:var(--ink)}
+.barbtn.primary:hover{background:var(--ink2);border-color:var(--ink2)}
+.bar-seed{font-size:11.5px;color:var(--muted);max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar-seed.bad{color:#a12}
 .brandmenu{position:absolute;top:calc(100% + 8px);right:0;width:288px;background:var(--panel);border:1px solid var(--line2);border-radius:var(--r);padding:12px;z-index:20;display:flex;flex-direction:column;gap:2px;box-shadow:0 12px 32px -8px rgba(24,24,27,.20),0 4px 12px -4px rgba(24,24,27,.12)}
+.exportmenu{width:232px}
 .bm-cap{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);font-weight:600;margin:4px 2px 6px}
 .bm-field{display:flex;align-items:center;gap:10px;padding:4px 2px}
 .bm-lab{font-size:12.5px;color:var(--ink2);width:78px;flex:none}
@@ -1988,7 +2023,7 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .ic-lab{font-size:11px;color:var(--faint)}
 /* Mode-context strip (#171) — one mode at a time; sticky so the context stays reachable while
    scrolling the stage. The whole stage below reflects the selected mode. */
-.modectx{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:24px 0 10px;padding:9px 12px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);position:sticky;top:12px;z-index:6}
+.modectx{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:24px 0 10px;padding:9px 12px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);position:sticky;top:88px;z-index:6}
 .mctx-modes{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .mctx-cap{font-size:11px;font-weight:640;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-right:6px}
 .mctx-b{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line2);background:var(--paper);border-radius:var(--r-sm);padding:5px 11px;font:inherit;font-size:13px;color:var(--ink2);cursor:pointer}
