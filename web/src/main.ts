@@ -666,21 +666,42 @@ const SEMANTIC_GROUPS: Array<{ title: string; keys: string[] }> = [
 const NESTED_KEYS = new Set(['disabledMin']);
 const subHead = (title: string): HTMLElement => { const s = el('div', 'sub-lab'); s.append(el('h3', 'sub-t', title)); return s; };
 
-/** #161 — the interactive-color card (owner reference): the primary interactive column shown as a big
- *  fill swatch + a palette/step picker + its token path + a live button example + the derived contrast,
- *  with hover/pressed as sub-cards. The fill anchors on a palette STEP (auto by default; the step select
- *  writes `actionAnchorStep`, the #163 override); on-fill / hover / pressed are engine-derived. Reads the
- *  resolved roles for the active mode (Kind-B, like the other semantic specimens). */
+/** #161 — the interactive-color cards: one card per interactive column (primary + destructive + each
+ *  promoted accent), each shown as a big fill swatch + a palette/step picker + its token path + a live
+ *  button example + the derived contrast, with hover/pressed as sub-cards. The fill anchors on a palette
+ *  STEP (auto by default; the step select writes the column's #163 anchor override); on-fill / hover /
+ *  pressed are engine-derived. Reads the resolved roles for the active mode (Kind-B, like the other
+ *  semantic specimens). `renderInteractiveCard` is the generic renderer; `renderInteractiveCards` builds
+ *  the ordered column list + the add-accent promote row. */
 const stepKeyOf = (path: string | undefined): string => (path ? path.split('.').pop()! : '');
-const renderInteractivePrimaryCard = (): HTMLElement => {
-  const wrap = el('div', 'ic-card');
+
+/** A single interactive column to render as a card. `name` is the `interactive.<name>.*` role suffix
+ *  (must match the engine's column naming: built-ins primary/destructive, accents `name ?? palette`). */
+type ICol = {
+  name: string;
+  label: string;
+  palette: string;
+  stepValue: number | undefined;              // current anchor override (undefined = Auto)
+  setStep: (v: number | undefined) => void;   // writes the right brandState field + applyFull()
+  onRemove?: () => void;                        // accents only: splice + applyFull()
+};
+
+const renderInteractiveCard = (col: ICol): HTMLElement | null => {
   const m: Mode = rp.modes.includes('light' as Mode) ? ('light' as Mode) : rp.modes[0];
   const roles = resolveAllModes(theme).find((x) => x.mode === m)?.roles as Record<string, { hex: string; path?: string; ratio?: number; min?: number } | undefined> | undefined;
   const R = (k: string) => roles?.[k];
-  const rest = R('interactive.primary.fill.rest'), hover = R('interactive.primary.fill.hover'), pressed = R('interactive.primary.fill.pressed'), onFill = R('interactive.primary.on-fill');
-  if (!rest) { wrap.append(el('p', 'obj-lede', 'Primary interactive color unavailable.')); return wrap; }
-  const palName = theme.roleToPalette.action;
+  const rest = R(`interactive.${col.name}.fill.rest`), hover = R(`interactive.${col.name}.fill.hover`), pressed = R(`interactive.${col.name}.fill.pressed`), onFill = R(`interactive.${col.name}.on-fill`);
+  if (!rest) return null;   // column's fill role doesn't resolve → render nothing for it
+  const palName = col.palette;
   const palSteps = (theme.palettes.find((p) => p.palette === palName)?.steps ?? []).map((s) => s.key);
+
+  const wrap = el('div', 'ic-card');
+
+  // Header — label + (accents only) remove button
+  const head = el('div', 'ic-head');
+  head.append(el('h4', 'ic-headt', col.label));
+  if (col.onRemove) { const rm = el('button', 'rx', '×') as HTMLButtonElement; rm.title = 'Remove interactive color'; rm.onclick = col.onRemove; head.append(rm); }
+  wrap.append(head);
 
   // Top row: big swatch · title + step select + token pill · button example
   const top = el('div', 'ic-top');
@@ -688,12 +709,12 @@ const renderInteractivePrimaryCard = (): HTMLElement => {
   const mid = el('div', 'ic-mid');
   mid.append(el('h4', 'ic-h', 'Surface — rest'));
   const sel = el('select', 'ic-step') as HTMLSelectElement;
-  const pinned = brandState.actionAnchorStep;
+  const pinned = col.stepValue;
   const opt = (v: string, label: string, on: boolean) => { const o = el('option') as HTMLOptionElement; o.value = v; o.textContent = label; if (on) o.selected = true; sel.append(o); };
   opt('auto', `Auto · ${palName} ${stepKeyOf(rest.path)}`, pinned == null);
   for (const k of palSteps) opt(k, `${palName} ${k}`, pinned != null && pinned === Number(k));
-  sel.onchange = () => { setPath(brandState, 'actionAnchorStep', sel.value === 'auto' ? undefined : Number(sel.value)); applyFull(); };
-  mid.append(sel, el('span', 'tpill mono', 'interactive.primary.fill.rest'));
+  sel.onchange = () => col.setStep(sel.value === 'auto' ? undefined : Number(sel.value));
+  mid.append(sel, el('span', 'tpill mono', `interactive.${col.name}.fill.rest`));
   top.append(mid);
   const ex = el('div', 'ic-example');
   const btn = el('div', 'ic-btn', 'Button example'); btn.style.background = rest.hex; if (onFill) btn.style.color = onFill.hex;
@@ -722,10 +743,60 @@ const renderInteractivePrimaryCard = (): HTMLElement => {
     t.append(el('div', 'ic-sublab', label), el('div', 'ic-substep mono', `${palName} ${stepKeyOf(role.path)}`), el('span', 'tpill mono', path));
     c.append(sw, t); states.append(c);
   };
-  sub('Hover', hover, 'interactive.primary.fill.hover');
-  sub('Active', pressed, 'interactive.primary.fill.pressed');
+  sub('Hover', hover, `interactive.${col.name}.fill.hover`);
+  sub('Active', pressed, `interactive.${col.name}.fill.pressed`);
   wrap.append(states);
   return wrap;
+};
+
+/** The add-accent promote row — a select of promotable palettes (`primary` + brand colors, minus any
+ *  already promoted and minus the action palette, which the primary column already owns) + an add
+ *  button. Pushes `{ palette }`; the engine defaults the column name to the palette. */
+const renderAddAccentRow = (): HTMLElement => {
+  const row = el('div', 'ic-add');
+  const brandNames = (brandState.brandColors ?? []).map((b) => b.name);
+  const already = new Set((brandState.interactivePalettes ?? []).map((e) => e.palette));
+  const actionPal = theme.roleToPalette.action;
+  // Exclude palettes whose auto-name (= the palette name) would collide with a built-in interactive
+  // column — the engine rejects those. (A primary-palette accent when action is elsewhere would need a
+  // custom name so it isn't auto-named 'primary'; deferred.) Also skips a brand color named neutral/destructive.
+  const RESERVED_ICOL = new Set(['primary', 'neutral', 'destructive']);
+  const promotable = ['primary', ...brandNames].filter((p) => !already.has(p) && p !== actionPal && !RESERVED_ICOL.has(p));
+  if (!promotable.length) {
+    row.append(el('span', 'ic-addhint', 'Add a brand color on Primitives to create another interactive column.'));
+    return row;
+  }
+  const sel = el('select', 'ic-step') as HTMLSelectElement;
+  for (const p of promotable) { const o = el('option') as HTMLOptionElement; o.value = p; o.textContent = p; sel.append(o); }
+  const btn = el('button', 'addbtn ic-addbtn', '+ Add interactive color') as HTMLButtonElement;
+  btn.onclick = () => {
+    const arr = brandState.interactivePalettes ?? (brandState.interactivePalettes = []);
+    arr.push({ palette: sel.value });
+    applyFull();
+  };
+  row.append(sel, btn);
+  return row;
+};
+
+/** Render all interactive-color cards in order — primary, destructive, then each promoted accent —
+ *  followed by the add-accent row. Replaces the single primary card (#161 increment 2). */
+const renderInteractiveCards = (host: HTMLElement): void => {
+  const cols: ICol[] = [
+    { name: 'primary', label: 'Primary', palette: theme.roleToPalette.action, stepValue: brandState.actionAnchorStep,
+      setStep: (v) => { setPath(brandState, 'actionAnchorStep', v); applyFull(); } },
+    { name: 'destructive', label: 'Destructive', palette: theme.roleToPalette.danger, stepValue: brandState.destructiveAnchorStep,
+      setStep: (v) => { setPath(brandState, 'destructiveAnchorStep', v); applyFull(); } },
+  ];
+  (brandState.interactivePalettes ?? []).forEach((entry, i) => {
+    const nm = entry.name ?? entry.palette;
+    cols.push({
+      name: nm, label: nm, palette: entry.palette, stepValue: entry.anchorStep,
+      setStep: (v) => { setPath(brandState, `interactivePalettes.${i}.anchorStep`, v); applyFull(); },
+      onRemove: () => { brandState.interactivePalettes!.splice(i, 1); if (!brandState.interactivePalettes!.length) brandState.interactivePalettes = undefined; applyFull(); },
+    });
+  });
+  for (const col of cols) { const card = renderInteractiveCard(col); if (card) host.append(card); }
+  host.append(renderAddAccentRow());
 };
 
 const renderGroupedPanels = (host: HTMLElement, levers: Lever[]): void => {
@@ -741,7 +812,7 @@ const renderGroupedPanels = (host: HTMLElement, levers: Lever[]): void => {
     const isInteractive = g.title === 'Interactive color';
     if (!groupLevers.length && !isInteractive) continue;
     host.append(subHead(g.title));
-    if (isInteractive) host.append(renderInteractivePrimaryCard());   // #161 — the primary interactive-color card
+    if (isInteractive) renderInteractiveCards(host);   // #161 — one card per interactive column + add-accent row
     if (groupLevers.length) host.append(panelOf(groupLevers));
   }
   const rest = levers.filter((l) => !placed.has(l.key));
@@ -1860,6 +1931,11 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .tpill.more{color:var(--muted);font-style:italic}
 /* #161 — interactive-color card */
 .ic-card{border:1px solid var(--line);border-radius:var(--r);background:var(--panel);padding:22px;margin-bottom:14px}
+.ic-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.ic-headt{margin:0;flex:1;font-size:15px;font-weight:620;color:var(--ink)}
+.ic-add{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.ic-addbtn{width:auto;margin-top:0;flex:none}
+.ic-addhint{font-size:13px;color:var(--muted)}
 .ic-top{display:flex;gap:22px;align-items:flex-start}
 .ic-big{width:150px;height:150px;flex:none;border-radius:var(--r-sm);border:1px solid var(--line)}
 .ic-mid{flex:1;min-width:0;display:flex;flex-direction:column;gap:12px;align-items:flex-start}
