@@ -912,10 +912,35 @@ const renderModeContext = (): HTMLElement => {
   return strip;
 };
 
+/** A2a — the read-only view shown when a GENERATED mode (HC / wireframe) is selected. These modes are
+ *  auto-derived and never hand-tuned, so the editing controls are replaced by an explanation + a
+ *  per-mode contract verdict; the verification preview below still renders the mode on real components. */
+const renderGeneratedNote = (): HTMLElement => {
+  const wf = currentMode === 'wireframe';
+  const label = MODE_LABEL[currentMode] ?? currentMode;
+  const box = el('div', 'genview');
+  box.append(el('h3', 'genview-t', `${label} is auto-derived — read-only`));
+  box.append(el('p', 'genview-d', wf
+    ? 'Wireframe is a mechanical greyscale: every non-neutral role collapses to its neutral equivalent and corners go sharp. It’s generated from your theme, not hand-tuned — edit Light or Dark and it follows.'
+    : 'High contrast pushes every role to meet the AAA contrast floors. It’s derived from your contrast contracts, not hand-tuned — edit Light or Dark and it follows. Verifying it here is the point: confirm it holds before you ship.'));
+  const ok = modeAllPass(currentMode);
+  const chip = el('div', 'genview-chip ' + (ok ? 'ok' : 'no'));
+  chip.append(el('span', 'gv-mark', ok ? '✓' : '✗'),
+    el('span', undefined, ok ? 'Every contrast contract passes in this mode' : 'Some contracts fail in this mode — see the preview below'));
+  box.append(chip);
+  box.append(el('p', 'genview-hint', 'Toggle which modes generate in the mode strip’s “Edit modes”. The preview below shows this mode applied to real components.'));
+  return box;
+};
+
 const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
   const [title, lede] = HERO_COPY[key];
   host.append(hero(title, lede));
   host.append(renderModeContext());   // #171 — one mode at a time; the whole stage follows it
+  // A2a — a generated mode (HC / wireframe) is auto-derived + read-only: no editing controls, just
+  // an explanatory note + the verification view (specimens + preview below, rendered in this mode).
+  if (DERIVED_MODES.has(currentMode)) {
+    host.append(renderGeneratedNote());
+  } else {
   const levers = leverManifest.filter((l) => !l.advanced && !PRIMITIVE_KEYS.has(l.key) && stageOfLever(l) === key);
   if (key === 'semantic') {
     renderGroupedPanels(host, levers);          // sub-sectioned (Interactive color / Accessibility / Features)
@@ -940,6 +965,7 @@ const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
   // page surfaces on the color stage; the Shadow group (softness + tint) on the form stage.
   if (key === 'semantic') host.append(renderSurfacesEditor());
   if (key === 'form') host.append(renderShadowEditor(levers.find((l) => l.key === 'shadow.softness')));
+  }
   // Validation-color editing (status hue + roleColors borrow) now lives INLINE on each status
   // ramp (primitives stage) via statusRampControl — no standalone semantic-stage section.
   // Live preview on every lever stage — the same sample components reflect the axis
@@ -2133,6 +2159,15 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .mctx-opt.disabled:hover{background:none}
 .mctx-div{height:1px;background:var(--line);margin:8px 4px}
 .mctx-note{font-size:11.5px;line-height:1.5;color:var(--faint);margin:6px 6px 2px}
+/* A2a — generated-mode (HC/wireframe) read-only view: an explanation + a per-mode contract verdict. */
+.genview{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:22px 24px;margin:8px 0 0}
+.genview-t{margin:0;font-size:16px;font-weight:640;letter-spacing:-0.01em}
+.genview-d{margin:10px 0 0;color:var(--muted);font-size:14px;line-height:1.6;max-width:64ch}
+.genview-chip{display:inline-flex;align-items:center;gap:8px;margin-top:16px;padding:7px 12px;border-radius:var(--r-sm);font-size:13px;font-weight:540}
+.genview-chip.ok{background:#eaf7f0;color:#1f7a4d;border:1px solid #bfe6d0}
+.genview-chip.no{background:#fdecec;color:#a12;border:1px solid #f2c6c6}
+.gv-mark{font-weight:700}
+.genview-hint{margin:14px 0 0;color:var(--faint);font-size:12.5px;line-height:1.55}
 .preview{border:1px solid var(--line);border-radius:var(--r);padding:20px;background:#fff}
 .pvcomp{margin-bottom:18px}
 .pvcomp:last-child{margin-bottom:0}
