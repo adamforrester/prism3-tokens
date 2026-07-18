@@ -1475,12 +1475,13 @@ let exportMenuOpen = false;
 let importOpen = false;
 let importErr: string | null = null;
 let importText = '';            // M-17: survives re-renders so a failed paste isn't wiped
+let importPending: BrandInput | null = null;   // #160: validated import awaiting confirm-overwrite
 let outsideBound = false;
 
 /** Replace the working brand wholesale (switch / new / import) and re-render. */
 const loadBrand = (input: BrandInput): void => {
   brandState = structuredClone(input);
-  brandMenuOpen = false; importOpen = false; importErr = null; importText = '';
+  brandMenuOpen = false; importOpen = false; importErr = null; importText = ''; importPending = null;
   stage = 'primitives';
   rebuild();
   currentMode = rp.modes[0];
@@ -1528,18 +1529,43 @@ const exportTokens = (): void => {
   download(`${slug()}.tokens.json`, JSON.stringify(tree, null, 2), 'application/json');
 };
 
-/** Parse a pasted design.md and load it. Validation is "does the engine accept it":
- *  a parse error or a brandTheme throw is surfaced; the working brand is untouched
- *  until both pass. (The full schema validator is node-bound, so it can't run here —
- *  brandTheme's own guards + the live contract overlay cover the rest.) */
-const tryImport = (text: string): void => {
-  importText = text;              // M-17: keep the paste so an error re-render doesn't wipe it
+// design.md import (#160) — one validation path shared by the start-screen upload card and the
+// post-setup import, so both reject the same off-spec input with the same friendly errors.
+const MD_FILE_RE = /\.(md|markdown|txt)$/i;
+const IMPORT_ACCEPT = '.md,.markdown,.txt,text/markdown,text/plain';
+
+/** Engine acceptance IS the validation: parse the design.md, then confirm the engine builds it.
+ *  Returns the BrandInput or a friendly error — the working brand is never touched here. (The full
+ *  schema validator is node-bound, so it can't run here; brandTheme's guards cover the rest.) */
+const validateDesignMd = (text: string): { input: BrandInput } | { error: string } => {
+  if (!text.trim()) return { error: 'Nothing to import — the file is empty.' };
   let input: BrandInput;
   try { input = parseDesignMd(text).input; }
-  catch (e) { importErr = (e as Error).message; renderBar(); return; }
+  catch (e) { return { error: `That doesn't read as a design.md: ${(e as Error).message}` }; }
   try { brandTheme(input); }
-  catch (e) { importErr = `Parsed, but the engine rejected it: ${(e as Error).message}`; renderBar(); return; }
-  loadBrand(input);
+  catch (e) { return { error: `Parsed, but the engine rejected it: ${(e as Error).message}` }; }
+  return { input };
+};
+
+/** Read an uploaded File as design.md text, rejecting non-markdown/text file types up front (#160). */
+const readDesignMdFile = (file: File): Promise<{ text: string } | { error: string }> => {
+  const okType = MD_FILE_RE.test(file.name) || /^text\//.test(file.type || '');
+  if (!okType) return Promise.resolve({ error: `That's not a design.md — upload a .md file (got "${file.name}").` });
+  return new Promise((resolve) => {
+    const r = new FileReader();
+    r.onload = () => resolve({ text: String(r.result ?? '') });
+    r.onerror = () => resolve({ error: `Couldn't read "${file.name}".` });
+    r.readAsText(file);
+  });
+};
+
+/** Post-setup import: validate, then STAGE for confirm-overwrite — loadBrand replaces the working
+ *  brand, so we never overwrite current edits without an explicit Replace (#160). */
+const stageImport = (text: string): void => {
+  importText = text;              // M-17: keep the paste so an error re-render doesn't wipe it
+  const res = validateDesignMd(text);
+  if ('error' in res) { importErr = res.error; importPending = null; renderBar(); return; }
+  importErr = null; importPending = res.input; renderBar();
 };
 
 const renderBrandMenu = (): HTMLElement => {
@@ -1593,21 +1619,45 @@ const renderBrandMenu = (): HTMLElement => {
   };
   menu.append(nb);
   const imp = el('button', 'bm-item', '↑ Import design.md…') as HTMLButtonElement;
-  imp.onclick = () => { importOpen = !importOpen; importErr = null; renderBar(); };
+  imp.onclick = () => { importOpen = !importOpen; importErr = null; importPending = null; renderBar(); };
   menu.append(imp);
 
   if (importOpen) {
     const box = el('div', 'bm-import');
-    const ta = el('textarea', 'bm-ta') as HTMLTextAreaElement;
-    ta.placeholder = 'Paste a design.md — --- YAML frontmatter --- then prose…';
-    ta.spellcheck = false;
-    ta.value = importText;                                   // M-17: restore across re-renders
-    ta.oninput = () => { importText = ta.value; };           // a mode-toggle mid-paste won't lose it
-    box.append(ta);
-    if (importErr) box.append(el('p', 'bm-err', importErr));
-    const load = el('button', 'bm-load', 'Load') as HTMLButtonElement;
-    load.onclick = () => tryImport(ta.value);
-    box.append(load);
+    if (importPending) {
+      // Validated already — confirm before overwriting the working brand (#160).
+      box.append(el('p', 'bm-confirm', `Replace the current brand with “${importPending.id}”? This overwrites your current edits.`));
+      const row = el('div', 'bm-confirm-row');
+      const rep = el('button', 'bm-load', 'Replace brand') as HTMLButtonElement;
+      rep.onclick = () => { const inp = importPending!; importPending = null; loadBrand(inp); };
+      const can = el('button', 'bm-cancel', 'Cancel') as HTMLButtonElement;
+      can.onclick = () => { importPending = null; renderBar(); };
+      row.append(rep, can);
+      box.append(row);
+    } else {
+      const ta = el('textarea', 'bm-ta') as HTMLTextAreaElement;
+      ta.placeholder = 'Paste a design.md — --- YAML frontmatter --- then prose…';
+      ta.spellcheck = false;
+      ta.value = importText;                                   // M-17: restore across re-renders
+      ta.oninput = () => { importText = ta.value; };           // a mode-toggle mid-paste won't lose it
+      box.append(ta);
+      if (importErr) box.append(el('p', 'bm-err', importErr));
+      const row = el('div', 'bm-import-row');
+      const up = el('label', 'bm-upload');
+      const fi = el('input', 'bm-file') as HTMLInputElement;
+      fi.type = 'file'; fi.accept = IMPORT_ACCEPT;
+      fi.onchange = async () => {
+        const f = fi.files?.[0]; if (!f) return;
+        const read = await readDesignMdFile(f);
+        if ('error' in read) { importErr = read.error; importPending = null; renderBar(); return; }
+        stageImport(read.text);
+      };
+      up.append(el('span', undefined, '↑ Upload .md'), fi);
+      const load = el('button', 'bm-load', 'Load') as HTMLButtonElement;
+      load.onclick = () => stageImport(ta.value);
+      row.append(up, load);
+      box.append(row);
+    }
     menu.append(box);
   }
 
@@ -1746,6 +1796,29 @@ const renderStartScreen = (): HTMLElement => {
   c3.append(chips);
   col.append(c3);
 
+  // Path 4 — import an existing design.md by upload (#160). No overwrite confirm: it's the first-run
+  // screen, there's no brand to replace. File type + engine-acceptance are both validated first.
+  const c4 = el('div', 'start-card start-row2');
+  const t4 = el('div', 'start-c2t');
+  t4.append(el('h2', 'start-ct', 'Import a design.md'), el('p', 'start-cd', 'Already have a design.md? Upload it to load the full brand.'));
+  const err4 = el('p', 'start-imp-err');
+  t4.append(err4);
+  const up4 = el('label', 'start-alt start-upload');
+  const fi4 = el('input', 'start-file') as HTMLInputElement;
+  fi4.type = 'file'; fi4.accept = IMPORT_ACCEPT;
+  fi4.onchange = async () => {
+    err4.textContent = '';
+    const f = fi4.files?.[0]; if (!f) return;
+    const read = await readDesignMdFile(f);
+    if ('error' in read) { err4.textContent = read.error; return; }
+    const res = validateDesignMd(read.text);
+    if ('error' in res) { err4.textContent = res.error; return; }
+    enter(res.input);
+  };
+  up4.append(el('span', undefined, '↑ Upload…'), fi4);
+  c4.append(t4, up4);
+  col.append(c4);
+
   view.append(col);
   return view;
 };
@@ -1849,6 +1922,15 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .bm-ta{width:100%;height:120px;resize:vertical;padding:9px;border:1px solid var(--line2);border-radius:var(--r-xs);font-family:var(--mono);font-size:12px;background:var(--paper);line-height:1.5}
 .bm-err{margin:0;font-size:11.5px;color:#a12;line-height:1.5}
 .bm-load{align-self:flex-start;border:1px solid var(--ink);background:var(--ink);color:#fff;border-radius:var(--r-xs);padding:7px 16px;font:inherit;font-size:13px;font-weight:560;cursor:pointer}
+.bm-file,.start-file{display:none}
+.bm-import-row,.bm-confirm-row{display:flex;align-items:center;gap:8px}
+.bm-upload{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line2);background:var(--paper);border-radius:var(--r-xs);padding:7px 12px;font-size:12.5px;color:var(--muted);cursor:pointer;white-space:nowrap}
+.bm-upload:hover{border-color:var(--ink);color:var(--ink)}
+.bm-cancel{border:1px solid var(--line2);background:var(--panel);border-radius:var(--r-xs);padding:7px 14px;font:inherit;font-size:13px;color:var(--ink2);cursor:pointer}
+.bm-cancel:hover{border-color:var(--ink)}
+.bm-confirm{margin:2px 2px 8px;font-size:12.5px;line-height:1.55;color:var(--ink2)}
+.start-upload{display:inline-flex;align-items:center;gap:6px}
+.start-imp-err{margin:9px 0 0;font-size:12px;color:#a12;line-height:1.5}
 
 .shell{display:grid;grid-template-columns:210px minmax(0,1fr);gap:60px;align-items:start;margin-top:20px}
 .rail{position:sticky;top:96px;display:flex;flex-direction:column;gap:4px}
