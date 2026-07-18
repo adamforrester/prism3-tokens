@@ -1865,6 +1865,13 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .ic-mid{flex:1;min-width:0;display:flex;flex-direction:column;gap:12px;align-items:flex-start}
 .ic-h{margin:0;font-size:15px;font-weight:620;color:var(--ink)}
 .ic-step{max-width:260px;padding:9px 11px;border:1px solid var(--line2);border-radius:var(--r-xs);font:inherit;font-size:13.5px;background:var(--paper);cursor:pointer}
+/* #165 — replace the oversized native <select> arrow with a small, consistent chevron across every select.
+   Placed AFTER the per-class rules so its longhands win over their background/padding shorthands
+   (background-color from the shorthand survives; the chevron background-image + padding-right override). */
+.ramp-ctl-sel,.knob select,.te-fam,.obj-sel,.ic-step{
+  appearance:none;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 4.5 6 8l3.5-3.5' fill='none' stroke='%2371717a' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 9px center;background-size:11px;padding-right:28px}
 .ic-example{flex:none;width:270px;align-self:stretch;display:grid;place-items:center;background:var(--paper);border:1px solid var(--line);border-radius:var(--r-sm)}
 .ic-btn{padding:14px 28px;border-radius:var(--r-sm);font-weight:600;font-size:15px}
 .ic-descrow{display:flex;align-items:center;gap:16px;margin-top:18px}
