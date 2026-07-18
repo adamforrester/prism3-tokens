@@ -79,6 +79,10 @@ export type ModeCfg = {
   fg: SurfSet; fgInverse: SurfSet; // foreground surface ladders
   inverseSurface: RGB;             // the primary inverse surface (for on-inverse / border.inverse)
   family: 'light' | 'dark';
+  // Mode KIND (B — mode identity as data): drives resolveMode's behaviour instead of matching the
+  // mode NAME. 'standard' = the plain light/dark derivation; 'hc' = high-contrast (pure black/white
+  // extremes + escalated borders); 'wireframe' = chromatic roles redirect to the neutral ramp.
+  kind: 'standard' | 'hc' | 'wireframe';
   primaryMin: number; secondaryMin: number; tertiaryMin: number; actionMin: number;
   borderTarget: number; nonTextMin: number;
 };
@@ -96,6 +100,20 @@ export type OverrideWarning = { role: string; ratio: number; min: number };
 export type ModeResult = { mode: ModeName; surface: RGB; roles: Record<string, ResolvedRole>; warnings?: OverrideWarning[] };
 
 const cand = (path: string, rgb: RGB): Cand => ({ path, rgb });
+
+// B — the appearance modes as DATA. A mode's identity (name + kind + family + contrast mins) lives in
+// this registry, so adding a mode is a descriptor, not a new code branch. `kind` drives resolveMode's
+// behaviour (hc / wireframe specialisations) in place of matching the mode name. `wireframe` reuses the
+// LIGHT family's surfaces (its greyscale redirect happens in resolveMode). Extended by custom modes (C).
+export type MinSet = Pick<ModeCfg, 'primaryMin' | 'secondaryMin' | 'tertiaryMin' | 'actionMin' | 'borderTarget' | 'nonTextMin'>;
+export type ModeDescriptor = { name: ModeName; kind: 'standard' | 'hc' | 'wireframe'; family: 'light' | 'dark'; mins: MinSet };
+export const BUILTIN_MODES: ModeDescriptor[] = [
+  { name: 'light',     kind: 'standard',  family: 'light', mins: { primaryMin: 7,  secondaryMin: 4.5, tertiaryMin: 3,   actionMin: 4.5, borderTarget: 1.4, nonTextMin: 3 } },
+  { name: 'dark',      kind: 'standard',  family: 'dark',  mins: { primaryMin: 7,  secondaryMin: 4.5, tertiaryMin: 3,   actionMin: 4.5, borderTarget: 1.8, nonTextMin: 3 } },
+  { name: 'hc-light',  kind: 'hc',        family: 'light', mins: { primaryMin: 15, secondaryMin: 7,   tertiaryMin: 4.5, actionMin: 7,   borderTarget: 4.5, nonTextMin: 4.5 } },
+  { name: 'hc-dark',   kind: 'hc',        family: 'dark',  mins: { primaryMin: 15, secondaryMin: 7,   tertiaryMin: 4.5, actionMin: 7,   borderTarget: 4.5, nonTextMin: 4.5 } },
+  { name: 'wireframe', kind: 'wireframe', family: 'light', mins: { primaryMin: 7,  secondaryMin: 4.5, tertiaryMin: 3,   actionMin: 4.5, borderTarget: 1.4, nonTextMin: 3 } },
+];
 
 const modeConfigs = (ns: string, neutralPalette: string, neutral: Step[], surfaces: SurfacesConfig = {}): Record<ModeName, ModeCfg> => {
   const nNear = (num: number): Step => neutral.reduce((a, b) => (Math.abs(b.num - num) < Math.abs(a.num - num) ? b : a));
@@ -133,27 +151,26 @@ const modeConfigs = (ns: string, neutralPalette: string, neutral: Step[], surfac
     };
   };
 
-  const light = resolve('light', 'white');
-  const dark = resolve('dark', 950);
+  const resolved = { light: resolve('light', 'white'), dark: resolve('dark', 950) } as const;
   // High contrast flattens the neutral surface ladders to a single base — HC carries
   // elevation by BORDER (escalated to ≥4.5:1), not by near-invisible surface tints.
   const flat = (c: Cand): SurfSet => ({ primary: c, secondary: c, tertiary: c });
 
-  const mk = (r: ReturnType<typeof resolve>, family: 'light' | 'dark', mins: Pick<ModeCfg, 'primaryMin' | 'secondaryMin' | 'tertiaryMin' | 'actionMin' | 'borderTarget' | 'nonTextMin'>): ModeCfg =>
-    ({ surface: r.base, floor: r.floor, floorName: short(r.floor), bg: r.bg, bgInverse: r.bgInverse, fg: r.fg, fgInverse: r.fgInverse, inverseSurface: r.invRgb, family, ...mins });
-  const hcMk = (base: Cand, inv: Cand, floor: Cand, family: 'light' | 'dark', mins: Pick<ModeCfg, 'primaryMin' | 'secondaryMin' | 'tertiaryMin' | 'actionMin' | 'borderTarget' | 'nonTextMin'>): ModeCfg =>
-    ({ surface: base, floor, floorName: short(floor), bg: flat(base), bgInverse: flat(inv), fg: flat(base), fgInverse: flat(inv), inverseSurface: inv.rgb, family, ...mins });
+  const mk = (r: ReturnType<typeof resolve>, kind: ModeCfg['kind'], family: 'light' | 'dark', mins: MinSet): ModeCfg =>
+    ({ surface: r.base, floor: r.floor, floorName: short(r.floor), bg: r.bg, bgInverse: r.bgInverse, fg: r.fg, fgInverse: r.fgInverse, inverseSurface: r.invRgb, family, kind, ...mins });
+  const hcMk = (base: Cand, inv: Cand, floor: Cand, family: 'light' | 'dark', mins: MinSet): ModeCfg =>
+    ({ surface: base, floor, floorName: short(floor), bg: flat(base), bgInverse: flat(inv), fg: flat(base), fgInverse: flat(inv), inverseSurface: inv.rgb, family, kind: 'hc', ...mins });
 
-  return {
-    light:      mk(light, 'light', { primaryMin: 7,  secondaryMin: 4.5, tertiaryMin: 3, actionMin: 4.5, borderTarget: 1.4, nonTextMin: 3 }),
-    dark:       mk(dark,  'dark',  { primaryMin: 7,  secondaryMin: 4.5, tertiaryMin: 3, actionMin: 4.5, borderTarget: 1.8, nonTextMin: 3 }),
-    'hc-light': hcMk(white, black, light.floor, 'light', { primaryMin: 15, secondaryMin: 7, tertiaryMin: 4.5, actionMin: 7, borderTarget: 4.5, nonTextMin: 4.5 }),
-    'hc-dark':  hcMk(black, white, dark.floor,  'dark',  { primaryMin: 15, secondaryMin: 7, tertiaryMin: 4.5, actionMin: 7, borderTarget: 4.5, nonTextMin: 4.5 }),
-    // Wireframe (docs/11 Pillar 1b): the LIGHT surfaces + mins, but resolveMode redirects
-    // every chromatic role to the neutral ramp (greyscale). A light-family greyscale mode —
-    // its own contrast contract still holds (the neutral pick is nudged to clear each min).
-    wireframe:  mk(light, 'light', { primaryMin: 7,  secondaryMin: 4.5, tertiaryMin: 3, actionMin: 4.5, borderTarget: 1.4, nonTextMin: 3 }),
-  };
+  // Build the per-mode config table from the descriptor registry (B). Standard + wireframe modes use
+  // their family's resolved surfaces (wireframe = light); HC restores the pure black/white extremes
+  // and anchors its floor on the same-family standard floor. Byte-identical to the old literal table.
+  const out = {} as Record<ModeName, ModeCfg>;
+  for (const d of BUILTIN_MODES) {
+    out[d.name] = d.kind === 'hc'
+      ? hcMk(d.family === 'light' ? white : black, d.family === 'light' ? black : white, resolved[d.family].floor, d.family, d.mins)
+      : mk(resolved[d.family], d.kind, d.family, d.mins);
+  }
+  return out;
 };
 
 // Per-property interactive state members (the applicable subset of the vocabulary).
@@ -170,7 +187,7 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
   const r2p = theme.roleToPalette;
   const neutral = ramps.get(r2p.neutral)!;
   const ramp: Cand[] = neutral.map((s) => cand(`${ns}.${r2p.neutral}.${s.key}`, s.rgb));
-  const hc = mode.startsWith('hc');
+  const hc = cfg.kind === 'hc';                              // B — behaviour by kind, not name
   const textCands: Cand[] = hc ? [cand(`${ns}.white`, WHITE), ...ramp, cand(`${ns}.black`, BLACK)] : ramp;
   const baseRgb = cfg.surface.rgb;
   const floorRgb = cfg.floor.rgb;
@@ -214,7 +231,7 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
   // the NEUTRAL ramp at the position its colour pick would land — then re-nudged to clear the
   // same min on the neutral ramp, so the greyscale still holds each contrast contract. Roles
   // already neutral (backgrounds, text, borders) + white/black/alpha pass through untouched.
-  const wf = mode === 'wireframe';
+  const wf = cfg.kind === 'wireframe';                       // B — behaviour by kind, not name
   const neutralPal = r2p.neutral;
   const palOf = (palette: string): string => (wf && palette !== neutralPal ? neutralPal : palette);
   const chromatic = (palette: string, anchorNum: number, surf: RGB, min: number): RatedNum => {
