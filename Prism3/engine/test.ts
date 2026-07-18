@@ -627,6 +627,66 @@ for (const b of brands) {
   ok(primDef !== primOvr, `interactivePalettes: actionAnchorStep override moves interactive.primary.fill.rest (${primDef.split('.').slice(-2).join('.')} → ${primOvr.split('.').slice(-2).join('.')})`);
 }
 
+// PER-MODE COLOUR OVERRIDE LAYER (Phase A1) — repoint a resolved role at an EXISTING primitive
+// step, customizable modes only (light/dark), WARN-don't-block on a failed contrast min, and a
+// byte-identical no-op when absent. Distinct from roleColors (a global palette rebase).
+{
+  const roleKey = 'interactive.primary.fill.rest';
+  const root = 'prism';
+  const base = { id: 'ovr', primary: { l: 0.55, c: 0.18, h: 285 }, neutral: { hue: 285, chroma: 0.01 } } as unknown as BrandInput;
+  const nodeAt = (t: any) => roleKey.split('.').reduce((n, k) => n?.[k], t.color);
+  const threw = (f: () => unknown) => { try { f(); return false; } catch { return true; } };
+  const stable = (v: any): any => Array.isArray(v) ? v.map(stable)
+    : (v && typeof v === 'object' ? Object.fromEntries(Object.keys(v).sort().map((k) => [k, stable(v[k])])) : v);
+
+  // (a) a dark override repoints ONLY the dark per-mode value; the light canonical $value is untouched.
+  const overStep = '750';
+  const withOv = { ...base, overrides: { dark: { [roleKey]: { palette: 'primary', step: overStep } } } } as unknown as BrandInput;
+  const baseNode = nodeAt(buildTree(brandTheme(base)).tree[root]);
+  const ovNode = nodeAt(buildTree(brandTheme(withOv)).tree[root]);
+  ok(ovNode.$extensions.prism3.modes.dark.$value === `{${root}.palette.primary.${overStep}}`,
+    `A1(a): dark override → primary.${overStep} in $extensions.prism3.modes.dark (got ${ovNode.$extensions.prism3.modes.dark.$value})`);
+  ok(ovNode.$value === baseNode.$value, `A1(a): light canonical $value unchanged by the dark override (${ovNode.$value})`);
+  ok(baseNode.$extensions.prism3.modes.dark.$value !== ovNode.$extensions.prism3.modes.dark.$value,
+    'A1(a): the dark override actually differs from the generated baseline dark value');
+
+  // (b) a dark override deliberately below the fill's contrast min still APPLIES + emits, recorded
+  // as a warning (never throws) — primary.900 is a near-black violet on the near-black dark surface.
+  const failStep = '900';
+  const failing = { ...base, overrides: { dark: { [roleKey]: { palette: 'primary', step: failStep } } } } as unknown as BrandInput;
+  let failThrew = false, darkRes: any;
+  try { darkRes = resolveAllModes(brandTheme(failing)).find((m) => m.mode === 'dark'); } catch { failThrew = true; }
+  ok(!failThrew, 'A1(b): a contrast-failing override does NOT throw (WARN, not block)');
+  ok(darkRes && Array.isArray(darkRes.warnings) && darkRes.warnings.some((w: any) => w.role === roleKey && w.ratio < w.min),
+    'A1(b): the failing override is recorded in ModeResult.warnings (ratio < min)');
+  ok(darkRes && darkRes.roles[roleKey].path === `${root}.palette.primary.${failStep}`,
+    'A1(b): the failing override still emits — the role is repointed despite the warning');
+  ok(!threw(() => buildTree(brandTheme(failing))), 'A1(b): buildTree emits a contrast-failing override without throwing');
+
+  // (c) rejections: generate-only / absent modes throw in brandTheme; a malformed ref throws at resolve.
+  ok(threw(() => brandTheme({ ...base, overrides: { 'hc-light': { [roleKey]: { palette: 'primary', step: '600' } } } } as unknown as BrandInput)),
+    'A1(c): override targeting hc-light (generate-only) throws');
+  ok(threw(() => brandTheme({ ...base, overrides: { wireframe: { [roleKey]: { palette: 'primary', step: '600' } } } } as unknown as BrandInput)),
+    'A1(c): override targeting wireframe (not in the mode set) throws');
+  ok(threw(() => brandTheme({ ...base, modes: ['light'], overrides: { dark: { [roleKey]: { palette: 'primary', step: '600' } } } } as unknown as BrandInput)),
+    'A1(c): override targeting a mode this brand does not generate throws');
+  ok(threw(() => resolveAllModes(brandTheme({ ...base, overrides: { dark: { [roleKey]: { palette: 'nope', step: '600' } } } } as unknown as BrandInput))),
+    'A1(c): an unknown palette in an override throws (malformed input)');
+  ok(threw(() => resolveAllModes(brandTheme({ ...base, overrides: { dark: { [roleKey]: { palette: 'primary', step: '999' } } } } as unknown as BrandInput))),
+    'A1(c): an unknown step in an override throws (malformed input)');
+
+  // (d) design.md round-trip preserves overrides through parse∘serialize (the export leg).
+  const rtInput = { ...base, overrides: { dark: { [roleKey]: { palette: 'primary', step: overStep } } } } as unknown as BrandInput;
+  ok(JSON.stringify(stable(parseDesignMd(toDesignMd(rtInput)).input)) === JSON.stringify(stable(rtInput)),
+    'A1(d): parseDesignMd(toDesignMd(inputWithOverrides)) preserves overrides');
+
+  // (e) an ABSENT override map is a byte-identical no-op (the primary guard) — same tree + no warnings.
+  const plain = resolveAllModes(brandTheme(base));
+  ok(plain.every((m) => m.warnings === undefined), 'A1(e): no overrides → no warnings on any mode');
+  ok(JSON.stringify(buildTree(brandTheme(base)).tree) === JSON.stringify(buildTree(brandTheme({ ...base, overrides: {} } as unknown as BrandInput)).tree),
+    'A1(e): an empty overrides map produces byte-identical output');
+}
+
 // roleColors — general semantic-role rebasing (docs/21): re-base any role on a declared palette,
 // with the contrast guarantee preserved and a hue-mismatch note (not a block).
 {

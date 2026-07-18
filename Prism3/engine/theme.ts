@@ -16,7 +16,7 @@
 import { generateRamp, peakChromaL, autoPlaceStep, Step } from './ramp';
 import { dimensionGrid, spaceScale, radiusScale, componentSizes, SpaceStep, RadiusStep, SizeStep, Density } from './scale';
 import { oklchToRgb, RGB, contrast, hex as rgbHex, inGamut, maxChroma } from './color';
-import type { ModeName } from './modes';
+import type { ModeName, ModeOverrides } from './modes';
 
 /** The appearance modes the engine can generate. `light` is the required base; the rest
  *  are opt-in (docs/11 Pillar 1). Wireframe (docs/11 §Pillar 1b) is not yet a mode. */
@@ -78,6 +78,11 @@ export type Theme = {
   roleToPalette: Record<Role, string>;
   roleAnchorStep: Record<Role, number>;
   surfaces?: SurfacesConfig;         // optional non-default surfaces (drives the contrast floor)
+  // Per-mode colour override layer (Phase A1) — role → primitive-step repoints applied AFTER
+  // generation, for the customizable modes only (light/dark). Distinct from `roleColors`
+  // (a global palette rebase): overrides repoint one resolved role to one existing primitive
+  // step in a given mode, WARNING (never blocking) if the tuned pick fails the role's contrast min.
+  overrides?: Partial<Record<ModeName, ModeOverrides>>;
   // Disabled-state strategy. 'accessible' (default): disabled text/icon/border
   // clears `disabledMin` on the floor, so it stays legible (the KB's `inactive`).
   // 'conventional': intentionally sub-AA, leaning on the WCAG 1.4.3/1.4.11
@@ -215,6 +220,14 @@ export type BrandInput = {
    *  contrast floor moves with the declared base, and the engine flags it in
    *  notes so the surface choice is confirmed. Omit for white/black defaults. */
   surfaces?: SurfacesConfig;
+  /** Per-mode colour overrides (Phase A1): repoint individual resolved roles to an EXISTING
+   *  primitive step (`{ palette, step }`, no raw colours), per mode. Applies only to the
+   *  customizable modes (`light`/`dark`); targeting a generate-only mode (hc-light/hc-dark/
+   *  wireframe) or a mode this brand doesn't generate throws. A role absent in a given mode is
+   *  skipped. A tuned override that fails the role's contrast min still applies + emits but is
+   *  recorded as a warning. Distinct from `roleColors`, which rebases a role's whole palette
+   *  globally; overrides re-point one role to one step in one mode. */
+  overrides?: Partial<Record<ModeName, ModeOverrides>>;
   /** Optional measured status overrides; omit to let the engine synthesise. */
   status?: Partial<Record<'success' | 'warning' | 'danger' | 'info', OKLCH & { chroma: number }>>;
   /** Disabled-state policy. Default 'accessible' (disabled clears `disabledMin`,
@@ -897,6 +910,19 @@ export const brandTheme = (input: BrandInput): Theme => {
   const stdModes = modes.filter((m) => m !== 'wireframe');
   if (stdModes.length < ALL_MODES.length) notes.push(`modes: generating ${stdModes.join(', ')} only (dark/HC opt-out)`);
   if (modes.includes('wireframe')) notes.push('modes: wireframe generated (greyscale — non-neutral roles → equivalent neutral; radius → 0)');
+  // Per-mode colour overrides (Phase A1) — customizable modes only. A mode this brand doesn't
+  // generate can't carry overrides; the generate-only modes (hc-light/hc-dark/wireframe) are
+  // baseline-only (a later phase makes HC/wireframe customizable). Malformed palette/step refs
+  // are caught at resolve time (modes.ts) since they need the built ramps. `light`/`dark` are the
+  // only customizable modes today.
+  const CUSTOMIZABLE_MODES: ModeName[] = ['light', 'dark'];
+  for (const m of Object.keys(input.overrides ?? {}) as ModeName[]) {
+    if (!modes.includes(m))
+      throw new Error(`overrides: mode '${m}' is not in this brand's modes (${modes.join(', ')}) — nothing to override`);
+    if (!CUSTOMIZABLE_MODES.includes(m))
+      throw new Error(`overrides: mode '${m}' is generate-only and not customizable — only ${CUSTOMIZABLE_MODES.join('/')} accept overrides`);
+  }
+  if (Object.keys(input.overrides ?? {}).length) notes.push(`overrides: per-mode colour overrides applied for ${Object.keys(input.overrides!).join(', ')} (roles repointed to specific primitive steps; tuned picks that miss a contrast min are warned, not blocked)`);
   if (root !== 'prism') notes.push(`namespace: tokens emit under '${root}.*' (custom, not the 'prism' default)`);
   const anchorStep = autoPlaceStep(input.primary.l);
   notes.push(`primary anchor (h${input.primary.h}) pinned exactly at step ${anchorStep}`);
@@ -1158,6 +1184,7 @@ export const brandTheme = (input: BrandInput): Theme => {
     id: input.id, root, namespace: `${root}.palette`, colorFormat: 'hex', modes, palettes, roleToPalette, notes,
     roleAnchorStep: { brand: anchorStep, neutral: 500, success: 500, warning: 500, danger: 500, info: 500, action: actionAnchorStep },
     surfaces: input.surfaces,
+    overrides: input.overrides,
     disabledStrategy: input.disabledStrategy ?? 'accessible',
     disabledMin: input.disabledMin ?? 3,
     iconContrast: input.iconContrast ?? 'text',

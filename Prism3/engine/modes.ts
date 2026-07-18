@@ -86,7 +86,14 @@ export type ModeCfg = {
 // `ratio` is the RAW WCAG contrast (un-rounded) — compare it directly against `min`; round
 // only when serialising (CR-01). `min` of 0 means "not a contrast-gated role" (surfaces).
 export type ResolvedRole = { path: string; description: string; ratio: number; against: string; min: number; hex: string; alpha?: number };
-export type ModeResult = { mode: ModeName; surface: RGB; roles: Record<string, ResolvedRole> };
+// Per-mode colour override layer (Phase A1). A `PrimitiveRef` repoints a resolved role at an
+// EXISTING primitive step in ANY palette (no raw colours); a `ModeOverrides` map is rolePath →
+// ref, applied only to the customizable modes (light/dark). An `OverrideWarning` records a
+// hand-tuned override that still applies + emits but fails its role's contrast min (WARN, never block).
+export type PrimitiveRef = { palette: string; step: string };
+export type ModeOverrides = Record<string, PrimitiveRef>;   // rolePath -> primitive step ref
+export type OverrideWarning = { role: string; ratio: number; min: number };
+export type ModeResult = { mode: ModeName; surface: RGB; roles: Record<string, ResolvedRole>; warnings?: OverrideWarning[] };
 
 const cand = (path: string, rgb: RGB): Cand => ({ path, rgb });
 
@@ -171,13 +178,16 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
   const onMin = 4.5; // text on a saturated fill targets AA (a vivid mid-tone is gamut-bounded)
 
   const roles: Record<string, ResolvedRole> = {};
+  // The resolved rgb behind each role key — the override post-pass (Phase A1) reads it to
+  // re-derive an overridden role's contrast against its `against` role's actual colour.
+  const rgbByRole = new Map<string, RGB>();
   const rated = (c: Cand, surf: RGB): Rated => ({ ...c, ratio: contrast(c.rgb, surf) });
   // ratio is the RAW contrast — every gate/pass check compares it against `min` un-rounded
   // (CR-01). Rounding to 2dp happens only where it's serialised (tree.ts / ai-metadata.ts).
   const put = (key: string, r: Rated, description: string, against: string, min: number) =>
-    { roles[key] = { path: r.path, description, ratio: r.ratio, against, min, hex: hex(r.rgb) }; };
+    { roles[key] = { path: r.path, description, ratio: r.ratio, against, min, hex: hex(r.rgb) }; rgbByRole.set(key, r.rgb); };
   const putSurf = (key: string, c: Cand, description: string) =>
-    { roles[key] = { path: c.path, description, ratio: 1, against: 'self', min: 0, hex: hex(c.rgb) }; };
+    { roles[key] = { path: c.path, description, ratio: 1, against: 'self', min: 0, hex: hex(c.rgb) }; rgbByRole.set(key, c.rgb); };
 
   const pStep = (palette: string, num: number): Cand => {
     const steps = ramps.get(palette)!;
@@ -506,7 +516,33 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
     put(`border.${r}`, rated(chromatic(r2p[r], 500, baseRgb, cfg.nonTextMin), baseRgb), `${r} border — ${cfg.nonTextMin}:1 (SC 1.4.11)`, 'background.primary', cfg.nonTextMin);
   put('border.focus', rated(actionRest, baseRgb), 'Focus ring colour (keyboard focus)', 'background.primary', cfg.nonTextMin);
 
-  return { mode, surface: baseRgb, roles };
+  // ---- per-mode colour override layer (Phase A1) ----
+  // A brand may repoint a resolved role at an EXISTING primitive step in ANY palette (no raw
+  // colours). Overrides live only on the customizable modes (light/dark) — `theme.overrides`
+  // carries none for the generate-only modes. Each override re-derives the role's contrast
+  // against its own `against` surface and WARNS (never blocks) when a hand-tuned pick fails the
+  // role's contrast min: the generated baseline always passes; a failing tuned override still
+  // applies + emits, recorded as a warning. A role absent in this mode is skipped (roles vary by
+  // mode). A malformed ref (unknown palette / step) is a hard error.
+  const warnings: OverrideWarning[] = [];
+  const ov = theme.overrides?.[mode];
+  if (ov) {
+    for (const [rolePath, ref] of Object.entries(ov)) {
+      const existing = roles[rolePath];
+      if (!existing) continue;                             // role absent in this mode → skip (no throw)
+      const steps = ramps.get(ref.palette);
+      if (!steps) throw new Error(`overrides[${mode}]: unknown palette '${ref.palette}' (role '${rolePath}')`);
+      const step = steps.find((s) => s.key === ref.step);
+      if (!step) throw new Error(`overrides[${mode}]: unknown step '${ref.step}' in palette '${ref.palette}' (role '${rolePath}')`);
+      const newRgb = step.rgb;
+      const againstRgb = existing.against === 'self' ? newRgb : (rgbByRole.get(existing.against) ?? baseRgb);
+      const ratio = contrast(newRgb, againstRgb);
+      roles[rolePath] = { ...existing, path: `${ns}.${ref.palette}.${ref.step}`, ratio, hex: hex(newRgb) };
+      if (existing.min > 0 && ratio < existing.min) warnings.push({ role: rolePath, ratio, min: existing.min });
+    }
+  }
+
+  return { mode, surface: baseRgb, roles, ...(warnings.length ? { warnings } : {}) };
 };
 
 export const resolveAllModes = (theme: Theme): ModeResult[] => {
