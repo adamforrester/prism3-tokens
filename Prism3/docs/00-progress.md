@@ -7,7 +7,48 @@
 
 ---
 
-## Latest (2026-07-17) — web UI reaches feature-complete: refinement pass, first-run, typography B, icons
+## Latest (2026-07-18) — extensible interactive palettes (engine → web) + UI polish
+
+**STATUS: MERGED** (#163 engine · #166 + #168 web · #164 + #167 polish). The interactive color model is now
+**extensible and directly editable**: a brand can ship the built-in primary/neutral/destructive interactive
+columns PLUS N opt-in "accent" columns, each promoting a defined palette to a full `interactive.<name>.*`
+family with an optional fill step — surfaced as per-column cards on the Semantic stage (the #161 pass).
+
+- **Engine — #163: `interactivePalettes` (generalises `accentPalette`).** `BrandInput.interactivePalettes?:
+  {name?, palette, anchorStep?}[]` — each promotes a *defined palette* (primary or a brandColors name) to a
+  full `interactive.<name>.*` column (fill+states / on-fill / text / border / on-inverse / overlay); `name`
+  defaults to the palette, validated (slug, unique, no collision with the primary/neutral/destructive
+  built-ins). Plus `actionAnchorStep?`/`destructiveAnchorStep?` — optional fill-step overrides for the
+  built-ins (unset = today's placement). On-fill inks stay **auto-derived + contrast-gated**; the
+  **accessibility floor wins over the step override** (a too-light pick is nudged to the darkest passing
+  step). `accentPalette` kept as **byte-identical back-compat**. `docs/20` updated (§3a). *out/\* byte-identical
+  (no example brand sets the new fields); engine tests + NB regression green.*
+- **Web — #166 → #168: the interactive-color cards (owner reference, #161 inc 1+2).** One card per column:
+  big fill swatch · palette/step picker (writes `actionAnchorStep` / `destructiveAnchorStep` /
+  `interactivePalettes[i].anchorStep`) · token path · live button example (fill + on-fill) · floor-gated
+  contrast badge · hover/pressed sub-cards. Plus an **"add interactive color"** promote flow (a brand color →
+  a new column, with a remove ×) — reserved names filtered so the auto-name can't collide (the #168
+  should-fix). Neutral is deliberately not carded (it's `neutralEmphasis`-driven). Web-only, reads the
+  resolved model.
+- **Model:** interactive color = **palette + step (primitives only)**, never a raw color; a bespoke action/
+  accent hue is a *named brand color* the whole system aliases. This resolved the owner's "can we pick the
+  interactive color?" question — palette+step, not a floating picker.
+- **Polish — #164 + #167.** #164: swatches fill their container at 40×40 (native color-input inset stripped),
+  darker page bg so cards read as elevated, brand-color count badge removed, section-label + label→select
+  spacing, and **US English** (`colour`→`color`) across all *visible* UI text (main.ts + lever labels/
+  descriptions; the token-`$description` prose that emits into out/\* is a separate deferred pass). #167:
+  replaced the oversized native `<select>` caret with a small consistent chevron across every select.
+
+**Open backlog (captured #155–#162, #165 — most polish/US-English done):** #157 validation-color borrow bugs
+(could NOT reproduce on main via headless — awaiting repro), #158 primitives layout (pair the neutral cast /
+brand-color cards with the palettes they drive — the cast is invisible today because its greyscale is
+off-screen), #159 brand bar (horizontal, replacing the overflowing dropdown), #160 design.md import (post-setup
++ startup upload + validation/error-handling), the remaining #161 sectioning (accessibility/features controls),
+and the US-English token-`$description` pass (changes out/\*, so its own PR). **Next up: docs sweep (this), then #158.**
+
+---
+
+## (2026-07-17) — web UI reaches feature-complete: refinement pass, first-run, typography B, icons
 
 **STATUS: MERGED** (#142, #145, #147, #149, #150, #152, #153). The web dashboard is now demo-ready and
 feature-complete bar deploy — every lever is editable AND has a live preview, a real first-run experience,
