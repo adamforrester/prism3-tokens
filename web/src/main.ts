@@ -988,7 +988,7 @@ const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
   }
   // #97 — bespoke editors for the object levers renderControl can only show read-only:
   // page surfaces on the color stage; the Shadow group (softness + tint) on the form stage.
-  if (key === 'semantic') host.append(renderSurfacesEditor());
+  if (key === 'semantic') { host.append(renderSurfacesEditor()); host.append(renderForegroundEditor()); }
   if (key === 'form') host.append(renderShadowEditor(levers.find((l) => l.key === 'shadow.softness')));
   }
   // Validation-color editing (status hue + roleColors borrow) now lives INLINE on each status
@@ -1192,6 +1192,52 @@ const renderSurfacesEditor = (): HTMLElement => {
     for (const s of NEUTRAL_STEPS) opt(floor, String(s), `Floor ${s}`, cur?.floorStep === s);
     floor.onchange = () => { setPath(brandState, `surfaces.${mode}.floorStep`, floor.value === '' ? undefined : Number(floor.value)); apply(); };
     row.append(base, floor);
+    knob.append(row);
+    panel.append(knob);
+  }
+  wrap.append(panel);
+  return wrap;
+};
+
+/** A2c — per-mode foreground/text override. The text ink ladder (text.primary/secondary/tertiary) is
+ *  engine-derived and contrast-placed; this repoints a role to a specific NEUTRAL step for the current
+ *  mode via the A1 override layer. Symmetric across customizable modes (light + dark both write their
+ *  own override); "Auto" = the generated default; a pick below the text floor warns (never blocks). */
+const FG_ROLES: [string, string][] = [['text.primary', 'Primary text'], ['text.secondary', 'Secondary text'], ['text.tertiary', 'Tertiary text']];
+const renderForegroundEditor = (): HTMLElement => {
+  const wrap = el('div', 'obj-editor');
+  wrap.append(subHead('Foreground / text'));
+  wrap.append(el('p', 'obj-lede', `The neutral ink ladder for ${MODE_LABEL[currentMode] ?? currentMode} — “Auto” follows the generated, contrast-placed default; pick a neutral step to override just this mode (a pick below the text floor is warned, not blocked).`));
+  const nPal = theme.roleToPalette.neutral;
+  const nSteps = (theme.palettes.find((p) => p.palette === nPal)?.steps ?? []).map((s) => s.key);
+  const roles = resolveAllModes(theme).find((x) => x.mode === currentMode)?.roles ?? {};
+  const panel = el('div', 'panel');
+  for (const [role, label] of FG_ROLES) {
+    const r = roles[role]; if (!r) continue;
+    const knob = el('div', 'knob');
+    knob.append(el('label', 'knob-label', label));
+    const row = el('div', 'fg-row');
+    const sw = el('span', 'fg-sw'); sw.style.background = r.hex;
+    const sel = el('select', 'obj-sel') as HTMLSelectElement;
+    const cur = brandState.overrides?.[currentMode]?.[role]?.step;
+    const optE = (v: string, t: string, on: boolean) => { const o = el('option') as HTMLOptionElement; o.value = v; o.textContent = t; if (on) o.selected = true; sel.append(o); };
+    optE('', 'Auto', cur == null);
+    for (const s of nSteps) optE(s, `Neutral ${s}`, cur === s);
+    sel.onchange = () => {
+      const v = sel.value;
+      const ov = brandState.overrides ?? (brandState.overrides = {});
+      const forMode = ov[currentMode] ?? (ov[currentMode] = {});
+      if (v === '') {                                          // revert to the generated baseline
+        delete forMode[role];
+        if (!Object.keys(forMode).length) delete ov[currentMode];
+        if (!Object.keys(ov).length) brandState.overrides = undefined;
+      } else forMode[role] = { palette: nPal, step: v };
+      applyFull();
+    };
+    const pass = r.min <= 0 || r.ratio >= r.min;
+    const badge = el('span', 'fg-badge ' + (pass ? 'ok' : 'no'));
+    badge.textContent = r.min > 0 ? `${r.ratio.toFixed(2)}:1 ${pass ? '✓' : '✗'}` : '—';
+    row.append(sw, sel, badge);
     knob.append(row);
     panel.append(knob);
   }
@@ -2210,6 +2256,12 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .tpill.more{color:var(--muted);font-style:italic}
 /* #161 — interactive-color card */
 .ic-modenote{margin:0 0 14px;font-size:12.5px;color:var(--muted);line-height:1.55;padding:10px 13px;background:var(--paper);border:1px solid var(--line);border-radius:var(--r-sm)}
+/* A2c — per-mode foreground/text override rows. */
+.fg-row{display:flex;align-items:center;gap:12px;margin-top:10px}
+.fg-sw{width:34px;height:34px;flex:none;border-radius:var(--r-xs);border:1px solid var(--line2)}
+.fg-badge{margin-left:auto;font-size:12.5px;font-weight:560;padding:5px 10px;border-radius:var(--r-sm)}
+.fg-badge.ok{background:#eaf7f0;color:#1f7a4d}
+.fg-badge.no{background:#fdecec;color:#a12}
 .ic-card{border:1px solid var(--line);border-radius:var(--r);background:var(--panel);padding:22px;margin-bottom:14px}
 .ic-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
 .ic-headt{margin:0;flex:1;font-size:15px;font-weight:620;color:var(--ink)}
