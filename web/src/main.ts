@@ -12,7 +12,7 @@
  * The shell is a FOUR-STAGE build order (primitives → semantic → type → form),
  * mirroring how a theme actually composes: primitives first, then the semantic
  * roles that alias them, then type, then form. Stage 1 (Brand primitives) is the
- * bespoke redesign — a scalable brand-colour list, a tunable neutral cast with a
+ * bespoke redesign — a scalable brand-color list, a tunable neutral cast with a
  * Derive⇄Pin toggle (surfacing the engine's `neutral.anchor`), and the generated
  * ramps shown as labelled specimens. Later stages render their lever groups + the
  * live preview/overlay. Colour-axis edits re-resolve the engine and repaint only the
@@ -76,7 +76,7 @@ const ROOT_RE = /^[a-z][a-z0-9-]*$/;
 // Every ATOMIC control is live — it edits brandState and re-runs the engine on change.
 // Liveness is by control TYPE, not a per-key allowlist: sliders, enums, palette-refs, and
 // toggles all have real handlers (a bad value just surfaces the error bar, never crashes —
-// rebuild() is try/caught). Object/list levers (families, surfaces, brand colours) stay
+// rebuild() is try/caught). Object/list levers (families, surfaces, brand colors) stay
 // read-only until their bespoke editors land (#97). Not every live axis is mirrored in the
 // shared preview yet (density/motion/shadow need specimens, #99) — but the control works.
 const LIVE_CONTROLS = new Set(['slider', 'enum', 'palette-ref', 'toggle']);
@@ -94,13 +94,13 @@ type StageKey = (typeof STAGES)[number]['key'];
 let stage: StageKey = 'primitives';
 
 // Which lever keys belong to which stage (the manifest groups everything under a few
-// axes; the stages slice it by intent). Stage 1's colour primitives get a bespoke UI,
+// axes; the stages slice it by intent). Stage 1's color primitives get a bespoke UI,
 // so they're excluded from the generic knob render here.
 const PRIMITIVE_KEYS = new Set(['primary', 'neutral.hue', 'neutral.chroma', 'neutral.anchor', 'brandColors']);
 const stageOfLever = (l: Lever): StageKey => {
   if (l.group === 'type') return 'type';
   if (l.group === 'form' || l.group === 'elevation' || l.group === 'layout' || l.group === 'motion') return 'form';
-  return 'semantic'; // remaining colour levers: action palette, status, disabled, icon, gradients
+  return 'semantic'; // remaining color levers: action palette, status, disabled, icon, gradients
 };
 
 // ---- engine read-model -----------------------------------------------------
@@ -138,7 +138,7 @@ const rebuild = (): void => {
 
 // paint() repaints only the current stage's volatile region (ramps or preview) so
 // input focus is never lost; applyFull() re-renders the whole workspace (structural
-// edits — add/remove colour, Derive⇄Pin, stage switch); build() re-renders the shell.
+// edits — add/remove color, Derive⇄Pin, stage switch); build() re-renders the shell.
 let paintVolatile: () => void = () => {};
 const apply = (): void => { rebuild(); paintVolatile(); };
 const applyFull = (): void => { rebuild(); renderWorkspace(); };
@@ -157,7 +157,7 @@ const chunk = <T>(a: T[], n: number): T[][] => { const o: T[][] = []; for (let i
 // #106) fills in — so the UI stops writing resolved token values directly.
 const hexOf = (binding: string | undefined, mode: Mode): string | undefined =>
   binding && binding.startsWith('color.') ? rp.colors[binding]?.[mode] : undefined;
-/** The `var(--…)` a chip assigns for a colour binding, with the resolved hex as fallback
+/** The `var(--…)` a chip assigns for a color binding, with the resolved hex as fallback
  *  (so it's correct even before/without a host apply). */
 const colorVar = (binding: string, mode: Mode): string => `var(${cssVarName(binding)}, ${hexOf(binding, mode) ?? 'transparent'})`;
 const pageBg = (mode: Mode): string => `var(${cssVarName('color.background.primary')}, ${rp.colors['color.background.primary']?.[mode] ?? '#ffffff'})`;
@@ -216,7 +216,7 @@ const rampEl = (name: string, steps: { num: number; key: string; hex: string }[]
   if (aKey) meta.append(document.createTextNode('anchor '), el('b', 'mono', `${name}/${aKey}`));
   else meta.append(el('span', 'faint', 'derived scale'));
   right.append(meta);
-  // Status ramps carry an inline validation-colour control (Auto / Custom hue / borrow a ramp).
+  // Status ramps carry an inline validation-color control (Auto / Custom hue / borrow a ramp).
   if (control) right.append(control);
   head.append(right);
   wrap.append(head);
@@ -265,13 +265,13 @@ const paintRamps = (host: HTMLElement): void => {
     if (!shown.has(role) && brandState.roleColors?.[role]) host.append(borrowedStatusRow(role));
 };
 
-/** Brand colours — a scalable list. Primary is the pinned anchor (editable colour, not
+/** Brand colors — a scalable list. Primary is the pinned anchor (editable color, not
  *  removable); each accent is add / rename / remove and can drive the action palette. */
 const renderBrandColors = (): HTMLElement => {
   const panel = el('div', 'panel');
   const list = brandState.brandColors ?? (brandState.brandColors = []);
   const head = el('div', 'panel-head');
-  head.append(el('h2', undefined, 'Brand colors'), el('span', 'count', String(1 + list.length)));
+  head.append(el('h2', undefined, 'Brand colors'));
   panel.append(head);
   const rows = el('div', 'clist');
 
@@ -286,7 +286,7 @@ const renderBrandColors = (): HTMLElement => {
     return row;
   };
 
-  // primary — editable colour, fixed name, not removable
+  // primary — editable color, fixed name, not removable
   const pName = el('span', 'rname', 'primary');
   rows.append(colorRow(
     () => hex(oklchToRgb(brandState.primary)),
@@ -325,7 +325,7 @@ const renderBrandColors = (): HTMLElement => {
   return panel;
 };
 
-/** Neutral cast — a Derive⇄Pin toggle. Derive: hue + chroma sliders. Pin: a colour
+/** Neutral cast — a Derive⇄Pin toggle. Derive: hue + chroma sliders. Pin: a color
  *  input that sets `neutral.anchor` (the engine builds the whole ramp around it). */
 const renderNeutral = (): HTMLElement => {
   const panel = el('div', 'panel');
@@ -509,7 +509,7 @@ const paintPreview = (host: HTMLElement): void => {
     block.append(row);
     // #100: verification AT THE POINT OF EDIT — this component's contrast contracts for the
     // active mode as inline badges (we DERIVE + gate the ratio, so it's authoritative, not a
-    // hand-typed number), plus token-path pills for the colour roles it binds (dev transparency).
+    // hand-typed number), plus token-path pills for the color roles it binds (dev transparency).
     const cts = rp.contracts.filter((ct) => ct.component === c.id && ct.byMode[currentMode]);
     if (cts.length) {
       const badges = el('div', 'pv-contrasts');
@@ -539,7 +539,7 @@ const paintPreview = (host: HTMLElement): void => {
   const sum = el('summary', 'contracts-sum');
   sum.append(el('span', 'contracts-t', 'Contrast contracts'), el('span', 'contracts-hint', `full a11y table · all modes · ${rp.contracts.length} pairs`));
   contracts.append(sum);
-  contracts.append(el('p', 'np-note', 'Every declared a11y pair, computed on the resolved colours across all modes — the per-component badges above verify the active mode at the point of edit.'));
+  contracts.append(el('p', 'np-note', 'Every declared a11y pair, computed on the resolved colors across all modes — the per-component badges above verify the active mode at the point of edit.'));
   const table = el('table', 'ctable');
   const thead = el('tr');
   thead.append(el('th', undefined, 'Pair'));
@@ -565,13 +565,13 @@ const HERO_COPY: Record<StageKey, [string, string]> = {
   primitives: ['', ''],
   semantic: ['Map roles onto your primitives.', 'Every semantic role aliases a primitive step, resolved per mode. Point actions at the palette that reads best, tune the interactive treatment (hover, inverse, neutral emphasis), and set the accessibility policy — icon contrast + the disabled strategy. (Status hues are edited per-ramp on Primitives.)'],
   type: ['Set the type system.', 'Families, weights, and the type scale that shifts the semantic→primitive size mapping. The rem ladder is brand-invariant; the scale is the dial.'],
-  form: ['Dial in the form factor.', 'Density, corner radius, and elevation — the geometry that makes the same colours feel like a different product.'],
+  form: ['Dial in the form factor.', 'Density, corner radius, and elevation — the geometry that makes the same colors feel like a different product.'],
 };
 
-// Validation-colour control (docs/21 + status.*). Lives INLINE on each status ramp (primitives
+// Validation-color control (docs/21 + status.*). Lives INLINE on each status ramp (primitives
 // stage), not as a standalone section: a designer edits the red/green/amber/blue right where the
 // ramp is shown. Two mutually-exclusive engine mechanisms behind one dropdown —
-//   • Custom hue → `status.<role>` seeds the ramp from a picked hue (the raw validation colour)
+//   • Custom hue → `status.<role>` seeds the ramp from a picked hue (the raw validation color)
 //   • Use <ramp> → `roleColors.<role>` borrows a declared palette (a red brand's red for danger)
 //   • Auto → clears both (engine default: a synthesised hue, or the danger-red carve)
 // Contrast always re-gates on whatever it lands on; a hue mismatch is flagged in the theme notes.
@@ -625,7 +625,7 @@ const statusRampControl = (role: StatusRole): HTMLElement => {
     apply();
   };
   // `change`, not `oninput`: this control lives in the volatile ramps region, so repainting mid-
-  // drag would destroy the open OS colour dialog. Change fires when the dialog closes — safe to repaint.
+  // drag would destroy the open OS color dialog. Change fires when the dialog closes — safe to repaint.
   picker.onchange = () => setStatusHue(role, picker.value);
 
   wrap.append(sel, picker);
@@ -659,7 +659,7 @@ const borrowedStatusRow = (role: StatusRole): HTMLElement => {
 // strategy is 'accessible'. A trailing catch-all renders any ungrouped semantic lever so a
 // future addition can't be silently dropped.
 const SEMANTIC_GROUPS: Array<{ title: string; keys: string[] }> = [
-  { title: 'Interactive colour', keys: ['actionPalette', 'neutralEmphasis', 'outlineInteraction', 'inverse'] },
+  { title: 'Interactive color', keys: ['actionPalette', 'neutralEmphasis', 'outlineInteraction', 'inverse'] },
   { title: 'Accessibility policy', keys: ['iconContrast', 'disabledStrategy', 'disabledMin'] },
   { title: 'Features', keys: ['gradients'] },
 ];
@@ -686,7 +686,7 @@ const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
   host.append(hero(title, lede));
   const levers = leverManifest.filter((l) => !l.advanced && !PRIMITIVE_KEYS.has(l.key) && stageOfLever(l) === key);
   if (key === 'semantic') {
-    renderGroupedPanels(host, levers);          // sub-sectioned (Interactive colour / Accessibility / Features)
+    renderGroupedPanels(host, levers);          // sub-sectioned (Interactive color / Accessibility / Features)
   } else if (key === 'type') {
     // typeScale stays a plain control; the font pool + weight-role map ARE the typography editor
     // (#103 A1 — families finally editable). The per-category assignment table is A2.
@@ -705,13 +705,13 @@ const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
     host.append(panel);
   }
   // #97 — bespoke editors for the object levers renderControl can only show read-only:
-  // page surfaces on the colour stage; the Shadow group (softness + tint) on the form stage.
+  // page surfaces on the color stage; the Shadow group (softness + tint) on the form stage.
   if (key === 'semantic') host.append(renderSurfacesEditor());
   if (key === 'form') host.append(renderShadowEditor(levers.find((l) => l.key === 'shadow.softness')));
-  // Validation-colour editing (status hue + roleColors borrow) now lives INLINE on each status
+  // Validation-color editing (status hue + roleColors borrow) now lives INLINE on each status
   // ramp (primitives stage) via statusRampControl — no standalone semantic-stage section.
   // Live preview on every lever stage — the same sample components reflect the axis
-  // being tuned: colour (semantic), type (type), geometry (form). The type stage also
+  // being tuned: color (semantic), type (type), geometry (form). The type stage also
   // gets a type-scale specimen (the small component chips can't show the scale). The
   // whole region is volatile so an edit (incl. typeScale) repaints it live.
   const vol = el('div', 'stage-vol');
@@ -920,7 +920,7 @@ const renderSurfacesEditor = (): HTMLElement => {
  *  `shadow.softness` blur dial (a generic slider lever, passed in so it leaves the geometry panel)
  *  and the `shadow.tint = {hue, amount}` object editor (hue-shifts the base off pure black; amount 0 =
  *  pure black, higher = a richer brand-hued near-black). Reads the resolved default (`theme.shadow.tint`)
- *  when the brand hasn't set one; the elevation specimen recolours live. */
+ *  when the brand hasn't set one; the elevation specimen recolors live. */
 const renderShadowEditor = (softness?: Lever): HTMLElement => {
   const wrap = el('div', 'obj-editor');
   wrap.append(subHead('Shadow'));
@@ -1136,10 +1136,10 @@ const renderGradientSpecimen = (): HTMLElement => {
   const wrap = el('div', 'gradient-spec');
   const grads = (theme.gradient?.gradients ?? []) as Array<{ name: string; kind: string; angle?: number; shape?: string; stops: Array<{ hex: string; position: number }> }>;
   if (!grads.length) {
-    wrap.append(sectionHead('Gradients', 'Gradients are off — enable the Gradients toggle to ship one or more brand gradients (stop colours alias the ramp; OKLCH-interpolated).'));
+    wrap.append(sectionHead('Gradients', 'Gradients are off — enable the Gradients toggle to ship one or more brand gradients (stop colors alias the ramp; OKLCH-interpolated).'));
     return wrap;
   }
-  wrap.append(sectionHead('Gradients', 'The brand gradient(s) — stop colours alias the ramp, interpolated in OKLCH (nothing else in the preview shows them).'));
+  wrap.append(sectionHead('Gradients', 'The brand gradient(s) — stop colors alias the ramp, interpolated in OKLCH (nothing else in the preview shows them).'));
   const row = el('div', 'gr-list');
   for (const g of grads) {
     const cell = el('div', 'gr-cell');
@@ -1441,16 +1441,16 @@ function renderBar(): void {
   }
 }
 
-/** Seed a fresh brand from a single hex colour: the engine grows a full system from one primary, so
- *  the colour's OKLCH becomes the primary anchor and the neutral leans to its hue (a subtle brand tint). */
+/** Seed a fresh brand from a single hex color: the engine grows a full system from one primary, so
+ *  the color's OKLCH becomes the primary anchor and the neutral leans to its hue (a subtle brand tint). */
 const seedFromColor = (hexVal: string): BrandInput => {
   const o = rgbToOklch(hexToRgb(hexVal));
   return { ...NEW_BRAND(), primary: o, neutral: { hue: o.h, chroma: 0.006 } };
 };
 
 /** The first-run START SCREEN (#149 follow-up). Web boots here when nothing is persisted, instead of
- *  silently loading the demo. One brand colour bootstraps a full theme, so the paths are: start from
- *  your colour, start from a neutral default, or open an example. Each lands in the editor (loadBrand →
+ *  silently loading the demo. One brand color bootstraps a full theme, so the paths are: start from
+ *  your color, start from a neutral default, or open an example. Each lands in the editor (loadBrand →
  *  rebuild persists it), so a reload restores the working brand and the start screen doesn't reappear. */
 const renderStartScreen = (): HTMLElement => {
   const view = el('div', 'startview');
@@ -1459,17 +1459,17 @@ const renderStartScreen = (): HTMLElement => {
   mark.append(el('span', 'logo'), el('span', 'wordmark', 'Prism3'), el('span', 'studio', 'Theme studio'));
   col.append(mark);
   col.append(el('h1', 'start-h', 'Start a new brand.'));
-  col.append(el('p', 'start-lede', 'One brand colour is enough — the engine grows a full, contrast-checked system you can steer. Pick a starting point.'));
+  col.append(el('p', 'start-lede', 'One brand color is enough — the engine grows a full, contrast-checked system you can steer. Pick a starting point.'));
 
   const enter = (input: BrandInput): void => { firstRun = false; loadBrand(input); };
 
-  // Path 1 — from your colour (the hero path: a single primary bootstraps everything).
+  // Path 1 — from your color (the hero path: a single primary bootstraps everything).
   const c1 = el('div', 'start-card start-hero');
-  c1.append(el('h2', 'start-ct', 'Start from your colour'));
-  c1.append(el('p', 'start-cd', 'Your primary brand colour; everything else takes smart defaults you can tune.'));
+  c1.append(el('h2', 'start-ct', 'Start from your color'));
+  c1.append(el('p', 'start-cd', 'Your primary brand color; everything else takes smart defaults you can tune.'));
   const row = el('div', 'start-color-row');
   const swatch = el('input', 'start-swatch') as HTMLInputElement; swatch.type = 'color'; swatch.value = '#5e4bc3';
-  const hexIn = el('input', 'start-hex') as HTMLInputElement; hexIn.type = 'text'; hexIn.value = '#5e4bc3'; hexIn.setAttribute('aria-label', 'Brand colour hex');
+  const hexIn = el('input', 'start-hex') as HTMLInputElement; hexIn.type = 'text'; hexIn.value = '#5e4bc3'; hexIn.setAttribute('aria-label', 'Brand color hex');
   const HEX = /^#[0-9a-f]{6}$/i;
   swatch.oninput = () => { hexIn.value = swatch.value; };
   hexIn.oninput = () => { if (HEX.test(hexIn.value)) swatch.value = hexIn.value; };
@@ -1479,10 +1479,10 @@ const renderStartScreen = (): HTMLElement => {
   c1.append(row);
   col.append(c1);
 
-  // Path 2 — a neutral, unopinionated default (set colour later).
+  // Path 2 — a neutral, unopinionated default (set color later).
   const c2 = el('div', 'start-card start-row2');
   const t2 = el('div', 'start-c2t');
-  t2.append(el('h2', 'start-ct', 'Start with a neutral default'), el('p', 'start-cd', 'An unopinionated starting theme — jump in and set your colour later.'));
+  t2.append(el('h2', 'start-ct', 'Start with a neutral default'), el('p', 'start-cd', 'An unopinionated starting theme — jump in and set your color later.'));
   const b2 = el('button', 'start-alt', 'Start blank') as HTMLButtonElement;
   b2.onclick = () => enter(NEW_BRAND());
   c2.append(t2, b2);
@@ -1538,7 +1538,7 @@ const build = (): void => {
 const STYLE = `
 :root{
   --ink:#18181b; --ink2:#3d3d44; --muted:#71717a; --faint:#a1a1aa;
-  --paper:#fbfbfc; --panel:#ffffff; --line:#ededf0; --line2:#e2e2e6;
+  --paper:#f2f3f6; --panel:#ffffff; --line:#e7e8ec; --line2:#dcdde2;
   --r:10px; --r-sm:7px; --r-xs:6px;
   --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,Roboto,sans-serif;
   --mono:ui-monospace,'SF Mono','JetBrains Mono',Menlo,Consolas,monospace;
@@ -1626,14 +1626,17 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:20px 22px}
 .panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
 .panel-head h2{margin:0;font-size:15px;font-weight:620;letter-spacing:-0.01em}
-.count{font-size:12px;color:var(--muted);background:var(--paper);border:1px solid var(--line2);border-radius:999px;min-width:20px;height:20px;display:grid;place-items:center;padding:0 6px}
 .seg{display:flex;border:1px solid var(--line2);border-radius:var(--r-sm);padding:2px;gap:2px}
 .seg-b{border:0;background:none;font:inherit;font-size:12px;color:var(--muted);padding:4px 12px;border-radius:5px;cursor:pointer}
 .seg-b.on{background:var(--ink);color:#fff}
 
 .clist{display:flex;flex-direction:column}
 .crow{display:flex;align-items:center;gap:13px;padding:13px 0;border-bottom:1px solid var(--line)}
-.rsw{width:28px;height:28px;flex:none;border-radius:var(--r-xs);border:1px solid rgba(0,0,0,.08);padding:0;background:none;cursor:pointer}
+.rsw{width:40px;height:40px;flex:none;border-radius:var(--r-xs);border:1px solid var(--line2);padding:0;background:none;cursor:pointer;overflow:hidden}
+/* Native color inputs: strip the browser's swatch inset so the color fills the whole control (no white gutter). */
+input[type=color]::-webkit-color-swatch-wrapper{padding:0}
+input[type=color]::-webkit-color-swatch{border:none;border-radius:inherit}
+input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .rname{font-weight:560;font-size:14px}
 .nm{flex:0 1 auto;min-width:0;width:110px;padding:5px 8px;border:1px solid var(--line2);border-radius:var(--r-xs);font-size:13px;background:var(--paper)}
 .rhex{color:var(--muted);font-size:13px}
@@ -1680,13 +1683,13 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .ramp-borrowed .strip-mini{display:flex;border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--line2)}
 .ramp-borrowed .sw-mini{flex:1;height:30px}
 
-.sub-lab{margin:22px 0 -4px}
+.sub-lab{margin:22px 0 10px}
 .sub-lab:first-child{margin-top:6px}
 .sub-t{font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);margin:0}
 .knob{padding:14px 0;border-bottom:1px solid var(--line)}
 .knob:last-child{border-bottom:0}
 .knob.nested{margin-left:16px;padding-left:16px;border-left:2px solid var(--line)}
-.knob-label{font-weight:600;font-size:13.5px}
+.knob-label{display:block;font-weight:600;font-size:13.5px}
 .knob-body{display:flex;align-items:center;gap:10px;margin-top:8px}
 .knob input[type=range]{flex:1;accent-color:var(--ink)}
 .knob input.toggle{width:20px;height:20px;accent-color:var(--ink);cursor:pointer}
