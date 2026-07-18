@@ -665,6 +665,69 @@ const SEMANTIC_GROUPS: Array<{ title: string; keys: string[] }> = [
 ];
 const NESTED_KEYS = new Set(['disabledMin']);
 const subHead = (title: string): HTMLElement => { const s = el('div', 'sub-lab'); s.append(el('h3', 'sub-t', title)); return s; };
+
+/** #161 — the interactive-color card (owner reference): the primary interactive column shown as a big
+ *  fill swatch + a palette/step picker + its token path + a live button example + the derived contrast,
+ *  with hover/pressed as sub-cards. The fill anchors on a palette STEP (auto by default; the step select
+ *  writes `actionAnchorStep`, the #163 override); on-fill / hover / pressed are engine-derived. Reads the
+ *  resolved roles for the active mode (Kind-B, like the other semantic specimens). */
+const stepKeyOf = (path: string | undefined): string => (path ? path.split('.').pop()! : '');
+const renderInteractivePrimaryCard = (): HTMLElement => {
+  const wrap = el('div', 'ic-card');
+  const m: Mode = rp.modes.includes('light' as Mode) ? ('light' as Mode) : rp.modes[0];
+  const roles = resolveAllModes(theme).find((x) => x.mode === m)?.roles as Record<string, { hex: string; path?: string; ratio?: number; min?: number } | undefined> | undefined;
+  const R = (k: string) => roles?.[k];
+  const rest = R('interactive.primary.fill.rest'), hover = R('interactive.primary.fill.hover'), pressed = R('interactive.primary.fill.pressed'), onFill = R('interactive.primary.on-fill');
+  if (!rest) { wrap.append(el('p', 'obj-lede', 'Primary interactive color unavailable.')); return wrap; }
+  const palName = theme.roleToPalette.action;
+  const palSteps = (theme.palettes.find((p) => p.palette === palName)?.steps ?? []).map((s) => s.key);
+
+  // Top row: big swatch · title + step select + token pill · button example
+  const top = el('div', 'ic-top');
+  const big = el('div', 'ic-big'); big.style.background = rest.hex; top.append(big);
+  const mid = el('div', 'ic-mid');
+  mid.append(el('h4', 'ic-h', 'Surface — rest'));
+  const sel = el('select', 'ic-step') as HTMLSelectElement;
+  const pinned = brandState.actionAnchorStep;
+  const opt = (v: string, label: string, on: boolean) => { const o = el('option') as HTMLOptionElement; o.value = v; o.textContent = label; if (on) o.selected = true; sel.append(o); };
+  opt('auto', `Auto · ${palName} ${stepKeyOf(rest.path)}`, pinned == null);
+  for (const k of palSteps) opt(k, `${palName} ${k}`, pinned != null && pinned === Number(k));
+  sel.onchange = () => { setPath(brandState, 'actionAnchorStep', sel.value === 'auto' ? undefined : Number(sel.value)); applyFull(); };
+  mid.append(sel, el('span', 'tpill mono', 'interactive.primary.fill.rest'));
+  top.append(mid);
+  const ex = el('div', 'ic-example');
+  const btn = el('div', 'ic-btn', 'Button example'); btn.style.background = rest.hex; if (onFill) btn.style.color = onFill.hex;
+  ex.append(btn); top.append(ex);
+  wrap.append(top);
+
+  // Description + the derived contrast badge (fill vs the surface floor)
+  const descRow = el('div', 'ic-descrow');
+  descRow.append(el('p', 'ic-desc', 'The surface color of your buttons and interactive containers — engine-derived and gated against the page surface; the on-fill ink is auto-picked to stay legible.'));
+  if (rest.ratio != null && rest.min != null) {
+    const pass = rest.ratio >= rest.min;
+    const b = el('span', `cbadge ${pass ? 'ok' : 'no'}`);
+    b.append(el('span', 'cb-ratio', `${rest.ratio.toFixed(2)}:1`), el('span', 'cb-mark', pass ? '✓' : '✗'));
+    descRow.append(b);
+  }
+  wrap.append(descRow);
+
+  // Interactive states — hover + pressed as sub-cards (swatch · step · token pill)
+  wrap.append(el('h5', 'ic-states-h', 'Interactive states'));
+  const states = el('div', 'ic-states');
+  const sub = (label: string, role: { hex: string; path?: string } | undefined, path: string) => {
+    if (!role) return;
+    const c = el('div', 'ic-sub');
+    const sw = el('div', 'ic-subsw'); sw.style.background = role.hex;
+    const t = el('div', 'ic-subt');
+    t.append(el('div', 'ic-sublab', label), el('div', 'ic-substep mono', `${palName} ${stepKeyOf(role.path)}`), el('span', 'tpill mono', path));
+    c.append(sw, t); states.append(c);
+  };
+  sub('Hover', hover, 'interactive.primary.fill.hover');
+  sub('Active', pressed, 'interactive.primary.fill.pressed');
+  wrap.append(states);
+  return wrap;
+};
+
 const renderGroupedPanels = (host: HTMLElement, levers: Lever[]): void => {
   const byKey = new Map(levers.map((l) => [l.key, l]));
   const placed = new Set<string>();
@@ -675,8 +738,11 @@ const renderGroupedPanels = (host: HTMLElement, levers: Lever[]): void => {
   };
   for (const g of SEMANTIC_GROUPS) {
     const groupLevers = g.keys.map((k) => byKey.get(k)).filter((l): l is Lever => !!l);
-    if (!groupLevers.length) continue;
-    host.append(subHead(g.title), panelOf(groupLevers));
+    const isInteractive = g.title === 'Interactive color';
+    if (!groupLevers.length && !isInteractive) continue;
+    host.append(subHead(g.title));
+    if (isInteractive) host.append(renderInteractivePrimaryCard());   // #161 — the primary interactive-color card
+    if (groupLevers.length) host.append(panelOf(groupLevers));
   }
   const rest = levers.filter((l) => !placed.has(l.key));
   if (rest.length) host.append(subHead('More'), panelOf(rest));
@@ -1792,6 +1858,25 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .pv-paths{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
 .tpill{font-size:10.5px;padding:2px 7px;border-radius:5px;background:var(--panel);border:1px solid var(--line);color:var(--faint)}
 .tpill.more{color:var(--muted);font-style:italic}
+/* #161 — interactive-color card */
+.ic-card{border:1px solid var(--line);border-radius:var(--r);background:var(--panel);padding:22px;margin-bottom:14px}
+.ic-top{display:flex;gap:22px;align-items:flex-start}
+.ic-big{width:150px;height:150px;flex:none;border-radius:var(--r-sm);border:1px solid var(--line)}
+.ic-mid{flex:1;min-width:0;display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.ic-h{margin:0;font-size:15px;font-weight:620;color:var(--ink)}
+.ic-step{max-width:260px;padding:9px 11px;border:1px solid var(--line2);border-radius:var(--r-xs);font:inherit;font-size:13.5px;background:var(--paper);cursor:pointer}
+.ic-example{flex:none;width:270px;align-self:stretch;display:grid;place-items:center;background:var(--paper);border:1px solid var(--line);border-radius:var(--r-sm)}
+.ic-btn{padding:14px 28px;border-radius:var(--r-sm);font-weight:600;font-size:15px}
+.ic-descrow{display:flex;align-items:center;gap:16px;margin-top:18px}
+.ic-desc{margin:0;flex:1;font-size:13px;line-height:1.5;color:var(--muted)}
+.ic-descrow .cbadge{flex:none;font-size:12.5px;padding:5px 11px}
+.ic-states-h{margin:22px 0 12px;font-size:14px;font-weight:620;color:var(--ink)}
+.ic-states{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.ic-sub{display:flex;gap:14px;align-items:center;border:1px solid var(--line);border-radius:var(--r-sm);padding:16px;background:var(--paper)}
+.ic-subsw{width:64px;height:64px;flex:none;border-radius:var(--r-xs);border:1px solid var(--line)}
+.ic-subt{min-width:0;display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.ic-sublab{font-weight:620;font-size:14px;color:var(--ink)}
+.ic-substep{font-size:13px;color:var(--muted)}
 .chip{padding:8px 14px;border-radius:8px;font-weight:600;font-size:13px}
 .contracts{border:1px solid var(--line);border-radius:var(--r);background:var(--panel);padding:18px 20px}
 .contracts-sum{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:10px}
