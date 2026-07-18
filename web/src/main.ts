@@ -241,28 +241,29 @@ const rampEl = (name: string, steps: { num: number; key: string; hex: string }[]
   return wrap;
 };
 
-/** Ramps in reading order: brand palettes (primary + accents), then neutral, then
- *  the generated status palettes every semantic role will alias. */
-const orderedPalettes = (): Theme['palettes'] => {
-  const brand = theme.palettes.filter((p) => p.role === 'brand');
-  const neutral = theme.palettes.filter((p) => p.palette === 'neutral');
-  const status = theme.palettes.filter((p) => p.role !== 'brand' && p.palette !== 'neutral');
-  return [...brand, ...neutral, ...status];
-};
+// Palette selectors for the three primitive sections — each control card is paired
+// with exactly the ramps it drives (#158), so a change is always visible beside it.
+const brandPalettes = (): Theme['palettes'] => theme.palettes.filter((p) => p.role === 'brand');
+const neutralPalettes = (): Theme['palettes'] => theme.palettes.filter((p) => p.palette === 'neutral');
+const statusPalettes = (): Theme['palettes'] => theme.palettes.filter((p) => p.role !== 'brand' && p.palette !== 'neutral');
 
-const paintRamps = (host: HTMLElement): void => {
+/** Paint one section's ramps into its own volatile container.
+ *  `error`   — surface the last-valid-palettes banner (brand section only).
+ *  `borrowed`— append the compact reference row for any status role that borrows a
+ *              brand palette (its own ramp is PRUNED from the set, so its control
+ *              would otherwise be unreachable). */
+const paintRampList = (host: HTMLElement, palettes: Theme['palettes'], opts: { error?: boolean; borrowed?: boolean } = {}): void => {
   host.innerHTML = '';
-  if (lastError) host.append(el('div', 'errbar', `This combination doesn't resolve: ${lastError} — showing the last valid palettes.`));
+  if (opts.error && lastError) host.append(el('div', 'errbar', `This combination doesn't resolve: ${lastError} — showing the last valid palettes.`));
   const shown = new Set<string>();
-  for (const p of orderedPalettes()) {
+  for (const p of palettes) {
     const isStatus = (STATUS_ROLES as readonly string[]).includes(p.palette);
     if (isStatus) shown.add(p.palette);
     host.append(rampEl(p.palette, p.steps, anchorStepFor(p.palette), isStatus ? statusRampControl(p.palette as StatusRole) : undefined));
   }
-  // A borrowed status role is PRUNED from the palette set (no own ramp), so surface a compact
-  // reference row so its control stays reachable + shows what it's borrowing.
-  for (const role of STATUS_ROLES)
-    if (!shown.has(role) && brandState.roleColors?.[role]) host.append(borrowedStatusRow(role));
+  if (opts.borrowed)
+    for (const role of STATUS_ROLES)
+      if (!shown.has(role) && brandState.roleColors?.[role]) host.append(borrowedStatusRow(role));
 };
 
 /** Brand colors — a scalable list. Primary is the pinned anchor (editable color, not
@@ -373,17 +374,37 @@ const renderNeutral = (): HTMLElement => {
   return panel;
 };
 
+/** One primitive section: its control card pinned beside the ramps it drives. */
+const primSection = (card: HTMLElement, ramps: HTMLElement): HTMLElement => {
+  const row = el('div', 'prim-sec');
+  row.append(card, ramps);
+  return row;
+};
+
 const renderPrimitives = (host: HTMLElement): void => {
   host.append(hero('Start from your brand colors.',
     'Give the engine your exact hues. It grows each into a gamut-aware, contrast-placed ramp and pins your color as the anchor — never shifted. Every semantic role downstream aliases these.'));
-  const panels = el('div', 'panels');
-  panels.append(renderBrandColors(), renderNeutral());
-  host.append(panels);
 
-  host.append(sectionHead('Palettes', 'The ramps every semantic role will alias.'));
-  const ramps = el('div', 'ramps');
-  host.append(ramps);
-  paintVolatile = () => paintRamps(ramps);
+  // Brand — the brand-colors card beside the primary + accent ramps it grows.
+  host.append(sectionHead('Brand palettes', 'Each brand color grown into a gamut-aware, contrast-placed ramp — your color pinned as the anchor, never shifted.'));
+  const brandRamps = el('div', 'ramps');
+  host.append(primSection(renderBrandColors(), brandRamps));
+
+  // Neutral — the cast card beside the greyscale ramp it re-tunes, so the effect is visible.
+  host.append(sectionHead('Neutral', 'The greyscale ramp carries a trace of the brand hue for cohesion. The cast beside it re-tunes the whole ramp live.'));
+  const neutralRamps = el('div', 'ramps');
+  host.append(primSection(renderNeutral(), neutralRamps));
+
+  // Validation — the status ramps every semantic role aliases; each carries its own inline control.
+  host.append(sectionHead('Validation colors', 'The success / warning / danger / info ramps every semantic role aliases — borrow a brand palette or tune each independently.'));
+  const statusRamps = el('div', 'ramps');
+  host.append(statusRamps);
+
+  paintVolatile = () => {
+    paintRampList(brandRamps, brandPalettes(), { error: true });
+    paintRampList(neutralRamps, neutralPalettes());
+    paintRampList(statusRamps, statusPalettes(), { borrowed: true });
+  };
   paintVolatile();
 };
 
@@ -1759,7 +1780,10 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .hero h1{margin:0;font-size:40px;font-weight:660;letter-spacing:-0.03em;line-height:1.08}
 .lede{color:var(--muted);max-width:60ch;margin:18px 0 0;font-size:16px;line-height:1.65}
 
-.panels{display:grid;grid-template-columns:1.7fr 1fr;gap:18px;margin:40px 0 0}
+/* Each primitive section pairs its control card (left) with the ramps it drives (right),
+   so a change to the card is always visible in the palette beside it (#158). */
+.prim-sec{display:grid;grid-template-columns:340px 1fr;gap:40px;align-items:start}
+.prim-sec>.panel{position:sticky;top:24px}
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:20px 22px}
 .panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
 .panel-head h2{margin:0;font-size:15px;font-weight:620;letter-spacing:-0.01em}
@@ -1978,7 +2002,7 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .ratio{font-variant-numeric:tabular-nums;color:var(--muted)}
 .errbar{border:1px solid #f2c6c6;background:#fdecec;color:#a12;border-radius:var(--r-sm);padding:10px 14px;font-size:13px;margin-bottom:16px}
 
-@media(max-width:900px){.shell{grid-template-columns:1fr;gap:40px}.rail{position:static}.panels{grid-template-columns:1fr}}
+@media(max-width:900px){.shell{grid-template-columns:1fr;gap:40px}.rail{position:static}.prim-sec{grid-template-columns:1fr}.prim-sec>.panel{position:static}}
 `;
 const styleEl = document.createElement('style');
 styleEl.textContent = STYLE;
