@@ -506,15 +506,7 @@ const paintPreview = (host: HTMLElement): void => {
   host.innerHTML = '';
   if (lastError) host.append(el('div', 'errbar', `This combination doesn't resolve: ${lastError} — showing the last valid theme.`));
 
-  const modes = el('div', 'modebar');
-  modes.append(el('span', 'mb-cap', 'Preview mode'));
-  for (const m of rp.modes) {
-    const b = el('button', 'modebtn' + (m === currentMode ? ' on' : ''), MODE_LABEL[m] ?? m) as HTMLButtonElement;
-    b.onclick = () => { currentMode = m; paintPreview(host); };
-    modes.append(b);
-  }
-  host.append(modes);
-
+  // Mode is driven by the workspace mode-context strip (#171); the preview reflects `currentMode`.
   const surface = el('div', 'preview');
   // Project the resolved model for the active mode onto THIS surface (a fresh element each
   // paint — so a mode switch can't leak stale vars). Chips below inherit the properties and
@@ -708,7 +700,7 @@ type ICol = {
 };
 
 const renderInteractiveCard = (col: ICol): HTMLElement | null => {
-  const m: Mode = rp.modes.includes('light' as Mode) ? ('light' as Mode) : rp.modes[0];
+  const m: Mode = currentMode;   // #171 — every specimen reflects the mode-context selection
   const roles = resolveAllModes(theme).find((x) => x.mode === m)?.roles as Record<string, { hex: string; path?: string; ratio?: number; min?: number } | undefined> | undefined;
   const R = (k: string) => roles?.[k];
   const rest = R(`interactive.${col.name}.fill.rest`), hover = R(`interactive.${col.name}.fill.hover`), pressed = R(`interactive.${col.name}.fill.pressed`), onFill = R(`interactive.${col.name}.on-fill`);
@@ -839,9 +831,91 @@ const renderGroupedPanels = (host: HTMLElement, levers: Lever[]): void => {
   const rest = levers.filter((l) => !placed.has(l.key));
   if (rest.length) host.append(subHead('More'), panelOf(rest));
 };
+// === Mode context control (#171) ==========================================================
+// A workspace-level single-select switcher that puts the WHOLE stage into ONE mode at a time —
+// editing one mode at a time (docs/11 Pillar 2 authoring context; view-only until the override
+// layer exists). Three tiers by how a mode's values are produced: light/dark are GENERATED (and,
+// once Pillar 2 lands, editable); hc-light/hc-dark/wireframe are DERIVED-only (auto from the
+// contrast contracts, read-only verification views); primitives are mode-independent so this
+// control never renders on that stage. Replaces the mode chips that used to overflow the brand
+// dropdown — the set-config (which modes exist) now lives in the "Edit modes" popover here.
+let modeMenuOpen = false;
+let outsideBoundMode = false;
+const DERIVED_MODES = new Set<string>(['hc-light', 'hc-dark', 'wireframe']);
+const modeAllPass = (m: Mode): boolean => rp.contracts.every((ct) => !ct.byMode[m] || ct.byMode[m]!.pass);
+
+/** The mode-SET config — which modes this brand generates/exports (relocated out of the brand
+ *  dropdown). Light always; dark / HC / wireframe opt-in (docs/11 Pillar 1). `+ Add mode` (a custom
+ *  mode seeded from a chosen base, then tuned) is gated until the override-layer engine work lands. */
+const renderModeSetMenu = (): HTMLElement => {
+  const menu = el('div', 'mctx-menu');
+  const modes = brandState.modes ?? ALL_MODES;
+  const darkOn = modes.includes('dark');
+  const hcOn = modes.includes('hc-light') || modes.includes('hc-dark');
+  const wireOn = modes.includes('wireframe');
+  menu.append(el('div', 'mctx-mcap', 'Modes this brand generates'));
+
+  const lightRow = el('div', 'mctx-opt on fixed');
+  lightRow.append(el('span', 'mctx-box', '✓'), el('span', undefined, 'Light'), el('span', 'mctx-always', 'always'));
+  menu.append(lightRow);
+
+  const opt = (label: string, on: boolean, title: string, toggle: () => void): void => {
+    const row = el('button', 'mctx-opt' + (on ? ' on' : '')) as HTMLButtonElement;
+    row.title = title;
+    row.append(el('span', 'mctx-box', on ? '✓' : ''), el('span', undefined, label));
+    row.onclick = toggle;
+    menu.append(row);
+  };
+  opt('Dark', darkOn, 'A dark appearance — generated, editable', () => setModes(!darkOn, hcOn, wireOn));
+  opt('High contrast', hcOn, 'AAA contrast floors — auto-derived, read-only', () => setModes(darkOn, !hcOn, wireOn));
+  opt('Wireframe', wireOn, 'Greyscale, sharp corners — auto-derived, generate-only', () => setModes(darkOn, hcOn, !wireOn));
+
+  menu.append(el('div', 'mctx-div'));
+  const add = el('button', 'mctx-opt disabled') as HTMLButtonElement;
+  add.disabled = true;
+  add.append(el('span', 'mctx-box'), el('span', undefined, '+ Add mode…'));
+  menu.append(add);
+  menu.append(el('p', 'mctx-note', 'Custom modes — seeded from a base mode, then tuned — arrive with the override layer.'));
+  return menu;
+};
+
+const renderModeContext = (): HTMLElement => {
+  const strip = el('div', 'modectx');
+  const left = el('div', 'mctx-modes');
+  left.append(el('span', 'mctx-cap', 'Mode'));
+  for (const m of rp.modes) {
+    const derived = DERIVED_MODES.has(m);
+    const b = el('button', 'mctx-b' + (m === currentMode ? ' on' : '') + (derived ? ' derived' : '')) as HTMLButtonElement;
+    if (derived) b.title = 'Auto-derived from the contrast contracts — a read-only verification view';
+    b.append(el('span', 'mctx-name', MODE_LABEL[m] ?? m));
+    if (derived) b.append(el('span', 'mctx-auto', 'auto'));
+    const ok = modeAllPass(m);
+    b.append(el('span', 'mctx-mark ' + (ok ? 'ok' : 'no'), ok ? '✓' : '✗'));
+    b.onclick = () => { modeMenuOpen = false; if (currentMode !== m) { currentMode = m; renderWorkspace(); } };
+    left.append(b);
+  }
+  strip.append(left);
+
+  const editWrap = el('div', 'mctx-edit-wrap');
+  const edit = el('button', 'mctx-edit' + (modeMenuOpen ? ' open' : ''), '⚙ Edit modes') as HTMLButtonElement;
+  edit.onclick = (e) => { e.stopPropagation(); modeMenuOpen = !modeMenuOpen; renderWorkspace(); };
+  editWrap.append(edit);
+  if (modeMenuOpen) editWrap.append(renderModeSetMenu());
+  strip.append(editWrap);
+
+  if (!outsideBoundMode) {
+    document.addEventListener('click', (e) => {
+      if (modeMenuOpen && !(e.target as HTMLElement).closest('.modectx')) { modeMenuOpen = false; renderWorkspace(); }
+    });
+    outsideBoundMode = true;
+  }
+  return strip;
+};
+
 const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
   const [title, lede] = HERO_COPY[key];
   host.append(hero(title, lede));
+  host.append(renderModeContext());   // #171 — one mode at a time; the whole stage follows it
   const levers = leverManifest.filter((l) => !l.advanced && !PRIMITIVE_KEYS.has(l.key) && stageOfLever(l) === key);
   if (key === 'semantic') {
     renderGroupedPanels(host, levers);          // sub-sectioned (Interactive color / Accessibility / Features)
@@ -1174,7 +1248,7 @@ const SHADOW_STEPS = ['xs', 'sm', 'md', 'lg', 'xl', '2xl'];
 const renderShadowSpecimen = (): HTMLElement => {
   const wrap = el('div', 'shadow-spec');
   wrap.append(sectionHead('Elevation', 'The shadow ramp xs→2xl — the softness + tint levers reshape every step. On a light surface (see the preview below for the mode-reduced dark shadow).'));
-  const m: Mode = rp.modes.includes('light' as Mode) ? ('light' as Mode) : rp.modes[0];
+  const m: Mode = currentMode;   // #171 — every specimen reflects the mode-context selection
   const list = el('div', 'sh-list');
   for (const step of SHADOW_STEPS) {
     const css = rp.shadows[`shadow.${step}`]?.[m];
@@ -1228,7 +1302,7 @@ const renderMotionSpecimen = (): HTMLElement => {
  *  Resolves roles dashboard-side (it's a dashboard-only specimen, not part of the shared spec). */
 const renderInverseSpecimen = (): HTMLElement => {
   const wrap = el('div', 'inverse-spec');
-  const m: Mode = rp.modes.includes('light' as Mode) ? ('light' as Mode) : rp.modes[0];
+  const m: Mode = currentMode;   // #171 — every specimen reflects the mode-context selection
   const roles = resolveAllModes(theme).find((x) => x.mode === m)?.roles ?? {};
   const hx = (k: string): string | undefined => (roles as Record<string, { hex: string } | undefined>)[k]?.hex;
   // Guard on the role the `inverse` toggle actually gates: background.inverse.*/text.on-inverse
@@ -1261,7 +1335,7 @@ const NEUTRAL_EMPHASES: Array<['subtle' | 'strong', string]> = [['subtle', 'subt
 const renderNeutralSpecimen = (): HTMLElement => {
   const wrap = el('div', 'neutral-spec');
   wrap.append(sectionHead('Neutral emphasis', 'The neutral (default) button both ways — the neutralEmphasis lever as a light-grey surface vs a bold near-black fill. The active choice is outlined.'));
-  const m: Mode = rp.modes.includes('light' as Mode) ? ('light' as Mode) : rp.modes[0];
+  const m: Mode = currentMode;   // #171 — every specimen reflects the mode-context selection
   const active = lastGoodInput.neutralEmphasis ?? 'subtle';
   const row = el('div', 'ne-list');
   for (const [ne, label] of NEUTRAL_EMPHASES) {
@@ -1347,7 +1421,7 @@ const ICON_ON_FILL: Array<[string, string, string]> = [
 ];
 const renderIconSpecimen = (): HTMLElement => {
   const wrap = el('div', 'icon-spec');
-  const m: Mode = rp.modes.includes('light' as Mode) ? ('light' as Mode) : rp.modes[0];
+  const m: Mode = currentMode;   // #171 — every specimen reflects the mode-context selection
   const roles = resolveAllModes(theme).find((x) => x.mode === m)?.roles ?? {};
   const hx = (k: string): string | undefined => (roles as Record<string, { hex: string } | undefined>)[k]?.hex;
   const floorLabel = theme.iconContrast === 'text' ? '4.5:1 · matches text' : '3:1 · WCAG non-text';
@@ -1494,26 +1568,8 @@ const renderBrandMenu = (): HTMLElement => {
   setHint();
   menu.append(nsHint);
 
-  // Modes — light always; dark / high-contrast opt-in (docs/11 Pillar 1).
-  const modes = brandState.modes ?? ALL_MODES;
-  const darkOn = modes.includes('dark');
-  const hcOn = modes.includes('hc-light') || modes.includes('hc-dark');
-  const wireOn = modes.includes('wireframe');
-  const modeRow = el('div', 'bm-field');
-  modeRow.append(el('span', 'bm-lab', 'Modes'));
-  const chips = el('div', 'bm-modes');
-  chips.append(el('span', 'bm-mode fixed', 'Light'));
-  const dChip = el('button', 'bm-mode' + (darkOn ? ' on' : ''), 'Dark') as HTMLButtonElement;
-  dChip.onclick = () => setModes(!darkOn, hcOn, wireOn);
-  const hChip = el('button', 'bm-mode' + (hcOn ? ' on' : ''), 'HC') as HTMLButtonElement;
-  hChip.title = 'High contrast';
-  hChip.onclick = () => setModes(darkOn, !hcOn, wireOn);
-  const wChip = el('button', 'bm-mode' + (wireOn ? ' on' : ''), 'Wireframe') as HTMLButtonElement;
-  wChip.title = 'Greyscale, sharp corners — generate-only';
-  wChip.onclick = () => setModes(darkOn, hcOn, !wireOn);
-  chips.append(dChip, hChip, wChip);
-  modeRow.append(chips);
-  menu.append(modeRow);
+  // Modes moved OUT of this dropdown (#171) — the mode set now lives in the workspace
+  // mode-context strip's "Edit modes" popover, next to the mode you're viewing.
 
   menu.append(el('div', 'bm-div'));
   menu.append(el('div', 'bm-cap', 'Examples'));
@@ -1749,10 +1805,6 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .bm-in{flex:1;min-width:0;padding:6px 9px;border:1px solid var(--line2);border-radius:var(--r-xs);font:inherit;font-size:13px;background:var(--paper)}
 .bm-in.bad{border-color:#d23;background:#fdecec}
 .bm-hint{margin:2px 2px 4px;font-size:11px;color:var(--faint);font-family:var(--mono)}
-.bm-modes{display:flex;gap:6px;flex:1}
-.bm-mode{border:1px solid var(--line2);background:var(--paper);border-radius:var(--r-xs);font:inherit;font-size:12px;color:var(--muted);padding:4px 10px;cursor:pointer}
-.bm-mode.on{background:var(--ink);color:#fff;border-color:var(--ink)}
-.bm-mode.fixed{cursor:default;background:var(--panel);color:var(--ink2);border-style:dashed}
 .bm-div{height:1px;background:var(--line);margin:8px 0}
 .bm-item{display:flex;align-items:center;gap:9px;width:100%;text-align:left;border:0;background:none;font:inherit;font-size:13px;color:var(--ink2);padding:8px 8px;border-radius:var(--r-xs);cursor:pointer}
 .bm-item:hover{background:var(--paper)}
@@ -1934,10 +1986,36 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .ic-tile{display:flex;flex-direction:column;align-items:center;gap:9px}
 .ic-chip{width:48px;height:48px;display:grid;place-items:center;border-radius:11px}
 .ic-lab{font-size:11px;color:var(--faint)}
-.modebar{display:flex;align-items:center;gap:8px}
-.mb-cap{font-size:12px;color:var(--muted);margin-right:4px}
-.modebtn{border:1px solid var(--line2);background:var(--panel);border-radius:var(--r-sm);padding:6px 12px;cursor:pointer;font:inherit;font-size:13px;color:var(--muted)}
-.modebtn.on{background:var(--ink2);color:#fff;border-color:var(--ink2)}
+/* Mode-context strip (#171) — one mode at a time; sticky so the context stays reachable while
+   scrolling the stage. The whole stage below reflects the selected mode. */
+.modectx{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:24px 0 10px;padding:9px 12px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);position:sticky;top:12px;z-index:6}
+.mctx-modes{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.mctx-cap{font-size:11px;font-weight:640;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-right:6px}
+.mctx-b{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line2);background:var(--paper);border-radius:var(--r-sm);padding:5px 11px;font:inherit;font-size:13px;color:var(--ink2);cursor:pointer}
+.mctx-b:hover{border-color:var(--ink)}
+.mctx-b.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.mctx-auto{font-size:9.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--faint);border:1px solid var(--line2);border-radius:4px;padding:0 4px;line-height:1.5}
+.mctx-b.on .mctx-auto{color:rgba(255,255,255,.85);border-color:rgba(255,255,255,.4)}
+.mctx-mark{font-size:12px;font-weight:700}
+.mctx-mark.ok{color:#1f9d63}
+.mctx-mark.no{color:#c9342f}
+.mctx-b.on .mctx-mark.ok{color:#7fe0ac}
+.mctx-b.on .mctx-mark.no{color:#ff9d97}
+.mctx-edit-wrap{position:relative;flex:none}
+.mctx-edit{border:1px solid var(--line2);background:var(--paper);border-radius:var(--r-sm);padding:6px 12px;font:inherit;font-size:13px;color:var(--muted);cursor:pointer;white-space:nowrap}
+.mctx-edit:hover,.mctx-edit.open{border-color:var(--ink);color:var(--ink)}
+.mctx-menu{position:absolute;right:0;top:calc(100% + 7px);width:264px;background:var(--panel);border:1px solid var(--line2);border-radius:var(--r);box-shadow:0 10px 30px rgba(20,22,30,.14);padding:10px;z-index:20}
+.mctx-mcap{font-size:11px;font-weight:640;text-transform:uppercase;letter-spacing:.045em;color:var(--faint);padding:4px 6px 8px}
+.mctx-opt{display:flex;align-items:center;gap:9px;width:100%;border:0;background:none;font:inherit;font-size:13.5px;color:var(--ink2);padding:7px 6px;border-radius:var(--r-xs);cursor:pointer;text-align:left}
+.mctx-opt:hover{background:var(--paper)}
+.mctx-box{width:16px;height:16px;flex:none;border:1px solid var(--line2);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:#fff}
+.mctx-opt.on .mctx-box{background:var(--ink);border-color:var(--ink)}
+.mctx-opt.fixed{cursor:default}
+.mctx-always{margin-left:auto;font-size:10px;text-transform:uppercase;letter-spacing:.03em;color:var(--faint)}
+.mctx-opt.disabled{color:var(--faint);cursor:not-allowed}
+.mctx-opt.disabled:hover{background:none}
+.mctx-div{height:1px;background:var(--line);margin:8px 4px}
+.mctx-note{font-size:11.5px;line-height:1.5;color:var(--faint);margin:6px 6px 2px}
 .preview{border:1px solid var(--line);border-radius:var(--r);padding:20px;background:#fff}
 .pvcomp{margin-bottom:18px}
 .pvcomp:last-child{margin-bottom:0}
