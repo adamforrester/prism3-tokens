@@ -83,6 +83,11 @@ export type Theme = {
   // (a global palette rebase): overrides repoint one resolved role to one existing primitive
   // step in a given mode, WARNING (never blocking) if the tuned pick fails the role's contrast min.
   overrides?: Partial<Record<ModeName, ModeOverrides>>;
+  // Per-mode interactive anchor overrides (A2b) — pin an interactive column's fill anchor to a
+  // specific palette step for a given mode, so e.g. dark's CTA sits at a different step than light's.
+  // The whole column (rest/hover/pressed/on-fill) re-derives from it, still floor-gated. Column keys:
+  // 'primary' / 'destructive' / an accent (interactivePalettes) name. Customizable modes only.
+  modeAnchors?: Partial<Record<ModeName, Record<string, number>>>;
   // Disabled-state strategy. 'accessible' (default): disabled text/icon/border
   // clears `disabledMin` on the floor, so it stays legible (the KB's `inactive`).
   // 'conventional': intentionally sub-AA, leaning on the WCAG 1.4.3/1.4.11
@@ -228,6 +233,12 @@ export type BrandInput = {
    *  recorded as a warning. Distinct from `roleColors`, which rebases a role's whole palette
    *  globally; overrides re-point one role to one step in one mode. */
   overrides?: Partial<Record<ModeName, ModeOverrides>>;
+  /** Per-mode interactive anchors (A2b): re-anchor an interactive column's fill at a specific palette
+   *  step for a given mode (column keys 'primary' / 'destructive' / an accent name). The whole column
+   *  re-derives from it (still floor-gated). Customizable modes only. Distinct from the global
+   *  actionAnchorStep / destructiveAnchorStep / interactivePalettes anchors, which set the baseline
+   *  every mode inherits — modeAnchors deviate a single mode's column. */
+  modeAnchors?: Partial<Record<ModeName, Record<string, number>>>;
   /** Optional measured status overrides; omit to let the engine synthesise. */
   status?: Partial<Record<'success' | 'warning' | 'danger' | 'info', OKLCH & { chroma: number }>>;
   /** Disabled-state policy. Default 'accessible' (disabled clears `disabledMin`,
@@ -923,6 +934,15 @@ export const brandTheme = (input: BrandInput): Theme => {
       throw new Error(`overrides: mode '${m}' is generate-only and not customizable — only ${CUSTOMIZABLE_MODES.join('/')} accept overrides`);
   }
   if (Object.keys(input.overrides ?? {}).length) notes.push(`overrides: per-mode colour overrides applied for ${Object.keys(input.overrides!).join(', ')} (roles repointed to specific primitive steps; tuned picks that miss a contrast min are warned, not blocked)`);
+  // Per-mode interactive anchors (A2b) — same customizable-mode rule as overrides. An anchor
+  // re-derives the whole interactive column for that mode (still floor-gated via `chromatic`).
+  for (const m of Object.keys(input.modeAnchors ?? {}) as ModeName[]) {
+    if (!modes.includes(m))
+      throw new Error(`modeAnchors: mode '${m}' is not in this brand's modes (${modes.join(', ')})`);
+    if (!CUSTOMIZABLE_MODES.includes(m))
+      throw new Error(`modeAnchors: mode '${m}' is generate-only and not customizable — only ${CUSTOMIZABLE_MODES.join('/')} accept per-mode anchors`);
+  }
+  if (Object.keys(input.modeAnchors ?? {}).length) notes.push(`modeAnchors: per-mode interactive anchors for ${Object.keys(input.modeAnchors!).join(', ')} (a column's fill re-anchored per mode; still floor-gated)`);
   if (root !== 'prism') notes.push(`namespace: tokens emit under '${root}.*' (custom, not the 'prism' default)`);
   const anchorStep = autoPlaceStep(input.primary.l);
   notes.push(`primary anchor (h${input.primary.h}) pinned exactly at step ${anchorStep}`);
@@ -1185,6 +1205,7 @@ export const brandTheme = (input: BrandInput): Theme => {
     roleAnchorStep: { brand: anchorStep, neutral: 500, success: 500, warning: 500, danger: 500, info: 500, action: actionAnchorStep },
     surfaces: input.surfaces,
     overrides: input.overrides,
+    modeAnchors: input.modeAnchors,
     disabledStrategy: input.disabledStrategy ?? 'accessible',
     disabledMin: input.disabledMin ?? 3,
     iconContrast: input.iconContrast ?? 'text',

@@ -687,6 +687,42 @@ for (const b of brands) {
     'A1(e): an empty overrides map produces byte-identical output');
 }
 
+// PER-MODE INTERACTIVE ANCHOR (Phase A2b) — a per-mode anchor re-anchors an interactive column's
+// WHOLE cluster (rest → hover/pressed/on-fill) for that mode, still floor-gated; byte-identical when
+// absent; customizable modes only. Distinct from the global actionAnchorStep (the shared baseline).
+{
+  const REST = 'interactive.primary.fill.rest';
+  const base = { id: 'ma', primary: { l: 0.55, c: 0.18, h: 285 }, neutral: { hue: 285, chroma: 0.01 } } as unknown as BrandInput;
+  const threw = (f: () => unknown) => { try { f(); return false; } catch { return true; } };
+  const darkOf = (input: BrandInput) => resolveAllModes(brandTheme(input)).find((m) => m.mode === 'dark')!;
+  const lightOf = (input: BrandInput) => resolveAllModes(brandTheme(input)).find((m) => m.mode === 'light')!;
+  const anchored = (step: number) => ({ ...base, modeAnchors: { dark: { primary: step } } }) as unknown as BrandInput;
+
+  // (a) the per-mode dark anchor actually drives dark's primary fill (two anchors → two fills); light is untouched.
+  const dA = darkOf(anchored(100)).roles[REST].path, dB = darkOf(anchored(500)).roles[REST].path;
+  ok(dA !== dB, `A2b(a): the per-mode dark anchor changes the fill (100→${dA} vs 500→${dB})`);
+  ok(lightOf(base).roles[REST].path === lightOf(anchored(100)).roles[REST].path,
+    'A2b(a): light interactive.primary.fill.rest is untouched by a dark anchor');
+
+  // (b) the WHOLE cluster re-derives consistently — hover follows the anchor, and on-fill still clears
+  // its contrast min (the reason a single-role override can't express a re-anchored CTA).
+  const d1 = darkOf(anchored(100)), d0 = darkOf(base);
+  ok(d1.roles['interactive.primary.fill.hover'].path !== d0.roles['interactive.primary.fill.hover'].path,
+    'A2b(b): hover re-derives from the new anchor (the cluster moves together)');
+  const onFill = d1.roles['interactive.primary.on-fill'];
+  ok(onFill.ratio >= onFill.min, `A2b(b): on-fill still clears its contrast min after the re-anchor (${onFill.ratio.toFixed(2)} >= ${onFill.min})`);
+
+  // (c) validation: a per-mode anchor on a generate-only or absent mode throws (customizable modes only).
+  ok(threw(() => brandTheme({ ...base, modeAnchors: { 'hc-light': { primary: 500 } } } as unknown as BrandInput)),
+    'A2b(c): modeAnchors on hc-light (generate-only) throws');
+  ok(threw(() => brandTheme({ ...base, modes: ['light'], modeAnchors: { dark: { primary: 500 } } } as unknown as BrandInput)),
+    'A2b(c): modeAnchors on a mode this brand does not generate throws');
+
+  // (d) an absent map is a byte-identical no-op (the primary guard).
+  ok(JSON.stringify(buildTree(brandTheme(base)).tree) === JSON.stringify(buildTree(brandTheme({ ...base, modeAnchors: {} } as unknown as BrandInput)).tree),
+    'A2b(d): an empty modeAnchors map produces byte-identical output');
+}
+
 // roleColors — general semantic-role rebasing (docs/21): re-base any role on a declared palette,
 // with the contrast guarantee preserved and a hue-mismatch note (not a block).
 {
