@@ -326,8 +326,13 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
   // and link states. (The legacy top-level `action.*` fill is retired: components bind
   // `interactive.primary.*`, docs/20 §16.) `actionAnchorStep` overrides the resolved anchor
   // (docs/20 §3) — anchor the action rest at an explicit palette step; unset keeps today's pick.
-  const actionRest = theme.actionAnchorStep !== undefined
-    ? chromatic(r2p.action, theme.actionAnchorStep, floorRgb, cfg.actionMin)
+  // A2b — a per-mode interactive anchor (`theme.modeAnchors[mode][col]`) re-anchors the whole
+  // column for THIS mode (rest → hover/pressed/on-fill all re-derive from it), still floor-gated;
+  // absent → the global anchor, so an unset map is byte-identical. Columns: 'primary'/'destructive'/accent.
+  const modeAnchor = (col: string): number | undefined => theme.modeAnchors?.[mode]?.[col];
+  const paAnchor = modeAnchor('primary') ?? theme.actionAnchorStep;
+  const actionRest = paAnchor !== undefined
+    ? chromatic(r2p.action, paAnchor, floorRgb, cfg.actionMin)
     : paletteRole('action', floorRgb, cfg.actionMin);
 
   // ------------------------------------------------------- interactive family
@@ -363,8 +368,9 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
 
   // destructive — the danger palette (its own interactive column, no scavenging).
   // `destructiveAnchorStep` overrides the resolved anchor (docs/20 §3); unset keeps today's pick.
-  const iDestructiveRest = theme.destructiveAnchorStep !== undefined
-    ? chromatic(r2p.danger, theme.destructiveAnchorStep, floorRgb, cfg.actionMin)
+  const daAnchor = modeAnchor('destructive') ?? theme.destructiveAnchorStep;
+  const iDestructiveRest = daAnchor !== undefined
+    ? chromatic(r2p.danger, daAnchor, floorRgb, cfg.actionMin)
     : paletteRole('danger', floorRgb, cfg.actionMin);
   iFill('destructive', iDestructiveRest, r2p.danger, cfg.actionMin);
   put('interactive.destructive.text', paletteRole('danger', baseRgb, cfg.secondaryMin), 'Destructive interactive ink (outline / text appearance)', 'background.primary', cfg.secondaryMin);
@@ -387,7 +393,7 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
   // extra columns (the common case) runs an empty loop → only primary/neutral/destructive ship.
   // Never falls back to primary — the resolver only lists palettes the brand actually declared.
   for (const entry of theme.interactivePalettes) {
-    const anchor = entry.anchorStep ?? 500;
+    const anchor = modeAnchor(entry.name) ?? entry.anchorStep ?? 500;
     const rest = chromatic(entry.palette, anchor, floorRgb, cfg.actionMin);
     iFill(entry.name, rest, entry.palette, cfg.actionMin);
     put(`interactive.${entry.name}.text`, rated(chromatic(entry.palette, anchor, baseRgb, cfg.secondaryMin), baseRgb), `${entry.name} interactive ink (outline / text appearance)`, 'background.primary', cfg.secondaryMin);
@@ -404,10 +410,10 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
         palette ? rated(chromatic(palette, anchor, invRgb, cfg.secondaryMin), invRgb) : pickMostExtreme(textCands, invRgb),
         `${name} interactive ink on an inverse / dark surface (outline / text on a dark hero)`,
         'background.inverse.primary', cfg.secondaryMin);
-    invInk('primary', r2p.action, theme.actionAnchorStep ?? theme.roleAnchorStep.action);
-    invInk('destructive', r2p.danger, theme.destructiveAnchorStep ?? theme.roleAnchorStep.danger);
+    invInk('primary', r2p.action, modeAnchor('primary') ?? theme.actionAnchorStep ?? theme.roleAnchorStep.action);
+    invInk('destructive', r2p.danger, modeAnchor('destructive') ?? theme.destructiveAnchorStep ?? theme.roleAnchorStep.danger);
     invInk('neutral', null, 0);
-    for (const entry of theme.interactivePalettes) invInk(entry.name, entry.palette, entry.anchorStep ?? 500);
+    for (const entry of theme.interactivePalettes) invInk(entry.name, entry.palette, modeAnchor(entry.name) ?? entry.anchorStep ?? 500);
   }
 
   // interactive overlays (docs/20 §6) — translucent hover/pressed/selected washes that

@@ -794,22 +794,47 @@ const renderAddAccentRow = (): HTMLElement => {
 /** Render all interactive-color cards in order — primary, destructive, then each promoted accent —
  *  followed by the add-accent row. Replaces the single primary card (#161 increment 2). */
 const renderInteractiveCards = (host: HTMLElement): void => {
+  // A2b — the interactive anchor is per-mode outside the base mode. Light edits the global baseline
+  // (actionAnchorStep etc.); dark/custom edit `modeAnchors[mode][col]` — “Auto” follows the generated
+  // baseline, pick a step to re-anchor just this mode (the whole column re-derives from it, floor-gated).
+  // Structural edits (add / remove an interactive column) stay base-only — they define the brand, not a mode.
+  const perMode = currentMode !== 'light';
+  const colAnchor = (name: string, get: () => number | undefined, set: (v: number | undefined) => void): Pick<ICol, 'stepValue' | 'setStep'> => {
+    if (!perMode) return { stepValue: get(), setStep: (v) => { set(v); applyFull(); } };
+    return {
+      stepValue: brandState.modeAnchors?.[currentMode]?.[name],
+      setStep: (v) => {
+        const ma = brandState.modeAnchors ?? (brandState.modeAnchors = {});
+        const forMode = ma[currentMode] ?? (ma[currentMode] = {});
+        if (v === undefined) {                                  // revert to the generated baseline
+          delete forMode[name];
+          if (!Object.keys(forMode).length) delete ma[currentMode];
+          if (!Object.keys(ma).length) brandState.modeAnchors = undefined;
+        } else forMode[name] = v;
+        applyFull();
+      },
+    };
+  };
+
+  if (perMode)
+    host.append(el('p', 'ic-modenote', `Editing ${MODE_LABEL[currentMode] ?? currentMode}’s interactive colors — “Auto” follows the generated baseline; pick a step to override just this mode.`));
+
   const cols: ICol[] = [
-    { name: 'primary', label: 'Primary', palette: theme.roleToPalette.action, stepValue: brandState.actionAnchorStep,
-      setStep: (v) => { setPath(brandState, 'actionAnchorStep', v); applyFull(); } },
-    { name: 'destructive', label: 'Destructive', palette: theme.roleToPalette.danger, stepValue: brandState.destructiveAnchorStep,
-      setStep: (v) => { setPath(brandState, 'destructiveAnchorStep', v); applyFull(); } },
+    { name: 'primary', label: 'Primary', palette: theme.roleToPalette.action,
+      ...colAnchor('primary', () => brandState.actionAnchorStep, (v) => setPath(brandState, 'actionAnchorStep', v)) },
+    { name: 'destructive', label: 'Destructive', palette: theme.roleToPalette.danger,
+      ...colAnchor('destructive', () => brandState.destructiveAnchorStep, (v) => setPath(brandState, 'destructiveAnchorStep', v)) },
   ];
   (brandState.interactivePalettes ?? []).forEach((entry, i) => {
     const nm = entry.name ?? entry.palette;
     cols.push({
-      name: nm, label: nm, palette: entry.palette, stepValue: entry.anchorStep,
-      setStep: (v) => { setPath(brandState, `interactivePalettes.${i}.anchorStep`, v); applyFull(); },
-      onRemove: () => { brandState.interactivePalettes!.splice(i, 1); if (!brandState.interactivePalettes!.length) brandState.interactivePalettes = undefined; applyFull(); },
+      name: nm, label: nm, palette: entry.palette,
+      ...colAnchor(nm, () => entry.anchorStep, (v) => setPath(brandState, `interactivePalettes.${i}.anchorStep`, v)),
+      ...(perMode ? {} : { onRemove: () => { brandState.interactivePalettes!.splice(i, 1); if (!brandState.interactivePalettes!.length) brandState.interactivePalettes = undefined; applyFull(); } }),
     });
   });
   for (const col of cols) { const card = renderInteractiveCard(col); if (card) host.append(card); }
-  host.append(renderAddAccentRow());
+  if (!perMode) host.append(renderAddAccentRow());
 };
 
 const renderGroupedPanels = (host: HTMLElement, levers: Lever[]): void => {
@@ -2184,6 +2209,7 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .tpill{font-size:10.5px;padding:2px 7px;border-radius:5px;background:var(--panel);border:1px solid var(--line);color:var(--faint)}
 .tpill.more{color:var(--muted);font-style:italic}
 /* #161 — interactive-color card */
+.ic-modenote{margin:0 0 14px;font-size:12.5px;color:var(--muted);line-height:1.55;padding:10px 13px;background:var(--paper);border:1px solid var(--line);border-radius:var(--r-sm)}
 .ic-card{border:1px solid var(--line);border-radius:var(--r);background:var(--panel);padding:22px;margin-bottom:14px}
 .ic-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
 .ic-headt{margin:0;flex:1;font-size:15px;font-weight:620;color:var(--ink)}
