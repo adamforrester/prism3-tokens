@@ -7,7 +7,42 @@
 
 ---
 
-## Latest (2026-07-19) — lever-UI completeness + interactive-accent manifest reconcile
+## Latest (2026-07-19) — Phase D code-review fixes (engine correctness + UI)
+
+**STATUS: MERGED** (#194). Fixes from two independent code reviews of the per-mode override arc.
+
+**Engine (`theme.ts` / `tree.ts`).**
+- **Dark-based custom modes now inherit their base's reduced dark shadow** even without a `modeLevers.shadow`
+  override. Built-in `dark` gets `modes.dark` unconditionally, but a `customModes: [{base:'dark'}]` mode had
+  no such default — so it fell back to the light `$value` (a light shadow under a dark surface). `brandTheme`
+  now seeds a `shadowByMode` entry from the global dark layers for every dark-based custom mode lacking an
+  override (byte-equal to `modes.dark`; guarded so an explicit lever still wins) → they also emit their own
+  `shadow-<mode>/*` Figma effect styles. (This closes the gap noted in the #190 consolidation entry: the
+  earlier claim that "dark custom modes keep their entry" only held when they carried an explicit override.)
+- **`modeLevers.light` is now rejected** — light IS the global baseline for the non-colour levers, so a
+  `modes.light` override would shadow the canonical `$value`. The error points to setting the global levers.
+- **Line-height / letter-spacing gained the map-level no-diff suppression** every other axis already had (a
+  per-mode ramp equal to the global now leaves `modeLevers` off the Theme → byte-identical).
+- Cleanup: one shared `gridStepOverride` (the two grid-override helpers were byte-identical) and one
+  `diffAssign` for the JSON-compare no-diff suppression across radius/family/weight/LH/LS.
+
+**Web (`web/src/main.ts`, net −63 lines).**
+- The **breakpoints editor no longer collapses the Advanced disclosure** on each edit (`draw() + apply()`
+  instead of `applyFull()`, which recreated the `<details>`).
+- A shadow slider dragged to **exactly the global** value now prunes the override (no redundant `== global`
+  entry); a hand-authored **non-discrete** per-mode value (e.g. `radius 0.7` from import) surfaces as its own
+  `"0.7 (custom)"` option instead of misreading as Auto.
+- Cleanup: `renderPerModeRadius/Tempo/Density` → one `renderPerModeSelect`; the duplicated per-mode
+  `modeLevers` read/write/prune → one `getModeLever` / `setModeLever` / `pruneModeLevers` trio (the UI analog
+  of the engine's `diffAssign`; the recursive prune generalises the old bespoke shadow-tint clearing).
+
+Engine tests **909 → 917** (+8: dark-shadow seeding, `modeLevers.light` rejection, LH/LS suppression); NB
+regression green; **`out/*` byte-identical** (no example brand exercises a dark-based custom mode or
+`modeLevers.light`); web/plugin tsc + builds clean.
+
+---
+
+## (2026-07-19) — lever-UI completeness + interactive-accent manifest reconcile
 
 **STATUS: MERGED** (#192). Closes out the lever-UI-coverage audit: **every manifest lever now has a working
 UI control and every axis has a live specimen.**
