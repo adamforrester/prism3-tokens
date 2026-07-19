@@ -527,6 +527,35 @@ const renderPerModeTempo = (lever: Lever): HTMLElement => {
   return wrap;
 };
 
+/** D (density) — the density lever goes per-mode outside the base mode. Light edits the global
+ *  `density`; a mode edits `modeLevers[mode].density` — "Auto" follows the global, a value re-derives
+ *  the component-size tier (control heights + padding) for just this mode (via the same componentSizes).
+ *  Same select-with-Auto shape as the per-mode tempo control. */
+const DENSITY_OPTS: [string, string][] = [['compact', 'Compact'], ['comfortable', 'Comfortable'], ['spacious', 'Spacious']];
+const renderPerModeDensity = (lever: Lever): HTMLElement => {
+  const wrap = el('div', 'knob');
+  wrap.append(el('label', 'knob-label', lever.label));
+  const globalV = (brandState.density ?? (lever.default as string) ?? 'comfortable');
+  const cur = brandState.modeLevers?.[currentMode]?.density;
+  const sel = el('select', 'obj-sel') as HTMLSelectElement;
+  const optE = (v: string, t: string, on: boolean) => { const o = el('option') as HTMLOptionElement; o.value = v; o.textContent = t; if (on) o.selected = true; sel.append(o); };
+  optE('', `Auto — follows global (${globalV})`, cur == null);
+  for (const [v, label] of DENSITY_OPTS) optE(v, label, cur === v);
+  sel.onchange = () => {
+    const ml = brandState.modeLevers ?? (brandState.modeLevers = {});
+    const forMode = ml[currentMode] ?? (ml[currentMode] = {});
+    if (sel.value === '') {                                   // revert to the global baseline
+      delete forMode.density;
+      if (!Object.keys(forMode).length) delete ml[currentMode];
+      if (!Object.keys(ml).length) brandState.modeLevers = undefined;
+    } else forMode.density = sel.value as 'compact' | 'comfortable' | 'spacious';
+    applyFull();
+  };
+  wrap.append(sel);
+  wrap.append(el('p', 'knob-desc', `${lever.description} — per ${MODE_LABEL[currentMode] ?? currentMode}; “Auto” follows the global density.`));
+  return wrap;
+};
+
 const renderChip = (label: string, bind: Record<string, string>, mode: Mode): HTMLElement => {
   // PRESENCE (resolved model) decides WHICH styles a chip paints; the VALUES are all
   // `var(--…)` refs the active write host fills in (#106). The resolved hex/px still ride
@@ -1103,6 +1132,7 @@ const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
       if (l.key === 'shadow.softness') continue;
       if (l.key === 'radiusScale' && perModeGeo) { panel.append(renderPerModeRadius(l)); continue; }
       if (l.key === 'motionPersonality.tempo' && perModeGeo) { panel.append(renderPerModeTempo(l)); continue; }
+      if (l.key === 'density' && perModeGeo) { panel.append(renderPerModeDensity(l)); continue; }
       panel.append(renderControl(l));
     }
     host.append(panel);
@@ -1127,7 +1157,7 @@ const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
   paintVolatile = () => {
     vol.innerHTML = '';
     if (key === 'type') vol.append(renderTypeSpecimen());
-    if (key === 'form') { vol.append(renderRadiusSpecimen()); vol.append(renderShadowSpecimen()); vol.append(renderMotionSpecimen()); }
+    if (key === 'form') { vol.append(renderRadiusSpecimen()); vol.append(renderSizeSpecimen()); vol.append(renderShadowSpecimen()); vol.append(renderMotionSpecimen()); }
     if (key === 'semantic') { vol.append(renderNeutralSpecimen()); vol.append(renderInverseSpecimen()); vol.append(renderIconSpecimen()); vol.append(renderGradientSpecimen()); }
     vol.append(sectionHead('Live preview', 'The sample components + contrast overlay, resolved through every mode — they reflect this stage’s axis live.'));
     const pv = el('div', 'pvhost');
@@ -1668,6 +1698,28 @@ const renderShadowSpecimen = (): HTMLElement => {
     const card = el('div', 'sh-card');
     card.style.boxShadow = css;                                   // resolved value inline (specimen reads the model directly)
     cell.append(card, el('div', 'sh-lab mono', step));
+    list.append(cell);
+  }
+  wrap.append(list);
+  return wrap;
+};
+
+/** The control-size specimen: the component-size tier (sm→xl) as mini control boxes at their resolved
+ *  height + horizontal padding, so the DENSITY lever has a visible payoff (the preview components bind
+ *  the space scale directly, not `size.*`, so nothing else shows the size tier). Mode-aware (D): reflects
+ *  the current mode's per-mode density (`theme.dims.sizesByMode`) when it deviates, else the global tier. */
+const renderSizeSpecimen = (): HTMLElement => {
+  const wrap = el('div', 'size-spec');
+  const byMode = theme.dims.sizesByMode?.[currentMode];
+  const sizes = byMode ?? theme.dims.sizes;
+  wrap.append(sectionHead('Control size', `The component-size tier — control height + paired padding per step${byMode ? ` (${MODE_LABEL[currentMode] ?? currentMode} density)` : ''}. The density lever reshapes the whole ramp; per-mode density retunes it for the mode in view.`));
+  const list = el('div', 'sz-list');
+  for (const z of sizes) {
+    const cell = el('div', 'sz-cell');
+    const box = el('div', 'sz-box', z.name);
+    box.style.height = `${z.height}px`;
+    box.style.padding = `0 ${z.padX}px`;
+    cell.append(box, el('div', 'sz-lab mono', `${z.name} · ${z.height}px · pad ${z.padX}/${z.padY}`));
     list.append(cell);
   }
   wrap.append(list);
@@ -2515,6 +2567,11 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .rad-sw{width:72px;height:52px;background:var(--ink);opacity:.85}
 .rad-lab{font-size:11.5px;color:var(--muted)}
 .rad-cons{font-size:11px;color:var(--faint);text-align:center;max-width:88px;line-height:1.35}
+/* D (density) — the control-size specimen: mini controls at their resolved height + padding. */
+.sz-list{display:flex;flex-wrap:wrap;align-items:flex-end;gap:20px;border:1px solid var(--line);border-radius:var(--r);padding:24px;background:var(--panel)}
+.sz-cell{display:flex;flex-direction:column;align-items:center;gap:9px}
+.sz-box{display:flex;align-items:center;justify-content:center;min-width:44px;background:var(--ink);color:var(--panel);border-radius:6px;font-size:12px;font-weight:560}
+.sz-lab{font-size:11px;color:var(--muted);white-space:nowrap}
 .inverse-spec{margin-bottom:8px}
 .inv-band{border-radius:var(--r);padding:36px 32px;display:flex;flex-direction:column;align-items:flex-start;gap:20px}
 .inv-h{font-size:24px;font-weight:700;letter-spacing:-0.02em;max-width:26ch}

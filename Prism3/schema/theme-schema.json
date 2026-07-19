@@ -118,7 +118,8 @@
                 }
               }
             }
-          }
+          },
+          "density": { "type": "string", "enum": ["comfortable", "compact", "spacious"], "description": "OPTIONAL. Per-mode component density — re-derives this mode's component-size tier (`size.*` control heights + paired padding) at the chosen density via the same componentSizes the global lever uses. The `space.*` reference scale is density-free, so it doesn't change; only the component tier does. A size sub-leaf (height / padding-x / padding-y) whose px differs from light carries a per-mode override." }
         }
       }
     },
