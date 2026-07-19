@@ -104,20 +104,36 @@ const transitionLeaf = (durPath: string, easePath: string, description: string):
 // $extensions.prism3.modes.dark carries the REDUCED dark shadow (lift-primary — the
 // surface ladder does dark elevation). Materializes as a Figma Effect Style (colour
 // + numerics bindable per layer; verified in the Figma round-trip research).
-const shadowLayerValue = (theme: Theme, l: ShadowLayer) => ({
-  color: alphaColorValue(theme.shadow.colorRgb, l.alpha, theme.colorFormat),
+const shadowLayerValue = (colorRgb: RGB, l: ShadowLayer, fmt: 'rgb' | 'hex') => ({
+  color: alphaColorValue(colorRgb, l.alpha, fmt),
   offsetX: `${l.offsetX}px`, offsetY: `${l.offsetY}px`, blur: `${l.blur}px`, spread: `${l.spread}px`,
 });
-const shadowLeaf = (theme: Theme, step: ShadowStep, description: string): Token => ({
-  $type: 'shadow',
-  $value: step.light.map((l) => shadowLayerValue(theme, l)),
-  $description: description,
-  $extensions: { prism3: { generated: true, role: 'composite', layers: step.light.length,
-    // dark shadow reduction only when the brand generates dark (docs/11 Pillar 1) — a
-    // light-only brand carries no mode overrides on shadow either.
-    modes: theme.modes.includes('dark') ? { dark: step.dark.map((l) => shadowLayerValue(theme, l)) } : {},
-    figma: { kind: 'effect-style', styleType: 'EFFECT', binds: ['color', 'radius', 'spread', 'offsetX', 'offsetY'], note: 'Figma Effect Style (drop-shadow layers); colour + numerics bindable per layer; mode-aware — dark shadow is reduced (surface lift carries dark elevation), see modes.dark' } } },
-});
+const shadowLeaf = (theme: Theme, step: ShadowStep, description: string): Token => {
+  const fmt = theme.colorFormat;
+  const base = theme.shadow.colorRgb;
+  const lightVals = step.light.map((l) => shadowLayerValue(base, l, fmt));
+  // dark shadow reduction only when the brand generates dark (docs/11 Pillar 1) — a light-only brand
+  // carries no mode overrides on shadow either.
+  const darkVals = theme.modes.includes('dark') ? step.dark.map((l) => shadowLayerValue(base, l, fmt)) : undefined;
+  const modes: Record<string, unknown> = {};
+  if (darkVals) modes.dark = darkVals;
+  // Per-mode shadow overrides (Phase D): a mode re-derives its ramp at its own softness/tint (+ its own
+  // tinted colorRgb). Emit `modes.<mode>` from the pre-picked appearance layers (a dark override overwrites
+  // the derived dark reduction with the re-derived one). A brand with no `modeLevers.shadow` has an empty
+  // shadowByMode → nothing emitted here → byte-identical.
+  for (const [mode, sm] of Object.entries(theme.shadow.shadowByMode ?? {})) {
+    const layers = sm.layers[step.name];
+    if (layers) modes[mode] = layers.map((l) => shadowLayerValue(sm.colorRgb, l, fmt));
+  }
+  return {
+    $type: 'shadow',
+    $value: lightVals,
+    $description: description,
+    $extensions: { prism3: { generated: true, role: 'composite', layers: step.light.length,
+      modes,
+      figma: { kind: 'effect-style', styleType: 'EFFECT', binds: ['color', 'radius', 'spread', 'offsetX', 'offsetY'], note: 'Figma Effect Style (drop-shadow layers); colour + numerics bindable per layer; mode-aware — dark shadow is reduced (surface lift carries dark elevation), see modes.dark' } } },
+  };
+};
 
 // ---- gradient leaves (brand-opt-in) ----
 // DTCG `gradient` composite — $value is an array of stops [{ color, position }],

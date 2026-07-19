@@ -1053,6 +1053,70 @@ for (const b of brands) {
     'D-motion(j): a modeLevers entry with no tempo lever produces byte-identical output');
 }
 
+// PER-MODE SHADOW (Phase D) — a mode re-derives its shadow ramp at its own softness/tint via the SAME
+// buildShadow the baseline uses, picking the layer-set for the mode's APPEARANCE (dark/dark-based →
+// reduced; light/light-based → full) with the mode's own tinted colorRgb. Rides
+// `$extensions.prism3.modes.<mode>` on the shadow leaf + a `shadow-<mode>/*` Figma effect-style set.
+{
+  const root = 'prism';
+  const base = { id: 'dshadow', modes: ['light', 'dark'], primary: { l: 0.55, c: 0.18, h: 285 }, neutral: { hue: 285, chroma: 0.01 } } as unknown as BrandInput;
+  const threw = (f: () => unknown) => { try { f(); return false; } catch { return true; } };
+  const stable = (v: any): any => Array.isArray(v) ? v.map(stable)
+    : (v && typeof v === 'object' ? Object.fromEntries(Object.keys(v).sort().map((k) => [k, stable(v[k])])) : v);
+  // dark runs crisper shadows (softness 0.5); a light-based custom mode runs soft + warm (softness 2, tint 0.6).
+  const perMode = {
+    ...base,
+    customModes: [{ name: 'marketing', base: 'light' }],
+    modeLevers: { dark: { shadow: { softness: 0.5 } }, marketing: { shadow: { softness: 2, tint: { amount: 0.6 } } } },
+  } as unknown as BrandInput;
+  const baseTree = buildTree(brandTheme(base)).tree[root];
+  const built = buildTree(brandTheme(perMode));
+  const pmTree = built.tree[root];
+
+  // (a) shadow.md modes.dark is RE-DERIVED at the override softness (crisper blur) — differs from the
+  //     baseline derived dark reduction; light $value is unchanged.
+  ok(JSON.stringify(pmTree.shadow.md.$extensions.prism3.modes.dark) !== JSON.stringify(baseTree.shadow.md.$extensions.prism3.modes.dark),
+    'D-shadow(a): dark shadow override re-derives modes.dark (crisper) — differs from the baseline reduction');
+  ok(JSON.stringify(pmTree.shadow.md.$value) === JSON.stringify(baseTree.shadow.md.$value),
+    'D-shadow(a): light canonical shadow.md $value is unchanged by the dark override');
+  // the crisper softness (0.5) halves the blur — md ambient blur 12 → 6.
+  ok(pmTree.shadow.md.$extensions.prism3.modes.dark[1].blur === '6px', `D-shadow(a): dark md ambient blur halved to 6px at softness 0.5 (got ${pmTree.shadow.md.$extensions.prism3.modes.dark[1].blur})`);
+
+  // (b) a LIGHT-based custom mode gets modes.marketing with the FULL (light-appearance) layers at its
+  //     override — soft blur (softness 2 → doubled) + a warmer tinted colour (amount 0.6, not the global).
+  const mkt = pmTree.shadow.md.$extensions.prism3.modes.marketing;
+  ok(!!mkt && mkt.length === 2 && mkt[1].blur === '24px', `D-shadow(b): marketing (light-based) md ambient blur doubled to 24px at softness 2 (got ${mkt?.[1]?.blur})`);
+  ok(mkt[0].color !== baseTree.shadow.md.$value[0].color, `D-shadow(b): marketing shadow colour reflects the tint override (differs from the global-tint colour)`);
+
+  // (c) inset also carries the per-mode overrides (the whole ramp re-derives).
+  ok(!!pmTree.shadow.inset.$extensions.prism3.modes.marketing, 'D-shadow(c): the inset shadow carries the per-mode override too');
+
+  // (d) every DTCG alias resolves.
+  ok(built.stats.broken.length === 0 && built.stats.aliases > 0, `D-shadow(d): all ${built.stats.aliases} aliases resolve` + (built.stats.broken.length ? ` — BROKEN ${built.stats.broken.slice(0, 3).map((b: any) => b.ref).join(',')}` : ''));
+
+  // (e) buildFigmaShadow emits a shadow-marketing/* effect-style set alongside shadow-dark/* + shadow/*.
+  const figShadows = buildFigmaShadow(brandTheme(perMode)).styles.map((s) => s.name);
+  ok(figShadows.includes('shadow-marketing/md') && figShadows.includes('shadow-dark/md') && figShadows.includes('shadow/md'),
+    `D-shadow(e): effect styles include shadow/md + shadow-dark/md + shadow-marketing/md (got ${figShadows.filter((n) => n.endsWith('/md')).join(', ')})`);
+
+  // (f) validation throws — shadow on a generate-only mode (hc-light), softness out of range, tint amount out of range.
+  ok(threw(() => brandTheme({ ...base, modes: ['light', 'dark', 'hc-light', 'hc-dark'], modeLevers: { 'hc-light': { shadow: { softness: 1 } } } } as unknown as BrandInput)), 'D-shadow(f): shadow on hc-light (generate-only) throws');
+  ok(threw(() => brandTheme({ ...base, modeLevers: { dark: { shadow: { softness: 3 } } } } as unknown as BrandInput)), 'D-shadow(f): a shadow softness of 3 (>2) throws');
+  ok(threw(() => brandTheme({ ...base, modeLevers: { dark: { shadow: { tint: { amount: 2 } } } } } as unknown as BrandInput)), 'D-shadow(f): a shadow tint amount of 2 (>1) throws');
+
+  // (g) design.md round-trip preserves modeLevers.shadow through parse∘serialize.
+  ok(JSON.stringify(stable(parseDesignMd(toDesignMd(perMode)).input)) === JSON.stringify(stable(perMode)),
+    'D-shadow(g): parseDesignMd(toDesignMd(input)) preserves modeLevers.shadow');
+
+  // (h) validateBrandInput ACCEPTS per-mode shadow — RETURNS an empty error array (never throws).
+  const accept = { id: 'dshadow-schema', primary: { l: 0.55, c: 0.18, h: 285 }, neutral: { hue: 285, chroma: 0.01 }, modes: ['light', 'dark'], modeLevers: { dark: { shadow: { softness: 0.5, tint: { hue: 20, amount: 0.4 } } } } } as unknown as BrandInput;
+  ok(validateBrandInput(accept).length === 0, `D-shadow(h): validateBrandInput accepts per-mode shadow (errors: ${JSON.stringify(validateBrandInput(accept))})`);
+
+  // (i) byte-identical guard — a modeLevers entry with no shadow lever adds nothing (absent feature).
+  ok(JSON.stringify(buildTree(brandTheme(base)).tree) === JSON.stringify(buildTree(brandTheme({ ...base, modeLevers: { dark: {} } } as unknown as BrandInput)).tree),
+    'D-shadow(i): a modeLevers entry with no shadow lever produces byte-identical output');
+}
+
 // roleColors — general semantic-role rebasing (docs/21): re-base any role on a declared palette,
 // with the contrast guarantee preserved and a hue-mismatch note (not a block).
 {
