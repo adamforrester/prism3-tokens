@@ -429,14 +429,42 @@ export const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats
   // reference tier + function-named weight roles aliasing into it (the white-
   // label-safe weight model); unitless line-height multipliers; em letter-spacing.
   const ty = theme.typography;
+  // Typography is MODE-VARYING on two PRIMITIVE leaves (Phase D — same seam as radius): a customizable
+  // mode may override the font FAMILY (family.<role>) and/or the font WEIGHT (weight-role.<role>). Light
+  // stays the canonical `$value`; a mode whose re-derived value DIFFERS from light attaches a
+  // `$extensions.prism3.modes.<mode>` override. Every composite inherits via its family/weight alias, so
+  // the composite SET is untouched. Absent maps ⇒ byte-identical.
+  const familiesByMode = ty.familiesByMode ?? {};
+  const weightRolesByMode = ty.weightRolesByMode ?? {};
+  const stackKey = (s: string[]): string => s.join(' ');
   const family: Record<string, Token> = {};
-  for (const f of ty.families) family[f.role] = fontFamilyLeaf(f.stack, f.variable, `font family — ${f.role} (${f.stack[0]})${f.variable ? ' [variable font]' : ''}`);
+  for (const f of ty.families) {
+    const leaf = fontFamilyLeaf(f.stack, f.variable, `font family — ${f.role} (${f.stack[0]})${f.variable ? ' [variable font]' : ''}`);
+    const modeOverrides: Record<string, unknown> = {};
+    for (const [mode, fams] of Object.entries(familiesByMode)) {
+      const mf = fams.find((x) => x.role === f.role);
+      if (!mf || stackKey(mf.stack) === stackKey(f.stack)) continue;   // same stack → no diff → no override
+      modeOverrides[mode] = { $value: mf.stack[0], fallbackStack: mf.stack.slice(1), note: `font family lever override — ${mode} (${mf.stack[0]})` };
+    }
+    if (Object.keys(modeOverrides).length) leaf.$extensions.prism3.modes = modeOverrides;
+    family[f.role] = leaf;
+  }
   const fsize: Record<string, Token> = {};
   for (const px of ty.sizesPx) fsize[String(px)] = fontSizeLeaf(px, `font size ${px}px (${round(px / 16, 4)}rem) — curated ladder primitive`);
   const fweight: Record<string, Token> = {};
   for (const w of ty.weightsRef) fweight[String(w)] = fontWeightLeaf(w, `font weight ${w} — numeric reference (the brand's literal axis value)`);
   const weightRole: Record<string, Token> = {};
-  for (const r of ty.weightRoles) weightRole[r.role] = weightRoleAlias(`${root}.font.weight.${r.value}`, r.value, `weight role '${r.role}' → ${r.value} — function-named, white-label-stable (the brand maps the numeric; a 2-weight brand collapses roles)`);
+  for (const r of ty.weightRoles) {
+    const leaf = weightRoleAlias(`${root}.font.weight.${r.value}`, r.value, `weight role '${r.role}' → ${r.value} — function-named, white-label-stable (the brand maps the numeric; a 2-weight brand collapses roles)`);
+    const modeOverrides: Record<string, unknown> = {};
+    for (const [mode, roles] of Object.entries(weightRolesByMode)) {
+      const mr = roles.find((x) => x.role === r.role);
+      if (!mr || mr.value === r.value) continue;   // same numeric → no diff → no override
+      modeOverrides[mode] = { $value: `{${root}.font.weight.${mr.value}}`, weight: mr.value, note: `font weight-role lever override — ${mode} (${r.role} → ${mr.value})` };
+    }
+    if (Object.keys(modeOverrides).length) leaf.$extensions.prism3.modes = modeOverrides;
+    weightRole[r.role] = leaf;
+  }
   const lineHeight: Record<string, Token> = {};
   for (const lh of ty.lineHeights) lineHeight[lh.key] = lineHeightLeaf(lh.value, `line height ${lh.key} — ${lh.value}× (unitless multiplier)`);
   const letterSpacing: Record<string, Token> = {};

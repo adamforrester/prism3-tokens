@@ -842,6 +842,80 @@ for (const b of brands) {
     'D(f): an empty modeLevers map produces byte-identical output (the primary guard)');
 }
 
+// PER-MODE TYPOGRAPHY LEVER (Phase D) — a customizable mode overrides the font FAMILY per family-role
+// and/or the font WEIGHT per weight-role. Only VALUES change: the engine attaches a
+// `$extensions.prism3.modes.<mode>` override to the `family.<role>` / `weight-role.<role>` PRIMITIVE;
+// every composite inherits via its alias, so the composite SET is untouched (the seam). A per-mode
+// weight value joins the weightsRef UNION so its `{font.weight.<value>}` alias resolves. Light stays
+// canonical; a no-diff override adds nothing; byte-identical when absent.
+{
+  const root = 'prism';
+  const base = { id: 'dtypo', modes: ['light', 'dark'], primary: { l: 0.55, c: 0.18, h: 285 }, neutral: { hue: 285, chroma: 0.01 } } as unknown as BrandInput;
+  const threw = (f: () => unknown) => { try { f(); return false; } catch { return true; } };
+  const stable = (v: any): any => Array.isArray(v) ? v.map(stable)
+    : (v && typeof v === 'object' ? Object.fromEntries(Object.keys(v).sort().map((k) => [k, stable(v[k])])) : v);
+  const perMode = { ...base, modeLevers: { dark: { families: { display: 'Georgia' }, weights: { strong: 600 } } } } as unknown as BrandInput;
+  const baseTree = buildTree(brandTheme(base)).tree[root];
+  const built = buildTree(brandTheme(perMode));
+  const pmTree = built.tree[root];
+
+  // (a) family.display carries a modes.dark override with the new stack (Georgia + fallback);
+  //     light's canonical $value is untouched, and an un-overridden family (text) carries no override.
+  const famDark = pmTree.font.family.display.$extensions.prism3.modes?.dark;
+  ok(!!famDark && famDark.$value === 'Georgia' && Array.isArray(famDark.fallbackStack) && famDark.fallbackStack.length > 0,
+    `D-typo(a): dark family override → family.display modes.dark $value 'Georgia' + fallbackStack (got ${famDark?.$value})`);
+  ok(pmTree.font.family.display.$value === baseTree.font.family.display.$value,
+    `D-typo(a): light canonical family.display $value is unchanged by the dark lever (${pmTree.font.family.display.$value})`);
+  ok(pmTree.font.family.text.$extensions.prism3.modes === undefined, 'D-typo(a): an un-overridden family (text) carries no modes override');
+
+  // (b) weight-role.strong carries a modes.dark override aliasing font.weight.600; light stays 700.
+  const wrDark = pmTree.font['weight-role'].strong.$extensions.prism3.modes?.dark;
+  ok(!!wrDark && wrDark.$value === `{${root}.font.weight.600}` && wrDark.weight === 600,
+    `D-typo(b): dark weight override → weight-role.strong modes.dark aliases font.weight.600 (got ${wrDark?.$value})`);
+  ok(pmTree.font['weight-role'].strong.$value === baseTree.font['weight-role'].strong.$value,
+    `D-typo(b): light canonical weight-role.strong $value is unchanged (${pmTree.font['weight-role'].strong.$value})`);
+  ok(!!pmTree.font.weight['600'], 'D-typo(b): the font.weight.600 primitive EXISTS (weightsRef union) so the per-mode alias resolves');
+
+  // (c) a composite that binds display + strong is UNCHANGED — it just aliases the primitives, so the
+  //     per-mode value is inherited via the alias, not stamped on the composite (the composite SET is fixed).
+  ok(JSON.stringify(pmTree.type.display.sm.strong) === JSON.stringify(baseTree.type.display.sm.strong),
+    'D-typo(c): the display.sm.strong composite leaf is unchanged (inheritance via the family/weight alias)');
+
+  // (d) every DTCG alias resolves — incl. the per-mode weight override alias (walked from modes.<m>.$value).
+  ok(built.stats.broken.length === 0 && built.stats.aliases > 0, `D-typo(d): all ${built.stats.aliases} aliases resolve` + (built.stats.broken.length ? ` — BROKEN ${built.stats.broken.slice(0, 3).map((b: any) => b.ref).join(',')}` : ''));
+
+  // (e) the Figma font emit produces a `dark` core-font mode file with the family/weight overrides
+  //     materialised; the Default (light) file keeps the canonical weight-role numeric.
+  const fontFiles = buildFigmaFont(brandTheme(perMode));
+  const darkFile = fontFiles.find((f) => f.$mode === 'dark');
+  const figFamDark = darkFile?.variables.find((v) => v.name === 'font/family/display');
+  const figWrDark = darkFile?.variables.find((v) => v.name === 'font/weight-role/strong');
+  const defWr = fontFiles.find((f) => f.$mode === 'Default')?.variables.find((v) => v.name === 'font/weight-role/strong');
+  ok(fontFiles.length === 2 && !!darkFile, `D-typo(e): buildFigmaFont emits Default + dark core-font files (${fontFiles.map((f) => f.$mode).join(',')})`);
+  ok(figFamDark?.value === 'Georgia', `D-typo(e): dark font/family/display bound to Georgia (${figFamDark?.value})`);
+  ok(figWrDark?.value === 600 && figWrDark?.alias?.name === 'font/weight/600', `D-typo(e): dark font/weight-role/strong → font/weight/600 (value ${figWrDark?.value})`);
+  ok(defWr?.value === 700 && defWr?.alias?.name === 'font/weight/700', `D-typo(e): Default (light) font/weight-role/strong stays 700 (${defWr?.value})`);
+
+  // (f) validation throws — families/weights on a generate-only mode (hc-light), on an un-generated
+  //     mode, and a weight outside [100, 900].
+  ok(threw(() => brandTheme({ ...base, modes: ['light', 'dark', 'hc-light', 'hc-dark'], modeLevers: { 'hc-light': { families: { display: 'Georgia' } } } } as unknown as BrandInput)), 'D-typo(f): families on hc-light (generate-only) throws');
+  ok(threw(() => brandTheme({ ...base, modeLevers: { 'hc-light': { weights: { strong: 600 } } } } as unknown as BrandInput)), 'D-typo(f): weights on a mode this brand does not generate throws');
+  ok(threw(() => brandTheme({ ...base, modeLevers: { dark: { weights: { strong: 50 } } } } as unknown as BrandInput)), 'D-typo(f): a weight of 50 (<100) throws');
+  ok(threw(() => brandTheme({ ...base, modeLevers: { dark: { weights: { strong: 1000 } } } } as unknown as BrandInput)), 'D-typo(f): a weight of 1000 (>900) throws');
+
+  // (g) design.md round-trip preserves modeLevers.families/weights through parse∘serialize.
+  ok(JSON.stringify(stable(parseDesignMd(toDesignMd(perMode)).input)) === JSON.stringify(stable(perMode)),
+    'D-typo(g): parseDesignMd(toDesignMd(input)) preserves modeLevers.families/weights');
+
+  // (h) validateBrandInput ACCEPTS per-mode typography — it RETURNS an empty error array (never throws).
+  const accept = { id: 'dtypo-schema', primary: { l: 0.55, c: 0.18, h: 285 }, neutral: { hue: 285, chroma: 0.01 }, modes: ['light', 'dark'], modeLevers: { dark: { weights: { strong: 600 } } } } as unknown as BrandInput;
+  ok(validateBrandInput(accept).length === 0, `D-typo(h): validateBrandInput accepts per-mode typography (errors: ${JSON.stringify(validateBrandInput(accept))})`);
+
+  // (i) byte-identical guard — a mode entry with no radius/families/weights adds nothing.
+  ok(JSON.stringify(buildTree(brandTheme(base)).tree) === JSON.stringify(buildTree(brandTheme({ ...base, modeLevers: { dark: {} } } as unknown as BrandInput)).tree),
+    'D-typo(i): a modeLevers entry with no typography lever produces byte-identical output');
+}
+
 // roleColors — general semantic-role rebasing (docs/21): re-base any role on a declared palette,
 // with the contrast guarantee preserved and a hue-mismatch note (not a block).
 {
@@ -1108,7 +1182,7 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   const full = familyOf(tree, fam.text);
   ok(full.startsWith('Inter, ') && full === ['Inter', ...fb].join(', '), 'familyOf reassembles [primary, ...fallbackStack] — preview stack intact');
   // Figma family variable: value = primary, description still leads with the FULL stack.
-  const figFam = buildFigmaFont(t).variables.filter((v) => v.name.startsWith('font/family/'));
+  const figFam = buildFigmaFont(t)[0].variables.filter((v) => v.name.startsWith('font/family/'));
   const textVar = figFam.find((v) => v.name === 'font/family/text')!;
   ok(textVar.value === 'Inter', 'Figma family variable binds the primary face as value');
   ok(textVar.description.startsWith('stack: Inter, '), 'Figma family description still leads with the full reassembled stack (fix #4 preserved)');
@@ -1726,7 +1800,7 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   const theme = nbTheme();
 
   // (a) font.json — byte-reproduce (39 vars: 3 family + 22 size + 9 weight + 5 weight-role).
-  const font = buildFigmaFont(theme);
+  const font = buildFigmaFont(theme)[0];
   const fontFix = JSON.parse(readFileSync(resolve(FIXDIR, 'font.json'), 'utf8'));
   const fontByName = new Map<string, any>(fontFix.variables.map((v: any) => [v.name, v]));
   const emitByName = new Map<string, any>(font.variables.map((v: any) => [v.name, v]));
@@ -2464,7 +2538,7 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
     const { palette, color } = buildFigmaColor(theme);
     const dims = buildFigmaDims(theme);
     const layout = buildFigmaLayout(theme);
-    const font = buildFigmaFont(theme);
+    const font = buildFigmaFont(theme)[0];
     const fluid = buildFigmaFontFluid(theme);
     const textStyles = buildFigmaTextStyles(theme);
     const shadow = buildFigmaShadow(theme);
@@ -2953,7 +3027,7 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
 {
   const theme = nbTheme();
   const { palette, color } = buildFigmaColor(theme);
-  const font = buildFigmaFont(theme);
+  const font = buildFigmaFont(theme)[0];
   const fluid = buildFigmaFontFluid(theme);
   const dims = buildFigmaDims(theme);
   const layout = buildFigmaLayout(theme);
