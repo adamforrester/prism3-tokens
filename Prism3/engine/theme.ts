@@ -1309,12 +1309,16 @@ export const brandTheme = (input: BrandInput): Theme => {
   const rScale = input.radiusScale ?? 1;
   const baseMd = input.baseMd ?? 4;
   // Per-mode radius levers (Phase D): a customizable mode overriding `radius` re-derives its radius
-  // ramp via the SAME radiusScale(value, baseMd, 128) buildDims uses (same baseMd). Only modes that
-  // actually override get an entry; the map is left off the Dims when empty → byte-identical.
+  // ramp via the SAME radiusScale(value, baseMd, 128) buildDims uses (same baseMd). Only a mode whose
+  // re-derived ramp DIFFERS from the global baseline gets an entry (no-diff suppression — mirrors the
+  // tempo lever below); an override that equals the global scale stays byte-identical.
   const modeLevers = input.modeLevers ?? {};
   const radiusByMode: Record<string, RadiusStep[]> = {};
+  const baseRadiusJson = JSON.stringify(radiusScale(rScale, baseMd, 128));   // == dims.radius, the baseline every mode inherits
   for (const [m, lev] of Object.entries(modeLevers)) {
-    if (lev?.radius !== undefined) radiusByMode[m] = radiusScale(lev.radius, baseMd, 128);
+    if (lev?.radius === undefined) continue;
+    const cand = radiusScale(lev.radius, baseMd, 128);
+    if (JSON.stringify(cand) !== baseRadiusJson) radiusByMode[m] = cand;
   }
   notes.push(`dimension axis: ${baseUnit}px grid, ${spaceBase}px space rhythm, density '${density}' (drives component sizes), radius scale ${rScale} (baseMd ${baseMd}px)`);
   notes.push(`motion: tempo '${input.motionPersonality?.tempo ?? 'standard'}' scales the duration ramp; easing roles + springs + composite transitions generated; reduce-motion variants derived (informational preserved, vestibular → 0)`);
@@ -1342,6 +1346,7 @@ export const brandTheme = (input: BrandInput): Theme => {
   const shadowAppearance: Record<string, 'light' | 'dark'> = { light: 'light', dark: 'dark' };
   for (const cm of customModes) shadowAppearance[cm.name] = cm.base === 'dark' ? 'dark' : 'light';   // custom mode's appearance = its base (validated to light/dark)
   const shadowByMode: NonNullable<ShadowAxis['shadowByMode']> = {};
+  const baseShadowJson = JSON.stringify(shadow);   // global ramp (pre-shadowByMode); a light mode with no entry inherits its light layers via shadow/*
   for (const [mo, lev] of Object.entries(modeLevers)) {
     if (!lev?.shadow) continue;
     const app = shadowAppearance[mo] ?? 'light';
@@ -1349,6 +1354,10 @@ export const brandTheme = (input: BrandInput): Theme => {
       softness: lev.shadow.softness ?? input.shadow?.softness,
       tint: { hue: lev.shadow.tint?.hue ?? input.shadow?.tint?.hue, amount: lev.shadow.tint?.amount ?? input.shadow?.tint?.amount },
     });
+    // No-diff suppression: a LIGHT-appearance mode whose re-derived ramp equals the global inherits the
+    // canonical `shadow/*` light styles → an explicit "== global" override stays byte-identical. Dark-based
+    // custom modes always keep their entry — the reduced dark layers aren't emitted for them any other way.
+    if (app === 'light' && JSON.stringify(sm) === baseShadowJson) continue;
     const pick = (st: ShadowStep): ShadowLayer[] => (app === 'dark' ? st.dark : st.light);
     const layers: Record<string, ShadowLayer[]> = { inset: pick(sm.inset) };
     for (const s of sm.steps) layers[s.name] = pick(s);
@@ -1376,12 +1385,23 @@ export const brandTheme = (input: BrandInput): Theme => {
   const familiesByMode: Record<string, FontFamilyRole[]> = {};
   const weightRolesByMode: Record<string, WeightRole[]> = {};
   const extraWeights = new Set<number>();
+  // No-diff suppression (mirrors the tempo/radius levers): only a mode whose re-derived families /
+  // weight-roles DIFFER from the global baseline gets an entry — an override that resolves to the
+  // global stack/weights stays byte-identical (and adds no font.weight.<num> leaves).
+  const baseFamJson = JSON.stringify(deriveFamilies(baseFam));
+  const baseWrJson = JSON.stringify(WEIGHT_ROLE_ORDER.map((role) => ({ role, value: baseWr[role] })));
   for (const [m, lev] of Object.entries(modeLevers)) {
-    if (lev?.families) familiesByMode[m] = deriveFamilies({ ...baseFam, ...lev.families });
+    if (lev?.families) {
+      const cand = deriveFamilies({ ...baseFam, ...lev.families });
+      if (JSON.stringify(cand) !== baseFamJson) familiesByMode[m] = cand;
+    }
     if (lev?.weights) {
       const wrMode = { ...baseWr, ...lev.weights };
-      weightRolesByMode[m] = WEIGHT_ROLE_ORDER.map((role) => ({ role, value: wrMode[role] }));
-      for (const w of Object.values(lev.weights)) if (w !== undefined) extraWeights.add(w);
+      const cand = WEIGHT_ROLE_ORDER.map((role) => ({ role, value: wrMode[role] }));
+      if (JSON.stringify(cand) !== baseWrJson) {
+        weightRolesByMode[m] = cand;
+        for (const w of Object.values(lev.weights)) if (w !== undefined) extraWeights.add(w);
+      }
     }
   }
   // Weight numeric primitives must resolve: a per-mode weight value may not be in the global tier.

@@ -7,7 +7,35 @@
 
 ---
 
-## Latest (2026-07-18) — extensible interactive palettes (engine → web) + UI polish
+## Latest (2026-07-19) — Phase D consolidation: no-diff suppression across all non-colour mode levers
+
+**STATUS: MERGED.** Follow-up to the per-mode non-colour lever arc (#177–#188). The motion **tempo** lever
+(#187) already suppressed its per-mode map when a mode's value equalled the global baseline (`tempo !==
+baseTempo` → no `motionByMode` entry → byte-identical output). This extends that same **no-diff suppression**
+to the four axes that shipped without it — **radius (#184)**, **font families + weight-roles (#185)**, and
+**shadow (#188)** — in `theme.ts`:
+
+- **radius:** an entry is populated only when the mode's re-derived `radiusScale(value, baseMd, 128)` ramp
+  differs from the global `radiusScale(rScale, …)` baseline. `radius: 1` on a scale-1 brand now emits no
+  redundant per-mode `radius.<mode>.json`.
+- **families / weight-roles:** populated only when the merged-then-derived stacks / weight-role numerics
+  differ from the global. A mode re-declaring the global family emits no `core-font.<mode>` set; and the
+  `extraWeights` union (which mints `font.weight.<num>` leaves) only takes a mode's weights when the entry is
+  actually kept.
+- **shadow:** a **light-appearance** mode whose re-derived ramp equals the global inherits the canonical
+  `shadow/*` styles → no redundant `modes.<mode>` DTCG entry or `shadow-<mode>/*` effect-style set. **Dark-based
+  custom modes always keep their entry** — the reduced dark layers are emitted no other way (there's no
+  `shadow-dark` default for custom modes), so suppression is scoped to light appearance only.
+
+Pure consolidation — no new behaviour, no schema change. **`out/*` byte-identical** (no example brand sets a
+per-mode lever); engine tests **897/0**, NB regression green, DTCG **336/336** contracts + all aliases resolve
+per brand. Verified by probe: a mode overriding every axis to exactly the global value now produces empty
+`*ByMode` maps (byte-identical), while a genuinely divergent mode still populates all four, and a dark custom
+mode keeps its shadow.
+
+---
+
+## (2026-07-18) — extensible interactive palettes (engine → web) + UI polish
 
 **STATUS: MERGED** (#163 engine · #166 + #168 web · #164 + #167 polish). The interactive color model is now
 **extensible and directly editable**: a brand can ship the built-in primary/neutral/destructive interactive
