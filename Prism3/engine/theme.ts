@@ -79,7 +79,12 @@ export type ModeLevers = {
   // layers; a light/light-based mode the full ones). The light/dark alpha reduction is intrinsic, so it
   // composes for free.
   shadow?: { softness?: number; tint?: { hue?: number; amount?: number } };
-};  // per-mode lever overrides; extensible (typeScale/density later)
+  // Per-mode DENSITY — a different component-size tier (compact/comfortable/spacious) for this mode. The
+  // dimension analog of the tempo enum: re-derives `sizes` (control heights + paired padding) via the
+  // same componentSizes the baseline uses. The `space.*` reference scale is density-free, so it doesn't
+  // change; only the component tier does. e.g. a `touch` custom mode runs `spacious`.
+  density?: Density;
+};  // per-mode lever overrides; extensible (typeScale later)
 
 /** The non-color (dimension) axis: a primitive grid + space/radius/size scales. */
 export type Dims = {
@@ -94,6 +99,11 @@ export type Dims = {
   // each re-derived via the SAME radiusScale(value, baseMd, 128) buildDims uses. Absent (field
   // omitted) when no modeLevers → the DTCG/Figma radius emit stays byte-identical.
   radiusByMode?: Record<string, RadiusStep[]>;
+  // Per-mode component-size tiers (Phase D) — only modes whose `modeLevers.density` deviates the
+  // baseline; each re-derived via the SAME componentSizes(density, spaceBase) buildDims uses. A size
+  // sub-leaf (height / padding-x / padding-y) whose px differs from light carries a per-mode override.
+  // Absent when no modeLevers.density → byte-identical.
+  sizesByMode?: Record<string, SizeStep[]>;
 };
 
 /** A declared palette promoted to a full `interactive.<name>.*` column (docs/20 §3). `name` is
@@ -1105,9 +1115,12 @@ export const brandTheme = (input: BrandInput): Theme => {
       throw new Error(`modeLevers: mode '${m}' shadow tint hue ${lev.shadow.tint.hue} is out of range — must be a finite number in [0, 360]`);
     if (lev.shadow?.tint?.amount !== undefined && (!Number.isFinite(lev.shadow.tint.amount) || lev.shadow.tint.amount < 0 || lev.shadow.tint.amount > 1))
       throw new Error(`modeLevers: mode '${m}' shadow tint amount ${lev.shadow.tint.amount} is out of range — must be a finite number in [0, 1]`);
+    // Per-mode density must be one of the three density tiers (the same set as the global lever).
+    if (lev.density !== undefined && !['comfortable', 'compact', 'spacious'].includes(lev.density))
+      throw new Error(`modeLevers: mode '${m}' density '${lev.density}' is invalid — must be one of comfortable/compact/spacious`);
   }
-  const leverModes = Object.entries(input.modeLevers ?? {}).filter(([, l]) => l && (l.radius !== undefined || l.families || l.weights || l.lineHeights || l.letterSpacings || l.tempo || l.shadow)).map(([m]) => m);
-  if (leverModes.length) notes.push(`modeLevers: per-mode lever overrides for ${leverModes.join(', ')} (radius / font family / font weight / line-height / letter-spacing / motion tempo / shadow re-derived per mode via the same helpers as the baseline; a mode deviates the global lever, the composite/token set is untouched)`);
+  const leverModes = Object.entries(input.modeLevers ?? {}).filter(([, l]) => l && (l.radius !== undefined || l.families || l.weights || l.lineHeights || l.letterSpacings || l.tempo || l.shadow || l.density)).map(([m]) => m);
+  if (leverModes.length) notes.push(`modeLevers: per-mode lever overrides for ${leverModes.join(', ')} (radius / font family / font weight / line-height / letter-spacing / motion tempo / shadow / density re-derived per mode via the same helpers as the baseline; a mode deviates the global lever, the composite/token set is untouched)`);
   if (root !== 'prism') notes.push(`namespace: tokens emit under '${root}.*' (custom, not the 'prism' default)`);
   const anchorStep = autoPlaceStep(input.primary.l);
   notes.push(`primary anchor (h${input.primary.h}) pinned exactly at step ${anchorStep}`);
@@ -1320,6 +1333,13 @@ export const brandTheme = (input: BrandInput): Theme => {
     const cand = radiusScale(lev.radius, baseMd, 128);
     if (JSON.stringify(cand) !== baseRadiusJson) radiusByMode[m] = cand;
   }
+  // Per-mode DENSITY levers (Phase D): a customizable mode overriding `density` re-derives its component
+  // -size tier via the SAME componentSizes(density, spaceBase) buildDims uses. Only a mode whose density
+  // DIFFERS from the baseline gets an entry (no-diff suppression) → byte-identical when unused.
+  const sizesByMode: Record<string, SizeStep[]> = {};
+  for (const [m, lev] of Object.entries(modeLevers)) {
+    if (lev?.density && lev.density !== density) sizesByMode[m] = componentSizes(lev.density, spaceBase);
+  }
   notes.push(`dimension axis: ${baseUnit}px grid, ${spaceBase}px space rhythm, density '${density}' (drives component sizes), radius scale ${rScale} (baseMd ${baseMd}px)`);
   notes.push(`motion: tempo '${input.motionPersonality?.tempo ?? 'standard'}' scales the duration ramp; easing roles + springs + composite transitions generated; reduce-motion variants derived (informational preserved, vestibular → 0)`);
   // Per-mode MOTION TEMPO (Phase D): a customizable mode overriding `tempo` re-derives its duration ramp
@@ -1471,7 +1491,7 @@ export const brandTheme = (input: BrandInput): Theme => {
   return {
     id: input.id, root, namespace: `${root}.palette`, colorFormat: 'hex', modes: modesAll, palettes, roleToPalette, notes,
     ...(customModes.length ? { customModes } : {}),
-    ...(Object.keys(radiusByMode).length || Object.keys(familiesByMode).length || Object.keys(weightRolesByMode).length || Object.keys(lineHeightsByMode).length || Object.keys(letterSpacingsByMode).length || Object.keys(motionByMode).length || Object.keys(shadowByMode).length ? { modeLevers } : {}),
+    ...(Object.keys(radiusByMode).length || Object.keys(familiesByMode).length || Object.keys(weightRolesByMode).length || Object.keys(lineHeightsByMode).length || Object.keys(letterSpacingsByMode).length || Object.keys(motionByMode).length || Object.keys(shadowByMode).length || Object.keys(sizesByMode).length ? { modeLevers } : {}),
     roleAnchorStep: { brand: anchorStep, neutral: 500, success: 500, warning: 500, danger: 500, info: 500, action: actionAnchorStep },
     surfaces: input.surfaces,
     overrides: input.overrides,
@@ -1482,7 +1502,7 @@ export const brandTheme = (input: BrandInput): Theme => {
     outlineInteraction: input.outlineInteraction ?? 'overlay-neutral',
     neutralEmphasis, inverseContext, interactivePalettes,
     actionAnchorStep: input.actionAnchorStep, destructiveAnchorStep: input.destructiveAnchorStep,
-    dims: { ...buildDims(baseUnit, spaceBase, density, rScale, baseMd), ...(Object.keys(radiusByMode).length ? { radiusByMode } : {}) },
+    dims: { ...buildDims(baseUnit, spaceBase, density, rScale, baseMd), ...(Object.keys(radiusByMode).length ? { radiusByMode } : {}), ...(Object.keys(sizesByMode).length ? { sizesByMode } : {}) },
     motion,
     typography,
     shadow,

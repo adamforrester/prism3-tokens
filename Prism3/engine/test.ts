@@ -1117,6 +1117,67 @@ for (const b of brands) {
     'D-shadow(i): a modeLevers entry with no shadow lever produces byte-identical output');
 }
 
+// PER-MODE DENSITY (Phase D) — a mode re-derives its component-size tier (size.* control heights + paired
+// padding) at a different density via the SAME componentSizes the baseline uses. Same seam: the engine
+// attaches `$extensions.prism3.modes.<mode>` to the `size.<name>.{height,padding-x,padding-y}` PRIMITIVE
+// (aliasing the dimension grid / space scale on-grid, else a literal px). The `space.*` reference scale
+// is density-free, so it's untouched. Byte-identical when absent.
+{
+  const root = 'prism';
+  const base = { id: 'ddensity', modes: ['light', 'dark'], primary: { l: 0.55, c: 0.18, h: 285 }, neutral: { hue: 285, chroma: 0.01 } } as unknown as BrandInput;
+  const threw = (f: () => unknown) => { try { f(); return false; } catch { return true; } };
+  const stable = (v: any): any => Array.isArray(v) ? v.map(stable)
+    : (v && typeof v === 'object' ? Object.fromEntries(Object.keys(v).sort().map((k) => [k, stable(v[k])])) : v);
+  // dark runs `spacious` (looser controls) while light stays comfortable.
+  const perMode = { ...base, modeLevers: { dark: { density: 'spacious' } } } as unknown as BrandInput;
+  const baseTree = buildTree(brandTheme(base)).tree[root];
+  const built = buildTree(brandTheme(perMode));
+  const pmTree = built.tree[root];
+
+  // (a) at least one size rung's height carries a modes.dark override (spacious raises control heights);
+  //     light's canonical $value is unchanged. Find a rung that actually differs.
+  const sizeNames = Object.keys(pmTree.size);
+  const changed = sizeNames.find((n) => pmTree.size[n].height.$extensions.prism3.modes?.dark);
+  ok(!!changed, `D-density(a): a size rung's height carries a modes.dark override under spacious (rung: ${changed})`);
+  ok(pmTree.size[changed!].height.$value === baseTree.size[changed!].height.$value,
+    `D-density(a): light canonical size.${changed}.height $value is unchanged by the dark density lever`);
+  // the override aliases the dimension grid (on-grid) or is a literal px — either way carries `px`.
+  ok(typeof pmTree.size[changed!].height.$extensions.prism3.modes.dark.px === 'number',
+    'D-density(a): the height override carries a resolved px');
+
+  // (b) padding also re-derives per mode (spacious loosens insets) on at least one rung.
+  const padChanged = sizeNames.find((n) => pmTree.size[n]['padding-x'].$extensions.prism3.modes?.dark || pmTree.size[n]['padding-y'].$extensions.prism3.modes?.dark);
+  ok(!!padChanged, `D-density(b): a size rung's padding carries a modes.dark override under spacious (rung: ${padChanged})`);
+
+  // (c) the space.* REFERENCE scale is density-free — it carries NO per-mode override.
+  ok(Object.keys(pmTree.space).every((k) => pmTree.space[k].$extensions.prism3.modes === undefined),
+    'D-density(c): the density-free space.* scale carries no per-mode override');
+
+  // (d) every DTCG alias resolves — incl. the per-mode height/padding aliases.
+  ok(built.stats.broken.length === 0 && built.stats.aliases > 0, `D-density(d): all ${built.stats.aliases} aliases resolve` + (built.stats.broken.length ? ` — BROKEN ${built.stats.broken.slice(0, 3).map((b: any) => b.ref).join(',')}` : ''));
+
+  // (e) validation throws — density on a generate-only mode (hc-light), and an invalid density value.
+  ok(threw(() => brandTheme({ ...base, modes: ['light', 'dark', 'hc-light', 'hc-dark'], modeLevers: { 'hc-light': { density: 'spacious' } } } as unknown as BrandInput)), 'D-density(e): density on hc-light (generate-only) throws');
+  ok(threw(() => brandTheme({ ...base, modeLevers: { dark: { density: 'roomy' } } } as unknown as BrandInput)), 'D-density(e): an invalid density value throws');
+
+  // (f) design.md round-trip preserves modeLevers.density through parse∘serialize.
+  ok(JSON.stringify(stable(parseDesignMd(toDesignMd(perMode)).input)) === JSON.stringify(stable(perMode)),
+    'D-density(f): parseDesignMd(toDesignMd(input)) preserves modeLevers.density');
+
+  // (g) validateBrandInput ACCEPTS per-mode density — RETURNS an empty error array (never throws).
+  const accept = { id: 'ddensity-schema', primary: { l: 0.55, c: 0.18, h: 285 }, neutral: { hue: 285, chroma: 0.01 }, modes: ['light', 'dark'], modeLevers: { dark: { density: 'compact' } } } as unknown as BrandInput;
+  ok(validateBrandInput(accept).length === 0, `D-density(g): validateBrandInput accepts per-mode density (errors: ${JSON.stringify(validateBrandInput(accept))})`);
+
+  // (h) no-diff suppression — a per-mode density EQUAL to the baseline attaches no leaf override.
+  const equalTree = buildTree(brandTheme({ ...base, modeLevers: { dark: { density: 'comfortable' } } } as unknown as BrandInput)).tree[root];
+  ok(Object.keys(equalTree.size).every((n) => equalTree.size[n].height.$extensions.prism3.modes === undefined),
+    'D-density(h): a per-mode density equal to the baseline (comfortable) attaches no leaf override');
+
+  // (i) byte-identical guard — a modeLevers entry with no density lever adds nothing (absent feature).
+  ok(JSON.stringify(buildTree(brandTheme(base)).tree) === JSON.stringify(buildTree(brandTheme({ ...base, modeLevers: { dark: {} } } as unknown as BrandInput)).tree),
+    'D-density(i): a modeLevers entry with no density lever produces byte-identical output');
+}
+
 // roleColors — general semantic-role rebasing (docs/21): re-base any role on a declared palette,
 // with the contrast guarantee preserved and a hue-mismatch note (not a block).
 {

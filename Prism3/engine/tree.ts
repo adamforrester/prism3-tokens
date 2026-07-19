@@ -15,6 +15,7 @@
 import { RGB, contrast, hex } from './color';
 import { Step } from './ramp';
 import { Theme, ShadowStep, ShadowLayer, ResolvedGradient } from './theme';
+import { SizeStep } from './scale';
 import { resolveAllModes, ModeResult } from './modes';
 
 const WHITE: RGB = { r: 255, g: 255, b: 255 };
@@ -394,15 +395,42 @@ export const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats
     const key = spaceKeyOf.get(px);
     return key ? dimAlias(`${root}.space.${key}`, name, { px }) : dimLeaf(px, name);
   };
+  // component tier is MODE-VARYING on the density lever (Phase D — same seam as radius): a customizable
+  // mode may run a different density, re-deriving `sizes`. A size sub-leaf (height / padding-x / padding-y)
+  // whose per-mode px DIFFERS from light carries a `$extensions.prism3.modes.<mode>` override — height
+  // aliases the dimension grid on-grid (else literal); padding aliases the space scale on-scale (else
+  // literal), mirroring their light branches. Absent maps ⇒ byte-identical.
+  const sizesByMode = theme.dims.sizesByMode ?? {};
+  const gridModeOverride = (px: number, note: string): Record<string, unknown> =>
+    gridSet.has(px) ? { $value: `{${root}.dimension.${px}}`, px, note } : { $value: `${px}px`, px, note };
+  const spaceModeOverride = (px: number, note: string): Record<string, unknown> => {
+    const key = spaceKeyOf.get(px);
+    return key ? { $value: `{${root}.space.${key}}`, px, note } : { $value: `${px}px`, px, note };
+  };
+  // Build the per-mode override map for one size sub-leaf (a rung whose per-mode px differs from light).
+  const sizeModes = (sizeName: string, field: string, ownPx: number, pick: (z: SizeStep) => number, ov: (px: number, note: string) => Record<string, unknown>): Record<string, unknown> | undefined => {
+    const modeOverrides: Record<string, unknown> = {};
+    for (const [mode, steps] of Object.entries(sizesByMode)) {
+      const mz = steps.find((s) => s.name === sizeName);
+      if (!mz || pick(mz) === ownPx) continue;   // same px → no diff → no override
+      modeOverrides[mode] = ov(pick(mz), `density lever override — ${mode} (${field} ${pick(mz)}px)`);
+    }
+    return Object.keys(modeOverrides).length ? modeOverrides : undefined;
+  };
   const size: Record<string, any> = {};
   for (const z of theme.dims.sizes) {
-    size[z.name] = {
-      height: gridSet.has(z.height)
-        ? dimAlias(`${root}.dimension.${z.height}`, `size.${z.name} control height — ${z.height}px (density: ${theme.dims.density})`, { px: z.height, density: theme.dims.density })
-        : dimLeaf(z.height, `size.${z.name} control height — ${z.height}px`),
-      'padding-x': spacePad(z.padX, `size.${z.name} horizontal inset — ${z.padX}px (density: ${theme.dims.density})`),
-      'padding-y': spacePad(z.padY, `size.${z.name} vertical inset — ${z.padY}px (density: ${theme.dims.density})`),
-    };
+    const heightLeaf = gridSet.has(z.height)
+      ? dimAlias(`${root}.dimension.${z.height}`, `size.${z.name} control height — ${z.height}px (density: ${theme.dims.density})`, { px: z.height, density: theme.dims.density })
+      : dimLeaf(z.height, `size.${z.name} control height — ${z.height}px`);
+    const padXLeaf = spacePad(z.padX, `size.${z.name} horizontal inset — ${z.padX}px (density: ${theme.dims.density})`);
+    const padYLeaf = spacePad(z.padY, `size.${z.name} vertical inset — ${z.padY}px (density: ${theme.dims.density})`);
+    const hMods = sizeModes(z.name, 'height', z.height, (s) => s.height, gridModeOverride);
+    const pxMods = sizeModes(z.name, 'padding-x', z.padX, (s) => s.padX, spaceModeOverride);
+    const pyMods = sizeModes(z.name, 'padding-y', z.padY, (s) => s.padY, spaceModeOverride);
+    if (hMods) heightLeaf.$extensions.prism3.modes = hMods;
+    if (pxMods) padXLeaf.$extensions.prism3.modes = pxMods;
+    if (pyMods) padYLeaf.$extensions.prism3.modes = pyMods;
+    size[z.name] = { height: heightLeaf, 'padding-x': padXLeaf, 'padding-y': padYLeaf };
   }
 
   // ---- border-width — numeric primitives via the dimension grid (0/1/2/4) ----
