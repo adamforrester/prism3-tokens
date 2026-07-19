@@ -52,7 +52,29 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "radius": { "type": "number", "minimum": 0, "maximum": 2, "description": "OPTIONAL. Per-mode radius scale (0=sharp corners … 1=system default … 2=very soft). Re-derives this mode's radius ramp via the same radiusScale(value, baseMd) the global lever uses; only rungs whose px differs from light carry a per-mode override." }
+          "radius": { "type": "number", "minimum": 0, "maximum": 2, "description": "OPTIONAL. Per-mode radius scale (0=sharp corners … 1=system default … 2=very soft). Re-derives this mode's radius ramp via the same radiusScale(value, baseMd) the global lever uses; only rungs whose px differs from light carry a per-mode override." },
+          "families": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "OPTIONAL. Per-mode font FAMILY per family-role — a different font stack for this mode. Same shape as `typography.families` minus `variable` (the variable flag stays from light). Only a role whose stack differs from light carries a per-mode override on the `font.family.<role>` primitive; every composite inherits via its alias (the composite set is untouched).",
+            "properties": {
+              "display": { "oneOf": [ { "type": "string" }, { "type": "array", "items": { "type": "string" } } ], "description": "OPTIONAL. Display-role font stack for this mode (single face or full fallback array)." },
+              "text": { "oneOf": [ { "type": "string" }, { "type": "array", "items": { "type": "string" } } ], "description": "OPTIONAL. Text-role font stack for this mode." },
+              "mono": { "oneOf": [ { "type": "string" }, { "type": "array", "items": { "type": "string" } } ], "description": "OPTIONAL. Mono-role font stack for this mode." }
+            }
+          },
+          "weights": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "OPTIONAL. Per-mode font WEIGHT per weight-role — a different NUMERIC value the role resolves to (e.g. dark's `strong` = 600 not 700). Never changes WHICH roles exist; only their number. Only a role whose numeric differs from light carries a per-mode override on the `font.weight-role.<role>` primitive. Role ordering is NOT enforced (the UI owns that).",
+            "properties": {
+              "subtle": { "type": "number", "minimum": 100, "maximum": 900, "description": "OPTIONAL. Per-mode numeric for the `subtle` weight-role." },
+              "default": { "type": "number", "minimum": 100, "maximum": 900, "description": "OPTIONAL. Per-mode numeric for the `default` weight-role." },
+              "emphasis": { "type": "number", "minimum": 100, "maximum": 900, "description": "OPTIONAL. Per-mode numeric for the `emphasis` weight-role." },
+              "strong": { "type": "number", "minimum": 100, "maximum": 900, "description": "OPTIONAL. Per-mode numeric for the `strong` weight-role." },
+              "max": { "type": "number", "minimum": 100, "maximum": 900, "description": "OPTIONAL. Per-mode numeric for the `max` weight-role." }
+            }
+          }
         }
       }
     },

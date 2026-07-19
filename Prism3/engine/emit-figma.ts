@@ -139,92 +139,102 @@ export const fontStyleName = (familyRole: string, numericWeight: number, italic 
  *  description, only the primary face is bound as the value). */
 const stackDescription = (stack: string[]): string => `stack: ${stack.join(', ')}`;
 
-export const buildFigmaFont = (theme: Theme): FigmaCollectionFile => {
+// `core-font` is now a PER-MODE collection (Phase D — same convention as `radius`): a customizable
+// mode that overrides the font FAMILY (`font/family/*`) or WEIGHT (`font/weight-role/*`) via
+// `modeLevers` gets its own mode file. A brand with no per-mode typography returns a single
+// `[{$mode:'Default',…}]` entry — byte-identical to the pre-D world. Each mode file carries the FULL
+// variable set (family/size/weight/weight-role); a variable with no override for a mode falls through
+// to its canonical (light) value, satisfying Figma's mode-completeness requirement — exactly like
+// `radius` per mode. The per-mode family/weight overrides are read from the DTCG leaf's
+// `$extensions.prism3.modes.<mode>` the tree emits.
+export const buildFigmaFont = (theme: Theme): FigmaCollectionFile[] => {
   const { tree } = buildTree(theme);
   const root = Object.keys(tree)[0];
   const font = tree[root].font;
-  const variables: FigmaVar[] = [];
+  const familiesByMode = theme.typography.familiesByMode ?? {};
+  const weightRolesByMode = theme.typography.weightRolesByMode ?? {};
+  const fontModes = [...new Set([...Object.keys(familiesByMode), ...Object.keys(weightRolesByMode)])];
 
-  // font/family/* — STRING PRIMITIVES (ref tier). Primary face is the bound
-  // value; full fallback stack lives in the description (fix #4). Scope
-  // FONT_FAMILY is the correct guidance for text-style consumers (which is
-  // where family primitives ARE actually bound, via the composite text style),
-  // so we don't narrow it further. hiddenFromPublishing hides them from
-  // library consumers.
-  for (const familyRole of Object.keys(font.family)) {
-    const leaf = font.family[familyRole];
-    // Reassemble the full stack: single-family $value + the fallbackStack extension
-    // (legacy array $value still handled). The bound Figma value stays the primary
-    // face; the full stack lives in the description (fix #4).
-    const primary = Array.isArray(leaf.$value) ? String(leaf.$value[0]) : String(leaf.$value);
-    const fallback: string[] = Array.isArray(leaf.$value)
-      ? leaf.$value.slice(1).map(String)
-      : ((leaf.$extensions?.prism3?.fallbackStack as string[] | undefined) ?? []);
-    const stack: string[] = [primary, ...fallback];
-    variables.push({
-      name: `font/family/${familyRole}`,
-      resolvedType: 'STRING',
-      scopes: ['FONT_FAMILY'],
-      description: [stackDescription(stack), desc(leaf)].filter(Boolean).join(' — '),
-      value: stack[0],
-      alias: null,
-      hiddenFromPublishing: true,
-    });
-  }
+  const varsFor = (mode: string): FigmaVar[] => {
+    const variables: FigmaVar[] = [];
+    // font/family/* — STRING PRIMITIVES (ref tier). Primary face is the bound value; full
+    // fallback stack lives in the description (fix #4). A per-mode family override supplies its
+    // own $value (primary) + fallbackStack; else the canonical (light) leaf. hiddenFromPublishing
+    // hides them from library consumers.
+    for (const familyRole of Object.keys(font.family)) {
+      const leaf = font.family[familyRole];
+      const ov = mode === 'Default' ? undefined : (leaf.$extensions?.prism3?.modes as any)?.[mode];
+      const primary = ov ? String(ov.$value)
+        : Array.isArray(leaf.$value) ? String(leaf.$value[0]) : String(leaf.$value);
+      const fallback: string[] = ov
+        ? ((ov.fallbackStack as string[] | undefined) ?? [])
+        : Array.isArray(leaf.$value) ? leaf.$value.slice(1).map(String)
+          : ((leaf.$extensions?.prism3?.fallbackStack as string[] | undefined) ?? []);
+      const stack: string[] = [primary, ...fallback];
+      variables.push({
+        name: `font/family/${familyRole}`,
+        resolvedType: 'STRING',
+        scopes: ['FONT_FAMILY'],
+        description: [stackDescription(stack), desc(leaf)].filter(Boolean).join(' — '),
+        value: stack[0],
+        alias: null,
+        hiddenFromPublishing: true,
+      });
+    }
 
-  // font/size/N — FLOAT PRIMITIVES (curated ladder; static, not per-mode).
-  // hiddenFromPublishing hides these from library consumers; consumers reach
-  // text styles / the fluid composite, not raw sizes.
-  for (const key of Object.keys(font.size)) {
-    const leaf = font.size[key];
-    variables.push({
-      name: `font/size/${key}`,
-      resolvedType: 'FLOAT',
-      scopes: ['FONT_SIZE'],
-      description: desc(leaf),
-      value: Number(key),
-      alias: null,
-      hiddenFromPublishing: true,
-    });
-  }
+    // font/size/N — FLOAT PRIMITIVES (curated ladder; static, never per-mode).
+    for (const key of Object.keys(font.size)) {
+      const leaf = font.size[key];
+      variables.push({
+        name: `font/size/${key}`,
+        resolvedType: 'FLOAT',
+        scopes: ['FONT_SIZE'],
+        description: desc(leaf),
+        value: Number(key),
+        alias: null,
+        hiddenFromPublishing: true,
+      });
+    }
 
-  // font/weight/N — FLOAT numeric reference tier (100..900). PRIMITIVES —
-  // brand-facing consumers pick `font/weight-role/*` (subtle/default/emphasis/
-  // strong), not the raw numeric. hiddenFromPublishing hides from library
-  // consumers; the FONT_WEIGHT scope keeps the picker guidance correct if a
-  // bespoke component needs to bind directly.
-  for (const key of Object.keys(font.weight)) {
-    const leaf = font.weight[key];
-    variables.push({
-      name: `font/weight/${key}`,
-      resolvedType: 'FLOAT',
-      scopes: ['FONT_WEIGHT'],
-      description: desc(leaf),
-      value: Number(key),
-      alias: null,
-      hiddenFromPublishing: true,
-    });
-  }
+    // font/weight/N — FLOAT numeric reference tier (union of the global tier + every per-mode
+    // weight value, so a per-mode weight-role alias always lands). PRIMITIVES; brand-facing
+    // consumers pick `font/weight-role/*`. hiddenFromPublishing hides from library consumers.
+    for (const key of Object.keys(font.weight)) {
+      const leaf = font.weight[key];
+      variables.push({
+        name: `font/weight/${key}`,
+        resolvedType: 'FLOAT',
+        scopes: ['FONT_WEIGHT'],
+        description: desc(leaf),
+        value: Number(key),
+        alias: null,
+        hiddenFromPublishing: true,
+      });
+    }
 
-  // font/weight-role/{role} — SEMANTIC. FLOAT aliased to the numeric weight.
-  // Visible in the picker — this IS the brand-facing lever (a brand swaps
-  // `emphasis: 600 → 500` and every emphasis style follows). The DTCG encodes
-  // the numeric target under $extensions.prism3.numeric and the alias path
-  // under aliasOf; the Figma-target name is `font/weight/<numeric>`.
-  for (const roleKey of Object.keys(font['weight-role'])) {
-    const leaf = font['weight-role'][roleKey];
-    const numeric = leaf.$extensions?.prism3?.numeric as number;
-    variables.push({
-      name: `font/weight-role/${roleKey}`,
-      resolvedType: 'FLOAT',
-      scopes: ['FONT_WEIGHT'],
-      description: desc(leaf),
-      value: numeric,
-      alias: { type: 'VARIABLE_ALIAS', name: `font/weight/${numeric}` },
-    });
-  }
+    // font/weight-role/{role} — SEMANTIC. FLOAT aliased to the numeric weight. This IS the
+    // brand-facing lever; a per-mode weight override re-anchors it at `font/weight/<value>` for
+    // that mode (e.g. dark's `strong` → 600). Else the canonical (light) numeric.
+    for (const roleKey of Object.keys(font['weight-role'])) {
+      const leaf = font['weight-role'][roleKey];
+      const ov = mode === 'Default' ? undefined : (leaf.$extensions?.prism3?.modes as any)?.[mode];
+      const numeric = ov ? (ov.weight as number) : (leaf.$extensions?.prism3?.numeric as number);
+      variables.push({
+        name: `font/weight-role/${roleKey}`,
+        resolvedType: 'FLOAT',
+        scopes: ['FONT_WEIGHT'],
+        description: desc(leaf),
+        value: numeric,
+        alias: { type: 'VARIABLE_ALIAS', name: `font/weight/${numeric}` },
+      });
+    }
+    return variables;
+  };
 
-  return { $collection: 'core-font', $mode: 'Default', variables };
+  return [
+    { $collection: 'core-font', $mode: 'Default', variables: varsFor('Default') },
+    ...fontModes.map((mode) => ({ $collection: 'core-font' as const, $mode: mode, variables: varsFor(mode) })),
+  ];
 };
 
 // Fluid composites — walk the type tree and pick composites whose responsive
@@ -430,8 +440,12 @@ if (isMain) {
     // Filenames follow the $collection label (so the core-*/type-sets rename carries through).
     writeFileSync(resolve(dir, `${palette.$collection}.json`), JSON.stringify(palette, null, 2) + '\n');
     for (const c of color) writeFileSync(resolve(dir, `${c.$collection}.${c.$mode}.json`), JSON.stringify(c, null, 2) + '\n');
-    const font = buildFigmaFont(theme);
-    writeFileSync(resolve(dir, `${font.$collection}.json`), JSON.stringify(font, null, 2) + '\n');
+    // core-font is per-mode (Phase D): a brand with no per-mode typography emits ONE `core-font.json`
+    // (byte-identical to pre-D); a brand overriding font family/weight per mode emits per-mode
+    // filenames `core-font.<mode>.json`, matching the colour/radius per-mode convention.
+    const fontFiles = buildFigmaFont(theme);
+    if (fontFiles.length === 1) writeFileSync(resolve(dir, `core-font.json`), JSON.stringify(fontFiles[0], null, 2) + '\n');
+    else for (const f of fontFiles) writeFileSync(resolve(dir, `core-font.${f.$mode}.json`), JSON.stringify(f, null, 2) + '\n');
     const fluid = buildFigmaFontFluid(theme);
     for (const f of fluid) writeFileSync(resolve(dir, `${f.$collection}.${f.$mode}.json`), JSON.stringify(f, null, 2) + '\n');
     const textStyles = buildFigmaTextStyles(theme);
@@ -461,6 +475,6 @@ if (isMain) {
     writeFileSync(resolve(dir, 'shadow-styles.json'), JSON.stringify(shadows, null, 2) + '\n');
     const gradients = buildFigmaGradient(theme);
     writeFileSync(resolve(dir, 'gradient-styles.json'), JSON.stringify(gradients, null, 2) + '\n');
-    console.log(`[figma] ${id}: palette ${palette.variables.length} + color ${color.length}×${color[0].variables.length} + font ${font.variables.length} + font-fluid ${fluid.length}×${fluid[0].variables.length} + text-styles ${textStyles.styles.length} + dims ${dimsCount} (${Object.keys(dims).length} colls) + layout ${layout.length}×${layout[0].variables.length} + shadow ${shadows.styles.length} + gradient ${gradients.styles.length}`);
+    console.log(`[figma] ${id}: palette ${palette.variables.length} + color ${color.length}×${color[0].variables.length} + font ${fontFiles[0].variables.length}${fontFiles.length > 1 ? `×${fontFiles.length}modes` : ''} + font-fluid ${fluid.length}×${fluid[0].variables.length} + text-styles ${textStyles.styles.length} + dims ${dimsCount} (${Object.keys(dims).length} colls) + layout ${layout.length}×${layout[0].variables.length} + shadow ${shadows.styles.length} + gradient ${gradients.styles.length}`);
   }
 }

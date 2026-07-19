@@ -1053,7 +1053,16 @@ const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
     // typeScale stays a plain control; the font pool + weight-role map ARE the typography editor
     // (#103 A1 — families finally editable). The per-category assignment table is A2.
     const scale = levers.find((l) => l.key === 'typography.typeScale');
-    if (scale) { const p = el('div', 'panel'); p.append(renderControl(scale)); host.append(p); }
+    if (scale) {
+      const p = el('div', 'panel');
+      if (currentMode !== 'light') {                          // D — type scale is shared; read-only outside Light
+        const cur = getPath(brandState, scale.key) ?? scale.default;
+        const k = el('div', 'knob');
+        k.append(el('label', 'knob-label', scale.label), el('div', 'te-shared-ro', `${cur} · shared across modes — edit in Light`), el('p', 'knob-desc', scale.description));
+        p.append(k);
+      } else p.append(renderControl(scale));
+      host.append(p);
+    }
     host.append(renderTypographyEditor());
   } else if (key === 'form') {
     // Geometry + motion in the top panel; shadow.softness is pulled out so every shadow control
@@ -1133,6 +1142,37 @@ const FAMILY_ROLES: Array<['display' | 'text' | 'mono', string, string]> = [
 const renderTypographyEditor = (): HTMLElement => {
   const wrap = el('div', 'type-editor');
   const ty = theme.typography;
+  // D (typography) — outside the base mode, font FAMILY + WEIGHT go per-mode (modeLevers[mode]);
+  // the shared skeleton (type scale, categories, which weights each category ships) is authored in
+  // Light and shown read-only here. "Auto" = follow the global baseline.
+  const perMode = currentMode !== 'light';
+  const modeLabel = MODE_LABEL[currentMode] ?? currentMode;
+  const famGet = (role: string): string | undefined => {
+    const f = brandState.modeLevers?.[currentMode]?.families?.[role as 'display' | 'text' | 'mono'];
+    return Array.isArray(f) ? f[0] : f;
+  };
+  const wGet = (role: string): number | undefined => brandState.modeLevers?.[currentMode]?.weights?.[role as keyof NonNullable<NonNullable<typeof brandState.modeLevers>[string]>['weights']];
+  const clearModeLevers = (): void => {                     // drop empty per-mode maps → byte-identical revert
+    const ml = brandState.modeLevers; if (!ml) return;
+    const e = ml[currentMode];
+    if (e) { if (e.families && !Object.keys(e.families).length) delete e.families; if (e.weights && !Object.keys(e.weights).length) delete e.weights; if (!Object.keys(e).length) delete ml[currentMode]; }
+    if (!Object.keys(ml).length) brandState.modeLevers = undefined;
+  };
+  const famSet = (role: string, v: string | undefined): void => {
+    const ml = brandState.modeLevers ?? (brandState.modeLevers = {});
+    const e = ml[currentMode] ?? (ml[currentMode] = {});
+    const fams = e.families ?? (e.families = {});
+    if (v) (fams as Record<string, string>)[role] = v; else delete (fams as Record<string, string>)[role];
+    clearModeLevers(); applyFull();
+  };
+  const wSet = (role: string, v: number | undefined): void => {
+    const ml = brandState.modeLevers ?? (brandState.modeLevers = {});
+    const e = ml[currentMode] ?? (ml[currentMode] = {});
+    const ws = e.weights ?? (e.weights = {});
+    if (v !== undefined) (ws as Record<string, number>)[role] = v; else delete (ws as Record<string, number>)[role];
+    clearModeLevers(); applyFull();
+  };
+  if (perMode) wrap.append(el('p', 'te-modenote', `Editing ${modeLabel}’s font family + weight — “Auto” follows the global baseline. Type scale, categories, and which weights each category ships are shared across modes (edit them in Light).`));
   // Phase B: recomputes the per-category weight-availability markers from the LIVE resolved theme.
   // Assigned once the table exists; A1 (font/weight edits) and A2 (family/weight-role edits) call it
   // after apply(), so a font or weight-numeric change refreshes the warnings without a full re-render.
@@ -1141,13 +1181,21 @@ const renderTypographyEditor = (): HTMLElement => {
   wrap.append(subHead('Font pool'));
   const pool = el('div', 'panel');
   for (const [role, label, desc] of FAMILY_ROLES) {
-    const primary = ty.families.find((f) => f.role === role)?.stack[0] ?? '';
+    const globalPrimary = ty.families.find((f) => f.role === role)?.stack[0] ?? '';
     const knob = el('div', 'knob');
     knob.append(el('label', 'knob-label', label));
     const input = el('input') as HTMLInputElement;
-    input.type = 'text'; input.className = 'te-font'; input.value = primary; input.placeholder = 'Font family name';
-    input.onchange = () => { setPath(brandState, `typography.families.${role}`, input.value.trim() || undefined); apply(); refreshWarnings(); };
-    knob.append(input, el('p', 'knob-desc', desc));
+    input.type = 'text'; input.className = 'te-font';
+    if (perMode) {
+      const ov = famGet(role);
+      input.value = ov ?? '';
+      input.placeholder = `Auto — ${globalPrimary}`;
+      input.onchange = () => famSet(role, input.value.trim() || undefined);
+    } else {
+      input.value = globalPrimary; input.placeholder = 'Font family name';
+      input.onchange = () => { setPath(brandState, `typography.families.${role}`, input.value.trim() || undefined); apply(); refreshWarnings(); };
+    }
+    knob.append(input, el('p', 'knob-desc', perMode ? `${desc} — per ${modeLabel}; blank = Auto (global).` : desc));
     pool.append(knob);
   }
   wrap.append(pool);
@@ -1158,17 +1206,31 @@ const renderTypographyEditor = (): HTMLElement => {
     const knob = el('div', 'knob te-wrow');
     knob.append(el('label', 'knob-label', w.role));
     const input = el('input') as HTMLInputElement;
-    input.type = 'number'; input.min = '100'; input.max = '900'; input.step = '100'; input.value = String(w.value); input.className = 'te-weight';
-    input.onchange = () => { const n = Number(input.value); if (n >= 100 && n <= 900) { setPath(brandState, `typography.weightRoles.${w.role}`, n); apply(); refreshWarnings(); } };
+    input.type = 'number'; input.min = '100'; input.max = '900'; input.step = '100'; input.className = 'te-weight';
+    if (perMode) {
+      const ov = wGet(w.role);
+      input.value = ov !== undefined ? String(ov) : '';
+      input.placeholder = `Auto ${w.value}`;
+      input.onchange = () => { const raw = input.value.trim(); if (raw === '') { wSet(w.role, undefined); return; } const n = Number(raw); if (n >= 100 && n <= 900) wSet(w.role, n); };
+    } else {
+      input.value = String(w.value);
+      input.onchange = () => { const n = Number(input.value); if (n >= 100 && n <= 900) { setPath(brandState, `typography.weightRoles.${w.role}`, n); apply(); refreshWarnings(); } };
+    }
     knob.append(input);
     wr.append(knob);
   }
   wrap.append(wr);
+  // Ordering nudge (D) — the weight roles are a relative-emphasis ladder (subtle ≤ … ≤ strong); a mode
+  // shifts the whole scale but shouldn't INVERT a role. Warn (never block) if the effective values dip.
+  const effWeights = ty.weightRoles.map((w) => (perMode ? (wGet(w.role) ?? w.value) : w.value));
+  const inverted = effWeights.some((v, i) => i > 0 && v < effWeights[i - 1]);
+  if (inverted) wrap.append(el('p', 'te-order-warn', '⚠ A heavier role now resolves lighter than a lower one — the weight names read as relative emphasis (subtle → strong), so keeping them in order stays honest. This is a warning, not a block.'));
   // --- Per-category assignment (A2): family role · which weight-roles ship · italic · link ---
   // Current state is DERIVED from the resolved composites; each control writes the corresponding
   // brandState.typography.* override. Toggles read LIVE checkbox states (never a stale snapshot),
   // so writing the full weights/italics/links list from the DOM stays correct across many edits.
   wrap.append(subHead('Per-category'));
+  if (perMode) wrap.append(el('p', 'te-shared-note', `Shared across all modes — the family map, which weight roles each category ships, and italic/link are the composite skeleton. Edit them in Light; ${modeLabel} inherits the structure and just overrides the font + weight values above.`));
   const roleOrder = ty.weightRoles.map((w) => w.role);
   const italicG = new Set<string>(ty.composites.filter((c) => c.italic).map((c) => c.group));
   const linkG = new Set<string>(ty.composites.filter((c) => c.link).map((c) => c.group));
@@ -1183,7 +1245,7 @@ const renderTypographyEditor = (): HTMLElement => {
   const weightTd: Record<string, Record<string, HTMLElement>> = {};   // Phase B: the cell carrying the availability marker
   const italicCb: Record<string, HTMLInputElement> = {};
   const linkCb: Record<string, HTMLInputElement> = {};
-  const cbEl = (checked: boolean): HTMLInputElement => { const c = el('input') as HTMLInputElement; c.type = 'checkbox'; c.checked = checked; return c; };
+  const cbEl = (checked: boolean): HTMLInputElement => { const c = el('input') as HTMLInputElement; c.type = 'checkbox'; c.checked = checked; c.disabled = perMode; return c; };
   const table = el('table', 'te-cat');
   const head = el('tr');
   head.append(el('th', undefined, 'Category'), el('th', undefined, 'Family'));
@@ -1196,6 +1258,7 @@ const renderTypographyEditor = (): HTMLElement => {
     const fsel = el('select', 'te-fam') as HTMLSelectElement;
     for (const fr of ['display', 'text', 'mono']) { const o = el('option') as HTMLOptionElement; o.value = fr; o.textContent = fr; if (fr === catFamily[g]) o.selected = true; fsel.append(o); }
     fsel.onchange = () => { setPath(brandState, `typography.familyMap.${g}`, fsel.value); apply(); refreshWarnings(); };
+    fsel.disabled = perMode;   // shared skeleton — edit in Light
     const ftd = el('td'); ftd.append(fsel); tr.append(ftd);
     weightCb[g] = {}; weightTd[g] = {};
     for (const r of roleOrder) {
@@ -1376,12 +1439,19 @@ const renderTypeSpecimen = (): HTMLElement => {
     const cur = byGroup.get(c.group);
     if (!cur || c.sizePx > cur.sizePx) byGroup.set(c.group, c);   // largest variant per group
   }
+  // D — reflect the current mode's per-mode font family + weight (modeLevers.families/weights) when
+  // they deviate, so the swap is visible here rather than only in the export (the #158 lesson). Falls
+  // back to the global families/weightRoles.
+  const famsByMode = ty.familiesByMode?.[currentMode];
+  const wrByMode = ty.weightRolesByMode?.[currentMode];
   const list = el('div', 'ts-list');
   for (const g of TYPE_GROUP_ORDER) {
     const c = byGroup.get(g);
     if (!c) continue;
-    const fam = ty.families.find((f) => f.role === c.family)?.stack.join(', ') ?? 'inherit';
-    const wt = ty.weightRoles.find((w) => w.role === c.weightRole)?.value ?? 400;
+    const famList = famsByMode ?? ty.families;
+    const wrList = wrByMode ?? ty.weightRoles;
+    const fam = famList.find((f) => f.role === c.family)?.stack.join(', ') ?? 'inherit';
+    const wt = wrList.find((w) => w.role === c.weightRole)?.value ?? 400;
     const row = el('div', 'ts-row');
     const name = c.variant ? `${c.group}.${c.variant}` : c.group;   // eyebrow has an empty variant
     row.append(el('div', 'ts-meta mono', `${name} · ${c.sizePx}px · ${c.weightRole} ${wt}`));
@@ -2235,6 +2305,12 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .te-cat td.unavail{background:repeating-linear-gradient(-45deg,transparent,transparent 4px,rgba(120,120,130,.06) 4px,rgba(120,120,130,.06) 5px)}
 .te-cat-note{margin:10px 2px 0;font-size:11.5px;line-height:1.5;color:var(--faint)}
 .te-fam{padding:5px 7px;border:1px solid var(--line2);border-radius:var(--r-xs);font:inherit;font-size:12px;background:var(--paper);cursor:pointer}
+/* D (typography) — per-mode notes + shared read-only markers. */
+.te-modenote{margin:0 0 16px;font-size:12.5px;color:var(--muted);line-height:1.55;padding:10px 13px;background:var(--paper);border:1px solid var(--line);border-radius:var(--r-sm)}
+.te-order-warn{margin:10px 2px 0;font-size:12px;color:#a12;line-height:1.5}
+.te-shared-note{margin:4px 2px 10px;font-size:12px;color:var(--faint);line-height:1.5}
+.te-shared-ro{margin:6px 0 0;font-size:13.5px;font-weight:560;color:var(--ink2)}
+.te-cat select:disabled,.te-cat input:disabled{opacity:.55;cursor:not-allowed}
 .obj-editor{margin-bottom:8px}
 .obj-lede{margin:0 0 8px;font-size:12px;color:var(--faint);line-height:1.5}
 .obj-row{display:flex;gap:8px;margin-top:8px}

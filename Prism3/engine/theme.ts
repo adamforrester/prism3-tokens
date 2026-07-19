@@ -55,7 +55,15 @@ export type PaletteBuild = { palette: string; role: Role; steps: Step[]; descrip
  *  an input lever the engine RE-DERIVES for that mode — today `radius` (the radius scale), with
  *  `typeScale`/`tempo`/`density` slotting in the same way later. Distinct from the global
  *  `radiusScale` (the baseline every mode inherits); a `modeLevers` entry deviates a single mode. */
-export type ModeLevers = { radius?: number };  // per-mode lever overrides; extensible (typeScale/tempo/density later)
+export type ModeLevers = {
+  radius?: number;
+  // Per-mode font FAMILY per family-role (display/text/mono) — a different font stack for this mode.
+  // Same shape as `TypographyInput.families` minus `variable` (the variable flag stays from light).
+  families?: { display?: string | string[]; text?: string | string[]; mono?: string | string[] };
+  // Per-mode font WEIGHT per weight-role — a different NUMERIC value the role resolves to (e.g. dark's
+  // `strong` = 600 not 700). Never changes WHICH roles exist; only their number.
+  weights?: Partial<Record<WeightRoleName, number>>;
+};  // per-mode lever overrides; extensible (typeScale/tempo/density later)
 
 /** The non-color (dimension) axis: a primitive grid + space/radius/size scales. */
 export type Dims = {
@@ -473,6 +481,13 @@ export type Typography = {
   fluid: boolean;                                     // responsive sizing on (Phase 3)
   minViewport: number;                                // px — fluid clamp() interpolation floor
   maxViewport: number;                                // px — fluid clamp() interpolation ceiling
+  // Per-mode typography levers (Phase D) — only modes whose `modeLevers.families`/`weights` deviate
+  // the baseline. Each carries the RE-DERIVED primitives (via the same helpers buildTypography uses):
+  // family stacks per family-role, weight-role → numeric per weight-role. Every typography COMPOSITE
+  // inherits automatically (its fontFamily/fontWeight alias the family/weight-role PRIMITIVE), so the
+  // composite SET is untouched. Absent (field omitted) when no per-mode typography → byte-identical.
+  familiesByMode?: Record<string, FontFamilyRole[]>;
+  weightRolesByMode?: Record<string, WeightRole[]>;
 };
 
 const SANS_FALLBACK = ['system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'];
@@ -681,18 +696,25 @@ const buildComposites = (ladder: number[], t: TypographyInput, fluid: boolean): 
   return out;
 };
 
-const buildTypography = (t: TypographyInput = {}): Typography => {
-  const fam = t.families ?? {};
+// Derive the three family-role stacks from a `families` input object (display/text/mono
+// + variable). Single source for both the light build (buildTypography) and per-mode
+// re-derivation (brandTheme's modeLevers.families): a per-mode override merges its stacks
+// over the base `families` and re-runs this, keeping the `variable` flag from the base.
+const deriveFamilies = (fam: TypographyInput['families'] = {}): FontFamilyRole[] => {
   const textFace = Array.isArray(fam.text) ? fam.text[0] : fam.text;
   // `variable` may be a single flag (applies to all) or per-family — the build
   // reads it per family to decide weight emission (KB 23 §Variable fonts).
   const isVar = (role: FamilyRoleName): boolean =>
     typeof fam.variable === 'object' ? fam.variable[role] ?? false : fam.variable ?? false;
-  const families: FontFamilyRole[] = [
+  return [
     { role: 'display', stack: asStack(fam.display ?? textFace, 'Inter', SANS_FALLBACK), variable: isVar('display') },
     { role: 'text', stack: asStack(fam.text, 'Inter', SANS_FALLBACK), variable: isVar('text') },
     { role: 'mono', stack: asStack(fam.mono, 'JetBrains Mono', MONO_FALLBACK), variable: isVar('mono') },
   ];
+};
+
+const buildTypography = (t: TypographyInput = {}): Typography => {
+  const families = deriveFamilies(t.families);
   const wr = { ...WEIGHT_ROLE_DEFAULT, ...(t.weightRoles ?? {}) };
   const fluid = t.responsive?.fluid ?? true;
   return {
@@ -1014,8 +1036,15 @@ export const brandTheme = (input: BrandInput): Theme => {
     const lev = input.modeLevers![m]!;
     if (lev.radius !== undefined && (!Number.isFinite(lev.radius) || lev.radius < 0 || lev.radius > 2))
       throw new Error(`modeLevers: mode '${m}' radius ${lev.radius} is out of range — must be a finite number in [0, 2]`);
+    // Per-mode weight values must be a valid font-weight (finite, [100, 900]). Role ordering is NOT
+    // enforced here (the UI owns that) — the engine accepts any valid weight per role.
+    for (const [role, w] of Object.entries(lev.weights ?? {})) {
+      if (w !== undefined && (!Number.isFinite(w) || w < 100 || w > 900))
+        throw new Error(`modeLevers: mode '${m}' weight '${role}' ${w} is out of range — must be a finite number in [100, 900]`);
+    }
   }
-  if (Object.keys(input.modeLevers ?? {}).length) notes.push(`modeLevers: per-mode lever overrides for ${Object.keys(input.modeLevers!).join(', ')} (radius re-derived per mode via the same radiusScale as the baseline; a mode deviates the global lever)`);
+  const leverModes = Object.entries(input.modeLevers ?? {}).filter(([, l]) => l && (l.radius !== undefined || l.families || l.weights)).map(([m]) => m);
+  if (leverModes.length) notes.push(`modeLevers: per-mode lever overrides for ${leverModes.join(', ')} (radius / font family / font weight re-derived per mode via the same helpers as the baseline; a mode deviates the global lever, the composite/token set is untouched)`);
   if (root !== 'prism') notes.push(`namespace: tokens emit under '${root}.*' (custom, not the 'prism' default)`);
   const anchorStep = autoPlaceStep(input.primary.l);
   notes.push(`primary anchor (h${input.primary.h}) pinned exactly at step ${anchorStep}`);
@@ -1237,6 +1266,34 @@ export const brandTheme = (input: BrandInput): Theme => {
   const layout = buildLayout(input.layout);
   notes.push(`layout: ${layout.breakpoints.length} breakpoints (${layout.breakpoints.map((b) => `${b.name} ${b.px}`).join(', ')}); grid base ${layout.baseColumns} cols (ladder ${layout.grid.map((g) => g.columns).join('/')}); gutter/margin alias the spacing scale (${layout.grid.map((g) => g.gutterPx).join('/')} · ${layout.grid.map((g) => g.marginPx).join('/')}); container max ${layout.containerMax}px + narrow ${layout.containerNarrow}px (fluid-first + cap). Breakpoints → a separate Figma layout collection (modes), composing with colour light/dark.`);
   const typography = buildTypography(input.typography);
+  // Per-mode typography levers (Phase D): a customizable mode may override the font FAMILY per
+  // family-role and/or the font WEIGHT per weight-role. Re-derive the affected PRIMITIVES via the
+  // SAME helpers buildTypography uses — family stacks by merging the mode's stacks over the base
+  // `families` and re-running deriveFamilies (variable flag kept from light); weight-role numbers by
+  // merging the mode's weights over the resolved defaults. Only modes that override get an entry, so
+  // absent maps ⇒ byte-identical. The composite SET is untouched — every composite aliases the
+  // family/weight-role primitive, so it inherits the per-mode value automatically (the seam).
+  const baseFam = input.typography?.families ?? {};
+  const baseWr = { ...WEIGHT_ROLE_DEFAULT, ...(input.typography?.weightRoles ?? {}) };
+  const familiesByMode: Record<string, FontFamilyRole[]> = {};
+  const weightRolesByMode: Record<string, WeightRole[]> = {};
+  const extraWeights = new Set<number>();
+  for (const [m, lev] of Object.entries(modeLevers)) {
+    if (lev?.families) familiesByMode[m] = deriveFamilies({ ...baseFam, ...lev.families });
+    if (lev?.weights) {
+      const wrMode = { ...baseWr, ...lev.weights };
+      weightRolesByMode[m] = WEIGHT_ROLE_ORDER.map((role) => ({ role, value: wrMode[role] }));
+      for (const w of Object.values(lev.weights)) if (w !== undefined) extraWeights.add(w);
+    }
+  }
+  // Weight numeric primitives must resolve: a per-mode weight value may not be in the global tier.
+  // Emit the UNION (sorted, de-duped) so `weight-role.<role>`'s per-mode alias {font.weight.<value>}
+  // always lands on a real `font.weight.<num>` leaf. This adds font.weight.<num> leaves — the ONLY
+  // out/* change a per-mode-weight brand causes; a brand with no per-mode weights is byte-identical.
+  if (extraWeights.size)
+    typography.weightsRef = [...new Set([...typography.weightsRef, ...extraWeights])].sort((a, b) => a - b);
+  if (Object.keys(familiesByMode).length) typography.familiesByMode = familiesByMode;
+  if (Object.keys(weightRolesByMode).length) typography.weightRolesByMode = weightRolesByMode;
   const dispSizes = typography.composites.filter((c) => c.group === 'display').map((c) => c.sizePx);
   const reqCeiling = input.typography?.displayCeiling ?? 160;
   const effCap = dispSizes.length ? Math.max(...dispSizes) : 0;
@@ -1284,7 +1341,7 @@ export const brandTheme = (input: BrandInput): Theme => {
   return {
     id: input.id, root, namespace: `${root}.palette`, colorFormat: 'hex', modes: modesAll, palettes, roleToPalette, notes,
     ...(customModes.length ? { customModes } : {}),
-    ...(Object.keys(radiusByMode).length ? { modeLevers } : {}),
+    ...(Object.keys(radiusByMode).length || Object.keys(familiesByMode).length || Object.keys(weightRolesByMode).length ? { modeLevers } : {}),
     roleAnchorStep: { brand: anchorStep, neutral: 500, success: 500, warning: 500, danger: 500, info: 500, action: actionAnchorStep },
     surfaces: input.surfaces,
     overrides: input.overrides,
