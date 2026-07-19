@@ -723,6 +723,64 @@ for (const b of brands) {
     'A2b(d): an empty modeAnchors map produces byte-identical output');
 }
 
+// USER-ADDED CUSTOM MODES (Phase C1) — a custom mode `{ name, base }` LIVE-INHERITS a customizable
+// built-in (light/dark): it re-derives EXACTLY like its base each build, then its own overrides/
+// modeAnchors deviate it. Reserved/duplicate/bad-base/bad-slug names throw; byte-identical when absent.
+{
+  const roleKey = 'interactive.primary.fill.rest';
+  const root = 'prism';
+  const base = { id: 'c1', modes: ['light', 'dark'], primary: { l: 0.55, c: 0.18, h: 285 }, neutral: { hue: 285, chroma: 0.01 } } as unknown as BrandInput;
+  const withCustom = { ...base, customModes: [{ name: 'marketing-dark', base: 'dark' }] } as unknown as BrandInput;
+  const threw = (f: () => unknown) => { try { f(); return false; } catch { return true; } };
+  const stable = (v: any): any => Array.isArray(v) ? v.map(stable)
+    : (v && typeof v === 'object' ? Object.fromEntries(Object.keys(v).sort().map((k) => [k, stable(v[k])])) : v);
+  const nodeAt = (t: any) => roleKey.split('.').reduce((n, k) => n?.[k], t.color);
+  const modeOf = (input: BrandInput, m: string) => resolveAllModes(brandTheme(input)).find((r) => r.mode === m);
+
+  // (a) resolveAllModes includes the custom mode, and with NO deviation its roles EQUAL the base's.
+  const md = modeOf(withCustom, 'marketing-dark'), dk = modeOf(withCustom, 'dark');
+  ok(!!md, 'C1(a): resolveAllModes includes the custom mode marketing-dark');
+  ok(!!md && !!dk && JSON.stringify(md!.roles) === JSON.stringify(dk!.roles),
+    'C1(a): live-inherit — the custom mode with no overrides resolves byte-identically to its base (dark)');
+
+  // (b) an override on the custom mode DEVIATES it while its base (dark) stays unchanged.
+  const deviated = { ...withCustom, overrides: { 'marketing-dark': { [roleKey]: { palette: 'primary', step: '750' } } } } as unknown as BrandInput;
+  const mdD = modeOf(deviated, 'marketing-dark'), dkD = modeOf(deviated, 'dark');
+  ok(mdD!.roles[roleKey].path === `${root}.palette.primary.750`, `C1(b): a custom-mode override repoints marketing-dark (${mdD!.roles[roleKey].path})`);
+  ok(dkD!.roles[roleKey].path === dk!.roles[roleKey].path, 'C1(b): the base dark mode is untouched by the custom-mode override');
+  // and a per-mode interactive anchor on the custom mode also deviates it.
+  const anchored = { ...withCustom, modeAnchors: { 'marketing-dark': { primary: 100 } } } as unknown as BrandInput;
+  ok(modeOf(anchored, 'marketing-dark')!.roles[roleKey].path !== md!.roles[roleKey].path,
+    'C1(b): a per-mode interactive anchor on the custom mode re-anchors its fill');
+
+  // (c) buildTree emits the custom value under $extensions.prism3.modes['marketing-dark']; light $value unchanged.
+  const baseTree = nodeAt(buildTree(brandTheme(base)).tree[root]);
+  const custTree = nodeAt(buildTree(brandTheme(deviated)).tree[root]);
+  ok(custTree.$extensions.prism3.modes['marketing-dark']?.$value === `{${root}.palette.primary.750}`,
+    `C1(c): buildTree emits the custom mode under $extensions.prism3.modes['marketing-dark'] (${custTree.$extensions.prism3.modes['marketing-dark']?.$value})`);
+  ok(custTree.$value === baseTree.$value, `C1(c): light canonical $value is unchanged by the custom mode (${custTree.$value})`);
+
+  // (d) the Figma colour emit produces a marketing-dark mode file/entry.
+  const figColor = buildFigmaColor(brandTheme(withCustom)).color;
+  const figCustom = figColor.find((c) => c.$mode === 'marketing-dark');
+  ok(!!figCustom && figCustom.variables.length > 0, 'C1(d): buildFigmaColor emits a marketing-dark colour collection (color.marketing-dark.json)');
+
+  // (e) validation throws — reserved name, duplicate, non-customizable base, base not generated, bad slug.
+  ok(threw(() => brandTheme({ ...base, customModes: [{ name: 'dark', base: 'light' }] } as unknown as BrandInput)), 'C1(e): a reserved built-in name (dark) throws');
+  ok(threw(() => brandTheme({ ...base, customModes: [{ name: 'x', base: 'dark' }, { name: 'x', base: 'dark' }] } as unknown as BrandInput)), 'C1(e): a duplicate custom mode name throws');
+  ok(threw(() => brandTheme({ ...base, customModes: [{ name: 'y', base: 'hc-light' }] } as unknown as BrandInput)), 'C1(e): a non-customizable base (hc-light) throws');
+  ok(threw(() => brandTheme({ ...base, modes: ['light'], customModes: [{ name: 'z', base: 'dark' }] } as unknown as BrandInput)), "C1(e): a base not in the brand's generated modes throws");
+  ok(threw(() => brandTheme({ ...base, customModes: [{ name: 'Marketing Dark', base: 'dark' }] } as unknown as BrandInput)), 'C1(e): a non-slug name (Marketing Dark) throws');
+
+  // (f) design.md round-trip preserves customModes through parse∘serialize.
+  ok(JSON.stringify(stable(parseDesignMd(toDesignMd(withCustom)).input)) === JSON.stringify(stable(withCustom)),
+    'C1(f): parseDesignMd(toDesignMd(inputWithCustomModes)) preserves customModes');
+
+  // (g) byte-identical guard — a brand with no customModes (or []) matches the field-absent build.
+  ok(JSON.stringify(buildTree(brandTheme(base)).tree) === JSON.stringify(buildTree(brandTheme({ ...base, customModes: [] } as unknown as BrandInput)).tree),
+    'C1(g): an empty customModes array produces byte-identical output (the primary guard)');
+}
+
 // roleColors — general semantic-role rebasing (docs/21): re-base any role on a declared palette,
 // with the contrast guarantee preserved and a hue-mismatch note (not a block).
 {

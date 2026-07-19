@@ -31,7 +31,11 @@ import { RGB, contrast, hex, composite } from './color';
 import { Step } from './ramp';
 import { Theme, SurfaceSpec, SurfacesConfig, Role } from './theme';
 
-export type ModeName = 'light' | 'dark' | 'hc-light' | 'hc-dark' | 'wireframe';
+// The five built-in appearance modes — the closed set the engine ships with autocomplete.
+export type BuiltinModeName = 'light' | 'dark' | 'hc-light' | 'hc-dark' | 'wireframe';
+// A mode name is a built-in OR any slug-safe custom-mode name (C1). `(string & {})` keeps the
+// built-in literals in autocomplete while allowing arbitrary user-added mode names through.
+export type ModeName = BuiltinModeName | (string & {});
 
 const WHITE: RGB = { r: 255, g: 255, b: 255 };
 const BLACK: RGB = { r: 0, g: 0, b: 0 };
@@ -115,7 +119,7 @@ export const BUILTIN_MODES: ModeDescriptor[] = [
   { name: 'wireframe', kind: 'wireframe', family: 'light', mins: { primaryMin: 7,  secondaryMin: 4.5, tertiaryMin: 3,   actionMin: 4.5, borderTarget: 1.4, nonTextMin: 3 } },
 ];
 
-const modeConfigs = (ns: string, neutralPalette: string, neutral: Step[], surfaces: SurfacesConfig = {}): Record<ModeName, ModeCfg> => {
+const modeConfigs = (ns: string, neutralPalette: string, neutral: Step[], surfaces: SurfacesConfig = {}, descriptors: ModeDescriptor[] = BUILTIN_MODES): Record<ModeName, ModeCfg> => {
   const nNear = (num: number): Step => neutral.reduce((a, b) => (Math.abs(b.num - num) < Math.abs(a.num - num) ? b : a));
   const n = (num: number) => { const s = nNear(num); return cand(`${ns}.${neutralPalette}.${s.key}`, s.rgb); };
   const white = cand(`${ns}.white`, WHITE);
@@ -165,7 +169,7 @@ const modeConfigs = (ns: string, neutralPalette: string, neutral: Step[], surfac
   // their family's resolved surfaces (wireframe = light); HC restores the pure black/white extremes
   // and anchors its floor on the same-family standard floor. Byte-identical to the old literal table.
   const out = {} as Record<ModeName, ModeCfg>;
-  for (const d of BUILTIN_MODES) {
+  for (const d of descriptors) {
     out[d.name] = d.kind === 'hc'
       ? hcMk(d.family === 'light' ? white : black, d.family === 'light' ? black : white, resolved[d.family].floor, d.family, d.mins)
       : mk(resolved[d.family], d.kind, d.family, d.mins);
@@ -571,8 +575,18 @@ const resolveMode = (mode: ModeName, cfg: ModeCfg, theme: Theme, ramps: Map<stri
 export const resolveAllModes = (theme: Theme): ModeResult[] => {
   const ramps = new Map(theme.palettes.map((p) => [p.palette, p.steps] as const));
   const neutral = ramps.get(theme.roleToPalette.neutral)!;
-  const cfgs = modeConfigs(theme.namespace, theme.roleToPalette.neutral, neutral, theme.surfaces);
-  // Only the modes the brand opted into (light always; dark/HC opt-in — docs/11 Pillar 1).
-  // Canonical order preserved (Object.keys order), so `rp.modes` is stable regardless of input order.
+  // Custom modes (C1) — LIVE-INHERIT: each declared custom mode clones its base built-in
+  // descriptor (same kind/family/mins) under the new name, so it re-derives EXACTLY like its
+  // base each build; its own overrides[name]/modeAnchors[name] (A1/A2b) then deviate it. A custom
+  // mode with an unknown base was rejected in brandTheme — guard defensively (skip if not found).
+  const custom: ModeDescriptor[] = (theme.customModes ?? []).flatMap((cm) => {
+    const baseDesc = BUILTIN_MODES.find((d) => d.name === cm.base);
+    return baseDesc ? [{ ...baseDesc, name: cm.name }] : [];
+  });
+  const descriptors = [...BUILTIN_MODES, ...custom];
+  const cfgs = modeConfigs(theme.namespace, theme.roleToPalette.neutral, neutral, theme.surfaces, descriptors);
+  // Only the modes the brand opted into (light always; dark/HC opt-in — docs/11 Pillar 1; customs
+  // appended last). Canonical order preserved (Object.keys order: built-ins first, then customs),
+  // so `rp.modes` is stable regardless of input order.
   return (Object.keys(cfgs) as ModeName[]).filter((m) => theme.modes.includes(m)).map((m) => resolveMode(m, cfgs[m], theme, ramps));
 };

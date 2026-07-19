@@ -201,10 +201,13 @@ export const buildFigmaColor = (theme: Theme): { palette: FigmaCollectionFile; c
   };
 
   const colLeaves = leaves(tree[root].color, `${root}.color`);
-  // Iterate only the modes THIS brand ships (respects BrandInput.modes opt-out —
-  // Pillar 1a). Preserve the canonical order from COLOR_MODES so file order is
-  // deterministic regardless of the order the user typed modes into their brief.
-  const emittedModes = COLOR_MODES.filter((m) => theme.modes.includes(m));
+  // Iterate only the modes THIS brand ships (respects BrandInput.modes opt-out — Pillar 1a).
+  // Canonical order: the built-ins in their fixed COLOR_MODES order first, then any user-added
+  // custom modes (C1 — the modes in theme.modes that aren't built-ins) in declaration order. For a
+  // brand with NO custom modes this is byte-identical to the old fixed-list filter.
+  const builtinModes = COLOR_MODES.filter((m) => theme.modes.includes(m));
+  const customModes = theme.modes.filter((m) => !(COLOR_MODES as readonly string[]).includes(m));
+  const emittedModes = [...builtinModes, ...customModes];
   const color: FigmaCollectionFile[] = emittedModes.map((mode) => ({
     $collection: 'color',
     $mode: mode,
