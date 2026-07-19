@@ -74,6 +74,32 @@
               "strong": { "type": "number", "minimum": 100, "maximum": 900, "description": "OPTIONAL. Per-mode numeric for the `strong` weight-role." },
               "max": { "type": "number", "minimum": 100, "maximum": 900, "description": "OPTIONAL. Per-mode numeric for the `max` weight-role." }
             }
+          },
+          "lineHeights": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "OPTIONAL. Per-mode LINE HEIGHT per named step — a different unitless multiplier for a leading step (e.g. dark opens `normal` to 1.55 for legibility). Only a step whose multiplier differs from light carries a per-mode override on the `font.line-height.<key>` primitive; every composite referencing that key inherits it (the composite set is untouched). Figma text styles bake line-height, so the per-mode value rides the DTCG primitive + web/CSS.",
+            "properties": {
+              "tight": { "type": "number", "minimum": 0.8, "maximum": 3, "description": "OPTIONAL. Per-mode multiplier for the `tight` line-height step." },
+              "snug": { "type": "number", "minimum": 0.8, "maximum": 3, "description": "OPTIONAL. Per-mode multiplier for the `snug` line-height step." },
+              "compact": { "type": "number", "minimum": 0.8, "maximum": 3, "description": "OPTIONAL. Per-mode multiplier for the `compact` line-height step." },
+              "normal": { "type": "number", "minimum": 0.8, "maximum": 3, "description": "OPTIONAL. Per-mode multiplier for the `normal` line-height step." },
+              "relaxed": { "type": "number", "minimum": 0.8, "maximum": 3, "description": "OPTIONAL. Per-mode multiplier for the `relaxed` line-height step." },
+              "loose": { "type": "number", "minimum": 0.8, "maximum": 3, "description": "OPTIONAL. Per-mode multiplier for the `loose` line-height step." }
+            }
+          },
+          "letterSpacings": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "OPTIONAL. Per-mode LETTER SPACING per named step — a different em value for a tracking step (e.g. dark loosens `normal` to +0.005em). Only a step whose em differs from light carries a per-mode override on the `font.letter-spacing.<key>` primitive; every composite referencing that key inherits it. Figma text styles bake letter-spacing, so the per-mode value rides the DTCG primitive + web/CSS.",
+            "properties": {
+              "tighter": { "type": "number", "minimum": -0.5, "maximum": 0.5, "description": "OPTIONAL. Per-mode em for the `tighter` letter-spacing step." },
+              "tight": { "type": "number", "minimum": -0.5, "maximum": 0.5, "description": "OPTIONAL. Per-mode em for the `tight` letter-spacing step." },
+              "snug": { "type": "number", "minimum": -0.5, "maximum": 0.5, "description": "OPTIONAL. Per-mode em for the `snug` letter-spacing step." },
+              "normal": { "type": "number", "minimum": -0.5, "maximum": 0.5, "description": "OPTIONAL. Per-mode em for the `normal` letter-spacing step." },
+              "wide": { "type": "number", "minimum": -0.5, "maximum": 0.5, "description": "OPTIONAL. Per-mode em for the `wide` letter-spacing step." },
+              "wider": { "type": "number", "minimum": -0.5, "maximum": 0.5, "description": "OPTIONAL. Per-mode em for the `wider` letter-spacing step." }
+            }
           }
         }
       }

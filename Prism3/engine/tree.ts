@@ -465,10 +465,38 @@ export const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats
     if (Object.keys(modeOverrides).length) leaf.$extensions.prism3.modes = modeOverrides;
     weightRole[r.role] = leaf;
   }
+  // Line-height + letter-spacing are ALSO mode-varying primitives (Phase D — same seam as weight-role):
+  // a mode may re-anchor any named step's value. Light stays the canonical `$value`; a mode whose value
+  // differs attaches `$extensions.prism3.modes.<mode>`. Every composite references the step by key alias
+  // ({font.line-height.<key>} / {font.letter-spacing.<key>}), so it inherits per-mode automatically. NOTE:
+  // Figma text styles BAKE line-height/letter-spacing as percent (not variables), so the per-mode value
+  // rides the DTCG primitive + web/CSS; the Figma text-style export stays light-baked (as today).
+  const lhByMode = ty.lineHeightsByMode ?? {};
+  const lsByMode = ty.letterSpacingsByMode ?? {};
   const lineHeight: Record<string, Token> = {};
-  for (const lh of ty.lineHeights) lineHeight[lh.key] = lineHeightLeaf(lh.value, `line height ${lh.key} — ${lh.value}× (unitless multiplier)`);
+  for (const lh of ty.lineHeights) {
+    const leaf = lineHeightLeaf(lh.value, `line height ${lh.key} — ${lh.value}× (unitless multiplier)`);
+    const modeOverrides: Record<string, unknown> = {};
+    for (const [mode, steps] of Object.entries(lhByMode)) {
+      const ms = steps.find((x) => x.key === lh.key);
+      if (!ms || ms.value === lh.value) continue;   // same multiplier → no diff → no override
+      modeOverrides[mode] = { $value: ms.value, percent: Math.round(ms.value * 100), note: `line-height lever override — ${mode} (${lh.key} → ${ms.value}×)` };
+    }
+    if (Object.keys(modeOverrides).length) leaf.$extensions.prism3.modes = modeOverrides;
+    lineHeight[lh.key] = leaf;
+  }
   const letterSpacing: Record<string, Token> = {};
-  for (const ls of ty.letterSpacings) letterSpacing[ls.key] = letterSpacingLeaf(ls.em, `letter spacing ${ls.key} — ${ls.em}em`);
+  for (const ls of ty.letterSpacings) {
+    const leaf = letterSpacingLeaf(ls.em, `letter spacing ${ls.key} — ${ls.em}em`);
+    const modeOverrides: Record<string, unknown> = {};
+    for (const [mode, steps] of Object.entries(lsByMode)) {
+      const ms = steps.find((x) => x.key === ls.key);
+      if (!ms || ms.em === ls.em) continue;   // same em → no diff → no override
+      modeOverrides[mode] = { $value: `${ms.em}em`, em: ms.em, note: `letter-spacing lever override — ${mode} (${ls.key} → ${ms.em}em)` };
+    }
+    if (Object.keys(modeOverrides).length) leaf.$extensions.prism3.modes = modeOverrides;
+    letterSpacing[ls.key] = leaf;
+  }
   const font = { family, size: fsize, weight: fweight, 'weight-role': weightRole, 'line-height': lineHeight, 'letter-spacing': letterSpacing };
 
   // ---- typography semantic composites (Phase 2) ----

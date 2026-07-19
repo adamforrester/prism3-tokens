@@ -916,6 +916,78 @@ for (const b of brands) {
     'D-typo(i): a modeLevers entry with no typography lever produces byte-identical output');
 }
 
+// PER-MODE LINE HEIGHT / LETTER SPACING (Phase D) — a mode re-anchors any named leading/tracking step.
+// Same seam as weight-role: the engine attaches `$extensions.prism3.modes.<mode>` to the
+// `line-height.<key>` / `letter-spacing.<key>` PRIMITIVE; every composite inherits via its key alias, so
+// the composite SET is untouched. Light stays canonical; a no-diff override adds nothing; byte-identical
+// when absent. Figma text styles bake LH/LS, so the per-mode value rides the DTCG primitive (not a
+// core-font variable) — buildFigmaFont is unaffected.
+{
+  const root = 'prism';
+  const base = { id: 'dlhls', modes: ['light', 'dark'], primary: { l: 0.55, c: 0.18, h: 285 }, neutral: { hue: 285, chroma: 0.01 } } as unknown as BrandInput;
+  const threw = (f: () => unknown) => { try { f(); return false; } catch { return true; } };
+  const stable = (v: any): any => Array.isArray(v) ? v.map(stable)
+    : (v && typeof v === 'object' ? Object.fromEntries(Object.keys(v).sort().map((k) => [k, stable(v[k])])) : v);
+  // dark opens `normal` leading to 1.55 and loosens `normal` tracking to +0.01em.
+  const perMode = { ...base, modeLevers: { dark: { lineHeights: { normal: 1.55 }, letterSpacings: { normal: 0.01 } } } } as unknown as BrandInput;
+  const baseTree = buildTree(brandTheme(base)).tree[root];
+  const built = buildTree(brandTheme(perMode));
+  const pmTree = built.tree[root];
+
+  // (a) line-height.normal carries a modes.dark override (1.55 + percent); light's canonical $value is
+  //     untouched, and an un-overridden step (tight) carries no override.
+  const lhDark = pmTree.font['line-height'].normal.$extensions.prism3.modes?.dark;
+  ok(!!lhDark && lhDark.$value === 1.55 && lhDark.percent === 155,
+    `D-lhls(a): dark line-height override → line-height.normal modes.dark $value 1.55 + percent 155 (got ${lhDark?.$value})`);
+  ok(pmTree.font['line-height'].normal.$value === baseTree.font['line-height'].normal.$value,
+    `D-lhls(a): light canonical line-height.normal $value is unchanged (${pmTree.font['line-height'].normal.$value})`);
+  ok(pmTree.font['line-height'].tight.$extensions.prism3.modes === undefined, 'D-lhls(a): an un-overridden step (tight) carries no modes override');
+
+  // (b) letter-spacing.normal carries a modes.dark override (0.01em + em); light stays 0em.
+  const lsDark = pmTree.font['letter-spacing'].normal.$extensions.prism3.modes?.dark;
+  ok(!!lsDark && lsDark.$value === '0.01em' && lsDark.em === 0.01,
+    `D-lhls(b): dark letter-spacing override → letter-spacing.normal modes.dark $value '0.01em' + em 0.01 (got ${lsDark?.$value})`);
+  ok(pmTree.font['letter-spacing'].normal.$value === baseTree.font['letter-spacing'].normal.$value,
+    `D-lhls(b): light canonical letter-spacing.normal $value is unchanged (${pmTree.font['letter-spacing'].normal.$value})`);
+
+  // (c) a composite that uses line-height.normal + letter-spacing.normal (body) is UNCHANGED — it aliases
+  //     the primitives, so the per-mode value is inherited via the alias (the composite SET is fixed).
+  ok(JSON.stringify(pmTree.type.body.md.default) === JSON.stringify(baseTree.type.body.md.default),
+    'D-lhls(c): the body.md.default composite leaf is unchanged (inheritance via the line-height/letter-spacing alias)');
+
+  // (d) every DTCG alias resolves.
+  ok(built.stats.broken.length === 0 && built.stats.aliases > 0, `D-lhls(d): all ${built.stats.aliases} aliases resolve` + (built.stats.broken.length ? ` — BROKEN ${built.stats.broken.slice(0, 3).map((b: any) => b.ref).join(',')}` : ''));
+
+  // (e) buildFigmaFont is UNAFFECTED — LH/LS aren't core-font variables (baked into text styles), so a
+  //     brand overriding only LH/LS still emits a single Default core-font file (no per-mode font file).
+  const fontFiles = buildFigmaFont(brandTheme(perMode));
+  ok(fontFiles.length === 1 && fontFiles[0].$mode === 'Default', `D-lhls(e): LH/LS-only override leaves core-font single-mode (${fontFiles.map((f) => f.$mode).join(',')})`);
+
+  // (f) validation throws — LH/LS on a generate-only mode (hc-light), and values out of the sane range.
+  ok(threw(() => brandTheme({ ...base, modes: ['light', 'dark', 'hc-light', 'hc-dark'], modeLevers: { 'hc-light': { lineHeights: { normal: 1.6 } } } } as unknown as BrandInput)), 'D-lhls(f): lineHeights on hc-light (generate-only) throws');
+  ok(threw(() => brandTheme({ ...base, modeLevers: { dark: { lineHeights: { normal: 5 } } } } as unknown as BrandInput)), 'D-lhls(f): a line-height of 5 (>3) throws');
+  ok(threw(() => brandTheme({ ...base, modeLevers: { dark: { letterSpacings: { normal: 1 } } } } as unknown as BrandInput)), 'D-lhls(f): a letter-spacing of 1em (>0.5) throws');
+
+  // (g) design.md round-trip preserves modeLevers.lineHeights/letterSpacings through parse∘serialize.
+  ok(JSON.stringify(stable(parseDesignMd(toDesignMd(perMode)).input)) === JSON.stringify(stable(perMode)),
+    'D-lhls(g): parseDesignMd(toDesignMd(input)) preserves modeLevers.lineHeights/letterSpacings');
+
+  // (h) validateBrandInput ACCEPTS per-mode LH/LS — RETURNS an empty error array (never throws).
+  const accept = { id: 'dlhls-schema', primary: { l: 0.55, c: 0.18, h: 285 }, neutral: { hue: 285, chroma: 0.01 }, modes: ['light', 'dark'], modeLevers: { dark: { lineHeights: { normal: 1.55 }, letterSpacings: { normal: 0.01 } } } } as unknown as BrandInput;
+  ok(validateBrandInput(accept).length === 0, `D-lhls(h): validateBrandInput accepts per-mode LH/LS (errors: ${JSON.stringify(validateBrandInput(accept))})`);
+
+  // (i) no-diff suppression at the TOKEN level — a per-mode value EQUAL to light attaches NO leaf
+  //     override (the primitive/composite tokens are byte-identical; only the decisions log records the
+  //     lever was set — same as radius/weight when a lever matches the baseline).
+  const equalTree = buildTree(brandTheme({ ...base, modeLevers: { dark: { lineHeights: { normal: 1.5 }, letterSpacings: { normal: 0 } } } } as unknown as BrandInput)).tree[root];
+  ok(equalTree.font['line-height'].normal.$extensions.prism3.modes === undefined && equalTree.font['letter-spacing'].normal.$extensions.prism3.modes === undefined,
+    'D-lhls(i): a per-mode LH/LS equal to the light value attaches no leaf override (no-diff suppression)');
+
+  // (j) byte-identical guard — a modeLevers entry with no LH/LS lever adds nothing at all (absent feature).
+  ok(JSON.stringify(buildTree(brandTheme(base)).tree) === JSON.stringify(buildTree(brandTheme({ ...base, modeLevers: { dark: {} } } as unknown as BrandInput)).tree),
+    'D-lhls(j): a modeLevers entry with no LH/LS lever produces byte-identical output');
+}
+
 // roleColors — general semantic-role rebasing (docs/21): re-base any role on a declared palette,
 // with the contrast guarantee preserved and a hue-mismatch note (not a block).
 {
