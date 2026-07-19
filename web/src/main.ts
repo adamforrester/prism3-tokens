@@ -1155,7 +1155,13 @@ const renderTypographyEditor = (): HTMLElement => {
   const clearModeLevers = (): void => {                     // drop empty per-mode maps → byte-identical revert
     const ml = brandState.modeLevers; if (!ml) return;
     const e = ml[currentMode];
-    if (e) { if (e.families && !Object.keys(e.families).length) delete e.families; if (e.weights && !Object.keys(e.weights).length) delete e.weights; if (!Object.keys(e).length) delete ml[currentMode]; }
+    if (e) {
+      if (e.families && !Object.keys(e.families).length) delete e.families;
+      if (e.weights && !Object.keys(e.weights).length) delete e.weights;
+      if (e.lineHeights && !Object.keys(e.lineHeights).length) delete e.lineHeights;
+      if (e.letterSpacings && !Object.keys(e.letterSpacings).length) delete e.letterSpacings;
+      if (!Object.keys(e).length) delete ml[currentMode];
+    }
     if (!Object.keys(ml).length) brandState.modeLevers = undefined;
   };
   const famSet = (role: string, v: string | undefined): void => {
@@ -1170,6 +1176,24 @@ const renderTypographyEditor = (): HTMLElement => {
     const e = ml[currentMode] ?? (ml[currentMode] = {});
     const ws = e.weights ?? (e.weights = {});
     if (v !== undefined) (ws as Record<string, number>)[role] = v; else delete (ws as Record<string, number>)[role];
+    clearModeLevers(); applyFull();
+  };
+  // Per-mode line-height (unitless multiplier) + letter-spacing (em) per named step — same per-mode
+  // seam as family/weight. blank input = Auto (follow the global step value).
+  const lhGet = (key: string): number | undefined => brandState.modeLevers?.[currentMode]?.lineHeights?.[key as keyof NonNullable<NonNullable<typeof brandState.modeLevers>[string]>['lineHeights']];
+  const lsGet = (key: string): number | undefined => brandState.modeLevers?.[currentMode]?.letterSpacings?.[key as keyof NonNullable<NonNullable<typeof brandState.modeLevers>[string]>['letterSpacings']];
+  const lhSet = (key: string, v: number | undefined): void => {
+    const ml = brandState.modeLevers ?? (brandState.modeLevers = {});
+    const e = ml[currentMode] ?? (ml[currentMode] = {});
+    const lh = e.lineHeights ?? (e.lineHeights = {});
+    if (v !== undefined) (lh as Record<string, number>)[key] = v; else delete (lh as Record<string, number>)[key];
+    clearModeLevers(); applyFull();
+  };
+  const lsSet = (key: string, v: number | undefined): void => {
+    const ml = brandState.modeLevers ?? (brandState.modeLevers = {});
+    const e = ml[currentMode] ?? (ml[currentMode] = {});
+    const ls = e.letterSpacings ?? (e.letterSpacings = {});
+    if (v !== undefined) (ls as Record<string, number>)[key] = v; else delete (ls as Record<string, number>)[key];
     clearModeLevers(); applyFull();
   };
   if (perMode) wrap.append(el('p', 'te-modenote', `Editing ${modeLabel}’s font family + weight — “Auto” follows the global baseline. Type scale, categories, and which weights each category ships are shared across modes (edit them in Light).`));
@@ -1225,6 +1249,43 @@ const renderTypographyEditor = (): HTMLElement => {
   const effWeights = ty.weightRoles.map((w) => (perMode ? (wGet(w.role) ?? w.value) : w.value));
   const inverted = effWeights.some((v, i) => i > 0 && v < effWeights[i - 1]);
   if (inverted) wrap.append(el('p', 'te-order-warn', '⚠ A heavier role now resolves lighter than a lower one — the weight names read as relative emphasis (subtle → strong), so keeping them in order stays honest. This is a warning, not a block.'));
+  // --- Line height + letter spacing (D): the leading/tracking ramps, adjustable PER MODE only. ---
+  // The named steps (tight/snug/… · tighter/tight/…) are shared across modes; a mode re-anchors a step's
+  // VALUE (blank = Auto/global). Composites reference a step by key, so a bump reflows every composite
+  // that uses it. In Light the ramps are read-only reference (there's no global lever — per-mode is the
+  // control); in a mode they become editable. Rendered compactly to keep the stage tight.
+  const rampSection = (
+    title: string, note: string, steps: { key: string; val: number }[],
+    getOv: (k: string) => number | undefined, setOv: (k: string, v: number | undefined) => void,
+    fmt: (v: number) => string, min: number, max: number, step: number,
+  ): void => {
+    wrap.append(subHead(title));
+    wrap.append(el('p', perMode ? 'te-shared-note' : 'te-shared-ro-note', note));
+    const grid = el('div', 'te-ramp');
+    for (const s of steps) {
+      const cell = el('div', 'te-ramp-cell');
+      cell.append(el('label', 'te-ramp-key mono', s.key));
+      if (perMode) {
+        const input = el('input') as HTMLInputElement;
+        input.type = 'number'; input.min = String(min); input.max = String(max); input.step = String(step); input.className = 'te-ramp-in';
+        const ov = getOv(s.key);
+        input.value = ov !== undefined ? String(ov) : '';
+        input.placeholder = `Auto ${fmt(s.val)}`;
+        input.onchange = () => { const raw = input.value.trim(); if (raw === '') { setOv(s.key, undefined); return; } const n = Number(raw); if (n >= min && n <= max) setOv(s.key, n); else input.value = ov !== undefined ? String(ov) : ''; };
+        cell.append(input);
+      } else cell.append(el('div', 'te-ramp-ro mono', fmt(s.val)));
+      grid.append(cell);
+    }
+    wrap.append(grid);
+  };
+  const lhNote = perMode
+    ? `Per-mode leading — blank = Auto (global). Open ${modeLabel} up a touch for legibility, or tighten it.`
+    : 'The leading ramp — unitless multipliers. Per-mode adjustable: switch to a mode to retune leading there.';
+  const lsNote = perMode
+    ? `Per-mode tracking (em) — blank = Auto (global). Loosen ${modeLabel} for small text on dark, or tighten it.`
+    : 'The tracking ramp — em-relative. Per-mode adjustable: switch to a mode to retune tracking there.';
+  rampSection('Line height', lhNote, ty.lineHeights.map((l) => ({ key: l.key, val: l.value })), lhGet, lhSet, (v) => `${v}×`, 0.8, 3, 0.05);
+  rampSection('Letter spacing', lsNote, ty.letterSpacings.map((l) => ({ key: l.key, val: l.em })), lsGet, lsSet, (v) => `${v}em`, -0.5, 0.5, 0.005);
   // --- Per-category assignment (A2): family role · which weight-roles ship · italic · link ---
   // Current state is DERIVED from the resolved composites; each control writes the corresponding
   // brandState.typography.* override. Toggles read LIVE checkbox states (never a stale snapshot),
@@ -1444,6 +1505,8 @@ const renderTypeSpecimen = (): HTMLElement => {
   // back to the global families/weightRoles.
   const famsByMode = ty.familiesByMode?.[currentMode];
   const wrByMode = ty.weightRolesByMode?.[currentMode];
+  const lhByMode = ty.lineHeightsByMode?.[currentMode];
+  const lsByMode = ty.letterSpacingsByMode?.[currentMode];
   const list = el('div', 'ts-list');
   for (const g of TYPE_GROUP_ORDER) {
     const c = byGroup.get(g);
@@ -1452,6 +1515,10 @@ const renderTypeSpecimen = (): HTMLElement => {
     const wrList = wrByMode ?? ty.weightRoles;
     const fam = famList.find((f) => f.role === c.family)?.stack.join(', ') ?? 'inherit';
     const wt = wrList.find((w) => w.role === c.weightRole)?.value ?? 400;
+    // Per-mode leading + tracking resolve through the composite's line-height/tracking key (the seam);
+    // tracking is visible even on one line, so the per-mode swap shows here (the #158 lesson).
+    const lsVal = (lsByMode ?? ty.letterSpacings).find((x) => x.key === c.tracking)?.em ?? 0;
+    const lhVal = (lhByMode ?? ty.lineHeights).find((x) => x.key === c.lineHeight)?.value ?? 1.4;
     const row = el('div', 'ts-row');
     const name = c.variant ? `${c.group}.${c.variant}` : c.group;   // eyebrow has an empty variant
     row.append(el('div', 'ts-meta mono', `${name} · ${c.sizePx}px · ${c.weightRole} ${wt}`));
@@ -1459,6 +1526,8 @@ const renderTypeSpecimen = (): HTMLElement => {
     sample.style.fontFamily = (c.family === 'mono' || g === 'code') ? 'var(--mono)' : fam;
     sample.style.fontWeight = String(wt);
     sample.style.fontSize = `${Math.min(c.sizePx, 60)}px`;   // cap the visual; real px is in the label
+    sample.style.lineHeight = String(lhVal);
+    sample.style.letterSpacing = `${lsVal}em`;
     if (c.textCase === 'uppercase' || g === 'eyebrow') { sample.style.textTransform = 'uppercase'; sample.style.letterSpacing = '0.08em'; }
     row.append(sample);
     list.append(row);
@@ -2311,6 +2380,13 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .te-shared-note{margin:4px 2px 10px;font-size:12px;color:var(--faint);line-height:1.5}
 .te-shared-ro{margin:6px 0 0;font-size:13.5px;font-weight:560;color:var(--ink2)}
 .te-cat select:disabled,.te-cat input:disabled{opacity:.55;cursor:not-allowed}
+/* D (typography) — the per-mode leading/tracking ramps (read-only chips in Light, inputs in a mode). */
+.te-shared-ro-note{margin:4px 2px 10px;font-size:12px;color:var(--faint);line-height:1.5}
+.te-ramp{display:flex;flex-wrap:wrap;gap:8px}
+.te-ramp-cell{display:flex;flex-direction:column;gap:4px;min-width:74px}
+.te-ramp-key{font-size:11px;color:var(--muted)}
+.te-ramp-in{width:74px;padding:5px 7px;border:1px solid var(--line2);border-radius:var(--r-xs);font:inherit;font-size:12px;background:var(--paper)}
+.te-ramp-ro{font-size:13px;color:var(--ink2);padding:5px 0}
 .obj-editor{margin-bottom:8px}
 .obj-lede{margin:0 0 8px;font-size:12px;color:var(--faint);line-height:1.5}
 .obj-row{display:flex;gap:8px;margin-top:8px}

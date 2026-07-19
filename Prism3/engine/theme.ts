@@ -63,6 +63,12 @@ export type ModeLevers = {
   // Per-mode font WEIGHT per weight-role — a different NUMERIC value the role resolves to (e.g. dark's
   // `strong` = 600 not 700). Never changes WHICH roles exist; only their number.
   weights?: Partial<Record<WeightRoleName, number>>;
+  // Per-mode LINE HEIGHT per named step — a different unitless multiplier for a leading step (e.g. dark
+  // opens `normal` to 1.55 for legibility on dark). Composites referencing that key inherit it.
+  lineHeights?: Partial<Record<LineHeightKey, number>>;
+  // Per-mode LETTER SPACING per named step — a different em value for a tracking step (e.g. dark loosens
+  // `normal` to +0.005em). Composites referencing that key inherit it.
+  letterSpacings?: Partial<Record<LetterSpacingKey, number>>;
 };  // per-mode lever overrides; extensible (typeScale/tempo/density later)
 
 /** The non-color (dimension) axis: a primitive grid + space/radius/size scales. */
@@ -488,15 +494,30 @@ export type Typography = {
   // composite SET is untouched. Absent (field omitted) when no per-mode typography → byte-identical.
   familiesByMode?: Record<string, FontFamilyRole[]>;
   weightRolesByMode?: Record<string, WeightRole[]>;
+  // Per-mode LINE HEIGHT / LETTER SPACING ramps (Phase D) — only modes whose `modeLevers.lineHeights`/
+  // `letterSpacings` deviate the baseline. Each carries the FULL named ramp re-anchored for that mode
+  // (steps at the light value where the mode didn't override). Composites inherit via their
+  // line-height/letter-spacing key alias, so the composite set is untouched. Absent ⇒ byte-identical.
+  lineHeightsByMode?: Record<string, { key: string; value: number }[]>;
+  letterSpacingsByMode?: Record<string, { key: string; em: number }[]>;
 };
 
 const SANS_FALLBACK = ['system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'];
 const MONO_FALLBACK = ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Consolas', 'Liberation Mono', 'monospace'];
-const LINE_HEIGHTS = [
+// Line-height + letter-spacing are curated NAMED ramps (semantic keys → value). The key ORDER is the
+// single source: `LineHeightKey`/`LetterSpacingKey` derive from it, and per-mode overrides
+// (modeLevers.lineHeights/letterSpacings) are keyed by these names. Composites reference a key
+// (lineHeightFor / trackingFor pick which), so re-anchoring a key's value per mode reflows every
+// composite that uses it — the same seam as weight-role.
+export const LINE_HEIGHT_KEYS = ['tight', 'snug', 'compact', 'normal', 'relaxed', 'loose'] as const;
+export type LineHeightKey = typeof LINE_HEIGHT_KEYS[number];
+export const LETTER_SPACING_KEYS = ['tighter', 'tight', 'snug', 'normal', 'wide', 'wider'] as const;
+export type LetterSpacingKey = typeof LETTER_SPACING_KEYS[number];
+const LINE_HEIGHTS: { key: LineHeightKey; value: number }[] = [
   { key: 'tight', value: 1.05 }, { key: 'snug', value: 1.15 }, { key: 'compact', value: 1.25 },
   { key: 'normal', value: 1.5 }, { key: 'relaxed', value: 1.65 }, { key: 'loose', value: 1.75 },
 ];
-const LETTER_SPACINGS = [
+const LETTER_SPACINGS: { key: LetterSpacingKey; em: number }[] = [
   { key: 'tighter', em: -0.03 }, { key: 'tight', em: -0.02 }, { key: 'snug', em: -0.01 }, { key: 'normal', em: 0 },
   { key: 'wide', em: 0.02 }, { key: 'wider', em: 0.05 },
 ];
@@ -1042,9 +1063,19 @@ export const brandTheme = (input: BrandInput): Theme => {
       if (w !== undefined && (!Number.isFinite(w) || w < 100 || w > 900))
         throw new Error(`modeLevers: mode '${m}' weight '${role}' ${w} is out of range — must be a finite number in [100, 900]`);
     }
+    // Per-mode line-height must be a sane unitless multiplier [0.8, 3]; letter-spacing a sane em
+    // [-0.5, 0.5]. Bounds guard typos, not taste (a designer wouldn't set leading 10× or tracking 2em).
+    for (const [k, v] of Object.entries(lev.lineHeights ?? {})) {
+      if (v !== undefined && (!Number.isFinite(v) || v < 0.8 || v > 3))
+        throw new Error(`modeLevers: mode '${m}' lineHeight '${k}' ${v} is out of range — must be a finite multiplier in [0.8, 3]`);
+    }
+    for (const [k, v] of Object.entries(lev.letterSpacings ?? {})) {
+      if (v !== undefined && (!Number.isFinite(v) || v < -0.5 || v > 0.5))
+        throw new Error(`modeLevers: mode '${m}' letterSpacing '${k}' ${v} is out of range — must be a finite em in [-0.5, 0.5]`);
+    }
   }
-  const leverModes = Object.entries(input.modeLevers ?? {}).filter(([, l]) => l && (l.radius !== undefined || l.families || l.weights)).map(([m]) => m);
-  if (leverModes.length) notes.push(`modeLevers: per-mode lever overrides for ${leverModes.join(', ')} (radius / font family / font weight re-derived per mode via the same helpers as the baseline; a mode deviates the global lever, the composite/token set is untouched)`);
+  const leverModes = Object.entries(input.modeLevers ?? {}).filter(([, l]) => l && (l.radius !== undefined || l.families || l.weights || l.lineHeights || l.letterSpacings)).map(([m]) => m);
+  if (leverModes.length) notes.push(`modeLevers: per-mode lever overrides for ${leverModes.join(', ')} (radius / font family / font weight / line-height / letter-spacing re-derived per mode via the same helpers as the baseline; a mode deviates the global lever, the composite/token set is untouched)`);
   if (root !== 'prism') notes.push(`namespace: tokens emit under '${root}.*' (custom, not the 'prism' default)`);
   const anchorStep = autoPlaceStep(input.primary.l);
   notes.push(`primary anchor (h${input.primary.h}) pinned exactly at step ${anchorStep}`);
@@ -1294,6 +1325,18 @@ export const brandTheme = (input: BrandInput): Theme => {
     typography.weightsRef = [...new Set([...typography.weightsRef, ...extraWeights])].sort((a, b) => a - b);
   if (Object.keys(familiesByMode).length) typography.familiesByMode = familiesByMode;
   if (Object.keys(weightRolesByMode).length) typography.weightRolesByMode = weightRolesByMode;
+  // Per-mode LINE HEIGHT / LETTER SPACING (Phase D): a mode may re-anchor any named leading/tracking
+  // step. Merge the mode's per-step overrides over the base ramp and emit the FULL ramp for that mode
+  // (a step the mode didn't touch keeps the light value). Only overriding modes get an entry ⇒ absent
+  // maps stay byte-identical. Composites reference the step by KEY, so they inherit automatically.
+  const lineHeightsByMode: Record<string, { key: string; value: number }[]> = {};
+  const letterSpacingsByMode: Record<string, { key: string; em: number }[]> = {};
+  for (const [m, lev] of Object.entries(modeLevers)) {
+    if (lev?.lineHeights) lineHeightsByMode[m] = LINE_HEIGHTS.map((l) => ({ key: l.key, value: lev.lineHeights![l.key] ?? l.value }));
+    if (lev?.letterSpacings) letterSpacingsByMode[m] = LETTER_SPACINGS.map((l) => ({ key: l.key, em: lev.letterSpacings![l.key] ?? l.em }));
+  }
+  if (Object.keys(lineHeightsByMode).length) typography.lineHeightsByMode = lineHeightsByMode;
+  if (Object.keys(letterSpacingsByMode).length) typography.letterSpacingsByMode = letterSpacingsByMode;
   const dispSizes = typography.composites.filter((c) => c.group === 'display').map((c) => c.sizePx);
   const reqCeiling = input.typography?.displayCeiling ?? 160;
   const effCap = dispSizes.length ? Math.max(...dispSizes) : 0;
@@ -1341,7 +1384,7 @@ export const brandTheme = (input: BrandInput): Theme => {
   return {
     id: input.id, root, namespace: `${root}.palette`, colorFormat: 'hex', modes: modesAll, palettes, roleToPalette, notes,
     ...(customModes.length ? { customModes } : {}),
-    ...(Object.keys(radiusByMode).length || Object.keys(familiesByMode).length || Object.keys(weightRolesByMode).length ? { modeLevers } : {}),
+    ...(Object.keys(radiusByMode).length || Object.keys(familiesByMode).length || Object.keys(weightRolesByMode).length || Object.keys(lineHeightsByMode).length || Object.keys(letterSpacingsByMode).length ? { modeLevers } : {}),
     roleAnchorStep: { brand: anchorStep, neutral: 500, success: 500, warning: 500, danger: 500, info: 500, action: actionAnchorStep },
     surfaces: input.surfaces,
     overrides: input.overrides,
