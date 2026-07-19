@@ -415,14 +415,29 @@ export const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats
   };
 
   // ---- motion axis — generated from the `tempo` personality lever ----
+  // Duration / reduce-motion / stagger are MODE-VARYING primitives (Phase D — same seam as radius): a
+  // customizable mode may run a different tempo, re-derived by buildMotion. Light stays the canonical
+  // `$value`; a mode whose ms differs attaches `$extensions.prism3.modes.<mode>`. Composites
+  // (motion.transition.*) reference duration by alias, so they inherit per-mode. Absent ⇒ byte-identical.
   const m = theme.motion;
+  const motionByMode = m.motionByMode ?? {};
+  const durWithModes = (leaf: Token, pick: (mm: NonNullable<typeof m.motionByMode>[string]) => number | undefined, ms: number, label: (mode: string, v: number) => string): Token => {
+    const modeOverrides: Record<string, unknown> = {};
+    for (const [mode, mm] of Object.entries(motionByMode)) {
+      const v = pick(mm);
+      if (v === undefined || v === ms) continue;   // same ms → no diff → no override
+      modeOverrides[mode] = { $value: `${v}ms`, ms: v, note: label(mode, v) };
+    }
+    if (Object.keys(modeOverrides).length) leaf.$extensions.prism3.modes = modeOverrides;
+    return leaf;
+  };
   const motion: Record<string, any> = { duration: {}, 'duration-reduced': {}, easing: {}, spring: {}, transition: {} };
-  for (const [k, v] of Object.entries(m.duration)) motion.duration[k] = durLeaf(v, `motion duration ${k} — ${v}ms (tempo: ${m.tempo})`);
-  for (const [k, v] of Object.entries(m.durationReduced)) motion['duration-reduced'][k] = durLeaf(v, `reduce-motion ${k} — ${v}ms${v === 0 ? ' (eliminated — substitute a cross-fade)' : ''}`);
+  for (const [k, v] of Object.entries(m.duration)) motion.duration[k] = durWithModes(durLeaf(v, `motion duration ${k} — ${v}ms (tempo: ${m.tempo})`), (mm) => mm.duration[k], v, (mode, mv) => `motion tempo lever override — ${mode} (duration ${k} → ${mv}ms)`);
+  for (const [k, v] of Object.entries(m.durationReduced)) motion['duration-reduced'][k] = durWithModes(durLeaf(v, `reduce-motion ${k} — ${v}ms${v === 0 ? ' (eliminated — substitute a cross-fade)' : ''}`), (mm) => mm.durationReduced[k], v, (mode, mv) => `motion tempo lever override — ${mode} (reduce-motion ${k} → ${mv}ms)`);
   for (const [k, v] of Object.entries(m.easing)) motion.easing[k] = bezierLeaf(v, `easing ${k}${k === 'calm' ? ' — accessibility: soft onset for long/involuntary motion' : ''}`);
   for (const [k, v] of Object.entries(m.spring)) motion.spring[k] = springLeaf(v, `spring ${k} — damping ${v.damping}, stiffness ${v.stiffness}`);
   for (const t of m.transitions) motion.transition[t.name] = transitionLeaf(`${root}.motion.duration.${t.duration}`, `${root}.motion.easing.${t.easing}`, `motion ${t.name} — ${t.desc} (${t.duration} + ${t.easing})`);
-  motion.stagger = durLeaf(m.stagger, `stagger standard — ${m.stagger}ms between siblings`);
+  motion.stagger = durWithModes(durLeaf(m.stagger, `stagger standard — ${m.stagger}ms between siblings`), (mm) => mm.stagger, m.stagger, (mode, mv) => `motion tempo lever override — ${mode} (stagger → ${mv}ms)`);
 
   // ---- typography axis — primitive tier (Phase 1) ----
   // Curated rem size ladder (brand-invariant, not ratio-derived); numeric weight

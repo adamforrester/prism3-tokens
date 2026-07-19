@@ -100,7 +100,8 @@
               "wide": { "type": "number", "minimum": -0.5, "maximum": 0.5, "description": "OPTIONAL. Per-mode em for the `wide` letter-spacing step." },
               "wider": { "type": "number", "minimum": -0.5, "maximum": 0.5, "description": "OPTIONAL. Per-mode em for the `wider` letter-spacing step." }
             }
-          }
+          },
+          "tempo": { "type": "string", "enum": ["snappy", "standard", "relaxed"], "description": "OPTIONAL. Per-mode motion tempo — re-derives this mode's duration ramp (+ reduce-motion + stagger) at the chosen tempo (snappy ×0.8, standard ×1.0, relaxed ×1.3), via the same buildMotion the global lever uses. Only a mode whose tempo differs from the baseline carries per-mode duration overrides; easing/spring/transitions are tempo-invariant. Motion is DTCG + web (not a Figma variable), so the per-mode value rides the DTCG duration primitives." }
         }
       }
     },

@@ -498,6 +498,35 @@ const renderPerModeRadius = (lever: Lever): HTMLElement => {
   return wrap;
 };
 
+/** D (motion) — the tempo lever goes per-mode outside the base mode. Light edits the global
+ *  `motionPersonality.tempo`; a mode edits `modeLevers[mode].tempo` — "Auto" follows the global
+ *  baseline, a value re-derives the whole duration ramp (+ reduce-motion + stagger) for just this mode
+ *  (via the same engine buildMotion). Same select-with-Auto shape as the per-mode radius control. */
+const TEMPO_OPTS: [string, string][] = [['snappy', 'Snappy'], ['standard', 'Standard'], ['relaxed', 'Relaxed']];
+const renderPerModeTempo = (lever: Lever): HTMLElement => {
+  const wrap = el('div', 'knob');
+  wrap.append(el('label', 'knob-label', lever.label));
+  const globalV = (brandState.motionPersonality?.tempo ?? (lever.default as string) ?? 'standard');
+  const cur = brandState.modeLevers?.[currentMode]?.tempo;
+  const sel = el('select', 'obj-sel') as HTMLSelectElement;
+  const optE = (v: string, t: string, on: boolean) => { const o = el('option') as HTMLOptionElement; o.value = v; o.textContent = t; if (on) o.selected = true; sel.append(o); };
+  optE('', `Auto — follows global (${globalV})`, cur == null);
+  for (const [v, label] of TEMPO_OPTS) optE(v, label, cur === v);
+  sel.onchange = () => {
+    const ml = brandState.modeLevers ?? (brandState.modeLevers = {});
+    const forMode = ml[currentMode] ?? (ml[currentMode] = {});
+    if (sel.value === '') {                                   // revert to the global baseline
+      delete forMode.tempo;
+      if (!Object.keys(forMode).length) delete ml[currentMode];
+      if (!Object.keys(ml).length) brandState.modeLevers = undefined;
+    } else forMode.tempo = sel.value as 'snappy' | 'standard' | 'relaxed';
+    applyFull();
+  };
+  wrap.append(sel);
+  wrap.append(el('p', 'knob-desc', `${lever.description} — per ${MODE_LABEL[currentMode] ?? currentMode}; “Auto” follows the global tempo.`));
+  return wrap;
+};
+
 const renderChip = (label: string, bind: Record<string, string>, mode: Mode): HTMLElement => {
   // PRESENCE (resolved model) decides WHICH styles a chip paints; the VALUES are all
   // `var(--…)` refs the active write host fills in (#106). The resolved hex/px still ride
@@ -1066,13 +1095,14 @@ const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
     host.append(renderTypographyEditor());
   } else if (key === 'form') {
     // Geometry + motion in the top panel; shadow.softness is pulled out so every shadow control
-    // (softness + tint) lives together under the Shadow group below. Outside the base mode, the
-    // radius lever goes per-mode (D — modeLevers[mode].radius) instead of editing the global.
+    // (softness + tint) lives together under the Shadow group below. Outside the base mode, the radius
+    // and motion-tempo levers go per-mode (D — modeLevers[mode].radius / .tempo) instead of the global.
     const panel = el('div', 'panel');
-    const perModeRadius = currentMode !== 'light';
+    const perModeGeo = currentMode !== 'light';
     for (const l of levers) {
       if (l.key === 'shadow.softness') continue;
-      if (l.key === 'radiusScale' && perModeRadius) { panel.append(renderPerModeRadius(l)); continue; }
+      if (l.key === 'radiusScale' && perModeGeo) { panel.append(renderPerModeRadius(l)); continue; }
+      if (l.key === 'motionPersonality.tempo' && perModeGeo) { panel.append(renderPerModeTempo(l)); continue; }
       panel.append(renderControl(l));
     }
     host.append(panel);
@@ -1597,12 +1627,18 @@ const renderShadowSpecimen = (): HTMLElement => {
 const renderMotionSpecimen = (): HTMLElement => {
   const wrap = el('div', 'motion-spec');
   const mo = theme.motion;
-  wrap.append(sectionHead('Motion', `The semantic transitions at tempo '${mo.tempo}' — each bar fills at its resolved duration + easing curve. Adjust the tempo and they re-run; reduce-motion is honoured (the engine also derives a reduced ramp).`));
+  // D — reflect the current mode's per-mode tempo (modeLevers.tempo) when it deviates, so the ramp
+  // re-runs at the mode's speed here rather than only in the export (the #158 lesson). Duration is the
+  // mode-varying part; easing/transitions are tempo-invariant. Falls back to the global ramp.
+  const moByMode = mo.motionByMode?.[currentMode];
+  const durOf = (role: string): number => (moByMode?.duration ?? mo.duration)[role] ?? 0;
+  const tempoLabel = moByMode?.tempo ?? mo.tempo;
+  wrap.append(sectionHead('Motion', `The semantic transitions at tempo '${tempoLabel}' — each bar fills at its resolved duration + easing curve. Adjust the tempo and they re-run; reduce-motion is honoured (the engine also derives a reduced ramp).`));
   const bez = (b: number[]): string => `cubic-bezier(${b.join(', ')})`;
   const list = el('div', 'mo-list');
   const fills: HTMLElement[] = [];
   for (const t of mo.transitions) {
-    const ms = mo.duration[t.duration] ?? 0;
+    const ms = durOf(t.duration);
     const row = el('div', 'mo-row');
     row.append(el('div', 'mo-meta mono', `${t.name} · ${ms}ms · ${t.easing}`));
     const track = el('div', 'mo-track');
