@@ -7,7 +7,37 @@
 
 ---
 
-## Latest (2026-07-19) — Phase D: per-mode density lever + Advanced-lever disclosure
+## Latest (2026-07-19) — lever-UI completeness + interactive-accent manifest reconcile
+
+**STATUS: MERGED** (#192). Closes out the lever-UI-coverage audit: **every manifest lever now has a working
+UI control and every axis has a live specimen.**
+
+**Web — remaining specimens + object/list editors.** Adds a **Layout specimen** (breakpoint / column / gutter
+/ margin table + base-column strip + container-cap bars, reads `theme.layout`) and a **type-variants strip**
+per group (the weights it ships rendered at weight, italic/link samples when shipped, and the size range so
+`titleFloor` is visible). The advanced **object/list** levers that `renderControl` could only show read-only
+get bespoke editors nested in the Advanced disclosure: **Responsive type** (`typography.responsive` fluid +
+min/max viewport), **Breakpoints** (editable `layout.breakpoints` min-width list, dedup+sort+floor), and
+**Emphasized easing** (`motionPersonality.easingEmphasized` cubic-bezier). All three write real `BrandInput`
+paths (verified flow-through to resolved output).
+
+**Manifest — reconcile the interactive-accent surface split.** The manifest advertised `accentPalette`
+(control `palette-ref`) as the interactive-accent control, but it had **no live UI**, while the more capable
+`interactivePalettes` (what the interactive cards edit + the preview renders) was **absent from the manifest**
+— so the control contract read by the Figma plugin + MCP pointed at the wrong, UI-less lever. Fixed: the
+manifest now lists **`interactivePalettes`** (control `list`, advanced) and drops the `accentPalette` lever.
+`accentPalette` **stays a valid back-compat input** — its engine field, schema, accent≠action guard, and
+byte-identical-to-`interactivePalettes` test are untouched; it's simply no longer advertised as a form control
+(`interactivePalettes` wins when both are set). No web double-render (`interactivePalettes` is advanced+list →
+excluded from both the lean and Advanced panels; the cards remain its editor). `levers.ts` ↔
+`lever-manifest.json` kept in lockstep by the byte-drift guard test.
+
+Engine tests **909/0** (incl. `accentPalette` back-compat + manifest-drift); **`out/*` byte-identical** (no
+generation change); NB regression green; DTCG 336/336 + aliases resolve; web/plugin tsc + builds clean.
+
+---
+
+## (2026-07-19) — Phase D: per-mode density lever + Advanced-lever disclosure
 
 **STATUS: MERGED** (#189). Two changes closing out Phase D's non-colour axes.
 
