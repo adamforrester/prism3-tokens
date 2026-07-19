@@ -352,6 +352,11 @@ export const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats
 
   // ---- dimension axis ----
   const gridSet = new Set(theme.dims.grid);
+  // A per-mode dimension override leaf: alias the dimension grid step when the px is on-grid (mirrors the
+  // light rung), else a literal px. Shared by the per-mode RADIUS rungs and the per-mode size HEIGHT
+  // sub-leaf — both re-anchor a grid-aligned dimension per mode.
+  const gridStepOverride = (px: number, note: string): Record<string, unknown> =>
+    gridSet.has(px) ? { $value: `{${root}.dimension.${px}}`, px, note } : { $value: `${px}px`, px, note };
   // reference: fine grid primitives
   const dimension: Record<string, Token> = {};
   for (const px of theme.dims.grid) dimension[String(px)] = dimLeaf(px);
@@ -368,12 +373,6 @@ export const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats
   const radius: Record<string, Token> = {};
   const wireframe = theme.modes.includes('wireframe');
   const radiusByMode = theme.dims.radiusByMode ?? {};
-  // Per-mode radius override leaf: alias the dimension grid step when on-grid (mirrors the light
-  // rung), else a literal px — the same shape as the wireframe override.
-  const radiusModeOverride = (px: number, note: string): Record<string, unknown> =>
-    gridSet.has(px)
-      ? { $value: `{${root}.dimension.${px}}`, px, note }
-      : { $value: `${px}px`, px, note };
   for (const r of theme.dims.radius) {
     const leaf = gridSet.has(r.px)
       ? dimAlias(`${root}.dimension.${r.px}`, `radius ${r.name} — ${r.px}px${r.pill ? ' (pill)' : ''}`, { px: r.px, radiusScale: theme.dims.radiusScaleValue })
@@ -384,7 +383,7 @@ export const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats
     for (const [mode, steps] of Object.entries(radiusByMode)) {
       const rr = steps.find((s) => s.name === r.name);
       if (!rr || rr.px === r.px) continue;   // px equal → no diff → no override
-      modeOverrides[mode] = radiusModeOverride(rr.px, `radius lever override — ${mode} (${rr.px}px)`);
+      modeOverrides[mode] = gridStepOverride(rr.px, `radius lever override — ${mode} (${rr.px}px)`);
     }
     if (Object.keys(modeOverrides).length) leaf.$extensions.prism3.modes = modeOverrides;
     radius[r.name] = leaf;
@@ -401,8 +400,6 @@ export const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats
   // aliases the dimension grid on-grid (else literal); padding aliases the space scale on-scale (else
   // literal), mirroring their light branches. Absent maps ⇒ byte-identical.
   const sizesByMode = theme.dims.sizesByMode ?? {};
-  const gridModeOverride = (px: number, note: string): Record<string, unknown> =>
-    gridSet.has(px) ? { $value: `{${root}.dimension.${px}}`, px, note } : { $value: `${px}px`, px, note };
   const spaceModeOverride = (px: number, note: string): Record<string, unknown> => {
     const key = spaceKeyOf.get(px);
     return key ? { $value: `{${root}.space.${key}}`, px, note } : { $value: `${px}px`, px, note };
@@ -424,7 +421,7 @@ export const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats
       : dimLeaf(z.height, `size.${z.name} control height — ${z.height}px`);
     const padXLeaf = spacePad(z.padX, `size.${z.name} horizontal inset — ${z.padX}px (density: ${theme.dims.density})`);
     const padYLeaf = spacePad(z.padY, `size.${z.name} vertical inset — ${z.padY}px (density: ${theme.dims.density})`);
-    const hMods = sizeModes(z.name, 'height', z.height, (s) => s.height, gridModeOverride);
+    const hMods = sizeModes(z.name, 'height', z.height, (s) => s.height, gridStepOverride);
     const pxMods = sizeModes(z.name, 'padding-x', z.padX, (s) => s.padX, spaceModeOverride);
     const pyMods = sizeModes(z.name, 'padding-y', z.padY, (s) => s.padY, spaceModeOverride);
     if (hMods) heightLeaf.$extensions.prism3.modes = hMods;
