@@ -1009,6 +1009,17 @@ const buildGradient = (spec: BrandInput['gradients'], palettes: PaletteBuild[], 
   return { gradients };
 };
 
+/** Per-mode NO-DIFF suppression, shared by the JSON-comparable lever axes (radius / families /
+ *  weight-roles / line-heights / letter-spacings): assign `cand` to `map[mode]` ONLY when it differs
+ *  from the global baseline, so a mode re-declaring the global value stays byte-identical. Returns
+ *  whether it was assigned (the weight axis keys its `extraWeights` union off that). Density / tempo
+ *  use a plain enum equality and shadow an appearance-gated compare, so they don't route through here. */
+const diffAssign = <T>(map: Record<string, T>, mode: string, cand: T, baseJson: string): boolean => {
+  if (JSON.stringify(cand) === baseJson) return false;
+  map[mode] = cand;
+  return true;
+};
+
 export const brandTheme = (input: BrandInput): Theme => {
   const notes: string[] = [];
   const root = input.root ?? 'prism';
@@ -1085,6 +1096,12 @@ export const brandTheme = (input: BrandInput): Theme => {
       throw new Error(`modeLevers: mode '${m}' is not in this brand's modes (${modesAll.join(', ')})`);
     if (!CUSTOMIZABLE_MODES.includes(m))
       throw new Error(`modeLevers: mode '${m}' is generate-only and not customizable — only ${CUSTOMIZABLE_MODES.join('/')} accept per-mode levers`);
+    // `light` is the GLOBAL baseline for the non-colour levers — its values ARE the global radius/density/
+    // tempo/shadow/typography levers. A `modeLevers.light` entry would emit a `modes.light` override that
+    // shadows the canonical `$value` (which stays the global), so the two disagree. Reject it: set the
+    // global levers directly. (Distinct from `overrides`/`modeAnchors`, where light is a real colour mode.)
+    if (m === 'light')
+      throw new Error(`modeLevers: 'light' is the global baseline for the non-colour levers — set the global radius/density/tempo/shadow/typography levers directly, not modeLevers.light`);
     const lev = input.modeLevers![m]!;
     if (lev.radius !== undefined && (!Number.isFinite(lev.radius) || lev.radius < 0 || lev.radius > 2))
       throw new Error(`modeLevers: mode '${m}' radius ${lev.radius} is out of range — must be a finite number in [0, 2]`);
@@ -1329,9 +1346,7 @@ export const brandTheme = (input: BrandInput): Theme => {
   const radiusByMode: Record<string, RadiusStep[]> = {};
   const baseRadiusJson = JSON.stringify(radiusScale(rScale, baseMd, 128));   // == dims.radius, the baseline every mode inherits
   for (const [m, lev] of Object.entries(modeLevers)) {
-    if (lev?.radius === undefined) continue;
-    const cand = radiusScale(lev.radius, baseMd, 128);
-    if (JSON.stringify(cand) !== baseRadiusJson) radiusByMode[m] = cand;
+    if (lev?.radius !== undefined) diffAssign(radiusByMode, m, radiusScale(lev.radius, baseMd, 128), baseRadiusJson);
   }
   // Per-mode DENSITY levers (Phase D): a customizable mode overriding `density` re-derives its component
   // -size tier via the SAME componentSizes(density, spaceBase) buildDims uses. Only a mode whose density
@@ -1383,6 +1398,16 @@ export const brandTheme = (input: BrandInput): Theme => {
     for (const s of sm.steps) layers[s.name] = pick(s);
     shadowByMode[mo] = { appearance: app, colorRgb: sm.colorRgb, softness: sm.softness, tint: sm.tint, layers };
   }
+  // Dark-BASED custom modes inherit their base's reduced dark shadow even WITHOUT an override. Built-in
+  // `dark` gets `modes.dark` from the tree unconditionally; a dark-based custom mode has no such default,
+  // so absent this it would fall back to the light `$value` (a light shadow under a dark surface). Seed an
+  // entry from the GLOBAL dark layers for any dark-based custom mode not already carrying an override.
+  for (const cm of customModes) {
+    if (cm.base !== 'dark' || shadowByMode[cm.name]) continue;
+    const layers: Record<string, ShadowLayer[]> = { inset: shadow.inset.dark };
+    for (const s of shadow.steps) layers[s.name] = s.dark;
+    shadowByMode[cm.name] = { appearance: 'dark', colorRgb: shadow.colorRgb, softness: shadow.softness, tint: shadow.tint, layers };
+  }
   if (Object.keys(shadowByMode).length) shadow.shadowByMode = shadowByMode;
   const gradient = buildGradient(input.gradients, palettes, root);
   if (gradient.gradients.length) {
@@ -1411,17 +1436,14 @@ export const brandTheme = (input: BrandInput): Theme => {
   const baseFamJson = JSON.stringify(deriveFamilies(baseFam));
   const baseWrJson = JSON.stringify(WEIGHT_ROLE_ORDER.map((role) => ({ role, value: baseWr[role] })));
   for (const [m, lev] of Object.entries(modeLevers)) {
-    if (lev?.families) {
-      const cand = deriveFamilies({ ...baseFam, ...lev.families });
-      if (JSON.stringify(cand) !== baseFamJson) familiesByMode[m] = cand;
-    }
+    if (lev?.families) diffAssign(familiesByMode, m, deriveFamilies({ ...baseFam, ...lev.families }), baseFamJson);
     if (lev?.weights) {
       const wrMode = { ...baseWr, ...lev.weights };
       const cand = WEIGHT_ROLE_ORDER.map((role) => ({ role, value: wrMode[role] }));
-      if (JSON.stringify(cand) !== baseWrJson) {
-        weightRolesByMode[m] = cand;
+      // Only mint the per-mode weight numerics when the mode's weight-roles actually deviate (diffAssign
+      // returns whether it kept the entry) — an override equal to the global adds no font.weight.<num>.
+      if (diffAssign(weightRolesByMode, m, cand, baseWrJson))
         for (const w of Object.values(lev.weights)) if (w !== undefined) extraWeights.add(w);
-      }
     }
   }
   // Weight numeric primitives must resolve: a per-mode weight value may not be in the global tier.
@@ -1438,9 +1460,12 @@ export const brandTheme = (input: BrandInput): Theme => {
   // maps stay byte-identical. Composites reference the step by KEY, so they inherit automatically.
   const lineHeightsByMode: Record<string, { key: string; value: number }[]> = {};
   const letterSpacingsByMode: Record<string, { key: string; em: number }[]> = {};
+  // No-diff suppression (mirrors radius/family/weight): a mode re-declaring the global ramp gets no entry.
+  const baseLhJson = JSON.stringify(LINE_HEIGHTS.map((l) => ({ key: l.key, value: l.value })));
+  const baseLsJson = JSON.stringify(LETTER_SPACINGS.map((l) => ({ key: l.key, em: l.em })));
   for (const [m, lev] of Object.entries(modeLevers)) {
-    if (lev?.lineHeights) lineHeightsByMode[m] = LINE_HEIGHTS.map((l) => ({ key: l.key, value: lev.lineHeights![l.key] ?? l.value }));
-    if (lev?.letterSpacings) letterSpacingsByMode[m] = LETTER_SPACINGS.map((l) => ({ key: l.key, em: lev.letterSpacings![l.key] ?? l.em }));
+    if (lev?.lineHeights) diffAssign(lineHeightsByMode, m, LINE_HEIGHTS.map((l) => ({ key: l.key, value: lev.lineHeights![l.key] ?? l.value })), baseLhJson);
+    if (lev?.letterSpacings) diffAssign(letterSpacingsByMode, m, LETTER_SPACINGS.map((l) => ({ key: l.key, em: lev.letterSpacings![l.key] ?? l.em })), baseLsJson);
   }
   if (Object.keys(lineHeightsByMode).length) typography.lineHeightsByMode = lineHeightsByMode;
   if (Object.keys(letterSpacingsByMode).length) typography.letterSpacingsByMode = letterSpacingsByMode;

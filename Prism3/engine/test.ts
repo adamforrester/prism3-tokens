@@ -1178,6 +1178,41 @@ for (const b of brands) {
     'D-density(i): a modeLevers entry with no density lever produces byte-identical output');
 }
 
+// PHASE D — ENGINE REVIEW FIXES. Correctness + consistency findings from the engine code review.
+{
+  const root = 'prism';
+  const base = { id: 'drev', modes: ['light', 'dark'], primary: { l: 0.55, c: 0.18, h: 285 }, neutral: { hue: 285, chroma: 0.01 } } as unknown as BrandInput;
+  const threw = (f: () => unknown) => { try { f(); return false; } catch { return true; } };
+
+  // (a) FIX #1 — a DARK-based custom mode inherits its base's reduced dark shadow even WITHOUT a shadow
+  //     override (previously it fell back to the light `$value`). modes.<custom> is emitted, and it equals
+  //     the built-in dark reduction (modes.dark) — a light-based custom mode still gets NO shadow entry.
+  const withCustoms = { ...base, customModes: [{ name: 'marketing-dark', base: 'dark' }, { name: 'promo-light', base: 'light' }] } as unknown as BrandInput;
+  const ct = buildTree(brandTheme(withCustoms)).tree[root];
+  const mdModes = ct.shadow.md.$extensions.prism3.modes;
+  ok(!!mdModes['marketing-dark'], 'D-rev(a): a dark-based custom mode gets a per-mode shadow entry (no light-shadow fallback)');
+  ok(JSON.stringify(mdModes['marketing-dark']) === JSON.stringify(mdModes.dark), 'D-rev(a): the dark-based custom mode inherits exactly the built-in dark reduction');
+  ok(mdModes['promo-light'] === undefined, 'D-rev(a): a light-based custom mode with no override carries no shadow entry (inherits light $value)');
+
+  // (b) FIX #1 — the dark-based custom mode also reaches Figma as its own effect-style set.
+  const figNames = buildFigmaShadow(brandTheme(withCustoms)).styles.map((s) => s.name);
+  ok(figNames.includes('shadow-marketing-dark/md'), `D-rev(b): a dark-based custom mode emits shadow-marketing-dark/* effect styles (got ${figNames.filter((n) => n.endsWith('/md')).join(', ')})`);
+
+  // (c) FIX #3 — modeLevers on the base `light` mode is rejected (light IS the global baseline for the
+  //     non-colour levers; a modes.light override would shadow the canonical $value).
+  ok(threw(() => brandTheme({ ...base, modeLevers: { light: { radius: 0 } } } as unknown as BrandInput)), 'D-rev(c): modeLevers.light throws (use the global levers)');
+
+  // (d) FIX #2 — line-height / letter-spacing now suppress the per-mode MAP when a mode re-declares the
+  //     global ramp (mirrors radius/family/weight): no leaf override AND no lineHeightsByMode entry.
+  const equalLh = brandTheme({ ...base, modeLevers: { dark: { lineHeights: { normal: 1.5 }, letterSpacings: { normal: 0 } } } } as unknown as BrandInput);
+  ok(equalLh.typography.lineHeightsByMode === undefined && equalLh.typography.letterSpacingsByMode === undefined,
+    'D-rev(d): a per-mode LH/LS equal to the global leaves the *ByMode maps unset (map-level no-diff suppression)');
+  ok(equalLh.modeLevers === undefined, 'D-rev(d): an all-equal LH/LS override leaves modeLevers off the Theme (byte-identical)');
+  // a genuinely divergent LH still populates the map.
+  const diffLh = brandTheme({ ...base, modeLevers: { dark: { lineHeights: { normal: 1.6 } } } } as unknown as BrandInput);
+  ok(!!diffLh.typography.lineHeightsByMode?.dark, 'D-rev(d): a divergent per-mode line-height still populates lineHeightsByMode');
+}
+
 // roleColors — general semantic-role rebasing (docs/21): re-base any role on a declared palette,
 // with the contrast guarantee preserved and a hue-mismatch note (not a block).
 {
