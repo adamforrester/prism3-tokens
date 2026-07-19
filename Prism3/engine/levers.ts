@@ -156,8 +156,8 @@ export const leverManifest: Lever[] = [
     description: 'The neutral interactive fill boldness — subtle light grey (a surface) or a strong near-black/near-white fill.' },
   { key: 'inverse', group: 'advanced', label: 'Inverse surface-context', control: 'toggle', default: true,
     description: 'Generate interactive.<color>.on-inverse inks for controls on a dark hero / inverse section (a light CTA on dark).' },
-  { key: 'accentPalette', group: 'color', label: 'Accent interactive color', control: 'palette-ref', advanced: true,
-    description: 'Opt-in — names a declared brand palette to get a full interactive.accent.* column. Must differ from the action palette; omit for no accent.' },
+  { key: 'interactivePalettes', group: 'color', label: 'Interactive palettes', control: 'list', advanced: true, itemLabel: 'accent column (name + palette [+ anchorStep])',
+    description: 'Promote declared palettes (a `brandColors` entry, or `primary`) to full interactive.<name>.* columns — fill/states, on-fill, text, border, overlay. The generalised accent lever; edit via the interactive cards. Supersedes the back-compat single-column `accentPalette` input.' },
   { key: 'gradients', group: 'advanced', label: 'Gradients', control: 'toggle', default: false,
     description: 'Opt-in (off by default). On ships one default brand gradient; an explicit array ships specific ones.' },
 ];
