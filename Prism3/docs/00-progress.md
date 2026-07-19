@@ -7,7 +7,38 @@
 
 ---
 
-## Latest (2026-07-19) — Phase D consolidation: no-diff suppression across all non-colour mode levers
+## Latest (2026-07-19) — Phase D: per-mode density lever + Advanced-lever disclosure
+
+**STATUS: MERGED** (#189). Two changes closing out Phase D's non-colour axes.
+
+**Per-mode density (engine + web).** `ModeLevers` gains `density?` — a mode may run a different
+component-density tier (`compact`/`comfortable`/`spacious`), re-deriving its `size.*` control heights +
+paired padding via the same `componentSizes(density, spaceBase)` the baseline uses. The dimension analog of
+the tempo enum. The `space.*` reference scale is **density-free by design**, so it's untouched — only the
+`size.*` tier varies. Same seam as radius: a size sub-leaf (`height` / `padding-x` / `padding-y`) whose
+per-mode px differs from light carries a `$extensions.prism3.modes.<mode>` override (height aliases the
+dimension grid on-grid else literal; padding aliases the space scale on-scale else literal). No-diff
+suppression (`lev.density !== density`) composes with the #190 suppression on the other axes → byte-identical
+when unused. Validation is engine-side (`brandTheme()` throws on an invalid density or a density on a
+generate-only mode); the schema documents it. Web: a per-mode density select (Auto-follows-global, like
+tempo) + a new mode-aware **Control-size specimen** so the change is visible.
+
+**Advanced-lever disclosure (web only).** The lean-default lever panels drop every `advanced` manifest
+lever, which left eight scalar/enum levers with no UI control at all (`baseMd`, `spaceBase`, `baseUnit`,
+`typography.displayCeiling`, `typography.titleFloor`, `layout.columns`, `layout.containerMax`,
+`layout.containerNarrow`) — reachable only by hand-editing the brand input. Added the progressive-disclosure
+affordance the manifest always intended: a collapsed **"Advanced"** panel per stage rendering that stage's
+advanced slider/enum levers via `renderControl` (Form gets 6, Type gets 2). The lean panel (`!l.advanced`)
+and the Advanced panel (`l.advanced`) are disjoint on the same filters, so nothing double-renders. Object/
+list advanced levers keep their bespoke editors.
+
+Engine tests **897 → 909** (+12 density: seam, density-free `space.*`, validation throws, design.md
+round-trip, `validateBrandInput` acceptance, no-diff suppression); NB regression green; **`out/*`
+byte-identical**; DTCG 336/336 contracts + all aliases resolve; web/plugin tsc + builds clean.
+
+---
+
+## (2026-07-19) — Phase D consolidation: no-diff suppression across all non-colour mode levers
 
 **STATUS: MERGED.** Follow-up to the per-mode non-colour lever arc (#177–#188). The motion **tempo** lever
 (#187) already suppressed its per-mode map when a mode's value equalled the global baseline (`tempo !==
