@@ -51,6 +51,12 @@ export type OKLCH = { l: number; c: number; h: number };
 /** A generated primitive palette. */
 export type PaletteBuild = { palette: string; role: Role; steps: Step[]; description: string };
 
+/** Per-mode LEVER overrides for the non-colour axes (Phase D). A customizable mode may override
+ *  an input lever the engine RE-DERIVES for that mode — today `radius` (the radius scale), with
+ *  `typeScale`/`tempo`/`density` slotting in the same way later. Distinct from the global
+ *  `radiusScale` (the baseline every mode inherits); a `modeLevers` entry deviates a single mode. */
+export type ModeLevers = { radius?: number };  // per-mode lever overrides; extensible (typeScale/tempo/density later)
+
 /** The non-color (dimension) axis: a primitive grid + space/radius/size scales. */
 export type Dims = {
   grid: number[];
@@ -60,6 +66,10 @@ export type Dims = {
   density: Density;
   radiusScaleValue: number;
   spaceBase: number;
+  // Per-mode radius ramps (Phase D) — only modes whose `modeLevers.radius` deviates the baseline;
+  // each re-derived via the SAME radiusScale(value, baseMd, 128) buildDims uses. Absent (field
+  // omitted) when no modeLevers → the DTCG/Figma radius emit stays byte-identical.
+  radiusByMode?: Record<string, RadiusStep[]>;
 };
 
 /** A declared palette promoted to a full `interactive.<name>.*` column (docs/20 §3). `name` is
@@ -92,6 +102,11 @@ export type Theme = {
   // The whole column (rest/hover/pressed/on-fill) re-derives from it, still floor-gated. Column keys:
   // 'primary' / 'destructive' / an accent (interactivePalettes) name. Customizable modes only.
   modeAnchors?: Partial<Record<ModeName, Record<string, number>>>;
+  // Per-mode LEVER overrides for the non-colour axes (Phase D) — a customizable mode re-derives an
+  // axis from an overridden input lever (radius now; typeScale/tempo/density later). Distinct from
+  // the global `radiusScale` baseline every mode inherits — modeLevers deviate a single mode. The
+  // re-derived radius ramps land on `dims.radiusByMode`; this carries the raw levers for round-trip.
+  modeLevers?: Partial<Record<ModeName, ModeLevers>>;
   // Disabled-state strategy. 'accessible' (default): disabled text/icon/border
   // clears `disabledMin` on the floor, so it stays legible (the KB's `inactive`).
   // 'conventional': intentionally sub-AA, leaning on the WCAG 1.4.3/1.4.11
@@ -250,6 +265,13 @@ export type BrandInput = {
    *  actionAnchorStep / destructiveAnchorStep / interactivePalettes anchors, which set the baseline
    *  every mode inherits — modeAnchors deviate a single mode's column. */
   modeAnchors?: Partial<Record<ModeName, Record<string, number>>>;
+  /** Per-mode NON-COLOUR lever overrides (Phase D): a customizable mode overrides an input lever the
+   *  engine RE-DERIVES for that mode — today `radius` (the radius scale, 0=sharp…1=default…2=soft),
+   *  with `typeScale`/`tempo`/`density` slotting in the same map later. Customizable modes only
+   *  (light/dark or a `customModes` name); a generate-only mode (hc/wireframe) or a mode this brand
+   *  doesn't generate throws, and a radius outside [0,2] throws. Distinct from the GLOBAL `radiusScale`
+   *  (the baseline every mode inherits) — modeLevers deviate a single mode. Omit for none (byte-identical). */
+  modeLevers?: Partial<Record<ModeName, ModeLevers>>;
   /** Optional measured status overrides; omit to let the engine synthesise. */
   status?: Partial<Record<'success' | 'warning' | 'danger' | 'info', OKLCH & { chroma: number }>>;
   /** Disabled-state policy. Default 'accessible' (disabled clears `disabledMin`,
@@ -979,6 +1001,21 @@ export const brandTheme = (input: BrandInput): Theme => {
       throw new Error(`modeAnchors: mode '${m}' is generate-only and not customizable — only ${CUSTOMIZABLE_MODES.join('/')} accept per-mode anchors`);
   }
   if (Object.keys(input.modeAnchors ?? {}).length) notes.push(`modeAnchors: per-mode interactive anchors for ${Object.keys(input.modeAnchors!).join(', ')} (a column's fill re-anchored per mode; still floor-gated)`);
+  // Per-mode LEVER overrides (Phase D) — a customizable mode may override a non-colour axis lever
+  // (radius now; typeScale/tempo/density later slot in here). SAME customizable-mode rule as
+  // overrides/modeAnchors: the mode must be generated AND customizable (light/dark/custom); the
+  // generate-only built-ins (hc-light/hc-dark/wireframe) and absent modes throw. A `radius` lever
+  // must be a finite number in the lever's [0, 2] range.
+  for (const m of Object.keys(input.modeLevers ?? {}) as ModeName[]) {
+    if (!modesAll.includes(m))
+      throw new Error(`modeLevers: mode '${m}' is not in this brand's modes (${modesAll.join(', ')})`);
+    if (!CUSTOMIZABLE_MODES.includes(m))
+      throw new Error(`modeLevers: mode '${m}' is generate-only and not customizable — only ${CUSTOMIZABLE_MODES.join('/')} accept per-mode levers`);
+    const lev = input.modeLevers![m]!;
+    if (lev.radius !== undefined && (!Number.isFinite(lev.radius) || lev.radius < 0 || lev.radius > 2))
+      throw new Error(`modeLevers: mode '${m}' radius ${lev.radius} is out of range — must be a finite number in [0, 2]`);
+  }
+  if (Object.keys(input.modeLevers ?? {}).length) notes.push(`modeLevers: per-mode lever overrides for ${Object.keys(input.modeLevers!).join(', ')} (radius re-derived per mode via the same radiusScale as the baseline; a mode deviates the global lever)`);
   if (root !== 'prism') notes.push(`namespace: tokens emit under '${root}.*' (custom, not the 'prism' default)`);
   const anchorStep = autoPlaceStep(input.primary.l);
   notes.push(`primary anchor (h${input.primary.h}) pinned exactly at step ${anchorStep}`);
@@ -1179,6 +1216,14 @@ export const brandTheme = (input: BrandInput): Theme => {
   const density = input.density ?? 'comfortable';
   const rScale = input.radiusScale ?? 1;
   const baseMd = input.baseMd ?? 4;
+  // Per-mode radius levers (Phase D): a customizable mode overriding `radius` re-derives its radius
+  // ramp via the SAME radiusScale(value, baseMd, 128) buildDims uses (same baseMd). Only modes that
+  // actually override get an entry; the map is left off the Dims when empty → byte-identical.
+  const modeLevers = input.modeLevers ?? {};
+  const radiusByMode: Record<string, RadiusStep[]> = {};
+  for (const [m, lev] of Object.entries(modeLevers)) {
+    if (lev?.radius !== undefined) radiusByMode[m] = radiusScale(lev.radius, baseMd, 128);
+  }
   notes.push(`dimension axis: ${baseUnit}px grid, ${spaceBase}px space rhythm, density '${density}' (drives component sizes), radius scale ${rScale} (baseMd ${baseMd}px)`);
   notes.push(`motion: tempo '${input.motionPersonality?.tempo ?? 'standard'}' scales the duration ramp; easing roles + springs + composite transitions generated; reduce-motion variants derived (informational preserved, vestibular → 0)`);
   const shadow = buildShadow(input.neutral.hue, input.shadow);
@@ -1239,6 +1284,7 @@ export const brandTheme = (input: BrandInput): Theme => {
   return {
     id: input.id, root, namespace: `${root}.palette`, colorFormat: 'hex', modes: modesAll, palettes, roleToPalette, notes,
     ...(customModes.length ? { customModes } : {}),
+    ...(Object.keys(radiusByMode).length ? { modeLevers } : {}),
     roleAnchorStep: { brand: anchorStep, neutral: 500, success: 500, warning: 500, danger: 500, info: 500, action: actionAnchorStep },
     surfaces: input.surfaces,
     overrides: input.overrides,
@@ -1249,7 +1295,7 @@ export const brandTheme = (input: BrandInput): Theme => {
     outlineInteraction: input.outlineInteraction ?? 'overlay-neutral',
     neutralEmphasis, inverseContext, interactivePalettes,
     actionAnchorStep: input.actionAnchorStep, destructiveAnchorStep: input.destructiveAnchorStep,
-    dims: buildDims(baseUnit, spaceBase, density, rScale, baseMd),
+    dims: { ...buildDims(baseUnit, spaceBase, density, rScale, baseMd), ...(Object.keys(radiusByMode).length ? { radiusByMode } : {}) },
     motion: buildMotion(input.motionPersonality),
     typography,
     shadow,

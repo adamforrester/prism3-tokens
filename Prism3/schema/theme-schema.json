@@ -45,6 +45,17 @@
       "description": "OPTIONAL (Phase A2b). Per-mode interactive anchor overrides, keyed by mode name (a customizable mode). Each mode maps an interactive column ('primary' / 'destructive' / an accent name) to a palette step number that re-anchors that column's whole fill (rest/hover/pressed/on-fill all re-derive, still floor-gated). Deep-validated by brandTheme() at resolve time; the schema enforces the object shape. Omit for none (byte-identical).",
       "additionalProperties": true
     },
+    "modeLevers": {
+      "type": "object",
+      "description": "OPTIONAL (Phase D). Per-mode NON-COLOUR lever overrides, keyed by mode name (a customizable mode — light/dark or a `customModes` name). Each mode may override an input lever the engine RE-DERIVES for that mode; today `radius` (the radius scale, 0=sharp…1=default…2=soft), with typeScale/tempo/density to follow the same shape. Distinct from the GLOBAL `radiusScale` (the baseline every mode inherits) — modeLevers deviate a single mode. Deep-validated by brandTheme() at resolve time (mode is customizable + generated; radius in [0,2]). Omit for none (byte-identical).",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "radius": { "type": "number", "minimum": 0, "maximum": 2, "description": "OPTIONAL. Per-mode radius scale (0=sharp corners … 1=system default … 2=very soft). Re-derives this mode's radius ramp via the same radiusScale(value, baseMd) the global lever uses; only rungs whose px differs from light carry a per-mode override." }
+        }
+      }
+    },
     "primary": {
       "$ref": "#/$defs/oklch",
       "description": "The exact brand anchor (palette 'primary'). Pinned, never shifted; the engine auto-places it on the step ramp by its lightness."

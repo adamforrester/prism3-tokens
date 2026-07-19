@@ -342,18 +342,34 @@ export const buildTree = (theme: Theme): { tree: any; modes: ModeResult[]; stats
   const space: Record<string, Token> = {};
   const spaceKeyOf = new Map<number, string>(theme.dims.space.map((s) => [s.px, s.key]));
   for (const s of theme.dims.space) space[s.key] = dimAlias(`${root}.dimension.${s.px}`, `space.${s.key} — ${s.px}px (${s.mult}× ${theme.dims.spaceBase}px base)`, { px: s.px, mult: s.mult });
-  // radius ramp (t-shirt)
-  // Wireframe (docs/11 Pillar 1b) zeroes every radius: geometry becomes mode-varying, so a
-  // non-zero radius carries a `modes.wireframe` override aliasing `dimension.0` — the same
-  // per-mode override shape colour/shadow use. Only when the brand opted into wireframe.
+  // radius ramp (t-shirt) — geometry is MODE-VARYING (docs/11 Pillar 1b + Phase D). Two paths
+  // coexist on the same `$extensions.prism3.modes` map:
+  //  • wireframe (not lever-driven) zeroes every radius → each non-zero rung aliases `dimension.0`;
+  //  • a `modeLevers.radius` mode (Phase D) RE-DERIVES the rung, so a rung whose per-mode px DIFFERS
+  //    from light carries an override aliasing `dimension.<px>` (or a literal px if off-grid,
+  //    mirroring the light branch). Light stays the canonical `$value`. Absent → byte-identical.
   const radius: Record<string, Token> = {};
   const wireframe = theme.modes.includes('wireframe');
+  const radiusByMode = theme.dims.radiusByMode ?? {};
+  // Per-mode radius override leaf: alias the dimension grid step when on-grid (mirrors the light
+  // rung), else a literal px — the same shape as the wireframe override.
+  const radiusModeOverride = (px: number, note: string): Record<string, unknown> =>
+    gridSet.has(px)
+      ? { $value: `{${root}.dimension.${px}}`, px, note }
+      : { $value: `${px}px`, px, note };
   for (const r of theme.dims.radius) {
     const leaf = gridSet.has(r.px)
       ? dimAlias(`${root}.dimension.${r.px}`, `radius ${r.name} — ${r.px}px${r.pill ? ' (pill)' : ''}`, { px: r.px, radiusScale: theme.dims.radiusScaleValue })
       : dimLeaf(r.px, `radius ${r.name} — ${r.px}px (off-grid literal)`);
+    const modeOverrides: Record<string, unknown> = {};
     if (wireframe && r.px !== 0)
-      leaf.$extensions.prism3.modes = { wireframe: { $value: `{${root}.dimension.0}`, px: 0, note: 'wireframe zeroes all radius (sharp corners)' } };
+      modeOverrides.wireframe = { $value: `{${root}.dimension.0}`, px: 0, note: 'wireframe zeroes all radius (sharp corners)' };
+    for (const [mode, steps] of Object.entries(radiusByMode)) {
+      const rr = steps.find((s) => s.name === r.name);
+      if (!rr || rr.px === r.px) continue;   // px equal → no diff → no override
+      modeOverrides[mode] = radiusModeOverride(rr.px, `radius lever override — ${mode} (${rr.px}px)`);
+    }
+    if (Object.keys(modeOverrides).length) leaf.$extensions.prism3.modes = modeOverrides;
     radius[r.name] = leaf;
   }
   // component tier: each size binds a height + paired padding from the shared
