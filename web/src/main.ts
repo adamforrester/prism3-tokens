@@ -1493,25 +1493,80 @@ const renderForegroundEditor = (): HTMLElement => {
 const renderShadowEditor = (softness?: Lever): HTMLElement => {
   const wrap = el('div', 'obj-editor');
   wrap.append(subHead('Shadow'));
-  wrap.append(el('p', 'obj-lede', 'Blur softness (crisp/product → soft/marketing) and a hue-shift of the shadow base off pure black. Tint amount 0 = pure black; higher = a richer, brand-hued near-black.'));
-  const def = theme.shadow.tint;
-  const cur = brandState.shadow?.tint;
+  // D (shadow) — outside the base mode, softness + tint go per-mode (modeLevers[mode].shadow); the
+  // slider shows the EFFECTIVE value (override ?? global) and moving it creates an override, with a
+  // "↺ Auto" reset that clears it (blank-slider has no natural Auto state, so the reset is explicit).
+  const perMode = currentMode !== 'light';
+  const modeLabel = MODE_LABEL[currentMode] ?? currentMode;
+  wrap.append(el('p', 'obj-lede', perMode
+    ? `Blur softness + tint for ${modeLabel} — “Auto” follows the global shadow; a value overrides just this mode (crisper/softer, warmer/cooler). The light↔dark reduction still applies on top.`
+    : 'Blur softness (crisp/product → soft/marketing) and a hue-shift of the shadow base off pure black. Tint amount 0 = pure black; higher = a richer, brand-hued near-black.'));
+  const gTint = theme.shadow.tint;         // resolved global tint (what a mode inherits under Auto)
+  const gSoft = theme.shadow.softness;     // resolved global softness
   const panel = el('div', 'panel');
-  if (softness) panel.append(renderControl(softness));               // the blur dial, pulled out of the geometry panel
-  const mk = (key: 'hue' | 'amount', label: string, min: number, max: number, step: number, unit: string): void => {
-    const knob = el('div', 'knob');
-    knob.append(el('label', 'knob-label', label));
-    const input = el('input') as HTMLInputElement;
-    input.type = 'range'; input.min = String(min); input.max = String(max); input.step = String(step);
-    input.value = String(cur?.[key] ?? def[key]);
-    const val = el('span', 'knob-val', `${input.value}${unit}`);
-    input.oninput = () => { setPath(brandState, `shadow.tint.${key}`, Number(input.value)); val.textContent = `${input.value}${unit}`; apply(); };
-    const body = el('div', 'knob-body'); body.append(input, val);
-    knob.append(body);
-    panel.append(knob);
-  };
-  mk('hue', 'Tint hue', 0, 360, 1, '°');
-  mk('amount', 'Tint amount', 0, 1, 0.05, '');
+  if (perMode) {
+    const clearShadow = (): void => {                       // prune empty per-mode shadow maps → byte-identical revert
+      const ml = brandState.modeLevers; if (!ml) return;
+      const e = ml[currentMode]; if (!e) return;
+      if (e.shadow) { if (e.shadow.tint && !Object.keys(e.shadow.tint).length) delete e.shadow.tint; if (!Object.keys(e.shadow).length) delete e.shadow; }
+      if (!Object.keys(e).length) delete ml[currentMode];
+      if (!Object.keys(ml).length) brandState.modeLevers = undefined;
+    };
+    const ensureShadow = () => { const ml = brandState.modeLevers ?? (brandState.modeLevers = {}); const e = ml[currentMode] ?? (ml[currentMode] = {}); return e.shadow ?? (e.shadow = {}); };
+    // A per-mode slider: effective = override ?? global; moving it sets the override, ↺ Auto clears it.
+    const mkPer = (label: string, min: number, max: number, step: number, unit: string, getOv: () => number | undefined, setOv: (v: number | undefined) => void, global: number): void => {
+      const ov = getOv();
+      const eff = ov ?? global;
+      const knob = el('div', 'knob');
+      const head = el('div', 'sh-knob-head');
+      head.append(el('label', 'knob-label', label));
+      const auto = el('button', ov !== undefined ? 'sh-auto on' : 'sh-auto', ov !== undefined ? '↺ Auto' : `Auto (${global}${unit})`) as HTMLButtonElement;
+      auto.disabled = ov === undefined;
+      auto.onclick = () => { setOv(undefined); applyFull(); };
+      head.append(auto);
+      knob.append(head);
+      const input = el('input') as HTMLInputElement;
+      input.type = 'range'; input.min = String(min); input.max = String(max); input.step = String(step); input.value = String(eff);
+      const val = el('span', 'knob-val', `${eff}${unit}${ov !== undefined ? '' : ' · auto'}`);
+      input.oninput = () => {
+        setOv(Number(input.value)); val.textContent = `${input.value}${unit}`;
+        // this slider now overrides — activate the ↺ Auto reset in place (no full re-render, so dragging
+        // stays smooth); the reset click does the full re-render that rebuilds the header cleanly.
+        auto.textContent = '↺ Auto'; auto.className = 'sh-auto on'; auto.disabled = false;
+        apply();
+      };
+      const body = el('div', 'knob-body'); body.append(input, val);
+      knob.append(body);
+      panel.append(knob);
+    };
+    const sLever = softness;
+    mkPer(sLever?.label ?? 'Shadow softness', (sLever?.min as number) ?? 0, (sLever?.max as number) ?? 2, (sLever?.step as number) ?? 0.1, '',
+      () => brandState.modeLevers?.[currentMode]?.shadow?.softness,
+      (v) => { const sh = ensureShadow(); if (v !== undefined) sh.softness = v; else delete sh.softness; clearShadow(); }, gSoft);
+    mkPer('Tint hue', 0, 360, 1, '°',
+      () => brandState.modeLevers?.[currentMode]?.shadow?.tint?.hue,
+      (v) => { const sh = ensureShadow(); const t = sh.tint ?? (sh.tint = {}); if (v !== undefined) t.hue = v; else delete t.hue; clearShadow(); }, gTint.hue);
+    mkPer('Tint amount', 0, 1, 0.05, '',
+      () => brandState.modeLevers?.[currentMode]?.shadow?.tint?.amount,
+      (v) => { const sh = ensureShadow(); const t = sh.tint ?? (sh.tint = {}); if (v !== undefined) t.amount = v; else delete t.amount; clearShadow(); }, gTint.amount);
+  } else {
+    const cur = brandState.shadow?.tint;
+    if (softness) panel.append(renderControl(softness));             // the blur dial, pulled out of the geometry panel
+    const mk = (key: 'hue' | 'amount', label: string, min: number, max: number, step: number, unit: string): void => {
+      const knob = el('div', 'knob');
+      knob.append(el('label', 'knob-label', label));
+      const input = el('input') as HTMLInputElement;
+      input.type = 'range'; input.min = String(min); input.max = String(max); input.step = String(step);
+      input.value = String(cur?.[key] ?? gTint[key]);
+      const val = el('span', 'knob-val', `${input.value}${unit}`);
+      input.oninput = () => { setPath(brandState, `shadow.tint.${key}`, Number(input.value)); val.textContent = `${input.value}${unit}`; apply(); };
+      const body = el('div', 'knob-body'); body.append(input, val);
+      knob.append(body);
+      panel.append(knob);
+    };
+    mk('hue', 'Tint hue', 0, 360, 1, '°');
+    mk('amount', 'Tint amount', 0, 1, 0.05, '');
+  }
   wrap.append(panel);
   return wrap;
 };
@@ -2423,6 +2478,10 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .te-ramp-key{font-size:11px;color:var(--muted)}
 .te-ramp-in{width:74px;padding:5px 7px;border:1px solid var(--line2);border-radius:var(--r-xs);font:inherit;font-size:12px;background:var(--paper)}
 .te-ramp-ro{font-size:13px;color:var(--ink2);padding:5px 0}
+/* D (shadow) — per-mode softness/tint: the knob header carries an Auto/reset affordance. */
+.sh-knob-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.sh-auto{font:inherit;font-size:11px;color:var(--muted);background:none;border:none;padding:0;cursor:default}
+.sh-auto.on{color:var(--ink2);cursor:pointer;text-decoration:underline}
 .obj-editor{margin-bottom:8px}
 .obj-lede{margin:0 0 8px;font-size:12px;color:var(--faint);line-height:1.5}
 .obj-row{display:flex;gap:8px;margin-top:8px}

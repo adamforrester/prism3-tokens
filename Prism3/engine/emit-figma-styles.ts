@@ -80,6 +80,24 @@ export const buildFigmaShadow = (theme: Theme): FigmaEffectStylesFile => {
       effects: darkLayers,
     });
   }
+  // Per-mode shadow overrides (Phase D): each non-dark mode with a shadow override in `modes.<mode>` gets
+  // its own `shadow-<mode>/<step>` effect-style set (Effect Styles have no Figma modes, so mode-awareness
+  // is name-suffixed — same convention as shadow-dark). Empty for brands with no per-mode shadow.
+  const extraModes = new Set<string>();
+  for (const key of keys) for (const mode of Object.keys(shadowNode[key].$extensions?.prism3?.modes ?? {})) if (mode !== 'dark') extraModes.add(mode);
+  for (const mode of extraModes) {
+    for (const key of keys) {
+      const leaf = shadowNode[key];
+      const layerData = leaf.$extensions?.prism3?.modes?.[mode];
+      if (!layerData) continue;
+      const inset = key === 'inset';
+      styles.push({
+        name: `shadow-${mode}/${key}`,
+        description: String(leaf.$description ?? '') + ` — ${mode} mode (per-mode softness/tint)`,
+        effects: (layerData as any[]).map((l: any) => shadowLayerToEffect(l, inset)),
+      });
+    }
+  }
 
   return { $collection: 'shadow-styles', styles };
 };

@@ -73,6 +73,12 @@ export type ModeLevers = {
   // The motion analog of radius: one lever re-derives the whole ramp. Mirrors the global `tempo` enum;
   // e.g. a `marketing` custom mode runs `relaxed` while the app mode stays `snappy`.
   tempo?: 'snappy' | 'standard' | 'relaxed';
+  // Per-mode SHADOW personality — a different blur `softness` and/or `tint` (hue + amount) for this mode.
+  // Same shape as the global `shadow` lever. Re-derives this mode's shadow ramp via the same buildShadow
+  // the baseline uses, picking the mode's appearance layer-set (a dark/dark-based mode gets the reduced
+  // layers; a light/light-based mode the full ones). The light/dark alpha reduction is intrinsic, so it
+  // composes for free.
+  shadow?: { softness?: number; tint?: { hue?: number; amount?: number } };
 };  // per-mode lever overrides; extensible (typeScale/density later)
 
 /** The non-color (dimension) axis: a primitive grid + space/radius/size scales. */
@@ -785,6 +791,12 @@ export type ShadowAxis = {
   colorRgb: RGB;                 // the tinted shadow base (layers vary only alpha)
   softness: number;
   tint: { hue: number; amount: number };
+  // Per-mode shadow (Phase D) — only modes whose `modeLevers.shadow` deviates. Each carries the
+  // RE-DERIVED layer-set for that mode's APPEARANCE (light-based → full layers; dark-based → reduced) at
+  // the mode's softness/tint, plus the mode's own tinted `colorRgb` (a tint override changes the colour).
+  // `layers` is keyed by step name (incl. `inset`). Composites reference nothing here — the shadow leaf
+  // attaches `$extensions.prism3.modes.<mode>` from this. Absent ⇒ byte-identical.
+  shadowByMode?: Record<string, { appearance: 'light' | 'dark'; colorRgb: RGB; softness: number; tint: { hue: number; amount: number }; layers: Record<string, ShadowLayer[]> }>;
 };
 // Base ramp at softness 1 — [keyY, keyBlur, keySpread, keyAlpha, ambY, ambBlur, ambSpread, ambAlpha].
 // Anchored to Tailwind/Polaris/NB curves; offsetY≈blur×0.6–0.7, spread tightens with size.
@@ -1085,9 +1097,17 @@ export const brandTheme = (input: BrandInput): Theme => {
     // Per-mode tempo must be one of the three tempo enums (the same set as the global lever).
     if (lev.tempo !== undefined && !['snappy', 'standard', 'relaxed'].includes(lev.tempo))
       throw new Error(`modeLevers: mode '${m}' tempo '${lev.tempo}' is invalid — must be one of snappy/standard/relaxed`);
+    // Per-mode shadow must stay in the global lever's ranges — softness [0, 2], tint hue [0, 360],
+    // tint amount [0, 1] (same bounds as the shadow lever + the shadow-tint object lever).
+    if (lev.shadow?.softness !== undefined && (!Number.isFinite(lev.shadow.softness) || lev.shadow.softness < 0 || lev.shadow.softness > 2))
+      throw new Error(`modeLevers: mode '${m}' shadow softness ${lev.shadow.softness} is out of range — must be a finite number in [0, 2]`);
+    if (lev.shadow?.tint?.hue !== undefined && (!Number.isFinite(lev.shadow.tint.hue) || lev.shadow.tint.hue < 0 || lev.shadow.tint.hue > 360))
+      throw new Error(`modeLevers: mode '${m}' shadow tint hue ${lev.shadow.tint.hue} is out of range — must be a finite number in [0, 360]`);
+    if (lev.shadow?.tint?.amount !== undefined && (!Number.isFinite(lev.shadow.tint.amount) || lev.shadow.tint.amount < 0 || lev.shadow.tint.amount > 1))
+      throw new Error(`modeLevers: mode '${m}' shadow tint amount ${lev.shadow.tint.amount} is out of range — must be a finite number in [0, 1]`);
   }
-  const leverModes = Object.entries(input.modeLevers ?? {}).filter(([, l]) => l && (l.radius !== undefined || l.families || l.weights || l.lineHeights || l.letterSpacings || l.tempo)).map(([m]) => m);
-  if (leverModes.length) notes.push(`modeLevers: per-mode lever overrides for ${leverModes.join(', ')} (radius / font family / font weight / line-height / letter-spacing / motion tempo re-derived per mode via the same helpers as the baseline; a mode deviates the global lever, the composite/token set is untouched)`);
+  const leverModes = Object.entries(input.modeLevers ?? {}).filter(([, l]) => l && (l.radius !== undefined || l.families || l.weights || l.lineHeights || l.letterSpacings || l.tempo || l.shadow)).map(([m]) => m);
+  if (leverModes.length) notes.push(`modeLevers: per-mode lever overrides for ${leverModes.join(', ')} (radius / font family / font weight / line-height / letter-spacing / motion tempo / shadow re-derived per mode via the same helpers as the baseline; a mode deviates the global lever, the composite/token set is untouched)`);
   if (root !== 'prism') notes.push(`namespace: tokens emit under '${root}.*' (custom, not the 'prism' default)`);
   const anchorStep = autoPlaceStep(input.primary.l);
   notes.push(`primary anchor (h${input.primary.h}) pinned exactly at step ${anchorStep}`);
@@ -1314,6 +1334,27 @@ export const brandTheme = (input: BrandInput): Theme => {
   if (Object.keys(motionByMode).length) motion.motionByMode = motionByMode;
   const shadow = buildShadow(input.neutral.hue, input.shadow);
   notes.push(`shadow: 6-step ramp (xs–2xl) + inset, 2-layer (key+ambient), softness ${shadow.softness}; tinted base (hue ${shadow.tint.hue}, amount ${shadow.tint.amount}${shadow.tint.amount === 0 ? ' = pure black' : ''}). Mode-aware, LIFT-primary: full shadow in light; reduced (faded, top-weighted) in dark — the surface ladder carries dark elevation. Composite shadow → Figma Effect Style.`);
+  // Per-mode SHADOW (Phase D): a customizable mode overriding `shadow` re-derives its ramp via the SAME
+  // buildShadow the baseline uses, at the mode's (softness/tint merged over the global). The APPEARANCE
+  // decides the layer-set — a dark or dark-based custom mode gets the reduced dark layers; light/light-
+  // based the full ones — so the alpha reduction composes for free. Each entry carries the mode's own
+  // tinted colorRgb (a tint override changes the shadow colour). Only overriding modes get an entry.
+  const shadowAppearance: Record<string, 'light' | 'dark'> = { light: 'light', dark: 'dark' };
+  for (const cm of customModes) shadowAppearance[cm.name] = cm.base === 'dark' ? 'dark' : 'light';   // custom mode's appearance = its base (validated to light/dark)
+  const shadowByMode: NonNullable<ShadowAxis['shadowByMode']> = {};
+  for (const [mo, lev] of Object.entries(modeLevers)) {
+    if (!lev?.shadow) continue;
+    const app = shadowAppearance[mo] ?? 'light';
+    const sm = buildShadow(input.neutral.hue, {
+      softness: lev.shadow.softness ?? input.shadow?.softness,
+      tint: { hue: lev.shadow.tint?.hue ?? input.shadow?.tint?.hue, amount: lev.shadow.tint?.amount ?? input.shadow?.tint?.amount },
+    });
+    const pick = (st: ShadowStep): ShadowLayer[] => (app === 'dark' ? st.dark : st.light);
+    const layers: Record<string, ShadowLayer[]> = { inset: pick(sm.inset) };
+    for (const s of sm.steps) layers[s.name] = pick(s);
+    shadowByMode[mo] = { appearance: app, colorRgb: sm.colorRgb, softness: sm.softness, tint: sm.tint, layers };
+  }
+  if (Object.keys(shadowByMode).length) shadow.shadowByMode = shadowByMode;
   const gradient = buildGradient(input.gradients, palettes, root);
   if (gradient.gradients.length) {
     notes.push(`gradient: ${gradient.gradients.length} brand gradient(s) [${gradient.gradients.map((g) => `${g.name} ${g.kind}${g.kind === 'linear' ? ` ${g.angle}°` : ''} ${g.stops.length}-stop`).join(', ')}] — OPT-IN. DTCG composite spine, stop colours alias the ramp; kind/angle/${gradient.gradients[0].interpolation} interpolation in \$extensions (DTCG omits them — issue #101). OKLCH-interpolated + ${gradient.gradients[0].sampled.length}-stop sRGB pre-sample for Figma (sRGB-only); materializes as a Figma Paint Style (only stop colours bind). Worst-case-stop contrast computed for text-on-gradient.`);
@@ -1410,7 +1451,7 @@ export const brandTheme = (input: BrandInput): Theme => {
   return {
     id: input.id, root, namespace: `${root}.palette`, colorFormat: 'hex', modes: modesAll, palettes, roleToPalette, notes,
     ...(customModes.length ? { customModes } : {}),
-    ...(Object.keys(radiusByMode).length || Object.keys(familiesByMode).length || Object.keys(weightRolesByMode).length || Object.keys(lineHeightsByMode).length || Object.keys(letterSpacingsByMode).length || Object.keys(motionByMode).length ? { modeLevers } : {}),
+    ...(Object.keys(radiusByMode).length || Object.keys(familiesByMode).length || Object.keys(weightRolesByMode).length || Object.keys(lineHeightsByMode).length || Object.keys(letterSpacingsByMode).length || Object.keys(motionByMode).length || Object.keys(shadowByMode).length ? { modeLevers } : {}),
     roleAnchorStep: { brand: anchorStep, neutral: 500, success: 500, warning: 500, danger: 500, info: 500, action: actionAnchorStep },
     surfaces: input.surfaces,
     overrides: input.overrides,
