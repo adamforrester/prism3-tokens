@@ -469,92 +469,73 @@ const renderControl = (lever: Lever): HTMLElement => {
   return wrap;
 };
 
-/** D (radius) — the radiusScale lever goes per-mode outside the base mode. Light edits the global
- *  `radiusScale`; dark/custom edit `modeLevers[mode].radius` — "Auto" follows the global baseline, a
- *  value re-derives the whole radius ramp for just this mode (via the same engine radiusScale). A
- *  discrete select (the lever's 0…2 / 0.5 steps) with a natural Auto, mirroring the A2c foreground UI. */
-const RADIUS_SCALE_OPTS: [number, string][] = [[0, '0 · sharp'], [0.5, '0.5'], [1, '1 · default'], [1.5, '1.5'], [2, '2 · soft']];
-const renderPerModeRadius = (lever: Lever): HTMLElement => {
-  const wrap = el('div', 'knob');
-  wrap.append(el('label', 'knob-label', lever.label));
-  const globalV = (brandState.radiusScale ?? (lever.default as number) ?? 1);
-  const cur = brandState.modeLevers?.[currentMode]?.radius;
-  const sel = el('select', 'obj-sel') as HTMLSelectElement;
-  const optE = (v: string, t: string, on: boolean) => { const o = el('option') as HTMLOptionElement; o.value = v; o.textContent = t; if (on) o.selected = true; sel.append(o); };
-  optE('', `Auto — follows global (${globalV})`, cur == null);
-  for (const [v, label] of RADIUS_SCALE_OPTS) optE(String(v), label, cur === v);
-  sel.onchange = () => {
-    const ml = brandState.modeLevers ?? (brandState.modeLevers = {});
-    const forMode = ml[currentMode] ?? (ml[currentMode] = {});
-    if (sel.value === '') {                                   // revert to the global baseline
-      delete forMode.radius;
-      if (!Object.keys(forMode).length) delete ml[currentMode];
-      if (!Object.keys(ml).length) brandState.modeLevers = undefined;
-    } else forMode.radius = Number(sel.value);
-    applyFull();
+// ---- per-mode modeLevers read/write (single source for every per-mode editor) ---------------------
+// The per-mode lever axes (radius/tempo/density selects, the typography family/weight/leading/tracking
+// editors, the shadow softness/tint sliders) all read + write `brandState.modeLevers[mode].<path>` with
+// the SAME prune-to-byte-identical invariant: a mode whose overrides are all cleared must revert to
+// exactly the no-override state. These three helpers own that so no editor re-implements it (and can't
+// drift from it). `path` is a dot path into the mode entry (e.g. 'radius', 'families.display',
+// 'shadow.tint.hue').
+const getModeLever = (mode: string, path: string): unknown => {
+  let node: any = brandState.modeLevers?.[mode];
+  for (const p of path.split('.')) { if (node == null) return undefined; node = node[p]; }
+  return node;
+};
+/** Drop empty nested maps and the mode entry (and modeLevers itself) so an all-cleared mode is byte-
+ *  identical to never having had an override. */
+const pruneModeLevers = (mode: string): void => {
+  const ml = brandState.modeLevers; if (!ml) return;
+  const e = ml[mode];
+  const dropEmpties = (o: any): void => {
+    for (const k of Object.keys(o)) {
+      const v = o[k];
+      if (v && typeof v === 'object' && !Array.isArray(v)) { dropEmpties(v); if (!Object.keys(v).length) delete o[k]; }
+    }
   };
-  wrap.append(sel);
-  wrap.append(el('p', 'knob-desc', `${lever.description} — per ${MODE_LABEL[currentMode] ?? currentMode}; “Auto” follows the global corner softness.`));
-  return wrap;
+  if (e) { dropEmpties(e); if (!Object.keys(e).length) delete ml[mode]; }
+  if (!Object.keys(ml).length) brandState.modeLevers = undefined;
+};
+/** Set `modeLevers[mode].<path>` to `value` (creating the nested maps), or delete it when `value` is
+ *  undefined / '' — then prune empties. Does NOT re-render (callers pick apply/applyFull). */
+const setModeLever = (mode: string, path: string, value: unknown): void => {
+  const ml = brandState.modeLevers ?? (brandState.modeLevers = {});
+  const e: any = ml[mode] ?? (ml[mode] = {});
+  const parts = path.split('.');
+  const last = parts.pop()!;
+  let node: any = e;
+  for (const p of parts) node = node[p] ?? (node[p] = {});
+  if (value !== undefined && value !== '') node[last] = value; else delete node[last];
+  pruneModeLevers(mode);
 };
 
-/** D (motion) — the tempo lever goes per-mode outside the base mode. Light edits the global
- *  `motionPersonality.tempo`; a mode edits `modeLevers[mode].tempo` — "Auto" follows the global
- *  baseline, a value re-derives the whole duration ramp (+ reduce-motion + stagger) for just this mode
- *  (via the same engine buildMotion). Same select-with-Auto shape as the per-mode radius control. */
+/** A per-mode enum select with a natural "Auto" (follows the global lever). Shared by the radius / motion
+ *  tempo / density controls — outside the base mode they edit `modeLevers[mode].<key>` instead of the
+ *  global. A hand-authored value that matches no discrete option is surfaced as its own "(custom)" option
+ *  rather than silently reading as Auto. `parse` maps the selected string to the stored value. */
+const renderPerModeSelect = (lever: Lever, key: string, opts: [string, string][], globalOf: () => string, parse: (s: string) => unknown, autoNote: string): HTMLElement => {
+  const wrap = el('div', 'knob');
+  wrap.append(el('label', 'knob-label', lever.label));
+  const cur = getModeLever(currentMode, key);
+  const sel = el('select', 'obj-sel') as HTMLSelectElement;
+  const optE = (v: string, t: string, on: boolean) => { const o = el('option') as HTMLOptionElement; o.value = v; o.textContent = t; if (on) o.selected = true; sel.append(o); };
+  optE('', `Auto — follows global (${globalOf()})`, cur == null);
+  let matched = false;
+  for (const [v, label] of opts) { const on = String(cur) === v; matched ||= on; optE(v, label, on); }
+  if (cur != null && !matched) optE(String(cur), `${cur} (custom)`, true);
+  sel.onchange = () => { setModeLever(currentMode, key, sel.value === '' ? undefined : parse(sel.value)); applyFull(); };
+  wrap.append(sel);
+  wrap.append(el('p', 'knob-desc', `${lever.description} — per ${MODE_LABEL[currentMode] ?? currentMode}; “Auto” follows the global ${autoNote}.`));
+  return wrap;
+};
+const RADIUS_SCALE_OPTS: [string, string][] = [['0', '0 · sharp'], ['0.5', '0.5'], ['1', '1 · default'], ['1.5', '1.5'], ['2', '2 · soft']];
 const TEMPO_OPTS: [string, string][] = [['snappy', 'Snappy'], ['standard', 'Standard'], ['relaxed', 'Relaxed']];
-const renderPerModeTempo = (lever: Lever): HTMLElement => {
-  const wrap = el('div', 'knob');
-  wrap.append(el('label', 'knob-label', lever.label));
-  const globalV = (brandState.motionPersonality?.tempo ?? (lever.default as string) ?? 'standard');
-  const cur = brandState.modeLevers?.[currentMode]?.tempo;
-  const sel = el('select', 'obj-sel') as HTMLSelectElement;
-  const optE = (v: string, t: string, on: boolean) => { const o = el('option') as HTMLOptionElement; o.value = v; o.textContent = t; if (on) o.selected = true; sel.append(o); };
-  optE('', `Auto — follows global (${globalV})`, cur == null);
-  for (const [v, label] of TEMPO_OPTS) optE(v, label, cur === v);
-  sel.onchange = () => {
-    const ml = brandState.modeLevers ?? (brandState.modeLevers = {});
-    const forMode = ml[currentMode] ?? (ml[currentMode] = {});
-    if (sel.value === '') {                                   // revert to the global baseline
-      delete forMode.tempo;
-      if (!Object.keys(forMode).length) delete ml[currentMode];
-      if (!Object.keys(ml).length) brandState.modeLevers = undefined;
-    } else forMode.tempo = sel.value as 'snappy' | 'standard' | 'relaxed';
-    applyFull();
-  };
-  wrap.append(sel);
-  wrap.append(el('p', 'knob-desc', `${lever.description} — per ${MODE_LABEL[currentMode] ?? currentMode}; “Auto” follows the global tempo.`));
-  return wrap;
-};
-
-/** D (density) — the density lever goes per-mode outside the base mode. Light edits the global
- *  `density`; a mode edits `modeLevers[mode].density` — "Auto" follows the global, a value re-derives
- *  the component-size tier (control heights + padding) for just this mode (via the same componentSizes).
- *  Same select-with-Auto shape as the per-mode tempo control. */
 const DENSITY_OPTS: [string, string][] = [['compact', 'Compact'], ['comfortable', 'Comfortable'], ['spacious', 'Spacious']];
-const renderPerModeDensity = (lever: Lever): HTMLElement => {
-  const wrap = el('div', 'knob');
-  wrap.append(el('label', 'knob-label', lever.label));
-  const globalV = (brandState.density ?? (lever.default as string) ?? 'comfortable');
-  const cur = brandState.modeLevers?.[currentMode]?.density;
-  const sel = el('select', 'obj-sel') as HTMLSelectElement;
-  const optE = (v: string, t: string, on: boolean) => { const o = el('option') as HTMLOptionElement; o.value = v; o.textContent = t; if (on) o.selected = true; sel.append(o); };
-  optE('', `Auto — follows global (${globalV})`, cur == null);
-  for (const [v, label] of DENSITY_OPTS) optE(v, label, cur === v);
-  sel.onchange = () => {
-    const ml = brandState.modeLevers ?? (brandState.modeLevers = {});
-    const forMode = ml[currentMode] ?? (ml[currentMode] = {});
-    if (sel.value === '') {                                   // revert to the global baseline
-      delete forMode.density;
-      if (!Object.keys(forMode).length) delete ml[currentMode];
-      if (!Object.keys(ml).length) brandState.modeLevers = undefined;
-    } else forMode.density = sel.value as 'compact' | 'comfortable' | 'spacious';
-    applyFull();
-  };
-  wrap.append(sel);
-  wrap.append(el('p', 'knob-desc', `${lever.description} — per ${MODE_LABEL[currentMode] ?? currentMode}; “Auto” follows the global density.`));
-  return wrap;
-};
+const renderPerModeRadius = (lever: Lever): HTMLElement =>
+  renderPerModeSelect(lever, 'radius', RADIUS_SCALE_OPTS, () => String(brandState.radiusScale ?? (lever.default as number) ?? 1), Number, 'corner softness');
+const renderPerModeTempo = (lever: Lever): HTMLElement =>
+  renderPerModeSelect(lever, 'tempo', TEMPO_OPTS, () => String(brandState.motionPersonality?.tempo ?? (lever.default as string) ?? 'standard'), (s) => s, 'tempo');
+const renderPerModeDensity = (lever: Lever): HTMLElement =>
+  renderPerModeSelect(lever, 'density', DENSITY_OPTS, () => String(brandState.density ?? (lever.default as string) ?? 'comfortable'), (s) => s, 'density');
 
 const renderChip = (label: string, bind: Record<string, string>, mode: Mode): HTMLElement => {
   // PRESENCE (resolved model) decides WHICH styles a chip paints; the VALUES are all
@@ -1123,7 +1104,10 @@ const renderBreakpointsEditor = (): HTMLElement => {
   const listEl = el('div', 'adv-bplist');
   const commit = (arr: number[]): void => {
     const clean = [...new Set(arr.filter((n) => Number.isFinite(n) && n >= 0))].sort((a, b) => a - b);
-    setPath(brandState, 'layout.breakpoints', clean); applyFull();
+    // Refresh THIS editor's list (count/order may change) + repaint the layout specimen — but NOT a full
+    // workspace re-render, which would recreate the <details> and snap the Advanced disclosure shut under
+    // the user (this editor lives inside it). apply() rebuilds the theme + the volatile specimens.
+    setPath(brandState, 'layout.breakpoints', clean); draw(); apply();
   };
   const draw = (): void => {
     listEl.innerHTML = '';
@@ -1292,55 +1276,17 @@ const renderTypographyEditor = (): HTMLElement => {
   // Light and shown read-only here. "Auto" = follow the global baseline.
   const perMode = currentMode !== 'light';
   const modeLabel = MODE_LABEL[currentMode] ?? currentMode;
-  const famGet = (role: string): string | undefined => {
-    const f = brandState.modeLevers?.[currentMode]?.families?.[role as 'display' | 'text' | 'mono'];
-    return Array.isArray(f) ? f[0] : f;
-  };
-  const wGet = (role: string): number | undefined => brandState.modeLevers?.[currentMode]?.weights?.[role as keyof NonNullable<NonNullable<typeof brandState.modeLevers>[string]>['weights']];
-  const clearModeLevers = (): void => {                     // drop empty per-mode maps → byte-identical revert
-    const ml = brandState.modeLevers; if (!ml) return;
-    const e = ml[currentMode];
-    if (e) {
-      if (e.families && !Object.keys(e.families).length) delete e.families;
-      if (e.weights && !Object.keys(e.weights).length) delete e.weights;
-      if (e.lineHeights && !Object.keys(e.lineHeights).length) delete e.lineHeights;
-      if (e.letterSpacings && !Object.keys(e.letterSpacings).length) delete e.letterSpacings;
-      if (!Object.keys(e).length) delete ml[currentMode];
-    }
-    if (!Object.keys(ml).length) brandState.modeLevers = undefined;
-  };
-  const famSet = (role: string, v: string | undefined): void => {
-    const ml = brandState.modeLevers ?? (brandState.modeLevers = {});
-    const e = ml[currentMode] ?? (ml[currentMode] = {});
-    const fams = e.families ?? (e.families = {});
-    if (v) (fams as Record<string, string>)[role] = v; else delete (fams as Record<string, string>)[role];
-    clearModeLevers(); applyFull();
-  };
-  const wSet = (role: string, v: number | undefined): void => {
-    const ml = brandState.modeLevers ?? (brandState.modeLevers = {});
-    const e = ml[currentMode] ?? (ml[currentMode] = {});
-    const ws = e.weights ?? (e.weights = {});
-    if (v !== undefined) (ws as Record<string, number>)[role] = v; else delete (ws as Record<string, number>)[role];
-    clearModeLevers(); applyFull();
-  };
-  // Per-mode line-height (unitless multiplier) + letter-spacing (em) per named step — same per-mode
-  // seam as family/weight. blank input = Auto (follow the global step value).
-  const lhGet = (key: string): number | undefined => brandState.modeLevers?.[currentMode]?.lineHeights?.[key as keyof NonNullable<NonNullable<typeof brandState.modeLevers>[string]>['lineHeights']];
-  const lsGet = (key: string): number | undefined => brandState.modeLevers?.[currentMode]?.letterSpacings?.[key as keyof NonNullable<NonNullable<typeof brandState.modeLevers>[string]>['letterSpacings']];
-  const lhSet = (key: string, v: number | undefined): void => {
-    const ml = brandState.modeLevers ?? (brandState.modeLevers = {});
-    const e = ml[currentMode] ?? (ml[currentMode] = {});
-    const lh = e.lineHeights ?? (e.lineHeights = {});
-    if (v !== undefined) (lh as Record<string, number>)[key] = v; else delete (lh as Record<string, number>)[key];
-    clearModeLevers(); applyFull();
-  };
-  const lsSet = (key: string, v: number | undefined): void => {
-    const ml = brandState.modeLevers ?? (brandState.modeLevers = {});
-    const e = ml[currentMode] ?? (ml[currentMode] = {});
-    const ls = e.letterSpacings ?? (e.letterSpacings = {});
-    if (v !== undefined) (ls as Record<string, number>)[key] = v; else delete (ls as Record<string, number>)[key];
-    clearModeLevers(); applyFull();
-  };
+  // Per-mode family / weight / leading / tracking all read+write modeLevers[mode] via the shared
+  // getModeLever/setModeLever (which own the prune-to-byte-identical invariant). A blank/undefined value
+  // clears the override. Font family may be stored as a string or a stack array — famGet returns the primary.
+  const famGet = (role: string): string | undefined => { const f = getModeLever(currentMode, `families.${role}`); return Array.isArray(f) ? f[0] : (f as string | undefined); };
+  const wGet = (role: string): number | undefined => getModeLever(currentMode, `weights.${role}`) as number | undefined;
+  const lhGet = (key: string): number | undefined => getModeLever(currentMode, `lineHeights.${key}`) as number | undefined;
+  const lsGet = (key: string): number | undefined => getModeLever(currentMode, `letterSpacings.${key}`) as number | undefined;
+  const famSet = (role: string, v: string | undefined): void => { setModeLever(currentMode, `families.${role}`, v); applyFull(); };
+  const wSet = (role: string, v: number | undefined): void => { setModeLever(currentMode, `weights.${role}`, v); applyFull(); };
+  const lhSet = (key: string, v: number | undefined): void => { setModeLever(currentMode, `lineHeights.${key}`, v); applyFull(); };
+  const lsSet = (key: string, v: number | undefined): void => { setModeLever(currentMode, `letterSpacings.${key}`, v); applyFull(); };
   if (perMode) wrap.append(el('p', 'te-modenote', `Editing ${modeLabel}’s font family + weight — “Auto” follows the global baseline. Type scale, categories, and which weights each category ships are shared across modes (edit them in Light).`));
   // Phase B: recomputes the per-category weight-availability markers from the LIVE resolved theme.
   // Assigned once the table exists; A1 (font/weight edits) and A2 (family/weight-role edits) call it
@@ -1620,34 +1566,31 @@ const renderShadowEditor = (softness?: Lever): HTMLElement => {
   const gSoft = theme.shadow.softness;     // resolved global softness
   const panel = el('div', 'panel');
   if (perMode) {
-    const clearShadow = (): void => {                       // prune empty per-mode shadow maps → byte-identical revert
-      const ml = brandState.modeLevers; if (!ml) return;
-      const e = ml[currentMode]; if (!e) return;
-      if (e.shadow) { if (e.shadow.tint && !Object.keys(e.shadow.tint).length) delete e.shadow.tint; if (!Object.keys(e.shadow).length) delete e.shadow; }
-      if (!Object.keys(e).length) delete ml[currentMode];
-      if (!Object.keys(ml).length) brandState.modeLevers = undefined;
-    };
-    const ensureShadow = () => { const ml = brandState.modeLevers ?? (brandState.modeLevers = {}); const e = ml[currentMode] ?? (ml[currentMode] = {}); return e.shadow ?? (e.shadow = {}); };
-    // A per-mode slider: effective = override ?? global; moving it sets the override, ↺ Auto clears it.
-    const mkPer = (label: string, min: number, max: number, step: number, unit: string, getOv: () => number | undefined, setOv: (v: number | undefined) => void, global: number): void => {
-      const ov = getOv();
+    // A per-mode slider: effective = override ?? global; moving it writes modeLevers[mode].shadow.<path>
+    // via the shared setModeLever (prunes to byte-identical). Dragging back to EXACTLY the global value
+    // clears the override (no redundant "== global" override lingers), and the ↺ Auto reset clears it too.
+    const mkPer = (label: string, min: number, max: number, step: number, unit: string, path: string, global: number): void => {
+      const ov = getModeLever(currentMode, path) as number | undefined;
       const eff = ov ?? global;
       const knob = el('div', 'knob');
       const head = el('div', 'sh-knob-head');
       head.append(el('label', 'knob-label', label));
-      const auto = el('button', ov !== undefined ? 'sh-auto on' : 'sh-auto', ov !== undefined ? '↺ Auto' : `Auto (${global}${unit})`) as HTMLButtonElement;
-      auto.disabled = ov === undefined;
-      auto.onclick = () => { setOv(undefined); applyFull(); };
+      const auto = el('button', 'sh-auto') as HTMLButtonElement;
+      const setAuto = (overriding: boolean): void => { auto.textContent = overriding ? '↺ Auto' : `Auto (${global}${unit})`; auto.className = overriding ? 'sh-auto on' : 'sh-auto'; auto.disabled = !overriding; };
+      setAuto(ov !== undefined);
+      auto.onclick = () => { setModeLever(currentMode, path, undefined); applyFull(); };
       head.append(auto);
       knob.append(head);
       const input = el('input') as HTMLInputElement;
       input.type = 'range'; input.min = String(min); input.max = String(max); input.step = String(step); input.value = String(eff);
       const val = el('span', 'knob-val', `${eff}${unit}${ov !== undefined ? '' : ' · auto'}`);
       input.oninput = () => {
-        setOv(Number(input.value)); val.textContent = `${input.value}${unit}`;
-        // this slider now overrides — activate the ↺ Auto reset in place (no full re-render, so dragging
-        // stays smooth); the reset click does the full re-render that rebuilds the header cleanly.
-        auto.textContent = '↺ Auto'; auto.className = 'sh-auto on'; auto.disabled = false;
+        const nv = Number(input.value);
+        const overriding = nv !== global;                    // landing back on the global prunes the override
+        setModeLever(currentMode, path, overriding ? nv : undefined);
+        val.textContent = `${input.value}${unit}${overriding ? '' : ' · auto'}`;
+        // update the ↺ Auto reset in place (no full re-render, so dragging stays smooth).
+        setAuto(overriding);
         apply();
       };
       const body = el('div', 'knob-body'); body.append(input, val);
@@ -1655,15 +1598,9 @@ const renderShadowEditor = (softness?: Lever): HTMLElement => {
       panel.append(knob);
     };
     const sLever = softness;
-    mkPer(sLever?.label ?? 'Shadow softness', (sLever?.min as number) ?? 0, (sLever?.max as number) ?? 2, (sLever?.step as number) ?? 0.1, '',
-      () => brandState.modeLevers?.[currentMode]?.shadow?.softness,
-      (v) => { const sh = ensureShadow(); if (v !== undefined) sh.softness = v; else delete sh.softness; clearShadow(); }, gSoft);
-    mkPer('Tint hue', 0, 360, 1, '°',
-      () => brandState.modeLevers?.[currentMode]?.shadow?.tint?.hue,
-      (v) => { const sh = ensureShadow(); const t = sh.tint ?? (sh.tint = {}); if (v !== undefined) t.hue = v; else delete t.hue; clearShadow(); }, gTint.hue);
-    mkPer('Tint amount', 0, 1, 0.05, '',
-      () => brandState.modeLevers?.[currentMode]?.shadow?.tint?.amount,
-      (v) => { const sh = ensureShadow(); const t = sh.tint ?? (sh.tint = {}); if (v !== undefined) t.amount = v; else delete t.amount; clearShadow(); }, gTint.amount);
+    mkPer(sLever?.label ?? 'Shadow softness', (sLever?.min as number) ?? 0, (sLever?.max as number) ?? 2, (sLever?.step as number) ?? 0.1, '', 'shadow.softness', gSoft);
+    mkPer('Tint hue', 0, 360, 1, '°', 'shadow.tint.hue', gTint.hue);
+    mkPer('Tint amount', 0, 1, 0.05, '', 'shadow.tint.amount', gTint.amount);
   } else {
     const cur = brandState.shadow?.tint;
     if (softness) panel.append(renderControl(softness));             // the blur dial, pulled out of the geometry panel
