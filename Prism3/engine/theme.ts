@@ -16,7 +16,7 @@
 import { generateRamp, peakChromaL, autoPlaceStep, Step } from './ramp';
 import { dimensionGrid, spaceScale, radiusScale, componentSizes, SpaceStep, RadiusStep, SizeStep, Density } from './scale';
 import { oklchToRgb, RGB, contrast, hex as rgbHex, inGamut, maxChroma } from './color';
-import type { ModeName, ModeOverrides } from './modes';
+import type { ModeName, BuiltinModeName, ModeOverrides } from './modes';
 
 /** The appearance modes the engine can generate. `light` is the required base; the rest
  *  are opt-in (docs/11 Pillar 1). Wireframe (docs/11 §Pillar 1b) is not yet a mode. */
@@ -73,7 +73,11 @@ export type Theme = {
   root: string;                      // 'nbds' | 'prism' (brand root namespace)
   namespace: string;                 // '<root>.palette' — the colour PRIMITIVE root (ramps live here; the semantic role layer is emitted under '<root>.color')
   colorFormat: 'rgb' | 'hex';
-  modes: ModeName[];                 // the appearance modes to generate (light always present)
+  modes: ModeName[];                 // the appearance modes to generate (light always present; customs appended last)
+  // User-added custom modes (C1) — each `{ name, base }` clones a customizable built-in (light/dark)
+  // under a new slug-safe name that LIVE-INHERITS the base's derivation each build, then deviates via
+  // overrides[name] / modeAnchors[name]. Their names are already appended to `modes` above.
+  customModes?: { name: string; base: BuiltinModeName }[];
   palettes: PaletteBuild[];
   roleToPalette: Record<Role, string>;
   roleAnchorStep: Record<Role, number>;
@@ -195,6 +199,13 @@ export type BrandInput = {
    *  that ships light only sets `['light']`. The export layout follows this — a collection
    *  only splits into per-mode files when it's multi-mode (docs/11 §4, Pillar 1). */
   modes?: ModeName[];
+  /** User-added custom modes (Phase C1). Each `{ name, base }` adds an appearance mode that
+   *  LIVE-INHERITS a CUSTOMIZABLE built-in (`base` is `light` or `dark` only — not hc/wireframe):
+   *  it re-derives EXACTLY like its base each build (a cloned descriptor, same kind/family/mins,
+   *  new name), then its own `overrides[name]` / `modeAnchors[name]` deviate it. `name` must be a
+   *  slug (`/^[a-z0-9][a-z0-9-]*$/`), unique, and NOT a reserved built-in mode; `base` must be a
+   *  mode this brand generates. Custom modes ARE customizable. Omit for none (byte-identical). */
+  customModes?: { name: string; base: BuiltinModeName }[];
   primary: OKLCH;                    // the exact brand anchor (palette 'primary')
   /** The neutral ramp generator. By default the greys are *derived* from a hue + peak
    *  chroma (a small cast toward the brand for cohesion). A brand that ships a
@@ -921,15 +932,40 @@ export const brandTheme = (input: BrandInput): Theme => {
   const stdModes = modes.filter((m) => m !== 'wireframe');
   if (stdModes.length < ALL_MODES.length) notes.push(`modes: generating ${stdModes.join(', ')} only (dark/HC opt-out)`);
   if (modes.includes('wireframe')) notes.push('modes: wireframe generated (greyscale — non-neutral roles → equivalent neutral; radius → 0)');
+  // User-added custom modes (Phase C1) — each `{ name, base }` LIVE-INHERITS a customizable
+  // built-in (`base` = light/dark only): it re-derives exactly like its base each build (a cloned
+  // descriptor, same kind/family/mins, new name), then its own overrides/modeAnchors deviate it.
+  // Names must be slug-safe, non-reserved (not a built-in), and unique; the base must be light/dark
+  // AND a mode this brand generates. Validated here (in-memory BrandInput skips schema validation).
+  const CUSTOM_MODE_RE = /^[a-z0-9][a-z0-9-]*$/;
+  const customModes = input.customModes ?? [];
+  const customNames: string[] = [];
+  for (const cm of customModes) {
+    if (!CUSTOM_MODE_RE.test(cm.name))
+      throw new Error(`customModes: name '${cm.name}' must be a slug (lowercase letters/digits/hyphen, start with a letter or digit — no spaces, dots, or symbols)`);
+    if (VALID_MODES.includes(cm.name))
+      throw new Error(`customModes: name '${cm.name}' is a reserved built-in mode — custom mode names must be distinct`);
+    if (customNames.includes(cm.name))
+      throw new Error(`customModes: duplicate custom mode name '${cm.name}' — custom mode names must be unique`);
+    if (cm.base !== 'light' && cm.base !== 'dark')
+      throw new Error(`customModes: '${cm.name}' base '${cm.base}' must be a CUSTOMIZABLE built-in (light or dark) — hc/wireframe cannot be a custom-mode base`);
+    if (!modes.includes(cm.base))
+      throw new Error(`customModes: '${cm.name}' base '${cm.base}' is not in this brand's generated modes (${modes.join(', ')})`);
+    customNames.push(cm.name);
+  }
+  // The full mode list: built-ins first, customs appended (canonical order). A fresh array so the
+  // shared ALL_MODES constant is never mutated when `input.modes` was omitted.
+  const modesAll: ModeName[] = customNames.length ? [...modes, ...customNames] : modes;
+  if (customModes.length) notes.push(`customModes: ${customModes.map((cm) => `${cm.name} (live-inherits ${cm.base})`).join(', ')} — each re-derives like its base every build; customizable via overrides/modeAnchors`);
   // Per-mode colour overrides (Phase A1) — customizable modes only. A mode this brand doesn't
-  // generate can't carry overrides; the generate-only modes (hc-light/hc-dark/wireframe) are
+  // generate can't carry overrides; the generate-only built-ins (hc-light/hc-dark/wireframe) are
   // baseline-only (a later phase makes HC/wireframe customizable). Malformed palette/step refs
-  // are caught at resolve time (modes.ts) since they need the built ramps. `light`/`dark` are the
-  // only customizable modes today.
-  const CUSTOMIZABLE_MODES: ModeName[] = ['light', 'dark'];
+  // are caught at resolve time (modes.ts) since they need the built ramps. `light`/`dark` and any
+  // declared custom mode (C1 — a custom mode IS customizable) accept overrides.
+  const CUSTOMIZABLE_MODES: ModeName[] = ['light', 'dark', ...customNames];
   for (const m of Object.keys(input.overrides ?? {}) as ModeName[]) {
-    if (!modes.includes(m))
-      throw new Error(`overrides: mode '${m}' is not in this brand's modes (${modes.join(', ')}) — nothing to override`);
+    if (!modesAll.includes(m))
+      throw new Error(`overrides: mode '${m}' is not in this brand's modes (${modesAll.join(', ')}) — nothing to override`);
     if (!CUSTOMIZABLE_MODES.includes(m))
       throw new Error(`overrides: mode '${m}' is generate-only and not customizable — only ${CUSTOMIZABLE_MODES.join('/')} accept overrides`);
   }
@@ -937,8 +973,8 @@ export const brandTheme = (input: BrandInput): Theme => {
   // Per-mode interactive anchors (A2b) — same customizable-mode rule as overrides. An anchor
   // re-derives the whole interactive column for that mode (still floor-gated via `chromatic`).
   for (const m of Object.keys(input.modeAnchors ?? {}) as ModeName[]) {
-    if (!modes.includes(m))
-      throw new Error(`modeAnchors: mode '${m}' is not in this brand's modes (${modes.join(', ')})`);
+    if (!modesAll.includes(m))
+      throw new Error(`modeAnchors: mode '${m}' is not in this brand's modes (${modesAll.join(', ')})`);
     if (!CUSTOMIZABLE_MODES.includes(m))
       throw new Error(`modeAnchors: mode '${m}' is generate-only and not customizable — only ${CUSTOMIZABLE_MODES.join('/')} accept per-mode anchors`);
   }
@@ -1201,7 +1237,8 @@ export const brandTheme = (input: BrandInput): Theme => {
   notes.push(`neutral interactive emphasis: '${neutralEmphasis}'${neutralEmphasis === 'strong' ? ' — bold near-black/white neutral fill' : ' (light-grey, default)'}; inverse surface-context: ${inverseContext ? 'on (interactive.<color>.on-inverse generated)' : 'off'}`);
 
   return {
-    id: input.id, root, namespace: `${root}.palette`, colorFormat: 'hex', modes, palettes, roleToPalette, notes,
+    id: input.id, root, namespace: `${root}.palette`, colorFormat: 'hex', modes: modesAll, palettes, roleToPalette, notes,
+    ...(customModes.length ? { customModes } : {}),
     roleAnchorStep: { brand: anchorStep, neutral: 500, success: 500, warning: 500, danger: 500, info: 500, action: actionAnchorStep },
     surfaces: input.surfaces,
     overrides: input.overrides,

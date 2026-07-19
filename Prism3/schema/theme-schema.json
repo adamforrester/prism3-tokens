@@ -22,6 +22,29 @@
       "items": { "type": "string", "enum": ["light", "dark", "hc-light", "hc-dark", "wireframe"] },
       "description": "OPTIONAL. Modes to generate. `light` is the required base; `dark` / `hc-light` / `hc-dark` / `wireframe` are opt-in. Omit for the default four (light/dark/HC — back-compat); a light-only brand sets `[\"light\"]`. `wireframe` is a generated greyscale mode (non-neutral roles → equivalent neutral; radius → 0) and is opt-in only, never a default. Must include `light`."
     },
+    "customModes": {
+      "type": "array",
+      "description": "OPTIONAL (Phase C1). User-added appearance modes. Each `{ name, base }` clones a CUSTOMIZABLE built-in (`base` = light/dark only, not hc/wireframe) under a new slug-safe name that LIVE-INHERITS the base's derivation each build (same kind/family/mins), then deviates via its own `overrides[name]` / `modeAnchors[name]`. `name` must be a slug, unique, and not a reserved built-in mode; `base` must be a mode this brand generates. Custom modes are themselves customizable. Omit for none (byte-identical).",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "base"],
+        "properties": {
+          "name": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$", "description": "Custom mode name — a lowercase slug (letters/digits/hyphen, starts with a letter or digit). Must not collide with a built-in mode (light/dark/hc-light/hc-dark/wireframe) or another custom mode; brandTheme() rejects those." },
+          "base": { "type": "string", "enum": ["light", "dark"], "description": "The customizable built-in this mode live-inherits. Only 'light' or 'dark' (hc/wireframe cannot be a base), and it must be a mode this brand generates." }
+        }
+      }
+    },
+    "overrides": {
+      "type": "object",
+      "description": "OPTIONAL (Phase A1). Per-mode colour overrides, keyed by mode name (a customizable mode — light/dark or a `customModes` name). Each mode maps a resolved role path (e.g. `text.primary`) to an EXISTING primitive step `{ palette, step }` (no raw colours). Applied AFTER generation; a tuned pick that misses the role's contrast min still applies but is WARNED (never blocked). Deep-validated by brandTheme() at resolve time (mode is customizable + generated; palette/step exist); the schema enforces the object shape. Omit for none (byte-identical).",
+      "additionalProperties": true
+    },
+    "modeAnchors": {
+      "type": "object",
+      "description": "OPTIONAL (Phase A2b). Per-mode interactive anchor overrides, keyed by mode name (a customizable mode). Each mode maps an interactive column ('primary' / 'destructive' / an accent name) to a palette step number that re-anchors that column's whole fill (rest/hover/pressed/on-fill all re-derive, still floor-gated). Deep-validated by brandTheme() at resolve time; the schema enforces the object shape. Omit for none (byte-identical).",
+      "additionalProperties": true
+    },
     "primary": {
       "$ref": "#/$defs/oklch",
       "description": "The exact brand anchor (palette 'primary'). Pinned, never shifted; the engine auto-places it on the step ramp by its lightness."
