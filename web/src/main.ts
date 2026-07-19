@@ -866,7 +866,10 @@ const renderGroupedPanels = (host: HTMLElement, levers: Lever[]): void => {
 // dropdown — the set-config (which modes exist) now lives in the "Edit modes" popover here.
 let modeMenuOpen = false;
 let outsideBoundMode = false;
+let addModeOpen = false;         // C2 — the "+ Add mode" inline form is expanded
+let addModeName = '';            // C2 — survives popover re-renders
 const DERIVED_MODES = new Set<string>(['hc-light', 'hc-dark', 'wireframe']);
+const RESERVED_MODE_NAMES = new Set<string>(['light', 'dark', 'hc-light', 'hc-dark', 'wireframe']);
 const modeAllPass = (m: Mode): boolean => rp.contracts.every((ct) => !ct.byMode[m] || ct.byMode[m]!.pass);
 
 /** The mode-SET config — which modes this brand generates/exports (relocated out of the brand
@@ -895,12 +898,60 @@ const renderModeSetMenu = (): HTMLElement => {
   opt('High contrast', hcOn, 'AAA contrast floors — auto-derived, read-only', () => setModes(darkOn, !hcOn, wireOn));
   opt('Wireframe', wireOn, 'Greyscale, sharp corners — auto-derived, generate-only', () => setModes(darkOn, hcOn, !wireOn));
 
+  // Custom modes (C2) — each seeds (live-inherits) a customizable base (light/dark), then tunes via
+  // its own overrides/anchors. Listed with a remove; the add form validates the name client-side
+  // (the engine re-validates on rebuild). Base options are the generated customizable modes.
   menu.append(el('div', 'mctx-div'));
-  const add = el('button', 'mctx-opt disabled') as HTMLButtonElement;
-  add.disabled = true;
-  add.append(el('span', 'mctx-box'), el('span', undefined, '+ Add mode…'));
-  menu.append(add);
-  menu.append(el('p', 'mctx-note', 'Custom modes — seeded from a base mode, then tuned — arrive with the override layer.'));
+  const customs = brandState.customModes ?? [];
+  if (customs.length) {
+    menu.append(el('div', 'mctx-mcap', 'Custom modes'));
+    customs.forEach((cm, i) => {
+      const row = el('div', 'mctx-custom');
+      row.append(el('span', 'mctx-cname', cm.name), el('span', 'mctx-cbase', `↳ ${cm.base}`));
+      const rm = el('button', 'mctx-crm', '×') as HTMLButtonElement;
+      rm.title = 'Remove custom mode';
+      rm.onclick = () => {
+        brandState.customModes!.splice(i, 1);
+        if (!brandState.customModes!.length) brandState.customModes = undefined;
+        if (currentMode === cm.name) currentMode = 'light';   // don't strand the view on a gone mode
+        applyFull();
+      };
+      row.append(rm);
+      menu.append(row);
+    });
+  }
+
+  if (!addModeOpen) {
+    const add = el('button', 'mctx-opt') as HTMLButtonElement;
+    add.append(el('span', 'mctx-box'), el('span', undefined, '+ Add mode…'));
+    add.onclick = () => { addModeOpen = true; renderWorkspace(); };
+    menu.append(add);
+  } else {
+    const form = el('div', 'mctx-addform');
+    const nameIn = el('input', 'mctx-addname') as HTMLInputElement;
+    nameIn.type = 'text'; nameIn.placeholder = 'name — e.g. marketing-dark'; nameIn.value = addModeName; nameIn.spellcheck = false;
+    nameIn.oninput = () => { addModeName = nameIn.value; };
+    const baseSel = el('select', 'obj-sel') as HTMLSelectElement;
+    for (const b of ['light', ...(darkOn ? ['dark'] : [])]) { const o = el('option') as HTMLOptionElement; o.value = b; o.textContent = `base: ${b}`; baseSel.append(o); }
+    const err = el('p', 'mctx-adderr');
+    const doAdd = () => {
+      const nm = addModeName.trim();
+      if (!/^[a-z0-9][a-z0-9-]*$/.test(nm)) { err.textContent = 'Lowercase letters, digits, hyphens; start with a letter or digit.'; return; }
+      if (RESERVED_MODE_NAMES.has(nm) || (brandState.customModes ?? []).some((c) => c.name === nm)) { err.textContent = 'That name is taken (a built-in or existing custom mode).'; return; }
+      (brandState.customModes ?? (brandState.customModes = [])).push({ name: nm, base: baseSel.value as 'light' | 'dark' });
+      addModeOpen = false; addModeName = '';
+      currentMode = nm as Mode;                               // jump into the new mode to tune it
+      applyFull();
+    };
+    const addBtn = el('button', 'mctx-addbtn', 'Add mode') as HTMLButtonElement;
+    addBtn.onclick = doAdd;
+    const cancel = el('button', 'mctx-addcancel', 'Cancel') as HTMLButtonElement;
+    cancel.onclick = () => { addModeOpen = false; addModeName = ''; renderWorkspace(); };
+    const btns = el('div', 'mctx-addbtns'); btns.append(addBtn, cancel);
+    form.append(nameIn, baseSel, err, btns);
+    menu.append(form);
+  }
+  menu.append(el('p', 'mctx-note', 'A custom mode seeds from its base every build, then deviates via the per-mode colour controls (interactive, foreground).'));
   return menu;
 };
 
@@ -923,14 +974,14 @@ const renderModeContext = (): HTMLElement => {
 
   const editWrap = el('div', 'mctx-edit-wrap');
   const edit = el('button', 'mctx-edit' + (modeMenuOpen ? ' open' : ''), '⚙ Edit modes') as HTMLButtonElement;
-  edit.onclick = (e) => { e.stopPropagation(); modeMenuOpen = !modeMenuOpen; renderWorkspace(); };
+  edit.onclick = (e) => { e.stopPropagation(); modeMenuOpen = !modeMenuOpen; if (!modeMenuOpen) { addModeOpen = false; addModeName = ''; } renderWorkspace(); };
   editWrap.append(edit);
   if (modeMenuOpen) editWrap.append(renderModeSetMenu());
   strip.append(editWrap);
 
   if (!outsideBoundMode) {
     document.addEventListener('click', (e) => {
-      if (modeMenuOpen && !(e.target as HTMLElement).closest('.modectx')) { modeMenuOpen = false; renderWorkspace(); }
+      if (modeMenuOpen && !(e.target as HTMLElement).closest('.modectx')) { modeMenuOpen = false; addModeOpen = false; addModeName = ''; renderWorkspace(); }
     });
     outsideBoundMode = true;
   }
@@ -2230,6 +2281,19 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .mctx-opt.disabled:hover{background:none}
 .mctx-div{height:1px;background:var(--line);margin:8px 4px}
 .mctx-note{font-size:11.5px;line-height:1.5;color:var(--faint);margin:6px 6px 2px}
+/* C2 — custom-mode rows + add form in the Edit-modes popover. */
+.mctx-custom{display:flex;align-items:center;gap:8px;padding:6px 6px;font-size:13px;color:var(--ink2)}
+.mctx-cname{font-weight:560}
+.mctx-cbase{font-size:11px;color:var(--faint)}
+.mctx-crm{margin-left:auto;width:22px;height:22px;flex:none;border:1px solid var(--line2);background:var(--panel);border-radius:var(--r-xs);color:var(--faint);cursor:pointer;font-size:14px;line-height:1}
+.mctx-crm:hover{background:#fdecec;color:#a12;border-color:#f2c6c6}
+.mctx-addform{display:flex;flex-direction:column;gap:8px;padding:8px 6px}
+.mctx-addname{padding:7px 9px;border:1px solid var(--line2);border-radius:var(--r-xs);font:inherit;font-size:13px;background:var(--paper)}
+.mctx-adderr{margin:0;font-size:11.5px;color:#a12;line-height:1.4}
+.mctx-adderr:empty{display:none}
+.mctx-addbtns{display:flex;gap:8px}
+.mctx-addbtn{border:1px solid var(--ink);background:var(--ink);color:#fff;border-radius:var(--r-xs);padding:6px 14px;font:inherit;font-size:13px;font-weight:560;cursor:pointer}
+.mctx-addcancel{border:1px solid var(--line2);background:var(--panel);border-radius:var(--r-xs);padding:6px 12px;font:inherit;font-size:13px;color:var(--ink2);cursor:pointer}
 /* A2a — generated-mode (HC/wireframe) read-only view: an explanation + a per-mode contract verdict. */
 .genview{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:22px 24px;margin:8px 0 0}
 .genview-t{margin:0;font-size:16px;font-weight:640;letter-spacing:-0.01em}
