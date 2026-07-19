@@ -1145,6 +1145,19 @@ const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
   // page surfaces on the color stage; the Shadow group (softness + tint) on the form stage.
   if (key === 'semantic') { host.append(renderSurfacesEditor()); host.append(renderForegroundEditor()); }
   if (key === 'form') host.append(renderShadowEditor(levers.find((l) => l.key === 'shadow.softness')));
+  // Progressive disclosure: the manifest's `advanced` levers are dropped from the lean default panels
+  // above (L#107). The scalar/enum ones (baseMd/spaceBase/baseUnit, display ceiling/title floor, grid
+  // columns + containers) have no bespoke editor, so they'd be unreachable in the UI — surface them in a
+  // collapsed "Advanced" panel via renderControl. Object/list advanced levers keep their bespoke editors.
+  const advLevers = leverManifest.filter((l) => l.advanced && (l.control === 'slider' || l.control === 'enum') && !PRIMITIVE_KEYS.has(l.key) && stageOfLever(l) === key);
+  if (advLevers.length) {
+    const det = el('details', 'adv') as HTMLDetailsElement;
+    det.append(el('summary', 'adv-sum', `Advanced · ${advLevers.length} more`));
+    const ap = el('div', 'panel adv-panel');
+    for (const l of advLevers) ap.append(renderControl(l));
+    det.append(ap);
+    host.append(det);
+  }
   }
   // Validation-color editing (status hue + roleColors borrow) now lives INLINE on each status
   // ramp (primitives stage) via statusRampControl — no standalone semantic-stage section.
@@ -2572,6 +2585,13 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .sz-cell{display:flex;flex-direction:column;align-items:center;gap:9px}
 .sz-box{display:flex;align-items:center;justify-content:center;min-width:44px;background:var(--ink);color:var(--panel);border-radius:6px;font-size:12px;font-weight:560}
 .sz-lab{font-size:11px;color:var(--muted);white-space:nowrap}
+/* Progressive-disclosure "Advanced" panel — the manifest's advanced scalar/enum levers. */
+.adv{margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
+.adv-sum{cursor:pointer;font-size:12px;font-weight:560;color:var(--muted);letter-spacing:.02em;list-style:none;user-select:none}
+.adv-sum::-webkit-details-marker{display:none}
+.adv-sum::before{content:'▸ ';color:var(--faint)}
+.adv[open] .adv-sum::before{content:'▾ '}
+.adv-panel{margin-top:12px}
 .inverse-spec{margin-bottom:8px}
 .inv-band{border-radius:var(--r);padding:36px 32px;display:flex;flex-direction:column;align-items:flex-start;gap:20px}
 .inv-h{font-size:24px;font-weight:700;letter-spacing:-0.02em;max-width:26ch}
