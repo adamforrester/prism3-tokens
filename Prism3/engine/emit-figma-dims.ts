@@ -137,14 +137,20 @@ export const buildFigmaDims = (theme: Theme): FigmaDimsCollections => {
   // mode file every non-zero radius var aliases `dimension/0`; radius.none stays 0 with
   // no redundant override (matches tree.ts behaviour). Non-wireframe brands emit a
   // single Default-mode file (byte-identical to the pre-1b world).
+  // Two families of radius modes coexist on the SAME per-mode file convention: the wireframe mode
+  // (not lever-driven — zeroes every radius) and, per Phase D, one mode per `modeLevers.radius`
+  // entry (a customizable mode that RE-DERIVES its radius ramp). Both read the DTCG leaf's
+  // `$extensions.prism3.modes.<mode>` override the tree emitted; `Default` uses the canonical value.
   const wireframe = theme.modes.includes('wireframe');
-  const radiusVarsFor = (mode: 'Default' | 'wireframe'): FigmaVar[] =>
+  const radiusModes = Object.keys(theme.dims.radiusByMode ?? {});
+  const radiusVarsFor = (mode: string): FigmaVar[] =>
     Object.keys(brand.radius).map((key) => {
       const leaf = brand.radius[key];
-      const wfOverride = mode === 'wireframe' ? leaf.$extensions?.prism3?.modes?.wireframe : undefined;
-      // Wireframe leaves DTCG-only until the brand opts in — even for opted-in brands,
-      // `radius.none` (already 0) carries no override, so we fall through to the leaf.
-      const source: any = wfOverride ?? leaf;
+      // Mode leaves are DTCG-only until the brand opts in; a rung that carries no override for this
+      // mode (e.g. `radius.none`, already 0, or a rung whose per-mode px equals light) falls through
+      // to the canonical leaf — byte-identical to Default for that rung.
+      const override = mode === 'Default' ? undefined : leaf.$extensions?.prism3?.modes?.[mode];
+      const source: any = override ?? leaf;
       const isAlias = typeof source.$value === 'string' && /^\{.+\}$/.test(source.$value);
       return {
         name: `radius/${key}`,
@@ -155,12 +161,11 @@ export const buildFigmaDims = (theme: Theme): FigmaDimsCollections => {
         alias: isAlias ? { type: 'VARIABLE_ALIAS' as const, name: aliasFigName(source.$value) } : null,
       };
     });
-  const radiusFiles: FigmaCollectionFile[] = wireframe
-    ? [
-        { $collection: 'radius', $mode: 'Default', variables: radiusVarsFor('Default') },
-        { $collection: 'radius', $mode: 'wireframe', variables: radiusVarsFor('wireframe') },
-      ]
-    : [{ $collection: 'radius', $mode: 'Default', variables: radiusVarsFor('Default') }];
+  const radiusFiles: FigmaCollectionFile[] = [
+    { $collection: 'radius', $mode: 'Default', variables: radiusVarsFor('Default') },
+    ...(wireframe ? [{ $collection: 'radius', $mode: 'wireframe', variables: radiusVarsFor('wireframe') }] : []),
+    ...radiusModes.map((mode) => ({ $collection: 'radius', $mode: mode, variables: radiusVarsFor(mode) })),
+  ];
 
   // size — nested { <tShirt>: { height, padding-x, padding-y } }. Emit one FLOAT
   // per leaf; height aliases dimension, padding aliases space.

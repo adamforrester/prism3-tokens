@@ -469,6 +469,35 @@ const renderControl = (lever: Lever): HTMLElement => {
   return wrap;
 };
 
+/** D (radius) — the radiusScale lever goes per-mode outside the base mode. Light edits the global
+ *  `radiusScale`; dark/custom edit `modeLevers[mode].radius` — "Auto" follows the global baseline, a
+ *  value re-derives the whole radius ramp for just this mode (via the same engine radiusScale). A
+ *  discrete select (the lever's 0…2 / 0.5 steps) with a natural Auto, mirroring the A2c foreground UI. */
+const RADIUS_SCALE_OPTS: [number, string][] = [[0, '0 · sharp'], [0.5, '0.5'], [1, '1 · default'], [1.5, '1.5'], [2, '2 · soft']];
+const renderPerModeRadius = (lever: Lever): HTMLElement => {
+  const wrap = el('div', 'knob');
+  wrap.append(el('label', 'knob-label', lever.label));
+  const globalV = (brandState.radiusScale ?? (lever.default as number) ?? 1);
+  const cur = brandState.modeLevers?.[currentMode]?.radius;
+  const sel = el('select', 'obj-sel') as HTMLSelectElement;
+  const optE = (v: string, t: string, on: boolean) => { const o = el('option') as HTMLOptionElement; o.value = v; o.textContent = t; if (on) o.selected = true; sel.append(o); };
+  optE('', `Auto — follows global (${globalV})`, cur == null);
+  for (const [v, label] of RADIUS_SCALE_OPTS) optE(String(v), label, cur === v);
+  sel.onchange = () => {
+    const ml = brandState.modeLevers ?? (brandState.modeLevers = {});
+    const forMode = ml[currentMode] ?? (ml[currentMode] = {});
+    if (sel.value === '') {                                   // revert to the global baseline
+      delete forMode.radius;
+      if (!Object.keys(forMode).length) delete ml[currentMode];
+      if (!Object.keys(ml).length) brandState.modeLevers = undefined;
+    } else forMode.radius = Number(sel.value);
+    applyFull();
+  };
+  wrap.append(sel);
+  wrap.append(el('p', 'knob-desc', `${lever.description} — per ${MODE_LABEL[currentMode] ?? currentMode}; “Auto” follows the global corner softness.`));
+  return wrap;
+};
+
 const renderChip = (label: string, bind: Record<string, string>, mode: Mode): HTMLElement => {
   // PRESENCE (resolved model) decides WHICH styles a chip paints; the VALUES are all
   // `var(--…)` refs the active write host fills in (#106). The resolved hex/px still ride
@@ -1028,9 +1057,15 @@ const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
     host.append(renderTypographyEditor());
   } else if (key === 'form') {
     // Geometry + motion in the top panel; shadow.softness is pulled out so every shadow control
-    // (softness + tint) lives together under the Shadow group below.
+    // (softness + tint) lives together under the Shadow group below. Outside the base mode, the
+    // radius lever goes per-mode (D — modeLevers[mode].radius) instead of editing the global.
     const panel = el('div', 'panel');
-    for (const l of levers) if (l.key !== 'shadow.softness') panel.append(renderControl(l));
+    const perModeRadius = currentMode !== 'light';
+    for (const l of levers) {
+      if (l.key === 'shadow.softness') continue;
+      if (l.key === 'radiusScale' && perModeRadius) { panel.append(renderPerModeRadius(l)); continue; }
+      panel.append(renderControl(l));
+    }
     host.append(panel);
   } else if (levers.length) {
     const panel = el('div', 'panel');
@@ -1375,9 +1410,13 @@ const renderRadiusSpecimen = (): HTMLElement => {
     const rref = v.bindings.radius;
     if (rref?.startsWith('radius.')) (consumers[rref.slice(7)] ??= new Set<string>()).add(c.id);
   }
+  // D — reflect the current mode's per-mode radius ramp (modeLevers.radius) when it deviates, so the
+  // change is visible here rather than off in the export (the #158 lesson). Falls back to the global.
+  const byMode = theme.dims.radiusByMode?.[currentMode];
   const list = el('div', 'rad-list');
   for (const step of RADIUS_STEPS) {
-    const px = step === 'none' ? 0 : (rp.dims[`radius.${step}`] ?? 0);
+    const overridePx = byMode?.find((s) => s.name === step)?.px;
+    const px = step === 'none' ? 0 : (overridePx ?? rp.dims[`radius.${step}`] ?? 0);
     const cell = el('div', 'rad-cell');
     const sw = el('div', 'rad-sw');
     sw.style.borderRadius = `${Math.min(px, 26)}px`;   // cap so `round` reads as a pill without overflowing the swatch

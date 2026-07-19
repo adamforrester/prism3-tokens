@@ -781,6 +781,67 @@ for (const b of brands) {
     'C1(g): an empty customModes array produces byte-identical output (the primary guard)');
 }
 
+// PER-MODE RADIUS LEVER (Phase D) — a customizable mode overrides the `radius` scale; the engine
+// RE-DERIVES that mode's radius ramp (the SAME radiusScale as the baseline) and a rung whose px
+// DIFFERS from light carries a `$extensions.prism3.modes.<mode>` override aliasing `dimension.<px>`.
+// Light stays canonical; a no-diff lever (radius == default) adds nothing; byte-identical when absent.
+// Extensible: radius now, typeScale/tempo/density slot into the same modeLevers map later.
+{
+  const root = 'prism';
+  const base = { id: 'd', modes: ['light', 'dark'], primary: { l: 0.55, c: 0.18, h: 285 }, neutral: { hue: 285, chroma: 0.01 } } as unknown as BrandInput;
+  const threw = (f: () => unknown) => { try { f(); return false; } catch { return true; } };
+  const stable = (v: any): any => Array.isArray(v) ? v.map(stable)
+    : (v && typeof v === 'object' ? Object.fromEntries(Object.keys(v).sort().map((k) => [k, stable(v[k])])) : v);
+
+  // (a) modeLevers:{dark:{radius:0}} — a non-zero rung (md) gets a dark override aliasing dimension.0;
+  //     light's canonical $value is untouched, and radius.none (already 0) carries no override.
+  const sharpDark = { ...base, modeLevers: { dark: { radius: 0 } } } as unknown as BrandInput;
+  const baseRadius = buildTree(brandTheme(base)).tree[root].radius;
+  const dRadius = buildTree(brandTheme(sharpDark)).tree[root].radius;
+  ok(baseRadius.md.px !== 0 && dRadius.md.$extensions.prism3.modes.dark.$value === `{${root}.dimension.0}`,
+    `D(a): dark radius:0 → radius.md carries a modes.dark override aliasing dimension.0 (got ${dRadius.md.$extensions.prism3.modes?.dark?.$value})`);
+  ok(dRadius.md.$extensions.prism3.modes.dark.px === 0, 'D(a): the dark override records px 0');
+  ok(dRadius.md.$value === baseRadius.md.$value, `D(a): light canonical radius.md $value is unchanged by the dark lever (${dRadius.md.$value})`);
+  ok(dRadius.none.$extensions?.prism3?.modes === undefined, 'D(a): radius.none (already 0) carries no override (px equal → no diff)');
+
+  // (a′) a lever equal to the default scale (radius:1) produces NO leaf override — every rung px equals
+  //      light, so the DTCG radius tree is byte-identical to the baseline.
+  const sameScale = { ...base, modeLevers: { dark: { radius: 1 } } } as unknown as BrandInput;
+  ok(JSON.stringify(buildTree(brandTheme(sameScale)).tree[root].radius) === JSON.stringify(baseRadius),
+    'D(a): radius:1 (== default) adds no override (px equal → byte-identical radius tree)');
+
+  // (a″) a custom mode can carry a radius lever too (customizable modes only).
+  const custom = { ...base, customModes: [{ name: 'marketing', base: 'light' }], modeLevers: { marketing: { radius: 2 } } } as unknown as BrandInput;
+  const cMd = buildTree(brandTheme(custom)).tree[root].radius.md.$extensions.prism3.modes.marketing;
+  ok(!!cMd && cMd.px === 8, `D(a): a custom mode carries a radius lever (marketing radius:2 → md ${cMd?.px}px)`);
+
+  // (b) the Figma radius emit produces a dark radius mode/file with the override materialised.
+  const figRadius = buildFigmaDims(brandTheme(sharpDark)).radius;
+  const figDark = figRadius.find((f) => f.$mode === 'dark');
+  const figMd = figDark?.variables.find((v) => v.name === 'radius/md');
+  ok(!!figDark && figMd?.value === 0 && figMd?.alias?.name === 'dimension/0',
+    `D(b): buildFigmaDims emits a dark radius file with radius/md → dimension/0 (value ${figMd?.value})`);
+
+  // (c) validation throws — generate-only mode (hc-light/wireframe), a mode not generated, out-of-range.
+  ok(threw(() => brandTheme({ ...base, modes: ['light', 'dark', 'hc-light', 'hc-dark'], modeLevers: { 'hc-light': { radius: 0 } } } as unknown as BrandInput)), 'D(c): modeLevers on hc-light (generate-only) throws');
+  ok(threw(() => brandTheme({ ...base, modes: ['light', 'wireframe'], modeLevers: { wireframe: { radius: 0 } } } as unknown as BrandInput)), 'D(c): modeLevers on wireframe (generate-only) throws');
+  ok(threw(() => brandTheme({ ...base, modes: ['light'], modeLevers: { dark: { radius: 0 } } } as unknown as BrandInput)), 'D(c): modeLevers on a mode this brand does not generate throws');
+  ok(threw(() => brandTheme({ ...base, modeLevers: { dark: { radius: 3 } } } as unknown as BrandInput)), 'D(c): a radius lever above 2 throws');
+  ok(threw(() => brandTheme({ ...base, modeLevers: { dark: { radius: -1 } } } as unknown as BrandInput)), 'D(c): a radius lever below 0 throws');
+
+  // (d) design.md round-trip preserves modeLevers through parse∘serialize (the export leg).
+  ok(JSON.stringify(stable(parseDesignMd(toDesignMd(sharpDark)).input)) === JSON.stringify(stable(sharpDark)),
+    'D(d): parseDesignMd(toDesignMd(inputWithModeLevers)) preserves modeLevers');
+
+  // (e) validateBrandInput ACCEPTS a brand with modeLevers — it RETURNS an error array (never throws).
+  const accept = { id: 'd-schema', primary: { l: 0.55, c: 0.18, h: 285 }, neutral: { hue: 285, chroma: 0.01 }, modes: ['light', 'dark'], modeLevers: { dark: { radius: 0 } } } as unknown as BrandInput;
+  ok(validateBrandInput(accept).length === 0, `D(e): validateBrandInput accepts modeLevers (errors: ${JSON.stringify(validateBrandInput(accept))})`);
+
+  // (f) byte-identical guard — a brand with no modeLevers (or {}) matches the field-absent build.
+  ok(JSON.stringify(buildTree(brandTheme(base)).tree) === JSON.stringify(buildTree(brandTheme({ ...base, modeLevers: {} } as unknown as BrandInput)).tree),
+    'D(f): an empty modeLevers map produces byte-identical output (the primary guard)');
+}
+
 // roleColors — general semantic-role rebasing (docs/21): re-base any role on a declared palette,
 // with the contrast guarantee preserved and a hue-mismatch note (not a block).
 {
