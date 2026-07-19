@@ -69,7 +69,11 @@ export type ModeLevers = {
   // Per-mode LETTER SPACING per named step — a different em value for a tracking step (e.g. dark loosens
   // `normal` to +0.005em). Composites referencing that key inherit it.
   letterSpacings?: Partial<Record<LetterSpacingKey, number>>;
-};  // per-mode lever overrides; extensible (typeScale/tempo/density later)
+  // Per-mode MOTION TEMPO — a different tempo enum (scales the duration ramp + stagger for this mode).
+  // The motion analog of radius: one lever re-derives the whole ramp. Mirrors the global `tempo` enum;
+  // e.g. a `marketing` custom mode runs `relaxed` while the app mode stays `snappy`.
+  tempo?: 'snappy' | 'standard' | 'relaxed';
+};  // per-mode lever overrides; extensible (typeScale/density later)
 
 /** The non-color (dimension) axis: a primitive grid + space/radius/size scales. */
 export type Dims = {
@@ -391,6 +395,11 @@ export type MotionAxis = {
   spring: Record<string, { damping: number; stiffness: number }>;
   stagger: number;                             // ms between staggered siblings
   transitions: { name: string; duration: string; easing: string; desc: string }[];
+  // Per-mode tempo (Phase D) — only modes whose `modeLevers.tempo` differs from the baseline tempo. Each
+  // carries the RE-DERIVED duration ramp (+ reduce-motion + stagger) at that mode's tempo; easing/spring/
+  // transitions are tempo-invariant, so they're not duplicated. Composites (motion.transition.*) reference
+  // motion.duration.<role> by alias, so they inherit per-mode. Absent ⇒ byte-identical.
+  motionByMode?: Record<string, { tempo: string; duration: Record<string, number>; durationReduced: Record<string, number>; stagger: number }>;
 };
 
 const DURATION_BASE: Record<string, number> = { instant: 50, fast: 100, normal: 200, moderate: 300, slow: 500, slower: 800 };
@@ -1073,9 +1082,12 @@ export const brandTheme = (input: BrandInput): Theme => {
       if (v !== undefined && (!Number.isFinite(v) || v < -0.5 || v > 0.5))
         throw new Error(`modeLevers: mode '${m}' letterSpacing '${k}' ${v} is out of range — must be a finite em in [-0.5, 0.5]`);
     }
+    // Per-mode tempo must be one of the three tempo enums (the same set as the global lever).
+    if (lev.tempo !== undefined && !['snappy', 'standard', 'relaxed'].includes(lev.tempo))
+      throw new Error(`modeLevers: mode '${m}' tempo '${lev.tempo}' is invalid — must be one of snappy/standard/relaxed`);
   }
-  const leverModes = Object.entries(input.modeLevers ?? {}).filter(([, l]) => l && (l.radius !== undefined || l.families || l.weights || l.lineHeights || l.letterSpacings)).map(([m]) => m);
-  if (leverModes.length) notes.push(`modeLevers: per-mode lever overrides for ${leverModes.join(', ')} (radius / font family / font weight / line-height / letter-spacing re-derived per mode via the same helpers as the baseline; a mode deviates the global lever, the composite/token set is untouched)`);
+  const leverModes = Object.entries(input.modeLevers ?? {}).filter(([, l]) => l && (l.radius !== undefined || l.families || l.weights || l.lineHeights || l.letterSpacings || l.tempo)).map(([m]) => m);
+  if (leverModes.length) notes.push(`modeLevers: per-mode lever overrides for ${leverModes.join(', ')} (radius / font family / font weight / line-height / letter-spacing / motion tempo re-derived per mode via the same helpers as the baseline; a mode deviates the global lever, the composite/token set is untouched)`);
   if (root !== 'prism') notes.push(`namespace: tokens emit under '${root}.*' (custom, not the 'prism' default)`);
   const anchorStep = autoPlaceStep(input.primary.l);
   notes.push(`primary anchor (h${input.primary.h}) pinned exactly at step ${anchorStep}`);
@@ -1286,6 +1298,20 @@ export const brandTheme = (input: BrandInput): Theme => {
   }
   notes.push(`dimension axis: ${baseUnit}px grid, ${spaceBase}px space rhythm, density '${density}' (drives component sizes), radius scale ${rScale} (baseMd ${baseMd}px)`);
   notes.push(`motion: tempo '${input.motionPersonality?.tempo ?? 'standard'}' scales the duration ramp; easing roles + springs + composite transitions generated; reduce-motion variants derived (informational preserved, vestibular → 0)`);
+  // Per-mode MOTION TEMPO (Phase D): a customizable mode overriding `tempo` re-derives its duration ramp
+  // (+ reduce-motion + stagger) via the SAME buildMotion the baseline uses, just at the mode's tempo.
+  // Only a mode whose tempo DIFFERS from the baseline gets an entry (no-diff suppression) → byte-identical
+  // when unused. Easing/spring/transitions are tempo-invariant, so they're not re-emitted.
+  const motion = buildMotion(input.motionPersonality);
+  const baseTempo = input.motionPersonality?.tempo ?? 'standard';
+  const motionByMode: NonNullable<MotionAxis['motionByMode']> = {};
+  for (const [m, lev] of Object.entries(modeLevers)) {
+    if (lev?.tempo && lev.tempo !== baseTempo) {
+      const mm = buildMotion({ ...input.motionPersonality, tempo: lev.tempo });
+      motionByMode[m] = { tempo: mm.tempo, duration: mm.duration, durationReduced: mm.durationReduced, stagger: mm.stagger };
+    }
+  }
+  if (Object.keys(motionByMode).length) motion.motionByMode = motionByMode;
   const shadow = buildShadow(input.neutral.hue, input.shadow);
   notes.push(`shadow: 6-step ramp (xs–2xl) + inset, 2-layer (key+ambient), softness ${shadow.softness}; tinted base (hue ${shadow.tint.hue}, amount ${shadow.tint.amount}${shadow.tint.amount === 0 ? ' = pure black' : ''}). Mode-aware, LIFT-primary: full shadow in light; reduced (faded, top-weighted) in dark — the surface ladder carries dark elevation. Composite shadow → Figma Effect Style.`);
   const gradient = buildGradient(input.gradients, palettes, root);
@@ -1384,7 +1410,7 @@ export const brandTheme = (input: BrandInput): Theme => {
   return {
     id: input.id, root, namespace: `${root}.palette`, colorFormat: 'hex', modes: modesAll, palettes, roleToPalette, notes,
     ...(customModes.length ? { customModes } : {}),
-    ...(Object.keys(radiusByMode).length || Object.keys(familiesByMode).length || Object.keys(weightRolesByMode).length || Object.keys(lineHeightsByMode).length || Object.keys(letterSpacingsByMode).length ? { modeLevers } : {}),
+    ...(Object.keys(radiusByMode).length || Object.keys(familiesByMode).length || Object.keys(weightRolesByMode).length || Object.keys(lineHeightsByMode).length || Object.keys(letterSpacingsByMode).length || Object.keys(motionByMode).length ? { modeLevers } : {}),
     roleAnchorStep: { brand: anchorStep, neutral: 500, success: 500, warning: 500, danger: 500, info: 500, action: actionAnchorStep },
     surfaces: input.surfaces,
     overrides: input.overrides,
@@ -1396,7 +1422,7 @@ export const brandTheme = (input: BrandInput): Theme => {
     neutralEmphasis, inverseContext, interactivePalettes,
     actionAnchorStep: input.actionAnchorStep, destructiveAnchorStep: input.destructiveAnchorStep,
     dims: { ...buildDims(baseUnit, spaceBase, density, rScale, baseMd), ...(Object.keys(radiusByMode).length ? { radiusByMode } : {}) },
-    motion: buildMotion(input.motionPersonality),
+    motion,
     typography,
     shadow,
     layout,

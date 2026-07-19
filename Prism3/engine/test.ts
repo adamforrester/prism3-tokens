@@ -988,6 +988,71 @@ for (const b of brands) {
     'D-lhls(j): a modeLevers entry with no LH/LS lever produces byte-identical output');
 }
 
+// PER-MODE MOTION TEMPO (Phase D) — a mode runs a different tempo, re-deriving the duration ramp (+
+// reduce-motion + stagger) via the SAME buildMotion the baseline uses. Same seam: the engine attaches
+// `$extensions.prism3.modes.<mode>` to the `motion.duration.<role>` / `duration-reduced.<role>` /
+// `stagger` PRIMITIVE; composite transitions inherit via the duration alias, so the transition SET is
+// untouched. Motion is DTCG + web only (not a Figma variable), so buildFigmaFont is unaffected.
+{
+  const root = 'prism';
+  const base = { id: 'dmotion', modes: ['light', 'dark'], primary: { l: 0.55, c: 0.18, h: 285 }, neutral: { hue: 285, chroma: 0.01 } } as unknown as BrandInput;
+  const threw = (f: () => unknown) => { try { f(); return false; } catch { return true; } };
+  const stable = (v: any): any => Array.isArray(v) ? v.map(stable)
+    : (v && typeof v === 'object' ? Object.fromEntries(Object.keys(v).sort().map((k) => [k, stable(v[k])])) : v);
+  // dark runs `relaxed` (×1.3) — standard normal 200ms → 260ms; stagger 40 → 50 (round5).
+  const perMode = { ...base, modeLevers: { dark: { tempo: 'relaxed' } } } as unknown as BrandInput;
+  const baseTree = buildTree(brandTheme(base)).tree[root];
+  const built = buildTree(brandTheme(perMode));
+  const pmTree = built.tree[root];
+
+  // (a) duration.normal carries a modes.dark override at the relaxed ms (260); light's canonical $value
+  //     (200ms) is untouched.
+  const durDark = pmTree.motion.duration.normal.$extensions.prism3.modes?.dark;
+  ok(!!durDark && durDark.$value === '260ms' && durDark.ms === 260,
+    `D-motion(a): dark tempo override → duration.normal modes.dark $value '260ms' + ms 260 (got ${durDark?.$value})`);
+  ok(pmTree.motion.duration.normal.$value === baseTree.motion.duration.normal.$value && baseTree.motion.duration.normal.$value === '200ms',
+    `D-motion(a): light canonical duration.normal $value is unchanged (${pmTree.motion.duration.normal.$value})`);
+
+  // (b) stagger + a reduce-motion step also carry the per-mode override (the whole ramp scales).
+  ok(pmTree.motion.stagger.$extensions.prism3.modes?.dark?.ms === 50, `D-motion(b): stagger modes.dark → 50ms (got ${pmTree.motion.stagger.$extensions.prism3.modes?.dark?.ms})`);
+  ok(!!pmTree.motion['duration-reduced'].normal.$extensions.prism3.modes?.dark, 'D-motion(b): a reduce-motion step (normal) carries the per-mode override too');
+
+  // (c) the composite transition leaf is UNCHANGED — it aliases motion.duration.<role>, so the per-mode
+  //     value is inherited via the alias (the transition SET is fixed).
+  ok(JSON.stringify(pmTree.motion.transition.default) === JSON.stringify(baseTree.motion.transition.default),
+    'D-motion(c): the transition.default composite leaf is unchanged (inheritance via the duration alias)');
+
+  // (d) every DTCG alias resolves.
+  ok(built.stats.broken.length === 0 && built.stats.aliases > 0, `D-motion(d): all ${built.stats.aliases} aliases resolve` + (built.stats.broken.length ? ` — BROKEN ${built.stats.broken.slice(0, 3).map((b: any) => b.ref).join(',')}` : ''));
+
+  // (e) buildFigmaFont is UNAFFECTED — motion isn't a Figma variable (DTCG + web only), so a motion-only
+  //     override still emits a single Default core-font file.
+  const fontFiles = buildFigmaFont(brandTheme(perMode));
+  ok(fontFiles.length === 1 && fontFiles[0].$mode === 'Default', `D-motion(e): motion-only override leaves core-font single-mode (${fontFiles.map((f) => f.$mode).join(',')})`);
+
+  // (f) validation throws — tempo on a generate-only mode (hc-light), and an invalid tempo value.
+  ok(threw(() => brandTheme({ ...base, modes: ['light', 'dark', 'hc-light', 'hc-dark'], modeLevers: { 'hc-light': { tempo: 'relaxed' } } } as unknown as BrandInput)), 'D-motion(f): tempo on hc-light (generate-only) throws');
+  ok(threw(() => brandTheme({ ...base, modeLevers: { dark: { tempo: 'turbo' } } } as unknown as BrandInput)), 'D-motion(f): an invalid tempo value throws');
+
+  // (g) design.md round-trip preserves modeLevers.tempo through parse∘serialize.
+  ok(JSON.stringify(stable(parseDesignMd(toDesignMd(perMode)).input)) === JSON.stringify(stable(perMode)),
+    'D-motion(g): parseDesignMd(toDesignMd(input)) preserves modeLevers.tempo');
+
+  // (h) validateBrandInput ACCEPTS per-mode tempo — RETURNS an empty error array (never throws).
+  const accept = { id: 'dmotion-schema', primary: { l: 0.55, c: 0.18, h: 285 }, neutral: { hue: 285, chroma: 0.01 }, modes: ['light', 'dark'], modeLevers: { dark: { tempo: 'relaxed' } } } as unknown as BrandInput;
+  ok(validateBrandInput(accept).length === 0, `D-motion(h): validateBrandInput accepts per-mode tempo (errors: ${JSON.stringify(validateBrandInput(accept))})`);
+
+  // (i) no-diff suppression at the TOKEN level — a per-mode tempo EQUAL to the baseline attaches no leaf
+  //     override (the duration/stagger tokens are byte-identical; only the decisions log records the lever).
+  const equalTree = buildTree(brandTheme({ ...base, modeLevers: { dark: { tempo: 'standard' } } } as unknown as BrandInput)).tree[root];
+  ok(equalTree.motion.duration.normal.$extensions.prism3.modes === undefined && equalTree.motion.stagger.$extensions.prism3.modes === undefined,
+    'D-motion(i): a per-mode tempo equal to the baseline (standard) attaches no leaf override (no-diff suppression)');
+
+  // (j) byte-identical guard — a modeLevers entry with no tempo lever adds nothing at all (absent feature).
+  ok(JSON.stringify(buildTree(brandTheme(base)).tree) === JSON.stringify(buildTree(brandTheme({ ...base, modeLevers: { dark: {} } } as unknown as BrandInput)).tree),
+    'D-motion(j): a modeLevers entry with no tempo lever produces byte-identical output');
+}
+
 // roleColors — general semantic-role rebasing (docs/21): re-base any role on a declared palette,
 // with the contrast guarantee preserved and a hue-mismatch note (not a block).
 {
