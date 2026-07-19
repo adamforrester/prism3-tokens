@@ -1095,6 +1095,73 @@ const renderGeneratedNote = (): HTMLElement => {
   return box;
 };
 
+/** Advanced bespoke editors for the object/list levers renderControl can't edit (it only shows them
+ *  read-only). These live inside the "Advanced" disclosure alongside the slider/enum controls. */
+const renderResponsiveEditor = (): HTMLElement => {
+  const wrap = el('div', 'adv-obj');
+  wrap.append(el('div', 'adv-obj-h', 'Responsive type'));
+  const cb = el('input') as HTMLInputElement;
+  cb.type = 'checkbox'; cb.checked = brandState.typography?.responsive?.fluid ?? theme.typography.fluid;
+  cb.onchange = () => { setPath(brandState, 'typography.responsive.fluid', cb.checked); apply(); };
+  const fl = el('label', 'adv-row'); fl.append(cb, el('span', 'adv-row-lab', 'Fluid heading sizing (clamp between viewports)'));
+  wrap.append(fl);
+  const mk = (key: 'minViewport' | 'maxViewport', label: string, fallback: number): void => {
+    const inp = el('input') as HTMLInputElement;
+    inp.type = 'number'; inp.className = 'adv-num'; inp.value = String(getPath(brandState, `typography.responsive.${key}`) ?? fallback);
+    inp.onchange = () => { const n = Number(inp.value); if (Number.isFinite(n)) { setPath(brandState, `typography.responsive.${key}`, n); apply(); } };
+    const row = el('div', 'adv-row'); row.append(el('span', 'adv-row-lab', label), inp, el('span', 'adv-unit', 'px'));
+    wrap.append(row);
+  };
+  mk('minViewport', 'Min viewport', theme.typography.minViewport);
+  mk('maxViewport', 'Max viewport', theme.typography.maxViewport);
+  return wrap;
+};
+
+const renderBreakpointsEditor = (): HTMLElement => {
+  const wrap = el('div', 'adv-obj');
+  wrap.append(el('div', 'adv-obj-h', 'Breakpoints (min-width px, ascending)'));
+  const listEl = el('div', 'adv-bplist');
+  const commit = (arr: number[]): void => {
+    const clean = [...new Set(arr.filter((n) => Number.isFinite(n) && n >= 0))].sort((a, b) => a - b);
+    setPath(brandState, 'layout.breakpoints', clean); applyFull();
+  };
+  const draw = (): void => {
+    listEl.innerHTML = '';
+    const bps = (brandState.layout?.breakpoints ?? theme.layout.breakpoints.map((b) => b.px)) as number[];
+    bps.forEach((px, i) => {
+      const cell = el('div', 'adv-bp');
+      const inp = el('input') as HTMLInputElement; inp.type = 'number'; inp.className = 'adv-num'; inp.value = String(px);
+      inp.onchange = () => { const next = [...bps]; next[i] = Number(inp.value); commit(next); };
+      const rm = el('button', 'adv-x', '×') as HTMLButtonElement;
+      rm.onclick = () => commit(bps.filter((_, j) => j !== i));
+      cell.append(inp, rm); listEl.append(cell);
+    });
+    const add = el('button', 'adv-add', '+ Add') as HTMLButtonElement;
+    add.onclick = () => { const bps2 = (brandState.layout?.breakpoints ?? theme.layout.breakpoints.map((b) => b.px)) as number[]; commit([...bps2, (Math.max(0, ...bps2) + 256)]); };
+    listEl.append(add);
+  };
+  draw();
+  wrap.append(listEl);
+  return wrap;
+};
+
+const renderEasingEditor = (): HTMLElement => {
+  const wrap = el('div', 'adv-obj');
+  wrap.append(el('div', 'adv-obj-h', 'Emphasized easing (cubic-bezier)'));
+  const cur = (brandState.motionPersonality?.easingEmphasized ?? theme.motion.easing.emphasized) as number[];
+  const row = el('div', 'adv-bez');
+  const inputs: HTMLInputElement[] = [];
+  const commit = (): void => { const vals = inputs.map((x) => Number(x.value)); if (vals.length === 4 && vals.every((v) => Number.isFinite(v))) { setPath(brandState, 'motionPersonality.easingEmphasized', vals); apply(); } };
+  ['x1', 'y1', 'x2', 'y2'].forEach((lab, i) => {
+    const inp = el('input') as HTMLInputElement; inp.type = 'number'; inp.step = '0.01'; inp.className = 'adv-num'; inp.value = String(cur[i] ?? [0.4, 0.14, 0.3, 1][i]);
+    inp.onchange = commit; inputs.push(inp);
+    row.append(el('span', 'adv-bez-lab mono', lab), inp);
+  });
+  wrap.append(row);
+  wrap.append(el('p', 'adv-obj-note', 'The expressive curve for the emphasized transition (see the Motion specimen’s emphasized bar).'));
+  return wrap;
+};
+
 const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
   const [title, lede] = HERO_COPY[key];
   host.append(hero(title, lede));
@@ -1150,11 +1217,16 @@ const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
   // columns + containers) have no bespoke editor, so they'd be unreachable in the UI — surface them in a
   // collapsed "Advanced" panel via renderControl. Object/list advanced levers keep their bespoke editors.
   const advLevers = leverManifest.filter((l) => l.advanced && (l.control === 'slider' || l.control === 'enum') && !PRIMITIVE_KEYS.has(l.key) && stageOfLever(l) === key);
-  if (advLevers.length) {
+  // The object/list advanced levers renderControl can only show read-only get bespoke editors, nested in
+  // the same disclosure: responsive type (type stage), breakpoints + emphasized easing (form stage).
+  const hasBespokeAdv = key === 'type' || key === 'form';
+  if (advLevers.length || hasBespokeAdv) {
     const det = el('details', 'adv') as HTMLDetailsElement;
-    det.append(el('summary', 'adv-sum', `Advanced · ${advLevers.length} more`));
+    det.append(el('summary', 'adv-sum', 'Advanced'));
     const ap = el('div', 'panel adv-panel');
     for (const l of advLevers) ap.append(renderControl(l));
+    if (key === 'type') ap.append(renderResponsiveEditor());
+    if (key === 'form') { ap.append(renderBreakpointsEditor()); ap.append(renderEasingEditor()); }
     det.append(ap);
     host.append(det);
   }
@@ -1170,7 +1242,7 @@ const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
   paintVolatile = () => {
     vol.innerHTML = '';
     if (key === 'type') vol.append(renderTypeSpecimen());
-    if (key === 'form') { vol.append(renderRadiusSpecimen()); vol.append(renderSizeSpecimen()); vol.append(renderShadowSpecimen()); vol.append(renderMotionSpecimen()); }
+    if (key === 'form') { vol.append(renderRadiusSpecimen()); vol.append(renderSizeSpecimen()); vol.append(renderShadowSpecimen()); vol.append(renderMotionSpecimen()); vol.append(renderLayoutSpecimen()); }
     if (key === 'semantic') { vol.append(renderNeutralSpecimen()); vol.append(renderInverseSpecimen()); vol.append(renderIconSpecimen()); vol.append(renderGradientSpecimen()); }
     vol.append(sectionHead('Live preview', 'The sample components + contrast overlay, resolved through every mode — they reflect this stage’s axis live.'));
     const pv = el('div', 'pvhost');
@@ -1658,6 +1730,26 @@ const renderTypeSpecimen = (): HTMLElement => {
     sample.style.letterSpacing = `${lsVal}em`;
     if (c.textCase === 'uppercase' || g === 'eyebrow') { sample.style.textTransform = 'uppercase'; sample.style.letterSpacing = '0.08em'; }
     row.append(sample);
+    // Variants strip — surfaces the type sub-levers that otherwise have no visible payoff: the WEIGHTS
+    // each group ships (rendered at their weight), plus ITALIC / LINK samples when the group ships them,
+    // and the group's size RANGE (so lowering titleFloor / adding title.2xs is visible). All read the
+    // resolved composites, so a `weights`/`italics`/`links`/`titleFloor` edit shows here live.
+    const groupComps = ty.composites.filter((cc) => cc.group === g);
+    const chipFam = (c.family === 'mono' || g === 'code') ? 'var(--mono)' : fam;
+    const weightsShipped = [...new Set(groupComps.map((cc) => cc.weightRole))]
+      .sort((a, b) => wrList.findIndex((w) => w.role === a) - wrList.findIndex((w) => w.role === b));
+    const strip = el('div', 'ts-variants');
+    for (const role of weightsShipped) {
+      const w = wrList.find((x) => x.role === role)?.value ?? 400;
+      const chip = el('div', 'ts-var', `${role} ${w}`);
+      chip.style.fontFamily = chipFam; chip.style.fontWeight = String(w);
+      strip.append(chip);
+    }
+    if (groupComps.some((cc) => cc.italic)) { const ic = el('div', 'ts-var', 'italic'); ic.style.fontFamily = chipFam; ic.style.fontStyle = 'italic'; ic.style.fontWeight = String(wt); strip.append(ic); }
+    if (groupComps.some((cc) => cc.link)) { const lc = el('div', 'ts-var', 'link'); lc.style.fontFamily = chipFam; lc.style.fontWeight = String(wt); lc.style.textDecoration = 'underline'; strip.append(lc); }
+    const sizes = [...new Set(groupComps.map((cc) => cc.sizePx))].sort((a, b) => a - b);
+    if (sizes.length > 1) strip.append(el('div', 'ts-var ts-var-range mono', `${sizes[0]}–${sizes[sizes.length - 1]}px`));
+    row.append(strip);
     list.append(row);
   }
   wrap.append(list);
@@ -1736,6 +1828,44 @@ const renderSizeSpecimen = (): HTMLElement => {
     list.append(cell);
   }
   wrap.append(list);
+  return wrap;
+};
+
+/** The layout specimen: the responsive-grid axis — breakpoints (min-widths) with their column/gutter/
+ *  margin grid, a base-column preview strip, and the container caps as proportional bars. The layout
+ *  levers (breakpoints / columns / containers, all in the Advanced panel) have no other visible payoff.
+ *  Reads `theme.layout` (not per-mode — layout composes with colour modes as a separate Figma axis). */
+const renderLayoutSpecimen = (): HTMLElement => {
+  const wrap = el('div', 'layout-spec');
+  const ly = theme.layout;
+  wrap.append(sectionHead('Layout grid', 'Breakpoints, the responsive column grid, and container caps — the layout scaffolding (breakpoints / columns / containers live in Advanced above).'));
+  const table = el('table', 'ly-table');
+  const head = el('tr');
+  head.append(el('th', undefined, 'Breakpoint'), el('th', undefined, 'Min-width'), el('th', undefined, 'Columns'), el('th', undefined, 'Gutter'), el('th', undefined, 'Margin'));
+  table.append(head);
+  for (const g of ly.grid) {
+    const bp = ly.breakpoints.find((b) => b.name === g.bp);
+    const tr = el('tr');
+    tr.append(el('td', 'mono', g.bp), el('td', 'mono', `${bp?.px ?? 0}px`), el('td', 'mono', String(g.columns)), el('td', 'mono', `${g.gutterPx}px`), el('td', 'mono', `${g.marginPx}px`));
+    table.append(tr);
+  }
+  wrap.append(table);
+  wrap.append(el('div', 'ly-cap', `${ly.baseColumns}-column base grid`));
+  const cols = el('div', 'ly-cols');
+  for (let i = 0; i < ly.baseColumns; i++) cols.append(el('div', 'ly-col'));
+  wrap.append(cols);
+  wrap.append(el('div', 'ly-cap', 'Container caps (fluid below the cap)'));
+  const cont = el('div', 'ly-cont');
+  const maxW = Math.max(ly.containerMax, ly.containerNarrow, 1);
+  const bar = (label: string, px: number): HTMLElement => {
+    const row = el('div', 'ly-cont-row');
+    const b = el('div', 'ly-cont-bar');
+    b.style.width = `${Math.max(6, (px / maxW) * 100)}%`;
+    row.append(el('div', 'ly-cont-lab mono', `${label} · ${px}px`), b);
+    return row;
+  };
+  cont.append(bar('container.max', ly.containerMax), bar('container.narrow', ly.containerNarrow));
+  wrap.append(cont);
   return wrap;
 };
 
@@ -2559,6 +2689,10 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .ts-row{display:flex;flex-direction:column;gap:8px;min-width:0}
 .ts-meta{font-size:11.5px;color:var(--faint)}
 .ts-sample{color:var(--ink);letter-spacing:-0.02em;line-height:1.1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* Type-specimen variants strip — the weights each group ships + italic/link/size-range (the type sub-levers). */
+.ts-variants{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin-top:2px}
+.ts-var{font-size:14px;color:var(--ink2);line-height:1.2}
+.ts-var-range{font-size:11px;color:var(--faint);align-self:center}
 .shadow-spec{margin-bottom:8px}
 .sh-list{display:flex;flex-wrap:wrap;gap:28px;border:1px solid var(--line);border-radius:var(--r);padding:28px 24px;background:#f4f5f7}
 .sh-cell{display:flex;flex-direction:column;align-items:center;gap:10px}
@@ -2592,6 +2726,35 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .adv-sum::before{content:'▸ ';color:var(--faint)}
 .adv[open] .adv-sum::before{content:'▾ '}
 .adv-panel{margin-top:12px}
+/* Advanced object/list bespoke editors (responsive type, breakpoints, emphasized easing). */
+.adv-obj{margin-top:16px;padding-top:14px;border-top:1px dashed var(--line)}
+.adv-obj-h{font-size:12px;font-weight:600;color:var(--ink2);margin-bottom:10px}
+.adv-obj-note{margin:8px 2px 0;font-size:11px;color:var(--faint);line-height:1.5}
+.adv-row{display:flex;align-items:center;gap:10px;margin-top:8px;font-size:12.5px;color:var(--ink2)}
+.adv-row-lab{min-width:150px}
+.adv-num{width:88px;padding:5px 7px;border:1px solid var(--line2);border-radius:var(--r-xs);font:inherit;font-size:12px;background:var(--paper)}
+.adv-unit{font-size:11px;color:var(--faint)}
+.adv-bplist{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.adv-bp{display:flex;align-items:center;gap:2px}
+.adv-x{border:none;background:none;color:var(--faint);cursor:pointer;font-size:15px;line-height:1;padding:0 2px}
+.adv-x:hover{color:#a12}
+.adv-add{border:1px dashed var(--line2);background:none;color:var(--muted);cursor:pointer;font:inherit;font-size:12px;border-radius:var(--r-xs);padding:5px 10px}
+.adv-bez{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
+.adv-bez-lab{font-size:11px;color:var(--faint)}
+/* Layout specimen — breakpoint/grid table + column preview + container bars. */
+.layout-spec{margin-bottom:8px}
+.ly-table{border-collapse:collapse;width:100%;font-size:12px;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-bottom:16px}
+.ly-table th,.ly-table td{padding:7px 12px;border-bottom:1px solid var(--line);text-align:right}
+.ly-table th:first-child,.ly-table td:first-child{text-align:left}
+.ly-table th{font-size:11px;font-weight:600;color:var(--muted);text-transform:lowercase;letter-spacing:.02em;background:var(--panel)}
+.ly-table tr:last-child td{border-bottom:none}
+.ly-cap{font-size:11.5px;color:var(--muted);margin:0 2px 8px}
+.ly-cols{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px;height:44px;margin-bottom:18px}
+.ly-col{background:var(--ink);opacity:.14;border-radius:3px}
+.ly-cont{display:flex;flex-direction:column;gap:8px}
+.ly-cont-row{display:flex;align-items:center;gap:12px}
+.ly-cont-lab{font-size:11.5px;color:var(--muted);min-width:150px}
+.ly-cont-bar{height:16px;background:var(--ink);opacity:.55;border-radius:3px}
 .inverse-spec{margin-bottom:8px}
 .inv-band{border-radius:var(--r);padding:36px 32px;display:flex;flex-direction:column;align-items:flex-start;gap:20px}
 .inv-h{font-size:24px;font-weight:700;letter-spacing:-0.02em;max-width:26ch}
