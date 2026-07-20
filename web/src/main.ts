@@ -638,15 +638,17 @@ const contractTableEl = (contracts: typeof rp.contracts, paths = false): HTMLEle
   return table;
 };
 
-const paintPreview = (host: HTMLElement): void => {
-  host.innerHTML = '';
-  if (lastError) host.append(el('div', 'errbar', `This combination doesn't resolve: ${lastError} — showing the last valid theme.`));
+// ---- Preview segments (docs/23 §7) ----------------------------------------
+// The Preview destination has three views behind a segmented switcher: the component gallery, the
+// all-modes contract master table, and a category-grouped token list. All read the mode picked in the
+// global header for their per-mode columns/rendering.
 
-  // Mode is driven by the workspace mode-context strip (#171); the preview reflects `currentMode`.
+/** UI preview — the component gallery for the active mode, with inline per-component contrast badges. */
+const renderPreviewGallery = (host: HTMLElement): void => {
+  if (lastError) host.append(el('div', 'errbar', `This combination doesn't resolve: ${lastError} — showing the last valid theme.`));
+  // Project the resolved model for the active mode onto a fresh surface (so a mode switch can't leak
+  // stale vars). Chips inherit the properties and reference them via `var(--…)`.
   const surface = el('div', 'preview');
-  // Project the resolved model for the active mode onto THIS surface (a fresh element each
-  // paint — so a mode switch can't leak stale vars). Chips below inherit the properties and
-  // reference them via `var(--…)`; swap `writeHost` and the same chips drive another backend.
   writeHost = makeWriteHost(surface);
   writeHost.apply(rp, currentMode);
   surface.style.background = pageBg(currentMode);
@@ -656,9 +658,6 @@ const paintPreview = (host: HTMLElement): void => {
     const row = el('div', 'chips');
     for (const v of c.variants) row.append(renderChip(`${c.id} · ${v.name}`, v.bindings, currentMode));
     block.append(row);
-    // #100: verification AT THE POINT OF EDIT — this component's contrast contracts for the
-    // active mode as inline badges (we DERIVE + gate the ratio, so it's authoritative, not a
-    // hand-typed number), plus token-path pills for the color roles it binds (dev transparency).
     const cts = rp.contracts.filter((ct) => ct.component === c.id && ct.byMode[currentMode]);
     if (cts.length) {
       const badges = el('div', 'pv-contrasts');
@@ -680,17 +679,58 @@ const paintPreview = (host: HTMLElement): void => {
     surface.append(block);
   }
   host.append(surface);
+};
 
-  // The full all-modes table is verification-of-record, not point-of-edit feedback (the per-component
-  // badges above already show the ACTIVE mode inline). It repeats on every stage, so it lives in a
-  // closed disclosure — one click from the audit view, but no longer dominating each stage.
-  const contracts = el('details', 'contracts') as HTMLDetailsElement;
-  const sum = el('summary', 'contracts-sum');
-  sum.append(el('span', 'contracts-t', 'Contrast contracts'), el('span', 'contracts-hint', `full a11y table · all modes · ${rp.contracts.length} pairs`));
-  contracts.append(sum);
-  contracts.append(el('p', 'np-note', 'Every declared a11y pair, computed on the resolved colors across all modes — the per-component badges above verify the active mode at the point of edit.'));
-  contracts.append(contractTableEl(rp.contracts));
-  host.append(contracts);
+/** Contrast contracts — the full all-modes master table (verification of record). */
+const renderPreviewContracts = (host: HTMLElement): void => {
+  host.append(el('p', 'np-note', `Every declared a11y pair (${rp.contracts.length}), computed on the resolved colors across all modes. The per-control badges on each editing page verify the active mode at the point of edit; the per-page tables scope this to what that page governs.`));
+  host.append(contractTableEl(rp.contracts));
+};
+
+// Token list — the resolved token set, grouped by category, value(s) per mode where they vary.
+const tokenTableEl = (rows: Array<{ name: string; cells: Array<HTMLElement | string> }>, cols: string[]): HTMLElement => {
+  const table = el('table', 'ctable');
+  const thead = el('tr'); thead.append(el('th', undefined, 'Token'));
+  for (const c of cols) thead.append(el('th', 'mcol', c));
+  table.append(thead);
+  for (const r of rows) {
+    const tr = el('tr'); tr.append(el('td', 'pair mono', r.name));
+    for (const c of r.cells) { const td = el('td', 'mcol'); if (typeof c === 'string') td.textContent = c; else td.append(c); tr.append(td); }
+    table.append(tr);
+  }
+  return table;
+};
+const swatchCell = (hex: string | undefined): HTMLElement => {
+  const wrap = el('span', 'tok-val');
+  if (hex) { const sw = el('span', 'tok-sw'); sw.style.background = hex; wrap.append(sw, el('span', 'mono', hex)); }
+  else wrap.append(document.createTextNode('—'));
+  return wrap;
+};
+const renderPreviewTokens = (host: HTMLElement): void => {
+  const modes = rp.modes;
+  const modeLabels = modes.map((m) => MODE_LABEL[m] ?? m);
+  const rolesByMode = new Map(resolveAllModes(theme).map((x) => [x.mode, x.roles as Record<string, { hex: string } | undefined>]));
+
+  // Color — every resolved semantic role, hex per mode. (Ramp primitives live on Palettes.)
+  host.append(subHead('Color'));
+  host.append(el('p', 'np-note', 'The resolved semantic color roles, per mode. Brand / neutral / status ramp primitives live on the Palettes page.'));
+  const roleNames = [...new Set(modes.flatMap((m) => Object.keys(rolesByMode.get(m) ?? {})))].sort();
+  host.append(tokenTableEl(roleNames.map((role) => ({ name: role, cells: modes.map((m) => swatchCell(rolesByMode.get(m)?.[role]?.hex)) })), modeLabels));
+
+  // Dimension — the px scale (space / size / radius); baseline + per-mode overrides where they differ.
+  host.append(subHead('Dimension'));
+  const dimRefs = Object.keys(rp.dims).sort();
+  host.append(tokenTableEl(dimRefs.map((ref) => ({ name: ref, cells: modes.map((m) => `${rp.dimOverrides[ref]?.[m] ?? rp.dims[ref]}px`) })), modeLabels));
+
+  // Typography — resolved composites (mode-invariant): family · weight · size.
+  host.append(subHead('Typography'));
+  const typeRefs = Object.keys(rp.type).sort();
+  host.append(tokenTableEl(typeRefs.map((ref) => { const t = rp.type[ref]; return { name: ref, cells: [`${t.fontFamily} · ${t.fontWeight} · ${Math.round(t.fontSizePx)}px`] }; }), ['Resolved · shared across modes']));
+
+  // Shadow — the elevation ramp, CSS box-shadow per mode (dark = the reduced set).
+  host.append(subHead('Shadow'));
+  const shRefs = Object.keys(rp.shadows).sort();
+  host.append(tokenTableEl(shRefs.map((ref) => ({ name: ref, cells: modes.map((m) => { const s = rp.shadows[ref]?.[m]; if (!s) return '—'; const sp = el('span', 'tok-shadow mono', s); sp.title = s; return sp; }) })), modeLabels));
 };
 
 const PAGE_COPY: Record<PageKey, [string, string]> = {
@@ -1328,16 +1368,29 @@ const renderMotionPage = (host: HTMLElement): void => renderScreen(host, 'motion
  *  through the mode picked in the global header. Owns the component gallery that used to be duplicated
  *  on every editing stage. (Segmented UI / contrast / token-list sub-views + a per-section contrast
  *  table land in a follow-up; this is the extraction.) */
+type PreviewView = 'ui' | 'contrast' | 'tokens';
+let previewView: PreviewView = 'ui';
+const PREVIEW_VIEWS: Array<[PreviewView, string]> = [['ui', 'UI preview'], ['contrast', 'Contrast contracts'], ['tokens', 'Token list']];
 const renderPreviewPage = (host: HTMLElement): void => {
   const [title, lede] = PAGE_COPY.preview;
   host.append(hero(title, lede));
+  // Segmented view-switcher (docs/23 §7) — the three "look at the result" views in one destination.
+  const seg = el('div', 'pvseg');
+  for (const [k, label] of PREVIEW_VIEWS) {
+    const b = el('button', 'pvseg-b' + (previewView === k ? ' on' : ''), label) as HTMLButtonElement;
+    b.onclick = () => { if (previewView !== k) { previewView = k; renderWorkspace(); } };
+    seg.append(b);
+  }
+  host.append(seg);
   const vol = el('div', 'stage-vol');
   host.append(vol);
   paintVolatile = () => {
     vol.innerHTML = '';
     const pv = el('div', 'pvhost');
     vol.append(pv);
-    paintPreview(pv);
+    if (previewView === 'ui') renderPreviewGallery(pv);
+    else if (previewView === 'contrast') renderPreviewContracts(pv);
+    else renderPreviewTokens(pv);
   };
   paintVolatile();
 };
@@ -2970,6 +3023,13 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .pair{color:var(--ink2)}
 .pair-path{display:block;color:var(--ink2)}
 .pair-sub{display:block;font-size:11px;color:var(--faint);margin-top:1px}
+.pvseg{display:inline-flex;gap:2px;padding:3px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-sm);margin:2px 0 22px}
+.pvseg-b{font:inherit;font-size:13px;padding:7px 15px;border:none;background:none;color:var(--ink2);border-radius:var(--r-xs);cursor:pointer}
+.pvseg-b:hover{color:var(--ink)}
+.pvseg-b.on{background:var(--paper);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.tok-val{display:inline-flex;align-items:center;gap:7px}
+.tok-sw{display:inline-block;width:14px;height:14px;border-radius:3px;border:1px solid var(--line2);flex:none}
+.tok-shadow{display:inline-block;max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:bottom;color:var(--muted)}
 .dot{display:inline-block;width:8px;height:8px;border-radius:999px;margin-right:5px;vertical-align:middle}
 .dot.ok{background:#1a9c52}.dot.no{background:#d23}
 .ratio{font-variant-numeric:tabular-nums;color:var(--muted)}

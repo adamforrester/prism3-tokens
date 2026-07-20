@@ -7,7 +7,33 @@
 
 ---
 
-## Latest (2026-07-20) — Contrast-table follow-up: token-path labels + exhaustive partition
+## Latest (2026-07-20) — Dashboard Phase 4b: Preview segmented sub-views + token list (`docs/23` §7)
+
+**STATUS: web-only, additive.** The Preview destination gains a **segmented view-switcher** with three
+views, completing the `docs/23` §7 Preview shape:
+
+- **UI preview** — the component gallery (extracted from the old `paintPreview`; unchanged).
+- **Contrast contracts** — the full all-modes master table, now a first-class view (was a closed
+  disclosure inside the gallery). Reuses `contractTableEl`.
+- **Token list** — NEW: the resolved token set, category-grouped (**Color · Dimension · Typography ·
+  Shadow**) with values per mode. Colour = every resolved semantic role (`resolveAllModes`) as a
+  swatch + hex per mode; Dimension = the px scale (`rp.dims` + per-mode `dimOverrides`); Typography =
+  resolved composites (family · weight · size, mode-invariant); Shadow = the elevation ramp's CSS
+  `box-shadow` per mode. Built entirely from the resolved read-model — no engine change.
+
+`paintPreview` was split into `renderPreviewGallery` / `renderPreviewContracts` / `renderPreviewTokens`;
+`renderPreviewPage` renders the `.pvseg` switcher (state `previewView`, defaults `ui`) and dispatches;
+a segment click re-renders the page. Ramp primitives stay on Palettes; the token list is the semantic +
+dimension/type/shadow layer.
+
+**Verification:** `tsc` + esbuild clean. Playwright drive-through on Preview: three segments switch with
+correct active state; UI preview shows 8 components, Contrast 32 rows (the master table), Token list the
+four category sections (4 tables, per-mode swatches); no console errors. Token-list screenshot reviewed.
+No engine files touched. This completes Phase 4. Progress entry rides in this PR.
+
+---
+
+## (2026-07-20) — Contrast-table follow-up: token-path labels + exhaustive partition
 
 **STATUS: web-only, refines #201.** Two small changes to the per-section contrast tables:
 
