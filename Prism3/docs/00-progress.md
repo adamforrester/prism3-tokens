@@ -7,7 +7,27 @@
 
 ---
 
-## Latest (2026-07-20) — Dashboard Phase 4a: per-section contrast tables (`docs/23` §3)
+## Latest (2026-07-20) — Contrast-table follow-up: token-path labels + exhaustive partition
+
+**STATUS: web-only, refines #201.** Two small changes to the per-section contrast tables:
+
+- **Token-path pair labels (owner request).** The per-section tables now lead with the raw `fg on bg`
+  token path (mono, e.g. `text.primary on foreground.primary`) with the human description as a faint
+  subtitle — the component context is obvious next to the controls, so the path is the useful primary.
+  `contractTableEl(contracts, paths?)` gained the flag; the Preview **master** table keeps its
+  descriptive `component · variant — label` (verification-of-record).
+- **Exhaustive partition (review nit on #201).** Replaced the two hard-coded component lists with one
+  `SURFACE_CONTRACT_COMPONENTS` set + an Interactive catch-all, so the surfaces/interactive split covers
+  every contract **by construction** — a component added to the preview spec later can't silently vanish
+  from the local tables; it lands on Interactive automatically.
+
+**Verification:** `tsc` + esbuild clean; drive-through unchanged (Surfaces 7 + Interactive 25 = 32 =
+master; Motion none; no console errors); screenshot of the token-path table reviewed. No engine files
+touched. Progress entry rides in this PR.
+
+---
+
+## (2026-07-20) — Dashboard Phase 4a: per-section contrast tables (`docs/23` §3)
 
 **STATUS: web-only, additive.** The "local proof" half of the hybrid contrast model: each colour page
 now carries a scoped **Contrast on this page** table — the same authoritative contracts the Preview

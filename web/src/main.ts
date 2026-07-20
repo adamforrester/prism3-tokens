@@ -602,18 +602,30 @@ const renderChip = (label: string, bind: Record<string, string>, mode: Mode): HT
   return chip;
 };
 
-/** The all-modes contrast table (Pair · a mode column each · dot + ratio). Shared by the Preview
- *  master table and the per-page section tables (docs/23 §3) — one authoritative renderer, re-sliced
- *  by the caller's contract list. */
-const contractTableEl = (contracts: typeof rp.contracts): HTMLElement => {
+/** The all-modes contrast table (Pair · a mode column each · dot + ratio). Shared by the Preview master
+ *  table and the per-page section tables (docs/23 §3) — one authoritative renderer, re-sliced by the
+ *  caller's contract list. `paths` shows the raw `fg on bg` token paths (the section tables, which sit
+ *  next to their controls where the component context is already obvious) with the human label as a
+ *  subtitle; the master table keeps the descriptive `component · variant — label`. */
+const pairCellEl = (ct: typeof rp.contracts[number], paths: boolean): HTMLElement => {
+  const td = el('td', 'pair');
+  if (paths) {
+    td.append(el('span', 'pair-path mono', `${ct.fg.replace(/^color\./, '')} on ${ct.bg.replace(/^color\./, '')}`));
+    if (ct.label) td.append(el('span', 'pair-sub', ct.label));
+  } else {
+    td.textContent = `${ct.component} · ${ct.variant} — ${ct.label ?? `${ct.min}:1`}`;
+  }
+  return td;
+};
+const contractTableEl = (contracts: typeof rp.contracts, paths = false): HTMLElement => {
   const table = el('table', 'ctable');
   const thead = el('tr');
-  thead.append(el('th', undefined, 'Pair'));
+  thead.append(el('th', undefined, paths ? 'Foreground on background' : 'Pair'));
   for (const m of rp.modes) thead.append(el('th', 'mcol', MODE_LABEL[m] ?? m));
   table.append(thead);
   for (const ct of contracts) {
     const tr = el('tr');
-    tr.append(el('td', 'pair', `${ct.component} · ${ct.variant} — ${ct.label ?? `${ct.min}:1`}`));
+    tr.append(pairCellEl(ct, paths));
     for (const m of rp.modes) {
       const cell = el('td', 'mcol');
       const r = ct.byMode[m];
@@ -1229,22 +1241,21 @@ const renderAdvancedPanel = (host: HTMLElement, key: PageKey, extras?: (ap: HTML
 
 // Per-page contrast table (docs/23 §3) — a re-slice of the same authoritative contracts the Preview
 // master table shows, scoped to the components this page governs. "Local proof" without leaving the
-// page; the full system table stays on Preview. Only colour pages govern contrast pairs.
-const PAGE_CONTRACTS: Partial<Record<PageKey, string[]>> = {
-  surfaces: ['typography', 'card'],
-  interactive: ['button', 'button-secondary', 'input', 'nav-item', 'badge', 'alert'],
-};
+// page; the full system table stays on Preview. Only the two colour pages govern contrast pairs, and
+// the split is EXHAUSTIVE BY CONSTRUCTION: Surfaces owns the text-on-surface components; Interactive is
+// the catch-all for everything else. So a component added to the preview spec later can never silently
+// vanish from the local tables — it lands on Interactive automatically. (Review nit on #201.)
+const SURFACE_CONTRACT_COMPONENTS = new Set(['typography', 'card']);
 const renderSectionContrast = (key: PageKey): HTMLElement | null => {
-  const comps = PAGE_CONTRACTS[key];
-  if (!comps) return null;
-  const cts = rp.contracts.filter((ct) => comps.includes(ct.component));
+  if (key !== 'surfaces' && key !== 'interactive') return null;
+  const cts = rp.contracts.filter((ct) => SURFACE_CONTRACT_COMPONENTS.has(ct.component) === (key === 'surfaces'));
   if (!cts.length) return null;
   const det = el('details', 'contracts') as HTMLDetailsElement;
   const sum = el('summary', 'contracts-sum');
   sum.append(el('span', 'contracts-t', 'Contrast on this page'), el('span', 'contracts-hint', `${cts.length} pairs · all modes · the full system table lives in Preview`));
   det.append(sum);
   det.append(el('p', 'np-note', 'The a11y pairs this page governs, computed on the resolved colors across every mode — the per-control badges above verify the active mode at the point of edit.'));
-  det.append(contractTableEl(cts));
+  det.append(contractTableEl(cts, true));   // token paths — the component context is obvious next to the controls
   return det;
 };
 
@@ -2957,6 +2968,8 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .ctable th,.ctable td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line)}
 .ctable .mcol{text-align:center}
 .pair{color:var(--ink2)}
+.pair-path{display:block;color:var(--ink2)}
+.pair-sub{display:block;font-size:11px;color:var(--faint);margin-top:1px}
 .dot{display:inline-block;width:8px;height:8px;border-radius:999px;margin-right:5px;vertical-align:middle}
 .dot.ok{background:#1a9c52}.dot.no{background:#d23}
 .ratio{font-variant-numeric:tabular-nums;color:var(--muted)}
