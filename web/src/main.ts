@@ -84,27 +84,41 @@ const LIVE_CONTROLS = new Set(['slider', 'enum', 'palette-ref', 'toggle']);
 const MODE_LABEL: Record<string, string> = { light: 'Light', dark: 'Dark', 'hc-light': 'HC light', 'hc-dark': 'HC dark', wireframe: 'Wireframe' };
 
 // ---- stages ----------------------------------------------------------------
-const STAGES = [
-  { key: 'primitives', title: 'Brand primitives', sub: 'Hues & neutrals → ramps' },
-  { key: 'semantic', title: 'Semantic colors', sub: 'Roles, action palette, states' },
-  { key: 'type', title: 'Typography', sub: 'Families, weights → type scale' },
-  { key: 'form', title: 'Form factor', sub: 'Density, radius, elevation' },
-  // The overall UI preview is its own destination now (docs/23 §7) — the sample components +
-  // contrast contracts, resolved through every mode, instead of duplicated on each editing stage.
-  { key: 'preview', title: 'Preview', sub: 'Components & contrast, all modes' },
+// The rail is data (docs/23 §7): a flat list of focused destinations, each one page. A page's facets
+// are sections within it, not separate rail rows. `view:true` marks a non-authoring destination
+// (Preview) — it sits after a divider with no ordinal. Order is the sequence a theme composes in:
+// primitives → how they're applied (surfaces / interactive) → type → form (elevation/size/layout/motion)
+// → look at the whole (Preview).
+const NAV = [
+  { key: 'palettes', label: 'Palettes', sub: 'Brand hues & neutrals → ramps' },
+  { key: 'surfaces', label: 'Surfaces / fills', sub: 'Backgrounds, text & ink, gradients' },
+  { key: 'interactive', label: 'Interactive', sub: 'Action colors, states, a11y' },
+  { key: 'typography', label: 'Typography', sub: 'Families, weights → type scale' },
+  { key: 'elevation', label: 'Elevation', sub: 'Shadows' },
+  { key: 'sizeRadius', label: 'Size & radius', sub: 'Size, density, corner radius' },
+  { key: 'layout', label: 'Layout', sub: 'Breakpoints & containers' },
+  { key: 'motion', label: 'Motion', sub: 'Tempo & easing' },
+  { key: 'preview', label: 'Preview', sub: 'Components & contrast, all modes', view: true },
 ] as const;
-type StageKey = (typeof STAGES)[number]['key'];
-let stage: StageKey = 'primitives';
+type PageKey = (typeof NAV)[number]['key'];
+let page: PageKey = 'palettes';
 
-// Which lever keys belong to which stage (the manifest groups everything under a few
-// axes; the stages slice it by intent). Stage 1's color primitives get a bespoke UI,
-// so they're excluded from the generic knob render here.
+// Which page a lever belongs to. The manifest groups levers under a few axes; the focused pages slice
+// finer. Palette colour primitives get a bespoke UI, so they're excluded from the generic knob render.
+// Status hues are edited inline on Palettes ramps (they're advanced + colour-control, so they filter
+// out of every generic panel anyway). The `color` + `advanced` groups split by key across pages.
 const PRIMITIVE_KEYS = new Set(['primary', 'neutral.hue', 'neutral.chroma', 'neutral.anchor', 'brandColors']);
-const stageOfLever = (l: Lever): StageKey => {
-  if (l.group === 'type') return 'type';
-  if (l.group === 'form' || l.group === 'elevation' || l.group === 'layout' || l.group === 'motion') return 'form';
-  return 'semantic'; // remaining color levers: action palette, status, disabled, icon, gradients
+const pageOfLever = (l: Lever): PageKey => {
+  if (l.group === 'type') return 'typography';
+  if (l.group === 'motion') return 'motion';
+  if (l.group === 'elevation') return 'elevation';
+  if (l.group === 'layout') return 'layout';
+  if (l.group === 'form') return 'sizeRadius';   // radiusScale, density, + advanced grid/space dims
+  if (l.key === 'gradients' || l.key === 'surfaces') return 'surfaces';
+  return 'interactive';   // remaining colour/advanced: action palette, interactive treatment, disabled, icon, inverse, neutralEmphasis, interactivePalettes
 };
+const leversFor = (key: PageKey): Lever[] => leverManifest.filter((l) => !l.advanced && !PRIMITIVE_KEYS.has(l.key) && pageOfLever(l) === key);
+const leverByKey = (k: string): Lever | undefined => leverManifest.find((l) => l.key === k);
 
 // ---- engine read-model -----------------------------------------------------
 let theme: Theme = brandTheme(brandState);
@@ -437,7 +451,7 @@ const renderPrimitives = (host: HTMLElement): void => {
 };
 
 // ===========================================================================
-// STAGES 2–4 — lever groups + live preview (generic)
+// Generic lever controls + the bespoke editors the focused pages compose from
 // ===========================================================================
 
 const renderControl = (lever: Lever): HTMLElement => {
@@ -660,11 +674,15 @@ const paintPreview = (host: HTMLElement): void => {
   host.append(contracts);
 };
 
-const HERO_COPY: Record<StageKey, [string, string]> = {
-  primitives: ['', ''],
-  semantic: ['Map roles onto your primitives.', 'Every semantic role aliases a primitive step, resolved per mode. Point actions at the palette that reads best, tune the interactive treatment (hover, inverse, neutral emphasis), and set the accessibility policy — icon contrast + the disabled strategy. (Status hues are edited per-ramp on Primitives.)'],
-  type: ['Set the type system.', 'Families, weights, and the type scale that shifts the semantic→primitive size mapping. The rem ladder is brand-invariant; the scale is the dial.'],
-  form: ['Dial in the form factor.', 'Density, corner radius, and elevation — the geometry that makes the same colors feel like a different product.'],
+const PAGE_COPY: Record<PageKey, [string, string]> = {
+  palettes: ['', ''],   // Palettes has its own hero in renderPrimitives
+  surfaces: ['Surfaces & fills.', 'The page backgrounds every role sits on, the text/ink derived to stay readable on them, and an optional brand gradient. Text is contrast-placed — override to a specific neutral step and the badge tells you whether it still clears. (Status hues are edited per-ramp on Palettes.)'],
+  interactive: ['Interactive color & states.', 'Point actions at the palette that reads best, tune the interactive treatment (hover, inverse, neutral emphasis), and set the accessibility policy — icon contrast + the disabled strategy.'],
+  typography: ['Set the type system.', 'Families, weights, and the type scale that shifts the semantic→primitive size mapping. The rem ladder is brand-invariant; the scale is the dial.'],
+  elevation: ['Elevation.', 'The shadow ramp — blur/offset softness and an optional brand-hued tint on the shadow base. Dark modes get a reduced set automatically.'],
+  sizeRadius: ['Size & radius.', 'Component sizing (control height + paired padding, driven by density) and corner radius. Both go per-mode outside Light.'],
+  layout: ['Layout.', 'Breakpoints, grid columns, and container widths — the responsive frame the system lays out within.'],
+  motion: ['Motion.', 'Tempo (the duration ramp) and the emphasized easing curve. Reduce-motion is derived.'],
   preview: ['Preview your system.', 'Every sample component and the full contrast-contract table, resolved through each mode. Switch modes above to preview them — this is the one place the whole system renders together.'],
 };
 
@@ -758,10 +776,11 @@ const borrowedStatusRow = (role: StatusRole): HTMLElement => {
 // than one flat panel. `disabledMin` nests under `disabledStrategy` — it only bites when the
 // strategy is 'accessible'. A trailing catch-all renders any ungrouped semantic lever so a
 // future addition can't be silently dropped.
-const SEMANTIC_GROUPS: Array<{ title: string; keys: string[] }> = [
+// The Interactive page groups its controls into intent sub-sections. (Gradients — formerly a "Features"
+// group here — now lives on the Surfaces page; page surfaces + text/ink are bespoke editors there.)
+const INTERACTIVE_GROUPS: Array<{ title: string; keys: string[] }> = [
   { title: 'Interactive color', keys: ['actionPalette', 'neutralEmphasis', 'outlineInteraction', 'inverse'] },
   { title: 'Accessibility policy', keys: ['iconContrast', 'disabledStrategy', 'disabledMin'] },
-  { title: 'Features', keys: ['gradients'] },
 ];
 const NESTED_KEYS = new Set(['disabledMin']);
 const subHead = (title: string): HTMLElement => { const s = el('div', 'sub-lab'); s.append(el('h3', 'sub-t', title)); return s; };
@@ -924,7 +943,7 @@ const renderInteractiveCards = (host: HTMLElement): void => {
   if (!perMode) host.append(renderAddAccentRow());
 };
 
-const renderGroupedPanels = (host: HTMLElement, levers: Lever[]): void => {
+const renderGroupedPanels = (host: HTMLElement, levers: Lever[], groups: Array<{ title: string; keys: string[] }>): void => {
   const byKey = new Map(levers.map((l) => [l.key, l]));
   const placed = new Set<string>();
   const panelOf = (ls: Lever[]) => {
@@ -932,7 +951,7 @@ const renderGroupedPanels = (host: HTMLElement, levers: Lever[]): void => {
     for (const l of ls) { const c = renderControl(l); if (NESTED_KEYS.has(l.key)) c.classList.add('nested'); panel.append(c); placed.add(l.key); }
     return panel;
   };
-  for (const g of SEMANTIC_GROUPS) {
+  for (const g of groups) {
     const groupLevers = g.keys.map((k) => byKey.get(k)).filter((l): l is Lever => !!l);
     const isInteractive = g.title === 'Interactive color';
     if (!groupLevers.length && !isInteractive) continue;
@@ -1165,97 +1184,113 @@ const renderEasingEditor = (): HTMLElement => {
   return wrap;
 };
 
-const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
-  const [title, lede] = HERO_COPY[key];
+// ---- focused pages (docs/23 §7) -------------------------------------------
+// Each editing page composes through one scaffold: hero → sections (or a read-only note on a derived
+// mode) → the volatile contextual specimens for that axis. The heavy global preview lives on its own
+// Preview tab (3a); these are the tight, single-axis specimens that stay with their editor.
+
+/** The shared screen scaffold. `sections` builds the controls/editors; `specimens` returns the
+ *  contextual specimen nodes, repainted on every edit. A derived mode (HC / wireframe) is auto-derived
+ *  + read-only, so the controls are replaced by an explanatory note — the specimens still render it. */
+const renderScreen = (
+  host: HTMLElement, key: PageKey,
+  sections: (h: HTMLElement) => void,
+  specimens: () => HTMLElement[],
+): void => {
+  const [title, lede] = PAGE_COPY[key];
   host.append(hero(title, lede));
-  // The mode-context strip is now the persistent global-header tier (docs/23 §7), not per-stage —
-  // `currentMode` still drives this whole stage.
-  // A2a — a generated mode (HC / wireframe) is auto-derived + read-only: no editing controls, just
-  // an explanatory note + the verification view (specimens + preview below, rendered in this mode).
-  if (DERIVED_MODES.has(currentMode)) {
-    host.append(renderGeneratedNote());
-  } else {
-  const levers = leverManifest.filter((l) => !l.advanced && !PRIMITIVE_KEYS.has(l.key) && stageOfLever(l) === key);
-  if (key === 'semantic') {
-    renderGroupedPanels(host, levers);          // sub-sectioned (Interactive color / Accessibility / Features)
-  } else if (key === 'type') {
-    // typeScale stays a plain control; the font pool + weight-role map ARE the typography editor
-    // (#103 A1 — families finally editable). The per-category assignment table is A2.
-    const scale = levers.find((l) => l.key === 'typography.typeScale');
-    if (scale) {
-      const p = el('div', 'panel');
-      if (currentMode !== 'light') {                          // D — type scale is shared; read-only outside Light
-        const cur = getPath(brandState, scale.key) ?? scale.default;
-        p.append(knob(scale.label, el('div', 'te-shared-ro', `${cur} · shared across modes — edit in Light`), scale.description));
-      } else p.append(renderControl(scale));
-      host.append(p);
-    }
-    host.append(renderTypographyEditor());
-  } else if (key === 'form') {
-    // Geometry + motion in the top panel; shadow.softness is pulled out so every shadow control
-    // (softness + tint) lives together under the Shadow group below. Outside the base mode, the radius
-    // and motion-tempo levers go per-mode (D — modeLevers[mode].radius / .tempo) instead of the global.
-    const panel = el('div', 'panel');
-    const perModeGeo = currentMode !== 'light';
-    for (const l of levers) {
-      if (l.key === 'shadow.softness') continue;
-      if (l.key === 'radiusScale' && perModeGeo) { panel.append(renderPerModeRadius(l)); continue; }
-      if (l.key === 'motionPersonality.tempo' && perModeGeo) { panel.append(renderPerModeTempo(l)); continue; }
-      if (l.key === 'density' && perModeGeo) { panel.append(renderPerModeDensity(l)); continue; }
-      panel.append(renderControl(l));
-    }
-    host.append(panel);
-  } else if (levers.length) {
-    const panel = el('div', 'panel');
-    for (const l of levers) panel.append(renderControl(l));
-    host.append(panel);
-  }
-  // #97 — bespoke editors for the object levers renderControl can only show read-only:
-  // page surfaces on the color stage; the Shadow group (softness + tint) on the form stage.
-  if (key === 'semantic') { host.append(renderSurfacesEditor()); host.append(renderForegroundEditor()); }
-  if (key === 'form') host.append(renderShadowEditor(levers.find((l) => l.key === 'shadow.softness')));
-  // Progressive disclosure: the manifest's `advanced` levers are dropped from the lean default panels
-  // above (L#107). The scalar/enum ones (baseMd/spaceBase/baseUnit, display ceiling/title floor, grid
-  // columns + containers) have no bespoke editor, so they'd be unreachable in the UI — surface them in a
-  // collapsed "Advanced" panel via renderControl. Object/list advanced levers keep their bespoke editors.
-  const advLevers = leverManifest.filter((l) => l.advanced && (l.control === 'slider' || l.control === 'enum') && !PRIMITIVE_KEYS.has(l.key) && stageOfLever(l) === key);
-  // The object/list advanced levers renderControl can only show read-only get bespoke editors, nested in
-  // the same disclosure: responsive type (type stage), breakpoints + emphasized easing (form stage).
-  const hasBespokeAdv = key === 'type' || key === 'form';
-  if (advLevers.length || hasBespokeAdv) {
-    const det = el('details', 'adv') as HTMLDetailsElement;
-    det.append(el('summary', 'adv-sum', 'Advanced'));
-    const ap = el('div', 'panel adv-panel');
-    for (const l of advLevers) ap.append(renderControl(l));
-    if (key === 'type') ap.append(renderResponsiveEditor());
-    if (key === 'form') { ap.append(renderBreakpointsEditor()); ap.append(renderEasingEditor()); }
-    det.append(ap);
-    host.append(det);
-  }
-  }
-  // Validation-color editing (status hue + roleColors borrow) now lives INLINE on each status
-  // ramp (primitives stage) via statusRampControl — no standalone semantic-stage section.
-  // Contextual specimens for this stage's axis — the tight, single-axis feedback that stays with the
-  // editor (docs/23 §7): color (semantic), type (type), geometry (form). The global component preview +
-  // contrast contracts moved to the dedicated Preview tab, so it's no longer duplicated on each stage.
-  // The region is volatile so an edit repaints it live.
+  if (DERIVED_MODES.has(currentMode)) host.append(renderGeneratedNote());
+  else sections(host);
   const vol = el('div', 'stage-vol');
   host.append(vol);
-  paintVolatile = () => {
-    vol.innerHTML = '';
-    if (key === 'type') vol.append(renderTypeSpecimen());
-    if (key === 'form') { vol.append(renderRadiusSpecimen()); vol.append(renderSizeSpecimen()); vol.append(renderShadowSpecimen()); vol.append(renderMotionSpecimen()); vol.append(renderLayoutSpecimen()); }
-    if (key === 'semantic') { vol.append(renderNeutralSpecimen()); vol.append(renderInverseSpecimen()); vol.append(renderIconSpecimen()); vol.append(renderGradientSpecimen()); }
-  };
+  paintVolatile = () => { vol.innerHTML = ''; for (const s of specimens()) vol.append(s); };
   paintVolatile();
 };
+const panelOfLevers = (levers: Lever[]): HTMLElement => { const p = el('div', 'panel'); for (const l of levers) p.append(renderControl(l)); return p; };
+/** A page's scalar `advanced` levers (+ optional bespoke advanced editors) in a collapsed disclosure. */
+const renderAdvancedPanel = (host: HTMLElement, key: PageKey, extras?: (ap: HTMLElement) => void): void => {
+  const adv = leverManifest.filter((l) => l.advanced && (l.control === 'slider' || l.control === 'enum') && !PRIMITIVE_KEYS.has(l.key) && pageOfLever(l) === key);
+  if (!adv.length && !extras) return;
+  const det = el('details', 'adv') as HTMLDetailsElement;
+  det.append(el('summary', 'adv-sum', 'Advanced'));
+  const ap = el('div', 'panel adv-panel');
+  for (const l of adv) ap.append(renderControl(l));
+  if (extras) extras(ap);
+  det.append(ap);
+  host.append(det);
+};
+
+// Surfaces / fills — backgrounds, derived text/ink, an optional gradient.
+const renderSurfacesPage = (host: HTMLElement): void => renderScreen(host, 'surfaces', (h) => {
+  h.append(renderSurfacesEditor());   // self-heads "Backgrounds"
+  h.append(renderForegroundEditor()); // self-heads "Text & ink"
+  const grad = leverByKey('gradients');
+  if (grad) { h.append(subHead('Gradients')); h.append(panelOfLevers([grad])); }
+}, () => [renderGradientSpecimen()]);
+
+// Interactive — action palette, interactive treatment, and the accessibility policy.
+const renderInteractivePage = (host: HTMLElement): void => renderScreen(host, 'interactive', (h) => {
+  renderGroupedPanels(h, leversFor('interactive'), INTERACTIVE_GROUPS);
+}, () => [renderNeutralSpecimen(), renderInverseSpecimen(), renderIconSpecimen()]);
+
+// Typography — type scale (shared, read-only outside Light) + the family/weight/leading editor.
+const renderTypographyPage = (host: HTMLElement): void => renderScreen(host, 'typography', (h) => {
+  const scale = leverByKey('typography.typeScale');
+  if (scale) {
+    const p = el('div', 'panel');
+    if (currentMode !== 'light') {                          // D — type scale is shared; read-only outside Light
+      const cur = getPath(brandState, scale.key) ?? scale.default;
+      p.append(knob(scale.label, el('div', 'te-shared-ro', `${cur} · shared across modes — edit in Light`), scale.description));
+    } else p.append(renderControl(scale));
+    h.append(p);
+  }
+  h.append(renderTypographyEditor());
+  renderAdvancedPanel(h, 'typography', (ap) => ap.append(renderResponsiveEditor()));
+}, () => [renderTypeSpecimen()]);
+
+// Elevation — the shadow ramp (softness + tint live together in the bespoke editor).
+const renderElevationPage = (host: HTMLElement): void => renderScreen(host, 'elevation', (h) => {
+  h.append(renderShadowEditor(leverByKey('shadow.softness')));
+}, () => [renderShadowSpecimen()]);
+
+// Size & radius — component sizing (density) + corner radius; both go per-mode outside Light.
+const renderSizeRadiusPage = (host: HTMLElement): void => renderScreen(host, 'sizeRadius', (h) => {
+  const perMode = currentMode !== 'light';
+  const panel = el('div', 'panel');
+  for (const l of leversFor('sizeRadius')) {
+    if (l.key === 'radiusScale' && perMode) { panel.append(renderPerModeRadius(l)); continue; }
+    if (l.key === 'density' && perMode) { panel.append(renderPerModeDensity(l)); continue; }
+    panel.append(renderControl(l));
+  }
+  h.append(panel);
+  renderAdvancedPanel(h, 'sizeRadius');
+}, () => [renderRadiusSpecimen(), renderSizeSpecimen()]);
+
+// Layout — on a dedicated page the breakpoints editor + container/column sliders are primary content.
+const renderLayoutPage = (host: HTMLElement): void => renderScreen(host, 'layout', (h) => {
+  h.append(renderBreakpointsEditor());
+  const sliders = leverManifest.filter((l) => l.group === 'layout' && l.control === 'slider');
+  if (sliders.length) h.append(panelOfLevers(sliders));
+}, () => [renderLayoutSpecimen()]);
+
+// Motion — tempo (per-mode outside Light) + the emphasized easing curve (advanced).
+const renderMotionPage = (host: HTMLElement): void => renderScreen(host, 'motion', (h) => {
+  const perMode = currentMode !== 'light';
+  const panel = el('div', 'panel');
+  for (const l of leversFor('motion')) {
+    if (l.key === 'motionPersonality.tempo' && perMode) { panel.append(renderPerModeTempo(l)); continue; }
+    panel.append(renderControl(l));
+  }
+  h.append(panel);
+  renderAdvancedPanel(h, 'motion', (ap) => ap.append(renderEasingEditor()));
+}, () => [renderMotionSpecimen()]);
 
 /** The Preview destination (docs/23 §7) — the overall UI preview + contrast contracts, resolved
  *  through the mode picked in the global header. Owns the component gallery that used to be duplicated
  *  on every editing stage. (Segmented UI / contrast / token-list sub-views + a per-section contrast
  *  table land in a follow-up; this is the extraction.) */
 const renderPreviewPage = (host: HTMLElement): void => {
-  const [title, lede] = HERO_COPY.preview;
+  const [title, lede] = PAGE_COPY.preview;
   host.append(hero(title, lede));
   const vol = el('div', 'stage-vol');
   host.append(vol);
@@ -1505,7 +1540,7 @@ const SURFACE_MODES: Array<['light' | 'dark', string, 'white' | 'black']> = [
  *  base = white / black / a tinted neutral step; floorStep is auto (engine-derived) unless pinned. */
 const renderSurfacesEditor = (): HTMLElement => {
   const wrap = el('div', 'obj-editor');
-  wrap.append(subHead('Page surfaces'));
+  wrap.append(subHead('Backgrounds'));
   wrap.append(el('p', 'obj-lede', 'The primary surface each mode paints on — white/black or a tinted neutral step. The contrast floor follows it.'));
   const panel = el('div', 'panel');
   const opt = (sel: HTMLSelectElement, v: string, t: string, on: boolean): void => { sel.append(optionEl(v, t, on)); };
@@ -1539,7 +1574,7 @@ const renderSurfacesEditor = (): HTMLElement => {
 const FG_ROLES: [string, string][] = [['text.primary', 'Primary text'], ['text.secondary', 'Secondary text'], ['text.tertiary', 'Tertiary text']];
 const renderForegroundEditor = (): HTMLElement => {
   const wrap = el('div', 'obj-editor');
-  wrap.append(subHead('Foreground / text'));
+  wrap.append(subHead('Text & ink'));
   wrap.append(el('p', 'obj-lede', `The neutral ink ladder for ${MODE_LABEL[currentMode] ?? currentMode} — “Auto” follows the generated, contrast-placed default; pick a neutral step to override just this mode (a pick below the text floor is warned, not blocked).`));
   const nPal = theme.roleToPalette.neutral;
   const nSteps = (theme.palettes.find((p) => p.palette === nPal)?.steps ?? []).map((s) => s.key);
@@ -2053,11 +2088,20 @@ function renderModeStrip(): void {
   if (!firstRun) modeStripHost.append(renderModeContext());
 }
 
+const PAGE_RENDERERS: Record<PageKey, (host: HTMLElement) => void> = {
+  palettes: renderPrimitives,
+  surfaces: renderSurfacesPage,
+  interactive: renderInteractivePage,
+  typography: renderTypographyPage,
+  elevation: renderElevationPage,
+  sizeRadius: renderSizeRadiusPage,
+  layout: renderLayoutPage,
+  motion: renderMotionPage,
+  preview: renderPreviewPage,
+};
 function renderWorkspace(): void {
   workspace.innerHTML = '';
-  if (stage === 'primitives') renderPrimitives(workspace);
-  else if (stage === 'preview') renderPreviewPage(workspace);
-  else renderLeverStage(workspace, stage);
+  PAGE_RENDERERS[page](workspace);
 }
 
 // ---- brand setup — selector menu: name + namespace, switch / new / import --------
@@ -2074,7 +2118,7 @@ let outsideBound = false;
 const loadBrand = (input: BrandInput): void => {
   brandState = structuredClone(input);
   brandMenuOpen = false; importOpen = false; importErr = null; importText = ''; importPending = null;
-  stage = 'primitives';
+  page = 'palettes';
   rebuild();
   currentMode = rp.modes[0];
   build();
@@ -2431,18 +2475,18 @@ const build = (): void => {
 
   const shell = el('div', 'shell');
   const rail = el('nav', 'rail');
-  STAGES.forEach((s, i) => {
-    // Preview is a destination, not a build step — it sits after a divider with no ordinal (docs/23 §7).
-    if (s.key === 'preview') rail.append(el('div', 'rail-div'));
-    const it = el('button', 'stage' + (s.key === stage ? ' active' : '') + (s.key === 'preview' ? ' stage-view' : '')) as HTMLButtonElement;
-    it.append(s.key === 'preview' ? el('span', 'stage-n-gap') : el('span', 'stage-n mono', String(i + 1)));
+  // Rail-as-data (docs/23 §7): a flat list of focused destinations, no ordinals — top-to-bottom order
+  // carries the compose sequence. A `view` destination (Preview) sits after a divider.
+  NAV.forEach((s) => {
+    if ('view' in s && s.view) rail.append(el('div', 'rail-div'));
+    const it = el('button', 'stage' + (s.key === page ? ' active' : '') + ('view' in s && s.view ? ' stage-view' : '')) as HTMLButtonElement;
     const t = el('span', 'stage-t');
-    t.append(el('b', undefined, s.title), el('small', undefined, s.sub));
+    t.append(el('b', undefined, s.label), el('small', undefined, s.sub));
     it.append(t);
-    it.onclick = () => { if (stage !== s.key) { stage = s.key; build(); } };
+    it.onclick = () => { if (page !== s.key) { page = s.key; build(); } };
     rail.append(it);
   });
-  rail.append(el('p', 'rail-note', 'A theme builds in order — primitives, the semantic roles that alias them, type, then form. Preview renders the whole system.'));
+  rail.append(el('p', 'rail-note', 'Ordered the way a theme composes — palettes first, then how they’re applied to surfaces and interaction, then type and form. Preview renders the whole system.'));
   shell.append(rail);
 
   workspace = el('section', 'ws');
@@ -2538,12 +2582,9 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .shell{display:grid;grid-template-columns:210px minmax(0,1fr);gap:60px;align-items:start;margin-top:20px}
 .rail{position:sticky;top:130px;display:flex;flex-direction:column;gap:4px}
 .rail-div{height:1px;background:var(--line);margin:10px 10px}
-.stage-n-gap{width:24px;flex:none}
-.stage{display:flex;align-items:center;gap:13px;text-align:left;border:1px solid transparent;background:none;font:inherit;padding:12px;border-radius:var(--r-sm);cursor:pointer;color:var(--ink2)}
+.stage{display:flex;align-items:center;gap:13px;text-align:left;border:1px solid transparent;background:none;font:inherit;padding:11px 12px;border-radius:var(--r-sm);cursor:pointer;color:var(--ink2)}
 .stage:hover{background:var(--panel)}
 .stage.active{background:var(--panel);border-color:var(--line2)}
-.stage-n{width:24px;height:24px;flex:none;display:grid;place-items:center;border-radius:var(--r-xs);background:var(--paper);border:1px solid var(--line2);font-size:12px;color:var(--muted)}
-.stage.active .stage-n{background:var(--ink);color:#fff;border-color:var(--ink)}
 .stage-t{display:flex;flex-direction:column;line-height:1.3;gap:2px}
 .stage-t b{font-weight:600;font-size:13.5px}
 .stage.active .stage-t b{color:var(--ink)}
