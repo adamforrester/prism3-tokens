@@ -7,7 +7,28 @@
 
 ---
 
-## Latest (2026-07-20) — Dashboard Phase 3b: focused pages + rail-as-data (`docs/23` §7)
+## Latest (2026-07-20) — Dashboard Phase 4a: per-section contrast tables (`docs/23` §3)
+
+**STATUS: web-only, additive.** The "local proof" half of the hybrid contrast model: each colour page
+now carries a scoped **Contrast on this page** table — the same authoritative contracts the Preview
+master table shows, re-sliced to the components that page governs.
+
+- Extracted `contractTableEl(contracts)` (the Pair · per-mode dot+ratio table) from `paintPreview`; the
+  Preview master table now calls it too — one renderer, two callers.
+- `PAGE_CONTRACTS` maps colour pages → their components (`surfaces`: typography + card; `interactive`:
+  button / button-secondary / input / nav-item / badge / alert); `renderSectionContrast(page)` re-slices
+  `rp.contracts` and renders a collapsed disclosure in the page's volatile region (repaints on edit).
+- Only the two colour pages govern contrast pairs, so only they get a table; non-colour pages get none.
+
+**Verification:** `tsc` + esbuild clean. Playwright drive-through: Surfaces shows **7 pairs**, Interactive
+**25 pairs**, and **7 + 25 = 32 = the Preview master table** exactly — every contract on precisely one
+page's scoped table, none orphaned; Motion (non-colour) has none; no console errors. Screenshot of the
+Surfaces table reviewed (card + typography pairs, all four modes, green). No engine files touched.
+Progress entry rides in this PR. **Next (4b):** Preview segmented sub-views (UI / contrast / token list).
+
+---
+
+## (2026-07-20) — Dashboard Phase 3b: focused pages + rail-as-data (`docs/23` §7)
 
 **STATUS: web-only, visible reorg (part 2 — completes the Phase 3 IA split).** Splits the two catch-all
 editing stages into **focused, single-concern pages** and makes the rail **data-driven**.
