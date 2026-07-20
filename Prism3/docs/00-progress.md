@@ -7,7 +7,36 @@
 
 ---
 
-## Latest (2026-07-20) — Dashboard Phase 3a: global header + Preview tab (`docs/23` §7)
+## Latest (2026-07-20) — Dashboard Phase 3b: focused pages + rail-as-data (`docs/23` §7)
+
+**STATUS: web-only, visible reorg (part 2 — completes the Phase 3 IA split).** Splits the two catch-all
+editing stages into **focused, single-concern pages** and makes the rail **data-driven**.
+
+- **Rail-as-data.** `STAGES`/`stageOfLever` → a `NAV` config + `pageOfLever`. The rail renders from
+  `NAV` (nine destinations), **no ordinals** (top-to-bottom order carries the compose sequence), a
+  divider before the `view` destination (Preview).
+- **Focused pages.** The old *Semantic* → **Surfaces / fills** (backgrounds · text & ink · gradients)
+  + **Interactive** (action colour · states · a11y). The old *Form* → **Elevation** · **Size & radius**
+  (size · density · radius) · **Layout** (breakpoints + containers, promoted from Advanced on a
+  dedicated page) · **Motion**. *Palettes* (was primitives), *Typography*, *Preview* carry over. Each
+  page's facets are **sections within it**, not rail rows.
+- **Screen scaffold.** One `renderScreen(host, key, sections, specimens)` all editing pages compose
+  through (hero → sections, or the read-only note on a derived mode → the volatile contextual specimens);
+  `renderAdvancedPanel` factors the per-page Advanced disclosure. `pageOfLever` routes every lever to a
+  page (status hues stay inline on Palettes; the `color`/`advanced` groups split by key). The double
+  section headings on Surfaces were resolved (the bespoke editors self-head "Backgrounds" / "Text & ink").
+
+**Verification:** `tsc` + esbuild clean. A Playwright drive-through walked **all nine pages** (example
+brand, 1360×1050): rail shows the nine focused labels with one divider before Preview and **no numbers**;
+every page renders its hero + controls/editors + contextual specimens (asserted knob/editor/specimen
+counts per page — nothing orphaned); a header mode switch on Interactive re-renders in Dark; **no console
+errors**. No engine files touched. Screenshots reviewed for Surfaces / Interactive / Size & radius. This
+completes the `docs/23` §7 IA; Preview's segmented sub-views + per-section contrast tables are the next
+follow-up. Progress entry rides in this PR.
+
+---
+
+## (2026-07-20) — Dashboard Phase 3a: global header + Preview tab (`docs/23` §7)
 
 **STATUS: web-only, visible reorg (part 1 of the Phase 3 split).** Delivers the headline of the reorg —
 the overall UI preview moves to **its own destination**, and the mode selector becomes a **persistent
