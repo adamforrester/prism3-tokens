@@ -151,6 +151,29 @@ const el = (tag: string, cls?: string, text?: string): HTMLElement => {
   return n;
 };
 const chunk = <T>(a: T[], n: number): T[][] => { const o: T[][] = []; for (let i = 0; i < a.length; i += n) o.push(a.slice(i, i + n)); return o; };
+
+// ---- control kit — the reusable vocabulary every knob + select is built from ----------------------
+// Small structural primitives shared by renderControl and the bespoke editors, so a control (or a whole
+// screen in the IA reorg) composes from these rather than re-deriving the `knob` scaffold and the
+// `<option>` boilerplate each time. Purely structural — they produce exactly the nodes the hand-rolled
+// versions did; behaviour and styling are unchanged.
+/** An `<option>` with value/text and optional pre-selection — replaces the per-site opt/optE/mkOpt closures. */
+const optionEl = (value: string, text: string, selected = false): HTMLOptionElement => {
+  const o = document.createElement('option');
+  o.value = value; o.textContent = text; if (selected) o.selected = true;
+  return o;
+};
+/** The `div.knob-body` row — a control input paired with its `knob-val` readout (slider / toggle). */
+const knobBody = (...kids: Node[]): HTMLElement => { const r = el('div', 'knob-body'); r.append(...kids); return r; };
+/** The knob scaffold: `label.knob-label`, the control body (one node or several), then `p.knob-desc`.
+ *  Every control — generic or bespoke — shares this shape. */
+const knob = (label: string, body: Node | Node[], desc: string): HTMLElement => {
+  const wrap = el('div', 'knob');
+  wrap.append(el('label', 'knob-label', label));
+  wrap.append(...(Array.isArray(body) ? body : [body]));
+  wrap.append(el('p', 'knob-desc', desc));
+  return wrap;
+};
 // Resolved-value lookups are for PRESENCE checks only (does this role resolve in this
 // mode? — decides whether a chip paints a border, etc.). The VALUE a chip renders never
 // comes from here: it's a `var(--…)` reference the active write host (write-adapter.ts,
@@ -414,11 +437,9 @@ const renderPrimitives = (host: HTMLElement): void => {
 
 const renderControl = (lever: Lever): HTMLElement => {
   const live = LIVE_CONTROLS.has(lever.control);
-  const wrap = el('div', 'knob');
-  wrap.append(el('label', 'knob-label', lever.label));
+  let body: HTMLElement;
 
   if (lever.control === 'slider') {
-    const row = el('div', 'knob-body');
     const input = el('input') as HTMLInputElement;
     input.type = 'range';
     if (lever.min !== undefined) input.min = String(lever.min);
@@ -428,45 +449,41 @@ const renderControl = (lever: Lever): HTMLElement => {
     input.disabled = !live;
     const val = el('span', 'knob-val', `${input.value}${lever.unit ?? ''}`);
     if (live) input.oninput = () => { setPath(brandState, lever.key, Number(input.value)); val.textContent = `${input.value}${lever.unit ?? ''}`; apply(); };
-    row.append(input, val);
-    wrap.append(row);
+    body = knobBody(input, val);
   } else if (lever.control === 'palette-ref' && live) {
     const sel = el('select') as HTMLSelectElement;
     const palettes = ['primary', ...(brandState.brandColors ?? []).map((b) => b.name)];
     const cur = String(getPath(brandState, lever.key) ?? lever.default ?? 'primary');
-    for (const p of palettes) { const opt = el('option') as HTMLOptionElement; opt.value = p; opt.textContent = p; if (p === cur) opt.selected = true; sel.append(opt); }
+    for (const p of palettes) sel.append(optionEl(p, p, p === cur));
     sel.onchange = () => { setPath(brandState, lever.key, sel.value); apply(); };
-    wrap.append(sel);
+    body = sel;
   } else if (lever.control === 'enum') {
     const sel = el('select') as HTMLSelectElement;
     const cur = getPath(brandState, lever.key) ?? lever.default;
-    for (const o of lever.options ?? []) { const opt = el('option') as HTMLOptionElement; opt.value = String(o.value); opt.textContent = o.label; if (o.value === cur) opt.selected = true; sel.append(opt); }
+    for (const o of lever.options ?? []) sel.append(optionEl(String(o.value), o.label, o.value === cur));
     sel.disabled = !live;
     if (live) sel.onchange = () => { setPath(brandState, lever.key, sel.value); apply(); };
-    wrap.append(sel);
+    body = sel;
   } else if (lever.control === 'toggle') {
     // Boolean axis. `checked` reads truthy — so `gradients` renders "on" whether it's `true`
     // or an explicit gradient array (the array is only reset if the user toggles off). Toggling
     // writes a plain boolean: on → the default (single gradient / inverse inks), off → false.
-    const row = el('div', 'knob-body');
     const input = el('input') as HTMLInputElement;
     input.type = 'checkbox';
     input.className = 'toggle';
     input.checked = !!(getPath(brandState, lever.key) ?? lever.default);
     const val = el('span', 'knob-val', input.checked ? 'On' : 'Off');
     input.onchange = () => { setPath(brandState, lever.key, input.checked); val.textContent = input.checked ? 'On' : 'Off'; apply(); };
-    row.append(input, val);
-    wrap.append(row);
+    body = knobBody(input, val);
   } else {
     const v = getPath(brandState, lever.key) ?? lever.default;
     let text: string;
     if (Array.isArray(v)) text = v.map((it: any) => it?.name).filter(Boolean).join(', ') || `${v.length} item(s)`;
     else if (v && typeof v === 'object') text = 'configured';
     else text = String(v ?? lever.itemLabel ?? '—');
-    wrap.append(el('div', 'knob-val ro', text));
+    body = el('div', 'knob-val ro', text);
   }
-  wrap.append(el('p', 'knob-desc', lever.description));
-  return wrap;
+  return knob(lever.label, body, lever.description);
 };
 
 // ---- per-mode modeLevers read/write (single source for every per-mode editor) ---------------------
@@ -513,19 +530,15 @@ const setModeLever = (mode: string, path: string, value: unknown): void => {
  *  global. A hand-authored value that matches no discrete option is surfaced as its own "(custom)" option
  *  rather than silently reading as Auto. `parse` maps the selected string to the stored value. */
 const renderPerModeSelect = (lever: Lever, key: string, opts: [string, string][], globalOf: () => string, parse: (s: string) => unknown, autoNote: string): HTMLElement => {
-  const wrap = el('div', 'knob');
-  wrap.append(el('label', 'knob-label', lever.label));
   const cur = getModeLever(currentMode, key);
   const sel = el('select', 'obj-sel') as HTMLSelectElement;
-  const optE = (v: string, t: string, on: boolean) => { const o = el('option') as HTMLOptionElement; o.value = v; o.textContent = t; if (on) o.selected = true; sel.append(o); };
-  optE('', `Auto — follows global (${globalOf()})`, cur == null);
+  sel.append(optionEl('', `Auto — follows global (${globalOf()})`, cur == null));
   let matched = false;
-  for (const [v, label] of opts) { const on = String(cur) === v; matched ||= on; optE(v, label, on); }
-  if (cur != null && !matched) optE(String(cur), `${cur} (custom)`, true);
+  for (const [v, label] of opts) { const on = String(cur) === v; matched ||= on; sel.append(optionEl(v, label, on)); }
+  if (cur != null && !matched) sel.append(optionEl(String(cur), `${cur} (custom)`, true));
   sel.onchange = () => { setModeLever(currentMode, key, sel.value === '' ? undefined : parse(sel.value)); applyFull(); };
-  wrap.append(sel);
-  wrap.append(el('p', 'knob-desc', `${lever.description} — per ${MODE_LABEL[currentMode] ?? currentMode}; “Auto” follows the global ${autoNote}.`));
-  return wrap;
+  const desc = `${lever.description} — per ${MODE_LABEL[currentMode] ?? currentMode}; “Auto” follows the global ${autoNote}.`;
+  return knob(lever.label, sel, desc);
 };
 const RADIUS_SCALE_OPTS: [string, string][] = [['0', '0 · sharp'], ['0.5', '0.5'], ['1', '1 · default'], ['1.5', '1.5'], ['2', '2 · soft']];
 const TEMPO_OPTS: [string, string][] = [['snappy', 'Snappy'], ['standard', 'Standard'], ['relaxed', 'Relaxed']];
@@ -685,7 +698,7 @@ const statusRampControl = (role: StatusRole): HTMLElement => {
   const borrowSources = ['primary', ...(brandState.brandColors ?? []).map((b) => b.name)];
 
   const sel = el('select', 'ramp-ctl-sel') as HTMLSelectElement;
-  const mkOpt = (v: string, label: string, on: boolean) => { const o = el('option') as HTMLOptionElement; o.value = v; o.textContent = label; if (on) o.selected = true; sel.append(o); };
+  const mkOpt = (v: string, label: string, on: boolean) => sel.append(optionEl(v, label, on));
   mkOpt('auto', 'Auto', !borrowed && !custom);
   mkOpt('custom', 'Custom hue…', custom);
   for (const p of borrowSources) mkOpt('borrow:' + p, `Use ${p}`, borrowed === p);
@@ -791,7 +804,7 @@ const renderInteractiveCard = (col: ICol): HTMLElement | null => {
   mid.append(el('h4', 'ic-h', 'Surface — rest'));
   const sel = el('select', 'ic-step') as HTMLSelectElement;
   const pinned = col.stepValue;
-  const opt = (v: string, label: string, on: boolean) => { const o = el('option') as HTMLOptionElement; o.value = v; o.textContent = label; if (on) o.selected = true; sel.append(o); };
+  const opt = (v: string, label: string, on: boolean) => sel.append(optionEl(v, label, on));
   opt('auto', `Auto · ${palName} ${stepKeyOf(rest.path)}`, pinned == null);
   for (const k of palSteps) opt(k, `${palName} ${k}`, pinned != null && pinned === Number(k));
   sel.onchange = () => col.setStep(sel.value === 'auto' ? undefined : Number(sel.value));
@@ -848,7 +861,7 @@ const renderAddAccentRow = (): HTMLElement => {
     return row;
   }
   const sel = el('select', 'ic-step') as HTMLSelectElement;
-  for (const p of promotable) { const o = el('option') as HTMLOptionElement; o.value = p; o.textContent = p; sel.append(o); }
+  for (const p of promotable) sel.append(optionEl(p, p));
   const btn = el('button', 'addbtn ic-addbtn', '+ Add interactive color') as HTMLButtonElement;
   btn.onclick = () => {
     const arr = brandState.interactivePalettes ?? (brandState.interactivePalettes = []);
@@ -1000,7 +1013,7 @@ const renderModeSetMenu = (): HTMLElement => {
     nameIn.type = 'text'; nameIn.placeholder = 'name — e.g. marketing-dark'; nameIn.value = addModeName; nameIn.spellcheck = false;
     nameIn.oninput = () => { addModeName = nameIn.value; };
     const baseSel = el('select', 'obj-sel') as HTMLSelectElement;
-    for (const b of ['light', ...(darkOn ? ['dark'] : [])]) { const o = el('option') as HTMLOptionElement; o.value = b; o.textContent = `base: ${b}`; baseSel.append(o); }
+    for (const b of ['light', ...(darkOn ? ['dark'] : [])]) baseSel.append(optionEl(b, `base: ${b}`));
     const err = el('p', 'mctx-adderr');
     const doAdd = () => {
       const nm = addModeName.trim();
@@ -1166,9 +1179,7 @@ const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
       const p = el('div', 'panel');
       if (currentMode !== 'light') {                          // D — type scale is shared; read-only outside Light
         const cur = getPath(brandState, scale.key) ?? scale.default;
-        const k = el('div', 'knob');
-        k.append(el('label', 'knob-label', scale.label), el('div', 'te-shared-ro', `${cur} · shared across modes — edit in Light`), el('p', 'knob-desc', scale.description));
-        p.append(k);
+        p.append(knob(scale.label, el('div', 'te-shared-ro', `${cur} · shared across modes — edit in Light`), scale.description));
       } else p.append(renderControl(scale));
       host.append(p);
     }
@@ -1408,7 +1419,7 @@ const renderTypographyEditor = (): HTMLElement => {
     const tr = el('tr');
     tr.append(el('td', 'te-cat-name mono', g));
     const fsel = el('select', 'te-fam') as HTMLSelectElement;
-    for (const fr of ['display', 'text', 'mono']) { const o = el('option') as HTMLOptionElement; o.value = fr; o.textContent = fr; if (fr === catFamily[g]) o.selected = true; fsel.append(o); }
+    for (const fr of ['display', 'text', 'mono']) fsel.append(optionEl(fr, fr, fr === catFamily[g]));
     fsel.onchange = () => { setPath(brandState, `typography.familyMap.${g}`, fsel.value); apply(); refreshWarnings(); };
     fsel.disabled = perMode;   // shared skeleton — edit in Light
     const ftd = el('td'); ftd.append(fsel); tr.append(ftd);
@@ -1476,7 +1487,7 @@ const renderSurfacesEditor = (): HTMLElement => {
   wrap.append(subHead('Page surfaces'));
   wrap.append(el('p', 'obj-lede', 'The primary surface each mode paints on — white/black or a tinted neutral step. The contrast floor follows it.'));
   const panel = el('div', 'panel');
-  const opt = (sel: HTMLSelectElement, v: string, t: string, on: boolean): void => { const o = el('option') as HTMLOptionElement; o.value = v; o.textContent = t; if (on) o.selected = true; sel.append(o); };
+  const opt = (sel: HTMLSelectElement, v: string, t: string, on: boolean): void => { sel.append(optionEl(v, t, on)); };
   for (const [mode, label, dflt] of SURFACE_MODES) {
     const cur = brandState.surfaces?.[mode];
     const knob = el('div', 'knob');
@@ -1521,7 +1532,7 @@ const renderForegroundEditor = (): HTMLElement => {
     const sw = el('span', 'fg-sw'); sw.style.background = r.hex;
     const sel = el('select', 'obj-sel') as HTMLSelectElement;
     const cur = brandState.overrides?.[currentMode]?.[role]?.step;
-    const optE = (v: string, t: string, on: boolean) => { const o = el('option') as HTMLOptionElement; o.value = v; o.textContent = t; if (on) o.selected = true; sel.append(o); };
+    const optE = (v: string, t: string, on: boolean) => sel.append(optionEl(v, t, on));
     optE('', 'Auto', cur == null);
     for (const s of nSteps) optE(s, `Neutral ${s}`, cur === s);
     sel.onchange = () => {
