@@ -7,7 +7,31 @@
 
 ---
 
-## Latest (2026-07-20) — Dashboard IA + component-system plan (`docs/23`, direction)
+## Latest (2026-07-20) — Dashboard control kit (foundation refactor, `docs/23` Phase 2)
+
+**STATUS: web-only refactor, DOM-identical.** First foundation stone of the `docs/23` reorg: a small
+reusable **control kit** in `web/src/main.ts`, so a control (or a whole screen in the IA split) composes
+from shared primitives instead of re-deriving the same DOM. Three primitives:
+
+- `knob(label, body, desc)` — the `div.knob` scaffold (`label.knob-label` · body · `p.knob-desc`) every
+  control shares. `renderControl`, `renderPerModeSelect`, and the read-only type-scale knob now build on it.
+- `knobBody(...kids)` — the `div.knob-body` input+readout row (slider / toggle).
+- `optionEl(value, text, selected)` — one `<option>` builder replacing the ~9 near-identical local
+  `opt`/`optE`/`mkOpt` closures + inline loops (renderControl, per-mode select, interactive card, status
+  ramp, surfaces, foreground, add-accent, mode-set base select, typography family select).
+
+Deliberately **minimal** — no rail-as-data or screen-scaffold generalisation yet; those get real callers
+only when the IA actually splits (Phase 3), so building them now would be abstraction ahead of use
+(root `CLAUDE.md` §3 surgical / §2 no speculative abstraction). This ships the vocabulary Phase 3 clones.
+
+**Verification:** `tsc --noEmit` + esbuild build clean; a Playwright DOM-snapshot harness rendered the
+example brand across **all 4 stages × every mode (13 snapshots)** on `origin/main` vs. this branch and
+found them **byte-identical** — the refactor changes nothing visible or behavioural. Bundle shrank ~840 B
+(duplication removed). No engine files touched; `out/*` untouched. Progress entry rides in this PR.
+
+---
+
+## (2026-07-20) — Dashboard IA + component-system plan (`docs/23`, direction)
 
 **STATUS: docs-only.** Captures a design-session decision to reorganise the web dashboard
 (`web/src`) from four broad stages into **focused, single-concern sections** with the overall UI
