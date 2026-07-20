@@ -602,6 +602,30 @@ const renderChip = (label: string, bind: Record<string, string>, mode: Mode): HT
   return chip;
 };
 
+/** The all-modes contrast table (Pair · a mode column each · dot + ratio). Shared by the Preview
+ *  master table and the per-page section tables (docs/23 §3) — one authoritative renderer, re-sliced
+ *  by the caller's contract list. */
+const contractTableEl = (contracts: typeof rp.contracts): HTMLElement => {
+  const table = el('table', 'ctable');
+  const thead = el('tr');
+  thead.append(el('th', undefined, 'Pair'));
+  for (const m of rp.modes) thead.append(el('th', 'mcol', MODE_LABEL[m] ?? m));
+  table.append(thead);
+  for (const ct of contracts) {
+    const tr = el('tr');
+    tr.append(el('td', 'pair', `${ct.component} · ${ct.variant} — ${ct.label ?? `${ct.min}:1`}`));
+    for (const m of rp.modes) {
+      const cell = el('td', 'mcol');
+      const r = ct.byMode[m];
+      if (r) { cell.append(el('span', `dot ${r.pass ? 'ok' : 'no'}`), el('span', 'ratio', r.ratio.toFixed(2))); }
+      else cell.textContent = '—';
+      tr.append(cell);
+    }
+    table.append(tr);
+  }
+  return table;
+};
+
 const paintPreview = (host: HTMLElement): void => {
   host.innerHTML = '';
   if (lastError) host.append(el('div', 'errbar', `This combination doesn't resolve: ${lastError} — showing the last valid theme.`));
@@ -653,24 +677,7 @@ const paintPreview = (host: HTMLElement): void => {
   sum.append(el('span', 'contracts-t', 'Contrast contracts'), el('span', 'contracts-hint', `full a11y table · all modes · ${rp.contracts.length} pairs`));
   contracts.append(sum);
   contracts.append(el('p', 'np-note', 'Every declared a11y pair, computed on the resolved colors across all modes — the per-component badges above verify the active mode at the point of edit.'));
-  const table = el('table', 'ctable');
-  const thead = el('tr');
-  thead.append(el('th', undefined, 'Pair'));
-  for (const m of rp.modes) thead.append(el('th', 'mcol', MODE_LABEL[m] ?? m));
-  table.append(thead);
-  for (const ct of rp.contracts) {
-    const tr = el('tr');
-    tr.append(el('td', 'pair', `${ct.component} · ${ct.variant} — ${ct.label ?? `${ct.min}:1`}`));
-    for (const m of rp.modes) {
-      const cell = el('td', 'mcol');
-      const r = ct.byMode[m];
-      if (r) { cell.append(el('span', `dot ${r.pass ? 'ok' : 'no'}`), el('span', 'ratio', r.ratio.toFixed(2))); }
-      else cell.textContent = '—';
-      tr.append(cell);
-    }
-    table.append(tr);
-  }
-  contracts.append(table);
+  contracts.append(contractTableEl(rp.contracts));
   host.append(contracts);
 };
 
@@ -1195,7 +1202,7 @@ const renderEasingEditor = (): HTMLElement => {
 const renderScreen = (
   host: HTMLElement, key: PageKey,
   sections: (h: HTMLElement) => void,
-  specimens: () => HTMLElement[],
+  specimens: () => Array<HTMLElement | null>,
 ): void => {
   const [title, lede] = PAGE_COPY[key];
   host.append(hero(title, lede));
@@ -1203,7 +1210,7 @@ const renderScreen = (
   else sections(host);
   const vol = el('div', 'stage-vol');
   host.append(vol);
-  paintVolatile = () => { vol.innerHTML = ''; for (const s of specimens()) vol.append(s); };
+  paintVolatile = () => { vol.innerHTML = ''; for (const s of specimens()) if (s) vol.append(s); };
   paintVolatile();
 };
 const panelOfLevers = (levers: Lever[]): HTMLElement => { const p = el('div', 'panel'); for (const l of levers) p.append(renderControl(l)); return p; };
@@ -1220,18 +1227,39 @@ const renderAdvancedPanel = (host: HTMLElement, key: PageKey, extras?: (ap: HTML
   host.append(det);
 };
 
+// Per-page contrast table (docs/23 §3) — a re-slice of the same authoritative contracts the Preview
+// master table shows, scoped to the components this page governs. "Local proof" without leaving the
+// page; the full system table stays on Preview. Only colour pages govern contrast pairs.
+const PAGE_CONTRACTS: Partial<Record<PageKey, string[]>> = {
+  surfaces: ['typography', 'card'],
+  interactive: ['button', 'button-secondary', 'input', 'nav-item', 'badge', 'alert'],
+};
+const renderSectionContrast = (key: PageKey): HTMLElement | null => {
+  const comps = PAGE_CONTRACTS[key];
+  if (!comps) return null;
+  const cts = rp.contracts.filter((ct) => comps.includes(ct.component));
+  if (!cts.length) return null;
+  const det = el('details', 'contracts') as HTMLDetailsElement;
+  const sum = el('summary', 'contracts-sum');
+  sum.append(el('span', 'contracts-t', 'Contrast on this page'), el('span', 'contracts-hint', `${cts.length} pairs · all modes · the full system table lives in Preview`));
+  det.append(sum);
+  det.append(el('p', 'np-note', 'The a11y pairs this page governs, computed on the resolved colors across every mode — the per-control badges above verify the active mode at the point of edit.'));
+  det.append(contractTableEl(cts));
+  return det;
+};
+
 // Surfaces / fills — backgrounds, derived text/ink, an optional gradient.
 const renderSurfacesPage = (host: HTMLElement): void => renderScreen(host, 'surfaces', (h) => {
   h.append(renderSurfacesEditor());   // self-heads "Backgrounds"
   h.append(renderForegroundEditor()); // self-heads "Text & ink"
   const grad = leverByKey('gradients');
   if (grad) { h.append(subHead('Gradients')); h.append(panelOfLevers([grad])); }
-}, () => [renderGradientSpecimen()]);
+}, () => [renderGradientSpecimen(), renderSectionContrast('surfaces')]);
 
 // Interactive — action palette, interactive treatment, and the accessibility policy.
 const renderInteractivePage = (host: HTMLElement): void => renderScreen(host, 'interactive', (h) => {
   renderGroupedPanels(h, leversFor('interactive'), INTERACTIVE_GROUPS);
-}, () => [renderNeutralSpecimen(), renderInverseSpecimen(), renderIconSpecimen()]);
+}, () => [renderNeutralSpecimen(), renderInverseSpecimen(), renderIconSpecimen(), renderSectionContrast('interactive')]);
 
 // Typography — type scale (shared, read-only outside Light) + the family/weight/leading editor.
 const renderTypographyPage = (host: HTMLElement): void => renderScreen(host, 'typography', (h) => {
