@@ -7,7 +7,36 @@
 
 ---
 
-## Latest (2026-07-19) — Phase D code-review fixes (engine correctness + UI)
+## Latest (2026-07-20) — Dashboard IA + component-system plan (`docs/23`, direction)
+
+**STATUS: docs-only.** Captures a design-session decision to reorganise the web dashboard
+(`web/src`) from four broad stages into **focused, single-concern sections** with the overall UI
+preview promoted to **its own Preview tab** (today `paintPreview` is duplicated on Semantic /
+Typography / Form). New doc `23-dashboard-ia-and-component-system.md` pins:
+
+- **The target IA** — grouped rail: Palettes · Surfaces (Backgrounds / Foregrounds / Text / Gradients)
+  · Interactive (colours / Disabled / Focus) · Typography · Elevation · Size & radius (Size / Density /
+  Radius / Border-width slot) · Layout · Motion · Preview (UI gallery / all-modes contrast table /
+  token list) · Output (Figma: Style guides / Components — deferred, own discovery).
+- **Two control patterns** — free-colour screens vs **derived/contrast screens** (Text/ink, Focus):
+  Text ink is neutral-ramp-derived with a per-mode **neutral-step override** (never an arbitrary hex),
+  kept + flagged when below ratio; Focus is derived from the action palette (independent focus lever =
+  net-new, not in scope); border-width has no lever (documented slot only).
+- **Facts pinned** — density scales the component-size tier only (→ lives under Size, not Layout);
+  contrast anchors (`text.primary`→`background.primary` 7:1, secondary/tertiary→floor surface); the
+  engine already **re-derives on every edit and preserves+flags overrides** (behaviour to surface, not
+  build); per-section contrast tables are a near-free re-slice of already-authoritative data.
+- **Build underneath** — introduce an internal **component system** (screen scaffold + control kit +
+  rail-as-data) so the reorg is declarative config, and eventually self-theme the dashboard from Prism3
+  tokens (light/dark toggle). Sequencing: this note → foundation refactor (byte-identical) → IA split +
+  Preview tab → per-section contrast tables → self-theming (later).
+
+Process note: the `#189/#192/#194` progress entries were backfilled by `#191/#193/#195`; **go-forward,
+the `00-progress.md` entry rides in the feature PR** (this entry included) rather than a follow-up round-trip.
+
+---
+
+## (2026-07-19) — Phase D code-review fixes (engine correctness + UI)
 
 **STATUS: MERGED** (#194). Fixes from two independent code reviews of the per-mode override arc.
 
