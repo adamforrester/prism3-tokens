@@ -87,7 +87,8 @@ the whole (Preview) → ship it (Output).
 - **Output (Style guides, Components) is a separate group, not inline** with the
   editors, and is **deferred** to its own discovery. Everything above Preview is
   "author the theme"; Preview is "look at it"; Output is "generate/ship it" — keeping
-  that boundary keeps the mental model clean. Both are Figma-only generation surfaces.
+  that boundary keeps the mental model clean. Both are Figma-only surfaces, and Style
+  guides in particular is an *active canvas write* (§7), not a passive view.
 - **No floating "quick-access preview" CTA.** With an ever-present Preview tab in
   the rail it is redundant.
 
@@ -190,9 +191,69 @@ not the scalability win — and both are explicitly wanted. The foundation lands
 ## 6. Deferred / open
 
 - **Output group (Style guides, Components)** — real, new surface area; its own
-  discovery + plan, not part of this reorg.
+  discovery + plan, not part of this reorg. Channel-gated (Figma-only) and an active
+  canvas write — see §7 for the settled framing.
 - **Focus as an editable lever** and **border-width lever** — documented slots; ship
   only if a concrete need appears.
-- **Mode-context strip placement** — with a dedicated Preview tab (not a pinned
-  pane), the mode selector stays with the preview, where modes are meaningful. If a
-  future pinned-preview experiment happens, revisit.
+- **Rail overflow for many modes** and the **rail accordion** — both deferred; the
+  intended solutions are recorded in §7 so Phase 3 lays out for them without building
+  them.
+- **Section-complete indicator** — deferred; needs a real save/done model (§7).
+
+(The mode-context strip placement, listed open in the first draft, is now settled — a
+persistent global-header strip; see §7.)
+
+## 7. Phase 3 interaction model (decided 2026-07-20)
+
+Settled in a design session; supersedes the first-draft hints in §2/§6. Phase 3 builds
+to this.
+
+**Rail — flat, re-grouped, no collapsing.**
+- The left rail stays a flat clickable list (as today), re-grouped to the §2 groups —
+  ~9 items: Palettes · Surfaces/fills · Interactive · Typography · Elevation ·
+  Size & radius · Layout · Motion · Preview (Output added later).
+- Each rail item is **one focused page**. A page's facets are plain **sections within
+  the page** (in-page headers), *not* separate rail rows. Long pages (realistically
+  Surfaces, maybe Palettes) may get **anchor links** at the top to jump between
+  sections.
+- **No accordion / collapse** — start simple. The old long-scroll problem is solved by
+  splitting the two catch-all stages (Semantic, Form) across focused pages, so most
+  pages end up shorter than today. Revisit collapsing only if a page ever warrants it.
+
+**Global header (the "brand bar", promoted) — two tiers.**
+- **Tier 1 — identity + I/O:** brand mark · brand selector (switch / new / import) on
+  the left; quick **Export** (design.md / tokens.json) on the right.
+- **Tier 2 — context:** the persistent **mode selector** strip (mode chips with their
+  pass/fail marks + ⚙ Edit modes), always visible under tier 1.
+- Mode is a single global (`currentMode`) that **persists across navigation**; on a
+  page where mode doesn't apply the selector just sits inert.
+- Chips **exposed by default**. Overflow (many custom modes) → **active-pinned chips +
+  a `More ▾` menu** for the rest — never horizontal scroll (the active mode must always
+  be on screen). **Deferred:** build overflow only when a brand hits it; lay the strip
+  out so it can be added without rework.
+
+**Rail vs header — the rule.** *Canvas destination → rail* (authoring pages, **Preview**,
+future **Output**). *Quick action / menu that doesn't need the canvas → header* (brand
+switch, mode, **Export**). So **Preview is a rail leaf** (after a divider) with
+**segmented sub-views inside one screen** — UI preview / Contrast contracts / Token list
+— not three rail rows.
+
+**Numbering + completeness.** **No numbers** on rail items; top-to-bottom order carries
+the compose sequence (keep the rail footnote). A **"section complete" ✓ is deferred** —
+it needs a real save/done gesture to mean anything, and a false "done" is worse than
+none. The per-mode contrast ✓/✗ on the mode chips stays (an *accuracy* signal, distinct
+from *completeness*).
+
+**Output / Style guides — channel-gated, an active canvas write.** Output is
+**Figma-only** and **not passive**: the Style-guides surface **writes a real
+style-guide table onto the Figma canvas** with live variable values (an existing
+owner-built plugin, to be brought in and finished). Because it only makes sense in the
+Figma channel, Output is **split as channel-gated functionality** — present in the Figma
+plugin host, absent/hidden in the web host — so it's easy to turn on/off per surface.
+The web rail simply omits it; the rule (§ above) still places it in the rail *where it
+renders*.
+
+**Build note.** Phase 3 is where **rail-as-data** (the nav config the flat rail renders
+from) and the **screen scaffold** (title · sections · contextual specimens) land — now
+with real callers (every page), per the Phase 2 scoping decision that shipped the
+control kit first.

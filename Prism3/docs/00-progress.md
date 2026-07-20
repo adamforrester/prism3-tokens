@@ -7,7 +7,34 @@
 
 ---
 
-## Latest (2026-07-20) — Dashboard control kit (foundation refactor, `docs/23` Phase 2)
+## Latest (2026-07-20) — `docs/23` Phase 3 interaction model (addendum, decided)
+
+**STATUS: docs-only.** Adds §7 to `docs/23` recording the settled Phase 3 interaction model, so the
+build runs against a spec. Decisions:
+
+- **Rail** stays a flat clickable list, just re-grouped to the §2 groups (~9 items). Each item is one
+  focused page; a page's facets are **sections within the page**, not separate rail rows; long pages may
+  get anchor links. **No accordion/collapse** — the catch-all stages splitting across focused pages
+  already removes the long-scroll problem.
+- **Global header** (the "brand bar", promoted) is **two-tier**: identity + quick Export (tier 1), the
+  persistent **mode selector** (tier 2). `currentMode` is global and persists across navigation. Chips
+  exposed by default; overflow → active-pinned `More ▾` menu (never scroll), **deferred** until a brand
+  needs it.
+- **Rail vs header rule:** canvas destination → rail (authoring pages, **Preview**, future **Output**);
+  quick action/menu → header (brand, mode, **Export**). **Preview is a rail leaf** with **segmented
+  sub-views** (UI / contrast / tokens) in one screen.
+- **No numbering**; a section-complete ✓ is **deferred** (needs a real save/done model — a false "done"
+  is worse than none). Per-mode contrast ✓/✗ on mode chips stays (accuracy ≠ completeness).
+- **Output / Style guides** is Figma-only and an **active canvas write** — it draws a real style-guide
+  table onto the Figma canvas with live variable values (an existing owner-built plugin to be brought in
+  and finished). Split as **channel-gated** functionality (present in the plugin host, hidden in web).
+
+Phase 3 builds **rail-as-data** + the **screen scaffold** to this spec — now with real callers, per the
+Phase 2 decision that shipped the control kit first. Progress entry rides in this PR.
+
+---
+
+## (2026-07-20) — Dashboard control kit (foundation refactor, `docs/23` Phase 2)
 
 **STATUS: web-only refactor, DOM-identical.** First foundation stone of the `docs/23` reorg: a small
 reusable **control kit** in `web/src/main.ts`, so a control (or a whole screen in the IA split) composes
