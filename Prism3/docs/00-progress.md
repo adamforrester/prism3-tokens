@@ -7,7 +7,33 @@
 
 ---
 
-## Latest (2026-07-20) — `docs/23` Phase 3 interaction model (addendum, decided)
+## Latest (2026-07-20) — Dashboard Phase 3a: global header + Preview tab (`docs/23` §7)
+
+**STATUS: web-only, visible reorg (part 1 of the Phase 3 split).** Delivers the headline of the reorg —
+the overall UI preview moves to **its own destination**, and the mode selector becomes a **persistent
+global-header tier** — without yet re-partitioning the editing pages (that's 3b).
+
+- **Two-tier global header.** `build()` now wraps a sticky `.chrome`: tier 1 = the brand bar (identity +
+  Export); tier 2 = the mode-context strip, promoted out of the per-stage workspace (#171) into the header
+  via a new `modeStripHost` + `renderModeStrip()`. `currentMode` persists across navigation; the strip
+  shows on every page (inert where mode doesn't apply). `apply`/`applyFull` refresh it so its per-mode
+  contrast ✓/✗ marks track edits; the menu/mode handlers repaint the strip in place.
+- **Preview is its own tab.** New `renderPreviewPage` owns the component gallery + contrast contracts
+  (the `paintPreview` that used to be **duplicated at the bottom of Semantic / Typography / Form**). The
+  editing stages now render **only their contextual specimens** — the 3× duplication is gone. Preview sits
+  in the rail after a divider, with no ordinal (a destination, not a build step).
+- Deferred to follow-ups: Preview's segmented sub-views (UI / contrast / token list) + a per-section
+  contrast table; the focused-page split (3b) and rail-as-data.
+
+**Verification:** `tsc` + esbuild clean. A Playwright drive-through (example brand, 1360×1000) screenshotted
+every page + a header mode switch: two-tier header renders, rail shows the 4 numbered stages + un-numbered
+Preview after a divider, the Preview page shows the full gallery, **`.pvhost` count on an editing page = 0**
+(duplication removed), and switching to Dark in the header re-renders the page in dark. No console errors
+(favicon 404 only). No engine files touched. Progress entry rides in this PR.
+
+---
+
+## (2026-07-20) — `docs/23` Phase 3 interaction model (addendum, decided)
 
 **STATUS: docs-only.** Adds §7 to `docs/23` recording the settled Phase 3 interaction model, so the
 build runs against a spec. Decisions:

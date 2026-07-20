@@ -89,6 +89,9 @@ const STAGES = [
   { key: 'semantic', title: 'Semantic colors', sub: 'Roles, action palette, states' },
   { key: 'type', title: 'Typography', sub: 'Families, weights → type scale' },
   { key: 'form', title: 'Form factor', sub: 'Density, radius, elevation' },
+  // The overall UI preview is its own destination now (docs/23 §7) — the sample components +
+  // contrast contracts, resolved through every mode, instead of duplicated on each editing stage.
+  { key: 'preview', title: 'Preview', sub: 'Components & contrast, all modes' },
 ] as const;
 type StageKey = (typeof STAGES)[number]['key'];
 let stage: StageKey = 'primitives';
@@ -140,8 +143,10 @@ const rebuild = (): void => {
 // input focus is never lost; applyFull() re-renders the whole workspace (structural
 // edits — add/remove color, Derive⇄Pin, stage switch); build() re-renders the shell.
 let paintVolatile: () => void = () => {};
-const apply = (): void => { rebuild(); paintVolatile(); };
-const applyFull = (): void => { rebuild(); renderWorkspace(); };
+// renderModeStrip repaints the persistent header mode-selector (#171 promoted to the global header,
+// docs/23 §7) — its per-mode contrast ✓/✗ marks track the theme, so every edit refreshes it too.
+const apply = (): void => { rebuild(); renderModeStrip(); paintVolatile(); };
+const applyFull = (): void => { rebuild(); renderModeStrip(); renderWorkspace(); };
 
 // ---- DOM helpers -----------------------------------------------------------
 const el = (tag: string, cls?: string, text?: string): HTMLElement => {
@@ -660,6 +665,7 @@ const HERO_COPY: Record<StageKey, [string, string]> = {
   semantic: ['Map roles onto your primitives.', 'Every semantic role aliases a primitive step, resolved per mode. Point actions at the palette that reads best, tune the interactive treatment (hover, inverse, neutral emphasis), and set the accessibility policy — icon contrast + the disabled strategy. (Status hues are edited per-ramp on Primitives.)'],
   type: ['Set the type system.', 'Families, weights, and the type scale that shifts the semantic→primitive size mapping. The rem ladder is brand-invariant; the scale is the dial.'],
   form: ['Dial in the form factor.', 'Density, corner radius, and elevation — the geometry that makes the same colors feel like a different product.'],
+  preview: ['Preview your system.', 'Every sample component and the full contrast-contract table, resolved through each mode. Switch modes above to preview them — this is the one place the whole system renders together.'],
 };
 
 // Validation-color control (docs/21 + status.*). Lives INLINE on each status ramp (primitives
@@ -1005,7 +1011,7 @@ const renderModeSetMenu = (): HTMLElement => {
   if (!addModeOpen) {
     const add = el('button', 'mctx-opt') as HTMLButtonElement;
     add.append(el('span', 'mctx-box'), el('span', undefined, '+ Add mode…'));
-    add.onclick = () => { addModeOpen = true; renderWorkspace(); };
+    add.onclick = () => { addModeOpen = true; renderModeStrip(); };
     menu.append(add);
   } else {
     const form = el('div', 'mctx-addform');
@@ -1027,7 +1033,7 @@ const renderModeSetMenu = (): HTMLElement => {
     const addBtn = el('button', 'mctx-addbtn', 'Add mode') as HTMLButtonElement;
     addBtn.onclick = doAdd;
     const cancel = el('button', 'mctx-addcancel', 'Cancel') as HTMLButtonElement;
-    cancel.onclick = () => { addModeOpen = false; addModeName = ''; renderWorkspace(); };
+    cancel.onclick = () => { addModeOpen = false; addModeName = ''; renderModeStrip(); };
     const btns = el('div', 'mctx-addbtns'); btns.append(addBtn, cancel);
     form.append(nameIn, baseSel, err, btns);
     menu.append(form);
@@ -1048,21 +1054,21 @@ const renderModeContext = (): HTMLElement => {
     if (derived) b.append(el('span', 'mctx-auto', 'auto'));
     const ok = modeAllPass(m);
     b.append(el('span', 'mctx-mark ' + (ok ? 'ok' : 'no'), ok ? '✓' : '✗'));
-    b.onclick = () => { modeMenuOpen = false; if (currentMode !== m) { currentMode = m; renderWorkspace(); } };
+    b.onclick = () => { modeMenuOpen = false; if (currentMode !== m) { currentMode = m; renderModeStrip(); renderWorkspace(); } else { renderModeStrip(); } };
     left.append(b);
   }
   strip.append(left);
 
   const editWrap = el('div', 'mctx-edit-wrap');
   const edit = el('button', 'mctx-edit' + (modeMenuOpen ? ' open' : ''), '⚙ Edit modes') as HTMLButtonElement;
-  edit.onclick = (e) => { e.stopPropagation(); modeMenuOpen = !modeMenuOpen; if (!modeMenuOpen) { addModeOpen = false; addModeName = ''; } renderWorkspace(); };
+  edit.onclick = (e) => { e.stopPropagation(); modeMenuOpen = !modeMenuOpen; if (!modeMenuOpen) { addModeOpen = false; addModeName = ''; } renderModeStrip(); };
   editWrap.append(edit);
   if (modeMenuOpen) editWrap.append(renderModeSetMenu());
   strip.append(editWrap);
 
   if (!outsideBoundMode) {
     document.addEventListener('click', (e) => {
-      if (modeMenuOpen && !(e.target as HTMLElement).closest('.modectx')) { modeMenuOpen = false; addModeOpen = false; addModeName = ''; renderWorkspace(); }
+      if (modeMenuOpen && !(e.target as HTMLElement).closest('.modectx')) { modeMenuOpen = false; addModeOpen = false; addModeName = ''; renderModeStrip(); }
     });
     outsideBoundMode = true;
   }
@@ -1162,7 +1168,8 @@ const renderEasingEditor = (): HTMLElement => {
 const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
   const [title, lede] = HERO_COPY[key];
   host.append(hero(title, lede));
-  host.append(renderModeContext());   // #171 — one mode at a time; the whole stage follows it
+  // The mode-context strip is now the persistent global-header tier (docs/23 §7), not per-stage —
+  // `currentMode` still drives this whole stage.
   // A2a — a generated mode (HC / wireframe) is auto-derived + read-only: no editing controls, just
   // an explanatory note + the verification view (specimens + preview below, rendered in this mode).
   if (DERIVED_MODES.has(currentMode)) {
@@ -1228,10 +1235,10 @@ const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
   }
   // Validation-color editing (status hue + roleColors borrow) now lives INLINE on each status
   // ramp (primitives stage) via statusRampControl — no standalone semantic-stage section.
-  // Live preview on every lever stage — the same sample components reflect the axis
-  // being tuned: color (semantic), type (type), geometry (form). The type stage also
-  // gets a type-scale specimen (the small component chips can't show the scale). The
-  // whole region is volatile so an edit (incl. typeScale) repaints it live.
+  // Contextual specimens for this stage's axis — the tight, single-axis feedback that stays with the
+  // editor (docs/23 §7): color (semantic), type (type), geometry (form). The global component preview +
+  // contrast contracts moved to the dedicated Preview tab, so it's no longer duplicated on each stage.
+  // The region is volatile so an edit repaints it live.
   const vol = el('div', 'stage-vol');
   host.append(vol);
   paintVolatile = () => {
@@ -1239,7 +1246,21 @@ const renderLeverStage = (host: HTMLElement, key: StageKey): void => {
     if (key === 'type') vol.append(renderTypeSpecimen());
     if (key === 'form') { vol.append(renderRadiusSpecimen()); vol.append(renderSizeSpecimen()); vol.append(renderShadowSpecimen()); vol.append(renderMotionSpecimen()); vol.append(renderLayoutSpecimen()); }
     if (key === 'semantic') { vol.append(renderNeutralSpecimen()); vol.append(renderInverseSpecimen()); vol.append(renderIconSpecimen()); vol.append(renderGradientSpecimen()); }
-    vol.append(sectionHead('Live preview', 'The sample components + contrast overlay, resolved through every mode — they reflect this stage’s axis live.'));
+  };
+  paintVolatile();
+};
+
+/** The Preview destination (docs/23 §7) — the overall UI preview + contrast contracts, resolved
+ *  through the mode picked in the global header. Owns the component gallery that used to be duplicated
+ *  on every editing stage. (Segmented UI / contrast / token-list sub-views + a per-section contrast
+ *  table land in a follow-up; this is the extraction.) */
+const renderPreviewPage = (host: HTMLElement): void => {
+  const [title, lede] = HERO_COPY.preview;
+  host.append(hero(title, lede));
+  const vol = el('div', 'stage-vol');
+  host.append(vol);
+  paintVolatile = () => {
+    vol.innerHTML = '';
     const pv = el('div', 'pvhost');
     vol.append(pv);
     paintPreview(pv);
@@ -2021,10 +2042,21 @@ const sectionHead = (title: string, desc: string): HTMLElement => {
 // ---- shell -----------------------------------------------------------------
 const app = document.getElementById('app')!;
 let workspace: HTMLElement;
+let modeStripHost: HTMLElement;   // tier 2 of the global header — the persistent mode selector (docs/23 §7)
+
+/** Repaint the persistent mode-selector strip in the global header. Called on mode change, on menu
+ *  toggles, and by apply/applyFull (the per-mode contrast marks track the theme). No-op before the
+ *  first build (the start screen has no header). */
+function renderModeStrip(): void {
+  if (!modeStripHost) return;
+  modeStripHost.innerHTML = '';
+  if (!firstRun) modeStripHost.append(renderModeContext());
+}
 
 function renderWorkspace(): void {
   workspace.innerHTML = '';
   if (stage === 'primitives') renderPrimitives(workspace);
+  else if (stage === 'preview') renderPreviewPage(workspace);
   else renderLeverStage(workspace, stage);
 }
 
@@ -2386,22 +2418,31 @@ const renderStartScreen = (): HTMLElement => {
 const build = (): void => {
   app.innerHTML = '';
   if (firstRun) { app.append(renderStartScreen()); return; }   // first run: the start moment stands in for the app
-  barHost = el('header', 'bar');
-  app.append(barHost);
+  // Two-tier global header (docs/23 §7): tier 1 = brand identity + Export (the "brand bar"); tier 2 =
+  // the persistent mode selector. Both sticky together so the mode context never scrolls away.
+  const chrome = el('header', 'chrome');
+  barHost = el('div', 'bar');
+  chrome.append(barHost);
+  modeStripHost = el('div', 'modebar');
+  chrome.append(modeStripHost);
+  app.append(chrome);
   renderBar();
+  renderModeStrip();
 
   const shell = el('div', 'shell');
   const rail = el('nav', 'rail');
   STAGES.forEach((s, i) => {
-    const it = el('button', 'stage' + (s.key === stage ? ' active' : '')) as HTMLButtonElement;
-    it.append(el('span', 'stage-n mono', String(i + 1)));
+    // Preview is a destination, not a build step — it sits after a divider with no ordinal (docs/23 §7).
+    if (s.key === 'preview') rail.append(el('div', 'rail-div'));
+    const it = el('button', 'stage' + (s.key === stage ? ' active' : '') + (s.key === 'preview' ? ' stage-view' : '')) as HTMLButtonElement;
+    it.append(s.key === 'preview' ? el('span', 'stage-n-gap') : el('span', 'stage-n mono', String(i + 1)));
     const t = el('span', 'stage-t');
     t.append(el('b', undefined, s.title), el('small', undefined, s.sub));
     it.append(t);
     it.onclick = () => { if (stage !== s.key) { stage = s.key; build(); } };
     rail.append(it);
   });
-  rail.append(el('p', 'rail-note', 'A theme builds in order — primitives first, then the semantic roles that alias them, then type, then form.'));
+  rail.append(el('p', 'rail-note', 'A theme builds in order — primitives, the semantic roles that alias them, type, then form. Preview renders the whole system.'));
   shell.append(rail);
 
   workspace = el('section', 'ws');
@@ -2450,7 +2491,9 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .start-chip:hover{border-color:var(--ink)}
 .start-chip .dot{width:12px;height:12px;border-radius:50%;flex:none}
 
-.bar{display:flex;align-items:center;justify-content:space-between;padding:26px 2px 24px;position:sticky;top:0;background:linear-gradient(var(--paper),var(--paper) 68%,transparent);z-index:20}
+.chrome{position:sticky;top:0;z-index:20;background:var(--paper)}
+.bar{display:flex;align-items:center;justify-content:space-between;padding:26px 2px 12px}
+.modebar{padding:0 2px 14px}
 .brandmark{display:flex;align-items:center;gap:11px}
 .logo{width:18px;height:18px;border-radius:var(--r-xs);background:conic-gradient(from 210deg,#5e4bc3,#0088be,#2f6833,#a13731,#5e4bc3)}
 .wordmark{font-weight:640;letter-spacing:-0.02em;font-size:16px}
@@ -2493,7 +2536,9 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .start-imp-err{margin:9px 0 0;font-size:12px;color:#a12;line-height:1.5}
 
 .shell{display:grid;grid-template-columns:210px minmax(0,1fr);gap:60px;align-items:start;margin-top:20px}
-.rail{position:sticky;top:96px;display:flex;flex-direction:column;gap:4px}
+.rail{position:sticky;top:130px;display:flex;flex-direction:column;gap:4px}
+.rail-div{height:1px;background:var(--line);margin:10px 10px}
+.stage-n-gap{width:24px;flex:none}
 .stage{display:flex;align-items:center;gap:13px;text-align:left;border:1px solid transparent;background:none;font:inherit;padding:12px;border-radius:var(--r-sm);cursor:pointer;color:var(--ink2)}
 .stage:hover{background:var(--panel)}
 .stage.active{background:var(--panel);border-color:var(--line2)}
@@ -2727,7 +2772,7 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .ic-lab{font-size:11px;color:var(--faint)}
 /* Mode-context strip (#171) — one mode at a time; sticky so the context stays reachable while
    scrolling the stage. The whole stage below reflects the selected mode. */
-.modectx{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:24px 0 10px;padding:9px 12px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);position:sticky;top:88px;z-index:6}
+.modectx{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0;padding:9px 12px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r)}
 .mctx-modes{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .mctx-cap{font-size:11px;font-weight:640;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-right:6px}
 .mctx-b{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line2);background:var(--paper);border-radius:var(--r-sm);padding:5px 11px;font:inherit;font-size:13px;color:var(--ink2);cursor:pointer}
