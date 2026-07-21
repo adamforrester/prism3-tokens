@@ -7,7 +7,34 @@
 
 ---
 
-## Latest (2026-07-21) — Remove all "Advanced" disclosures, expose the UI uniformly
+## Latest (2026-07-21) — Backgrounds on the reusable card (docs/23 §2)
+
+**STATUS: web-only, no engine change.** Closes PR-2d: the per-mode page-surface editor
+(`renderSurfacesEditor`, "Backgrounds") now renders on the shared `renderCard` shell, so Backgrounds /
+Foregrounds / Interactive / Text&ink are one visual system — change the card once, it changes
+everywhere.
+
+- **Each surface mode (Light / Dark) → a card.** Swatch = the resolved page background for that mode
+  (`rp.colors['color.background.primary'][mode]`, so it repaints live); the `Base surface` picker is the
+  white/black/neutral-step select; token pill = `background.primary`. Laid out in the same `.fill-grid`
+  as the fill cards, `compactSwatch`.
+- **Contrast floor kept as a secondary control** — appended below the card body (`.bg-floor`, a
+  top-bordered row mirroring the interactive card's states row) rather than hidden. Auto unless pinned.
+- **`apply()` → `applyFull()`** on both selects: the card carries a swatch now, so the base change has
+  to re-render the workspace to repaint it (the old select-only editor could get away with the lighter
+  `apply()`). Same rebuild the fills/text cards use.
+
+**Verification:** `tsc` + esbuild clean. Playwright on Surfaces: 2 cards `[Light, Dark]`, both token
+pills `background.primary`, both floor labels present; **base swatch repaints across values** (default
+`rgb(233,233,234)` → Neutral 300 `rgb(167,167,170)` → Neutral 850 `rgb(33,33,36)` → White
+`rgb(255,255,255)`); base + floor selections hold; no console errors. Screenshot reviewed — visually
+matches the fill cards. No engine files touched.
+
+**Next:** the gradient editor (PR-3). Progress entry rides in this PR.
+
+---
+
+## (2026-07-21) — Remove all "Advanced" disclosures, expose the UI uniformly
 
 **STATUS: web-only, no behaviour change.** Owner decision (code-review finding #2, expanded): drop the
 progressive-disclosure "Advanced" affordance entirely — every control is shown at the same level, so a

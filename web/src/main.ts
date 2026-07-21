@@ -1694,28 +1694,36 @@ const renderSurfacesEditor = (): HTMLElement => {
   const wrap = el('div', 'obj-editor');
   wrap.append(subHead('Backgrounds'));
   wrap.append(el('p', 'obj-lede', 'The primary surface each mode paints on — white/black or a tinted neutral step. The contrast floor follows it.'));
-  const panel = el('div', 'panel');
+  const grid = el('div', 'fill-grid');
   const opt = (sel: HTMLSelectElement, v: string, t: string, on: boolean): void => { sel.append(optionEl(v, t, on)); };
   for (const [mode, label, dflt] of SURFACE_MODES) {
     const cur = brandState.surfaces?.[mode];
-    const knob = el('div', 'knob');
-    knob.append(el('label', 'knob-label', label));
-    const row = el('div', 'obj-row');
-    const base = el('select', 'obj-sel') as HTMLSelectElement;
+    // Base surface picker — white / black / a tinted neutral step. `applyFull` (not `apply`) so the card's
+    // swatch re-renders to the new resolved surface; the fills/text cards use the same rebuild.
     const baseVal = cur?.base ?? dflt;
+    const base = el('select', 'ic-step') as HTMLSelectElement;
     opt(base, 'white', 'White', baseVal === 'white');
     opt(base, 'black', 'Black', baseVal === 'black');
     for (const s of NEUTRAL_STEPS) opt(base, String(s), `Neutral ${s}`, baseVal === s);
-    base.onchange = () => { setPath(brandState, `surfaces.${mode}.base`, base.value === 'white' || base.value === 'black' ? base.value : Number(base.value)); apply(); };
-    const floor = el('select', 'obj-sel') as HTMLSelectElement;
-    opt(floor, '', 'Floor: auto', cur?.floorStep == null);
-    for (const s of NEUTRAL_STEPS) opt(floor, String(s), `Floor ${s}`, cur?.floorStep === s);
-    floor.onchange = () => { setPath(brandState, `surfaces.${mode}.floorStep`, floor.value === '' ? undefined : Number(floor.value)); apply(); };
-    row.append(base, floor);
-    knob.append(row);
-    panel.append(knob);
+    base.onchange = () => { setPath(brandState, `surfaces.${mode}.base`, base.value === 'white' || base.value === 'black' ? base.value : Number(base.value)); applyFull(); };
+    const hex = rp.colors['color.background.primary']?.[mode] ?? (dflt === 'white' ? '#ffffff' : '#000000');
+    const card = renderCard({
+      label, fillHex: hex, midTitle: 'Base surface', picker: base, tokenPath: 'background.primary',
+      desc: 'The primary surface this mode paints on — white, black, or a tinted neutral step.', compactSwatch: true,
+    });
+    // Contrast floor — the worst-case neutral the saturated foregrounds validate against (auto unless pinned).
+    // Appended as a secondary control, mirroring the interactive card's states row.
+    const floorRow = el('div', 'bg-floor');
+    floorRow.append(el('label', 'bg-floor-lab', 'Contrast floor'));
+    const floor = el('select', 'ic-step') as HTMLSelectElement;
+    opt(floor, '', 'Auto', cur?.floorStep == null);
+    for (const s of NEUTRAL_STEPS) opt(floor, String(s), `Neutral ${s}`, cur?.floorStep === s);
+    floor.onchange = () => { setPath(brandState, `surfaces.${mode}.floorStep`, floor.value === '' ? undefined : Number(floor.value)); applyFull(); };
+    floorRow.append(floor);
+    card.append(floorRow);
+    grid.append(card);
   }
-  wrap.append(panel);
+  wrap.append(grid);
   return wrap;
 };
 
@@ -3085,6 +3093,10 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .fill-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;margin-top:4px}
 .fill-grid .ic-card{margin-bottom:0}
 .fill-grid .ic-top{gap:14px}
+/* Backgrounds card — the contrast-floor sub-control appended below the card body. */
+.bg-floor{display:flex;align-items:center;gap:10px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.bg-floor-lab{font-size:12.5px;font-weight:560;color:var(--muted)}
+.bg-floor .ic-step{margin-left:auto}
 .ic-mid{flex:1;min-width:0;display:flex;flex-direction:column;gap:12px;align-items:flex-start}
 .ic-h{margin:0;font-size:15px;font-weight:620;color:var(--ink)}
 .ic-step{max-width:260px;padding:9px 11px;border:1px solid var(--line2);border-radius:var(--r-xs);font:inherit;font-size:13.5px;background:var(--paper);cursor:pointer}
