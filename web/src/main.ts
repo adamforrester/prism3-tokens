@@ -876,6 +876,7 @@ type CardOpts = {
   label: string; onRemove?: () => void; removeTitle?: string;
   fillHex: string; midTitle: string; picker: HTMLElement; tokenPath: string;
   example?: HTMLElement; desc: string; badge?: HTMLElement;
+  compactSwatch?: boolean;   // a smaller swatch for the denser fill-card grid (no example / states)
 };
 const renderCard = (o: CardOpts): HTMLElement => {
   const wrap = el('div', 'ic-card');
@@ -884,7 +885,7 @@ const renderCard = (o: CardOpts): HTMLElement => {
   if (o.onRemove) { const rm = el('button', 'rx', '×') as HTMLButtonElement; rm.title = o.removeTitle ?? 'Remove'; rm.onclick = o.onRemove; head.append(rm); }
   wrap.append(head);
   const top = el('div', 'ic-top');
-  top.append(swatch(o.fillHex, 'ic-big'));
+  top.append(swatch(o.fillHex, o.compactSwatch ? 'ic-big ic-big-sm' : 'ic-big'));
   const mid = el('div', 'ic-mid');
   mid.append(el('h4', 'ic-h', o.midTitle), o.picker, el('span', 'tpill mono', o.tokenPath));
   top.append(mid);
@@ -1325,8 +1326,9 @@ const renderSectionContrast = (key: PageKey): HTMLElement | null => {
 
 // Surfaces / fills — backgrounds, derived text/ink, an optional gradient.
 const renderSurfacesPage = (host: HTMLElement): void => renderScreen(host, 'surfaces', (h) => {
-  h.append(renderSurfacesEditor());   // self-heads "Backgrounds"
-  h.append(renderForegroundEditor()); // self-heads "Text & ink"
+  h.append(renderSurfacesEditor());     // self-heads "Backgrounds"
+  h.append(renderForegroundsEditor());  // self-heads "Foreground fills" — the bold/surface fills (docs/23 §2)
+  h.append(renderForegroundEditor());   // self-heads "Text & ink"
   const grad = leverByKey('gradients');
   if (grad) { h.append(subHead('Gradients')); h.append(panelOfLevers([grad])); }
 }, () => [renderGradientSpecimen(), renderSectionContrast('surfaces')]);
@@ -1726,6 +1728,62 @@ const renderForegroundEditor = (): HTMLElement => {
     panel.append(knob);
   }
   wrap.append(panel);
+  return wrap;
+};
+
+// ---- Foreground fills editor (docs/23 §2 "Foregrounds") -------------------
+// The bold semantic fills + the neutral surface tiers as cards, each repointable per mode via the A1
+// override layer (`theme.overrides`), same mechanism as Text & ink above but keyed to each role's own
+// palette. Distinct from Text & ink (the neutral INK ladder). Customizable modes only — on a derived
+// mode the whole page is the read-only note (renderScreen), so this never renders there.
+/** A palette step select with an "Auto" (the generated baseline) option — audit §8 candidate #3. `''` is
+ *  Auto; other values are step keys. */
+const stepPicker = (paletteName: string, steps: string[], autoStep: string, current: string | undefined, onPick: (step: string | undefined) => void): HTMLSelectElement => {
+  const sel = el('select', 'ic-step') as HTMLSelectElement;
+  sel.append(optionEl('', `Auto · ${paletteName} ${autoStep}`, current == null));
+  for (const s of steps) sel.append(optionEl(s, `${paletteName} ${s}`, current === s));
+  sel.onchange = () => onPick(sel.value === '' ? undefined : sel.value);
+  return sel;
+};
+const FILL_ROLES: Array<{ role: string; label: string; paletteKey: string; desc: string }> = [
+  { role: 'foreground.brand', label: 'Brand', paletteKey: 'brand', desc: 'The bold brand fill — filled badges, nav indicators, brand accents.' },
+  { role: 'foreground.success', label: 'Success', paletteKey: 'success', desc: 'The bold success fill.' },
+  { role: 'foreground.warning', label: 'Warning', paletteKey: 'warning', desc: 'The bold warning fill.' },
+  { role: 'foreground.info', label: 'Info', paletteKey: 'info', desc: 'The bold info fill.' },
+  { role: 'foreground.danger', label: 'Danger', paletteKey: 'danger', desc: 'The bold danger fill.' },
+  { role: 'foreground.primary', label: 'Surface — card', paletteKey: 'neutral', desc: 'The default raised surface — a card.' },
+  { role: 'foreground.secondary', label: 'Surface — panel', paletteKey: 'neutral', desc: 'The second surface tier — a panel.' },
+  { role: 'foreground.tertiary', label: 'Surface — nested', paletteKey: 'neutral', desc: 'The third surface tier — a nested container.' },
+];
+const setFillOverride = (role: string, palette: string, step: string | undefined): void => {
+  const ov = brandState.overrides ?? (brandState.overrides = {});
+  const forMode = ov[currentMode] ?? (ov[currentMode] = {});
+  if (step === undefined) {                                   // revert to the generated baseline
+    delete forMode[role];
+    if (!Object.keys(forMode).length) delete ov[currentMode];
+    if (!Object.keys(ov).length) brandState.overrides = undefined;
+  } else forMode[role] = { palette, step };
+  applyFull();
+};
+const renderForegroundsEditor = (): HTMLElement => {
+  const wrap = el('div', 'obj-editor');
+  wrap.append(subHead('Foreground fills'));
+  wrap.append(el('p', 'obj-lede', `Bold semantic fills + neutral surface tiers for ${MODE_LABEL[currentMode] ?? currentMode} — “Auto” follows the generated, contrast-gated default; pick a step to override just this mode (a pick below the fill's floor is warned, not blocked).`));
+  const roles = (resolveAllModes(theme).find((x) => x.mode === currentMode)?.roles ?? {}) as Record<string, { hex: string; path?: string; ratio?: number; min?: number } | undefined>;
+  const grid = el('div', 'fill-grid');
+  for (const { role, label, paletteKey, desc } of FILL_ROLES) {
+    const r = roles[role]; if (!r) continue;
+    const palette = (theme.roleToPalette as Record<string, string>)[paletteKey] ?? paletteKey;
+    const steps = (theme.palettes.find((p) => p.palette === palette)?.steps ?? []).map((s) => s.key);
+    if (!steps.length) continue;
+    const cur = brandState.overrides?.[currentMode]?.[role]?.step;
+    const picker = stepPicker(palette, steps, stepKeyOf(r.path), typeof cur === 'string' ? cur : undefined, (step) => setFillOverride(role, palette, step));
+    grid.append(renderCard({
+      label, fillHex: r.hex, midTitle: 'Fill', picker, tokenPath: role, desc, compactSwatch: true,
+      badge: r.min != null && r.min > 0 && r.ratio != null ? contrastBadge(r.ratio, r.min) : undefined,
+    }));
+  }
+  wrap.append(grid);
   return wrap;
 };
 
@@ -3019,6 +3077,10 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .ic-addhint{font-size:13px;color:var(--muted)}
 .ic-top{display:flex;gap:22px;align-items:flex-start}
 .ic-big{width:150px;height:150px;flex:none;border-radius:var(--r-sm);border:1px solid var(--line)}
+.ic-big-sm{width:72px;height:72px}
+.fill-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;margin-top:4px}
+.fill-grid .ic-card{margin-bottom:0}
+.fill-grid .ic-top{gap:14px}
 .ic-mid{flex:1;min-width:0;display:flex;flex-direction:column;gap:12px;align-items:flex-start}
 .ic-h{margin:0;font-size:15px;font-weight:620;color:var(--ink)}
 .ic-step{max-width:260px;padding:9px 11px;border:1px solid var(--line2);border-radius:var(--r-xs);font:inherit;font-size:13.5px;background:var(--paper);cursor:pointer}

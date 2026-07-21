@@ -7,7 +7,34 @@
 
 ---
 
-## Latest (2026-07-21) — Reusable color card (foundation) + componentization audit (`docs/23` §8)
+## Latest (2026-07-21) — Foregrounds editor (fills as cards) on the reusable card
+
+**STATUS: web-only, additive feature.** Closes the "Foregrounds" gap from the `docs/23` §2 IA (the fill
+roles had no UI control — they were engine-derived only). Owner confirmed exposing **both** families.
+
+- **`renderForegroundsEditor`** on the Surfaces page (between Backgrounds and Text & ink): a grid of
+  compact `renderCard`s, one per fill role — the bold semantic fills (`foreground.brand` /
+  `.success` / `.warning` / `.info` / `.danger`) and the neutral surface tiers (`foreground.primary` /
+  `.secondary` / `.tertiary`). Each card = swatch · an **Auto + palette-step picker** (`stepPicker`,
+  audit §8 candidate #3) · the `foreground.*` token pill · a contrast badge (bold fills only; the
+  surface tiers aren't contrast-gated so they omit it).
+- **Overrides via the A1 layer, no engine change.** The picker writes `brandState.overrides[mode][role]
+  = { palette, step }` keyed to each role's own palette (`roleToPalette`), pruning back to Auto — same
+  mechanism as Text & ink. Customizable modes only; derived modes stay the read-only note.
+- **`renderCard` gained `compactSwatch`** (72px) for the denser fill grid; `stepPicker` is the shared
+  Auto+steps select.
+
+**Verification:** `tsc` + esbuild clean. Playwright drive-through: 8 fill cards render with the right
+labels/palettes; **overriding Brand to step 950 re-derived the fill** (swatch `rgb(94,75,195)` →
+`rgb(13,3,45)`) and the picker held the selection — the override round-trips end-to-end; no console
+errors. Screenshot reviewed. No engine files touched.
+
+**Next:** PR-2c — Backgrounds on cards + Neutral as an interactive card; then the gradient editor.
+Progress entry rides in this PR.
+
+---
+
+## (2026-07-21) — Reusable color card (foundation) + componentization audit (`docs/23` §8)
 
 **STATUS: web-only, DOM-identical refactor + docs.** First slice of the color-card work (owner request to
 reuse the interactive-card styling for fills). Extracts the card into a reusable component and records the
