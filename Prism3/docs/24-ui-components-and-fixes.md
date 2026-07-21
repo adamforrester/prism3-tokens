@@ -61,8 +61,12 @@ deliberate consolidation verified by a **cross-page drive-through** (every selec
 not DOM-parity.
 
 1. **PR-C1 — `selectEl` + unified `.select`** (the named pain; 16 call sites, 5 rules → 1). ✅ #212-pending
-2. **PR-C2 — input field kit** — `numberField` + `colorField` + `rangeField` (folds the gradient editor's
-   hand-rolled range).
+2. **PR-C2 — `numberField`** (7 sites, 4 classes → `.num` base + deltas). ✅ Scope narrowed on close read:
+   **color** wells are *intentionally* different sizes per context (round brand swatch vs. ramp seed vs.
+   start swatch) — not style drift, and their `input[type=color]` cosmetics are already element-selector
+   centralised — so a `colorField` factory is low value and **dropped**. **range** is coupled to per-site
+   label/readout plumbing (the `slider()` helper vs. the LH/LS + gradient-angle hand-rolls), so it moves to
+   its own follow-up (**C5b `rangeField`**) rather than riding here.
 3. **PR-C3 — `toggleField`** — unify `renderControl` + the gradient section's duplicate switch.
 4. **PR-C4 — display atoms** — `tokenPill`, `addButton`, `removeButton`, and route the 5 stray knobs
    through `knob()` (trivial, batched).
@@ -90,7 +94,8 @@ _(none logged yet — seed with a bug-hunting drive-through and owner findings)_
 |---|---|
 | Audit (this doc) | ✅ 2026-07-21 |
 | C1 select | ✅ 2026-07-21 — `selectEl()` + `.select` (+ `sm`/`fill`/`cap`); 16 sites, 5 rules → 1 |
-| C2 input field kit | ☐ pending |
+| C2 numberField | ✅ 2026-07-21 — `numberField()` + `.num` base; 7 sites, 4 classes → base + deltas (no visual change). color dropped (not drift), range → C5b |
+| C5b rangeField | ☐ pending (split from C2 — readout-coupled) |
 | C3 toggle | ☐ pending |
 | C4 display atoms | ☐ pending |
 | C5 step picker | ☐ pending |
