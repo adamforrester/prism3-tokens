@@ -1,0 +1,101 @@
+/**
+ * Design Token CSS Custom Properties
+ *
+ * These are injected dynamically from the plugin backend,
+ * but we provide fallback values here for initial render.
+ * The actual values come from ui-tokens.ts via the 'tokens-loaded' message.
+ */
+
+:root {
+  /* Primary Action Colors */
+  --pds-color-action-primary-surface-rest: #0c0cff;
+  --pds-color-action-primary-surface-hover: #0000db;
+  --pds-color-action-primary-surface-active: #0000aa;
+  --pds-color-action-primary-text-rest: #0c0cff;
+  --pds-color-action-primary-text-hover: #0000db;
+  --pds-color-action-primary-text-active: #0000aa;
+  --pds-color-action-primary-text-onPrimary: #ffffff;
+  --pds-color-action-primary-border-rest: #0c0cff;
+  --pds-color-action-primary-border-hover: #0000db;
+  --pds-color-action-primary-border-active: #0000aa;
+  --pds-color-action-primary-surface-hover-inverse: #e5e5ff;
+  --pds-color-action-primary-surface-active-inverse: #cdcdff;
+
+  /* Ghost/Transparent Colors */
+  --pds-color-action-ghost-surface-rest: #00000000;
+  --pds-color-action-ghost-surface-hover: #0000001a;
+  --pds-color-action-ghost-surface-active: #00000033;
+
+  /* Neutral Action Colors */
+  --pds-color-action-neutral-surface-rest: #303030;
+  --pds-color-action-neutral-surface-hover: #474747;
+  --pds-color-action-neutral-surface-active: #5e5e5e;
+  --pds-color-action-neutral-text-rest: #474747;
+  --pds-color-action-neutral-text-hover: #303030;
+  --pds-color-action-neutral-text-active: #1b1b1b;
+  --pds-color-action-neutral-text-onNeutral: #ffffff;
+  --pds-color-action-neutral-border-rest: #6a6a6a;
+  --pds-color-action-neutral-border-hover: #525252;
+  --pds-color-action-neutral-border-active: #3b3b3b;
+
+  /* Disabled State Colors */
+  --pds-color-disabled-text-default: #6a6a6a;
+  --pds-color-disabled-surface-default: #c6c6c6;
+  --pds-color-disabled-surface-onDisabled: #919191;
+
+  /* Component Sizing */
+  --pds-size-component-height-sm: 32px;
+  --pds-size-component-height-md: 40px;
+  --pds-size-component-height-lg: 48px;
+
+  /* Form Input Colors */
+  --pds-color-surface-input-default: transparent;
+  --pds-color-surface-input-hover: #0000001a;
+  --pds-color-border-input-default: #848484;
+  --pds-color-border-focused-default: #035ef9;
+
+  /* Toggle Switch Colors */
+  --pds-color-action-primary-surface-bold-rest: #1e1eff;
+  --pds-color-action-primary-surface-bold-hover: #0812c3;
+  --pds-color-action-primary-surface-bold-active: #090a83;
+  --pds-color-border-focused-toggle: #3256ff;
+
+  /* Typography */
+  --pds-font-family-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --pds-font-size-body-md: 16px;
+  --pds-font-size-body-sm: 14px;
+  --pds-font-size-detail-lg: 12px;
+  --pds-font-size-detail-md: 11px;
+  --pds-font-size-detail-sm: 10px;
+  --pds-font-size-title-desktop-sm: 24px;
+  --pds-font-weight-body-bold: 700;
+  --pds-font-weight-body-regular: 400;
+  --pds-font-weight-medium: 500;
+
+  /* Spacing */
+  --pds-space-050: 4px;
+  --pds-space-100: 8px;
+  --pds-space-150: 12px;
+  --pds-space-200: 16px;
+  --pds-space-250: 20px;
+  --pds-space-300: 24px;
+  --pds-space-400: 32px;
+  --pds-space-icon-sm: 4px;
+  --pds-space-icon-md: 6px;
+  --pds-space-icon-lg: 8px;
+
+  /* Border Radius */
+  --pds-radius-small: 4px;
+  --pds-radius-medium: 6px;
+  --pds-border-radius-xs: 2px;
+  --pds-border-radius-sm: 4px;
+
+  /* Surface & Border Colors */
+  --pds-color-border-primary-default: #d4d4d4;
+  --pds-color-surface-primary-default: #f1f1f1;
+  --pds-color-surface-secondary-default: #ffffff;
+  --pds-color-text-primary-default: #111111;
+  --pds-color-text-secondary-default: #6a6a6a;
+  --pds-color-icon-primary-default: #111111;
+  --pds-color-action-primary-icon-onPrimary: #ffffff;
+}

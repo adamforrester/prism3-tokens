@@ -1,0 +1,17 @@
+{
+  "name": "style-guide-generator",
+  "version": "1.0.0",
+  "description": "Figma plugin for generating style guides from design tokens",
+  "main": "dist/code.js",
+  "scripts": {
+    "build": "node esbuild.config.js",
+    "watch": "node esbuild.config.js --watch",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@figma/plugin-typings": "^1.90.0",
+    "esbuild": "^0.24.0",
+    "typescript": "^5.0.0"
+  }
+}

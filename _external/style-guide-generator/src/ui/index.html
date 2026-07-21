@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Style Guide Generator</title>
+  <style>
+    /* __INJECTED_CSS__ */
+  </style>
+</head>
+<body>
+  <div class="plugin-app">
+
+    <!-- Page Header -->
+    <div class="pds-page-header">
+      <div class="pds-page-header__content">
+        <h1 class="pds-page-header__title">Style Guide Generator</h1>
+        <p class="pds-page-header__description">Generate on-canvas style guides from your Figma variables</p>
+      </div>
+      <div class="pds-page-header__actions">
+        <button class="pds-button pds-button--secondary pds-button--small" data-action="reset">Reset</button>
+      </div>
+    </div>
+
+    <!-- Tab Bar -->
+    <div class="pds-tab-bar">
+      <div class="pds-tab-bar__tab pds-tab-bar__tab--active" data-tab="color">Color</div>
+      <div class="pds-tab-bar__tab" data-tab="type-variables">Font Variables</div>
+      <div class="pds-tab-bar__tab" data-tab="text-styles">Text Styles</div>
+      <div class="pds-tab-bar__tab" data-tab="dimension">Dimension</div>
+    </div>
+
+    <!-- =========================================================================
+         COLOR TAB
+         ========================================================================= -->
+    <div class="pds-tab-content pds-tab-content--active" data-tab-content="color">
+      <!-- Collection & Mode Selection -->
+      <div class="collection-mode-row">
+        <div class="pds-selector-card">
+          <h3 class="pds-selector-card__label">Collection</h3>
+          <div class="pds-dropdown pds-selector-card__dropdown" data-dropdown="color-collection">
+            <span class="pds-dropdown__text">Select collection...</span>
+            <span class="pds-dropdown__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 15.0006L7.75732 10.758L9.17154 9.34375L12 12.1722L14.8284 9.34375L16.2426 10.758L12 15.0006Z" fill="currentColor"/>
+              </svg>
+            </span>
+            <div class="pds-dropdown__options"></div>
+          </div>
+        </div>
+
+        <div class="pds-selector-card">
+          <h3 class="pds-selector-card__label">Mode</h3>
+          <div class="pds-dropdown pds-selector-card__dropdown" data-dropdown="color-mode">
+            <span class="pds-dropdown__text">Select mode...</span>
+            <span class="pds-dropdown__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 15.0006L7.75732 10.758L9.17154 9.34375L12 12.1722L14.8284 9.34375L16.2426 10.758L12 15.0006Z" fill="currentColor"/>
+              </svg>
+            </span>
+            <div class="pds-dropdown__options"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Variable Selection -->
+      <div class="pds-section-header">
+        <div class="pds-section-header__content">
+          <h2 class="pds-section-header__title">Color Variables</h2>
+          <p class="pds-section-header__description">Select color variables to include</p>
+        </div>
+        <div class="pds-section-header__actions">
+          <button class="pds-button pds-button--neutral-outline pds-button--small select-all-button" data-tab="color">Select All</button>
+        </div>
+      </div>
+
+      <div class="pds-variable-selection-frame" data-frame="color">
+        <div class="pds-variable-selection-frame__content">
+          <div class="pds-variable-checkbox-row pds-variable-checkbox-row--level-0">
+            <div class="pds-variable-checkbox-row__inner">
+              <div class="pds-variable-checkbox-row__checkbox-container"></div>
+              <div class="pds-variable-checkbox-row__label">
+                <p class="pds-variable-checkbox-row__text" style="color: var(--pds-color-text-secondary-default);">
+                  Select a collection to load variables...
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Styling Options -->
+      <div class="pds-section-header">
+        <div class="pds-section-header__content">
+          <h2 class="pds-section-header__title">Styling Options</h2>
+          <p class="pds-section-header__description">Customize the display of your style guide.</p>
+        </div>
+      </div>
+
+      <div class="styling-options-section">
+        <!-- Display style dropdown -->
+        <div class="pds-option-list-item">
+          <div class="pds-option-list-item__label">Display style</div>
+          <div class="pds-option-list-item__control">
+            <div class="pds-dropdown pds-option-list-item__dropdown" data-option="display-style">
+              <span class="pds-dropdown__text">Generic</span>
+              <span class="pds-dropdown__icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 15.0006L7.75732 10.758L9.17154 9.34375L12 12.1722L14.8284 9.34375L16.2426 10.758L12 15.0006Z" fill="currentColor"/>
+                </svg>
+              </span>
+              <div class="pds-dropdown__options">
+                <div class="pds-dropdown__option pds-dropdown__option--selected">Generic</div>
+                <div class="pds-dropdown__option">Scale (for Primitives)</div>
+                <div class="pds-dropdown__option">Text color</div>
+                <div class="pds-dropdown__option">Border color</div>
+                <div class="pds-dropdown__option">Icon color</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Color value dropdown -->
+        <div class="pds-option-list-item">
+          <div class="pds-option-list-item__label">Color value</div>
+          <div class="pds-option-list-item__control">
+            <div class="pds-dropdown pds-option-list-item__dropdown" data-option="color-value">
+              <span class="pds-dropdown__text">Hex</span>
+              <span class="pds-dropdown__icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 15.0006L7.75732 10.758L9.17154 9.34375L12 12.1722L14.8284 9.34375L16.2426 10.758L12 15.0006Z" fill="currentColor"/>
+                </svg>
+              </span>
+              <div class="pds-dropdown__options">
+                <div class="pds-dropdown__option pds-dropdown__option--selected">Hex</div>
+                <div class="pds-dropdown__option">RGB/RGBA</div>
+                <div class="pds-dropdown__option">HSL</div>
+                <div class="pds-dropdown__option">HSB</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Table header dropdown -->
+        <div class="pds-option-list-item">
+          <div class="pds-option-list-item__label">Table header</div>
+          <div class="pds-option-list-item__control">
+            <div class="pds-dropdown pds-option-list-item__dropdown" data-option="table-header">
+              <span class="pds-dropdown__text">Dark</span>
+              <span class="pds-dropdown__icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 15.0006L7.75732 10.758L9.17154 9.34375L12 12.1722L14.8284 9.34375L16.2426 10.758L12 15.0006Z" fill="currentColor"/>
+                </svg>
+              </span>
+              <div class="pds-dropdown__options">
+                <div class="pds-dropdown__option">Light</div>
+                <div class="pds-dropdown__option pds-dropdown__option--selected">Dark</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Display Aliases toggle -->
+        <div class="pds-option-list-item">
+          <div class="pds-option-list-item__label">Display Aliases</div>
+          <div class="pds-option-list-item__control">
+            <div class="pds-toggle" data-option="display-aliases">
+              <div class="pds-toggle__handle">
+                <span class="pds-toggle__icon">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8.00047 7.05767L11.3003 3.75781L12.2431 4.70062L8.94327 8.00047L12.2431 11.3003L11.3003 12.2431L8.00047 8.94327L4.70062 12.2431L3.75781 11.3003L7.05767 8.00047L3.75781 4.70062L4.70062 3.75781L8.00047 7.05767Z" fill="white"/>
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Show description toggle -->
+        <div class="pds-option-list-item">
+          <div class="pds-option-list-item__label">Show description (from metadata)</div>
+          <div class="pds-option-list-item__control">
+            <div class="pds-toggle" data-option="show-description">
+              <div class="pds-toggle__handle">
+                <span class="pds-toggle__icon">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8.00047 7.05767L11.3003 3.75781L12.2431 4.70062L8.94327 8.00047L12.2431 11.3003L11.3003 12.2431L8.00047 8.94327L4.70062 12.2431L3.75781 11.3003L7.05767 8.00047L3.75781 4.70062L4.70062 3.75781L8.00047 7.05767Z" fill="white"/>
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Add title cell toggle -->
+        <div class="pds-option-list-item" style="border-bottom: none;">
+          <div class="pds-option-list-item__label">Add title cell to rows</div>
+          <div class="pds-option-list-item__control">
+            <div class="pds-toggle" data-option="add-title-cell">
+              <div class="pds-toggle__handle">
+                <span class="pds-toggle__icon">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8.00047 7.05767L11.3003 3.75781L12.2431 4.70062L8.94327 8.00047L12.2431 11.3003L11.3003 12.2431L8.00047 8.94327L4.70062 12.2431L3.75781 11.3003L7.05767 8.00047L3.75781 4.70062L4.70062 3.75781L8.00047 7.05767Z" fill="white"/>
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Generate Button -->
+      <button class="pds-button pds-button--primary generate-button" data-tab="color">
+        Generate Color Style Guide
+      </button>
+    </div>
+
+    <!-- =========================================================================
+         FONT VARIABLES TAB
+         ========================================================================= -->
+    <div class="pds-tab-content" data-tab-content="type-variables">
+      <!-- Collection & Mode Selection -->
+      <div class="collection-mode-row">
+        <div class="pds-selector-card">
+          <h3 class="pds-selector-card__label">Collection</h3>
+          <div class="pds-dropdown pds-selector-card__dropdown" data-dropdown="type-variables-collection">
+            <span class="pds-dropdown__text">Select collection...</span>
+            <span class="pds-dropdown__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 15.0006L7.75732 10.758L9.17154 9.34375L12 12.1722L14.8284 9.34375L16.2426 10.758L12 15.0006Z" fill="currentColor"/>
+              </svg>
+            </span>
+            <div class="pds-dropdown__options"></div>
+          </div>
+        </div>
+
+        <div class="pds-selector-card">
+          <h3 class="pds-selector-card__label">Mode</h3>
+          <div class="pds-dropdown pds-selector-card__dropdown" data-dropdown="type-variables-mode">
+            <span class="pds-dropdown__text">Select mode...</span>
+            <span class="pds-dropdown__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 15.0006L7.75732 10.758L9.17154 9.34375L12 12.1722L14.8284 9.34375L16.2426 10.758L12 15.0006Z" fill="currentColor"/>
+              </svg>
+            </span>
+            <div class="pds-dropdown__options"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Variable Selection -->
+      <div class="pds-section-header">
+        <div class="pds-section-header__content">
+          <h2 class="pds-section-header__title">Font Variables</h2>
+          <p class="pds-section-header__description">Select font variables to include</p>
+        </div>
+        <div class="pds-section-header__actions">
+          <button class="pds-button pds-button--neutral-outline pds-button--small select-all-button" data-tab="type-variables">Select All</button>
+        </div>
+      </div>
+
+      <div class="pds-variable-selection-frame" data-frame="type-variables">
+        <div class="pds-variable-selection-frame__content">
+          <div class="pds-variable-checkbox-row pds-variable-checkbox-row--level-0">
+            <div class="pds-variable-checkbox-row__inner">
+              <div class="pds-variable-checkbox-row__checkbox-container"></div>
+              <div class="pds-variable-checkbox-row__label">
+                <p class="pds-variable-checkbox-row__text" style="color: var(--pds-color-text-secondary-default);">
+                  Select a collection to load font variables...
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Styling Options -->
+      <div class="pds-section-header">
+        <div class="pds-section-header__content">
+          <h2 class="pds-section-header__title">Styling Options</h2>
+          <p class="pds-section-header__description">Customize the display of your font variables guide.</p>
+        </div>
+      </div>
+
+      <div class="styling-options-section">
+        <!-- Display type dropdown -->
+        <div class="pds-option-list-item">
+          <div class="pds-option-list-item__label">Display type</div>
+          <div class="pds-option-list-item__control">
+            <div class="pds-dropdown pds-option-list-item__dropdown" data-option="font-display-type">
+              <span class="pds-dropdown__text">Generic</span>
+              <span class="pds-dropdown__icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 15.0006L7.75732 10.758L9.17154 9.34375L12 12.1722L14.8284 9.34375L16.2426 10.758L12 15.0006Z" fill="currentColor"/>
+                </svg>
+              </span>
+              <div class="pds-dropdown__options">
+                <div class="pds-dropdown__option pds-dropdown__option--selected">Generic</div>
+                <div class="pds-dropdown__option">Font family</div>
+                <div class="pds-dropdown__option">Font size</div>
+                <div class="pds-dropdown__option">Font weight</div>
+                <div class="pds-dropdown__option">Letter spacing</div>
+                <div class="pds-dropdown__option">Line height</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Table header dropdown -->
+        <div class="pds-option-list-item">
+          <div class="pds-option-list-item__label">Table header</div>
+          <div class="pds-option-list-item__control">
+            <div class="pds-dropdown pds-option-list-item__dropdown" data-option="font-table-header">
+              <span class="pds-dropdown__text">Dark</span>
+              <span class="pds-dropdown__icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 15.0006L7.75732 10.758L9.17154 9.34375L12 12.1722L14.8284 9.34375L16.2426 10.758L12 15.0006Z" fill="currentColor"/>
+                </svg>
+              </span>
+              <div class="pds-dropdown__options">
+                <div class="pds-dropdown__option">Light</div>
+                <div class="pds-dropdown__option pds-dropdown__option--selected">Dark</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Add REM values toggle -->
+        <div class="pds-option-list-item">
+          <div class="pds-option-list-item__label">Add REM values (16px base)</div>
+          <div class="pds-option-list-item__control">
+            <div class="pds-toggle" data-option="font-add-rem">
+              <div class="pds-toggle__handle">
+                <span class="pds-toggle__icon">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8.00047 7.05767L11.3003 3.75781L12.2431 4.70062L8.94327 8.00047L12.2431 11.3003L11.3003 12.2431L8.00047 8.94327L4.70062 12.2431L3.75781 11.3003L7.05767 8.00047L3.75781 4.70062L4.70062 3.75781L8.00047 7.05767Z" fill="white"/>
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Display Aliases toggle -->
+        <div class="pds-option-list-item">
+          <div class="pds-option-list-item__label">Display Aliases</div>
+          <div class="pds-option-list-item__control">
+            <div class="pds-toggle" data-option="font-display-aliases">
+              <div class="pds-toggle__handle">
+                <span class="pds-toggle__icon">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8.00047 7.05767L11.3003 3.75781L12.2431 4.70062L8.94327 8.00047L12.2431 11.3003L11.3003 12.2431L8.00047 8.94327L4.70062 12.2431L3.75781 11.3003L7.05767 8.00047L3.75781 4.70062L4.70062 3.75781L8.00047 7.05767Z" fill="white"/>
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Show description toggle -->
+        <div class="pds-option-list-item" style="border-bottom: none;">
+          <div class="pds-option-list-item__label">Show description (from metadata)</div>
+          <div class="pds-option-list-item__control">
+            <div class="pds-toggle" data-option="font-show-description">
+              <div class="pds-toggle__handle">
+                <span class="pds-toggle__icon">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8.00047 7.05767L11.3003 3.75781L12.2431 4.70062L8.94327 8.00047L12.2431 11.3003L11.3003 12.2431L8.00047 8.94327L4.70062 12.2431L3.75781 11.3003L7.05767 8.00047L3.75781 4.70062L4.70062 3.75781L8.00047 7.05767Z" fill="white"/>
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Generate Button -->
+      <button class="pds-button pds-button--primary generate-button" data-tab="type-variables">
+        Generate Font Variables Guide
+      </button>
+    </div>
+
+    <!-- =========================================================================
+         TEXT STYLES TAB
+         ========================================================================= -->
+    <div class="pds-tab-content" data-tab-content="text-styles">
+      <!-- NO Collection/Mode row - text styles are not in collections -->
+
+      <!-- Style Selection -->
+      <div class="pds-section-header">
+        <div class="pds-section-header__content">
+          <h2 class="pds-section-header__title">Text Styles</h2>
+          <p class="pds-section-header__description">Select text styles to include</p>
+        </div>
+        <div class="pds-section-header__actions">
+          <button class="pds-button pds-button--neutral-outline pds-button--small select-all-button" data-tab="text-styles">Select All</button>
+        </div>
+      </div>
+
+      <div class="pds-variable-selection-frame" data-frame="text-styles">
+        <div class="pds-variable-selection-frame__content">
+          <div class="pds-variable-checkbox-row pds-variable-checkbox-row--level-0">
+            <div class="pds-variable-checkbox-row__inner">
+              <div class="pds-variable-checkbox-row__checkbox-container"></div>
+              <div class="pds-variable-checkbox-row__label">
+                <p class="pds-variable-checkbox-row__text" style="color: var(--pds-color-text-secondary-default);">
+                  Loading text styles...
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Styling Options -->
+      <div class="pds-section-header">
+        <div class="pds-section-header__content">
+          <h2 class="pds-section-header__title">Styling Options</h2>
+          <p class="pds-section-header__description">Customize the display of your text styles guide.</p>
+        </div>
+      </div>
+
+      <div class="styling-options-section">
+        <!-- Table header dropdown -->
+        <div class="pds-option-list-item">
+          <div class="pds-option-list-item__label">Table header</div>
+          <div class="pds-option-list-item__control">
+            <div class="pds-dropdown pds-option-list-item__dropdown" data-option="text-styles-table-header">
+              <span class="pds-dropdown__text">Dark</span>
+              <span class="pds-dropdown__icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 15.0006L7.75732 10.758L9.17154 9.34375L12 12.1722L14.8284 9.34375L16.2426 10.758L12 15.0006Z" fill="currentColor"/>
+                </svg>
+              </span>
+              <div class="pds-dropdown__options">
+                <div class="pds-dropdown__option">Light</div>
+                <div class="pds-dropdown__option pds-dropdown__option--selected">Dark</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Add REM values toggle -->
+        <div class="pds-option-list-item">
+          <div class="pds-option-list-item__label">Add REM values (16px base)</div>
+          <div class="pds-option-list-item__control">
+            <div class="pds-toggle" data-option="text-styles-add-rem">
+              <div class="pds-toggle__handle">
+                <span class="pds-toggle__icon">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8.00047 7.05767L11.3003 3.75781L12.2431 4.70062L8.94327 8.00047L12.2431 11.3003L11.3003 12.2431L8.00047 8.94327L4.70062 12.2431L3.75781 11.3003L7.05767 8.00047L3.75781 4.70062L4.70062 3.75781L8.00047 7.05767Z" fill="white"/>
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Display aliases toggle -->
+        <div class="pds-option-list-item">
+          <div class="pds-option-list-item__label">Display aliases</div>
+          <div class="pds-option-list-item__control">
+            <div class="pds-toggle" data-option="text-styles-display-aliases">
+              <div class="pds-toggle__handle">
+                <span class="pds-toggle__icon">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8.00047 7.05767L11.3003 3.75781L12.2431 4.70062L8.94327 8.00047L12.2431 11.3003L11.3003 12.2431L8.00047 8.94327L4.70062 12.2431L3.75781 11.3003L7.05767 8.00047L3.75781 4.70062L4.70062 3.75781L8.00047 7.05767Z" fill="white"/>
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Show text decoration toggle -->
+        <div class="pds-option-list-item">
+          <div class="pds-option-list-item__label">Show text decoration</div>
+          <div class="pds-option-list-item__control">
+            <div class="pds-toggle" data-option="text-styles-show-text-decoration">
+              <div class="pds-toggle__handle">
+                <span class="pds-toggle__icon">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8.00047 7.05767L11.3003 3.75781L12.2431 4.70062L8.94327 8.00047L12.2431 11.3003L11.3003 12.2431L8.00047 8.94327L4.70062 12.2431L3.75781 11.3003L7.05767 8.00047L3.75781 4.70062L4.70062 3.75781L8.00047 7.05767Z" fill="white"/>
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Show paragraph spacing toggle -->
+        <div class="pds-option-list-item">
+          <div class="pds-option-list-item__label">Show paragraph spacing</div>
+          <div class="pds-option-list-item__control">
+            <div class="pds-toggle" data-option="text-styles-show-paragraph-spacing">
+              <div class="pds-toggle__handle">
+                <span class="pds-toggle__icon">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8.00047 7.05767L11.3003 3.75781L12.2431 4.70062L8.94327 8.00047L12.2431 11.3003L11.3003 12.2431L8.00047 8.94327L4.70062 12.2431L3.75781 11.3003L7.05767 8.00047L3.75781 4.70062L4.70062 3.75781L8.00047 7.05767Z" fill="white"/>
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Show description toggle -->
+        <div class="pds-option-list-item" style="border-bottom: none;">
+          <div class="pds-option-list-item__label">Show description (from metadata)</div>
+          <div class="pds-option-list-item__control">
+            <div class="pds-toggle" data-option="text-styles-show-description">
+              <div class="pds-toggle__handle">
+                <span class="pds-toggle__icon">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8.00047 7.05767L11.3003 3.75781L12.2431 4.70062L8.94327 8.00047L12.2431 11.3003L11.3003 12.2431L8.00047 8.94327L4.70062 12.2431L3.75781 11.3003L7.05767 8.00047L3.75781 4.70062L4.70062 3.75781L8.00047 7.05767Z" fill="white"/>
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Generate Button -->
+      <button class="pds-button pds-button--primary generate-button" data-tab="text-styles">
+        Generate Text Styles Guide
+      </button>
+    </div>
+
+
+    <!-- =========================================================================
+         DIMENSION TAB
+         ========================================================================= -->
+    <div class="pds-tab-content" data-tab-content="dimension">
+      <!-- Collection & Mode Selection -->
+      <div class="collection-mode-row">
+        <div class="pds-selector-card">
+          <h3 class="pds-selector-card__label">Collection</h3>
+          <div class="pds-dropdown pds-selector-card__dropdown" data-dropdown="dimension-collection">
+            <span class="pds-dropdown__text">Select collection...</span>
+            <span class="pds-dropdown__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 15.0006L7.75732 10.758L9.17154 9.34375L12 12.1722L14.8284 9.34375L16.2426 10.758L12 15.0006Z" fill="currentColor"/>
+              </svg>
+            </span>
+            <div class="pds-dropdown__options"></div>
+          </div>
+        </div>
+
+        <div class="pds-selector-card">
+          <h3 class="pds-selector-card__label">Mode</h3>
+          <div class="pds-dropdown pds-selector-card__dropdown" data-dropdown="dimension-mode">
+            <span class="pds-dropdown__text">Select mode...</span>
+            <span class="pds-dropdown__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 15.0006L7.75732 10.758L9.17154 9.34375L12 12.1722L14.8284 9.34375L16.2426 10.758L12 15.0006Z" fill="currentColor"/>
+              </svg>
+            </span>
+            <div class="pds-dropdown__options"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Variable Selection -->
+      <div class="pds-section-header">
+        <div class="pds-section-header__content">
+          <h2 class="pds-section-header__title">Number Variables</h2>
+          <p class="pds-section-header__description">Select number variables to include</p>
+        </div>
+        <div class="pds-section-header__actions">
+          <button class="pds-button pds-button--neutral-outline pds-button--small select-all-button" data-tab="dimension">Select All</button>
+        </div>
+      </div>
+
+      <div class="pds-variable-selection-frame" data-frame="dimension">
+        <div class="pds-variable-selection-frame__content">
+          <div class="pds-variable-checkbox-row pds-variable-checkbox-row--level-0">
+            <div class="pds-variable-checkbox-row__inner">
+              <div class="pds-variable-checkbox-row__checkbox-container"></div>
+              <div class="pds-variable-checkbox-row__label">
+                <p class="pds-variable-checkbox-row__text" style="color: var(--pds-color-text-secondary-default);">
+                  Select a collection to load variables...
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Styling Options -->
+      <div class="pds-section-header">
+        <div class="pds-section-header__content">
+          <h2 class="pds-section-header__title">Styling Options</h2>
+          <p class="pds-section-header__description">Customize the display of your dimension style guide.</p>
+        </div>
+      </div>
+
+      <div class="styling-options-section">
+        <!-- Display style dropdown -->
+        <div class="pds-option-list-item">
+          <div class="pds-option-list-item__label">Display style</div>
+          <div class="pds-option-list-item__control">
+            <div class="pds-dropdown pds-option-list-item__dropdown" data-option="dimension-display-style">
+              <span class="pds-dropdown__text">Generic</span>
+              <span class="pds-dropdown__icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 15.0006L7.75732 10.758L9.17154 9.34375L12 12.1722L14.8284 9.34375L16.2426 10.758L12 15.0006Z" fill="currentColor"/>
+                </svg>
+              </span>
+              <div class="pds-dropdown__options">
+                <div class="pds-dropdown__option pds-dropdown__option--selected">Generic</div>
+                <div class="pds-dropdown__option">Spacing</div>
+                <div class="pds-dropdown__option">Border Radius</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Spacing style dropdown (conditional - shown when Display style is "Spacing") -->
+        <div class="pds-option-list-item pds-option-list-item--conditional" data-condition="dimension-display-style:Spacing" style="display: none;">
+          <div class="pds-option-list-item__label">Spacing style</div>
+          <div class="pds-option-list-item__control">
+            <div class="pds-dropdown pds-option-list-item__dropdown" data-option="dimension-spacing-style">
+              <span class="pds-dropdown__text">Filled</span>
+              <span class="pds-dropdown__icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 15.0006L7.75732 10.758L9.17154 9.34375L12 12.1722L14.8284 9.34375L16.2426 10.758L12 15.0006Z" fill="currentColor"/>
+                </svg>
+              </span>
+              <div class="pds-dropdown__options">
+                <div class="pds-dropdown__option pds-dropdown__option--selected">Filled</div>
+                <div class="pds-dropdown__option">Line</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Table header dropdown -->
+        <div class="pds-option-list-item">
+          <div class="pds-option-list-item__label">Table header</div>
+          <div class="pds-option-list-item__control">
+            <div class="pds-dropdown pds-option-list-item__dropdown" data-option="dimension-table-header">
+              <span class="pds-dropdown__text">Dark</span>
+              <span class="pds-dropdown__icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 15.0006L7.75732 10.758L9.17154 9.34375L12 12.1722L14.8284 9.34375L16.2426 10.758L12 15.0006Z" fill="currentColor"/>
+                </svg>
+              </span>
+              <div class="pds-dropdown__options">
+                <div class="pds-dropdown__option">Light</div>
+                <div class="pds-dropdown__option pds-dropdown__option--selected">Dark</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Display in Pixels toggle -->
+        <div class="pds-option-list-item">
+          <div class="pds-option-list-item__label">Display in Pixels</div>
+          <div class="pds-option-list-item__control">
+            <div class="pds-toggle" data-option="dimension-display-pixels">
+              <div class="pds-toggle__handle">
+                <span class="pds-toggle__icon">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8.00047 7.05767L11.3003 3.75781L12.2431 4.70062L8.94327 8.00047L12.2431 11.3003L11.3003 12.2431L8.00047 8.94327L4.70062 12.2431L3.75781 11.3003L7.05767 8.00047L3.75781 4.70062L4.70062 3.75781L8.00047 7.05767Z" fill="white"/>
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Add REM values toggle -->
+        <div class="pds-option-list-item">
+          <div class="pds-option-list-item__label">Add REM values (16px base)</div>
+          <div class="pds-option-list-item__control">
+            <div class="pds-toggle" data-option="dimension-add-rem">
+              <div class="pds-toggle__handle">
+                <span class="pds-toggle__icon">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8.00047 7.05767L11.3003 3.75781L12.2431 4.70062L8.94327 8.00047L12.2431 11.3003L11.3003 12.2431L8.00047 8.94327L4.70062 12.2431L3.75781 11.3003L7.05767 8.00047L3.75781 4.70062L4.70062 3.75781L8.00047 7.05767Z" fill="white"/>
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Display Aliases toggle -->
+        <div class="pds-option-list-item">
+          <div class="pds-option-list-item__label">Display Aliases</div>
+          <div class="pds-option-list-item__control">
+            <div class="pds-toggle" data-option="dimension-display-aliases">
+              <div class="pds-toggle__handle">
+                <span class="pds-toggle__icon">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8.00047 7.05767L11.3003 3.75781L12.2431 4.70062L8.94327 8.00047L12.2431 11.3003L11.3003 12.2431L8.00047 8.94327L4.70062 12.2431L3.75781 11.3003L7.05767 8.00047L3.75781 4.70062L4.70062 3.75781L8.00047 7.05767Z" fill="white"/>
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Show description toggle -->
+        <div class="pds-option-list-item">
+          <div class="pds-option-list-item__label">Show description (from metadata)</div>
+          <div class="pds-option-list-item__control">
+            <div class="pds-toggle" data-option="dimension-show-description">
+              <div class="pds-toggle__handle">
+                <span class="pds-toggle__icon">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8.00047 7.05767L11.3003 3.75781L12.2431 4.70062L8.94327 8.00047L12.2431 11.3003L11.3003 12.2431L8.00047 8.94327L4.70062 12.2431L3.75781 11.3003L7.05767 8.00047L3.75781 4.70062L4.70062 3.75781L8.00047 7.05767Z" fill="white"/>
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Add title cell toggle -->
+        <div class="pds-option-list-item" style="border-bottom: none;">
+          <div class="pds-option-list-item__label">Add title cell to rows</div>
+          <div class="pds-option-list-item__control">
+            <div class="pds-toggle" data-option="dimension-add-title-cell">
+              <div class="pds-toggle__handle">
+                <span class="pds-toggle__icon">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8.00047 7.05767L11.3003 3.75781L12.2431 4.70062L8.94327 8.00047L12.2431 11.3003L11.3003 12.2431L8.00047 8.94327L4.70062 12.2431L3.75781 11.3003L7.05767 8.00047L3.75781 4.70062L4.70062 3.75781L8.00047 7.05767Z" fill="white"/>
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Generate Button -->
+      <button class="pds-button pds-button--primary generate-button" data-tab="dimension">
+        Generate Dimension Style Guide
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Toast notification -->
+  <div class="pds-toast" id="toast"></div>
+
+  <script>
+    /* __INJECTED_JS__ */
+  </script>
+</body>
+</html>

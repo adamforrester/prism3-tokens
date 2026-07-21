@@ -1,0 +1,86 @@
+/**
+ * Base Styles
+ *
+ * Reset, typography, and layout foundations for the plugin UI.
+ */
+
+/* Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--pds-font-family-body);
+  font-size: 12px;
+  line-height: 1.4;
+  background: #ffffff;
+  color: var(--pds-color-text-primary-default, #111111);
+}
+
+/* Main App Container */
+.plugin-app {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: var(--pds-space-300, 24px) var(--pds-space-400, 32px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--pds-space-300, 24px);
+  background-color: var(--pds-color-surface-secondary-default, #ffffff);
+  min-height: 100vh;
+}
+
+/* Layout Helpers */
+.collection-mode-row {
+  display: flex;
+  gap: var(--pds-space-100, 8px);
+  width: 100%;
+}
+
+.collection-mode-row .pds-selector-card {
+  flex: 1;
+  max-width: 264px;
+}
+
+.styling-options-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pds-space-050, 4px);
+}
+
+.generate-button {
+  align-self: stretch;
+  justify-content: center;
+  gap: var(--pds-space-100, 8px);
+}
+
+/* Legacy heading - consider removing */
+h1 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+/* Status messages */
+.status {
+  padding: 12px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  background: #f0f9ff;
+  border: 1px solid #e0f2fe;
+}
+
+/* Component demo containers - consider removing after development */
+.component-demo {
+  margin-top: 40px;
+  padding: 20px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.component-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}

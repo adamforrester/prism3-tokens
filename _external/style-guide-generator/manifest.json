@@ -1,0 +1,9 @@
+{
+  "name": "Style Guide Generator",
+  "id": "style-guide-generator",
+  "api": "1.0.0",
+  "main": "dist/code.js",
+  "ui": "dist/ui.html",
+  "editorType": ["figma"],
+  "permissions": ["currentuser"]
+}

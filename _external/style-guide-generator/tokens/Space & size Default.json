@@ -1,0 +1,102 @@
+{
+  "pds": {
+    "space": {
+      "0": {
+        "$type": "dimension",
+        "$value": "{pds.dimension.0}"
+      },
+      "100": {
+        "$type": "dimension",
+        "$value": "{pds.dimension.8}"
+      },
+      "150": {
+        "$type": "dimension",
+        "$value": "{pds.dimension.12}"
+      },
+      "200": {
+        "$type": "dimension",
+        "$value": "{pds.dimension.16}"
+      },
+      "250": {
+        "$type": "dimension",
+        "$value": "{pds.dimension.20}"
+      },
+      "300": {
+        "$type": "dimension",
+        "$value": "{pds.dimension.24}"
+      },
+      "400": {
+        "$type": "dimension",
+        "$value": "{pds.dimension.32}"
+      },
+      "500": {
+        "$type": "dimension",
+        "$value": "{pds.dimension.40}"
+      },
+      "600": {
+        "$type": "dimension",
+        "$value": "{pds.dimension.48}"
+      },
+      "700": {
+        "$type": "dimension",
+        "$value": "{pds.dimension.56}"
+      },
+      "800": {
+        "$type": "dimension",
+        "$value": "{pds.dimension.64}"
+      },
+      "900": {
+        "$type": "dimension",
+        "$value": "{pds.dimension.72}"
+      },
+      "1000": {
+        "$type": "dimension",
+        "$value": "{pds.dimension.80}"
+      },
+      "025": {
+        "$type": "dimension",
+        "$value": "{pds.dimension.2}"
+      },
+      "050": {
+        "$type": "dimension",
+        "$value": "{pds.dimension.4}"
+      },
+      "075": {
+        "$type": "dimension",
+        "$value": "{pds.dimension.6}"
+      }
+    },
+    "size": {
+      "component": {
+        "height-2xs": {
+          "$type": "dimension",
+          "$value": "{pds.dimension.32}"
+        },
+        "height-xs": {
+          "$type": "dimension",
+          "$value": "{pds.dimension.36}"
+        },
+        "height-sm": {
+          "$type": "dimension",
+          "$value": "{pds.dimension.40}"
+        },
+        "height-md": {
+          "$type": "dimension",
+          "$value": "{pds.dimension.44}"
+        },
+        "height-lg": {
+          "$type": "dimension",
+          "$value": "{pds.dimension.48}"
+        },
+        "height-xl": {
+          "$type": "dimension",
+          "$value": "{pds.dimension.56}"
+        },
+        "height-2xl": {
+          "$type": "dimension",
+          "$value": "{pds.dimension.64}"
+        }
+      }
+    }
+  }
+}
