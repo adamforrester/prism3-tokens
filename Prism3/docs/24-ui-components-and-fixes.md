@@ -101,7 +101,7 @@ _(none logged yet — seed with a bug-hunting drive-through and owner findings)_
 | C3 toggle | ✅ 2026-07-21 — `toggleField()`; 2 callers (renderControl `inverse` + gradient section) unified; DOM-identical |
 | C4 display atoms | ✅ 2026-07-21 — `tokenPill` (5) + `addButton` (4) + `removeButton` (4); DOM-identical. knob-routing dropped (no clean fit) |
 | C5 stepPicker | ✅ 2026-07-21 — interactive card routed through shared `stepPicker` (→ 2 callers); neutral/background reassessed as different shapes, left as-is |
-| C5b rangeField | ☐ pending (split from C2 — readout-coupled) |
+| C5b rangeInput | ✅ 2026-07-21 — `rangeInput()` element factory across 5 sites (byte-identical). Scoped to construction only — the readouts (`.slider-top` / `.knob-val` / auto-pruning knob / label-as-readout) stay per-site; no full slider+readout component |
 | C3 toggle | ☐ pending |
 | C4 display atoms | ☐ pending |
 | C5 step picker | ☐ pending |
