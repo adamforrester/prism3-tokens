@@ -199,6 +199,19 @@ const numberField = (o: { value: string | number; min?: number | string; max?: n
   if (o.title) inp.title = o.title;
   return inp;
 };
+/** A range `<input>` (doc 24 C5b). Just the element construction (type/bounds/value/class) — the
+ *  readout + wiring stay per-site, since the surrounding layouts genuinely differ (a `.slider-top`
+ *  readout, a `.knob-val`, an auto-pruning knob, a label-as-readout). `className` may be omitted for
+ *  the knob-context sliders styled by the `.knob input[type=range]` descendant rule. */
+const rangeInput = (o: { value: string | number; min?: number | string; max?: number | string; step?: number | string; className?: string }): HTMLInputElement => {
+  const inp = el('input', o.className) as HTMLInputElement;
+  inp.type = 'range';
+  if (o.min != null) inp.min = String(o.min);
+  if (o.max != null) inp.max = String(o.max);
+  if (o.step != null) inp.step = String(o.step);
+  inp.value = String(o.value);
+  return inp;
+};
 /** The on/off toggle switch (doc 24 C3) — a `.toggle` checkbox paired with its On/Off `.knob-val`
  *  readout, returned as a `knobBody`. `onToggle(checked)` fires after the readout updates; the caller
  *  runs its own `apply()` / `applyFull()`. */
@@ -431,9 +444,7 @@ const renderNeutral = (): HTMLElement => {
       const top = el('div', 'slider-top');
       const val = el('span', 'mono val', fmt(getPath(brandState, key)));
       top.append(el('span', undefined, label), val);
-      const input = el('input', 'range') as HTMLInputElement;
-      input.type = 'range'; input.min = String(min); input.max = String(max); input.step = String(step);
-      input.value = String(getPath(brandState, key));
+      const input = rangeInput({ className: 'range', min, max, step, value: getPath(brandState, key) as number });
       input.oninput = () => { setPath(brandState, key, Number(input.value)); val.textContent = fmt(Number(input.value)); apply(); };
       wrap.append(top, input);
       return wrap;
@@ -500,12 +511,7 @@ const renderControl = (lever: Lever): HTMLElement => {
   let body: HTMLElement;
 
   if (lever.control === 'slider') {
-    const input = el('input') as HTMLInputElement;
-    input.type = 'range';
-    if (lever.min !== undefined) input.min = String(lever.min);
-    if (lever.max !== undefined) input.max = String(lever.max);
-    if (lever.step !== undefined) input.step = String(lever.step);
-    input.value = String(getPath(brandState, lever.key) ?? lever.default ?? lever.min ?? 0);
+    const input = rangeInput({ min: lever.min, max: lever.max, step: lever.step, value: (getPath(brandState, lever.key) ?? lever.default ?? lever.min ?? 0) as number });
     input.disabled = !live;
     const val = el('span', 'knob-val', `${input.value}${lever.unit ?? ''}`);
     if (live) input.oninput = () => { setPath(brandState, lever.key, Number(input.value)); val.textContent = `${input.value}${lever.unit ?? ''}`; apply(); };
@@ -1892,8 +1898,7 @@ const renderShadowEditor = (softness?: Lever): HTMLElement => {
       auto.onclick = () => { setModeLever(currentMode, path, undefined); applyFull(); };
       head.append(auto);
       knob.append(head);
-      const input = el('input') as HTMLInputElement;
-      input.type = 'range'; input.min = String(min); input.max = String(max); input.step = String(step); input.value = String(eff);
+      const input = rangeInput({ min, max, step, value: eff });
       const val = el('span', 'knob-val', `${eff}${unit}${ov !== undefined ? '' : ' · auto'}`);
       input.oninput = () => {
         const nv = Number(input.value);
@@ -1918,9 +1923,7 @@ const renderShadowEditor = (softness?: Lever): HTMLElement => {
     const mk = (key: 'hue' | 'amount', label: string, min: number, max: number, step: number, unit: string): void => {
       const knob = el('div', 'knob');
       knob.append(el('label', 'knob-label', label));
-      const input = el('input') as HTMLInputElement;
-      input.type = 'range'; input.min = String(min); input.max = String(max); input.step = String(step);
-      input.value = String(cur?.[key] ?? gTint[key]);
+      const input = rangeInput({ min, max, step, value: cur?.[key] ?? gTint[key] });
       const val = el('span', 'knob-val', `${input.value}${unit}`);
       input.oninput = () => { setPath(brandState, `shadow.tint.${key}`, Number(input.value)); val.textContent = `${input.value}${unit}`; apply(); };
       const body = el('div', 'knob-body'); body.append(input, val);
@@ -2313,8 +2316,7 @@ const renderGradientCard = (g: GradientInput, gi: number, all: GradientInput[], 
   if (kind === 'linear') {
     const f = el('div', 'gr-ed-field');
     f.append(el('label', 'gr-ed-lab', `Angle · ${g.angle ?? 135}°`));
-    const range = el('input', 'gr-ed-range') as HTMLInputElement;
-    range.type = 'range'; range.min = '0'; range.max = '360'; range.step = '5'; range.value = String(g.angle ?? 135);
+    const range = rangeInput({ className: 'gr-ed-range', min: 0, max: 360, step: 5, value: g.angle ?? 135 });
     range.oninput = () => { (f.firstChild as HTMLElement).textContent = `Angle · ${range.value}°`; sw.style.background = inputGradientCss({ ...g, angle: Number(range.value) }); };
     range.onchange = () => mut((gg) => { gg.angle = Number(range.value); });
     f.append(range);
