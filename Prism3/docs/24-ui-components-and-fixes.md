@@ -95,9 +95,26 @@ priority dictates.
 > Bugs / polish found during the refinement pass. Append freely (owner or agent). Format:
 > `- [ ] <area> — <symptom> → <fix or hypothesis>`  ·  check off when a PR lands it (note the PR #).
 
-_No bugs surfaced during the componentization arc (C1–C6, #212–#218) — every PR was a verified refactor
-with a clean independent review, so nothing to log here yet. Seed with owner findings and/or a dedicated
-bug-hunting drive-through._
+Owner review pass (2026-07-21). Fixes batch into area PRs (F1, F2, …); functional bugs stand alone.
+
+**Palettes**
+- [ ] Renaming a borrowed brand color (e.g. `accent`→`secondary`) breaks role refs → dangling `roleColors.success → 'accent'`; cascade the rename to references or block/warn.
+- [ ] Validation ramp jumps to the bottom + cuts off (no steps/hex/anchor) when a status scale is switched from Auto to "use Primary/accent2" → fix the borrowed-scale render branch.
+- [ ] ANCHOR badge clipped on the anchor swatch → size/position so it fits.
+- [ ] Palettes bleed past the 1120px content pane → restructure (Brand Colors + Neutral horizontal, above the palettes; all palettes one width). *Design-led — needs owner alignment.*
+
+**Mode strip**
+- [ ] Pill ✓/✗ (per-mode contrast pass/fail) reads as remove/close → clearer glyph/label.
+- [ ] Edit-Modes dialog: name field + base select have no external labels → add them.
+- [ ] Light "always" shows a dead checkbox → render as a locked/disabled check. *Owner to confirm disable-vs-remove.*
+
+**Surfaces & fills**
+- [x] Rail label `Surfaces / fills` → `Surfaces & fills` (F1).
+- [x] Drop the word "ink" everywhere (subhead `Text & ink`→`Text`, ledes, card desc, inverse specimen) (F1).
+- [x] Contrast-floor control unclear → added an inline tooltip explaining it (F1).
+- [ ] Section headers (`subHead`) too light/small + top spacing too tight → bump size/weight/contrast + top margin (one-place fix).
+- [ ] Backgrounds reads as two surfaces in one mode → make it mode-scoped (active mode's `background.primary` + derived `background.inverse`). *Needs owner nod.*
+- [ ] Text-color rows have very wide selects → add a color example, narrow the select.
 
 ---
 

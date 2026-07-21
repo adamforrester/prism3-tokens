@@ -91,7 +91,7 @@ const MODE_LABEL: Record<string, string> = { light: 'Light', dark: 'Dark', 'hc-l
 // → look at the whole (Preview).
 const NAV = [
   { key: 'palettes', label: 'Palettes', sub: 'Brand hues & neutrals → ramps' },
-  { key: 'surfaces', label: 'Surfaces / fills', sub: 'Backgrounds, text & ink, gradients' },
+  { key: 'surfaces', label: 'Surfaces & fills', sub: 'Backgrounds, text, gradients' },
   { key: 'interactive', label: 'Interactive', sub: 'Action colors, states, a11y' },
   { key: 'typography', label: 'Typography', sub: 'Families, weights → type scale' },
   { key: 'elevation', label: 'Elevation', sub: 'Shadows' },
@@ -776,7 +776,7 @@ const renderPreviewTokens = (host: HTMLElement): void => {
 
 const PAGE_COPY: Record<PageKey, [string, string]> = {
   palettes: ['', ''],   // Palettes has its own hero in renderPrimitives
-  surfaces: ['Surfaces & fills.', 'The page backgrounds every role sits on, the text/ink derived to stay readable on them, and an optional brand gradient. Text is contrast-placed — override to a specific neutral step and the badge tells you whether it still clears. (Status hues are edited per-ramp on Palettes.)'],
+  surfaces: ['Surfaces & fills.', 'The page backgrounds every role sits on, the text colors derived to stay readable on them, and an optional brand gradient. Text is contrast-placed — override to a specific neutral step and the badge tells you whether it still clears. (Status hues are edited per-ramp on Palettes.)'],
   interactive: ['Interactive color & states.', 'Point actions at the palette that reads best, tune the interactive treatment (hover, inverse, neutral emphasis), and set the accessibility policy — icon contrast + the disabled strategy.'],
   typography: ['Set the type system.', 'Families, weights, and the type scale that shifts the semantic→primitive size mapping. The rem ladder is brand-invariant; the scale is the dial.'],
   elevation: ['Elevation.', 'The shadow ramp — blur/offset softness and an optional brand-hued tint on the shadow base. Dark modes get a reduced set automatically.'],
@@ -977,7 +977,7 @@ const renderInteractiveCard = (col: ICol): HTMLElement | null => {
     label: col.label, onRemove: col.onRemove, removeTitle: 'Remove interactive color',
     fillHex: rest.hex, midTitle: 'Surface — rest', picker: sel, tokenPath: `interactive.${col.name}.fill.rest`,
     example: btn,
-    desc: 'The surface color of your buttons and interactive containers — engine-derived and gated against the page surface; the on-fill ink is auto-picked to stay legible.',
+    desc: 'The surface color of your buttons and interactive containers — engine-derived and gated against the page surface; the on-fill text color is auto-picked to stay legible.',
     badge: rest.ratio != null && rest.min != null ? contrastBadge(rest.ratio, rest.min) : undefined,
   });
 
@@ -1405,7 +1405,7 @@ const renderSectionContrast = (key: PageKey): HTMLElement | null => {
 const renderSurfacesPage = (host: HTMLElement): void => renderScreen(host, 'surfaces', (h) => {
   h.append(renderSurfacesEditor());     // self-heads "Backgrounds"
   h.append(renderForegroundsEditor());  // self-heads "Foreground fills" — the bold/surface fills (docs/23 §2)
-  h.append(renderForegroundEditor());   // self-heads "Text & ink"
+  h.append(renderForegroundEditor());   // self-heads "Text"
   h.append(subHead('Gradients'));
   renderGradientsSection(h);
 }, () => [renderGradientSpecimen(), renderSectionContrast('surfaces')]);
@@ -1754,8 +1754,10 @@ const renderSurfacesEditor = (): HTMLElement => {
     // Contrast floor — the worst-case neutral the saturated foregrounds validate against (auto unless pinned).
     // Appended as a secondary control, mirroring the interactive card's states row.
     const floorRow = el('div', 'bg-floor');
-    floorRow.append(el('label', 'bg-floor-lab', 'Contrast floor'));
-    const floor = selectEl('cap');
+    const floorHint = 'The worst-case neutral the engine validates bold fills against on this surface — the mode’s contrast baseline. Auto derives it from the base surface; pin a step to force a specific reference.';
+    const floorLab = el('label', 'bg-floor-lab', 'Contrast floor'); floorLab.title = floorHint;
+    floorRow.append(floorLab);
+    const floor = selectEl('cap'); floor.title = floorHint;
     opt(floor, '', 'Auto', cur?.floorStep == null);
     for (const s of NEUTRAL_STEPS) opt(floor, String(s), `Neutral ${s}`, cur?.floorStep === s);
     floor.onchange = () => { setPath(brandState, `surfaces.${mode}.floorStep`, floor.value === '' ? undefined : Number(floor.value)); applyFull(); };
@@ -1767,13 +1769,13 @@ const renderSurfacesEditor = (): HTMLElement => {
   return wrap;
 };
 
-/** A2c — per-mode foreground/text override. The text ink ladder (text.primary/secondary/tertiary) is
+/** A2c — per-mode foreground/text override. The text-color ladder (text.primary/secondary/tertiary) is
  *  engine-derived and contrast-placed; this repoints a role to a specific NEUTRAL step for the current
  *  mode via the A1 override layer. Symmetric across customizable modes (light + dark both write their
  *  own override); "Auto" = the generated default; a pick below the text floor warns (never blocks). */
 const FG_ROLES: [string, string][] = [['text.primary', 'Primary text'], ['text.secondary', 'Secondary text'], ['text.tertiary', 'Tertiary text']];
 const renderForegroundEditor = (): HTMLElement => {
-  const wrap = objEditor('Text & ink', `The neutral ink ladder for ${MODE_LABEL[currentMode] ?? currentMode} — “Auto” follows the generated, contrast-placed default; pick a neutral step to override just this mode (a pick below the text floor is warned, not blocked).`);
+  const wrap = objEditor('Text', `The text colors for ${MODE_LABEL[currentMode] ?? currentMode} — “Auto” follows the generated, contrast-placed default; pick a neutral step to override just this mode (a pick below the text floor is warned, not blocked).`);
   const nPal = theme.roleToPalette.neutral;
   const nSteps = (theme.palettes.find((p) => p.palette === nPal)?.steps ?? []).map((s) => s.key);
   const roles = resolveAllModes(theme).find((x) => x.mode === currentMode)?.roles ?? {};
@@ -2173,10 +2175,10 @@ const renderInverseSpecimen = (): HTMLElement => {
   // are generated UNCONDITIONALLY (modes.ts), only interactive.<color>.on-inverse is behind
   // `inverseContext` (modes.ts §inverse) — so this is what's absent when the toggle is off.
   if (!hx('interactive.primary.on-inverse')) {
-    wrap.append(sectionHead('Inverse surface', 'Inverse context is off — enable the “Inverse surface-context” toggle to generate the on-inverse interactive inks.'));
+    wrap.append(sectionHead('Inverse surface', 'Inverse context is off — enable the “Inverse surface-context” toggle to generate the on-inverse interactive text colors.'));
     return wrap;
   }
-  wrap.append(sectionHead('Inverse surface', 'Controls on a dark hero / inverse section — the on-inverse inks (nothing else in the preview shows them).'));
+  wrap.append(sectionHead('Inverse surface', 'Controls on a dark hero / inverse section — the on-inverse text colors (nothing else in the preview shows them).'));
   const band = el('div', 'inv-band');
   band.style.background = hx('background.inverse.primary')!;
   const h = el('div', 'inv-h', 'Ship your design system with confidence.');
