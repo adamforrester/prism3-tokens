@@ -884,6 +884,14 @@ const INTERACTIVE_GROUPS: Array<{ title: string; keys: string[] }> = [
 ];
 const NESTED_KEYS = new Set(['disabledMin']);
 const subHead = (title: string): HTMLElement => { const s = el('div', 'sub-lab'); s.append(el('h3', 'sub-t', title)); return s; };
+/** A bespoke object-editor section (doc 24 C6) — the `.obj-editor` wrap pre-headed with a `subHead` and,
+ *  when given, an `.obj-lede` intro paragraph. Callers append their controls to the returned node. */
+const objEditor = (title: string, lede?: string): HTMLElement => {
+  const wrap = el('div', 'obj-editor');
+  wrap.append(subHead(title));
+  if (lede) wrap.append(el('p', 'obj-lede', lede));
+  return wrap;
+};
 
 /** #161 — the interactive-color cards: one card per interactive column (primary + destructive + each
  *  promoted accent), each shown as a big fill swatch + a palette/step picker + its token path + a live
@@ -1725,9 +1733,7 @@ const SURFACE_MODES: Array<['light' | 'dark', string, 'white' | 'black']> = [
  *  preview paints on (and the worst-case neutral the saturated foregrounds validate against).
  *  base = white / black / a tinted neutral step; floorStep is auto (engine-derived) unless pinned. */
 const renderSurfacesEditor = (): HTMLElement => {
-  const wrap = el('div', 'obj-editor');
-  wrap.append(subHead('Backgrounds'));
-  wrap.append(el('p', 'obj-lede', 'The primary surface each mode paints on — white/black or a tinted neutral step. The contrast floor follows it.'));
+  const wrap = objEditor('Backgrounds', 'The primary surface each mode paints on — white/black or a tinted neutral step. The contrast floor follows it.');
   const grid = el('div', 'fill-grid');
   const opt = (sel: HTMLSelectElement, v: string, t: string, on: boolean): void => { sel.append(optionEl(v, t, on)); };
   for (const [mode, label, dflt] of SURFACE_MODES) {
@@ -1767,9 +1773,7 @@ const renderSurfacesEditor = (): HTMLElement => {
  *  own override); "Auto" = the generated default; a pick below the text floor warns (never blocks). */
 const FG_ROLES: [string, string][] = [['text.primary', 'Primary text'], ['text.secondary', 'Secondary text'], ['text.tertiary', 'Tertiary text']];
 const renderForegroundEditor = (): HTMLElement => {
-  const wrap = el('div', 'obj-editor');
-  wrap.append(subHead('Text & ink'));
-  wrap.append(el('p', 'obj-lede', `The neutral ink ladder for ${MODE_LABEL[currentMode] ?? currentMode} — “Auto” follows the generated, contrast-placed default; pick a neutral step to override just this mode (a pick below the text floor is warned, not blocked).`));
+  const wrap = objEditor('Text & ink', `The neutral ink ladder for ${MODE_LABEL[currentMode] ?? currentMode} — “Auto” follows the generated, contrast-placed default; pick a neutral step to override just this mode (a pick below the text floor is warned, not blocked).`);
   const nPal = theme.roleToPalette.neutral;
   const nSteps = (theme.palettes.find((p) => p.palette === nPal)?.steps ?? []).map((s) => s.key);
   const roles = resolveAllModes(theme).find((x) => x.mode === currentMode)?.roles ?? {};
@@ -1842,9 +1846,7 @@ const setFillOverride = (role: string, palette: string, step: string | undefined
   applyFull();
 };
 const renderForegroundsEditor = (): HTMLElement => {
-  const wrap = el('div', 'obj-editor');
-  wrap.append(subHead('Foreground fills'));
-  wrap.append(el('p', 'obj-lede', `Bold semantic fills + neutral surface tiers for ${MODE_LABEL[currentMode] ?? currentMode} — “Auto” follows the generated, contrast-gated default; pick a step to override just this mode (a pick below the fill's floor is warned, not blocked).`));
+  const wrap = objEditor('Foreground fills', `Bold semantic fills + neutral surface tiers for ${MODE_LABEL[currentMode] ?? currentMode} — “Auto” follows the generated, contrast-gated default; pick a step to override just this mode (a pick below the fill's floor is warned, not blocked).`);
   const roles = (resolveAllModes(theme).find((x) => x.mode === currentMode)?.roles ?? {}) as Record<string, { hex: string; path?: string; ratio?: number; min?: number } | undefined>;
   const grid = el('div', 'fill-grid');
   for (const { role, label, paletteKey, desc } of FILL_ROLES) {
@@ -1869,8 +1871,7 @@ const renderForegroundsEditor = (): HTMLElement => {
  *  pure black, higher = a richer brand-hued near-black). Reads the resolved default (`theme.shadow.tint`)
  *  when the brand hasn't set one; the elevation specimen recolors live. */
 const renderShadowEditor = (softness?: Lever): HTMLElement => {
-  const wrap = el('div', 'obj-editor');
-  wrap.append(subHead('Shadow'));
+  const wrap = objEditor('Shadow');
   // D (shadow) — outside the base mode, softness + tint go per-mode (modeLevers[mode].shadow); the
   // slider shows the EFFECTIVE value (override ?? global) and moving it creates an override, with a
   // "↺ Auto" reset that clears it (blank-slider has no natural Auto state, so the reset is explicit).
