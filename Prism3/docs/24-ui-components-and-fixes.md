@@ -38,7 +38,7 @@ construction sites; "forms" = how many divergent CSS/markup variants exist for t
 |---|---|---|---|
 | **C6** | **Token pill** | `el('span', 'tpill mono', path)` inline — 5× `.tpill mono` (+ ~13 bare `.mono` chips, some are token pills) | `tokenPill(path)` |
 | **C7** | **Add / remove buttons** | `.addbtn` (dashed add) ×**4** element sites (the "11" grep hit counted CSS rules + compound classes too), `.rx` (remove-×) ×**4** — constructed inline each time | `addButton(label, onClick, cls?)`, `removeButton(onClick, title?, cls?)` |
-| **C8** | **Step picker (Auto + steps)** | `stepPicker()` exists (1 caller: Foregrounds) but the interactive card, neutral card, and (now) background base each roll their own "Auto + palette steps" select | Route interactive/neutral/background through the one `stepPicker`; ≥3 callers converge |
+| **C8** | **Step picker (Auto + steps)** | `stepPicker()` exists (1 caller: Foregrounds); the **interactive card** rolled its own identical "Auto + palette steps" select. ✅ Reassessed: the **neutral card**'s picker is the *emphasis* toggle (subtle/strong), not steps, and the **background base** is white/black/neutral-steps — a different shape — so only the interactive card genuinely matched | Routed the interactive card through the one `stepPicker` (→ 2 callers); bridges the card's numeric anchor ↔ the picker's key strings |
 
 ### Tier 3 — structural scaffolds (do last)
 
@@ -72,7 +72,8 @@ not DOM-parity.
    dropped**: the 4 direct `el('div','knob')` sites build bespoke structures (custom heads, no
    `knob-desc`, conditional per-mode bodies) that don't fit `knob(label, body, desc)` — routing them
    would change structure for no gain, so they stay as-is.
-5. **PR-C5 — `stepPicker` unification** — interactive / neutral / background converge on one picker.
+5. **PR-C5 — `stepPicker` unification** — the interactive card converges on the shared picker (→ 2 callers).
+   ✅ neutral (emphasis toggle, not steps) + background (white/black/steps, different shape) don't fit — left as-is.
 6. **PR-C6 — `objEditor` scaffold** — the last structural wrapper.
 
 Sequencing note: all edits touch `web/src/main.ts`, so PRs **serialize** (one branch, squash-merge, reset).
@@ -99,6 +100,7 @@ _(none logged yet — seed with a bug-hunting drive-through and owner findings)_
 | C2 numberField | ✅ 2026-07-21 — `numberField()` + `.num` base; 7 sites, 4 classes → base + deltas (no visual change). color dropped (not drift), range → C5b |
 | C3 toggle | ✅ 2026-07-21 — `toggleField()`; 2 callers (renderControl `inverse` + gradient section) unified; DOM-identical |
 | C4 display atoms | ✅ 2026-07-21 — `tokenPill` (5) + `addButton` (4) + `removeButton` (4); DOM-identical. knob-routing dropped (no clean fit) |
+| C5 stepPicker | ✅ 2026-07-21 — interactive card routed through shared `stepPicker` (→ 2 callers); neutral/background reassessed as different shapes, left as-is |
 | C5b rangeField | ☐ pending (split from C2 — readout-coupled) |
 | C3 toggle | ☐ pending |
 | C4 display atoms | ☐ pending |
