@@ -500,7 +500,7 @@
       "label": "Inverse surface-context",
       "control": "toggle",
       "default": true,
-      "description": "Generate interactive.<color>.on-inverse inks for controls on a dark hero / inverse section (a light CTA on dark)."
+      "description": "Generate interactive.<color>.on-inverse text colors for controls on a dark hero / inverse section (a light CTA on dark)."
     },
     {
       "key": "interactivePalettes",
