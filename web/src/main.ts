@@ -1724,35 +1724,37 @@ const renderTypographyEditor = (): HTMLElement => {
 
 /** The neutral ramp steps a page surface / contrast floor can name (base can also be white/black). */
 const NEUTRAL_STEPS = [25, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950];
-/** Per mode: the engine's default `base` when a brand doesn't declare a surface (light→white, dark→black). */
-const SURFACE_MODES: Array<['light' | 'dark', string, 'white' | 'black']> = [
-  ['light', 'Light', 'white'],
-  ['dark', 'Dark', 'black'],
-];
 /** #97 — page-surfaces editor. `surfaces.<mode>.{base,floorStep}` sets the primary surface the
  *  preview paints on (and the worst-case neutral the saturated foregrounds validate against).
  *  base = white / black / a tinted neutral step; floorStep is auto (engine-derived) unless pinned. */
+// Backgrounds (docs/24 #61) — mode-SCOPED like the rest of the Surfaces page (Text below is too): the
+// ACTIVE mode's primary surface (editable) + its inverse (derived, read-only), not both modes at once.
+// Switch modes on the header strip to set each mode's surface. Only renders on customizable modes
+// (renderScreen shows the generated note on a derived mode), so `currentMode` is light/dark/custom here.
 const renderSurfacesEditor = (): HTMLElement => {
-  const wrap = objEditor('Backgrounds', 'The primary surface each mode paints on — white/black or a tinted neutral step. The contrast floor follows it.');
+  const mode = currentMode;
+  const label = MODE_LABEL[mode] ?? mode;
+  const wrap = objEditor('Backgrounds', `The surface ${label} paints on (Primary) and its contrasting Inverse band — for dark heroes / inverse sections. Switch modes above to set each mode’s surface.`);
   const grid = el('div', 'fill-grid');
   const opt = (sel: HTMLSelectElement, v: string, t: string, on: boolean): void => { sel.append(optionEl(v, t, on)); };
-  for (const [mode, label, dflt] of SURFACE_MODES) {
-    const cur = brandState.surfaces?.[mode];
-    // Base surface picker — white / black / a tinted neutral step. `applyFull` (not `apply`) so the card's
-    // swatch re-renders to the new resolved surface; the fills/text cards use the same rebuild.
+  const roles = (resolveAllModes(theme).find((x) => x.mode === mode)?.roles ?? {}) as Record<string, { hex: string } | undefined>;
+  const primHex = roles['background.primary']?.hex ?? (mode === 'dark' ? '#000000' : '#ffffff');
+  // The base surface is only configurable for light/dark (`SurfacesConfig`); custom modes seed their
+  // surface from a base mode, so their Primary is shown read-only. (Inline check so TS narrows `mode`.)
+  if (mode === 'light' || mode === 'dark') {
+    const cur = brandState.surfaces?.[mode as 'light' | 'dark'];
+    const dflt: 'white' | 'black' = mode === 'dark' ? 'black' : 'white';
     const baseVal = cur?.base ?? dflt;
     const base = selectEl('cap');
     opt(base, 'white', 'White', baseVal === 'white');
     opt(base, 'black', 'Black', baseVal === 'black');
     for (const s of NEUTRAL_STEPS) opt(base, String(s), `Neutral ${s}`, baseVal === s);
     base.onchange = () => { setPath(brandState, `surfaces.${mode}.base`, base.value === 'white' || base.value === 'black' ? base.value : Number(base.value)); applyFull(); };
-    const hex = rp.colors['color.background.primary']?.[mode] ?? (dflt === 'white' ? '#ffffff' : '#000000');
-    const card = renderCard({
-      label, fillHex: hex, midTitle: 'Base surface', picker: base, tokenPath: 'background.primary',
-      desc: 'The primary surface this mode paints on — white, black, or a tinted neutral step.', compactSwatch: true,
+    const primCard = renderCard({
+      label: 'Primary', fillHex: primHex, midTitle: 'Base surface', picker: base, tokenPath: 'background.primary',
+      desc: `The primary surface ${label} paints on — white, black, or a tinted neutral step.`, compactSwatch: true,
     });
-    // Contrast floor — the worst-case neutral the saturated foregrounds validate against (auto unless pinned).
-    // Appended as a secondary control, mirroring the interactive card's states row.
+    // Contrast floor — the worst-case neutral bold fills validate against (auto unless pinned).
     const floorRow = el('div', 'bg-floor');
     const floorHint = 'The worst-case neutral the engine validates bold fills against on this surface — the mode’s contrast baseline. Auto derives it from the base surface; pin a step to force a specific reference.';
     const floorLab = el('label', 'bg-floor-lab', 'Contrast floor'); floorLab.title = floorHint;
@@ -1762,8 +1764,28 @@ const renderSurfacesEditor = (): HTMLElement => {
     for (const s of NEUTRAL_STEPS) opt(floor, String(s), `Neutral ${s}`, cur?.floorStep === s);
     floor.onchange = () => { setPath(brandState, `surfaces.${mode}.floorStep`, floor.value === '' ? undefined : Number(floor.value)); applyFull(); };
     floorRow.append(floor);
-    card.append(floorRow);
-    grid.append(card);
+    primCard.append(floorRow);
+    grid.append(primCard);
+  } else {
+    grid.append(renderCard({
+      label: 'Primary', fillHex: primHex, midTitle: 'Base surface', picker: el('span', 'bg-derived', 'Seeds from its base mode'),
+      tokenPath: 'background.primary', desc: `The primary surface ${label} paints on — seeded from this custom mode’s base.`, compactSwatch: true,
+    }));
+  }
+
+  // Inverse — DERIVED, read-only (the contrasting band; gated by the Inverse surface-context lever). Shown
+  // so you can see the pairing; not directly picked (the engine derives it from the primary surface).
+  const invHex = roles['background.inverse.primary']?.hex;
+  if (invHex) {
+    grid.append(renderCard({
+      label: 'Inverse', fillHex: invHex, midTitle: 'Inverse surface', picker: el('span', 'bg-derived', 'Derived from primary'),
+      tokenPath: 'background.inverse.primary',
+      desc: 'The contrasting band for dark heroes / inverse sections — derived from the primary surface, not directly set.', compactSwatch: true,
+    }));
+  } else {
+    const off = el('div', 'ic-card bg-inverse-off');
+    off.append(el('h4', 'ic-headt', 'Inverse'), el('p', 'ic-desc', 'Inverse surface is off — enable “Inverse surface-context” on Interactive to generate a contrasting band.'));
+    grid.append(off);
   }
   wrap.append(grid);
   return wrap;
@@ -3304,6 +3326,9 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .fill-grid .ic-card{margin-bottom:0}
 .fill-grid .ic-top{gap:14px}
 /* Backgrounds card — the contrast-floor sub-control appended below the card body. */
+/* Backgrounds Inverse card — the derived, read-only surface (docs/24 #61). */
+.bg-derived{font-size:12.5px;color:var(--faint);font-style:italic}
+.bg-inverse-off{display:flex;flex-direction:column;justify-content:center;gap:6px}
 .bg-floor{display:flex;align-items:center;gap:10px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
 .bg-floor-lab{font-size:12.5px;font-weight:560;color:var(--muted)}
 .bg-floor .select{margin-left:auto}
