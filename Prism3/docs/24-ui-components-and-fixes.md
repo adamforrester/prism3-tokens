@@ -55,9 +55,12 @@ control kit (`renderControl`), `renderScreen` scaffold.
 
 ## Recommended PR sequence
 
-Each is a **pure refactor** unless noted → DOM-parity verified (no visual change), one concern per PR.
+Most are **pure refactors** → DOM-parity verified (no visual change), one concern per PR. C1 is the
+exception: collapsing 5 divergent styles into one base **normalises** the small size deltas, so it's a
+deliberate consolidation verified by a **cross-page drive-through** (every select styled + no breakage),
+not DOM-parity.
 
-1. **PR-C1 — `selectEl` + unified `.select`** (the named pain; 16 call sites, 5 rules → 1).
+1. **PR-C1 — `selectEl` + unified `.select`** (the named pain; 16 call sites, 5 rules → 1). ✅ #212-pending
 2. **PR-C2 — input field kit** — `numberField` + `colorField` + `rangeField` (folds the gradient editor's
    hand-rolled range).
 3. **PR-C3 — `toggleField`** — unify `renderControl` + the gradient section's duplicate switch.
@@ -86,7 +89,7 @@ _(none logged yet — seed with a bug-hunting drive-through and owner findings)_
 | Item | Status |
 |---|---|
 | Audit (this doc) | ✅ 2026-07-21 |
-| C1 select | ☐ pending |
+| C1 select | ✅ 2026-07-21 — `selectEl()` + `.select` (+ `sm`/`fill`/`cap`); 16 sites, 5 rules → 1 |
 | C2 input field kit | ☐ pending |
 | C3 toggle | ☐ pending |
 | C4 display atoms | ☐ pending |

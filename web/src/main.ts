@@ -182,6 +182,11 @@ const optionEl = (value: string, text: string, selected = false): HTMLOptionElem
   o.value = value; o.textContent = text; if (selected) o.selected = true;
   return o;
 };
+/** The dashboard `<select>` (doc 24 C1). One `.select` base class owns all dropdown cosmetics — border,
+ *  radius, background, and the shared chevron — so a styling tweak lands in one place. Size / context are
+ *  additive modifiers: `sm` (compact inline) · `fill` (flex to its row) · `cap` (max-width, for cards).
+ *  Callers append their own `<option>`s (option-building varies too much to generalise). */
+const selectEl = (mods = ''): HTMLSelectElement => el('select', mods ? `select ${mods}` : 'select') as HTMLSelectElement;
 /** The `div.knob-body` row — a control input paired with its `knob-val` readout (slider / toggle). */
 const knobBody = (...kids: Node[]): HTMLElement => { const r = el('div', 'knob-body'); r.append(...kids); return r; };
 /** The knob scaffold: `label.knob-label`, the control body (one node or several), then `p.knob-desc`.
@@ -470,14 +475,14 @@ const renderControl = (lever: Lever): HTMLElement => {
     if (live) input.oninput = () => { setPath(brandState, lever.key, Number(input.value)); val.textContent = `${input.value}${lever.unit ?? ''}`; apply(); };
     body = knobBody(input, val);
   } else if (lever.control === 'palette-ref' && live) {
-    const sel = el('select') as HTMLSelectElement;
+    const sel = selectEl('sm');
     const palettes = ['primary', ...(brandState.brandColors ?? []).map((b) => b.name)];
     const cur = String(getPath(brandState, lever.key) ?? lever.default ?? 'primary');
     for (const p of palettes) sel.append(optionEl(p, p, p === cur));
     sel.onchange = () => { setPath(brandState, lever.key, sel.value); apply(); };
     body = sel;
   } else if (lever.control === 'enum') {
-    const sel = el('select') as HTMLSelectElement;
+    const sel = selectEl('sm');
     const cur = getPath(brandState, lever.key) ?? lever.default;
     for (const o of lever.options ?? []) sel.append(optionEl(String(o.value), o.label, o.value === cur));
     sel.disabled = !live;
@@ -550,7 +555,7 @@ const setModeLever = (mode: string, path: string, value: unknown): void => {
  *  rather than silently reading as Auto. `parse` maps the selected string to the stored value. */
 const renderPerModeSelect = (lever: Lever, key: string, opts: [string, string][], globalOf: () => string, parse: (s: string) => unknown, autoNote: string): HTMLElement => {
   const cur = getModeLever(currentMode, key);
-  const sel = el('select', 'obj-sel') as HTMLSelectElement;
+  const sel = selectEl('sm fill');
   sel.append(optionEl('', `Auto — follows global (${globalOf()})`, cur == null));
   let matched = false;
   for (const [v, label] of opts) { const on = String(cur) === v; matched ||= on; sel.append(optionEl(v, label, on)); }
@@ -780,7 +785,7 @@ const statusRampControl = (role: StatusRole): HTMLElement => {
   const custom = !borrowed && !!brandState.status?.[role];
   const borrowSources = ['primary', ...(brandState.brandColors ?? []).map((b) => b.name)];
 
-  const sel = el('select', 'ramp-ctl-sel') as HTMLSelectElement;
+  const sel = selectEl('sm');
   const mkOpt = (v: string, label: string, on: boolean) => sel.append(optionEl(v, label, on));
   mkOpt('auto', 'Auto', !borrowed && !custom);
   mkOpt('custom', 'Custom hue…', custom);
@@ -919,7 +924,7 @@ const renderInteractiveCard = (col: ICol): HTMLElement | null => {
   const palSteps = (theme.palettes.find((p) => p.palette === palName)?.steps ?? []).map((s) => s.key);
 
   // Step picker — Auto (the generated baseline) + each palette step.
-  const sel = el('select', 'ic-step') as HTMLSelectElement;
+  const sel = selectEl('cap');
   const pinned = col.stepValue;
   const opt = (v: string, label: string, on: boolean) => sel.append(optionEl(v, label, on));
   opt('auto', `Auto · ${palName} ${stepKeyOf(rest.path)}`, pinned == null);
@@ -969,7 +974,7 @@ const renderAddAccentRow = (): HTMLElement => {
     row.append(el('span', 'ic-addhint', 'Add a brand color on Primitives to create another interactive column.'));
     return row;
   }
-  const sel = el('select', 'ic-step') as HTMLSelectElement;
+  const sel = selectEl('cap');
   for (const p of promotable) sel.append(optionEl(p, p));
   const btn = el('button', 'addbtn ic-addbtn', '+ Add interactive color') as HTMLButtonElement;
   btn.onclick = () => {
@@ -991,7 +996,7 @@ const renderNeutralCard = (): HTMLElement | null => {
   const rest = roles?.['interactive.neutral.fill.rest'], hover = roles?.['interactive.neutral.fill.hover'], pressed = roles?.['interactive.neutral.fill.pressed'], onFill = roles?.['interactive.neutral.on-fill'];
   if (!rest) return null;
   const nPal = theme.roleToPalette.neutral;
-  const sel = el('select', 'ic-step') as HTMLSelectElement;
+  const sel = selectEl('cap');
   const cur = lastGoodInput.neutralEmphasis ?? 'subtle';
   for (const [ne, label] of NEUTRAL_EMPHASES) sel.append(optionEl(ne, label, ne === cur));
   sel.onchange = () => { setPath(brandState, 'neutralEmphasis', sel.value); applyFull(); };
@@ -1156,7 +1161,7 @@ const renderModeSetMenu = (): HTMLElement => {
     const nameIn = el('input', 'mctx-addname') as HTMLInputElement;
     nameIn.type = 'text'; nameIn.placeholder = 'name — e.g. marketing-dark'; nameIn.value = addModeName; nameIn.spellcheck = false;
     nameIn.oninput = () => { addModeName = nameIn.value; };
-    const baseSel = el('select', 'obj-sel') as HTMLSelectElement;
+    const baseSel = selectEl('sm fill');
     for (const b of ['light', ...(darkOn ? ['dark'] : [])]) baseSel.append(optionEl(b, `base: ${b}`));
     const err = el('p', 'mctx-adderr');
     const doAdd = () => {
@@ -1626,7 +1631,7 @@ const renderTypographyEditor = (): HTMLElement => {
   for (const g of TYPE_GROUP_ORDER) {
     const tr = el('tr');
     tr.append(el('td', 'te-cat-name mono', g));
-    const fsel = el('select', 'te-fam') as HTMLSelectElement;
+    const fsel = selectEl('sm');
     for (const fr of ['display', 'text', 'mono']) fsel.append(optionEl(fr, fr, fr === catFamily[g]));
     fsel.onchange = () => { setPath(brandState, `typography.familyMap.${g}`, fsel.value); apply(); refreshWarnings(); };
     fsel.disabled = perMode;   // shared skeleton — edit in Light
@@ -1701,7 +1706,7 @@ const renderSurfacesEditor = (): HTMLElement => {
     // Base surface picker — white / black / a tinted neutral step. `applyFull` (not `apply`) so the card's
     // swatch re-renders to the new resolved surface; the fills/text cards use the same rebuild.
     const baseVal = cur?.base ?? dflt;
-    const base = el('select', 'ic-step') as HTMLSelectElement;
+    const base = selectEl('cap');
     opt(base, 'white', 'White', baseVal === 'white');
     opt(base, 'black', 'Black', baseVal === 'black');
     for (const s of NEUTRAL_STEPS) opt(base, String(s), `Neutral ${s}`, baseVal === s);
@@ -1715,7 +1720,7 @@ const renderSurfacesEditor = (): HTMLElement => {
     // Appended as a secondary control, mirroring the interactive card's states row.
     const floorRow = el('div', 'bg-floor');
     floorRow.append(el('label', 'bg-floor-lab', 'Contrast floor'));
-    const floor = el('select', 'ic-step') as HTMLSelectElement;
+    const floor = selectEl('cap');
     opt(floor, '', 'Auto', cur?.floorStep == null);
     for (const s of NEUTRAL_STEPS) opt(floor, String(s), `Neutral ${s}`, cur?.floorStep === s);
     floor.onchange = () => { setPath(brandState, `surfaces.${mode}.floorStep`, floor.value === '' ? undefined : Number(floor.value)); applyFull(); };
@@ -1746,7 +1751,7 @@ const renderForegroundEditor = (): HTMLElement => {
     knob.append(el('label', 'knob-label', label));
     const row = el('div', 'fg-row');
     const sw = el('span', 'fg-sw'); sw.style.background = r.hex;
-    const sel = el('select', 'obj-sel') as HTMLSelectElement;
+    const sel = selectEl('sm fill');
     const cur = brandState.overrides?.[currentMode]?.[role]?.step;
     const optE = (v: string, t: string, on: boolean) => sel.append(optionEl(v, t, on));
     optE('', 'Auto', cur == null);
@@ -1781,7 +1786,7 @@ const renderForegroundEditor = (): HTMLElement => {
 /** A palette step select with an "Auto" (the generated baseline) option — audit §8 candidate #3. `''` is
  *  Auto; other values are step keys. */
 const stepPicker = (paletteName: string, steps: string[], autoStep: string, current: string | undefined, onPick: (step: string | undefined) => void): HTMLSelectElement => {
-  const sel = el('select', 'ic-step') as HTMLSelectElement;
+  const sel = selectEl('cap');
   sel.append(optionEl('', `Auto · ${paletteName} ${autoStep}`, current == null));
   for (const s of steps) sel.append(optionEl(s, `${paletteName} ${s}`, current === s));
   sel.onchange = () => onPick(sel.value === '' ? undefined : sel.value);
@@ -2283,7 +2288,7 @@ const renderGradientCard = (g: GradientInput, gi: number, all: GradientInput[], 
   const labeledSelect = (label: string, opts: [string, string][], cur: string, onPick: (v: string) => void): HTMLElement => {
     const wrap = el('div', 'gr-ed-field');
     wrap.append(el('label', 'gr-ed-lab', label));
-    const sel = el('select', 'ic-step') as HTMLSelectElement;
+    const sel = selectEl('cap');
     for (const [v, t] of opts) sel.append(optionEl(v, t, v === cur));
     sel.onchange = () => onPick(sel.value);
     wrap.append(sel);
@@ -2334,7 +2339,7 @@ const renderGradientCard = (g: GradientInput, gi: number, all: GradientInput[], 
 const renderGradientStop = (g: GradientInput, gi: number, st: { palette: string; step: number; position: number }, si: number, palNames: string[], mut: (fn: (gg: GradientInput) => void) => void): HTMLElement => {
   const row = el('div', 'gr-ed-stop');
   row.append(swatch(gradStopHex(st.palette, st.step), 'gr-ed-stopsw'));
-  const palSel = el('select', 'ic-step') as HTMLSelectElement;
+  const palSel = selectEl('fill');
   for (const p of palNames) palSel.append(optionEl(p, p, p === st.palette));
   // Changing palette re-homes the step to the nearest valid step in the new palette.
   palSel.onchange = () => mut((gg) => {
@@ -2342,7 +2347,7 @@ const renderGradientStop = (g: GradientInput, gi: number, st: { palette: string;
     const keep = steps.find((s) => s.num === gg.stops[si].step)?.num ?? steps.find((s) => s.num === 500)?.num ?? steps[Math.floor(steps.length / 2)]?.num ?? gg.stops[si].step;
     gg.stops[si] = { ...gg.stops[si], palette: palSel.value, step: keep };
   });
-  const stepSel = el('select', 'ic-step') as HTMLSelectElement;
+  const stepSel = selectEl('fill');
   const steps = theme.palettes.find((p) => p.palette === st.palette)?.steps ?? [];
   for (const s of steps) stepSel.append(optionEl(String(s.num), s.key, s.num === st.step));
   stepSel.onchange = () => mut((gg) => { gg.stops[si] = { ...gg.stops[si], step: Number(stepSel.value) }; });
@@ -3019,7 +3024,15 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .lab-hex{font-size:11px;color:var(--faint)}
 .ramp-head-right{display:flex;align-items:center;gap:14px}
 .ramp-ctl{display:flex;align-items:center;gap:8px}
-.ramp-ctl-sel{font:inherit;font-size:12.5px;padding:5px 9px;border:1px solid var(--line2);border-radius:var(--r-sm);background:var(--panel);color:var(--ink);cursor:pointer}
+/* The dashboard <select> component (doc 24 C1) — one base class owns every dropdown's cosmetics + the
+   consistent chevron; sm / fill / cap are additive size/context modifiers. */
+.select{appearance:none;-webkit-appearance:none;font:inherit;font-size:13.5px;padding:9px 11px;padding-right:28px;border:1px solid var(--line2);border-radius:var(--r-xs);background:var(--paper);color:var(--ink);cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 4.5 6 8l3.5-3.5' fill='none' stroke='%2371717a' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 9px center;background-size:11px}
+.select:disabled{opacity:.6}
+.select.sm{font-size:12.5px;padding:6px 9px;padding-right:26px}
+.select.fill{flex:1;min-width:0}
+.select.cap{max-width:260px}
 .ramp-ctl-pick{width:30px;height:27px;padding:0;border:1px solid var(--line2);border-radius:var(--r-sm);background:none;cursor:pointer}
 .ramp-borrowed .strip-mini{display:flex;border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--line2)}
 .ramp-borrowed .sw-mini{flex:1;height:30px}
@@ -3040,8 +3053,7 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .knob input.toggle:checked::after{transform:translateX(16px)}
 .knob input.toggle:disabled{opacity:.5;cursor:default}
 .knob input:disabled{opacity:.5}
-.knob select{margin-top:8px;padding:6px 8px;border:1px solid var(--line2);border-radius:var(--r-xs);font:inherit;background:var(--paper)}
-.knob select:disabled{opacity:.6}
+.knob .select{margin-top:8px}
 .knob-val{font-variant-numeric:tabular-nums;color:var(--muted);font-size:12.5px}
 .knob-val.ro{margin-top:6px}
 .knob-desc{margin:7px 0 0;font-size:12px;color:var(--faint);line-height:1.5}
@@ -3063,7 +3075,6 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .te-cat td.unavail input[type=checkbox]{opacity:.32}
 .te-cat td.unavail{background:repeating-linear-gradient(-45deg,transparent,transparent 4px,rgba(120,120,130,.06) 4px,rgba(120,120,130,.06) 5px)}
 .te-cat-note{margin:10px 2px 0;font-size:11.5px;line-height:1.5;color:var(--faint)}
-.te-fam{padding:5px 7px;border:1px solid var(--line2);border-radius:var(--r-xs);font:inherit;font-size:12px;background:var(--paper);cursor:pointer}
 /* D (typography) — per-mode notes + shared read-only markers. */
 .te-modenote{margin:0 0 16px;font-size:12.5px;color:var(--muted);line-height:1.55;padding:10px 13px;background:var(--paper);border:1px solid var(--line);border-radius:var(--r-sm)}
 .te-order-warn{margin:10px 2px 0;font-size:12px;color:#a12;line-height:1.5}
@@ -3084,7 +3095,6 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .obj-editor{margin-bottom:8px}
 .obj-lede{margin:0 0 8px;font-size:12px;color:var(--faint);line-height:1.5}
 .obj-row{display:flex;gap:8px;margin-top:8px}
-.obj-sel{flex:1;min-width:0;padding:7px 9px;border:1px solid var(--line2);border-radius:var(--r-xs);font:inherit;font-size:12.5px;background:var(--paper);cursor:pointer}
 
 .stage-vol{display:flex;flex-direction:column}
 .pvhost{display:flex;flex-direction:column;gap:16px}
@@ -3179,7 +3189,6 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .gr-ed-stops{display:flex;flex-direction:column;gap:10px}
 .gr-ed-stop{display:flex;align-items:center;gap:10px}
 .gr-ed-stopsw{width:34px;height:34px;flex:none;border-radius:var(--r-xs);border:1px solid var(--line2)}
-.gr-ed-stop .ic-step{flex:1;min-width:0}
 .gr-ed-stop .gr-ed-num{flex:none}
 .gr-ed-stoprm{flex:none}
 .gr-ed-addstop{margin-top:12px}
@@ -3281,17 +3290,9 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 /* Backgrounds card — the contrast-floor sub-control appended below the card body. */
 .bg-floor{display:flex;align-items:center;gap:10px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
 .bg-floor-lab{font-size:12.5px;font-weight:560;color:var(--muted)}
-.bg-floor .ic-step{margin-left:auto}
+.bg-floor .select{margin-left:auto}
 .ic-mid{flex:1;min-width:0;display:flex;flex-direction:column;gap:12px;align-items:flex-start}
 .ic-h{margin:0;font-size:15px;font-weight:620;color:var(--ink)}
-.ic-step{max-width:260px;padding:9px 11px;border:1px solid var(--line2);border-radius:var(--r-xs);font:inherit;font-size:13.5px;background:var(--paper);cursor:pointer}
-/* #165 — replace the oversized native <select> arrow with a small, consistent chevron across every select.
-   Placed AFTER the per-class rules so its longhands win over their background/padding shorthands
-   (background-color from the shorthand survives; the chevron background-image + padding-right override). */
-.ramp-ctl-sel,.knob select,.te-fam,.obj-sel,.ic-step{
-  appearance:none;-webkit-appearance:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 4.5 6 8l3.5-3.5' fill='none' stroke='%2371717a' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 9px center;background-size:11px;padding-right:28px}
 .ic-example{flex:none;width:270px;align-self:stretch;display:grid;place-items:center;background:var(--paper);border:1px solid var(--line);border-radius:var(--r-sm)}
 .ic-btn{padding:14px 28px;border-radius:var(--r-sm);font-weight:600;font-size:15px}
 .ic-descrow{display:flex;align-items:center;gap:16px;margin-top:18px}
