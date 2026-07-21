@@ -187,6 +187,18 @@ const optionEl = (value: string, text: string, selected = false): HTMLOptionElem
  *  additive modifiers: `sm` (compact inline) · `fill` (flex to its row) · `cap` (max-width, for cards).
  *  Callers append their own `<option>`s (option-building varies too much to generalise). */
 const selectEl = (mods = ''): HTMLSelectElement => el('select', mods ? `select ${mods}` : 'select') as HTMLSelectElement;
+/** A number `<input>` (doc 24 C2). The `.num` base owns the shared field cosmetics (border, radius,
+ *  background, padding); the caller passes a context class for width/size and wires its own `onchange`. */
+const numberField = (o: { value: string | number; min?: number | string; max?: number | string; step?: number | string; className?: string; title?: string }): HTMLInputElement => {
+  const inp = el('input', o.className ? `num ${o.className}` : 'num') as HTMLInputElement;
+  inp.type = 'number';
+  if (o.min != null) inp.min = String(o.min);
+  if (o.max != null) inp.max = String(o.max);
+  if (o.step != null) inp.step = String(o.step);
+  inp.value = String(o.value);
+  if (o.title) inp.title = o.title;
+  return inp;
+};
 /** The `div.knob-body` row — a control input paired with its `knob-val` readout (slider / toggle). */
 const knobBody = (...kids: Node[]): HTMLElement => { const r = el('div', 'knob-body'); r.append(...kids); return r; };
 /** The knob scaffold: `label.knob-label`, the control body (one node or several), then `p.knob-desc`.
@@ -1249,8 +1261,7 @@ const renderResponsiveEditor = (): HTMLElement => {
   const fl = el('label', 'adv-row'); fl.append(cb, el('span', 'adv-row-lab', 'Fluid heading sizing (clamp between viewports)'));
   wrap.append(fl);
   const mk = (key: 'minViewport' | 'maxViewport', label: string, fallback: number): void => {
-    const inp = el('input') as HTMLInputElement;
-    inp.type = 'number'; inp.className = 'adv-num'; inp.value = String(getPath(brandState, `typography.responsive.${key}`) ?? fallback);
+    const inp = numberField({ className: 'adv-num', value: String(getPath(brandState, `typography.responsive.${key}`) ?? fallback) });
     inp.onchange = () => { const n = Number(inp.value); if (Number.isFinite(n)) { setPath(brandState, `typography.responsive.${key}`, n); apply(); } };
     const row = el('div', 'adv-row'); row.append(el('span', 'adv-row-lab', label), inp, el('span', 'adv-unit', 'px'));
     wrap.append(row);
@@ -1276,7 +1287,7 @@ const renderBreakpointsEditor = (): HTMLElement => {
     const bps = (brandState.layout?.breakpoints ?? theme.layout.breakpoints.map((b) => b.px)) as number[];
     bps.forEach((px, i) => {
       const cell = el('div', 'adv-bp');
-      const inp = el('input') as HTMLInputElement; inp.type = 'number'; inp.className = 'adv-num'; inp.value = String(px);
+      const inp = numberField({ className: 'adv-num', value: String(px) });
       inp.onchange = () => { const next = [...bps]; next[i] = Number(inp.value); commit(next); };
       const rm = el('button', 'adv-x', '×') as HTMLButtonElement;
       rm.onclick = () => commit(bps.filter((_, j) => j !== i));
@@ -1299,7 +1310,7 @@ const renderEasingEditor = (): HTMLElement => {
   const inputs: HTMLInputElement[] = [];
   const commit = (): void => { const vals = inputs.map((x) => Number(x.value)); if (vals.length === 4 && vals.every((v) => Number.isFinite(v))) { setPath(brandState, 'motionPersonality.easingEmphasized', vals); apply(); } };
   ['x1', 'y1', 'x2', 'y2'].forEach((lab, i) => {
-    const inp = el('input') as HTMLInputElement; inp.type = 'number'; inp.step = '0.01'; inp.className = 'adv-num'; inp.value = String(cur[i] ?? [0.4, 0.14, 0.3, 1][i]);
+    const inp = numberField({ className: 'adv-num', step: '0.01', value: String(cur[i] ?? [0.4, 0.14, 0.3, 1][i]) });
     inp.onchange = commit; inputs.push(inp);
     row.append(el('span', 'adv-bez-lab mono', lab), inp);
   });
@@ -1544,8 +1555,7 @@ const renderTypographyEditor = (): HTMLElement => {
   for (const w of ty.weightRoles) {
     const knob = el('div', 'knob te-wrow');
     knob.append(el('label', 'knob-label', w.role));
-    const input = el('input') as HTMLInputElement;
-    input.type = 'number'; input.min = '100'; input.max = '900'; input.step = '100'; input.className = 'te-weight';
+    const input = numberField({ className: 'te-weight', min: 100, max: 900, step: 100, value: '' });
     if (perMode) {
       const ov = wGet(w.role);
       input.value = ov !== undefined ? String(ov) : '';
@@ -1581,8 +1591,7 @@ const renderTypographyEditor = (): HTMLElement => {
       const cell = el('div', 'te-ramp-cell');
       cell.append(el('label', 'te-ramp-key mono', s.key));
       if (perMode) {
-        const input = el('input') as HTMLInputElement;
-        input.type = 'number'; input.min = String(min); input.max = String(max); input.step = String(step); input.className = 'te-ramp-in';
+        const input = numberField({ className: 'te-ramp-in', min, max, step, value: '' });
         const ov = getOv(s.key);
         input.value = ov !== undefined ? String(ov) : '';
         input.placeholder = `Auto ${fmt(s.val)}`;
@@ -2310,8 +2319,7 @@ const renderGradientCard = (g: GradientInput, gi: number, all: GradientInput[], 
     const centerField = (label: string, idx: 0 | 1): HTMLElement => {
       const f = el('div', 'gr-ed-field');
       f.append(el('label', 'gr-ed-lab', label));
-      const num = el('input', 'gr-ed-num') as HTMLInputElement;
-      num.type = 'number'; num.min = '0'; num.max = '100'; num.step = '5'; num.value = String(Math.round(center[idx] * 100));
+      const num = numberField({ className: 'gr-ed-num', min: 0, max: 100, step: 5, value: Math.round(center[idx] * 100) });
       num.onchange = () => mut((gg) => { const c: [number, number] = [...(gg.center ?? [0.5, 0.5])] as [number, number]; c[idx] = clampUnit(Number(num.value) / 100); gg.center = c; });
       f.append(num);
       return f;
@@ -2351,9 +2359,7 @@ const renderGradientStop = (g: GradientInput, gi: number, st: { palette: string;
   const steps = theme.palettes.find((p) => p.palette === st.palette)?.steps ?? [];
   for (const s of steps) stepSel.append(optionEl(String(s.num), s.key, s.num === st.step));
   stepSel.onchange = () => mut((gg) => { gg.stops[si] = { ...gg.stops[si], step: Number(stepSel.value) }; });
-  const pos = el('input', 'gr-ed-num') as HTMLInputElement;
-  pos.type = 'number'; pos.min = '0'; pos.max = '100'; pos.step = '5'; pos.value = String(Math.round(st.position * 100));
-  pos.title = 'Position %';
+  const pos = numberField({ className: 'gr-ed-num', min: 0, max: 100, step: 5, value: Math.round(st.position * 100), title: 'Position %' });
   pos.onchange = () => mut((gg) => { gg.stops[si] = { ...gg.stops[si], position: clampUnit(Number(pos.value) / 100) }; });
   row.append(palSel, stepSel, pos);
   if (g.stops.length > 2) {
@@ -3060,7 +3066,10 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .type-editor{margin-bottom:8px}
 .te-font{width:100%;margin-top:8px;padding:7px 9px;border:1px solid var(--line2);border-radius:var(--r-xs);font:inherit;background:var(--paper)}
 .te-wrow{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.te-weight{width:88px;padding:6px 8px;border:1px solid var(--line2);border-radius:var(--r-xs);font:inherit;background:var(--paper);font-variant-numeric:tabular-nums;text-align:right}
+/* The number-input component (doc 24 C2) — .num owns the shared field cosmetics; the context classes
+   below carry only width / size / alignment deltas. */
+.num{padding:6px 8px;border:1px solid var(--line2);border-radius:var(--r-xs);font:inherit;background:var(--paper)}
+.te-weight{width:88px;font-variant-numeric:tabular-nums;text-align:right}
 .te-cat-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--panel);margin-top:8px}
 .te-cat{border-collapse:collapse;width:100%;font-size:12.5px}
 .te-cat th,.te-cat td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:center;white-space:nowrap}
@@ -3086,7 +3095,7 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .te-ramp{display:flex;flex-wrap:wrap;gap:8px}
 .te-ramp-cell{display:flex;flex-direction:column;gap:4px;min-width:74px}
 .te-ramp-key{font-size:11px;color:var(--muted)}
-.te-ramp-in{width:74px;padding:5px 7px;border:1px solid var(--line2);border-radius:var(--r-xs);font:inherit;font-size:12px;background:var(--paper)}
+.te-ramp-in{width:74px;padding:5px 7px;font-size:12px}
 .te-ramp-ro{font-size:13px;color:var(--ink2);padding:5px 0}
 /* D (shadow) — per-mode softness/tint: the knob header carries an Auto/reset affordance. */
 .sh-knob-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
@@ -3141,7 +3150,7 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .adv-obj-note{margin:8px 2px 0;font-size:11px;color:var(--faint);line-height:1.5}
 .adv-row{display:flex;align-items:center;gap:10px;margin-top:8px;font-size:12.5px;color:var(--ink2)}
 .adv-row-lab{min-width:150px}
-.adv-num{width:88px;padding:5px 7px;border:1px solid var(--line2);border-radius:var(--r-xs);font:inherit;font-size:12px;background:var(--paper)}
+.adv-num{width:88px;padding:5px 7px;font-size:12px}
 .adv-unit{font-size:11px;color:var(--faint)}
 .adv-bplist{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .adv-bp{display:flex;align-items:center;gap:2px}
@@ -3184,7 +3193,7 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .gr-ed-field{display:flex;flex-direction:column;gap:6px}
 .gr-ed-lab{font-size:12px;font-weight:560;color:var(--muted)}
 .gr-ed-range{width:180px;accent-color:var(--ink)}
-.gr-ed-num{width:96px;padding:9px 11px;border:1px solid var(--line2);border-radius:var(--r-xs);font:inherit;font-size:13.5px;background:var(--paper)}
+.gr-ed-num{width:96px;padding:9px 11px;font-size:13.5px}
 .gr-ed-stopsh{margin:20px 0 10px;font-size:12.5px;font-weight:600;color:var(--muted);letter-spacing:.02em}
 .gr-ed-stops{display:flex;flex-direction:column;gap:10px}
 .gr-ed-stop{display:flex;align-items:center;gap:10px}
