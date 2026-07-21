@@ -67,7 +67,7 @@ not DOM-parity.
    centralised — so a `colorField` factory is low value and **dropped**. **range** is coupled to per-site
    label/readout plumbing (the `slider()` helper vs. the LH/LS + gradient-angle hand-rolls), so it moves to
    its own follow-up (**C5b `rangeField`**) rather than riding here.
-3. **PR-C3 — `toggleField`** — unify `renderControl` + the gradient section's duplicate switch.
+3. **PR-C3 — `toggleField`** — unify `renderControl` + the gradient section's duplicate switch. ✅
 4. **PR-C4 — display atoms** — `tokenPill`, `addButton`, `removeButton`, and route the 5 stray knobs
    through `knob()` (trivial, batched).
 5. **PR-C5 — `stepPicker` unification** — interactive / neutral / background converge on one picker.
@@ -95,6 +95,7 @@ _(none logged yet — seed with a bug-hunting drive-through and owner findings)_
 | Audit (this doc) | ✅ 2026-07-21 |
 | C1 select | ✅ 2026-07-21 — `selectEl()` + `.select` (+ `sm`/`fill`/`cap`); 16 sites, 5 rules → 1 |
 | C2 numberField | ✅ 2026-07-21 — `numberField()` + `.num` base; 7 sites, 4 classes → base + deltas (no visual change). color dropped (not drift), range → C5b |
+| C3 toggle | ✅ 2026-07-21 — `toggleField()`; 2 callers (renderControl `inverse` + gradient section) unified; DOM-identical |
 | C5b rangeField | ☐ pending (split from C2 — readout-coupled) |
 | C3 toggle | ☐ pending |
 | C4 display atoms | ☐ pending |
