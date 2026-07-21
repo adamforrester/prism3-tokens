@@ -953,13 +953,10 @@ const renderInteractiveCard = (col: ICol): HTMLElement | null => {
   const palName = col.palette;
   const palSteps = (theme.palettes.find((p) => p.palette === palName)?.steps ?? []).map((s) => s.key);
 
-  // Step picker — Auto (the generated baseline) + each palette step.
-  const sel = selectEl('cap');
-  const pinned = col.stepValue;
-  const opt = (v: string, label: string, on: boolean) => sel.append(optionEl(v, label, on));
-  opt('auto', `Auto · ${palName} ${stepKeyOf(rest.path)}`, pinned == null);
-  for (const k of palSteps) opt(k, `${palName} ${k}`, pinned != null && pinned === Number(k));
-  sel.onchange = () => col.setStep(sel.value === 'auto' ? undefined : Number(sel.value));
+  // Step picker — the shared stepPicker (docs/24 C5). It works in palette-step KEY strings while the
+  // card carries a numeric anchor, so bridge: current = the key whose number matches, and onPick maps
+  // the picked key back to a number for setStep.
+  const sel = stepPicker(palName, palSteps, stepKeyOf(rest.path), palSteps.find((k) => Number(k) === col.stepValue), (step) => col.setStep(step === undefined ? undefined : Number(step)));
   const btn = el('div', 'ic-btn', 'Button example'); btn.style.background = rest.hex; if (onFill) btn.style.color = onFill.hex;
 
   const wrap = renderCard({
