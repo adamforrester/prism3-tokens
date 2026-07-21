@@ -838,7 +838,7 @@ const borrowedStatusRow = (role: StatusRole): HTMLElement => {
 // The Interactive page groups its controls into intent sub-sections. (Gradients — formerly a "Features"
 // group here — now lives on the Surfaces page; page surfaces + text/ink are bespoke editors there.)
 const INTERACTIVE_GROUPS: Array<{ title: string; keys: string[] }> = [
-  { title: 'Interactive color', keys: ['actionPalette', 'neutralEmphasis', 'outlineInteraction', 'inverse'] },
+  { title: 'Interactive color', keys: ['actionPalette', 'outlineInteraction', 'inverse'] },   // neutralEmphasis moved onto the Neutral card
   { title: 'Accessibility policy', keys: ['iconContrast', 'disabledStrategy', 'disabledMin'] },
 ];
 const NESTED_KEYS = new Set(['disabledMin']);
@@ -983,6 +983,40 @@ const renderAddAccentRow = (): HTMLElement => {
 
 /** Render all interactive-color cards in order — primary, destructive, then each promoted accent —
  *  followed by the add-accent row. Replaces the single primary card (#161 increment 2). */
+/** The neutral / default button as a proper interactive card (docs/23 §2, owner request) — same shell as
+ *  the other columns, but its control is the (global) `neutralEmphasis` toggle (subtle grey vs bold fill)
+ *  rather than a per-mode anchor step. Replaces the standalone Neutral-emphasis specimen. */
+const renderNeutralCard = (): HTMLElement | null => {
+  const roles = resolveAllModes(theme).find((x) => x.mode === currentMode)?.roles as Record<string, { hex: string; path?: string; ratio?: number; min?: number } | undefined> | undefined;
+  const rest = roles?.['interactive.neutral.fill.rest'], hover = roles?.['interactive.neutral.fill.hover'], pressed = roles?.['interactive.neutral.fill.pressed'], onFill = roles?.['interactive.neutral.on-fill'];
+  if (!rest) return null;
+  const nPal = theme.roleToPalette.neutral;
+  const sel = el('select', 'ic-step') as HTMLSelectElement;
+  const cur = lastGoodInput.neutralEmphasis ?? 'subtle';
+  for (const [ne, label] of NEUTRAL_EMPHASES) sel.append(optionEl(ne, label, ne === cur));
+  sel.onchange = () => { setPath(brandState, 'neutralEmphasis', sel.value); applyFull(); };
+  const btn = el('div', 'ic-btn', 'Button example'); btn.style.background = rest.hex; if (onFill) btn.style.color = onFill.hex;
+  const wrap = renderCard({
+    label: 'Neutral', fillHex: rest.hex, midTitle: 'Emphasis', picker: sel, tokenPath: 'interactive.neutral.fill.rest',
+    example: btn,
+    desc: 'The neutral / default button — a subtle light-grey surface or a bold near-black/white fill. The emphasis choice is shared across modes.',
+    badge: rest.ratio != null && rest.min != null ? contrastBadge(rest.ratio, rest.min) : undefined,
+  });
+  wrap.append(el('h5', 'ic-states-h', 'Interactive states'));
+  const states = el('div', 'ic-states');
+  const sub = (label: string, role: { hex: string; path?: string } | undefined, path: string) => {
+    if (!role) return;
+    const c = el('div', 'ic-sub');
+    const t = el('div', 'ic-subt');
+    t.append(el('div', 'ic-sublab', label), el('div', 'ic-substep mono', `${nPal} ${stepKeyOf(role.path)}`), el('span', 'tpill mono', path));
+    c.append(swatch(role.hex, 'ic-subsw'), t); states.append(c);
+  };
+  sub('Hover', hover, 'interactive.neutral.fill.hover');
+  sub('Active', pressed, 'interactive.neutral.fill.pressed');
+  wrap.append(states);
+  return wrap;
+};
+
 const renderInteractiveCards = (host: HTMLElement): void => {
   // A2b — the interactive anchor is per-mode outside the base mode. Light edits the global baseline
   // (actionAnchorStep etc.); dark/custom edit `modeAnchors[mode][col]` — “Auto” follows the generated
@@ -1024,6 +1058,7 @@ const renderInteractiveCards = (host: HTMLElement): void => {
     });
   });
   for (const col of cols) { const card = renderInteractiveCard(col); if (card) host.append(card); }
+  const neutral = renderNeutralCard(); if (neutral) host.append(neutral);   // the default button as a card (docs/23 §2)
   if (!perMode) host.append(renderAddAccentRow());
 };
 
@@ -1335,8 +1370,9 @@ const renderSurfacesPage = (host: HTMLElement): void => renderScreen(host, 'surf
 
 // Interactive — action palette, interactive treatment, and the accessibility policy.
 const renderInteractivePage = (host: HTMLElement): void => renderScreen(host, 'interactive', (h) => {
-  renderGroupedPanels(h, leversFor('interactive'), INTERACTIVE_GROUPS);
-}, () => [renderNeutralSpecimen(), renderInverseSpecimen(), renderIconSpecimen(), renderSectionContrast('interactive')]);
+  // neutralEmphasis is edited on the Neutral card now — keep it out of the panels (incl. the catch-all).
+  renderGroupedPanels(h, leversFor('interactive').filter((l) => l.key !== 'neutralEmphasis'), INTERACTIVE_GROUPS);
+}, () => [renderInverseSpecimen(), renderIconSpecimen(), renderSectionContrast('interactive')]);
 
 // Typography — type scale (shared, read-only outside Light) + the family/weight/leading editor.
 const renderTypographyPage = (host: HTMLElement): void => renderScreen(host, 'typography', (h) => {
@@ -2121,28 +2157,9 @@ const renderInverseSpecimen = (): HTMLElement => {
  *  `neutralEmphasis: 'subtle'` (a light-grey surface) vs `'strong'` (a bold near-black/white fill).
  *  A single lever picks one; the specimen resolves the theme both ways (dashboard-side, from the
  *  last-good input) so the choice is legible side by side. */
+// The neutral emphasis (subtle grey vs bold fill) now lives on the Neutral interactive card
+// (renderNeutralCard) rather than a standalone specimen — docs/23 §2, owner request.
 const NEUTRAL_EMPHASES: Array<['subtle' | 'strong', string]> = [['subtle', 'subtle · light grey'], ['strong', 'strong · bold fill']];
-const renderNeutralSpecimen = (): HTMLElement => {
-  const wrap = el('div', 'neutral-spec');
-  wrap.append(sectionHead('Neutral emphasis', 'The neutral (default) button both ways — the neutralEmphasis lever as a light-grey surface vs a bold near-black fill. The active choice is outlined.'));
-  const m: Mode = currentMode;   // #171 — every specimen reflects the mode-context selection
-  const active = lastGoodInput.neutralEmphasis ?? 'subtle';
-  const row = el('div', 'ne-list');
-  for (const [ne, label] of NEUTRAL_EMPHASES) {
-    let found: Record<string, { hex: string } | undefined> | undefined;
-    try { found = resolveAllModes(brandTheme({ ...lastGoodInput, neutralEmphasis: ne })).find((x) => x.mode === m)?.roles as any; }
-    catch { continue; }
-    const fill = found?.['interactive.neutral.fill.rest']?.hex, ink = found?.['interactive.neutral.on-fill']?.hex;
-    if (!fill || !ink) continue;
-    const cell = el('div', 'ne-cell' + (ne === active ? ' on' : ''));
-    const btn = el('div', 'ne-btn', 'Cancel');
-    btn.style.background = fill; btn.style.color = ink;
-    cell.append(btn, el('div', 'ne-lab mono', label));
-    row.append(cell);
-  }
-  wrap.append(row);
-  return wrap;
-};
 
 /** The gradient specimen: the brand gradient(s) as CSS swatches, so the Gradients toggle has a
  *  visible payoff (nothing else in the preview shows them). Reads `theme.gradient.gradients` (the
@@ -2976,12 +2993,6 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .inv-band{border-radius:var(--r);padding:36px 32px;display:flex;flex-direction:column;align-items:flex-start;gap:20px}
 .inv-h{font-size:24px;font-weight:700;letter-spacing:-0.02em;max-width:26ch}
 .inv-cta{padding:10px 22px;border-radius:var(--r-xs);font-weight:600;font-size:14px}
-.neutral-spec{margin-bottom:8px}
-.ne-list{display:flex;flex-wrap:wrap;gap:22px;border:1px solid var(--line);border-radius:var(--r);padding:24px;background:var(--panel)}
-.ne-cell{display:flex;flex-direction:column;align-items:center;gap:10px;padding:12px;border-radius:var(--r-xs);border:2px solid transparent}
-.ne-cell.on{border-color:var(--ink);background:var(--paper)}
-.ne-btn{padding:10px 22px;border-radius:var(--r-xs);font-weight:600;font-size:14px}
-.ne-lab{font-size:11.5px;color:var(--muted)}
 .gradient-spec{margin-bottom:8px}
 .gr-list{display:flex;flex-wrap:wrap;gap:22px;border:1px solid var(--line);border-radius:var(--r);padding:24px;background:var(--panel)}
 .gr-cell{display:flex;flex-direction:column;gap:10px}
