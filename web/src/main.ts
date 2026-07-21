@@ -209,6 +209,21 @@ const toggleField = (checked: boolean, onToggle: (checked: boolean) => void): HT
   input.onchange = () => { val.textContent = input.checked ? 'On' : 'Off'; onToggle(input.checked); };
   return knobBody(input, val);
 };
+/** A token-path chip (doc 24 C4) — the small mono pill that shows a DTCG/role path. */
+const tokenPill = (path: string): HTMLElement => el('span', 'tpill mono', path);
+/** A dashed "+ add" button (doc 24 C4). `.addbtn` owns the styling; pass context classes (width/margin)
+ *  via `cls`. */
+const addButton = (label: string, onClick: () => void, cls = ''): HTMLButtonElement => {
+  const btn = el('button', cls ? `addbtn ${cls}` : 'addbtn', label) as HTMLButtonElement;
+  btn.onclick = onClick;
+  return btn;
+};
+/** A round "×" remove button (doc 24 C4). */
+const removeButton = (onClick: () => void, title = 'Remove', cls = ''): HTMLButtonElement => {
+  const btn = el('button', cls ? `rx ${cls}` : 'rx', '×') as HTMLButtonElement;
+  btn.title = title; btn.onclick = onClick;
+  return btn;
+};
 /** The `div.knob-body` row — a control input paired with its `knob-val` readout (slider / toggle). */
 const knobBody = (...kids: Node[]): HTMLElement => { const r = el('div', 'knob-body'); r.append(...kids); return r; };
 /** The knob scaffold: `label.knob-label`, the control body (one node or several), then `p.knob-desc`.
@@ -352,7 +367,7 @@ const renderBrandColors = (): HTMLElement => {
     const hexLab = el('span', 'mono rhex', picker.value);
     picker.oninput = () => { setHex(picker.value); hexLab.textContent = picker.value; apply(); };
     row.append(picker, nameEl, hexLab);
-    if (removable) { const rm = el('button', 'rx', '×') as HTMLButtonElement; rm.title = 'Remove color'; rm.onclick = removable; row.append(rm); }
+    if (removable) row.append(removeButton(removable, 'Remove color'));
     return row;
   };
 
@@ -383,14 +398,13 @@ const renderBrandColors = (): HTMLElement => {
   });
   panel.append(rows);
 
-  const add = el('button', 'addbtn', '+ Add color') as HTMLButtonElement;
-  add.onclick = () => {
+  const add = addButton('+ Add color', () => {
     const names = new Set(list.map((b) => b.name));
     let n = list.length + 1, nm = `accent${n}`;
     while (names.has(nm)) nm = `accent${++n}`;
     list.push({ name: nm, oklch: { l: 0.55, c: 0.15, h: 235 } });
     applyFull();
-  };
+  });
   panel.append(add);
   return panel;
 };
@@ -693,7 +707,7 @@ const renderPreviewGallery = (host: HTMLElement): void => {
     const roles = [...new Set(c.variants.flatMap((v) => Object.values(v.bindings).filter((t) => t.startsWith('color.')).map((t) => t.replace(/^color\./, ''))))];
     if (roles.length) {
       const pills = el('div', 'pv-paths');
-      for (const rref of roles.slice(0, 6)) pills.append(el('span', 'tpill mono', rref));
+      for (const rref of roles.slice(0, 6)) pills.append(tokenPill(rref));
       if (roles.length > 6) pills.append(el('span', 'tpill more', `+${roles.length - 6}`));
       block.append(pills);
     }
@@ -903,12 +917,12 @@ const renderCard = (o: CardOpts): HTMLElement => {
   const wrap = el('div', 'ic-card');
   const head = el('div', 'ic-head');
   head.append(el('h4', 'ic-headt', o.label));
-  if (o.onRemove) { const rm = el('button', 'rx', '×') as HTMLButtonElement; rm.title = o.removeTitle ?? 'Remove'; rm.onclick = o.onRemove; head.append(rm); }
+  if (o.onRemove) head.append(removeButton(o.onRemove, o.removeTitle ?? 'Remove'));
   wrap.append(head);
   const top = el('div', 'ic-top');
   top.append(swatch(o.fillHex, o.compactSwatch ? 'ic-big ic-big-sm' : 'ic-big'));
   const mid = el('div', 'ic-mid');
-  mid.append(el('h4', 'ic-h', o.midTitle), o.picker, el('span', 'tpill mono', o.tokenPath));
+  mid.append(el('h4', 'ic-h', o.midTitle), o.picker, tokenPill(o.tokenPath));
   top.append(mid);
   if (o.example) { const ex = el('div', 'ic-example'); ex.append(o.example); top.append(ex); }
   wrap.append(top);
@@ -964,7 +978,7 @@ const renderInteractiveCard = (col: ICol): HTMLElement | null => {
     if (!role) return;
     const c = el('div', 'ic-sub');
     const t = el('div', 'ic-subt');
-    t.append(el('div', 'ic-sublab', label), el('div', 'ic-substep mono', `${palName} ${stepKeyOf(role.path)}`), el('span', 'tpill mono', path));
+    t.append(el('div', 'ic-sublab', label), el('div', 'ic-substep mono', `${palName} ${stepKeyOf(role.path)}`), tokenPill(path));
     c.append(swatch(role.hex, 'ic-subsw'), t); states.append(c);
   };
   sub('Hover', hover, `interactive.${col.name}.fill.hover`);
@@ -992,12 +1006,11 @@ const renderAddAccentRow = (): HTMLElement => {
   }
   const sel = selectEl('cap');
   for (const p of promotable) sel.append(optionEl(p, p));
-  const btn = el('button', 'addbtn ic-addbtn', '+ Add interactive color') as HTMLButtonElement;
-  btn.onclick = () => {
+  const btn = addButton('+ Add interactive color', () => {
     const arr = brandState.interactivePalettes ?? (brandState.interactivePalettes = []);
     arr.push({ palette: sel.value });
     applyFull();
-  };
+  }, 'ic-addbtn');
   row.append(sel, btn);
   return row;
 };
@@ -1029,7 +1042,7 @@ const renderNeutralCard = (): HTMLElement | null => {
     if (!role) return;
     const c = el('div', 'ic-sub');
     const t = el('div', 'ic-subt');
-    t.append(el('div', 'ic-sublab', label), el('div', 'ic-substep mono', `${nPal} ${stepKeyOf(role.path)}`), el('span', 'tpill mono', path));
+    t.append(el('div', 'ic-sublab', label), el('div', 'ic-substep mono', `${nPal} ${stepKeyOf(role.path)}`), tokenPill(path));
     c.append(swatch(role.hex, 'ic-subsw'), t); states.append(c);
   };
   sub('Hover', hover, 'interactive.neutral.fill.hover');
@@ -2263,15 +2276,14 @@ const renderGradientsSection = (host: HTMLElement): void => {
   grads.forEach((g, gi) => grid.append(renderGradientCard(g, gi, grads, palNames)));
   host.append(grid);
   // Add gradient — a fresh linear gradient with a unique slug name (name is a token path segment).
-  const add = el('button', 'addbtn gr-ed-add', '+ Add gradient') as HTMLButtonElement;
-  add.onclick = () => {
+  const add = addButton('+ Add gradient', () => {
     const arr = readGradients();
     const used = new Set(arr.map((x) => x.name));
     let n = arr.length + 1, name = `gradient-${n}`;
     while (used.has(name)) name = `gradient-${++n}`;
     arr.push({ ...DEFAULT_GRADIENT(), name });
     writeGradients(arr);
-  };
+  }, 'gr-ed-add');
   host.append(add);
 };
 
@@ -2281,11 +2293,8 @@ const renderGradientCard = (g: GradientInput, gi: number, all: GradientInput[], 
   const card = el('div', 'gr-ed-card');
   // Header — the gradient name (a token path segment; not renamed here) + remove.
   const head = el('div', 'gr-ed-head');
-  head.append(el('h4', 'gr-ed-name', g.name), el('span', 'tpill mono', `gradient.${g.name}`));
-  const rm = el('button', 'rx', '×') as HTMLButtonElement;
-  rm.title = 'Remove gradient';
-  rm.onclick = () => { const arr = readGradients(); arr.splice(gi, 1); writeGradients(arr); };
-  head.append(rm);
+  head.append(el('h4', 'gr-ed-name', g.name), tokenPill(`gradient.${g.name}`));
+  head.append(removeButton(() => { const arr = readGradients(); arr.splice(gi, 1); writeGradients(arr); }, 'Remove gradient'));
   card.append(head);
   // Live preview.
   const sw = el('div', 'gr-ed-sw'); sw.style.background = inputGradientCss(g);
@@ -2334,11 +2343,10 @@ const renderGradientCard = (g: GradientInput, gi: number, all: GradientInput[], 
   const stopsWrap = el('div', 'gr-ed-stops');
   g.stops.forEach((st, si) => stopsWrap.append(renderGradientStop(g, gi, st, si, palNames, mut)));
   card.append(stopsWrap);
-  const addStop = el('button', 'addbtn gr-ed-addstop', '+ Add stop') as HTMLButtonElement;
-  addStop.onclick = () => mut((gg) => {
+  const addStop = addButton('+ Add stop', () => mut((gg) => {
     const last = gg.stops[gg.stops.length - 1];
     gg.stops = [...gg.stops, { palette: last?.palette ?? palNames[0], step: last?.step ?? 500, position: 1 }];
-  });
+  }), 'gr-ed-addstop');
   card.append(addStop);
   return card;
 };
@@ -2363,10 +2371,7 @@ const renderGradientStop = (g: GradientInput, gi: number, st: { palette: string;
   pos.onchange = () => mut((gg) => { gg.stops[si] = { ...gg.stops[si], position: clampUnit(Number(pos.value) / 100) }; });
   row.append(palSel, stepSel, pos);
   if (g.stops.length > 2) {
-    const rm = el('button', 'rx gr-ed-stoprm', '×') as HTMLButtonElement;
-    rm.title = 'Remove stop';
-    rm.onclick = () => mut((gg) => { gg.stops = gg.stops.filter((_, i) => i !== si); });
-    row.append(rm);
+    row.append(removeButton(() => mut((gg) => { gg.stops = gg.stops.filter((_, i) => i !== si); }), 'Remove stop', 'gr-ed-stoprm'));
   }
   return row;
 };

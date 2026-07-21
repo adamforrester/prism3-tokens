@@ -37,7 +37,7 @@ construction sites; "forms" = how many divergent CSS/markup variants exist for t
 | # | Component | Today (callers) | Proposed API |
 |---|---|---|---|
 | **C6** | **Token pill** | `el('span', 'tpill mono', path)` inline — 5× `.tpill mono` (+ ~13 bare `.mono` chips, some are token pills) | `tokenPill(path)` |
-| **C7** | **Add / remove buttons** | `.addbtn` (dashed add) ×**11**, `.rx` (remove-×) ×**4** — constructed inline each time | `addButton(label, onClick)`, `removeButton(onClick, title?)` |
+| **C7** | **Add / remove buttons** | `.addbtn` (dashed add) ×**4** element sites (the "11" grep hit counted CSS rules + compound classes too), `.rx` (remove-×) ×**4** — constructed inline each time | `addButton(label, onClick, cls?)`, `removeButton(onClick, title?, cls?)` |
 | **C8** | **Step picker (Auto + steps)** | `stepPicker()` exists (1 caller: Foregrounds) but the interactive card, neutral card, and (now) background base each roll their own "Auto + palette steps" select | Route interactive/neutral/background through the one `stepPicker`; ≥3 callers converge |
 
 ### Tier 3 — structural scaffolds (do last)
@@ -68,8 +68,10 @@ not DOM-parity.
    label/readout plumbing (the `slider()` helper vs. the LH/LS + gradient-angle hand-rolls), so it moves to
    its own follow-up (**C5b `rangeField`**) rather than riding here.
 3. **PR-C3 — `toggleField`** — unify `renderControl` + the gradient section's duplicate switch. ✅
-4. **PR-C4 — display atoms** — `tokenPill`, `addButton`, `removeButton`, and route the 5 stray knobs
-   through `knob()` (trivial, batched).
+4. **PR-C4 — display atoms** — `tokenPill` (5), `addButton` (4), `removeButton` (4). ✅ **knob-routing
+   dropped**: the 4 direct `el('div','knob')` sites build bespoke structures (custom heads, no
+   `knob-desc`, conditional per-mode bodies) that don't fit `knob(label, body, desc)` — routing them
+   would change structure for no gain, so they stay as-is.
 5. **PR-C5 — `stepPicker` unification** — interactive / neutral / background converge on one picker.
 6. **PR-C6 — `objEditor` scaffold** — the last structural wrapper.
 
@@ -96,6 +98,7 @@ _(none logged yet — seed with a bug-hunting drive-through and owner findings)_
 | C1 select | ✅ 2026-07-21 — `selectEl()` + `.select` (+ `sm`/`fill`/`cap`); 16 sites, 5 rules → 1 |
 | C2 numberField | ✅ 2026-07-21 — `numberField()` + `.num` base; 7 sites, 4 classes → base + deltas (no visual change). color dropped (not drift), range → C5b |
 | C3 toggle | ✅ 2026-07-21 — `toggleField()`; 2 callers (renderControl `inverse` + gradient section) unified; DOM-identical |
+| C4 display atoms | ✅ 2026-07-21 — `tokenPill` (5) + `addButton` (4) + `removeButton` (4); DOM-identical. knob-routing dropped (no clean fit) |
 | C5b rangeField | ☐ pending (split from C2 — readout-coupled) |
 | C3 toggle | ☐ pending |
 | C4 display atoms | ☐ pending |
