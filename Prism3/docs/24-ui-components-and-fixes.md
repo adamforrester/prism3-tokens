@@ -74,7 +74,15 @@ not DOM-parity.
    would change structure for no gain, so they stay as-is.
 5. **PR-C5 — `stepPicker` unification** — the interactive card converges on the shared picker (→ 2 callers).
    ✅ neutral (emphasis toggle, not steps) + background (white/black/steps, different shape) don't fit — left as-is.
-6. **PR-C6 — `objEditor` scaffold** — the last structural wrapper.
+6. **PR-C6 — `objEditor` scaffold** — the last structural wrapper. ✅ 4 callers (Backgrounds, Text & ink,
+   Foreground fills, Shadow — the `.obj-editor` sites; the responsive/breakpoints editors use `.adv-obj`,
+   not this scaffold).
+
+**Arc complete (2026-07-21):** C1–C6 all landed. The dashboard's repeated controls (select, number,
+range, toggle, step picker) and atoms (token pill, add/remove buttons, object-editor scaffold) each now
+have a single definition — a styling or behavior change lands in one place. Remaining follow-ups are
+deliberately-scoped-out items, not gaps: `colorField` (intentional per-context sizing), knob-routing (bespoke
+structures), and neutral/background pickers (different shapes).
 
 Sequencing note: all edits touch `web/src/main.ts`, so PRs **serialize** (one branch, squash-merge, reset).
 The owner files UI fixes into the log below **in parallel**; fix PRs interleave with component PRs as
@@ -102,7 +110,5 @@ _(none logged yet — seed with a bug-hunting drive-through and owner findings)_
 | C4 display atoms | ✅ 2026-07-21 — `tokenPill` (5) + `addButton` (4) + `removeButton` (4); DOM-identical. knob-routing dropped (no clean fit) |
 | C5 stepPicker | ✅ 2026-07-21 — interactive card routed through shared `stepPicker` (→ 2 callers); neutral/background reassessed as different shapes, left as-is |
 | C5b rangeInput | ✅ 2026-07-21 — `rangeInput()` element factory across 5 sites (byte-identical). Scoped to construction only — the readouts (`.slider-top` / `.knob-val` / auto-pruning knob / label-as-readout) stay per-site; no full slider+readout component |
-| C3 toggle | ☐ pending |
-| C4 display atoms | ☐ pending |
-| C5 step picker | ☐ pending |
-| C6 objEditor | ☐ pending |
+| C6 objEditor | ✅ 2026-07-21 — `objEditor(title, lede?)`; 4 callers (Backgrounds / Text & ink / Foreground fills / Shadow); DOM-identical |
+| **Arc** | ✅ **complete** — C1–C6 landed; scoped-out items (colorField, knob-routing, neutral/background pickers) documented above |
