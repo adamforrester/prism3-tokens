@@ -7,7 +7,32 @@
 
 ---
 
-## Latest (2026-07-21) — Gradient editor (edit the definition, not just on/off)
+## Latest (2026-07-21) — Dashboard componentization arc (C1–C6, PRs #212–#218)
+
+**STATUS: web-only, no engine change.** A systematic pass giving every repeated dashboard control/atom a
+single definition, so a styling or behavior change lands in one place (owner's driver: "tweak the
+select/dropdown styling in one spot"). Full ranked audit + per-item detail + the (empty) UI fix log live
+in **`docs/24-ui-components-and-fixes.md`** — this is the summary.
+
+- **C1 `selectEl` + `.select`** (#212) — the dropdown: 5 styling paths across 16 sites → one base + `sm`/`fill`/`cap` modifiers. (The one consolidation with intentional normalization; verified by drive-through, not DOM-parity.)
+- **C2 `numberField` + `.num`** (#213) — 7 sites, 4 classes → base + deltas.
+- **C3 `toggleField`** (#214) — unified `renderControl` + the gradient section's duplicated switch (#210).
+- **C4 `tokenPill` / `addButton` / `removeButton`** (#215) — the repeated display atoms.
+- **C5 `stepPicker` convergence** (#216) — interactive card onto the shared picker (numeric-anchor ↔ key-string bridge).
+- **C5b `rangeInput`** (#217) — the range element factory (construction only; readouts stay per-site).
+- **C6 `objEditor`** (#218) — the object-editor section scaffold.
+
+Every PR verified (tsc + esbuild + drive-through) and merged with a clean independent review. **Scoped-out
+as non-gaps** (documented in doc 24): `colorField` (intentional per-context well sizing), knob-routing
+(bespoke structures), neutral/background pickers (different shapes). No bugs surfaced during the arc — the
+doc-24 fix log is intentionally empty.
+
+**Next:** UI fix log stands ready for findings; the `style-guide-generator` assessment (Token Press
+external, `assess/token-press-external`) is the active investigation.
+
+---
+
+## (2026-07-21) — Gradient editor (edit the definition, not just on/off)
 
 **STATUS: web-only, no engine change.** Closes PR-3. The gradient axis was on/off only (the toggle wrote
 `gradients: true|false`); this edits the **definition** — kind, geometry, interpolation, and the
