@@ -7,7 +7,32 @@
 
 ---
 
-## Latest (2026-07-20) — Dashboard Phase 4b: Preview segmented sub-views + token list (`docs/23` §7)
+## Latest (2026-07-21) — UI polish: toggle switch + code-review nits
+
+**STATUS: web-only, additive polish.** First of a UI-refinement series (owner feedback after the reorg):
+
+- **Toggle → switch.** `.knob input.toggle` was a native checkbox; it's now a proper switch (pill track +
+  sliding thumb, ink when on) via `appearance:none` + `::after`. Kit-level, so it upgrades every toggle
+  lever (gradients + inverse) at once.
+- **Rail sticky offset now measured** (code-review nit): `.rail{top:calc(var(--chrome-h,120px)+10px)}`;
+  `renderModeStrip()` sets `--chrome-h` from the actual header height. A brand whose mode chips wrap to a
+  second row no longer tucks the rail under the sticky header (was a hardcoded `top:130px`).
+- **Dead `.stage-view` class removed** (code-review nit) — it was applied to the Preview rail item but had
+  no CSS rule after the ordinal was dropped.
+
+**Verification:** `tsc` + esbuild clean; Playwright drive-through confirmed the switch renders + toggles in
+both states (grey/thumb-left off, ink/thumb-right on), `--chrome-h` measures live (145px on the example),
+no console errors. No engine files touched.
+
+**Next in the series:** PR-2 — a reusable color-card component with the Foregrounds editor + Backgrounds on
+cards + Neutral as an interactive card (owner request; the `foreground.*` fills are engine-derived today
+with no UI control — the A1 override layer supports repointing them, so no engine change needed). PR-3 —
+a gradient editor (stops / angle / kind; UI currently only toggles gradients on/off). Progress entry rides
+in this PR.
+
+---
+
+## (2026-07-20) — Dashboard Phase 4b: Preview segmented sub-views + token list (`docs/23` §7)
 
 **STATUS: web-only, additive.** The Preview destination gains a **segmented view-switcher** with three
 views, completing the `docs/23` §7 Preview shape:
