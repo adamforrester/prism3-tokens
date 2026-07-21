@@ -7,7 +7,32 @@
 
 ---
 
-## Latest (2026-07-21) — Neutral as an interactive card (docs/23 §2, retires the specimen)
+## Latest (2026-07-21) — Remove all "Advanced" disclosures, expose the UI uniformly
+
+**STATUS: web-only, no behaviour change.** Owner decision (code-review finding #2, expanded): drop the
+progressive-disclosure "Advanced" affordance entirely — every control is shown at the same level, so a
+lever's `advanced` flag in the manifest no longer hides it behind a click.
+
+- **`renderAdvancedPanel`** no longer wraps its levers in a `<details class="adv"><summary>Advanced</summary>`.
+  It renders the same `.adv-panel` (manifest-`advanced` scalar/enum controls + the optional bespoke
+  object editors) directly into the host as a normal always-visible panel. Signature and call sites
+  unchanged — only the wrapper disappeared.
+- **CSS removed:** `.adv`, `.adv-sum` (+ `::-webkit-details-marker`, `::before`, `[open]` marker). Kept
+  `.adv-panel{margin-top:12px}`. Two stale comments (responsive-editor docstring, breakpoints `commit`
+  closure) that reasoned about "the disclosure snapping shut mid-edit" rewritten — the concern is moot
+  now, but `commit` still uses `draw()`+`apply()` (not `applyFull()`) to avoid rebuilding the editor
+  under the user's cursor.
+
+**Verification:** `tsc` + esbuild clean. Playwright across Typography / Size&radius / Motion / Layout:
+`advanced-disclosures = 0` everywhere (was ≥1 per page); previously-hidden levers now visible in a
+second panel (e.g. Size&radius shows Radius anchor / Spacing rhythm / Fine grid base); bespoke obj
+editors present; no console errors. Screenshots reviewed. No engine files touched.
+
+**Next:** Backgrounds on cards (PR-2d), then the gradient editor. Progress entry rides in this PR.
+
+---
+
+## (2026-07-21) — Neutral as an interactive card (docs/23 §2, retires the specimen)
 
 **STATUS: web-only, additive.** The neutral / default button is now a proper interactive card alongside
 Primary / Destructive (owner request #2A), replacing the disconnected standalone "Neutral emphasis"
