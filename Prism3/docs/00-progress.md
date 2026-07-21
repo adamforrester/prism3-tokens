@@ -7,7 +7,38 @@
 
 ---
 
-## Latest (2026-07-21) — Backgrounds on the reusable card (docs/23 §2)
+## Latest (2026-07-21) — Gradient editor (edit the definition, not just on/off)
+
+**STATUS: web-only, no engine change.** Closes PR-3. The gradient axis was on/off only (the toggle wrote
+`gradients: true|false`); this edits the **definition** — kind, geometry, interpolation, and the
+ramp-aliased stops — writing an explicit `GradientInput[]` to `brandState.gradients`.
+
+- **`renderGradientsSection`** replaces the generic `gradients` lever panel on the Surfaces page with a
+  bespoke on/off toggle (its own `applyFull` so the editor mounts/unmounts — it lives in the sections
+  layer, not the volatile specimens) plus, when on, one editor card per gradient and an **+ Add
+  gradient** button (fresh linear gradient, auto-unique slug name).
+- **`renderGradientCard`** — live preview (`inputGradientCss`, resolved through the ramp) · **Kind**
+  (linear/radial) · **Angle** slider (linear) or **Shape** + **Center X/Y %** (radial) · **Interpolation**
+  (OKLCH/sRGB) · a **Stops** list. Each stop aliases the ramp — a palette select → a step select (the
+  step list re-homes to the new palette's nearest step) → a position % — with add/remove (kept ≥2).
+- **`true` materialises** to the engine's default single brand gradient (`primary` 600→350, 135°) for
+  display; the first edit writes the explicit array. An empty array collapses back to `false` (off) so
+  toggle + specimen agree. Stops always alias the ramp (palette + step), never raw hex — the engine's
+  themeable model.
+
+**Verification:** `tsc` + esbuild clean. Playwright: aurora's **two** gradients round-trip (`brand`
+linear + `glow` radial, centre `[0.5,0.4]` → 50/40); editing a stop's step repaints the preview;
+kind linear→radial swaps the angle field for shape + centre; add-stop 2→3; add-gradient 2→3 and the
+engine-resolved specimen shows 3 (so the emitted array validates); on a no-gradient brand (harbor) the
+toggle On materialises the default `brand` gradient and the engine resolves it. No console errors.
+Screenshot reviewed. No engine files touched.
+
+**Next:** PR-2 arc + gradient editor complete. The Figma-plugin / Output work is the next focus per the
+owner. Progress entry rides in this PR.
+
+---
+
+## (2026-07-21) — Backgrounds on the reusable card (docs/23 §2)
 
 **STATUS: web-only, no engine change.** Closes PR-2d: the per-mode page-surface editor
 (`renderSurfacesEditor`, "Backgrounds") now renders on the shared `renderCard` shell, so Backgrounds /
