@@ -1233,8 +1233,8 @@ const renderGeneratedNote = (): HTMLElement => {
   return box;
 };
 
-/** Advanced bespoke editors for the object/list levers renderControl can't edit (it only shows them
- *  read-only). These live inside the "Advanced" disclosure alongside the slider/enum controls. */
+/** Bespoke editors for the object/list levers renderControl can't edit (it only shows them read-only).
+ *  Rendered alongside the manifest-advanced slider/enum controls in the (always-visible) extras panel. */
 const renderResponsiveEditor = (): HTMLElement => {
   const wrap = el('div', 'adv-obj');
   wrap.append(el('div', 'adv-obj-h', 'Responsive type'));
@@ -1262,8 +1262,8 @@ const renderBreakpointsEditor = (): HTMLElement => {
   const commit = (arr: number[]): void => {
     const clean = [...new Set(arr.filter((n) => Number.isFinite(n) && n >= 0))].sort((a, b) => a - b);
     // Refresh THIS editor's list (count/order may change) + repaint the layout specimen — but NOT a full
-    // workspace re-render, which would recreate the <details> and snap the Advanced disclosure shut under
-    // the user (this editor lives inside it). apply() rebuilds the theme + the volatile specimens.
+    // workspace re-render (applyFull), which would rebuild this editor mid-edit and lose focus/scroll.
+    // draw() re-renders the list locally; apply() rebuilds the theme + the volatile specimens.
     setPath(brandState, 'layout.breakpoints', clean); draw(); apply();
   };
   const draw = (): void => {
@@ -1326,17 +1326,15 @@ const renderScreen = (
   paintVolatile();
 };
 const panelOfLevers = (levers: Lever[]): HTMLElement => { const p = el('div', 'panel'); for (const l of levers) p.append(renderControl(l)); return p; };
-/** A page's scalar `advanced` levers (+ optional bespoke advanced editors) in a collapsed disclosure. */
+/** A page's manifest-`advanced` scalar levers (+ optional bespoke editors), exposed as a normal
+ *  always-visible panel. (Owner decision: no "Advanced" disclosure — all UI is shown uniformly.) */
 const renderAdvancedPanel = (host: HTMLElement, key: PageKey, extras?: (ap: HTMLElement) => void): void => {
   const adv = leverManifest.filter((l) => l.advanced && (l.control === 'slider' || l.control === 'enum') && !PRIMITIVE_KEYS.has(l.key) && pageOfLever(l) === key);
   if (!adv.length && !extras) return;
-  const det = el('details', 'adv') as HTMLDetailsElement;
-  det.append(el('summary', 'adv-sum', 'Advanced'));
   const ap = el('div', 'panel adv-panel');
   for (const l of adv) ap.append(renderControl(l));
   if (extras) extras(ap);
-  det.append(ap);
-  host.append(det);
+  host.append(ap);
 };
 
 // Per-page contrast table (docs/23 §3) — a re-slice of the same authoritative contracts the Preview
@@ -2953,12 +2951,7 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .sz-cell{display:flex;flex-direction:column;align-items:center;gap:9px}
 .sz-box{display:flex;align-items:center;justify-content:center;min-width:44px;background:var(--ink);color:var(--panel);border-radius:6px;font-size:12px;font-weight:560}
 .sz-lab{font-size:11px;color:var(--muted);white-space:nowrap}
-/* Progressive-disclosure "Advanced" panel — the manifest's advanced scalar/enum levers. */
-.adv{margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
-.adv-sum{cursor:pointer;font-size:12px;font-weight:560;color:var(--muted);letter-spacing:.02em;list-style:none;user-select:none}
-.adv-sum::-webkit-details-marker{display:none}
-.adv-sum::before{content:'▸ ';color:var(--faint)}
-.adv[open] .adv-sum::before{content:'▾ '}
+/* Manifest-advanced scalar/enum levers — exposed as a normal panel (no disclosure). */
 .adv-panel{margin-top:12px}
 /* Advanced object/list bespoke editors (responsive type, breakpoints, emphasized easing). */
 .adv-obj{margin-top:16px;padding-top:14px;border-top:1px dashed var(--line)}
