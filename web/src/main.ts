@@ -199,6 +199,16 @@ const numberField = (o: { value: string | number; min?: number | string; max?: n
   if (o.title) inp.title = o.title;
   return inp;
 };
+/** The on/off toggle switch (doc 24 C3) — a `.toggle` checkbox paired with its On/Off `.knob-val`
+ *  readout, returned as a `knobBody`. `onToggle(checked)` fires after the readout updates; the caller
+ *  runs its own `apply()` / `applyFull()`. */
+const toggleField = (checked: boolean, onToggle: (checked: boolean) => void): HTMLElement => {
+  const input = el('input') as HTMLInputElement;
+  input.type = 'checkbox'; input.className = 'toggle'; input.checked = checked;
+  const val = el('span', 'knob-val', checked ? 'On' : 'Off');
+  input.onchange = () => { val.textContent = input.checked ? 'On' : 'Off'; onToggle(input.checked); };
+  return knobBody(input, val);
+};
 /** The `div.knob-body` row — a control input paired with its `knob-val` readout (slider / toggle). */
 const knobBody = (...kids: Node[]): HTMLElement => { const r = el('div', 'knob-body'); r.append(...kids); return r; };
 /** The knob scaffold: `label.knob-label`, the control body (one node or several), then `p.knob-desc`.
@@ -504,13 +514,7 @@ const renderControl = (lever: Lever): HTMLElement => {
     // Boolean axis. `checked` reads truthy — so `gradients` renders "on" whether it's `true`
     // or an explicit gradient array (the array is only reset if the user toggles off). Toggling
     // writes a plain boolean: on → the default (single gradient / inverse inks), off → false.
-    const input = el('input') as HTMLInputElement;
-    input.type = 'checkbox';
-    input.className = 'toggle';
-    input.checked = !!(getPath(brandState, lever.key) ?? lever.default);
-    const val = el('span', 'knob-val', input.checked ? 'On' : 'Off');
-    input.onchange = () => { setPath(brandState, lever.key, input.checked); val.textContent = input.checked ? 'On' : 'Off'; apply(); };
-    body = knobBody(input, val);
+    body = toggleField(!!(getPath(brandState, lever.key) ?? lever.default), (checked) => { setPath(brandState, lever.key, checked); apply(); });
   } else {
     const v = getPath(brandState, lever.key) ?? lever.default;
     let text: string;
@@ -2247,14 +2251,10 @@ const inputGradientCss = (g: GradientInput): string => {
  *  when on, one editor card per gradient. */
 const renderGradientsSection = (host: HTMLElement): void => {
   const on = !!brandState.gradients;
-  // On/off toggle — same switch as the generic lever toggle, but rebuilds the workspace so the editor
-  // appears/disappears (it lives in the sections layer, not the volatile specimens).
-  const input = el('input') as HTMLInputElement;
-  input.type = 'checkbox'; input.className = 'toggle'; input.checked = on;
-  const val = el('span', 'knob-val', on ? 'On' : 'Off');
-  input.onchange = () => { brandState.gradients = input.checked; applyFull(); };
+  // On/off toggle — the shared toggleField, but its callback rebuilds the workspace (applyFull) so the
+  // editor mounts/unmounts (it lives in the sections layer, not the volatile specimens).
   const desc = leverByKey('gradients')?.description ?? 'Ship one or more decorative brand gradients (opt-in). Stop colors alias the ramp and interpolate in OKLCH.';
-  host.append(knob('Gradients', knobBody(input, val), desc));
+  host.append(knob('Gradients', toggleField(on, (checked) => { brandState.gradients = checked; applyFull(); }), desc));
   if (!on) return;
 
   const grads = readGradients();
