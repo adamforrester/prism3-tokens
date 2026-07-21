@@ -20,7 +20,7 @@
  * combination is caught and surfaced with the last-good render preserved.
  */
 import { brandTheme, ALL_MODES } from '../../Prism3/engine/theme';
-import type { BrandInput, Theme } from '../../Prism3/engine/theme';
+import type { BrandInput, Theme, GradientInput } from '../../Prism3/engine/theme';
 import { hex, oklchToRgb, hexToRgb, rgbToOklch } from '../../Prism3/engine/color';
 import { autoPlaceStep } from '../../Prism3/engine/ramp';
 import { leverManifest, leverGroups } from '../../Prism3/engine/levers';
@@ -1362,8 +1362,8 @@ const renderSurfacesPage = (host: HTMLElement): void => renderScreen(host, 'surf
   h.append(renderSurfacesEditor());     // self-heads "Backgrounds"
   h.append(renderForegroundsEditor());  // self-heads "Foreground fills" — the bold/surface fills (docs/23 §2)
   h.append(renderForegroundEditor());   // self-heads "Text & ink"
-  const grad = leverByKey('gradients');
-  if (grad) { h.append(subHead('Gradients')); h.append(panelOfLevers([grad])); }
+  h.append(subHead('Gradients'));
+  renderGradientsSection(h);
 }, () => [renderGradientSpecimen(), renderSectionContrast('surfaces')]);
 
 // Interactive — action palette, interactive treatment, and the accessibility policy.
@@ -2197,6 +2197,170 @@ const renderGradientSpecimen = (): HTMLElement => {
   return wrap;
 };
 
+// ---- Gradient editor (docs/23 §2 "Gradients") -----------------------------
+// The gradient axis was on/off only; this edits the DEFINITION — kind (linear/radial), angle or
+// centre+shape, interpolation, and the ramp-aliased stops — writing an explicit `GradientInput[]`
+// to `brandState.gradients` (the engine's opt-in axis, `boolean | GradientInput[]`). `true` (the
+// toggle default) materialises to the engine's default single brand gradient for display; the first
+// edit writes it out explicitly. Stops alias the ramp (palette + step), never raw hex.
+const DEFAULT_GRADIENT = (): GradientInput => ({
+  name: 'brand', kind: 'linear', angle: 135, interpolation: 'oklch',
+  stops: [{ palette: 'primary', step: 600, position: 0 }, { palette: 'primary', step: 350, position: 1 }],
+});
+/** The editable gradient array — materialising the `true` default and treating `false`/absent as empty. */
+const readGradients = (): GradientInput[] => {
+  const g = brandState.gradients;
+  if (Array.isArray(g)) return g;
+  if (g === true) return [DEFAULT_GRADIENT()];
+  return [];
+};
+/** Write the array back; an empty array collapses to `false` (off) so the toggle + specimen agree. */
+const writeGradients = (arr: GradientInput[]): void => { brandState.gradients = arr.length ? arr : false; applyFull(); };
+/** Resolve a stop's `{palette, step}` alias to its ramp hex (for the live preview). */
+const gradStopHex = (palette: string, step: number): string =>
+  theme.palettes.find((p) => p.palette === palette)?.steps.find((s) => s.num === step)?.hex ?? '#888888';
+/** Build the CSS gradient from an INPUT gradient (stops resolved through the ramp). Mirrors `gradientCss`
+ *  but reads palette/step aliases rather than pre-resolved hexes. */
+const inputGradientCss = (g: GradientInput): string => {
+  const stops = g.stops.slice().sort((a, b) => a.position - b.position)
+    .map((s) => `${gradStopHex(s.palette, s.step)} ${Math.round(s.position * 100)}%`).join(', ');
+  return (g.kind ?? 'linear') === 'radial'
+    ? `radial-gradient(${g.shape ?? 'ellipse'} at ${Math.round((g.center?.[0] ?? 0.5) * 100)}% ${Math.round((g.center?.[1] ?? 0.5) * 100)}% in oklch, ${stops})`
+    : `linear-gradient(${g.angle ?? 135}deg in oklch, ${stops})`;
+};
+
+/** The Gradients section — a bespoke on/off toggle (own `applyFull` so the editor mounts/unmounts) plus,
+ *  when on, one editor card per gradient. */
+const renderGradientsSection = (host: HTMLElement): void => {
+  const on = !!brandState.gradients;
+  // On/off toggle — same switch as the generic lever toggle, but rebuilds the workspace so the editor
+  // appears/disappears (it lives in the sections layer, not the volatile specimens).
+  const input = el('input') as HTMLInputElement;
+  input.type = 'checkbox'; input.className = 'toggle'; input.checked = on;
+  const val = el('span', 'knob-val', on ? 'On' : 'Off');
+  input.onchange = () => { brandState.gradients = input.checked; applyFull(); };
+  const desc = leverByKey('gradients')?.description ?? 'Ship one or more decorative brand gradients (opt-in). Stop colors alias the ramp and interpolate in OKLCH.';
+  host.append(knob('Gradients', knobBody(input, val), desc));
+  if (!on) return;
+
+  const grads = readGradients();
+  const palNames = theme.palettes.map((p) => p.palette);
+  const grid = el('div', 'gr-ed-list');
+  grads.forEach((g, gi) => grid.append(renderGradientCard(g, gi, grads, palNames)));
+  host.append(grid);
+  // Add gradient — a fresh linear gradient with a unique slug name (name is a token path segment).
+  const add = el('button', 'addbtn gr-ed-add', '+ Add gradient') as HTMLButtonElement;
+  add.onclick = () => {
+    const arr = readGradients();
+    const used = new Set(arr.map((x) => x.name));
+    let n = arr.length + 1, name = `gradient-${n}`;
+    while (used.has(name)) name = `gradient-${++n}`;
+    arr.push({ ...DEFAULT_GRADIENT(), name });
+    writeGradients(arr);
+  };
+  host.append(add);
+};
+
+/** One gradient's editor card — preview · kind/geometry/interpolation · ramp-aliased stops. */
+const renderGradientCard = (g: GradientInput, gi: number, all: GradientInput[], palNames: string[]): HTMLElement => {
+  const kind = g.kind ?? 'linear';
+  const card = el('div', 'gr-ed-card');
+  // Header — the gradient name (a token path segment; not renamed here) + remove.
+  const head = el('div', 'gr-ed-head');
+  head.append(el('h4', 'gr-ed-name', g.name), el('span', 'tpill mono', `gradient.${g.name}`));
+  const rm = el('button', 'rx', '×') as HTMLButtonElement;
+  rm.title = 'Remove gradient';
+  rm.onclick = () => { const arr = readGradients(); arr.splice(gi, 1); writeGradients(arr); };
+  head.append(rm);
+  card.append(head);
+  // Live preview.
+  const sw = el('div', 'gr-ed-sw'); sw.style.background = inputGradientCss(g);
+  card.append(sw);
+
+  // Geometry controls — kind, then angle (linear) or shape + centre (radial), then interpolation.
+  const ctrls = el('div', 'gr-ed-ctrls');
+  const mut = (fn: (gg: GradientInput) => void): void => { const arr = readGradients(); fn(arr[gi]); writeGradients(arr); };
+  const labeledSelect = (label: string, opts: [string, string][], cur: string, onPick: (v: string) => void): HTMLElement => {
+    const wrap = el('div', 'gr-ed-field');
+    wrap.append(el('label', 'gr-ed-lab', label));
+    const sel = el('select', 'ic-step') as HTMLSelectElement;
+    for (const [v, t] of opts) sel.append(optionEl(v, t, v === cur));
+    sel.onchange = () => onPick(sel.value);
+    wrap.append(sel);
+    return wrap;
+  };
+  ctrls.append(labeledSelect('Kind', [['linear', 'Linear'], ['radial', 'Radial']], kind, (v) => mut((gg) => { gg.kind = v as 'linear' | 'radial'; })));
+  if (kind === 'linear') {
+    const f = el('div', 'gr-ed-field');
+    f.append(el('label', 'gr-ed-lab', `Angle · ${g.angle ?? 135}°`));
+    const range = el('input', 'gr-ed-range') as HTMLInputElement;
+    range.type = 'range'; range.min = '0'; range.max = '360'; range.step = '5'; range.value = String(g.angle ?? 135);
+    range.oninput = () => { (f.firstChild as HTMLElement).textContent = `Angle · ${range.value}°`; sw.style.background = inputGradientCss({ ...g, angle: Number(range.value) }); };
+    range.onchange = () => mut((gg) => { gg.angle = Number(range.value); });
+    f.append(range);
+    ctrls.append(f);
+  } else {
+    ctrls.append(labeledSelect('Shape', [['ellipse', 'Ellipse'], ['circle', 'Circle']], g.shape ?? 'ellipse', (v) => mut((gg) => { gg.shape = v as 'circle' | 'ellipse'; })));
+    const center = g.center ?? [0.5, 0.5];
+    const centerField = (label: string, idx: 0 | 1): HTMLElement => {
+      const f = el('div', 'gr-ed-field');
+      f.append(el('label', 'gr-ed-lab', label));
+      const num = el('input', 'gr-ed-num') as HTMLInputElement;
+      num.type = 'number'; num.min = '0'; num.max = '100'; num.step = '5'; num.value = String(Math.round(center[idx] * 100));
+      num.onchange = () => mut((gg) => { const c: [number, number] = [...(gg.center ?? [0.5, 0.5])] as [number, number]; c[idx] = clampUnit(Number(num.value) / 100); gg.center = c; });
+      f.append(num);
+      return f;
+    };
+    ctrls.append(centerField('Center X %', 0), centerField('Center Y %', 1));
+  }
+  ctrls.append(labeledSelect('Interpolation', [['oklch', 'OKLCH'], ['srgb', 'sRGB']], g.interpolation ?? 'oklch', (v) => mut((gg) => { gg.interpolation = v as 'oklch' | 'srgb'; })));
+  card.append(ctrls);
+
+  // Stops — each aliases the ramp (palette + step) with a position; add/remove.
+  card.append(el('h5', 'gr-ed-stopsh', 'Stops'));
+  const stopsWrap = el('div', 'gr-ed-stops');
+  g.stops.forEach((st, si) => stopsWrap.append(renderGradientStop(g, gi, st, si, palNames, mut)));
+  card.append(stopsWrap);
+  const addStop = el('button', 'addbtn gr-ed-addstop', '+ Add stop') as HTMLButtonElement;
+  addStop.onclick = () => mut((gg) => {
+    const last = gg.stops[gg.stops.length - 1];
+    gg.stops = [...gg.stops, { palette: last?.palette ?? palNames[0], step: last?.step ?? 500, position: 1 }];
+  });
+  card.append(addStop);
+  return card;
+};
+
+/** A single gradient stop row — swatch · palette · step · position % · remove (kept ≥2 stops). */
+const renderGradientStop = (g: GradientInput, gi: number, st: { palette: string; step: number; position: number }, si: number, palNames: string[], mut: (fn: (gg: GradientInput) => void) => void): HTMLElement => {
+  const row = el('div', 'gr-ed-stop');
+  row.append(swatch(gradStopHex(st.palette, st.step), 'gr-ed-stopsw'));
+  const palSel = el('select', 'ic-step') as HTMLSelectElement;
+  for (const p of palNames) palSel.append(optionEl(p, p, p === st.palette));
+  // Changing palette re-homes the step to the nearest valid step in the new palette.
+  palSel.onchange = () => mut((gg) => {
+    const steps = theme.palettes.find((p) => p.palette === palSel.value)?.steps ?? [];
+    const keep = steps.find((s) => s.num === gg.stops[si].step)?.num ?? steps.find((s) => s.num === 500)?.num ?? steps[Math.floor(steps.length / 2)]?.num ?? gg.stops[si].step;
+    gg.stops[si] = { ...gg.stops[si], palette: palSel.value, step: keep };
+  });
+  const stepSel = el('select', 'ic-step') as HTMLSelectElement;
+  const steps = theme.palettes.find((p) => p.palette === st.palette)?.steps ?? [];
+  for (const s of steps) stepSel.append(optionEl(String(s.num), s.key, s.num === st.step));
+  stepSel.onchange = () => mut((gg) => { gg.stops[si] = { ...gg.stops[si], step: Number(stepSel.value) }; });
+  const pos = el('input', 'gr-ed-num') as HTMLInputElement;
+  pos.type = 'number'; pos.min = '0'; pos.max = '100'; pos.step = '5'; pos.value = String(Math.round(st.position * 100));
+  pos.title = 'Position %';
+  pos.onchange = () => mut((gg) => { gg.stops[si] = { ...gg.stops[si], position: clampUnit(Number(pos.value) / 100) }; });
+  row.append(palSel, stepSel, pos);
+  if (g.stops.length > 2) {
+    const rm = el('button', 'rx gr-ed-stoprm', '×') as HTMLButtonElement;
+    rm.title = 'Remove stop';
+    rm.onclick = () => mut((gg) => { gg.stops = gg.stops.filter((_, i) => i !== si); });
+    row.append(rm);
+  }
+  return row;
+};
+const clampUnit = (n: number): number => Math.max(0, Math.min(1, Number.isFinite(n) ? n : 0));
+
 /** Inline-SVG icon glyphs (stroke, `currentColor` via the `stroke` attr) — dependency-free line icons,
  *  authored here so the specimen stays buildless. 24×24 viewBox, rounded caps/joins. */
 const SVGNS = 'http://www.w3.org/2000/svg';
@@ -2999,6 +3163,27 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .gr-cell{display:flex;flex-direction:column;gap:10px}
 .gr-sw{width:200px;height:96px;border-radius:var(--r-xs);border:1px solid var(--line)}
 .gr-lab{font-size:11.5px;color:var(--muted)}
+/* Gradient editor (docs/23 §2) — one card per gradient. */
+.gr-ed-list{display:flex;flex-direction:column;gap:14px;margin-top:12px}
+.gr-ed-card{border:1px solid var(--line);border-radius:var(--r);background:var(--panel);padding:22px}
+.gr-ed-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.gr-ed-name{margin:0;font-size:15px;font-weight:620;color:var(--ink)}
+.gr-ed-head .rx{margin-left:auto}
+.gr-ed-sw{width:100%;height:120px;border-radius:var(--r-sm);border:1px solid var(--line);margin-bottom:16px}
+.gr-ed-ctrls{display:flex;flex-wrap:wrap;gap:16px 20px;align-items:flex-end}
+.gr-ed-field{display:flex;flex-direction:column;gap:6px}
+.gr-ed-lab{font-size:12px;font-weight:560;color:var(--muted)}
+.gr-ed-range{width:180px;accent-color:var(--ink)}
+.gr-ed-num{width:96px;padding:9px 11px;border:1px solid var(--line2);border-radius:var(--r-xs);font:inherit;font-size:13.5px;background:var(--paper)}
+.gr-ed-stopsh{margin:20px 0 10px;font-size:12.5px;font-weight:600;color:var(--muted);letter-spacing:.02em}
+.gr-ed-stops{display:flex;flex-direction:column;gap:10px}
+.gr-ed-stop{display:flex;align-items:center;gap:10px}
+.gr-ed-stopsw{width:34px;height:34px;flex:none;border-radius:var(--r-xs);border:1px solid var(--line2)}
+.gr-ed-stop .ic-step{flex:1;min-width:0}
+.gr-ed-stop .gr-ed-num{flex:none}
+.gr-ed-stoprm{flex:none}
+.gr-ed-addstop{margin-top:12px}
+.gr-ed-add{margin-top:14px}
 .icon-spec{margin-bottom:8px}
 .ic-block{border:1px solid var(--line);border-radius:var(--r);background:var(--panel);padding:18px 22px;margin-top:10px}
 .ic-cap{font-size:11px;color:var(--faint);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:14px}
