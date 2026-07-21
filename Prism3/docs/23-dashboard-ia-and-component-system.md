@@ -257,3 +257,43 @@ renders*.
 from) and the **screen scaffold** (title · sections · contextual specimens) land — now
 with real callers (every page), per the Phase 2 scoping decision that shipped the
 control kit first.
+
+## 8. Component inventory + componentization audit (living)
+
+The dashboard is hand-rolled DOM via `el()`. §4 committed to building it as a system; this
+section is the **living inventory** of what's been componentized and what's next, so each PR
+extracts against an agreed list rather than re-deciding. **Extraction rule (from root
+`CLAUDE.md` §2/§3): componentize only where there are ≥2 real callers today** — no speculative
+abstraction. This tier feeds the Phase 5 goal of self-theming the dashboard from Prism3 tokens
+(and, eventually, Prism3 components).
+
+**Extracted (the spine).**
+- **Control kit** — `knob(label, body, desc)`, `knobBody`, `optionEl` (PR #197).
+- **Screen scaffold** — `renderScreen(host, key, sections, specimens)` + `renderAdvancedPanel`
+  (Phase 3b); every editing page composes through it.
+- **Rail-as-data** — `NAV` + `pageOfLever` (Phase 3b).
+- **Table renderers** — `contractTableEl` (contrast) + `tokenTableEl` (token list) (Phase 4).
+- **Color card** — reusable card shell + variants (interactive / stateless bg-fg / neutral),
+  **PR-2, in progress**.
+
+**Candidates (ranked by present-tense duplication — the next tier).**
+1. **`contrastBadge(ratio, min)`** — "show ratio + pass/fail" is rebuilt in ≥3 shapes: the
+   interactive card (`cbadge`), the foreground editor's badge, and the tables' `dot` + ratio.
+   Highest-value dedup; PR-2 will need it for the fill cards, so extract it there.
+2. **`swatch(hex, size?)`** — color-square construction repeats across ramp swatches (`.sw`),
+   the interactive big swatch (`.ic-big`), the token-list swatch (`.tok-sw`), and the foreground
+   swatch. Extract alongside PR-2 (the cards are swatch-heavy).
+3. **Override / "Auto · palette step" picker** — the foreground editor and the interactive card
+   each build the same "Auto + palette steps" select independently. PR-2 unifies this for the
+   card path; generalise into one `stepPicker(role, palette, current, onPick)`.
+4. **`tpill(path)`** — the token-path pill (`tpill mono`) repeats in the interactive card and the
+   preview gallery. Trivial, do opportunistically.
+5. **`specimen(title, desc, body)` frame** — every `render*Specimen` rebuilds `sectionHead` + a
+   display container. A thin frame would DRY the ~9 specimens; extract when a specimen PR touches them.
+6. **`objEditor(title, lede, body)` wrapper** — `subHead` + `obj-lede` + panel, repeated across the
+   bespoke editors (surfaces / foreground / shadow / typography). Low urgency.
+
+**Sequencing.** #1–#3 land with **PR-2** (the card work needs them). #4–#6 are opportunistic —
+extract when a PR already touches that surface; don't do a standalone "refactor everything" pass.
+Revisit this list before the Phase 5 self-theming work, which will want these primitives themed
+from tokens.

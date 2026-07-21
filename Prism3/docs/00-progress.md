@@ -7,7 +7,32 @@
 
 ---
 
-## Latest (2026-07-21) — UI polish: toggle switch + code-review nits
+## Latest (2026-07-21) — Reusable color card (foundation) + componentization audit (`docs/23` §8)
+
+**STATUS: web-only, DOM-identical refactor + docs.** First slice of the color-card work (owner request to
+reuse the interactive-card styling for fills). Extracts the card into a reusable component and records the
+component inventory so later extractions build against an agreed list.
+
+- **`docs/23` §8 — component inventory + componentization audit.** Living list: what's extracted (control
+  kit, screen scaffold, rail-as-data, table renderers) and the ranked next-tier candidates
+  (`contrastBadge`, `swatch`, the override step-picker, `tpill`, a specimen frame, an obj-editor wrapper).
+  Rule: extract only at ≥2 real callers. Feeds Phase 5 self-theming.
+- **Card component extracted.** New `renderCard(opts)` shell (header · big swatch · picker + token pill ·
+  optional example · desc + optional badge) + shared `contrastBadge(ratio, min, label?)` and
+  `swatch(hex, cls?)`. `renderInteractiveCard` now composes through `renderCard` (appending its own
+  interactive-states section) instead of hand-rolling the DOM.
+
+**Verification:** `tsc` + esbuild clean. A Playwright DOM-parity harness rendered the **Interactive** and
+**Preview** pages on `origin/main` vs. this branch — **byte-identical** (25,872 / 21,456 chars), so the
+migration changes nothing visible. No engine files touched.
+
+**Next:** PR-2b — the **Foregrounds** editor + **Backgrounds** on cards + **Neutral** as an interactive
+card, all on `renderCard` (the `foreground.*` fills are engine-derived; the A1 override layer repoints
+them, no engine change). Then the gradient editor. Progress entry rides in this PR.
+
+---
+
+## (2026-07-21) — UI polish: toggle switch + code-review nits
 
 **STATUS: web-only, additive polish.** First of a UI-refinement series (owner feedback after the reorg):
 

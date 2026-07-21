@@ -853,6 +853,50 @@ const subHead = (title: string): HTMLElement => { const s = el('div', 'sub-lab')
  *  the ordered column list + the add-accent promote row. */
 const stepKeyOf = (path: string | undefined): string => (path ? path.split('.').pop()! : '');
 
+// ---- color card component (audit §8) --------------------------------------
+// The reusable card the interactive columns, the fill (foreground/background) editors, and the neutral
+// card all compose from. Variants differ only in what the caller passes (a picker element, an optional
+// example, an optional badge) + whether the caller appends an interactive-states section afterward.
+
+/** "ratio:1 ✓/✗", pass/fail coloured, with an optional leading label. Shared by the cards + the preview
+ *  gallery (audit §8 candidate #1). */
+const contrastBadge = (ratio: number, min: number, label?: string): HTMLElement => {
+  const b = el('span', `cbadge ${ratio >= min ? 'ok' : 'no'}`);
+  if (label) b.append(el('span', 'cb-lab', label));
+  b.append(el('span', 'cb-ratio', `${ratio.toFixed(2)}:1`), el('span', 'cb-mark', ratio >= min ? '✓' : '✗'));
+  return b;
+};
+/** A colour swatch element with an inline background (audit §8 candidate #2). */
+const swatch = (hex: string, cls = 'sw'): HTMLElement => { const s = el('div', cls); s.style.background = hex; return s; };
+
+/** The card shell: header (label + optional remove) · top row (big swatch · mid = title + picker + token
+ *  pill · optional example) · description row (+ optional contrast badge). Interactive columns append a
+ *  states section to the returned node; stateless fill cards don't. */
+type CardOpts = {
+  label: string; onRemove?: () => void; removeTitle?: string;
+  fillHex: string; midTitle: string; picker: HTMLElement; tokenPath: string;
+  example?: HTMLElement; desc: string; badge?: HTMLElement;
+};
+const renderCard = (o: CardOpts): HTMLElement => {
+  const wrap = el('div', 'ic-card');
+  const head = el('div', 'ic-head');
+  head.append(el('h4', 'ic-headt', o.label));
+  if (o.onRemove) { const rm = el('button', 'rx', '×') as HTMLButtonElement; rm.title = o.removeTitle ?? 'Remove'; rm.onclick = o.onRemove; head.append(rm); }
+  wrap.append(head);
+  const top = el('div', 'ic-top');
+  top.append(swatch(o.fillHex, 'ic-big'));
+  const mid = el('div', 'ic-mid');
+  mid.append(el('h4', 'ic-h', o.midTitle), o.picker, el('span', 'tpill mono', o.tokenPath));
+  top.append(mid);
+  if (o.example) { const ex = el('div', 'ic-example'); ex.append(o.example); top.append(ex); }
+  wrap.append(top);
+  const descRow = el('div', 'ic-descrow');
+  descRow.append(el('p', 'ic-desc', o.desc));
+  if (o.badge) descRow.append(o.badge);
+  wrap.append(descRow);
+  return wrap;
+};
+
 /** A single interactive column to render as a card. `name` is the `interactive.<name>.*` role suffix
  *  (must match the engine's column naming: built-ins primary/destructive, accents `name ?? palette`). */
 type ICol = {
@@ -873,53 +917,33 @@ const renderInteractiveCard = (col: ICol): HTMLElement | null => {
   const palName = col.palette;
   const palSteps = (theme.palettes.find((p) => p.palette === palName)?.steps ?? []).map((s) => s.key);
 
-  const wrap = el('div', 'ic-card');
-
-  // Header — label + (accents only) remove button
-  const head = el('div', 'ic-head');
-  head.append(el('h4', 'ic-headt', col.label));
-  if (col.onRemove) { const rm = el('button', 'rx', '×') as HTMLButtonElement; rm.title = 'Remove interactive color'; rm.onclick = col.onRemove; head.append(rm); }
-  wrap.append(head);
-
-  // Top row: big swatch · title + step select + token pill · button example
-  const top = el('div', 'ic-top');
-  const big = el('div', 'ic-big'); big.style.background = rest.hex; top.append(big);
-  const mid = el('div', 'ic-mid');
-  mid.append(el('h4', 'ic-h', 'Surface — rest'));
+  // Step picker — Auto (the generated baseline) + each palette step.
   const sel = el('select', 'ic-step') as HTMLSelectElement;
   const pinned = col.stepValue;
   const opt = (v: string, label: string, on: boolean) => sel.append(optionEl(v, label, on));
   opt('auto', `Auto · ${palName} ${stepKeyOf(rest.path)}`, pinned == null);
   for (const k of palSteps) opt(k, `${palName} ${k}`, pinned != null && pinned === Number(k));
   sel.onchange = () => col.setStep(sel.value === 'auto' ? undefined : Number(sel.value));
-  mid.append(sel, el('span', 'tpill mono', `interactive.${col.name}.fill.rest`));
-  top.append(mid);
-  const ex = el('div', 'ic-example');
   const btn = el('div', 'ic-btn', 'Button example'); btn.style.background = rest.hex; if (onFill) btn.style.color = onFill.hex;
-  ex.append(btn); top.append(ex);
-  wrap.append(top);
 
-  // Description + the derived contrast badge (fill vs the surface floor)
-  const descRow = el('div', 'ic-descrow');
-  descRow.append(el('p', 'ic-desc', 'The surface color of your buttons and interactive containers — engine-derived and gated against the page surface; the on-fill ink is auto-picked to stay legible.'));
-  if (rest.ratio != null && rest.min != null) {
-    const pass = rest.ratio >= rest.min;
-    const b = el('span', `cbadge ${pass ? 'ok' : 'no'}`);
-    b.append(el('span', 'cb-ratio', `${rest.ratio.toFixed(2)}:1`), el('span', 'cb-mark', pass ? '✓' : '✗'));
-    descRow.append(b);
-  }
-  wrap.append(descRow);
+  const wrap = renderCard({
+    label: col.label, onRemove: col.onRemove, removeTitle: 'Remove interactive color',
+    fillHex: rest.hex, midTitle: 'Surface — rest', picker: sel, tokenPath: `interactive.${col.name}.fill.rest`,
+    example: btn,
+    desc: 'The surface color of your buttons and interactive containers — engine-derived and gated against the page surface; the on-fill ink is auto-picked to stay legible.',
+    badge: rest.ratio != null && rest.min != null ? contrastBadge(rest.ratio, rest.min) : undefined,
+  });
 
-  // Interactive states — hover + pressed as sub-cards (swatch · step · token pill)
+  // Interactive states — hover + pressed as sub-cards (swatch · step · token pill). Interactive-only, so
+  // it's appended by this variant rather than owned by the shared shell.
   wrap.append(el('h5', 'ic-states-h', 'Interactive states'));
   const states = el('div', 'ic-states');
   const sub = (label: string, role: { hex: string; path?: string } | undefined, path: string) => {
     if (!role) return;
     const c = el('div', 'ic-sub');
-    const sw = el('div', 'ic-subsw'); sw.style.background = role.hex;
     const t = el('div', 'ic-subt');
     t.append(el('div', 'ic-sublab', label), el('div', 'ic-substep mono', `${palName} ${stepKeyOf(role.path)}`), el('span', 'tpill mono', path));
-    c.append(sw, t); states.append(c);
+    c.append(swatch(role.hex, 'ic-subsw'), t); states.append(c);
   };
   sub('Hover', hover, `interactive.${col.name}.fill.hover`);
   sub('Active', pressed, `interactive.${col.name}.fill.pressed`);
