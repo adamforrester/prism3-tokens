@@ -7,7 +7,30 @@
 
 ---
 
-## Latest (2026-07-21) — Foregrounds editor (fills as cards) on the reusable card
+## Latest (2026-07-21) — Neutral as an interactive card (docs/23 §2, retires the specimen)
+
+**STATUS: web-only, additive.** The neutral / default button is now a proper interactive card alongside
+Primary / Destructive (owner request #2A), replacing the disconnected standalone "Neutral emphasis"
+specimen.
+
+- **`renderNeutralCard`** — same `renderCard` shell + interactive-states section as the other columns,
+  but its control is the (global) `neutralEmphasis` toggle (subtle grey vs bold fill) rather than a
+  per-mode anchor step. Appended after Primary/Destructive in `renderInteractiveCards`.
+- **`neutralEmphasis` moved off the panel onto the card** — removed from `INTERACTIVE_GROUPS` **and**
+  filtered out of `leversFor('interactive')` so `renderGroupedPanels`'s catch-all doesn't re-surface it
+  under "More" (caught in verification).
+- **Removed** the dead `renderNeutralSpecimen` + its `.ne-*` / `.neutral-spec` CSS.
+
+**Verification:** `tsc` + esbuild clean. Playwright drive-through: interactive cards are now
+`[Primary, Destructive, Neutral]`; the standalone neutral specimen is gone (0); `neutralEmphasis` no
+longer appears in any panel; flipping the card's emphasis re-derives the fill (grey `rgb(206,206,208)` →
+bold `rgb(44,44,47)`); no console errors. Screenshot reviewed. No engine files touched.
+
+**Next:** Backgrounds on cards (PR-2d), then the gradient editor. Progress entry rides in this PR.
+
+---
+
+## (2026-07-21) — Foregrounds editor (fills as cards) on the reusable card
 
 **STATUS: web-only, additive feature.** Closes the "Foregrounds" gap from the `docs/23` §2 IA (the fill
 roles had no UI control — they were engine-derived only). Owner confirmed exposing **both** families.
