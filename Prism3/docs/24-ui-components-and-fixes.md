@@ -60,7 +60,7 @@ exception: collapsing 5 divergent styles into one base **normalises** the small 
 deliberate consolidation verified by a **cross-page drive-through** (every select styled + no breakage),
 not DOM-parity.
 
-1. **PR-C1 — `selectEl` + unified `.select`** (the named pain; 16 call sites, 5 rules → 1). ✅ #212-pending
+1. **PR-C1 — `selectEl` + unified `.select`** (the named pain; 16 call sites, 5 rules → 1). ✅ #212
 2. **PR-C2 — `numberField`** (7 sites, 4 classes → `.num` base + deltas). ✅ Scope narrowed on close read:
    **color** wells are *intentionally* different sizes per context (round brand swatch vs. ramp seed vs.
    start swatch) — not style drift, and their `input[type=color]` cosmetics are already element-selector
@@ -95,7 +95,9 @@ priority dictates.
 > Bugs / polish found during the refinement pass. Append freely (owner or agent). Format:
 > `- [ ] <area> — <symptom> → <fix or hypothesis>`  ·  check off when a PR lands it (note the PR #).
 
-_(none logged yet — seed with a bug-hunting drive-through and owner findings)_
+_No bugs surfaced during the componentization arc (C1–C6, #212–#218) — every PR was a verified refactor
+with a clean independent review, so nothing to log here yet. Seed with owner findings and/or a dedicated
+bug-hunting drive-through._
 
 ---
 
