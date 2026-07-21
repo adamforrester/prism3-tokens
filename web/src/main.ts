@@ -2178,6 +2178,10 @@ function renderModeStrip(): void {
   if (!modeStripHost) return;
   modeStripHost.innerHTML = '';
   if (!firstRun) modeStripHost.append(renderModeContext());
+  // Keep the sticky rail's offset tied to the ACTUAL header height — the mode chips can wrap to a
+  // second row when a brand has many modes, and a fixed offset would tuck the rail under the header.
+  const chrome = modeStripHost.parentElement;
+  if (chrome) document.documentElement.style.setProperty('--chrome-h', `${chrome.offsetHeight}px`);
 }
 
 const PAGE_RENDERERS: Record<PageKey, (host: HTMLElement) => void> = {
@@ -2571,7 +2575,7 @@ const build = (): void => {
   // carries the compose sequence. A `view` destination (Preview) sits after a divider.
   NAV.forEach((s) => {
     if ('view' in s && s.view) rail.append(el('div', 'rail-div'));
-    const it = el('button', 'stage' + (s.key === page ? ' active' : '') + ('view' in s && s.view ? ' stage-view' : '')) as HTMLButtonElement;
+    const it = el('button', 'stage' + (s.key === page ? ' active' : '')) as HTMLButtonElement;
     const t = el('span', 'stage-t');
     t.append(el('b', undefined, s.label), el('small', undefined, s.sub));
     it.append(t);
@@ -2672,7 +2676,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .start-imp-err{margin:9px 0 0;font-size:12px;color:#a12;line-height:1.5}
 
 .shell{display:grid;grid-template-columns:210px minmax(0,1fr);gap:60px;align-items:start;margin-top:20px}
-.rail{position:sticky;top:130px;display:flex;flex-direction:column;gap:4px}
+.rail{position:sticky;top:calc(var(--chrome-h, 120px) + 10px);display:flex;flex-direction:column;gap:4px}
 .rail-div{height:1px;background:var(--line);margin:10px 10px}
 .stage{display:flex;align-items:center;gap:13px;text-align:left;border:1px solid transparent;background:none;font:inherit;padding:11px 12px;border-radius:var(--r-sm);cursor:pointer;color:var(--ink2)}
 .stage:hover{background:var(--panel)}
@@ -2760,7 +2764,12 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .knob-label{display:block;font-weight:600;font-size:13.5px}
 .knob-body{display:flex;align-items:center;gap:10px;margin-top:8px}
 .knob input[type=range]{flex:1;accent-color:var(--ink)}
-.knob input.toggle{width:20px;height:20px;accent-color:var(--ink);cursor:pointer}
+/* Toggle rendered as a switch (pill track + sliding thumb), not a native checkbox. */
+.knob input.toggle{appearance:none;-webkit-appearance:none;flex:none;width:38px;height:22px;margin:0;border-radius:999px;background:var(--line2);position:relative;cursor:pointer;transition:background .15s ease}
+.knob input.toggle::after{content:'';position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .15s ease}
+.knob input.toggle:checked{background:var(--ink)}
+.knob input.toggle:checked::after{transform:translateX(16px)}
+.knob input.toggle:disabled{opacity:.5;cursor:default}
 .knob input:disabled{opacity:.5}
 .knob select{margin-top:8px;padding:6px 8px;border:1px solid var(--line2);border-radius:var(--r-xs);font:inherit;background:var(--paper)}
 .knob select:disabled{opacity:.6}
