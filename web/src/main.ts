@@ -3070,9 +3070,9 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .ramp-borrowed .strip-mini{display:flex;border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--line2)}
 .ramp-borrowed .sw-mini{flex:1;height:30px}
 
-.sub-lab{margin:22px 0 10px}
-.sub-lab:first-child{margin-top:6px}
-.sub-t{font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--faint);margin:0}
+.sub-lab{margin:34px 0 12px}
+.sub-lab:first-child{margin-top:8px}
+.sub-t{font-size:12.5px;font-weight:680;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);margin:0}
 .knob{padding:14px 0;border-bottom:1px solid var(--line)}
 .knob:last-child{border-bottom:0}
 .knob.nested{margin-left:16px;padding-left:16px;border-left:2px solid var(--line)}
