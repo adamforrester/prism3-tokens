@@ -98,7 +98,7 @@ priority dictates.
 Owner review pass (2026-07-21). Fixes batch into area PRs (F1, F2, …); functional bugs stand alone.
 
 **Palettes**
-- [ ] Renaming a borrowed brand color (e.g. `accent`→`secondary`) breaks role refs → dangling `roleColors.success → 'accent'`; cascade the rename to references or block/warn.
+- [x] Renaming a borrowed brand color (e.g. `accent`→`secondary`) breaks role refs → **fixed** (F5): rename now **cascades** to every name reference (`actionPalette`, `roleColors` borrows, `interactivePalettes` columns, gradient stops), with a collision guard (revert if the new name is taken). Remove gets the same treatment (clears borrows / drops columns / repoints gradient stops to primary).
 - [x] Validation ramp jumps to the bottom + cuts off when borrowing a scale → **fixed** (F4): borrowed status roles now render as a **full ramp in place** (step labels / hex / anchor, "borrowing <src>" meta) via `rampEl`, not a cut-off `strip-mini` at the bottom. Retired the dead `borrowedStatusRow`.
 - [x] ANCHOR badge clipped on the anchor swatch → **fixed** (F4): the flag was 58px in a ~57px swatch; shrank it (8px / padding 2px 4px) to 47px so it fits with room to spare.
 - [ ] Palettes bleed past the 1120px content pane → restructure (Brand Colors + Neutral horizontal, above the palettes; all palettes one width). *Design-led — needs owner alignment.*

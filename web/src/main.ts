@@ -371,6 +371,29 @@ const paintRampList = (host: HTMLElement, palettes: Theme['palettes'], opts: { e
   for (const p of palettes) host.append(rampEl(p.palette, p.steps, anchorStepFor(p.palette), undefined));
 };
 
+// Brand-color reference integrity (docs/24 #53) — when an accent is renamed or removed, every place that
+// references its palette NAME must follow, or the alias graph dangles (e.g. `roleColors.success → 'accent'`
+// stops resolving). Covers the four name-referencing fields: actionPalette, roleColors (borrows),
+// interactivePalettes (accent columns), and gradient stops.
+const cascadeRename = (prev: string, next: string): void => {
+  if (brandState.actionPalette === prev) brandState.actionPalette = next;
+  const rc = brandState.roleColors as Record<string, string> | undefined;
+  if (rc) for (const r of Object.keys(rc)) if (rc[r] === prev) rc[r] = next;
+  brandState.interactivePalettes?.forEach((e) => { if (e.palette === prev) e.palette = next; });
+  if (Array.isArray(brandState.gradients)) brandState.gradients.forEach((g) => g.stops.forEach((s) => { if (s.palette === prev) s.palette = next; }));
+};
+const cascadeRemove = (removed: string): void => {
+  if (brandState.actionPalette === removed) brandState.actionPalette = 'primary';
+  const rc = brandState.roleColors as Record<string, string> | undefined;
+  if (rc) { for (const r of Object.keys(rc)) if (rc[r] === removed) delete rc[r]; if (!Object.keys(rc).length) brandState.roleColors = undefined; }
+  if (brandState.interactivePalettes) {
+    brandState.interactivePalettes = brandState.interactivePalettes.filter((e) => e.palette !== removed);
+    if (!brandState.interactivePalettes.length) brandState.interactivePalettes = undefined;
+  }
+  // A gradient stop can't just vanish (a gradient needs ≥2 stops), so repoint any dangling stop to primary.
+  if (Array.isArray(brandState.gradients)) brandState.gradients.forEach((g) => g.stops.forEach((s) => { if (s.palette === removed) s.palette = 'primary'; }));
+};
+
 /** Brand colors — a scalable list. Primary is the pinned anchor (editable color, not
  *  removable); each accent is add / rename / remove and can drive the action palette. */
 const renderBrandColors = (): HTMLElement => {
@@ -406,15 +429,19 @@ const renderBrandColors = (): HTMLElement => {
     name.type = 'text'; name.value = bc.name; name.spellcheck = false;
     name.onchange = () => {
       const prev = bc.name, next = name.value.trim() || bc.name;
+      if (next === prev) return;
+      // Don't rename onto another palette's name — it would collide / merge the alias graph. Revert.
+      const taken = new Set(['primary', 'neutral', ...list.filter((_, j) => j !== i).map((b) => b.name)]);
+      if (taken.has(next)) { name.value = prev; return; }
       bc.name = next;
-      if (brandState.actionPalette === prev) brandState.actionPalette = next;
+      cascadeRename(prev, next);
       applyFull();
     };
     rows.append(colorRow(
       () => hex(oklchToRgb(bc.oklch)),
       (h) => { bc.oklch = rgbToOklch(hexToRgb(h)); },
       name,
-      () => { const removed = list[i].name; list.splice(i, 1); if (brandState.actionPalette === removed) brandState.actionPalette = 'primary'; applyFull(); },
+      () => { const removed = list[i].name; list.splice(i, 1); cascadeRemove(removed); applyFull(); },
     ));
   });
   panel.append(rows);
