@@ -1773,8 +1773,10 @@ const renderSurfacesEditor = (): HTMLElement => {
     }));
   }
 
-  // Inverse — DERIVED, read-only (the contrasting band; gated by the Inverse surface-context lever). Shown
-  // so you can see the pairing; not directly picked (the engine derives it from the primary surface).
+  // Inverse — DERIVED, read-only (the contrasting band). Shown so you can see the pairing; not directly
+  // picked. `background.inverse.primary` is generated for every mode (independent of the Inverse
+  // surface-context lever, which only gates the on-inverse text colors), so the card always renders —
+  // the `if` is just a defensive guard.
   const invHex = roles['background.inverse.primary']?.hex;
   if (invHex) {
     grid.append(renderCard({
@@ -1782,10 +1784,6 @@ const renderSurfacesEditor = (): HTMLElement => {
       tokenPath: 'background.inverse.primary',
       desc: 'The contrasting band for dark heroes / inverse sections — derived from the primary surface, not directly set.', compactSwatch: true,
     }));
-  } else {
-    const off = el('div', 'ic-card bg-inverse-off');
-    off.append(el('h4', 'ic-headt', 'Inverse'), el('p', 'ic-desc', 'Inverse surface is off — enable “Inverse surface-context” on Interactive to generate a contrasting band.'));
-    grid.append(off);
   }
   wrap.append(grid);
   return wrap;
@@ -3328,7 +3326,6 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 /* Backgrounds card — the contrast-floor sub-control appended below the card body. */
 /* Backgrounds Inverse card — the derived, read-only surface (docs/24 #61). */
 .bg-derived{font-size:12.5px;color:var(--faint);font-style:italic}
-.bg-inverse-off{display:flex;flex-direction:column;justify-content:center;gap:6px}
 .bg-floor{display:flex;align-items:center;gap:10px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
 .bg-floor-lab{font-size:12.5px;font-weight:560;color:var(--muted)}
 .bg-floor .select{margin-left:auto}
