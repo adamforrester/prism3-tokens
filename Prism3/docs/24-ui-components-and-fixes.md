@@ -113,7 +113,7 @@ Owner review pass (2026-07-21). Fixes batch into area PRs (F1, F2, …); functio
 - [x] Drop the word "ink" everywhere (subhead `Text & ink`→`Text`, ledes, card desc, inverse specimen) (F1) + the engine-sourced `inverse` lever description (F1b — `levers.ts` + regenerated `lever-manifest.json`). Zero standalone "ink" across all 9 pages.
 - [x] Contrast-floor control unclear → added an inline tooltip explaining it (F1).
 - [ ] Section headers (`subHead`) too light/small + top spacing too tight → bump size/weight/contrast + top margin (one-place fix).
-- [ ] Backgrounds reads as two surfaces in one mode → make it mode-scoped (active mode's `background.primary` + derived `background.inverse`). *Needs owner nod.*
+- [x] Backgrounds reads as two surfaces in one mode → made it **mode-scoped** (F2): the active mode's `background.primary` (editable base + floor) + `background.inverse.primary` (derived, read-only); switch modes to set each. Consistent with Text below.
 - [ ] Text-color rows have very wide selects → add a color example, narrow the select.
 
 ---
