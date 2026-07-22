@@ -112,7 +112,7 @@ Owner review pass (2026-07-21). Fixes batch into area PRs (F1, F2, …); functio
 - [x] Rail label `Surfaces / fills` → `Surfaces & fills` (F1).
 - [x] Drop the word "ink" everywhere (subhead `Text & ink`→`Text`, ledes, card desc, inverse specimen) (F1) + the engine-sourced `inverse` lever description (F1b — `levers.ts` + regenerated `lever-manifest.json`). Zero standalone "ink" across all 9 pages.
 - [x] Contrast-floor control unclear → added an inline tooltip explaining it (F1).
-- [ ] Section headers (`subHead`) too light/small + top spacing too tight → bump size/weight/contrast + top margin (one-place fix).
+- [x] Section headers (`subHead`) too light/small + top spacing too tight → bumped `.sub-t` to 12.5px / weight 680 / `--muted` (from 11.5px / 600 / `--faint`) + `.sub-lab` top margin 22→34px. One `subHead` fix, every section header.
 - [x] Backgrounds reads as two surfaces in one mode → made it **mode-scoped** (F2): the active mode's `background.primary` (editable base + floor) + `background.inverse.primary` (derived, read-only); switch modes to set each. Consistent with Text below.
 - [ ] Text-color rows have very wide selects → add a color example, narrow the select.
 
