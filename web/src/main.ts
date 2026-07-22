@@ -1153,7 +1153,10 @@ const renderModeSetMenu = (): HTMLElement => {
   const wireOn = modes.includes('wireframe');
   menu.append(el('div', 'mctx-mcap', 'Modes this brand generates'));
 
+  // #57 — Light is the forced base mode; render the row as clearly LOCKED (muted, greyed check, no hover)
+  // rather than a live checkbox that can't be unticked.
   const lightRow = el('div', 'mctx-opt on fixed');
+  lightRow.title = 'Light is always generated — it’s the base mode, so it can’t be turned off.';
   lightRow.append(el('span', 'mctx-box', '✓'), el('span', undefined, 'Light'), el('span', 'mctx-always', 'always'));
   menu.append(lightRow);
 
@@ -1199,10 +1202,10 @@ const renderModeSetMenu = (): HTMLElement => {
   } else {
     const form = el('div', 'mctx-addform');
     const nameIn = el('input', 'mctx-addname') as HTMLInputElement;
-    nameIn.type = 'text'; nameIn.placeholder = 'name — e.g. marketing-dark'; nameIn.value = addModeName; nameIn.spellcheck = false;
+    nameIn.type = 'text'; nameIn.placeholder = 'e.g. marketing-dark'; nameIn.value = addModeName; nameIn.spellcheck = false;
     nameIn.oninput = () => { addModeName = nameIn.value; };
     const baseSel = selectEl('sm fill');
-    for (const b of ['light', ...(darkOn ? ['dark'] : [])]) baseSel.append(optionEl(b, `base: ${b}`));
+    for (const bm of ['light', ...(darkOn ? ['dark'] : [])]) baseSel.append(optionEl(bm, MODE_LABEL[bm] ?? bm));
     const err = el('p', 'mctx-adderr');
     const doAdd = () => {
       const nm = addModeName.trim();
@@ -1218,7 +1221,10 @@ const renderModeSetMenu = (): HTMLElement => {
     const cancel = el('button', 'mctx-addcancel', 'Cancel') as HTMLButtonElement;
     cancel.onclick = () => { addModeOpen = false; addModeName = ''; renderModeStrip(); };
     const btns = el('div', 'mctx-addbtns'); btns.append(addBtn, cancel);
-    form.append(nameIn, baseSel, err, btns);
+    // #56 — label the name field and the base select (the only label used to live inside the select).
+    const nameField = el('div', 'mctx-addfield'); nameField.append(el('label', 'mctx-addlab', 'Mode name'), nameIn);
+    const baseField = el('div', 'mctx-addfield'); baseField.append(el('label', 'mctx-addlab', 'Base mode'), baseSel);
+    form.append(nameField, baseField, err, btns);
     menu.append(form);
   }
   menu.append(el('p', 'mctx-note', 'A custom mode seeds from its base every build, then deviates via the per-mode colour controls (interactive, foreground).'));
@@ -1232,11 +1238,14 @@ const renderModeContext = (): HTMLElement => {
   for (const m of rp.modes) {
     const derived = DERIVED_MODES.has(m);
     const b = el('button', 'mctx-b' + (m === currentMode ? ' on' : '') + (derived ? ' derived' : '')) as HTMLButtonElement;
-    if (derived) b.title = 'Auto-derived from the contrast contracts — a read-only verification view';
     b.append(el('span', 'mctx-name', MODE_LABEL[m] ?? m));
     if (derived) b.append(el('span', 'mctx-auto', 'auto'));
     const ok = modeAllPass(m);
-    b.append(el('span', 'mctx-mark ' + (ok ? 'ok' : 'no'), ok ? '✓' : '✗'));
+    // #54 — a per-mode contrast pass/fail badge (NOT a remove control): ✓ pass · ! fail. Spell it out on
+    // hover so the mark doesn't read as "close/remove".
+    b.append(el('span', 'mctx-mark ' + (ok ? 'ok' : 'no'), ok ? '✓' : '!'));
+    b.title = (derived ? 'Auto-derived from the contrast contracts — a read-only verification view. ' : '')
+      + (ok ? 'Contrast: all pairs pass in this mode.' : 'Contrast: some pairs fail in this mode.');
     b.onclick = () => { modeMenuOpen = false; if (currentMode !== m) { currentMode = m; renderModeStrip(); renderWorkspace(); } else { renderModeStrip(); } };
     left.append(b);
   }
@@ -3260,7 +3269,10 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .mctx-opt:hover{background:var(--paper)}
 .mctx-box{width:16px;height:16px;flex:none;border:1px solid var(--line2);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:#fff}
 .mctx-opt.on .mctx-box{background:var(--ink);border-color:var(--ink)}
-.mctx-opt.fixed{cursor:default}
+/* #57 — Light row is locked (base mode): muted, greyed check, no hover — reads as non-interactive. */
+.mctx-opt.fixed{cursor:default;opacity:.72}
+.mctx-opt.fixed:hover{background:none}
+.mctx-opt.fixed .mctx-box{background:var(--muted);border-color:var(--muted)}
 .mctx-always{margin-left:auto;font-size:10px;text-transform:uppercase;letter-spacing:.03em;color:var(--faint)}
 .mctx-opt.disabled{color:var(--faint);cursor:not-allowed}
 .mctx-opt.disabled:hover{background:none}
@@ -3272,7 +3284,10 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .mctx-cbase{font-size:11px;color:var(--faint)}
 .mctx-crm{margin-left:auto;width:22px;height:22px;flex:none;border:1px solid var(--line2);background:var(--panel);border-radius:var(--r-xs);color:var(--faint);cursor:pointer;font-size:14px;line-height:1}
 .mctx-crm:hover{background:#fdecec;color:#a12;border-color:#f2c6c6}
-.mctx-addform{display:flex;flex-direction:column;gap:8px;padding:8px 6px}
+.mctx-addform{display:flex;flex-direction:column;gap:10px;padding:8px 6px}
+/* #56 — labeled add-mode fields (name + base). */
+.mctx-addfield{display:flex;flex-direction:column;gap:4px}
+.mctx-addlab{font-size:11px;font-weight:560;color:var(--muted);letter-spacing:.01em}
 .mctx-addname{padding:7px 9px;border:1px solid var(--line2);border-radius:var(--r-xs);font:inherit;font-size:13px;background:var(--paper)}
 .mctx-adderr{margin:0;font-size:11.5px;color:#a12;line-height:1.4}
 .mctx-adderr:empty{display:none}

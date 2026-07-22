@@ -104,9 +104,9 @@ Owner review pass (2026-07-21). Fixes batch into area PRs (F1, F2, …); functio
 - [ ] Palettes bleed past the 1120px content pane → restructure (Brand Colors + Neutral horizontal, above the palettes; all palettes one width). *Design-led — needs owner alignment.*
 
 **Mode strip**
-- [ ] Pill ✓/✗ (per-mode contrast pass/fail) reads as remove/close → clearer glyph/label.
-- [ ] Edit-Modes dialog: name field + base select have no external labels → add them.
-- [ ] Light "always" shows a dead checkbox → render as a locked/disabled check. *Owner to confirm disable-vs-remove.*
+- [x] Pill ✓/✗ (per-mode contrast pass/fail) reads as remove/close → `✗`→`!` for fail + an explanatory `title` on every pill ("Contrast: all/some pairs pass/fail in this mode") (F3).
+- [x] Edit-Modes dialog: name field + base select have no external labels → added "Mode name" / "Base mode" labels; base options now "Light"/"Dark" (not "base: light") (F3).
+- [x] Light "always" shows a dead checkbox → rendered as a **locked** row (muted, greyed check, no hover) + lock tooltip — clearly non-interactive (F3, chose disable-not-remove to keep alignment).
 
 **Surfaces & fills**
 - [x] Rail label `Surfaces / fills` → `Surfaces & fills` (F1).
