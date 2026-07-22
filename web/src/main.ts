@@ -301,7 +301,7 @@ const anchorStepFor = (palette: string): number | null => {
 };
 
 /** A labelled scale — 10 swatches per row, touching within a row, labels beneath. */
-const rampEl = (name: string, steps: { num: number; key: string; hex: string }[], anchorStep: number | null, control?: HTMLElement): HTMLElement => {
+const rampEl = (name: string, steps: { num: number; key: string; hex: string }[], anchorStep: number | null, control?: HTMLElement, metaNote?: string): HTMLElement => {
   const wrap = el('section', 'ramp');
   const head = el('div', 'ramp-head');
   head.append(el('span', 'ramp-name', name));
@@ -310,7 +310,8 @@ const rampEl = (name: string, steps: { num: number; key: string; hex: string }[]
   const aKey = anchorStep != null ? steps.find((s) => s.num === anchorStep)?.key : undefined;
   // Built via el()/textContent, never innerHTML — `name` is a brand-controlled palette name
   // (pasted design.md / accent rename) and would otherwise be an XSS sink (CR-07).
-  if (aKey) meta.append(document.createTextNode('anchor '), el('b', 'mono', `${name}/${aKey}`));
+  if (metaNote) meta.append(el('span', 'faint', metaNote));   // e.g. a borrowed status role: "borrowing primary"
+  else if (aKey) meta.append(document.createTextNode('anchor '), el('b', 'mono', `${name}/${aKey}`));
   else meta.append(el('span', 'faint', 'derived scale'));
   right.append(meta);
   // Status ramps carry an inline validation-color control (Auto / Custom hue / borrow a ramp).
@@ -346,21 +347,28 @@ const statusPalettes = (): Theme['palettes'] => theme.palettes.filter((p) => p.r
 
 /** Paint one section's ramps into its own volatile container.
  *  `error`   — surface the last-valid-palettes banner (brand section only).
- *  `borrowed`— append the compact reference row for any status role that borrows a
- *              brand palette (its own ramp is PRUNED from the set, so its control
- *              would otherwise be unreachable). */
+ *  `borrowed`— the STATUS section: render each status role in canonical order as a FULL ramp — its own
+ *              palette, or (when it borrows a brand palette, so it has no own ramp in the set) the
+ *              borrowed source's ramp labeled "borrowing <src>". Keeps the role in place with full step
+ *              labels / hex / anchor instead of collapsing to a cut-off strip at the bottom (docs/24 #58). */
 const paintRampList = (host: HTMLElement, palettes: Theme['palettes'], opts: { error?: boolean; borrowed?: boolean } = {}): void => {
   host.innerHTML = '';
   if (opts.error && lastError) host.append(el('div', 'errbar', `This combination doesn't resolve: ${lastError} — showing the last valid palettes.`));
-  const shown = new Set<string>();
-  for (const p of palettes) {
-    const isStatus = (STATUS_ROLES as readonly string[]).includes(p.palette);
-    if (isStatus) shown.add(p.palette);
-    host.append(rampEl(p.palette, p.steps, anchorStepFor(p.palette), isStatus ? statusRampControl(p.palette as StatusRole) : undefined));
+  if (opts.borrowed) {
+    const own = new Map(palettes.map((p) => [p.palette, p]));
+    for (const role of STATUS_ROLES) {
+      const p = own.get(role);
+      if (p) {
+        host.append(rampEl(role, p.steps, anchorStepFor(role), statusRampControl(role)));
+      } else {
+        const src = brandState.roleColors?.[role];
+        const pal = src ? theme.palettes.find((x) => x.palette === src) : undefined;
+        if (src && pal) host.append(rampEl(role, pal.steps, anchorStepFor(src), statusRampControl(role), `borrowing ${src}`));
+      }
+    }
+    return;
   }
-  if (opts.borrowed)
-    for (const role of STATUS_ROLES)
-      if (!shown.has(role) && brandState.roleColors?.[role]) host.append(borrowedStatusRow(role));
+  for (const p of palettes) host.append(rampEl(p.palette, p.steps, anchorStepFor(p.palette), undefined));
 };
 
 /** Brand colors — a scalable list. Primary is the pinned anchor (editable color, not
@@ -847,28 +855,6 @@ const statusRampControl = (role: StatusRole): HTMLElement => {
   picker.onchange = () => setStatusHue(role, picker.value);
 
   wrap.append(sel, picker);
-  return wrap;
-};
-
-/** A borrowed status role has no own ramp (pruned) — a compact reference row keeps the control
- *  reachable and shows the borrowed ramp inline. */
-const borrowedStatusRow = (role: StatusRole): HTMLElement => {
-  const src = brandState.roleColors![role]!;
-  const wrap = el('section', 'ramp ramp-borrowed');
-  const head = el('div', 'ramp-head');
-  head.append(el('span', 'ramp-name', role));
-  const right = el('div', 'ramp-head-right');
-  const meta = el('span', 'ramp-anchor');
-  meta.append(document.createTextNode('borrowing '), el('b', 'mono', src));
-  right.append(meta, statusRampControl(role));
-  head.append(right);
-  wrap.append(head);
-  const pal = theme.palettes.find((p) => p.palette === src);
-  if (pal) {
-    const strip = el('div', 'strip strip-mini');
-    for (const s of [...pal.steps].sort((a, b) => a.num - b.num)) { const sw = el('div', 'sw sw-mini'); sw.style.background = s.hex; strip.append(sw); }
-    wrap.append(strip);
-  }
   return wrap;
 };
 
@@ -3058,7 +3044,8 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .strip{display:flex;border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--line2)}
 .sw{flex:1;height:72px;position:relative}
 .sw.is-anchor::after{content:"";position:absolute;inset:0;border:2.5px solid var(--ink);border-radius:2px;pointer-events:none}
-.flag{position:absolute;top:8px;left:8px;font-size:9px;letter-spacing:.05em;text-transform:uppercase;background:rgba(255,255,255,.94);color:var(--ink);padding:2px 6px;border-radius:4px;font-weight:700}
+/* #55 — keep the anchor badge inside a cramped (~57px) swatch so it never clips at a row edge. */
+.flag{position:absolute;top:6px;left:6px;font-size:8px;letter-spacing:.02em;text-transform:uppercase;background:rgba(255,255,255,.94);color:var(--ink);padding:2px 4px;border-radius:4px;font-weight:700;line-height:1.2}
 .labs{display:flex;margin-top:9px}
 .lab{flex:1;display:flex;flex-direction:column;gap:2px;padding:0 6px}
 .lab-step{font-size:12px;font-weight:600;color:var(--ink2)}
@@ -3076,8 +3063,6 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .select.fill{flex:1;min-width:0}
 .select.cap{max-width:260px}
 .ramp-ctl-pick{width:30px;height:27px;padding:0;border:1px solid var(--line2);border-radius:var(--r-sm);background:none;cursor:pointer}
-.ramp-borrowed .strip-mini{display:flex;border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--line2)}
-.ramp-borrowed .sw-mini{flex:1;height:30px}
 
 .sub-lab{margin:34px 0 12px}
 .sub-lab:first-child{margin-top:8px}
