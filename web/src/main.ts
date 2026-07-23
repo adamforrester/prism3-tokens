@@ -300,24 +300,12 @@ const anchorStepFor = (palette: string): number | null => {
   return bc ? autoPlaceStep(bc.oklch.l) : null;
 };
 
-/** A labelled scale — 10 swatches per row, touching within a row, labels beneath. */
-const rampEl = (name: string, steps: { num: number; key: string; hex: string }[], anchorStep: number | null, control?: HTMLElement, metaNote?: string): HTMLElement => {
-  const wrap = el('section', 'ramp');
-  const head = el('div', 'ramp-head');
-  head.append(el('span', 'ramp-name', name));
-  const right = el('div', 'ramp-head-right');
-  const meta = el('span', 'ramp-anchor');
-  const aKey = anchorStep != null ? steps.find((s) => s.num === anchorStep)?.key : undefined;
-  // Built via el()/textContent, never innerHTML — `name` is a brand-controlled palette name
-  // (pasted design.md / accent rename) and would otherwise be an XSS sink (CR-07).
-  if (metaNote) meta.append(el('span', 'faint', metaNote));   // e.g. a borrowed status role: "borrowing primary"
-  else if (aKey) meta.append(document.createTextNode('anchor '), el('b', 'mono', `${name}/${aKey}`));
-  else meta.append(el('span', 'faint', 'derived scale'));
-  right.append(meta);
-  // Status ramps carry an inline validation-color control (Auto / Custom hue / borrow a ramp).
-  if (control) right.append(control);
-  head.append(right);
-  wrap.append(head);
+/** Just the ramp bands — 10 swatches per row, labels beneath. The VOLATILE part of a palette row
+ *  (#59): the head (identity / origin / anchor) is stable so open color dialogs + slider drags
+ *  survive, and only these bands (plus the derived readouts) repaint on `apply()`. The anchor now
+ *  reads on the right of the head + the ◆ step label, so the old on-swatch "anchor" flag is retired. */
+const rampBands = (steps: { num: number; key: string; hex: string }[], anchorStep: number | null): HTMLElement => {
+  const wrap = el('div', 'pramp');
   const sorted = [...steps].sort((a, b) => a.num - b.num);
   for (const rowSteps of chunk(sorted, 10)) {
     const band = el('div', 'band');
@@ -327,7 +315,6 @@ const rampEl = (name: string, steps: { num: number; key: string; hex: string }[]
       const isAnchor = s.num === anchorStep;
       const sw = el('div', 'sw' + (isAnchor ? ' is-anchor' : ''));
       sw.style.background = s.hex;
-      if (isAnchor) sw.append(el('span', 'flag', 'anchor'));
       strip.append(sw);
       const lab = el('div', 'lab');
       lab.append(el('span', 'lab-step mono' + (isAnchor ? ' on' : ''), s.key), el('span', 'lab-hex mono', s.hex));
@@ -337,38 +324,6 @@ const rampEl = (name: string, steps: { num: number; key: string; hex: string }[]
     wrap.append(band);
   }
   return wrap;
-};
-
-// Palette selectors for the three primitive sections — each control card is paired
-// with exactly the ramps it drives (#158), so a change is always visible beside it.
-const brandPalettes = (): Theme['palettes'] => theme.palettes.filter((p) => p.role === 'brand');
-const neutralPalettes = (): Theme['palettes'] => theme.palettes.filter((p) => p.palette === 'neutral');
-const statusPalettes = (): Theme['palettes'] => theme.palettes.filter((p) => p.role !== 'brand' && p.palette !== 'neutral');
-
-/** Paint one section's ramps into its own volatile container.
- *  `error`   — surface the last-valid-palettes banner (brand section only).
- *  `borrowed`— the STATUS section: render each status role in canonical order as a FULL ramp — its own
- *              palette, or (when it borrows a brand palette, so it has no own ramp in the set) the
- *              borrowed source's ramp labeled "borrowing <src>". Keeps the role in place with full step
- *              labels / hex / anchor instead of collapsing to a cut-off strip at the bottom (docs/24 #58). */
-const paintRampList = (host: HTMLElement, palettes: Theme['palettes'], opts: { error?: boolean; borrowed?: boolean } = {}): void => {
-  host.innerHTML = '';
-  if (opts.error && lastError) host.append(el('div', 'errbar', `This combination doesn't resolve: ${lastError} — showing the last valid palettes.`));
-  if (opts.borrowed) {
-    const own = new Map(palettes.map((p) => [p.palette, p]));
-    for (const role of STATUS_ROLES) {
-      const p = own.get(role);
-      if (p) {
-        host.append(rampEl(role, p.steps, anchorStepFor(role), statusRampControl(role)));
-      } else {
-        const src = brandState.roleColors?.[role];
-        const pal = src ? theme.palettes.find((x) => x.palette === src) : undefined;
-        if (src && pal) host.append(rampEl(role, pal.steps, anchorStepFor(src), statusRampControl(role), `borrowing ${src}`));
-      }
-    }
-    return;
-  }
-  for (const p of palettes) host.append(rampEl(p.palette, p.steps, anchorStepFor(p.palette), undefined));
 };
 
 // Brand-color reference integrity (docs/24 #53) — when an accent is renamed or removed, every place that
@@ -394,145 +349,217 @@ const cascadeRemove = (removed: string): void => {
   if (Array.isArray(brandState.gradients)) brandState.gradients.forEach((g) => g.stops.forEach((s) => { if (s.palette === removed) s.palette = 'primary'; }));
 };
 
-/** Brand colors — a scalable list. Primary is the pinned anchor (editable color, not
- *  removable); each accent is add / rename / remove and can drive the action palette. */
-const renderBrandColors = (): HTMLElement => {
-  const panel = el('div', 'panel');
-  const list = brandState.brandColors ?? (brandState.brandColors = []);
-  const head = el('div', 'panel-head');
-  head.append(el('h2', undefined, 'Brand colors'));
-  panel.append(head);
-  const rows = el('div', 'clist');
+// ---- Palettes page (#59): full-width palette rows grouped in per-role section containers. ----
+// Each row is a STABLE head (identity swatch + name/path + origin control + anchor readout) above a
+// VOLATILE ramp; `apply()` repaints only the bands + derived readouts (swatch / hex / anchor), so open
+// color dialogs and slider drags survive. Structural source changes (which control is live) go through
+// applyFull. The swatch is a color INPUT when the color is author-chosen (brand always, neutral Pinned,
+// status Custom hue) and a read-out otherwise — and the hex-by-name shows only then.
 
-  const colorRow = (getHex: () => string, setHex: (h: string) => void, nameEl: HTMLElement, removable: (() => void) | null): HTMLElement => {
-    const row = el('div', 'crow');
-    const picker = el('input', 'rsw') as HTMLInputElement;
-    picker.type = 'color'; picker.value = getHex();
-    const hexLab = el('span', 'mono rhex', picker.value);
-    picker.oninput = () => { setHex(picker.value); hexLab.textContent = picker.value; apply(); };
-    row.append(picker, nameEl, hexLab);
-    if (removable) row.append(removeButton(removable, 'Remove color'));
-    return row;
+// A per-role section container with a heading.
+const palSection = (title: string, sub: string): HTMLElement => {
+  const sec = el('div', 'psec');
+  const head = el('div', 'psec-head');
+  head.append(el('h3', 'psec-t', title), el('p', 'psec-d', sub));
+  sec.append(head);
+  return sec;
+};
+
+// A labelled control column (Source / Hue / Chroma / Anchor). `right` aligns it to the row's end.
+const pfield = (label: string, control: HTMLElement, right = false): HTMLElement => {
+  const f = el('div', 'pfield' + (right ? ' r' : ''));
+  f.append(el('span', 'pfk', label), control);
+  return f;
+};
+
+// The right-side anchor readout — ◆ step, a "borrowing <src>" note, or "derived". Returns a setter.
+const anchorField = (): { field: HTMLElement; set: (key: string | undefined, note?: string) => void } => {
+  const v = el('span', 'panchor mono');
+  const field = pfield('Anchor', v, true);
+  const set = (key: string | undefined, note?: string): void => {
+    v.textContent = note ? note : (key ? key : 'derived');
+    v.className = 'panchor mono' + (note ? ' note' : key ? ' dia' : ' none');
   };
-
-  // primary — editable color, fixed name, not removable
-  const pName = el('span', 'rname', 'primary');
-  rows.append(colorRow(
-    () => hex(oklchToRgb(brandState.primary)),
-    (h) => setPath(brandState, 'primary', rgbToOklch(hexToRgb(h))),
-    pName, null,
-  ));
-
-  // accents
-  list.forEach((bc, i) => {
-    const name = el('input', 'nm mono') as HTMLInputElement;
-    name.type = 'text'; name.value = bc.name; name.spellcheck = false;
-    name.onchange = () => {
-      const prev = bc.name, next = name.value.trim() || bc.name;
-      if (next === prev) return;
-      // Don't rename onto another palette's name — it would collide / merge the alias graph. Revert.
-      const taken = new Set(['primary', 'neutral', ...list.filter((_, j) => j !== i).map((b) => b.name)]);
-      if (taken.has(next)) { name.value = prev; return; }
-      bc.name = next;
-      cascadeRename(prev, next);
-      applyFull();
-    };
-    rows.append(colorRow(
-      () => hex(oklchToRgb(bc.oklch)),
-      (h) => { bc.oklch = rgbToOklch(hexToRgb(h)); },
-      name,
-      () => { const removed = list[i].name; list.splice(i, 1); cascadeRemove(removed); applyFull(); },
-    ));
-  });
-  panel.append(rows);
-
-  const add = addButton('+ Add color', () => {
-    const names = new Set(list.map((b) => b.name));
-    let n = list.length + 1, nm = `accent${n}`;
-    while (names.has(nm)) nm = `accent${++n}`;
-    list.push({ name: nm, oklch: { l: 0.55, c: 0.15, h: 235 } });
-    applyFull();
-  });
-  panel.append(add);
-  return panel;
+  return { field, set };
 };
 
-/** Neutral cast — a Derive⇄Pin toggle. Derive: hue + chroma sliders. Pin: a color
- *  input that sets `neutral.anchor` (the engine builds the whole ramp around it). */
-const renderNeutral = (): HTMLElement => {
-  const panel = el('div', 'panel');
-  const head = el('div', 'panel-head');
-  head.append(el('h2', undefined, 'Neutral cast'));
-  const seg = el('div', 'seg');
-  const pinned = !!brandState.neutral.anchor;
-  const bDerive = el('button', 'seg-b' + (pinned ? '' : ' on'), 'Derive') as HTMLButtonElement;
-  const bPin = el('button', 'seg-b' + (pinned ? ' on' : ''), 'Pin') as HTMLButtonElement;
-  bDerive.onclick = () => { if (brandState.neutral.anchor) { delete brandState.neutral.anchor; applyFull(); } };
-  bPin.onclick = () => { if (!brandState.neutral.anchor) { brandState.neutral.anchor = { l: 0.5, c: Math.min(brandState.neutral.chroma, 0.02), h: brandState.neutral.hue }; applyFull(); } };
-  seg.append(bDerive, bPin);
-  head.append(seg);
-  panel.replaceChildren(head);
-
-  if (!pinned) {
-    const slider = (key: string, label: string, min: number, max: number, step: number, unit: string, fmt: (v: number) => string) => {
-      const wrap = el('div', 'slider');
-      const top = el('div', 'slider-top');
-      const val = el('span', 'mono val', fmt(getPath(brandState, key)));
-      top.append(el('span', undefined, label), val);
-      const input = rangeInput({ className: 'range', min, max, step, value: getPath(brandState, key) as number });
-      input.oninput = () => { setPath(brandState, key, Number(input.value)); val.textContent = fmt(Number(input.value)); apply(); };
-      wrap.append(top, input);
-      return wrap;
-    };
-    panel.append(slider('neutral.hue', 'Hue', 0, 360, 1, '°', (v) => `${Math.round(v)}°`));
-    panel.append(slider('neutral.chroma', 'Chroma', 0, 0.03, 0.001, '', (v) => v.toFixed(3)));
-    panel.append(el('p', 'np-note', 'Greys carry a trace of the brand hue for cohesion. Default derives from primary; nudge to taste.'));
-  } else {
-    const a = brandState.neutral.anchor!;
-    const row = el('div', 'pin-row');
-    const picker = el('input', 'rsw') as HTMLInputElement;
-    picker.type = 'color'; picker.value = hex(oklchToRgb(a));
-    const readout = el('div', 'pin-readout');
-    const setReadout = () => { readout.innerHTML = `<span class="mono chip-hex">${picker.value}</span><span class="inp-meta mono">L ${a.l.toFixed(2)} · C ${a.c.toFixed(3)} · H ${Math.round(a.h)}°</span>`; };
-    picker.oninput = () => { const o = rgbToOklch(hexToRgb(picker.value)); a.l = o.l; a.c = o.c; a.h = o.h; setReadout(); apply(); };
-    setReadout();
-    row.append(picker, readout);
-    panel.append(row);
-    panel.append(el('p', 'np-note', 'A pre-defined brand grey, pinned verbatim at its lightness step; the whole ramp is built around it.'));
+/** One brand palette row — the swatch is always the color picker (author-chosen), the hex always shows.
+ *  `paletteName` keys the volatile ramp; `nameEl` is the editable accent name (null → the fixed primary). */
+const brandRow = (getHex: () => string, setHex: (h: string) => void, name: string, path: string | null,
+                  isAction: boolean, paletteName: string, nameEl: HTMLElement | null,
+                  removable: (() => void) | null): { row: HTMLElement; refresh: () => void } => {
+  const row = el('div', 'prow authored show-hex');
+  const head = el('div', 'phead');
+  const ident = el('div', 'pident');
+  const picker = el('input', 'pswatch') as HTMLInputElement;
+  picker.type = 'color'; picker.value = getHex(); picker.title = 'Edit color';
+  const idcol = el('div', 'pidcol');
+  idcol.append(nameEl ?? el('span', 'pname', name));
+  const sub = el('div', 'psub');
+  const hexLab = el('span', 'phex mono', picker.value);
+  sub.append(hexLab);
+  if (path) sub.append(tokenPill(path));
+  if (isAction) {
+    const badge = el('span', 'prole');
+    const dot = el('span', 'prole-dot'); dot.style.background = picker.value;
+    badge.append(dot, document.createTextNode('default interactive color'));
+    sub.append(badge);
   }
-  return panel;
+  idcol.append(sub);
+  ident.append(picker, idcol);
+  if (removable) ident.append(removeButton(removable, 'Remove color', 'prm'));
+  const anchor = anchorField();
+  head.append(ident, anchor.field);
+  const bands = el('div', 'pramp-wrap');
+  row.append(head, bands);
+  picker.oninput = () => { setHex(picker.value); hexLab.textContent = picker.value; apply(); };
+  const refresh = (): void => {
+    const pal = theme.palettes.find((p) => p.palette === paletteName);
+    const aStep = anchorStepFor(paletteName);
+    anchor.set(aStep != null ? pal?.steps.find((s) => s.num === aStep)?.key : undefined);
+    bands.replaceChildren(rampBands(pal?.steps ?? [], aStep));
+  };
+  return { row, refresh };
 };
 
-/** One primitive section: its control card pinned beside the ramps it drives. */
-const primSection = (card: HTMLElement, ramps: HTMLElement): HTMLElement => {
-  const row = el('div', 'prim-sec');
-  row.append(card, ramps);
-  return row;
+// The neutral row — two sources this pass: Custom tint (Hue + Chroma sliders; the swatch is a read-out,
+// no chosen hex) and Pinned color (the swatch locks an exact grey → `neutral.anchor`; a padlock marks it,
+// the sliders drop to disabled tint read-outs). Auto — a hands-off follow-the-brand-hue source — is a
+// deferred engine increment. Source is a select, matching Validation.
+const neutralRow = (): { row: HTMLElement; refresh: () => void } => {
+  const pinned = !!brandState.neutral.anchor;
+  const row = el('div', 'prow' + (pinned ? ' authored show-hex locked' : ''));
+  const head = el('div', 'phead');
+  const ident = el('div', 'pident');
+
+  const swWrap = el('div', 'pswrap');
+  let swatch: HTMLElement;
+  let hexLab: HTMLElement | null = null;
+  if (pinned) {
+    const a = brandState.neutral.anchor!;
+    const picker = el('input', 'pswatch') as HTMLInputElement;
+    picker.type = 'color'; picker.value = hex(oklchToRgb(a)); picker.title = 'Edit color';
+    picker.oninput = () => { const o = rgbToOklch(hexToRgb(picker.value)); a.l = o.l; a.c = o.c; a.h = o.h; if (hexLab) hexLab.textContent = picker.value; apply(); };
+    swatch = picker;
+    const lock = el('span', 'plock');
+    lock.innerHTML = '<svg viewBox="0 0 14 14" aria-hidden="true"><rect x="3" y="6.4" width="8" height="5.4" rx="1.3"/><path d="M4.6 6.4V5a2.4 2.4 0 0 1 4.8 0v1.4" fill="none"/></svg>';
+    swWrap.append(swatch, lock);
+  } else {
+    swatch = el('div', 'pswatch ro');
+    swWrap.append(swatch);
+  }
+  const idcol = el('div', 'pidcol');
+  idcol.append(el('span', 'pname', 'neutral'));
+  const sub = el('div', 'psub');
+  if (pinned) { hexLab = el('span', 'phex mono', (swatch as HTMLInputElement).value); sub.append(hexLab); }
+  sub.append(tokenPill('color.neutral'));
+  idcol.append(sub);
+  ident.append(swWrap, idcol);
+
+  // origin — Source select + Hue/Chroma (editable in Custom tint, disabled tint read-outs when Pinned).
+  const origin = el('div', 'porigin');
+  const src = selectEl('sm');
+  src.append(optionEl('custom', 'Custom tint', !pinned), optionEl('pinned', 'Pinned color', pinned));
+  src.onchange = () => {
+    if (src.value === 'pinned' && !brandState.neutral.anchor) {
+      brandState.neutral.anchor = { l: 0.5, c: Math.min(brandState.neutral.chroma, 0.02), h: brandState.neutral.hue };
+    } else if (src.value === 'custom' && brandState.neutral.anchor) {
+      delete brandState.neutral.anchor;
+    }
+    applyFull();
+  };
+  origin.append(pfield('Source', src));
+  const a = brandState.neutral.anchor;
+  const nSlider = (key: string, label: string, max: number, step: number, value: number, fmt: (v: number) => string): HTMLElement => {
+    const f = el('div', 'pfield slider' + (pinned ? ' ro' : ''));
+    const top = el('div', 'psl-top');
+    const val = el('span', 'psl-val mono', fmt(value));
+    top.append(el('span', 'pfk', label), val);
+    const input = rangeInput({ className: 'range psl-range', min: 0, max, step, value });
+    if (pinned) input.disabled = true;
+    else input.oninput = () => { setPath(brandState, key, Number(input.value)); val.textContent = fmt(Number(input.value)); apply(); };
+    f.append(top, input);
+    return f;
+  };
+  origin.append(
+    nSlider('neutral.hue', 'Hue', 360, 1, pinned ? a!.h : brandState.neutral.hue, (v) => `${Math.round(v)}°`),
+    nSlider('neutral.chroma', 'Chroma', 0.03, 0.001, pinned ? a!.c : brandState.neutral.chroma, (v) => v.toFixed(3)),
+  );
+
+  const anchor = anchorField();
+  head.append(ident, origin, anchor.field);
+  const bands = el('div', 'pramp-wrap');
+  row.append(head, bands);
+  const refresh = (): void => {
+    const pal = theme.palettes.find((p) => p.palette === 'neutral');
+    const aStep = anchorStepFor('neutral');
+    anchor.set(aStep != null ? pal?.steps.find((s) => s.num === aStep)?.key : undefined);
+    if (!pinned) { const mid = pal?.steps.find((s) => s.num === 500)?.hex; if (mid) swatch.style.background = mid; }
+    bands.replaceChildren(rampBands(pal?.steps ?? [], aStep));
+  };
+  return { row, refresh };
 };
 
 const renderPrimitives = (host: HTMLElement): void => {
   host.append(hero('Start from your brand colors.',
     'Give the engine your exact hues. It grows each into a gamut-aware, contrast-placed ramp and pins your color as the anchor — never shifted. Every semantic role downstream aliases these.'));
 
-  // Brand — the brand-colors card beside the primary + accent ramps it grows.
-  host.append(sectionHead('Brand palettes', 'Each brand color grown into a gamut-aware, contrast-placed ramp — your color pinned as the anchor, never shifted.'));
-  const brandRamps = el('div', 'ramps');
-  host.append(primSection(renderBrandColors(), brandRamps));
+  const refreshers: Array<() => void> = [];
 
-  // Neutral — the cast card beside the greyscale ramp it re-tunes, so the effect is visible.
-  host.append(sectionHead('Neutral', 'The greyscale ramp carries a trace of the brand hue for cohesion. The cast beside it re-tunes the whole ramp live.'));
-  const neutralRamps = el('div', 'ramps');
-  host.append(primSection(renderNeutral(), neutralRamps));
+  // Brand — primary + accents, each a full-width row; the swatch is the color picker.
+  const brandSec = palSection('Brand palettes', 'Each brand color grown into a gamut-aware, contrast-placed ramp — your color pinned as the anchor, never shifted.');
+  const errBar = el('div', 'errbar'); errBar.style.display = 'none';
+  brandSec.append(errBar);
+  const action = brandState.actionPalette ?? 'primary';
+  {
+    const b = brandRow(
+      () => hex(oklchToRgb(brandState.primary)),
+      (h) => setPath(brandState, 'primary', rgbToOklch(hexToRgb(h))),
+      'primary', 'color.primary', action === 'primary', 'primary', null, null);
+    brandSec.append(b.row); refreshers.push(b.refresh);
+  }
+  const list = brandState.brandColors ?? (brandState.brandColors = []);
+  list.forEach((bc, i) => {
+    const nameEl = el('input', 'pname-input mono') as HTMLInputElement;
+    nameEl.type = 'text'; nameEl.value = bc.name; nameEl.spellcheck = false;
+    nameEl.onchange = () => {
+      const prev = bc.name, next = nameEl.value.trim() || bc.name;
+      if (next === prev) return;
+      // Don't rename onto another palette's name — it would collide / merge the alias graph. Revert.
+      const taken = new Set(['primary', 'neutral', ...list.filter((_, j) => j !== i).map((b) => b.name)]);
+      if (taken.has(next)) { nameEl.value = prev; return; }
+      bc.name = next; cascadeRename(prev, next); applyFull();
+    };
+    const b = brandRow(
+      () => hex(oklchToRgb(bc.oklch)),
+      (h) => { bc.oklch = rgbToOklch(hexToRgb(h)); },
+      bc.name, null, action === bc.name, bc.name, nameEl,
+      () => { const removed = list[i].name; list.splice(i, 1); cascadeRemove(removed); applyFull(); });
+    brandSec.append(b.row); refreshers.push(b.refresh);
+  });
+  brandSec.append(addButton('+ Add brand color', () => {
+    const names = new Set(list.map((b) => b.name));
+    let n = list.length + 1, nm = `accent${n}`;
+    while (names.has(nm)) nm = `accent${++n}`;
+    list.push({ name: nm, oklch: { l: 0.55, c: 0.15, h: 235 } });
+    applyFull();
+  }, 'padd'));
+  host.append(brandSec);
 
-  // Validation — the status ramps every semantic role aliases; each carries its own inline control.
-  host.append(sectionHead('Validation colors', 'The success / warning / danger / info ramps every semantic role aliases — borrow a brand palette or tune each independently.'));
-  const statusRamps = el('div', 'ramps');
-  host.append(statusRamps);
+  // Neutral — one row, two sources (Custom tint / Pinned color).
+  const neuSec = palSection('Neutral', 'A tinted grey scale — a trace of the brand hue for cohesion. Tune the tint, or pin an exact brand grey.');
+  { const n = neutralRow(); neuSec.append(n.row); refreshers.push(n.refresh); }
+  host.append(neuSec);
+
+  // Validation — status ramps every semantic role aliases; each sourced Auto / Custom hue / borrow.
+  const valSec = palSection('Validation', 'The success / warning / danger / info ramps every semantic role aliases — auto-derived, seeded from a custom hue, or borrowed from a brand palette.');
+  for (const role of STATUS_ROLES) { const s = statusRow(role); valSec.append(s.row); refreshers.push(s.refresh); }
+  host.append(valSec);
 
   paintVolatile = () => {
-    paintRampList(brandRamps, brandPalettes(), { error: true });
-    paintRampList(neutralRamps, neutralPalettes());
-    paintRampList(statusRamps, statusPalettes(), { borrowed: true });
+    errBar.style.display = lastError ? '' : 'none';
+    if (lastError) errBar.textContent = `This combination doesn't resolve: ${lastError} — showing the last valid palettes.`;
+    refreshers.forEach((r) => r());
   };
   paintVolatile();
 };
@@ -849,40 +876,64 @@ const setStatusHue = (role: StatusRole, hexVal: string): void => {
   apply();
 };
 
-/** The inline per-ramp control for one status role. */
-const statusRampControl = (role: StatusRole): HTMLElement => {
-  const wrap = el('div', 'ramp-ctl');
+/** One validation (status) row — Source select (Auto / Custom hue / borrow a brand palette) on the left,
+ *  the anchor on the right. The left swatch is the hue picker only under Custom hue (authored); Auto and
+ *  borrow render it as a read-out with no hex-by-name. Source changes are structural → applyFull. */
+const statusRow = (role: StatusRole): { row: HTMLElement; refresh: () => void } => {
   const borrowed = brandState.roleColors?.[role];
   const custom = !borrowed && !!brandState.status?.[role];
-  const borrowSources = ['primary', ...(brandState.brandColors ?? []).map((b) => b.name)];
+  const row = el('div', 'prow' + (custom ? ' authored show-hex' : ''));
+  const head = el('div', 'phead');
+  const ident = el('div', 'pident');
 
+  let swatch: HTMLElement;
+  let hexLab: HTMLElement | null = null;
+  if (custom) {
+    const picker = el('input', 'pswatch') as HTMLInputElement;
+    picker.type = 'color'; picker.value = statusSeedHex(role); picker.title = `Seed the ${role} ramp from a hue`;
+    // `change`, not `oninput`: the volatile bands repaint on commit (dialog close), never mid-drag.
+    picker.onchange = () => { setStatusHue(role, picker.value); if (hexLab) hexLab.textContent = picker.value; };
+    swatch = picker;
+  } else {
+    swatch = el('div', 'pswatch ro');
+  }
+  const idcol = el('div', 'pidcol');
+  idcol.append(el('span', 'pname', role));
+  const sub = el('div', 'psub');
+  if (custom) { hexLab = el('span', 'phex mono', (swatch as HTMLInputElement).value); sub.append(hexLab); }
+  sub.append(tokenPill(`color.${role}`));
+  idcol.append(sub);
+  ident.append(swatch, idcol);
+
+  const origin = el('div', 'porigin');
   const sel = selectEl('sm');
-  const mkOpt = (v: string, label: string, on: boolean) => sel.append(optionEl(v, label, on));
-  mkOpt('auto', 'Auto', !borrowed && !custom);
-  mkOpt('custom', 'Custom hue…', custom);
-  for (const p of borrowSources) mkOpt('borrow:' + p, `Use ${p}`, borrowed === p);
-
-  const picker = el('input', 'ramp-ctl-pick') as HTMLInputElement;
-  picker.type = 'color';
-  picker.title = `Seed the ${role} ramp from a hue`;
-  picker.value = statusSeedHex(role);
-  picker.style.display = custom ? '' : 'none';
-
+  sel.append(optionEl('auto', 'Auto', !borrowed && !custom), optionEl('custom', 'Custom hue…', custom));
+  for (const p of ['primary', ...(brandState.brandColors ?? []).map((b) => b.name)]) sel.append(optionEl('borrow:' + p, `Use ${p}`, borrowed === p));
   sel.onchange = () => {
-    if (sel.value === 'custom') { setStatusHue(role, picker.value); return; }
     const rc = { ...(brandState.roleColors ?? {}) } as Record<string, string>; delete rc[role];
     const st = { ...(brandState.status ?? {}) } as Record<string, unknown>; delete st[role];
-    if (sel.value.startsWith('borrow:')) rc[role] = sel.value.slice('borrow:'.length);
+    if (sel.value === 'custom') { const o = rgbToOklch(hexToRgb(statusSeedHex(role))); st[role] = { l: o.l, c: o.c, h: o.h, chroma: o.c }; }
+    else if (sel.value.startsWith('borrow:')) rc[role] = sel.value.slice('borrow:'.length);
     brandState.roleColors = (Object.keys(rc).length ? rc : undefined) as BrandInput['roleColors'];
     brandState.status = (Object.keys(st).length ? st : undefined) as BrandInput['status'];
-    apply();
+    applyFull();
   };
-  // `change`, not `oninput`: this control lives in the volatile ramps region, so repainting mid-
-  // drag would destroy the open OS color dialog. Change fires when the dialog closes — safe to repaint.
-  picker.onchange = () => setStatusHue(role, picker.value);
+  origin.append(pfield('Source', sel));
 
-  wrap.append(sel, picker);
-  return wrap;
+  const anchor = anchorField();
+  head.append(ident, origin, anchor.field);
+  const bands = el('div', 'pramp-wrap');
+  row.append(head, bands);
+  const refresh = (): void => {
+    const srcName = borrowed ?? role;
+    const pal = theme.palettes.find((p) => p.palette === srcName);
+    const steps = pal?.steps ?? [];
+    const aStep = anchorStepFor(srcName);
+    anchor.set(aStep != null ? steps.find((s) => s.num === aStep)?.key : undefined, borrowed ? `borrowing ${borrowed}` : undefined);
+    if (!custom) { const mid = steps.find((s) => s.num === 500)?.hex ?? steps[Math.floor(steps.length / 2)]?.hex; if (mid) swatch.style.background = mid; }
+    bands.replaceChildren(rampBands(steps, aStep));
+  };
+  return { row, refresh };
 };
 
 // The Semantic tab groups its 8 controls into intent sub-sections (design review §1) rather
@@ -3022,8 +3073,43 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 
 /* Each primitive section pairs its control card (left) with the ramps it drives (right),
    so a change to the card is always visible in the palette beside it (#158). */
-.prim-sec{display:grid;grid-template-columns:340px 1fr;gap:40px;align-items:start}
-.prim-sec>.panel{position:sticky;top:24px}
+/* ---- Palettes page (#59): per-role section containers + full-width palette rows ---- */
+.psec{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:20px 24px 22px;margin-top:22px}
+.psec:first-of-type{margin-top:8px}
+.psec-t{margin:0;font-size:13px;font-weight:680;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted)}
+.psec-d{margin:4px 0 0;color:var(--faint);font-size:13px;line-height:1.5}
+.psec .errbar{margin-top:16px}
+.prow{padding:20px 0 6px}
+.prow+.prow{border-top:1px solid var(--line);margin-top:4px}
+.phead{display:flex;align-items:center;gap:22px;margin-bottom:16px;flex-wrap:wrap}
+.pident{display:flex;align-items:center;gap:14px;min-width:0}
+.pswrap{position:relative;flex:none;line-height:0}
+.pswatch{width:56px;height:56px;flex:none;border-radius:var(--r-sm);border:1px solid var(--line2);padding:0;background:none;overflow:hidden;cursor:default}
+.prow.authored .pswatch{cursor:pointer}
+.prow.authored .pswatch:hover{box-shadow:0 0 0 3px var(--line)}
+.plock{position:absolute;right:-5px;top:-5px;width:20px;height:20px;border-radius:6px;background:var(--ink);border:1px solid var(--ink);display:flex;align-items:center;justify-content:center}
+.plock svg{width:11px;height:11px;stroke:var(--panel);fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.pidcol{min-width:0;display:flex;flex-direction:column;gap:5px}
+.pname{font-size:16px;font-weight:620;letter-spacing:-0.01em;text-transform:capitalize}
+.pname-input{width:130px;max-width:130px;padding:5px 8px;border:1px solid var(--line2);border-radius:var(--r-xs);font-size:14px;background:var(--paper);color:var(--ink)}
+.psub{display:flex;align-items:center;gap:9px;flex-wrap:wrap;min-height:20px}
+.phex{color:var(--muted);font-size:12.5px}
+.prow:not(.show-hex) .phex{display:none}
+.prole{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:var(--ink2);background:var(--paper);border:1px solid var(--line2);border-radius:999px;padding:2px 10px}
+.prole-dot{width:8px;height:8px;border-radius:50%;flex:none;box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)}
+.prm{margin-left:2px}
+.porigin{display:flex;align-items:flex-end;gap:22px;flex-wrap:wrap}
+.pfield{display:flex;flex-direction:column;gap:7px}
+.pfield.r{margin-left:auto;align-items:flex-end}
+.pfk{font-size:9.5px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--faint)}
+.panchor{display:inline-flex;align-items:center;height:31px;padding:0 11px;border:1px solid var(--line2);border-radius:var(--r-xs);background:var(--paper);font-size:13px;color:var(--ink)}
+.panchor.dia::before{content:"◆";color:var(--ink2);font-size:9px;margin-right:6px}
+.panchor.none,.panchor.note{color:var(--muted)}
+.pfield.slider .psl-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.psl-val{color:var(--muted);font-size:12px}
+.psl-range{width:150px;accent-color:var(--ink);margin-top:2px}
+.pfield.slider.ro{opacity:.5}
+.pramp{display:flex;flex-direction:column}
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:20px 22px}
 .panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
 .panel-head h2{margin:0;font-size:15px;font-weight:620;letter-spacing:-0.01em}
@@ -3031,17 +3117,10 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .seg-b{border:0;background:none;font:inherit;font-size:12px;color:var(--muted);padding:4px 12px;border-radius:5px;cursor:pointer}
 .seg-b.on{background:var(--ink);color:#fff}
 
-.clist{display:flex;flex-direction:column}
-.crow{display:flex;align-items:center;gap:13px;padding:13px 0;border-bottom:1px solid var(--line)}
-.rsw{width:40px;height:40px;flex:none;border-radius:var(--r-xs);border:1px solid var(--line2);padding:0;background:none;cursor:pointer;overflow:hidden}
 /* Native color inputs: strip the browser's swatch inset so the color fills the whole control (no white gutter). */
 input[type=color]::-webkit-color-swatch-wrapper{padding:0}
 input[type=color]::-webkit-color-swatch{border:none;border-radius:inherit}
 input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
-.rname{font-weight:560;font-size:14px}
-.nm{flex:0 1 auto;min-width:0;width:110px;padding:5px 8px;border:1px solid var(--line2);border-radius:var(--r-xs);font-size:13px;background:var(--paper)}
-.rhex{color:var(--muted);font-size:13px}
-.crow .rhex{margin-left:auto}
 .rx{width:28px;height:28px;flex:none;border:1px solid var(--line2);background:var(--panel);border-radius:var(--r-xs);color:var(--faint);cursor:pointer;font-size:15px;line-height:1}
 .rx:hover{background:#fdecec;color:#a12;border-color:#f2c6c6}
 .addbtn{margin-top:14px;border:1px dashed var(--line2);background:none;border-radius:var(--r-sm);padding:9px 15px;font:inherit;font-size:13px;color:var(--muted);cursor:pointer;width:100%}
@@ -3052,34 +3131,22 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .slider-top .val{color:var(--muted);font-size:12.5px}
 .range{width:100%;margin-top:10px;accent-color:var(--ink)}
 .np-note{color:var(--faint);font-size:12px;line-height:1.55;margin:16px 0 0}
-.pin-row{display:flex;align-items:center;gap:13px;margin-top:14px}
-.pin-readout{display:flex;flex-direction:column;gap:3px}
-.chip-hex{font-size:15px;font-weight:560}
-.inp-meta{color:var(--faint);font-size:11.5px}
 
 .section-lab{margin:56px 0 26px;padding-bottom:16px;border-bottom:1px solid var(--line)}
 .section-t{margin:0;font-size:22px;font-weight:640;letter-spacing:-0.025em}
 .section-d{margin:6px 0 0;color:var(--muted);font-size:14.5px}
 
-.ramps{display:flex;flex-direction:column;gap:48px}
-.ramp-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:16px}
-.ramp-name{font-weight:640;font-size:17px;text-transform:capitalize;letter-spacing:-0.02em}
-.ramp-anchor{font-size:12.5px;color:var(--muted)}
-.ramp-anchor b{color:var(--ink2);font-weight:600}
 .band{margin-bottom:16px}
 .band:last-child{margin-bottom:0}
 .strip{display:flex;border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--line2)}
 .sw{flex:1;height:72px;position:relative}
 .sw.is-anchor::after{content:"";position:absolute;inset:0;border:2.5px solid var(--ink);border-radius:2px;pointer-events:none}
-/* #55 — keep the anchor badge inside a cramped (~57px) swatch so it never clips at a row edge. */
-.flag{position:absolute;top:6px;left:6px;font-size:8px;letter-spacing:.02em;text-transform:uppercase;background:rgba(255,255,255,.94);color:var(--ink);padding:2px 4px;border-radius:4px;font-weight:700;line-height:1.2}
 .labs{display:flex;margin-top:9px}
 .lab{flex:1;display:flex;flex-direction:column;gap:2px;padding:0 6px}
 .lab-step{font-size:12px;font-weight:600;color:var(--ink2)}
 .lab-step.on{color:var(--ink);font-weight:700}
+.lab-step.on::before{content:"◆ ";font-size:8px;color:var(--ink2);vertical-align:1px}
 .lab-hex{font-size:11px;color:var(--faint)}
-.ramp-head-right{display:flex;align-items:center;gap:14px}
-.ramp-ctl{display:flex;align-items:center;gap:8px}
 /* The dashboard <select> component (doc 24 C1) — one base class owns every dropdown's cosmetics + the
    consistent chevron; sm / fill / cap are additive size/context modifiers. */
 .select{appearance:none;-webkit-appearance:none;font:inherit;font-size:13.5px;padding:9px 11px;padding-right:28px;border:1px solid var(--line2);border-radius:var(--r-xs);background:var(--paper);color:var(--ink);cursor:pointer;
@@ -3089,7 +3156,6 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .select.sm{font-size:12.5px;padding:6px 9px;padding-right:26px}
 .select.fill{flex:1;min-width:0}
 .select.cap{max-width:260px}
-.ramp-ctl-pick{width:30px;height:27px;padding:0;border:1px solid var(--line2);border-radius:var(--r-sm);background:none;cursor:pointer}
 
 .sub-lab{margin:34px 0 12px}
 .sub-lab:first-child{margin-top:8px}
@@ -3397,7 +3463,7 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .ratio{font-variant-numeric:tabular-nums;color:var(--muted)}
 .errbar{border:1px solid #f2c6c6;background:#fdecec;color:#a12;border-radius:var(--r-sm);padding:10px 14px;font-size:13px;margin-bottom:16px}
 
-@media(max-width:900px){.shell{grid-template-columns:1fr;gap:40px}.rail{position:static}.prim-sec{grid-template-columns:1fr}.prim-sec>.panel{position:static}}
+@media(max-width:900px){.shell{grid-template-columns:1fr;gap:40px}.rail{position:static}.phead{gap:16px}.pfield.r{margin-left:0}}
 `;
 const styleEl = document.createElement('style');
 styleEl.textContent = STYLE;
