@@ -118,7 +118,10 @@ Owner review pass (2026-07-21). Fixes batch into area PRs (F1, F2, …); functio
 - [ ] Text-color rows have very wide selects → add a color example, narrow the select.
 
 **Cross-page**
-- [x] Token-path tags inconsistent — Palettes accents were bare (primary/neutral/status pathed), and the card editors dropped the `color.` prefix (`background.primary`, `interactive.…`, `foreground.…`) while Palettes kept it (`color.primary`) → **path-tag sweep (owner scope A: color surfaces)**: every color-surface pill now shows the full `color.*` path — accents (`color.<name>`), Text (`color.text.*`), Foreground fills (`color.foreground.*`), Backgrounds (`color.background.*`), Interactive (`color.interactive.*`), and the Preview stops stripping the prefix. Gradients stay `gradient.*` (Figma paint styles — a distinct namespace, not `color.*`). Non-color ramp pages (radius/elevation/size/type/motion) deferred.
+- [x] Token-path tags inconsistent — Palettes accents were bare (primary/neutral/status pathed), and the card editors dropped the namespace prefix (`background.primary`, `interactive.…`, `foreground.…`) → **path-tag sweep (owner scope A: color surfaces)**. Two namespaces, each made accurate:
+  - **Semantic surfaces → `color.*`** (real resolvable DTCG leaves): Text (`color.text.*`), Foreground fills (`color.foreground.*`), Backgrounds (`color.background.*`), Interactive (`color.interactive.*`), + the Preview stops stripping the prefix (contract pairs + role pills).
+  - **Palette primitives → `palette.*`** (the raw ramps' real namespace — `palette.primary`/`palette.neutral`/`palette.<accent>`/`palette.<status>`): primary/neutral/status corrected from the mislabeled `color.*`, and accents (previously bare) get `palette.<name>`. (#232 review caught that `color.primary` was never an emitted leaf — the primitives live at `palette.*`; the semantic roles alias them. A palette pill labels the whole ramp — a group path, not a single leaf.)
+  - Gradients stay `gradient.*` (Figma paint styles — a distinct namespace). Non-color ramp pages (radius/elevation/size/type/motion) deferred.
 
 ---
 

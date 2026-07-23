@@ -455,7 +455,7 @@ const neutralRow = (): { row: HTMLElement; refresh: () => void } => {
   idcol.append(el('span', 'pname', 'neutral'));
   const sub = el('div', 'psub');
   if (pinned) { hexLab = el('span', 'phex mono', (swatch as HTMLInputElement).value); sub.append(hexLab); }
-  sub.append(tokenPill('color.neutral'));
+  sub.append(tokenPill('palette.neutral'));
   idcol.append(sub);
   ident.append(swWrap, idcol);
 
@@ -521,7 +521,7 @@ const renderPrimitives = (host: HTMLElement): void => {
     const b = brandRow(
       () => hex(oklchToRgb(brandState.primary)),
       (h) => setPath(brandState, 'primary', rgbToOklch(hexToRgb(h))),
-      'primary', 'color.primary', action === 'primary', 'primary', null, null);
+      'primary', 'palette.primary', action === 'primary', 'primary', null, null);
     brandSec.append(b.row); refreshers.push(b.refresh);
   }
   const list = brandState.brandColors ?? (brandState.brandColors = []);
@@ -539,7 +539,7 @@ const renderPrimitives = (host: HTMLElement): void => {
     const b = brandRow(
       () => hex(oklchToRgb(bc.oklch)),
       (h) => { bc.oklch = rgbToOklch(hexToRgb(h)); },
-      bc.name, `color.${bc.name}`, action === bc.name, bc.name, nameEl,
+      bc.name, `palette.${bc.name}`, action === bc.name, bc.name, nameEl,
       () => { const removed = list[i].name; list.splice(i, 1); cascadeRemove(removed); applyFull(); });
     brandSec.append(b.row); refreshers.push(b.refresh);
   });
@@ -907,7 +907,7 @@ const statusRow = (role: StatusRole): { row: HTMLElement; refresh: () => void } 
   idcol.append(el('span', 'pname', role));
   const sub = el('div', 'psub');
   if (custom) { hexLab = el('span', 'phex mono', (swatch as HTMLInputElement).value); sub.append(hexLab); }
-  sub.append(tokenPill(`color.${role}`));
+  sub.append(tokenPill(`palette.${role}`));
   idcol.append(sub);
   ident.append(swatch, idcol);
 
