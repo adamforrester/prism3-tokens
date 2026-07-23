@@ -422,16 +422,17 @@ const brandRow = (getHex: () => string, setHex: (h: string) => void, name: strin
   return { row, refresh };
 };
 
-// The neutral row — two sources this pass: Custom tint (Hue + Chroma sliders; the swatch is a read-out,
-// no chosen hex) and Pinned color (the swatch locks an exact grey → `neutral.anchor`; a padlock marks it,
-// the sliders drop to disabled tint read-outs). Auto — a hands-off follow-the-brand-hue source — is a
-// deferred engine increment. Source is a select, matching Validation.
+// The neutral row — three sources: Auto (hue live-follows the brand primary; swatch is a read-out),
+// Custom tint (Hue + Chroma sliders drive the scale; swatch is a read-out) and Pinned color (the swatch
+// IS the color picker → an exact grey pinned to `neutral.anchor`). The padlock marks the two read-out
+// sources — Auto + Custom tint — where the swatch is derived, not directly editable; Pinned's swatch has
+// no lock because it's the one editable picker. Source is a select, matching Validation.
 const neutralRow = (): { row: HTMLElement; refresh: () => void } => {
   const pinned = !!brandState.neutral.anchor;
   const auto = !pinned && !!brandState.neutral.auto;       // Auto: hue live-follows the brand primary
   const editable = !pinned && !auto;                        // Custom tint is the only editable source
   const effHue = auto ? brandState.primary.h : brandState.neutral.hue;   // the hue currently in effect
-  const row = el('div', 'prow' + (pinned ? ' authored show-hex locked' : ''));
+  const row = el('div', 'prow' + (pinned ? ' authored show-hex' : ''));
   const head = el('div', 'phead');
   const ident = el('div', 'pident');
 
@@ -444,12 +445,13 @@ const neutralRow = (): { row: HTMLElement; refresh: () => void } => {
     picker.type = 'color'; picker.value = hex(oklchToRgb(a)); picker.title = 'Edit color';
     picker.oninput = () => { const o = rgbToOklch(hexToRgb(picker.value)); a.l = o.l; a.c = o.c; a.h = o.h; if (hexLab) hexLab.textContent = picker.value; apply(); };
     swatch = picker;
+    swWrap.append(swatch);
+  } else {
+    // Auto + Custom tint derive the swatch from the scale — mark it locked (not directly editable).
+    swatch = el('div', 'pswatch ro');
     const lock = el('span', 'plock');
     lock.innerHTML = '<svg viewBox="0 0 14 14" aria-hidden="true"><rect x="3" y="6.4" width="8" height="5.4" rx="1.3"/><path d="M4.6 6.4V5a2.4 2.4 0 0 1 4.8 0v1.4" fill="none"/></svg>';
     swWrap.append(swatch, lock);
-  } else {
-    swatch = el('div', 'pswatch ro');
-    swWrap.append(swatch);
   }
   const idcol = el('div', 'pidcol');
   idcol.append(el('span', 'pname', 'neutral'));
@@ -931,11 +933,17 @@ const statusRow = (role: StatusRole): { row: HTMLElement; refresh: () => void } 
   const bands = el('div', 'pramp-wrap');
   row.append(head, bands);
   const refresh = (): void => {
-    const srcName = borrowed ?? role;
+    // Auto can RESOLVE to another palette: a red brand primary reuses `primary` for danger (no standalone
+    // danger palette is minted), so read the engine's resolved mapping rather than the literal role name —
+    // else the row finds no palette and collapses (white swatch, empty bands). Explicit borrow still wins.
+    const resolved = (theme.roleToPalette as Record<string, string>)[role] ?? role;
+    const srcName = borrowed ?? resolved;
     const pal = theme.palettes.find((p) => p.palette === srcName);
     const steps = pal?.steps ?? [];
     const aStep = anchorStepFor(srcName);
-    anchor.set(aStep != null ? steps.find((s) => s.num === aStep)?.key : undefined, borrowed ? `borrowing ${borrowed}` : undefined);
+    // Note the reuse ("via primary") so a user sees why the ramp matches their brand red, not a surprise.
+    const note = borrowed ? `borrowing ${borrowed}` : (resolved !== role ? `via ${resolved}` : undefined);
+    anchor.set(aStep != null ? steps.find((s) => s.num === aStep)?.key : undefined, note);
     if (!custom) { const mid = steps.find((s) => s.num === 500)?.hex ?? steps[Math.floor(steps.length / 2)]?.hex; if (mid) swatch.style.background = mid; }
     bands.replaceChildren(rampBands(steps, aStep));
   };
