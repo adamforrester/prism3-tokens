@@ -1317,7 +1317,16 @@ for (const b of brands) {
   const dMid = greige.palettes.find((p) => p.palette === 'danger')!.steps.find((s) => s.num === 500)!;
   ok(dMid.oklch.c > 0.08, `M-05: the carved danger is a saturated red (mid chroma ${dMid.oklch.c.toFixed(3)} > floor), not a near-grey`);
   const satRed = brandTheme({ id: 'red', primary: { l: 0.55, c: 0.17, h: 27 }, neutral: { hue: 27, chroma: 0.01 } });
-  ok(satRed.roleToPalette.danger === 'primary', 'M-05: a saturated red primary still reuses itself as danger (no near-duplicate red)');
+  // A saturated red primary SEEDS danger from its own ramp — but mints a stable `palette.danger`
+  // (a deep copy of primary's steps), NOT a pointer at 'primary', so semantic danger tokens alias
+  // `palette.danger.*` and danger stays independently re-pointable later (roleToPalette invariant:
+  // danger === 'danger' in every auto path — reuse, greige-carve, and non-red carve alike).
+  ok(satRed.roleToPalette.danger === 'danger', 'M-05: a saturated red primary mints its own danger palette (roleToPalette.danger stays "danger", not "primary")');
+  const satRedPrimary = satRed.palettes.find((p) => p.palette === 'primary')!;
+  const satRedDanger = satRed.palettes.find((p) => p.palette === 'danger');
+  ok(!!satRedDanger, 'M-05: a saturated red primary mints a stable palette.danger namespace (not collapsed into primary)');
+  ok(satRedDanger!.steps.every((s, i) => s.hex === satRedPrimary.steps[i].hex), 'M-05: the red-seeded danger ramp duplicates the primary ramp step-for-step (danger ≈ primary while shared)');
+  ok(satRedDanger!.steps !== satRedPrimary.steps && satRedDanger!.steps[0] !== satRedPrimary.steps[0], 'M-05: the danger ramp is a deep copy, not the same Step objects (editing one never mutates the other)');
   ok(greige.notes.some((n) => n.includes('below the') && n.includes('floor')), 'M-05: the greige carve reason is surfaced in the decisions log');
 }
 

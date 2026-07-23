@@ -7,6 +7,35 @@
 
 ---
 
+## (2026-07-23) — Danger always mints its own palette (stable re-pointable namespace)
+
+**STATUS: engine change.** Fixes a token-architecture coupling in the red-primary Auto path. Previously,
+when the brand primary was a saturated red (`inRedTerritory`), the engine set `roleToPalette.danger =
+'primary'` and minted **no** danger palette — so every semantic danger token (`foreground.danger`,
+`interactive.destructive.*`, `icon.danger`, `on-danger`, `-subtle`; ~39 leaves, verified in a generated
+red brand) aliased **directly** to `{palette.primary.<step>}`. There was no `palette.danger.*` seam, so
+switching danger to a distinct colour later would force re-aliasing every consumer.
+
+- **Fix (`theme.ts`, red-reuse branch only):** mint a first-class `danger` palette whose steps are a
+  **deep copy** of the primary ramp, and leave `roleToPalette.danger` at its default `'danger'`. Semantic
+  danger tokens now alias `{palette.danger.<step>}` in *all* auto paths (reuse / greige-carve / non-red
+  carve). The resolved danger *colours* are unchanged (byte-identical to before — danger already resolved
+  against the primary ramp); only the alias **target** moves `primary → danger`. Re-pointing danger later
+  is now a one-ramp re-seed, zero consumer churn. The redundancy (danger ≈ primary while shared) is the
+  deliberate, owner-confirmed price for the stable contract, and it makes the red case consistent with the
+  carve case that already minted `danger`.
+- **Scope guard:** explicit `roleColors: { danger: 'primary' }` (a deliberate user coupling) is untouched —
+  only the engine's *silent* red-territory reuse changed.
+- **Blast radius:** no committed fixture output moved (aurora/harbor aren't red-Auto; Wendy's uses an
+  explicit `error:` = brand-supplied branch). NB regression unaffected (`nbTheme()` doesn't take this path).
+- **Verified:** engine tests 925/925 (M-05 updated + 3 new assertions: danger palette minted, steps
+  duplicate primary, deep copy not shared refs); NB regression PASS; a generated red brand now emits 76
+  `palette.danger` aliases (was 0) with danger primitives byte-identical to primary.
+- **Relation to PR #233 (web):** #233's `roleToPalette` resolution becomes a harmless `danger→danger`
+  no-op after this; its "via primary" anchor note simply stops firing. Independent PRs.
+
+---
+
 ## Latest (2026-07-21) — Dashboard componentization arc (C1–C6, PRs #212–#218)
 
 **STATUS: web-only, no engine change.** A systematic pass giving every repeated dashboard control/atom a
