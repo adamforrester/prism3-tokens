@@ -262,8 +262,10 @@ export type BrandInput = {
    *  lightness step, with the whole ramp built around it (hue/chroma taken from the
    *  anchor). `hue`/`chroma` stay present (the derived readout) but the anchor drives the
    *  ramp when set. (A neutral kept as its own *separate* palette is the outlier case —
-   *  express it as an entry in `brandColors`, not here.) */
-  neutral: { hue: number; chroma: number; anchor?: OKLCH };
+   *  express it as an entry in `brandColors`, not here.) When `auto` is set the neutral hue
+   *  *live-follows* the brand `primary` (re-tracking whenever the brand is recoloured) instead
+   *  of the frozen stored `hue`; `chroma` still applies, and a set `anchor` (Pinned) wins over it. */
+  neutral: { hue: number; chroma: number; anchor?: OKLCH; auto?: boolean };
   /** Additional brand colours — secondary, tertiary, accents. Any number; each
    *  becomes its own ramp and can be pointed at by `actionPalette` (or used
    *  decoratively). This is what makes the palette set open-ended. */
@@ -1160,10 +1162,14 @@ export const brandTheme = (input: BrandInput): Theme => {
   // from the anchor's hue/chroma, pinned verbatim at its lightness step — same mechanism
   // as the brand palettes), else derived from hue + peak chroma.
   const nAnchor = input.neutral.anchor;
+  // `auto` derives the neutral hue from the brand primary at build time (a cohesive cast that
+  // re-tracks on recolour) rather than a frozen stored hue; a pinned anchor still wins over it.
+  const nHue = input.neutral.auto ? input.primary.h : input.neutral.hue;
   const neutralSteps = nAnchor
     ? generateRamp({ hue: nAnchor.h, chroma: nAnchor.c, anchor: { oklch: nAnchor, stepNum: autoPlaceStep(nAnchor.l) } })
-    : generateRamp({ hue: input.neutral.hue, chroma: input.neutral.chroma });
+    : generateRamp({ hue: nHue, chroma: input.neutral.chroma });
   if (nAnchor) notes.push(`neutral pinned around a pre-defined grey (L${nAnchor.l}) at step ${autoPlaceStep(nAnchor.l)} — ramp built from the anchor, not the hue/chroma cast`);
+  else if (input.neutral.auto) notes.push(`neutral hue auto-follows the brand primary (H${Math.round(input.primary.h)}) — recolouring the brand re-tracks the cast`);
 
   const palettes: PaletteBuild[] = [
     { palette: 'primary', role: 'brand', description: 'Brand primary', steps: generateRamp({ hue: input.primary.h, chroma: input.primary.c, anchor: { oklch: input.primary, stepNum: anchorStep } }) },

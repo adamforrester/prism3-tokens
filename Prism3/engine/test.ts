@@ -3474,6 +3474,18 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   ok(vb.errors.some((e) => /bogus/.test(e) && /does not resolve/.test(e)), 'component: a broken token binding fails the gate');
 }
 
+// ------------------------------------------------------------------- neutral.auto
+// `neutral.auto` derives the cast hue from the brand primary at build (re-tracks on recolour); an
+// explicit (non-auto) hue stays frozen. Chroma 0.03 makes the hue visible in the generated steps.
+{
+  const nSteps = (h: number, opts: { auto?: boolean } = {}) =>
+    JSON.stringify(brandTheme({ id: 'na', primary: { l: 0.55, c: 0.15, h }, neutral: { hue: 200, chroma: 0.03, ...opts } })
+      .palettes.find((p) => p.palette === 'neutral')!.steps.map((s) => s.hex));
+  ok(nSteps(30, { auto: true }) !== nSteps(300, { auto: true }), 'neutral.auto: the cast follows the brand primary hue (differs when primary differs)');
+  ok(nSteps(200, { auto: true }) === nSteps(200), 'neutral.auto: at hue == primary.h it is byte-identical to the frozen (non-auto) snapshot');
+  ok(nSteps(30) === nSteps(300), 'neutral (non-auto): an explicit hue stays frozen regardless of the primary');
+}
+
 // ------------------------------------------------------------------- report
 console.log(`\nPrism3 engine tests: ${pass} passed, ${fails.length} failed`);
 if (fails.length) { fails.forEach((f) => console.log(`  ❌ ${f}`)); process.exitCode = 1; }
