@@ -59,7 +59,7 @@ Don't force one brand's structure onto the other.
 
 ## Working with this repo
 
-- Path quoting: the working directory contains spaces (`My Drive`, `Design Systems`, `New Balance`) — quote paths in Bash commands.
+- Path quoting: the repo root (`/Users/aforrester/Documents/Prism3`) has no spaces, but some paths inside it do (`Tokens/New Balance/`) — quote paths in Bash commands when they reach into those.
 - `.DS_Store` files are present at every directory level; ignore them.
 - There is nothing to build, lint, or test. Validation is by JSON parse + reference resolution; if asked to validate, check that every `{...}` alias in DTCG files resolves to an actual path, and every `alias` ID in raw-figma matches a `VariableID` defined somewhere in that brand's exports. (This applies to the `Tokens/` layer; the `Prism3/` engine has its own tests + regression — see its README.)
 
