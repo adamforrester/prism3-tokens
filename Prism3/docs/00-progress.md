@@ -36,6 +36,27 @@ switching danger to a distinct colour later would force re-aliasing every consum
 
 ---
 
+## (2026-07-23) — Palettes page: neutral lock direction + danger-reuse render fix
+
+**STATUS: web-only, no engine change** (`out/*` byte-identical). Two Palettes-page bugs surfaced while
+driving the latest UI:
+
+- **Neutral source lock was inverted.** The padlock sat on the **Pinned color** swatch — the one source
+  whose swatch is an editable color *picker* — while **Auto** and **Custom tint** (both read-out swatches
+  derived from the scale) had none. Moved the lock onto the two read-out sources and dropped it from Pinned,
+  so the padlock now marks "not directly editable," matching what the swatch actually does. Also removed the
+  dead `locked` class (no CSS ever targeted `.prow.locked`).
+- **Danger ramp collapsed to a white swatch under a red brand primary.** When the primary is a saturated
+  red the engine *reuses* the primary palette for danger (`roleToPalette.danger = 'primary'`) and mints **no**
+  standalone `danger` palette (theme.ts branch 3, `inRedTerritory`). The web `statusRow` looked up the palette
+  by the literal role name (`'danger'`), missed, and rendered empty bands + a white swatch. Fixed by resolving
+  the Auto source through `theme.roleToPalette[role]` (the same mapping the Interactive page's Destructive
+  column already uses) — the ramp now paints the reused red and the anchor reads **"via primary"** so the
+  reuse is legible. Explicit borrow and Custom hue paths are unchanged. Verified headless: red primary →
+  all four status ramps render 20 steps; neutral lock present on Auto/Custom, absent on Pinned.
+
+---
+
 ## Latest (2026-07-21) — Dashboard componentization arc (C1–C6, PRs #212–#218)
 
 **STATUS: web-only, no engine change.** A systematic pass giving every repeated dashboard control/atom a
