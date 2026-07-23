@@ -7,6 +7,41 @@
 
 ---
 
+## (2026-07-23) — Status snapshot: plugin write scope + typography now unblocked
+
+**STATUS: orientation note (no code change).** Consolidating where the Figma-plugin write scope stands
+and correcting a stale "typography is decision-blocked" framing that no longer holds.
+
+**Plugin write scope — what materialises into a live Figma file today:**
+- ✅ **Colour** (#108) — `core-palette` + `color`, per-mode alias-bound.
+- ✅ **FLOAT variables** (#148) — `core-dimension`/`space`/`radius`/`size`/`border-width`/`focus`/
+  `opacity`/`layout`, cross-collection aliases + per-breakpoint layout modes.
+- ✅ **Shadow + gradient Styles** (#151) — Effect Styles (`shadow/*` + `shadow-dark/*`) + Paint Styles
+  (baked-RGBA gradient stops + angle→`gradientTransform`, web-parity verified).
+- ⏭ **Typography** — the LAST unwritten axis. **No longer decision-blocked:** #112 (type model) is
+  owner-resolved, #115 (Token Press round-trip) is closed, and **#105 (engine type-model expansion) is
+  closed AND implemented** — `theme.ts` carries the italic axis (`italic` on composites → `fontStyle`),
+  the extensible weight-role set (`WEIGHT_ROLE_DEFAULT` incl. `max: 900`), and per-category weight/italic
+  selection. The engine *generates* full typography and the emit builders exist (`buildFigmaFont` →
+  `core-font`, `buildFigmaFontFluid` → `type-sets`, `buildFigmaTextStyles` → Text Styles). The only gap
+  is the **plugin write executors** (font/type-sets variables + `createTextStyle`). Filed as **#237**.
+  New risk surface there: `loadFontAsync` is async + can fail if a family/style isn't available in that
+  Figma (the #113 name-resolution concern made concrete).
+- ⏭ **Variable-linked gradient stops** — #151 bakes resolved RGBA; binding stops to `palette/*` so
+  gradients re-theme live is a small fast-follow. Filed as **#236**.
+
+**Health check (verified on `main` @ this date, off the Google-Drive move):** `plugin/` untouched since
+#151, but the ~150 tests of web/engine work since (componentization arc #211–#218, Palettes/Backgrounds
+card rework, danger-palette #234, neutral-Auto #231) did NOT break it — the shared-UI/engine seam held:
+plugin two-context typecheck clean, build clean, **0 `node:` in `dist/main.js` + `dist/ui.html`**, all 5
+test suites pass. Web improvements flow into the plugin iframe for free.
+
+**Decision issues #112/#113:** their CORE is resolved (shipped via #105) — but each retains a genuinely
+*deferred* sub-item (#112: per-(category,size) link designation; #113: font-availability research /
+upload). Left open on purpose, annotated to reflect "core done, tail deferred."
+
+---
+
 ## (2026-07-23) — Danger always mints its own palette (stable re-pointable namespace)
 
 **STATUS: engine change.** Fixes a token-architecture coupling in the red-primary Auto path. Previously,
