@@ -144,7 +144,7 @@ export const classifyColors = (colors: Record<string, string>): ColorClassificat
   // Grey hue is unstable at near-zero chroma, so weight the hue by each swatch's
   // chroma (the most-tinted neutrals dominate the hue); chroma is the mean.
   const neutrals = provided.filter((p) => p.role === 'neutral');
-  let neutral: { hue: number; chroma: number };
+  let neutral: { hue: number; chroma: number; auto?: boolean };
   if (neutrals.length) {
     const sumC = neutrals.reduce((s, p) => s + p.oklch.c, 0);
     // circular chroma-weighted mean hue
@@ -156,8 +156,10 @@ export const classifyColors = (colors: Record<string, string>): ColorClassificat
     neutrals.forEach((p) => mark(p.token));
     log.push({ token: `neutral-* (${neutrals.length})`, decision: `→ neutral { hue ${hue}, chroma ${chroma} } (chroma-weighted hue, mean chroma over ${neutrals.length} swatches)` });
   } else {
-    neutral = { hue: primary.h, chroma: 0.005 };
-    log.push({ token: 'neutral', decision: `→ none provided; defaulted to { hue ${neutral.hue}, chroma ${neutral.chroma} }` });
+    // No neutral provided → auto-follow the brand primary hue. The generated ramp is identical to the
+    // old `hue: primary.h` snapshot (same value at build), but now the cast re-tracks on recolour.
+    neutral = { hue: primary.h, chroma: 0.005, auto: true };
+    log.push({ token: 'neutral', decision: `→ none provided; auto-follows the brand primary { hue ${neutral.hue}, chroma ${neutral.chroma} }` });
   }
 
   // --- status: success / warning / error→danger (hue + chroma anchors) ---

@@ -69,7 +69,7 @@ const NEW_BRAND = (): BrandInput => ({
   id: 'untitled', root: 'prism',
   modes: ['light'],                               // most brands ship light only (docs/11 Pillar 1)
   primary: { l: 0.55, c: 0.15, h: 262 },
-  neutral: { hue: 262, chroma: 0.006 },
+  neutral: { hue: 262, chroma: 0.006, auto: true },   // neutral hue auto-follows primary (262 = primary.h → identical ramp; now live-linked)
 });
 const ROOT_RE = /^[a-z][a-z0-9-]*$/;
 
@@ -428,6 +428,9 @@ const brandRow = (getHex: () => string, setHex: (h: string) => void, name: strin
 // deferred engine increment. Source is a select, matching Validation.
 const neutralRow = (): { row: HTMLElement; refresh: () => void } => {
   const pinned = !!brandState.neutral.anchor;
+  const auto = !pinned && !!brandState.neutral.auto;       // Auto: hue live-follows the brand primary
+  const editable = !pinned && !auto;                        // Custom tint is the only editable source
+  const effHue = auto ? brandState.primary.h : brandState.neutral.hue;   // the hue currently in effect
   const row = el('div', 'prow' + (pinned ? ' authored show-hex locked' : ''));
   const head = el('div', 'phead');
   const ident = el('div', 'pident');
@@ -456,35 +459,36 @@ const neutralRow = (): { row: HTMLElement; refresh: () => void } => {
   idcol.append(sub);
   ident.append(swWrap, idcol);
 
-  // origin — Source select + Hue/Chroma (editable in Custom tint, disabled tint read-outs when Pinned).
+  // origin — Source select + Hue/Chroma. Editable only under Custom tint; Auto shows the
+  // primary-derived hue read-only, Pinned shows the pinned grey's tint read-only.
   const origin = el('div', 'porigin');
   const src = selectEl('sm');
-  src.append(optionEl('custom', 'Custom tint', !pinned), optionEl('pinned', 'Pinned color', pinned));
+  src.append(optionEl('auto', 'Auto', auto), optionEl('custom', 'Custom tint', editable), optionEl('pinned', 'Pinned color', pinned));
   src.onchange = () => {
-    if (src.value === 'pinned' && !brandState.neutral.anchor) {
-      brandState.neutral.anchor = { l: 0.5, c: Math.min(brandState.neutral.chroma, 0.02), h: brandState.neutral.hue };
-    } else if (src.value === 'custom' && brandState.neutral.anchor) {
-      delete brandState.neutral.anchor;
-    }
+    const n = brandState.neutral;
+    if (src.value === 'auto') { delete n.anchor; n.auto = true; }
+    // snapshot the current effective hue so the Custom-tint slider starts where Auto left it (no jump)
+    else if (src.value === 'custom') { delete n.anchor; if (n.auto) { n.hue = brandState.primary.h; delete n.auto; } }
+    else { n.anchor = { l: 0.5, c: Math.min(n.chroma, 0.02), h: effHue }; delete n.auto; }
     applyFull();
   };
   origin.append(pfield('Source', src));
   const a = brandState.neutral.anchor;
   const nSlider = (key: string, label: string, max: number, step: number, value: number, fmt: (v: number) => string): HTMLElement => {
-    const f = el('div', 'pfield slider' + (pinned ? ' ro' : ''));
+    const f = el('div', 'pfield slider' + (editable ? '' : ' ro'));
     const top = el('div', 'psl-top');
     const val = el('span', 'psl-val mono', fmt(value));
     top.append(el('span', 'pfk', label), val);
     const input = rangeInput({ className: 'range psl-range', min: 0, max, step, value });
-    if (pinned) input.disabled = true;
+    if (!editable) input.disabled = true;
     else input.oninput = () => { setPath(brandState, key, Number(input.value)); val.textContent = fmt(Number(input.value)); apply(); };
     f.append(top, input);
     return f;
   };
-  origin.append(
-    nSlider('neutral.hue', 'Hue', 360, 1, pinned ? a!.h : brandState.neutral.hue, (v) => `${Math.round(v)}°`),
-    nSlider('neutral.chroma', 'Chroma', 0.03, 0.001, pinned ? a!.c : brandState.neutral.chroma, (v) => v.toFixed(3)),
-  );
+  const hueField = nSlider('neutral.hue', 'Hue', 360, 1, pinned ? a!.h : effHue, (v) => `${Math.round(v)}°`);
+  origin.append(hueField, nSlider('neutral.chroma', 'Chroma', 0.03, 0.001, pinned ? a!.c : brandState.neutral.chroma, (v) => v.toFixed(3)));
+  const hueVal = hueField.querySelector('.psl-val') as HTMLElement;
+  const hueInput = hueField.querySelector('.psl-range') as HTMLInputElement;
 
   const anchor = anchorField();
   head.append(ident, origin, anchor.field);
@@ -495,6 +499,8 @@ const neutralRow = (): { row: HTMLElement; refresh: () => void } => {
     const aStep = anchorStepFor('neutral');
     anchor.set(aStep != null ? pal?.steps.find((s) => s.num === aStep)?.key : undefined);
     if (!pinned) { const mid = pal?.steps.find((s) => s.num === 500)?.hex; if (mid) swatch.style.background = mid; }
+    // Auto: keep the read-only hue in step with the brand primary as it changes.
+    if (auto) { const h = brandState.primary.h; hueVal.textContent = `${Math.round(h)}°`; hueInput.value = String(h); }
     bands.replaceChildren(rampBands(pal?.steps ?? [], aStep));
   };
   return { row, refresh };
@@ -547,7 +553,7 @@ const renderPrimitives = (host: HTMLElement): void => {
   host.append(brandSec);
 
   // Neutral — one row, two sources (Custom tint / Pinned color).
-  const neuSec = palSection('Neutral', 'A tinted grey scale — a trace of the brand hue for cohesion. Tune the tint, or pin an exact brand grey.');
+  const neuSec = palSection('Neutral', 'A tinted grey scale that follows your brand hue automatically. Switch to Custom tint to tune it, or Pinned color to lock an exact brand grey.');
   { const n = neutralRow(); neuSec.append(n.row); refreshers.push(n.refresh); }
   host.append(neuSec);
 
