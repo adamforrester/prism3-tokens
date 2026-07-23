@@ -27,6 +27,13 @@ where a value is authored/derived), and **Not-universal** (Palettes-specific —
   fix, not shrinking anything. Applies anywhere a page pairs controls with a specimen / ramp / table.
 - **Overflow discipline.** Nothing bleeds past the 1120px content pane; wide content (tables, ramps)
   scrolls inside its own `overflow-x:auto` container — the page body never scrolls sideways.
+- **Contrast checks live *in context*, with their section — not deferred to one table at the bottom.**
+  Any section that carries contrast relationships shows its own contrast readout / mini-table right
+  there, so the accessibility verdict sits beside the thing it judges (doc 23 §, per-section contrast
+  work). The **Preview** tab's master contrast table is the *consolidated, cross-system* view —
+  complementary to the in-context checks, **not** a substitute for them. (Palettes was the exception:
+  primitives have no contrast pairs to judge, so no in-context table there — but every color/component
+  page that does have contrast relationships gets them per-section.)
 
 ### Controls & labels
 - **Labeled control fields.** Every control carries a small uppercase micro-label (`.pfk`: 9.5px,
