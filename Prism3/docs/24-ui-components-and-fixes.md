@@ -117,6 +117,9 @@ Owner review pass (2026-07-21). Fixes batch into area PRs (F1, F2, …); functio
 - [x] Backgrounds reads as two surfaces in one mode → made it **mode-scoped** (F2): the active mode's `background.primary` (editable base + floor) + `background.inverse.primary` (derived, read-only); switch modes to set each. Consistent with Text below.
 - [ ] Text-color rows have very wide selects → add a color example, narrow the select.
 
+**Cross-page**
+- [x] Token-path tags inconsistent — Palettes accents were bare (primary/neutral/status pathed), and the card editors dropped the `color.` prefix (`background.primary`, `interactive.…`, `foreground.…`) while Palettes kept it (`color.primary`) → **path-tag sweep (owner scope A: color surfaces)**: every color-surface pill now shows the full `color.*` path — accents (`color.<name>`), Text (`color.text.*`), Foreground fills (`color.foreground.*`), Backgrounds (`color.background.*`), Interactive (`color.interactive.*`), and the Preview stops stripping the prefix. Gradients stay `gradient.*` (Figma paint styles — a distinct namespace, not `color.*`). Non-color ramp pages (radius/elevation/size/type/motion) deferred.
+
 ---
 
 ## Status

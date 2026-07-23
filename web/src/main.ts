@@ -539,7 +539,7 @@ const renderPrimitives = (host: HTMLElement): void => {
     const b = brandRow(
       () => hex(oklchToRgb(bc.oklch)),
       (h) => { bc.oklch = rgbToOklch(hexToRgb(h)); },
-      bc.name, null, action === bc.name, bc.name, nameEl,
+      bc.name, `color.${bc.name}`, action === bc.name, bc.name, nameEl,
       () => { const removed = list[i].name; list.splice(i, 1); cascadeRemove(removed); applyFull(); });
     brandSec.append(b.row); refreshers.push(b.refresh);
   });
@@ -719,7 +719,7 @@ const renderChip = (label: string, bind: Record<string, string>, mode: Mode): HT
 const pairCellEl = (ct: typeof rp.contracts[number], paths: boolean): HTMLElement => {
   const td = el('td', 'pair');
   if (paths) {
-    td.append(el('span', 'pair-path mono', `${ct.fg.replace(/^color\./, '')} on ${ct.bg.replace(/^color\./, '')}`));
+    td.append(el('span', 'pair-path mono', `${ct.fg} on ${ct.bg}`));
     if (ct.label) td.append(el('span', 'pair-sub', ct.label));
   } else {
     td.textContent = `${ct.component} · ${ct.variant} — ${ct.label ?? `${ct.min}:1`}`;
@@ -778,7 +778,7 @@ const renderPreviewGallery = (host: HTMLElement): void => {
       }
       block.append(badges);
     }
-    const roles = [...new Set(c.variants.flatMap((v) => Object.values(v.bindings).filter((t) => t.startsWith('color.')).map((t) => t.replace(/^color\./, ''))))];
+    const roles = [...new Set(c.variants.flatMap((v) => Object.values(v.bindings).filter((t) => t.startsWith('color.'))))];
     if (roles.length) {
       const pills = el('div', 'pv-paths');
       for (const rref of roles.slice(0, 6)) pills.append(tokenPill(rref));
@@ -1045,7 +1045,7 @@ const renderInteractiveCard = (col: ICol): HTMLElement | null => {
 
   const wrap = renderCard({
     label: col.label, onRemove: col.onRemove, removeTitle: 'Remove interactive color',
-    fillHex: rest.hex, midTitle: 'Surface — rest', picker: sel, tokenPath: `interactive.${col.name}.fill.rest`,
+    fillHex: rest.hex, midTitle: 'Surface — rest', picker: sel, tokenPath: `color.interactive.${col.name}.fill.rest`,
     example: btn,
     desc: 'The surface color of your buttons and interactive containers — engine-derived and gated against the page surface; the on-fill text color is auto-picked to stay legible.',
     badge: rest.ratio != null && rest.min != null ? contrastBadge(rest.ratio, rest.min) : undefined,
@@ -1062,8 +1062,8 @@ const renderInteractiveCard = (col: ICol): HTMLElement | null => {
     t.append(el('div', 'ic-sublab', label), el('div', 'ic-substep mono', `${palName} ${stepKeyOf(role.path)}`), tokenPill(path));
     c.append(swatch(role.hex, 'ic-subsw'), t); states.append(c);
   };
-  sub('Hover', hover, `interactive.${col.name}.fill.hover`);
-  sub('Active', pressed, `interactive.${col.name}.fill.pressed`);
+  sub('Hover', hover, `color.interactive.${col.name}.fill.hover`);
+  sub('Active', pressed, `color.interactive.${col.name}.fill.pressed`);
   wrap.append(states);
   return wrap;
 };
@@ -1112,7 +1112,7 @@ const renderNeutralCard = (): HTMLElement | null => {
   sel.onchange = () => { setPath(brandState, 'neutralEmphasis', sel.value); applyFull(); };
   const btn = el('div', 'ic-btn', 'Button example'); btn.style.background = rest.hex; if (onFill) btn.style.color = onFill.hex;
   const wrap = renderCard({
-    label: 'Neutral', fillHex: rest.hex, midTitle: 'Emphasis', picker: sel, tokenPath: 'interactive.neutral.fill.rest',
+    label: 'Neutral', fillHex: rest.hex, midTitle: 'Emphasis', picker: sel, tokenPath: 'color.interactive.neutral.fill.rest',
     example: btn,
     desc: 'The neutral / default button — a subtle light-grey surface or a bold near-black/white fill. The emphasis choice is shared across modes.',
     badge: rest.ratio != null && rest.min != null ? contrastBadge(rest.ratio, rest.min) : undefined,
@@ -1126,8 +1126,8 @@ const renderNeutralCard = (): HTMLElement | null => {
     t.append(el('div', 'ic-sublab', label), el('div', 'ic-substep mono', `${nPal} ${stepKeyOf(role.path)}`), tokenPill(path));
     c.append(swatch(role.hex, 'ic-subsw'), t); states.append(c);
   };
-  sub('Hover', hover, 'interactive.neutral.fill.hover');
-  sub('Active', pressed, 'interactive.neutral.fill.pressed');
+  sub('Hover', hover, 'color.interactive.neutral.fill.hover');
+  sub('Active', pressed, 'color.interactive.neutral.fill.pressed');
   wrap.append(states);
   return wrap;
 };
@@ -1830,7 +1830,7 @@ const renderSurfacesEditor = (): HTMLElement => {
     for (const s of NEUTRAL_STEPS) opt(base, String(s), `Neutral ${s}`, baseVal === s);
     base.onchange = () => { setPath(brandState, `surfaces.${mode}.base`, base.value === 'white' || base.value === 'black' ? base.value : Number(base.value)); applyFull(); };
     const primCard = renderCard({
-      label: 'Primary', fillHex: primHex, midTitle: 'Base surface', picker: base, tokenPath: 'background.primary',
+      label: 'Primary', fillHex: primHex, midTitle: 'Base surface', picker: base, tokenPath: 'color.background.primary',
       desc: `The primary surface ${label} paints on — white, black, or a tinted neutral step.`, compactSwatch: true,
     });
     // Contrast floor — the worst-case neutral bold fills validate against (auto unless pinned).
@@ -1848,7 +1848,7 @@ const renderSurfacesEditor = (): HTMLElement => {
   } else {
     grid.append(renderCard({
       label: 'Primary', fillHex: primHex, midTitle: 'Base surface', picker: el('span', 'bg-derived', 'Seeds from its base mode'),
-      tokenPath: 'background.primary', desc: `The primary surface ${label} paints on — seeded from this custom mode’s base.`, compactSwatch: true,
+      tokenPath: 'color.background.primary', desc: `The primary surface ${label} paints on — seeded from this custom mode’s base.`, compactSwatch: true,
     }));
   }
 
@@ -1860,7 +1860,7 @@ const renderSurfacesEditor = (): HTMLElement => {
   if (invHex) {
     grid.append(renderCard({
       label: 'Inverse', fillHex: invHex, midTitle: 'Inverse surface', picker: el('span', 'bg-derived', 'Derived from primary'),
-      tokenPath: 'background.inverse.primary',
+      tokenPath: 'color.background.inverse.primary',
       desc: 'The contrasting band for dark heroes / inverse sections — derived from the primary surface, not directly set.', compactSwatch: true,
     }));
   }
@@ -1882,7 +1882,10 @@ const renderForegroundEditor = (): HTMLElement => {
   for (const [role, label] of FG_ROLES) {
     const r = roles[role]; if (!r) continue;
     const knob = el('div', 'knob');
-    knob.append(el('label', 'knob-label', label));
+    const lab = el('label', 'knob-label', label);
+    const pill = tokenPill(`color.${role}`); pill.style.marginLeft = '8px';
+    lab.append(pill);
+    knob.append(lab);
     const row = el('div', 'fg-row');
     const sw = el('span', 'fg-sw'); sw.style.background = r.hex;
     const sel = selectEl('sm fill');
@@ -1958,7 +1961,7 @@ const renderForegroundsEditor = (): HTMLElement => {
     const cur = brandState.overrides?.[currentMode]?.[role]?.step;
     const picker = stepPicker(palette, steps, stepKeyOf(r.path), typeof cur === 'string' ? cur : undefined, (step) => setFillOverride(role, palette, step));
     grid.append(renderCard({
-      label, fillHex: r.hex, midTitle: 'Fill', picker, tokenPath: role, desc, compactSwatch: true,
+      label, fillHex: r.hex, midTitle: 'Fill', picker, tokenPath: `color.${role}`, desc, compactSwatch: true,
       badge: r.min != null && r.min > 0 && r.ratio != null ? contrastBadge(r.ratio, r.min) : undefined,
     }));
   }
