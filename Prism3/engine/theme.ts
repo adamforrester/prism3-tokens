@@ -1229,10 +1229,16 @@ export const brandTheme = (input: BrandInput): Theme => {
     palettes.push({ palette: 'danger', role: 'danger', description: 'danger status (brand-supplied)', steps: statusRamp(input.status.danger.h, input.status.danger.chroma) });
     notes.push(`danger: brand-supplied hue ${input.status.danger.h}`);
   } else if (inRedTerritory(input.primary.h, input.primary.c)) {
-    // The brand's own colour IS a saturated red — reuse the primary palette rather
-    // than minting a near-duplicate red.
-    roleToPalette.danger = 'primary';
-    notes.push(`danger: primary hue ${input.primary.h} (chroma ${input.primary.c}) is a saturated red → danger reuses the primary palette (no separate red)`);
+    // The brand's own colour IS a saturated red — seed danger FROM the primary ramp rather than
+    // synthesising a near-duplicate red. But mint it as its own `danger` palette (a deep copy of
+    // primary's steps), NOT a pointer at `primary`: keeping a stable `palette.danger.*` namespace
+    // means the semantic danger tokens always alias `{…danger.<step>}`, so switching danger to a
+    // distinct colour later re-seeds ONE ramp instead of re-aliasing every danger consumer. The
+    // redundancy (danger ≈ primary while shared) is the deliberate price for that stable contract,
+    // and it makes the red case consistent with the carve case (which already mints `danger`).
+    const primarySteps = palettes.find((p) => p.palette === 'primary')!.steps;
+    palettes.push({ palette: 'danger', role: 'danger', description: 'danger status (seeded from the red brand primary — its own ramp so danger stays re-pointable)', steps: primarySteps.map((s) => ({ ...s, oklch: { ...s.oklch }, rgb: { ...s.rgb } })) });
+    notes.push(`danger: primary hue ${input.primary.h} (chroma ${input.primary.c}) is a saturated red → danger seeds from the primary ramp, minted as its own palette (semantic tokens alias palette.danger.*, so danger stays independently re-pointable)`);
   } else {
     // Primary is not a saturated red, so carve a dedicated danger red the brand never gave us.
     const d = STATUS_DEFAULTS.danger;
