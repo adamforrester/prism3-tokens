@@ -3484,6 +3484,12 @@ ok(tBrand('eb', {}).typography.composites.find((c) => c.group === 'eyebrow')?.te
   ok(nSteps(30, { auto: true }) !== nSteps(300, { auto: true }), 'neutral.auto: the cast follows the brand primary hue (differs when primary differs)');
   ok(nSteps(200, { auto: true }) === nSteps(200), 'neutral.auto: at hue == primary.h it is byte-identical to the frozen (non-auto) snapshot');
   ok(nSteps(30) === nSteps(300), 'neutral (non-auto): an explicit hue stays frozen regardless of the primary');
+  // #231 review — the no-neutral path injects `neutral.auto`, which MUST satisfy the BrandInput schema,
+  // else `validateBrandInput` hard-fails the standard-dialect CLI/MCP path (it runs before build).
+  const noNeutral = standardToBrandInput(parseStandardDesignMd('---\nname: b\ncolors:\n  primary: "#3366cc"\n---\n')).input;
+  ok(noNeutral.neutral.auto === true, 'neutral.auto: a standard brief with no neutral classifies to auto-follow');
+  const withAuto = { id: 'x', primary: { l: 0.55, c: 0.15, h: 262 }, neutral: { hue: 262, chroma: 0.006, auto: true } };
+  ok(validateBrandInput(withAuto).length === 0, `neutral.auto: a BrandInput carrying neutral.auto satisfies the schema (errors: ${JSON.stringify(validateBrandInput(withAuto))})`);
 }
 
 // ------------------------------------------------------------------- report

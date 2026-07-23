@@ -134,9 +134,10 @@
       "properties": {
         "hue": { "type": "number", "description": "Neutral ramp hue (deg). A small chroma tints the greys toward the brand for cohesion." },
         "chroma": { "type": "number", "minimum": 0, "description": "Peak neutral chroma (~0.004–0.02); tapers to near-0 at the ramp ends." },
-        "anchor": { "$ref": "#/$defs/oklch", "description": "OPTIONAL. A pre-defined brand grey, pinned verbatim at its lightness step; the whole neutral ramp is built around it (hue/chroma from the anchor) instead of the hue/chroma cast. For a client that ships their own neutral." }
+        "anchor": { "$ref": "#/$defs/oklch", "description": "OPTIONAL. A pre-defined brand grey, pinned verbatim at its lightness step; the whole neutral ramp is built around it (hue/chroma from the anchor) instead of the hue/chroma cast. For a client that ships their own neutral." },
+        "auto": { "type": "boolean", "description": "OPTIONAL. When set, the neutral cast hue re-derives from the brand `primary` at every build (live-follows recolour) instead of the stored `hue`. Ignored when an `anchor` is pinned. This is the default for a brand that provides no neutral." }
       },
-      "description": "The neutral ramp generator: hue + peak chroma (derived), or an exact `anchor` grey (pinned)."
+      "description": "The neutral ramp generator: hue + peak chroma (derived), `auto`-follow the brand primary, or an exact `anchor` grey (pinned)."
     },
     "brandColors": {
       "type": "array",
