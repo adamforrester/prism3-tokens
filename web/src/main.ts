@@ -3188,9 +3188,11 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-fo
 .panchor{display:inline-flex;align-items:center;height:31px;padding:0 11px;border:1px solid var(--line2);border-radius:var(--r-xs);background:var(--paper);font-size:13px;color:var(--ink)}
 .panchor.dia::before{content:"◆";color:var(--ink2);font-size:9px;margin-right:6px}
 .panchor.none,.panchor.note{color:var(--muted)}
-.pfield.slider .psl-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
-.psl-val{color:var(--muted);font-size:12px}
-.psl-range{width:150px;accent-color:var(--ink);margin-top:2px}
+/* Neutral row: the Hue/Chroma slider fields match the Source/Anchor box height so every origin field is
+   equal height and bottom-aligns cleanly (no ragged labels / thin sliders floating low) — #67. */
+.pfield.slider .psl-top{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;height:15px}
+.psl-val{color:var(--muted);font-size:12px;line-height:1}
+.psl-range{width:150px;accent-color:var(--ink);height:32px;margin-top:0}
 .pfield.slider.ro{opacity:.5}
 .pramp{display:flex;flex-direction:column}
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:20px 22px}
