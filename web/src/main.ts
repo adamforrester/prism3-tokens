@@ -1495,7 +1495,9 @@ const renderSurfacesPage = (host: HTMLElement): void => renderScreen(host, 'surf
   h.append(renderForegroundEditor());   // self-heads "Text"
   h.append(subHead('Gradients'));
   renderGradientsSection(h);
-}, () => [renderGradientSpecimen(), renderSectionContrast('surfaces')]);
+  // Per-section contrast tables now live inside each editor (doc 26 contrast-in-context); the gradient
+  // read-only specimen was a duplicate of the live editor preview — both retired here.
+}, () => []);
 
 // Interactive — action palette, interactive treatment, and the accessibility policy.
 const renderInteractivePage = (host: HTMLElement): void => renderScreen(host, 'interactive', (h) => {
@@ -1811,6 +1813,72 @@ const renderTypographyEditor = (): HTMLElement => {
 
 /** The neutral ramp steps a page surface / contrast floor can name (base can also be white/black). */
 const NEUTRAL_STEPS = [25, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950];
+
+// ---- Surfaces & fills: full-width ROW layout (Layout A, #68) ----------------
+// One row per role: [56×56 swatch] [name + token pill (+desc)] [controls] [whitespace] [example, badge below].
+// Controls left / static content right; the example is locked to the right edge at a single fixed size for
+// every role (backgrounds/fills/text), with its contrast badge directly beneath. Replaces the old fill-grid
+// cards. Rows live in the stable head (rebuilt on applyFull — every surfaces edit calls applyFull).
+type SfRowOpts = { swatchHex: string; name: string; tokenPath: string; desc?: string; controls: HTMLElement; example: HTMLElement; badge?: HTMLElement; railNote?: string };
+const sfRow = (o: SfRowOpts): HTMLElement => {
+  const row = el('div', 'sf-row');
+  const sw = el('div', 'sf-sw'); sw.style.background = o.swatchHex;
+  const id = el('div', 'sf-id');
+  id.append(el('div', 'sf-name', o.name), tokenPill(o.tokenPath));
+  if (o.desc) id.append(el('p', 'sf-desc', o.desc));
+  const right = el('div', 'sf-right');
+  right.append(o.example);
+  if (o.badge) right.append(o.badge);
+  if (o.railNote) right.append(el('span', 'sf-railnote', o.railNote));
+  row.append(sw, id, o.controls, el('div'), right);   // col 4 (empty div) is the whitespace spacer
+  return row;
+};
+const sfCtl = (...blocks: HTMLElement[]): HTMLElement => { const c = el('div', 'sf-ctl'); c.append(...blocks); return c; };
+const sfCtlBlock = (label: string, control: HTMLElement): HTMLElement => { const b = el('div', 'sf-ctlblock'); b.append(el('span', 'pfk', label), control); return b; };
+const sfDot = (hex: string): HTMLElement => { const d = el('span', 'sf-ex-dot'); d.style.background = hex; return d; };
+const sfExSurface = (bg: string, dotHex: string, label: string, invert = false): HTMLElement => {
+  const ex = el('div', 'sf-ex sf-ex-surface'); ex.style.background = bg; ex.style.color = invert ? '#f2f2f6' : '#191920';
+  ex.append(sfDot(dotHex), el('span', undefined, label)); return ex;
+};
+const sfExFill = (bg: string, label: string, fg?: string): HTMLElement => {
+  const ex = el('div', 'sf-ex sf-ex-fill'); ex.style.background = bg; if (fg) ex.style.color = fg; ex.textContent = label; return ex;
+};
+const sfExText = (inkHex: string, sample: string, surfaceHex: string): HTMLElement => {
+  const ex = el('div', 'sf-ex sf-ex-text'); ex.style.background = surfaceHex; ex.style.color = inkHex; ex.textContent = sample; return ex;
+};
+
+// A per-section contrast table (doc 26: contrast in context) built from the resolved roles across every
+// mode — the same numbers the per-row badges show for the active mode, sliced to this section's roles.
+// The consolidated cross-system table stays in Preview. Returns null when the section governs no pairs
+// (e.g. Backgrounds, whose surfaces are grounds — judged by the text/fills that sit on them).
+const sectionContrastRoles = (intro: string, roleLabels: Array<[string, string]>): HTMLElement | null => {
+  const all = resolveAllModes(theme) as Array<{ mode: Mode; roles: Record<string, { hex: string; ratio?: number; min?: number } | undefined> }>;
+  const graded = ([role]: [string, string]): boolean => all.some((m) => { const r = m.roles[role]; return !!r && r.min != null && r.min > 0 && r.ratio != null; });
+  const rows = roleLabels.filter(graded);
+  if (!rows.length) return null;
+  const det = el('details', 'contracts') as HTMLDetailsElement;
+  const sum = el('summary', 'contracts-sum');
+  sum.append(el('span', 'contracts-t', 'Contrast in this section'), el('span', 'contracts-hint', `${rows.length} pairs · all modes · the full system table lives in Preview`));
+  det.append(sum, el('p', 'np-note', intro));
+  const table = el('table', 'ctable');
+  const thead = el('tr'); thead.append(el('th', undefined, 'Role'));
+  for (const m of rp.modes) thead.append(el('th', 'mcol', MODE_LABEL[m] ?? m));
+  table.append(thead);
+  for (const [role, label] of rows) {
+    const tr = el('tr');
+    const td = el('td', 'pair'); td.append(el('span', 'pair-path mono', `color.${role}`), el('span', 'pair-sub', label)); tr.append(td);
+    for (const m of rp.modes) {
+      const cell = el('td', 'mcol');
+      const r = all.find((x) => x.mode === m)?.roles[role];
+      if (r && r.min != null && r.min > 0 && r.ratio != null) { const pass = r.ratio >= r.min; cell.append(el('span', `dot ${pass ? 'ok' : 'no'}`), el('span', 'ratio', r.ratio.toFixed(2))); }
+      else cell.textContent = '—';
+      tr.append(cell);
+    }
+    table.append(tr);
+  }
+  det.append(table);
+  return det;
+};
 /** #97 — page-surfaces editor. `surfaces.<mode>.{base,floorStep}` sets the primary surface the
  *  preview paints on (and the worst-case neutral the saturated foregrounds validate against).
  *  base = white / black / a tinted neutral step; floorStep is auto (engine-derived) unless pinned. */
@@ -1821,13 +1889,13 @@ const NEUTRAL_STEPS = [25, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550,
 const renderSurfacesEditor = (): HTMLElement => {
   const mode = currentMode;
   const label = MODE_LABEL[mode] ?? mode;
-  const wrap = objEditor('Backgrounds', `The surface ${label} paints on (Primary) and its contrasting Inverse band — for dark heroes / inverse sections. Switch modes above to set each mode’s surface.`);
-  const grid = el('div', 'fill-grid');
+  const sec = palSection('Backgrounds', `The surface ${label} paints on (Primary) and its contrasting Inverse band — both set per mode. Switch modes above to set each mode’s surface.`);
   const opt = (sel: HTMLSelectElement, v: string, t: string, on: boolean): void => { sel.append(optionEl(v, t, on)); };
   const roles = (resolveAllModes(theme).find((x) => x.mode === mode)?.roles ?? {}) as Record<string, { hex: string } | undefined>;
   const primHex = roles['background.primary']?.hex ?? (mode === 'dark' ? '#000000' : '#ffffff');
-  // The base surface is only configurable for light/dark (`SurfacesConfig`); custom modes seed their
-  // surface from a base mode, so their Primary is shown read-only. (Inline check so TS narrows `mode`.)
+  const brandDot = roles['foreground.brand']?.hex ?? '#5e4bc3';
+  // Primary — the base surface is only configurable for light/dark (`SurfacesConfig`); custom modes seed
+  // their surface from a base mode, so their Primary is shown read-only. (Inline check so TS narrows `mode`.)
   if (mode === 'light' || mode === 'dark') {
     const cur = brandState.surfaces?.[mode as 'light' | 'dark'];
     const dflt: 'white' | 'black' = mode === 'dark' ? 'black' : 'white';
@@ -1837,43 +1905,60 @@ const renderSurfacesEditor = (): HTMLElement => {
     opt(base, 'black', 'Black', baseVal === 'black');
     for (const s of NEUTRAL_STEPS) opt(base, String(s), `Neutral ${s}`, baseVal === s);
     base.onchange = () => { setPath(brandState, `surfaces.${mode}.base`, base.value === 'white' || base.value === 'black' ? base.value : Number(base.value)); applyFull(); };
-    const primCard = renderCard({
-      label: 'Primary', fillHex: primHex, midTitle: 'Base surface', picker: base, tokenPath: 'color.background.primary',
-      desc: `The primary surface ${label} paints on — white, black, or a tinted neutral step.`, compactSwatch: true,
-    });
     // Contrast floor — the worst-case neutral bold fills validate against (auto unless pinned).
-    const floorRow = el('div', 'bg-floor');
     const floorHint = 'The worst-case neutral the engine validates bold fills against on this surface — the mode’s contrast baseline. Auto derives it from the base surface; pin a step to force a specific reference.';
-    const floorLab = el('label', 'bg-floor-lab', 'Contrast floor'); floorLab.title = floorHint;
-    floorRow.append(floorLab);
     const floor = selectEl('cap'); floor.title = floorHint;
     opt(floor, '', 'Auto', cur?.floorStep == null);
     for (const s of NEUTRAL_STEPS) opt(floor, String(s), `Neutral ${s}`, cur?.floorStep === s);
     floor.onchange = () => { setPath(brandState, `surfaces.${mode}.floorStep`, floor.value === '' ? undefined : Number(floor.value)); applyFull(); };
-    floorRow.append(floor);
-    primCard.append(floorRow);
-    grid.append(primCard);
+    const floorBlock = sfCtlBlock('Contrast floor', floor); (floorBlock.firstChild as HTMLElement).title = floorHint;
+    sec.append(sfRow({
+      swatchHex: primHex, name: 'Primary', tokenPath: 'color.background.primary',
+      desc: `The surface ${label} paints on — white, black, or a tinted neutral step.`,
+      controls: sfCtl(sfCtlBlock('Base surface', base), floorBlock),
+      example: sfExSurface(primHex, brandDot, 'Card on this surface'),
+    }));
   } else {
-    grid.append(renderCard({
-      label: 'Primary', fillHex: primHex, midTitle: 'Base surface', picker: el('span', 'bg-derived', 'Seeds from its base mode'),
-      tokenPath: 'color.background.primary', desc: `The primary surface ${label} paints on — seeded from this custom mode’s base.`, compactSwatch: true,
+    sec.append(sfRow({
+      swatchHex: primHex, name: 'Primary', tokenPath: 'color.background.primary',
+      desc: `The surface ${label} paints on — seeded from this custom mode’s base.`,
+      controls: sfCtl(sfCtlBlock('Base surface', el('span', 'sf-derived', 'Seeds from its base mode'))),
+      example: sfExSurface(primHex, brandDot, 'Card on this surface'),
     }));
   }
 
-  // Inverse — DERIVED, read-only (the contrasting band). Shown so you can see the pairing; not directly
-  // picked. `background.inverse.primary` is generated for every mode (independent of the Inverse
-  // surface-context lever, which only gates the on-inverse text colors), so the card always renders —
-  // the `if` is just a defensive guard.
+  // Inverse — the contrasting band (dark heroes / inverse sections). ADJUSTABLE per mode via the A1
+  // override layer: "Auto" keeps the generated pairing; a neutral step repoints `background.inverse.primary`
+  // (the engine re-derives its contrast and warns, never blocks). `background.inverse.primary` is generated
+  // for every mode, so the row always renders — the `if` is a defensive guard.
   const invHex = roles['background.inverse.primary']?.hex;
   if (invHex) {
-    grid.append(renderCard({
-      label: 'Inverse', fillHex: invHex, midTitle: 'Inverse surface', picker: el('span', 'bg-derived', 'Derived from primary'),
-      tokenPath: 'color.background.inverse.primary',
-      desc: 'The contrasting band for dark heroes / inverse sections — derived from the primary surface, not directly set.', compactSwatch: true,
+    const nPal = theme.roleToPalette.neutral;
+    const nSteps = (theme.palettes.find((p) => p.palette === nPal)?.steps ?? []).map((s) => s.key);
+    const cur = brandState.overrides?.[mode]?.['background.inverse.primary']?.step;
+    const invSel = selectEl('cap');
+    opt(invSel, '', 'Auto', cur == null);
+    for (const s of nSteps) opt(invSel, s, `Neutral ${s}`, cur === s);
+    invSel.onchange = () => {
+      const v = invSel.value;
+      const ov = brandState.overrides ?? (brandState.overrides = {});
+      const forMode = ov[mode] ?? (ov[mode] = {});
+      if (v === '') {
+        delete forMode['background.inverse.primary'];
+        if (!Object.keys(forMode).length) delete ov[mode];
+        if (!Object.keys(ov).length) brandState.overrides = undefined;
+      } else forMode['background.inverse.primary'] = { palette: nPal, step: v };
+      applyFull();
+    };
+    const onInv = roles['foreground.inverse.primary']?.hex ?? '#9481ee';
+    sec.append(sfRow({
+      swatchHex: invHex, name: 'Inverse', tokenPath: 'color.background.inverse.primary',
+      desc: 'The contrasting band for dark heroes / inverse sections — Auto follows the generated pairing; pick a neutral step to set it for this mode.',
+      controls: sfCtl(sfCtlBlock('Base surface', invSel)),
+      example: sfExSurface(invHex, onInv, 'Inverse band', true),
     }));
   }
-  wrap.append(grid);
-  return wrap;
+  return sec;
 };
 
 /** A2c — per-mode foreground/text override. The text-color ladder (text.primary/secondary/tertiary) is
@@ -1881,26 +1966,19 @@ const renderSurfacesEditor = (): HTMLElement => {
  *  mode via the A1 override layer. Symmetric across customizable modes (light + dark both write their
  *  own override); "Auto" = the generated default; a pick below the text floor warns (never blocks). */
 const FG_ROLES: [string, string][] = [['text.primary', 'Primary text'], ['text.secondary', 'Secondary text'], ['text.tertiary', 'Tertiary text']];
+const TEXT_SAMPLE: Record<string, string> = { 'text.primary': 'The quick brown fox', 'text.secondary': 'Jumps over the lazy dog', 'text.tertiary': 'Least-emphasis caption' };
 const renderForegroundEditor = (): HTMLElement => {
-  const wrap = objEditor('Text', `The text colors for ${MODE_LABEL[currentMode] ?? currentMode} — “Auto” follows the generated, contrast-placed default; pick a neutral step to override just this mode (a pick below the text floor is warned, not blocked).`);
+  const sec = palSection('Text', `The text colors for ${MODE_LABEL[currentMode] ?? currentMode} — “Auto” follows the generated, contrast-placed default; pick a neutral step to override just this mode (a pick below the text floor is warned, not blocked). Each row previews the ink on the mode’s surface.`);
   const nPal = theme.roleToPalette.neutral;
   const nSteps = (theme.palettes.find((p) => p.palette === nPal)?.steps ?? []).map((s) => s.key);
-  const roles = resolveAllModes(theme).find((x) => x.mode === currentMode)?.roles ?? {};
-  const panel = el('div', 'panel');
+  const roles = (resolveAllModes(theme).find((x) => x.mode === currentMode)?.roles ?? {}) as Record<string, { hex: string; ratio?: number; min?: number } | undefined>;
+  const surfaceHex = roles['background.primary']?.hex ?? (currentMode === 'dark' ? '#000000' : '#ffffff');
   for (const [role, label] of FG_ROLES) {
     const r = roles[role]; if (!r) continue;
-    const knob = el('div', 'knob');
-    const lab = el('label', 'knob-label', label);
-    const pill = tokenPill(`color.${role}`); pill.style.marginLeft = '8px';
-    lab.append(pill);
-    knob.append(lab);
-    const row = el('div', 'fg-row');
-    const sw = el('span', 'fg-sw'); sw.style.background = r.hex;
-    const sel = selectEl('sm fill');
+    const sel = selectEl('cap');
     const cur = brandState.overrides?.[currentMode]?.[role]?.step;
-    const optE = (v: string, t: string, on: boolean) => sel.append(optionEl(v, t, on));
-    optE('', 'Auto', cur == null);
-    for (const s of nSteps) optE(s, `Neutral ${s}`, cur === s);
+    sel.append(optionEl('', 'Auto', cur == null));
+    for (const s of nSteps) sel.append(optionEl(s, `Neutral ${s}`, cur === s));
     sel.onchange = () => {
       const v = sel.value;
       const ov = brandState.overrides ?? (brandState.overrides = {});
@@ -1912,15 +1990,16 @@ const renderForegroundEditor = (): HTMLElement => {
       } else forMode[role] = { palette: nPal, step: v };
       applyFull();
     };
-    const pass = r.min <= 0 || r.ratio >= r.min;
-    const badge = el('span', 'fg-badge ' + (pass ? 'ok' : 'no'));
-    badge.textContent = r.min > 0 ? `${r.ratio.toFixed(2)}:1 ${pass ? '✓' : '✗'}` : '—';
-    row.append(sw, sel, badge);
-    knob.append(row);
-    panel.append(knob);
+    sec.append(sfRow({
+      swatchHex: r.hex, name: label, tokenPath: `color.${role}`,
+      controls: sfCtl(sfCtlBlock('Step', sel)),
+      example: sfExText(r.hex, TEXT_SAMPLE[role] ?? 'Sample text', surfaceHex),
+      badge: r.min != null && r.min > 0 && r.ratio != null ? contrastBadge(r.ratio, r.min) : undefined,
+    }));
   }
-  wrap.append(panel);
-  return wrap;
+  const ct = sectionContrastRoles('The text-on-surface legibility pairs this section governs, computed on the resolved colors across every mode — the per-row badge verifies the active mode at the point of edit.', FG_ROLES);
+  if (ct) sec.append(ct);
+  return sec;
 };
 
 // ---- Foreground fills editor (docs/23 §2 "Foregrounds") -------------------
@@ -1958,9 +2037,8 @@ const setFillOverride = (role: string, palette: string, step: string | undefined
   applyFull();
 };
 const renderForegroundsEditor = (): HTMLElement => {
-  const wrap = objEditor('Foreground fills', `Bold semantic fills + neutral surface tiers for ${MODE_LABEL[currentMode] ?? currentMode} — “Auto” follows the generated, contrast-gated default; pick a step to override just this mode (a pick below the fill's floor is warned, not blocked).`);
+  const sec = palSection('Foreground fills', `Bold semantic fills + neutral surface tiers for ${MODE_LABEL[currentMode] ?? currentMode} — “Auto” follows the generated, contrast-gated default; pick a step to override just this mode (a pick below the fill's floor is warned, not blocked).`);
   const roles = (resolveAllModes(theme).find((x) => x.mode === currentMode)?.roles ?? {}) as Record<string, { hex: string; path?: string; ratio?: number; min?: number } | undefined>;
-  const grid = el('div', 'fill-grid');
   for (const { role, label, paletteKey, desc } of FILL_ROLES) {
     const r = roles[role]; if (!r) continue;
     const palette = (theme.roleToPalette as Record<string, string>)[paletteKey] ?? paletteKey;
@@ -1968,13 +2046,21 @@ const renderForegroundsEditor = (): HTMLElement => {
     if (!steps.length) continue;
     const cur = brandState.overrides?.[currentMode]?.[role]?.step;
     const picker = stepPicker(palette, steps, stepKeyOf(r.path), typeof cur === 'string' ? cur : undefined, (step) => setFillOverride(role, palette, step));
-    grid.append(renderCard({
-      label, fillHex: r.hex, midTitle: 'Fill', picker, tokenPath: `color.${role}`, desc, compactSwatch: true,
+    // Neutral surface tiers are pale fills — paint the example label in ink, not white; other fills keep white on-fill.
+    const isSurface = paletteKey === 'neutral';
+    const tier = label.split('—')[1]?.trim();                 // "Surface — card" → "card"
+    const exLabel = isSurface ? (tier ? tier[0].toUpperCase() + tier.slice(1) : 'Surface') : `${label} fill`;
+    sec.append(sfRow({
+      swatchHex: r.hex, name: label, tokenPath: `color.${role}`, desc,
+      controls: sfCtl(sfCtlBlock('Step', picker)),
+      example: sfExFill(r.hex, exLabel, isSurface ? '#191920' : undefined),
       badge: r.min != null && r.min > 0 && r.ratio != null ? contrastBadge(r.ratio, r.min) : undefined,
+      railNote: isSurface ? 'non-text · surface' : undefined,
     }));
   }
-  wrap.append(grid);
-  return wrap;
+  const ct = sectionContrastRoles('The on-fill legibility pairs this section governs, computed on the resolved colors across every mode — the per-row badge verifies the active mode at the point of edit.', FILL_ROLES.map((f) => [f.role, f.label] as [string, string]));
+  if (ct) sec.append(ct);
+  return sec;
 };
 
 /** #97 + #114 tidy — the Shadow group. Gathers every shadow control under one heading: the
@@ -2311,36 +2397,6 @@ const renderInverseSpecimen = (): HTMLElement => {
 // (renderNeutralCard) rather than a standalone specimen — docs/23 §2, owner request.
 const NEUTRAL_EMPHASES: Array<['subtle' | 'strong', string]> = [['subtle', 'subtle · light grey'], ['strong', 'strong · bold fill']];
 
-/** The gradient specimen: the brand gradient(s) as CSS swatches, so the Gradients toggle has a
- *  visible payoff (nothing else in the preview shows them). Reads `theme.gradient.gradients` (the
- *  last-good theme). Interpolates `in oklch` — the engine's intent — which Chromium (dashboard +
- *  plugin iframe) renders natively. Empty when the toggle is off → a hint. */
-const gradientCss = (g: { kind: string; angle?: number; shape?: string; stops: Array<{ hex: string; position: number }> }): string => {
-  const stops = g.stops.map((s) => `${s.hex} ${Math.round(s.position * 100)}%`).join(', ');
-  return g.kind === 'radial'
-    ? `radial-gradient(${g.shape ?? 'ellipse'} in oklch, ${stops})`
-    : `linear-gradient(${g.angle ?? 135}deg in oklch, ${stops})`;
-};
-const renderGradientSpecimen = (): HTMLElement => {
-  const wrap = el('div', 'gradient-spec');
-  const grads = (theme.gradient?.gradients ?? []) as Array<{ name: string; kind: string; angle?: number; shape?: string; stops: Array<{ hex: string; position: number }> }>;
-  if (!grads.length) {
-    wrap.append(sectionHead('Gradients', 'Gradients are off — enable the Gradients toggle to ship one or more brand gradients (stop colors alias the ramp; OKLCH-interpolated).'));
-    return wrap;
-  }
-  wrap.append(sectionHead('Gradients', 'The brand gradient(s) — stop colors alias the ramp, interpolated in OKLCH (nothing else in the preview shows them).'));
-  const row = el('div', 'gr-list');
-  for (const g of grads) {
-    const cell = el('div', 'gr-cell');
-    const sw = el('div', 'gr-sw');
-    sw.style.background = gradientCss(g);
-    cell.append(sw, el('div', 'gr-lab mono', `${g.name} · ${g.kind} · ${g.stops.length} stops`));
-    row.append(cell);
-  }
-  wrap.append(row);
-  return wrap;
-};
-
 // ---- Gradient editor (docs/23 §2 "Gradients") -----------------------------
 // The gradient axis was on/off only; this edits the DEFINITION — kind (linear/radial), angle or
 // centre+shape, interpolation, and the ramp-aliased stops — writing an explicit `GradientInput[]`
@@ -2363,8 +2419,8 @@ const writeGradients = (arr: GradientInput[]): void => { brandState.gradients = 
 /** Resolve a stop's `{palette, step}` alias to its ramp hex (for the live preview). */
 const gradStopHex = (palette: string, step: number): string =>
   theme.palettes.find((p) => p.palette === palette)?.steps.find((s) => s.num === step)?.hex ?? '#888888';
-/** Build the CSS gradient from an INPUT gradient (stops resolved through the ramp). Mirrors `gradientCss`
- *  but reads palette/step aliases rather than pre-resolved hexes. */
+/** Build the CSS gradient from an INPUT gradient (stops resolved through the ramp) — reads palette/step
+ *  aliases rather than pre-resolved hexes; interpolates `in oklch` (the engine's intent, Chromium-native). */
 const inputGradientCss = (g: GradientInput): string => {
   const stops = g.stops.slice().sort((a, b) => a.position - b.position)
     .map((s) => `${gradStopHex(s.palette, s.step)} ${Math.round(s.position * 100)}%`).join(', ');
@@ -2404,9 +2460,19 @@ const renderGradientsSection = (host: HTMLElement): void => {
 const renderGradientCard = (g: GradientInput, gi: number, all: GradientInput[], palNames: string[]): HTMLElement => {
   const kind = g.kind ?? 'linear';
   const card = el('div', 'gr-ed-card');
-  // Header — the gradient name (a token path segment; not renamed here) + remove.
+  // Header — the gradient's editable name (a token-path segment, so it's slugified on commit and kept
+  // unique against the other gradients) + its live token pill + remove.
   const head = el('div', 'gr-ed-head');
-  head.append(el('h4', 'gr-ed-name', g.name), tokenPill(`gradient.${g.name}`));
+  const nameInput = el('input', 'gr-ed-nameinput') as HTMLInputElement;
+  nameInput.value = g.name; nameInput.setAttribute('aria-label', 'Gradient name');
+  nameInput.onchange = () => {
+    let v = nameInput.value.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    if (!v) { nameInput.value = g.name; return; }              // empty → revert, name is a required path segment
+    const used = new Set(all.filter((_, i) => i !== gi).map((x) => x.name));
+    while (used.has(v)) v = `${v}-2`;
+    const arr = readGradients(); arr[gi] = { ...arr[gi], name: v }; writeGradients(arr);   // applyFull re-renders with the new pill
+  };
+  head.append(nameInput, tokenPill(`gradient.${g.name}`));
   head.append(removeButton(() => { const arr = readGradients(); arr.splice(gi, 1); writeGradients(arr); }, 'Remove gradient'));
   card.append(head);
   // Live preview.
@@ -3331,8 +3397,9 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .gr-ed-stopsw{width:34px;height:34px;flex:none;border-radius:var(--r-xs);border:1px solid var(--line2)}
 .gr-ed-stop .gr-ed-num{flex:none}
 .gr-ed-stoprm{flex:none}
-.gr-ed-addstop{margin-top:12px}
+.gr-ed-addstop{margin-top:12px;width:auto;padding:7px 13px;font-size:12px}
 .gr-ed-add{margin-top:14px}
+.gr-ed-nameinput{font:inherit;font-size:15px;font-weight:620;color:var(--ink);background:var(--paper);border:1px solid var(--line2);border-radius:var(--r-xs);padding:6px 10px;width:150px}
 .icon-spec{margin-bottom:8px}
 .ic-block{border:1px solid var(--line);border-radius:var(--r);background:var(--panel);padding:18px 22px;margin-top:10px}
 .ic-cap{font-size:11px;color:var(--faint);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:14px}
@@ -3446,6 +3513,26 @@ input[type=color]::-moz-color-swatch{border:none;border-radius:inherit}
 .ic-descrow{display:flex;align-items:center;gap:16px;margin-top:18px}
 .ic-desc{margin:0;flex:1;font-size:13px;line-height:1.5;color:var(--muted)}
 .ic-descrow .cbadge{flex:none;font-size:12.5px;padding:5px 11px}
+/* Surfaces & fills — full-width rows (Layout A, #68): controls LEFT · whitespace · example RIGHT, contrast below */
+.sf-row{display:grid;grid-template-columns:56px 168px 172px 1fr 228px;gap:20px;align-items:start;padding:24px 0}
+.sf-row+.sf-row{border-top:1px solid var(--line)}
+.sf-sw{width:56px;height:56px;flex:none;border-radius:var(--r-sm);border:1px solid var(--line2)}
+.sf-id{min-width:0;padding-top:2px}
+.sf-name{font-size:14.5px;font-weight:620;letter-spacing:-.01em;line-height:1.25;color:var(--ink)}
+.sf-id .tpill{display:inline-block;margin-top:7px;white-space:normal;word-break:break-word;line-height:1.4}
+.sf-desc{font-size:12px;color:var(--faint);margin-top:7px;line-height:1.45}
+.sf-ctl{display:flex;flex-direction:column;gap:12px;min-width:0}
+.sf-ctlblock{display:flex;flex-direction:column;gap:6px}
+.sf-ctlblock .select{width:100%}
+.sf-derived{font-size:12px;color:var(--faint);font-style:italic;height:36px;display:flex;align-items:center}
+.sf-right{grid-column:5;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.sf-ex{width:228px;height:52px;border-radius:var(--r-sm);border:1px solid var(--line);display:flex;align-items:center;padding:0 16px;overflow:hidden}
+.sf-ex-surface{gap:11px;font-size:13px}
+.sf-ex-dot{width:14px;height:14px;border-radius:5px;flex:none;box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)}
+.sf-ex-fill{color:#fff;font-weight:600;font-size:13.5px}
+.sf-ex-text{font-size:14.5px}
+.sf-railnote{font-size:10.5px;color:var(--faint)}
+@media(max-width:900px){.sf-row{grid-template-columns:56px 1fr;gap:14px}.sf-row .sf-ctl,.sf-right{grid-column:1/-1;align-items:flex-start}.sf-ex{width:100%}}
 .ic-states-h{margin:22px 0 12px;font-size:14px;font-weight:620;color:var(--ink)}
 .ic-states{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .ic-sub{display:flex;gap:14px;align-items:center;border:1px solid var(--line);border-radius:var(--r-sm);padding:16px;background:var(--paper)}

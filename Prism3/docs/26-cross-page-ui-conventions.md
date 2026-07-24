@@ -94,7 +94,7 @@ where a value is authored/derived), and **Not-universal** (Palettes-specific —
 | Page | Containers | Section headers | Token pills | Notes |
 |---|---|---|---|---|
 | Palettes | ✅ | ✅ | ✅ `palette.*` | #230–#232 — the reference implementation |
-| Surfaces & fills | partial (cards) | — | ✅ `color.*` (#232) | swept for pills; container/header pass TBD |
+| Surfaces & fills | ✅ | ✅ | ✅ `color.*` | #68 — full-width rows (Layout A): controls left, example (228px) right, contrast pill below; per-section contrast tables (Fills + Text; Backgrounds are grounds); adjustable Inverse (A1 override); gradient names + inline Add-stop vs full-width Add-gradient; text-on-surface previews (folds #64) |
 | Interactive | — | — | ✅ `color.interactive.*` (#232) | pills swept; layout pass TBD |
 | Typography | — | — | — | TBD |
 | Elevation | — | — | — | TBD |
